@@ -1236,11 +1236,7 @@ const MenuYoga = () => {
               </div>
               <div className="list-action flex items-center gap-4">
                 <div className="user-icon flex items-center justify-center cursor-pointer">
-                  <Icon.User
-                    size={24}
-                    color="black"
-                    onClick={handleLoginPopup}
-                  />
+                  <Icon.User size={24} color="black" onClick={WHP} />
                   <div
                     className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
                                             ${openLoginPopup ? "open" : ""}`}

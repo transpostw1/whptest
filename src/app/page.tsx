@@ -14,15 +14,25 @@ import Instagram from '@/components/Home1/Instagram'
 import Brand from '@/components/Home1/Brand'
 import Footer from '@/components/Footer/Footer'
 
+// import BannerTop from "@/components/Home4/BannerTop";
+import TopNavThree from "@/components/Header/TopNav/TopNavThree";
+import MenuCosmeticOne from "@/components/Header/Menu/MenuCosmeticOne";
+import SliderCosmeticTwo from "@/components/Slider/SliderCosmeticTwo";
+
 export default function Home() {
   return (
     <>
-      <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
-      <div id="header" className='relative w-full'>
-        <MenuOne props="bg-transparent" />
-        <SliderOne />
+      {/* <BannerTop props="bg-black py-3" textColor="text-white" /> */}
+      <TopNavOne
+        props="style-one bg-black"
+        slogan="25% off on making charges on gold"
+      />
+      <TopNavThree props="style-three bg-white" />
+      <div id="header" className="w-full relative">
+        <MenuCosmeticOne props="bg-white" />
+        <SliderCosmeticTwo />
       </div>
-      {/* <WhatNewOne data={productData} start={0} limit={4} /> */}
+      
       <Collection />
       <TabFeatures data={productData} start={0} limit={6} />
       <Banner />
@@ -32,5 +42,5 @@ export default function Home() {
       <Brand />
       <Footer />
     </>
-  )
+  );
 }

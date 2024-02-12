@@ -28,66 +28,20 @@ const SliderCosmeticTwo = () => {
                         <SwiperSlide>
                             <div className="slider-item h-full w-full relative">
                                 <div className="container w-full h-full flex items-center">
-                                    <div className="text-content sm:w-1/2 w-2/3">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Elevate Your Beauty with Our Cosmetics</div>
-                                        <div className="body1 mt-4">Check out our latest collection of chic and trendy outfits that will keep you looking stylish all year round.</div>
-                                        <Link href='/shop/breadcrumb-img' className="button-main md:mt-8 mt-3">Shop Now</Link>
-                                    </div>
+                                   
                                     <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
                                         <Image
-                                            src={'/images/slider/1920x820.png'}
+                                            src={'/images/slider/SliderOne.png'}
                                             width={2560}
                                             height={1080}
                                             alt='1920x820'
-                                            className='w-full h-full object-cover'
+                                            className=' object-cover'
                                         />
                                     </div>
                                 </div>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="slider-item h-full w-full relative">
-                                <div className="container w-full h-full flex items-center">
-                                    <div className="text-content sm:w-1/2 w-2/3">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Discover Your Beauty Potential</div>
-                                        <div className="body1 mt-4">Check out our latest collection of chic and trendy outfits that will keep you looking stylish all year round.</div>
-                                        <Link href='/shop/breadcrumb-img' className="button-main md:mt-8 mt-3">Shop Now</Link>
-                                    </div>
-                                    <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                                        <Image
-                                            src={'/images/slider/1920x820.png'}
-                                            width={2560}
-                                            height={1080}
-                                            alt='1920x820'
-                                            className='w-full h-full object-cover'
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="slider-item h-full w-full relative">
-                                <div className="container w-full h-full flex items-center">
-                                    <div className="text-content sm:w-1/2 w-2/3">
-                                        <div className="text-sub-display">Sale! Up To 50% Off!</div>
-                                        <div className="text-display md:mt-5 mt-2">Unleash Your Inner Glamour</div>
-                                        <div className="body1 mt-4">Check out our latest collection of chic and trendy outfits that will keep you looking stylish all year round.</div>
-                                        <Link href='/shop/breadcrumb-img' className="button-main md:mt-8 mt-3">Shop Now</Link>
-                                    </div>
-                                    <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                                        <Image
-                                            src={'/images/slider/1920x820.png'}
-                                            width={2560}
-                                            height={1080}
-                                            alt='1920x820'
-                                            className='w-full h-full object-cover'
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
+                   
                     </Swiper>
                 </div>
             </div>

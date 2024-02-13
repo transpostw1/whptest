@@ -14,15 +14,17 @@ import Instagram from '@/components/Home1/Instagram'
 import Brand from '@/components/Home1/Brand'
 import Footer from '@/components/Footer/Footer'
 
-// import BannerTop from "@/components/Home4/BannerTop";
+
+
 import TopNavThree from "@/components/Header/TopNav/TopNavThree";
 import MenuCosmeticOne from "@/components/Header/Menu/MenuCosmeticOne";
 import SliderCosmeticTwo from "@/components/Slider/SliderCosmeticTwo";
+import Explore from '@/components/Home1/Explore'
 
 export default function Home() {
   return (
     <>
-      {/* <BannerTop props="bg-black py-3" textColor="text-white" /> */}
+      
       <TopNavOne
         props="style-one bg-black"
         slogan="25% off on making charges on gold"
@@ -30,9 +32,9 @@ export default function Home() {
       <TopNavThree props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <MenuCosmeticOne props="bg-white" />
-        <SliderCosmeticTwo />
       </div>
-      
+      <SliderCosmeticTwo />
+      <Explore/>
       <Collection />
       <TabFeatures data={productData} start={0} limit={6} />
       <Banner />

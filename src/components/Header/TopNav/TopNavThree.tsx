@@ -29,8 +29,8 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
   };
   return (
     <>
-      <div className={`top-nav md:h-[55px] h-[55px]  ${props}`}>
-        <div className="container mx-auto h-full">
+      <div className={`top-nav md:h-[65px] h-[65px]  ${props}`}>
+        <div className="container mx-auto h-full py-2">
           <div className="top-nav-main flex justify-between max-md:justify-center items-center">
             <div className="left-content flex items-center">
               <Image
@@ -44,7 +44,7 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
             <div className="form-search w-72 relative max-lg:hidden z-[1]">
               <Icon.MagnifyingGlass
                 size={20}
-                className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => {
                   handleSearch(searchKeyword);
                 }}
@@ -52,7 +52,7 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
               <input
                 type="text"
                 placeholder="What are you looking for?"
-                className=" h-10 rounded-lg border border-line caption2 w-full pl-9 pr-4"
+                className=" h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 onKeyDown={(e) =>
@@ -145,7 +145,7 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
                       id="chooseCurrency"
                       className="caption2  text-black"
                     >
-                      <option value="USD">USD</option>
+                      <option  value="USD">USD</option>
                       <option value="EUR">EUR</option>
                       <option value="GBP">GBP</option>
                     </select>

@@ -16,13 +16,11 @@ interface Props {
 
 const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
   const pathname = usePathname();
- 
+
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const { openModalSearch } = useModalSearchContext();
 
-
-  
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
   };
@@ -44,17 +42,17 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
     };
   }, [lastScrollPosition]);
 
-  const handleGenderClick = (gender: string) => {
-    router.push(`/shop/breadcrumb1?gender=${gender}`);
-  };
+  // const handleGenderClick = (gender: string) => {
+  //   router.push(`/shop/breadcrumb1?gender=${gender}`);
+  // };
 
-  const handleCategoryClick = (category: string) => {
-    router.push(`/shop/breadcrumb1?category=${category}`);
-  };
+  // const handleCategoryClick = (category: string) => {
+  //   router.push(`/shop/breadcrumb1?category=${category}`);
+  // };
 
-  const handleTypeClick = (type: string) => {
-    router.push(`/shop/breadcrumb1?type=${type}`);
-  };
+  // const handleTypeClick = (type: string) => {
+  //   router.push(`/shop/breadcrumb1?type=${type}`);
+  // };
 
   return (
     <>
@@ -74,9 +72,9 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
             <Link href={"/"} className="flex items-center lg:hidden">
               <div className="heading4">WHP</div>
             </Link>
-           
+
             <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-              <ul className="flex items-center gap-8 h-full">
+              <ul className="flex items-center justify-between gap-36 h-full">
                 <li className="h-full relative">
                   <Link
                     href="#!"
@@ -92,88 +90,11 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                   <div className="sub-menu absolute py-3 px-5 -left-10 w-max grid grid-cols-4 gap-5 bg-white rounded-b-xl">
                     <ul>
                       <li>
-                        <Link href="/" className="text-secondary duration-300">
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
                           Home Fashion 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion2"
-                          className={`text-secondary duration-300`}
-                        >
-                          Home Fashion 2
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion3"
-                          className={`text-secondary duration-300`}
-                        >
-                          Home Fashion 3
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion4"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/fashion4" ? "active" : ""
-                          }`}
-                        >
-                          Home Fashion 4
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion5"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/fashion5" ? "active" : ""
-                          }`}
-                        >
-                          Home Fashion 5
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion6"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/fashion6" ? "active" : ""
-                          }`}
-                        >
-                          Home Fashion 6
-                        </Link>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <Link
-                          href="/homepages/fashion7"
-                          className={`text-secondary duration-300`}
-                        >
-                          Home Fashion 7
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion8"
-                          className="text-secondary duration-300"
-                        >
-                          Home Fashion 8
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion9"
-                          className="text-secondary duration-300"
-                        >
-                          Home Fashion 9
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion10"
-                          className="text-secondary duration-300"
-                        >
-                          Home Fashion 10
                         </Link>
                       </li>
                       <li>
@@ -181,57 +102,12 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                           href="/homepages/fashion11"
                           className="text-secondary duration-300"
                         >
-                          Home Fashion 11
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/underwear"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/underwear" ? "active" : ""
-                          }`}
-                        >
-                          Home Underwear
+                          Home Fashion 1
                         </Link>
                       </li>
                     </ul>
                     <ul>
-                      <li>
-                        <Link
-                          href="/homepages/cosmetic1"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/cosmetic1" ? "active" : ""
-                          }`}
-                        >
-                          Home Cosmetic 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/cosmetic2"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/cosmetic2" ? "active" : ""
-                          }`}
-                        >
-                          Home Cosmetic 2
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/cosmetic3"
-                          className={`text-secondary duration-300`}
-                        >
-                          Home Cosmetic 3
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/pet"
-                          className="text-secondary duration-300"
-                        >
-                          Home Pet Store
-                        </Link>
-                      </li>
+                     
                       <li>
                         <Link
                           href="/homepages/jewelry"
@@ -254,26 +130,7 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                       </li>
                     </ul>
                     <ul>
-                      <li>
-                        <Link
-                          href="/homepages/watch"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/watch" ? "active" : ""
-                          }`}
-                        >
-                          Home Watch
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/toys"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/homepages/toys" ? "active" : ""
-                          }`}
-                        >
-                          Home Toys Kid
-                        </Link>
-                      </li>
+                     
                       <li>
                         <Link
                           href="/homepages/yoga"
@@ -319,30 +176,9 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                                   Starting From 50% Off
                                 </div>
                               </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("face")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Faces Skin
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("eye")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Eyes Makeup
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("lip")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Lip Polish
-                                </div>
-                              </li>
+                           
+                           
+                            
                               <li>
                                 <div
                                   onClick={() =>
@@ -368,30 +204,8 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                                   Hair Treatment
                                 </div>
                               </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("nail")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Nail Polish
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("lip")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Liquid Lipstick
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("face")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Face Highlighter
-                                </div>
-                              </li>
+                             
+                             
                               <li>
                                 <div
                                   onClick={() =>
@@ -409,22 +223,7 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                               Skincare
                             </div>
                             <ul>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("eye")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Eye Palettes
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={() => handleTypeClick("nail")}
-                                  className={`link text-secondary duration-300 cursor-pointer`}
-                                >
-                                  Nail Custom
-                                </div>
-                              </li>
+                             
                               <li>
                                 <div
                                   onClick={() => handleTypeClick("lip")}
@@ -824,11 +623,7 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                     </div>
                   </div>
                 </li>
-                <li className="h-full flex items-center justify-center logo">
-                  <Link href={"/"} className="heading4">
-                    WHP
-                  </Link>
-                </li>
+
                 <li className="h-full">
                   <Link
                     href="#!"
@@ -1245,7 +1040,6 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                 </li>
               </ul>
             </div>
-          
           </div>
         </div>
       </div>

@@ -94,9 +94,9 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
             {type === "grid" ? (
                 <div className="product-item grid-type">
                     <div onClick={() => handleDetailProduct(data.id)} className="product-main cursor-pointer block">
-                        <div className="product-thumb bg-white relative overflow-hidden rounded-2xl">
+                        <div className="product-thumb bg-gray relative overflow-hidden">
                             {data.new && (
-                                <div className="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]">
+                                <div className="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-1 z-[1]">
                                     New
                                 </div>
                             )}

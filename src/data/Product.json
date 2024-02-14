@@ -1,16 +1,16 @@
 [
     {
         "id": "1",
-        "category": "fashion",
-        "type": "top",
-        "name": "mesh shirt",
+        "category": "Jewellery",
+        "type": "chain",
+        "name": "Gold Hook chain",
         "gender": "women",
         "new": true,
         "sale": false,
         "rate": 4,
         "price": 45,
         "originPrice": 55,
-        "brand": "gucci",
+        "brand": "WHP",
         "sold": 12,
         "quantity": 100,
         "quantityPurchase": 1,
@@ -25,7 +25,7 @@
                 "color": "red",
                 "colorCode": "#DB4444",
                 "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
+                "image": "/images/products/22k_gold_chain.jpg"
             },
             {
                 "color": "yellow",
@@ -35,14 +35,14 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/22k_gold_chain.jpg",
+            "/images/product/22k_gold_chain.jpg"
         ],
         "images": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/22k_gold_chain.jpg",
+            "/images/product/22k_gold_chain.jpg",
+            "/images/product/22k_gold_chain.jpg",
+            "/images/product/22k_gold_chain.jpg"
         ],
         "description": "Keep your home organized, yet elegant with storage cabinets by Onita Patio Furniture. Traditionally designed, they are perfect to be used in the any place where you need to store.",
         "action": "quick shop",
@@ -50,9 +50,9 @@
     },
     {
         "id": "2",
-        "category": "fashion",
-        "type": "t-shirt",
-        "name": "Raglan Sleeve T-shirt",
+        "category": "Jewellery",
+        "type": "Earrings",
+        "name": "Oval Drop Earrings",
         "gender": "women",
         "new": true,
         "sale": false,
@@ -86,14 +86,14 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/18k_gold_earring5.jpg",
+            "/images/product/18k_gold_earring5.jpg"
         ],
         "images": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/18k_gold_earring5.jpg",
+            "/images/product/18k_gold_earring5.jpg",
+            "/images/product/18k_gold_earring5.jpg",
+            "/images/product/18k_gold_earring5.jpg"
         ],
         "description": "Keep your home organized, yet elegant with storage cabinets by Onita Patio Furniture. Traditionally designed, they are perfect to be used in the any place where you need to store.",
         "action": "quick shop",
@@ -101,16 +101,16 @@
     },
     {
         "id": "3",
-        "category": "fashion",
-        "type": "dress",
-        "name": "Off-the-Shoulder Blouse",
+        "category": "Jewellery",
+        "type": "Earrings",
+        "name": "Golden Designed Earrings",
         "gender": "women",
         "new": false,
         "sale": true,
         "rate": 4,
         "price": 32,
         "originPrice": 40,
-        "brand": "zara",
+        "brand": "WHP",
         "sold": 15,
         "quantity": 80,
         "quantityPurchase": 1,
@@ -138,8 +138,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/18k_gold_earring6.jpg",
+            "/images/product/18k_gold_earring6.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",
@@ -153,16 +153,16 @@
     },
     {
         "id": "4",
-        "category": "fashion",
-        "type": "t-shirt",
-        "name": "Kimono sleeve top",
+        "category": "Gold",
+        "type": "Earrings",
+        "name": "Golden Hoop Earrings",
         "gender": "women",
-        "new": false,
-        "sale": true,
+        "new": true,
+        "sale": false,
         "rate": 5,
         "price": 24,
         "originPrice": 32,
-        "brand": "adidas",
+        "brand": "whp",
         "sold": 14,
         "quantity": 100,
         "quantityPurchase": 1,
@@ -193,8 +193,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/18k_gold_earring.jpg",
+            "/images/product/18k_gold_earring.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",
@@ -208,9 +208,9 @@
     },
     {
         "id": "5",
-        "category": "fashion",
-        "type": "dress",
-        "name": "mesh shirt",
+        "category": "Jewellery",
+        "type": "Ring",
+        "name": "Aadit Diamond Ring",
         "gender": "women",
         "new": true,
         "sale": false,
@@ -248,8 +248,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+            "/images/product/aaditdiamond_ring.jpg",
+            "/images/product/aaditdiamond_ring.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",
@@ -262,9 +262,9 @@
     },
     {
         "id": "6",
-        "category": "fashion",
-        "type": "sets",
-        "name": "Raglan Sleeve T-shirt",
+        "category": "Jewellery",
+        "type": "Earrings",
+        "name": "Plated Earrings",
         "gender": "women",
         "new": true,
         "sale": false,
@@ -304,8 +304,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+          "/images/product/22k_gold_earring.jpg",
+          "/images/product/22k_gold_earring.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",
@@ -319,16 +319,16 @@
     },
     {
         "id": "7",
-        "category": "fashion",
-        "type": "shirt",
-        "name": "Off-the-Shoulder Blouse",
+        "category": "Jewellery",
+        "type": "Ring",
+        "name": "Aahana Diamond Ring",
         "gender": "women",
         "new": false,
         "sale": true,
         "rate": 4,
         "price": 32,
         "originPrice": 40,
-        "brand": "zara",
+        "brand": "WHP",
         "sold": 22,
         "quantity": 80,
         "quantityPurchase": 1,
@@ -362,8 +362,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/1000x1000.png",
-            "/images/product/1000x1000.png"
+          "/images/product/AahanaDiamondRing2.jpg",
+          "/images/product/AahanaDiamondRing2.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",
@@ -797,8 +797,8 @@
         "type": "top",
         "name": "Off-the-Shoulder Blouse",
         "gender": "women",
-        "new": false,
-        "sale": true,
+        "new": true,
+        "sale": false,
         "rate": 4,
         "price": 32,
         "originPrice": 40,

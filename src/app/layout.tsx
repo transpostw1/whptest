@@ -15,7 +15,7 @@ const serverTimeLeft: CountdownTimeType = countdownTime();
 const instrument = Instrument_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WHP",
+  title: "WHP Web",
   description: "WHP Jewellers app",
 };
 

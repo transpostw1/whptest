@@ -23,16 +23,16 @@ const TabFeatures: React.FC<Props> = ({ data, start, limit }) => {
 
     const getFilterData = () => {
         if (activeTab === 'on sale') {
-            return data.filter((product) => product.sale && (product.category === 'fashion'))
+            return data.filter((product) => product.sale || (product.category === 'Jewellery'))
         }
 
         if (activeTab === 'new arrivals') {
-            return data.filter((product) => product.new && (product.category === 'fashion'))
+            return data.filter((product) => product.new ||(product.category === 'Jewellery'))
         }
 
         if (activeTab === 'best sellers') {
             return data
-                .filter((product) => product.category === 'fashion')
+                .filter((product) => product.category === 'Jewellery')
                 .slice()
                 .sort((a, b) => b.sold - a.sold)
         }
@@ -65,7 +65,7 @@ const TabFeatures: React.FC<Props> = ({ data, start, limit }) => {
                         </div>
                     </div>
 
-                    <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6">
+                    <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
                         <Swiper
                             spaceBetween={12}
                             slidesPerView={2}

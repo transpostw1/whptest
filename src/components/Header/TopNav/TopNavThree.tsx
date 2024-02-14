@@ -81,40 +81,40 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Support</h4>
                     </div>
 
-                    <div className="flex flex-col items-center">
-                      <Icon.User
-                        size={28}
-                        color="black"
-                        onClick={handleLoginPopup}
-                      />
-                      <h4 className="text-sm">Profile</h4>
-                    </div>
+                    <div className="user-icon flex items-center justify-center cursor-pointer">
+                      <div className="flex flex-col items-center">
+                        <Icon.User
+                          size={28}
+                          color="black"
+                          onClick={handleLoginPopup}
+                        />
+                        <h4 className="text-sm">User</h4>
+                      </div>
 
-                    <div
-                      className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
-                                                ${
-                                                  openLoginPopup ? "open" : ""
-                                                }`}
-                    >
-                      <Link
-                        href={"/login"}
-                        className="button-main w-full text-center"
+                      <div
+                        className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
+                                            ${openLoginPopup ? "open" : ""}`}
                       >
-                        Login
-                      </Link>
-                      <div className="text-secondary text-center mt-3 pb-4">
-                        Don’t have an account?
                         <Link
-                          href={"/register"}
-                          className="text-black pl-1 hover:underline"
+                          href={"/login"}
+                          className="button-main w-full text-center"
                         >
-                          Register
+                          Login
+                        </Link>
+                        <div className="text-secondary text-center mt-3 pb-4">
+                          Don’t have an account?
+                          <Link
+                            href={"/register"}
+                            className="text-black pl-1 hover:underline"
+                          >
+                            Register
+                          </Link>
+                        </div>
+                        <div className="bottom pt-4 border-t border-line"></div>
+                        <Link href={"#!"} className="body1 hover:underline">
+                          Support
                         </Link>
                       </div>
-                      <div className="bottom pt-4 border-t border-line"></div>
-                      <Link href={"#!"} className="body1 hover:underline">
-                        Support
-                      </Link>
                     </div>
                   </div>
                   <div
@@ -145,7 +145,7 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
                       id="chooseCurrency"
                       className="caption2  text-black"
                     >
-                      <option  value="USD">USD</option>
+                      <option value="USD">USD</option>
                       <option value="EUR">EUR</option>
                       <option value="GBP">GBP</option>
                     </select>

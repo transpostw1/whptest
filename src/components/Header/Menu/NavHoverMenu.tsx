@@ -14,7 +14,7 @@ interface Props {
   props: string;
 }
 
-const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
+const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const pathname = usePathname();
 
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -403,7 +403,6 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                       </div>
                       <div className="list-nav-item w-full grid grid-cols-2 pt-2 pb-6">
                         <ul>
-                         
                           <li>
                             <Link
                               href="/homepages/cosmetic1"
@@ -416,7 +415,7 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
                               Home Cosmetic 1
                             </Link>
                           </li>
-                        
+
                           <li>
                             <Link
                               href="/homepages/yoga"
@@ -675,4 +674,4 @@ const MenuCosmeticOne: React.FC<Props> = ({ props }) => {
   );
 };
 
-export default MenuCosmeticOne;
+export default NavHoverMenu;

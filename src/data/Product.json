@@ -25,7 +25,7 @@
                 "color": "red",
                 "colorCode": "#DB4444",
                 "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/products/22k_gold_chain.jpg"
+                "image": "/images/products/2sdfd"
             },
             {
                 "color": "yellow",
@@ -153,7 +153,7 @@
     },
     {
         "id": "4",
-        "category": "Gold",
+        "category": "Jewellery",
         "type": "Earrings",
         "name": "Golden Hoop Earrings",
         "gender": "women",
@@ -193,8 +193,8 @@
             }
         ],
         "thumbImage": [
-            "/images/product/18k_gold_earring.jpg",
-            "/images/product/18k_gold_earring.jpg"
+            "/images/product/18k_gold_earring6.jpg",
+            "/images/product/18k_gold_earring6.jpg"
         ],
         "images": [
             "/images/product/1000x1000.png",

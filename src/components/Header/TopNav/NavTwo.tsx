@@ -14,7 +14,7 @@ interface Props {
   props: string;
 }
 
-const TopNavThree: React.FC<Props> = ({ props }) => {
+const NavTwo: React.FC<Props> = ({ props }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
   const { openModalWishlist } = useModalWishlistContext();
@@ -161,4 +161,4 @@ const TopNavThree: React.FC<Props> = ({ props }) => {
   );
 };
 
-export default TopNavThree;
+export default NavTwo;

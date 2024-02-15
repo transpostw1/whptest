@@ -20,6 +20,9 @@ import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
 import GoldScheme from "@/components/Home1/GoldScheme";
+import ShopGender from "@/components/Home1/ShopGender";
+import Appointment from "@/components/Home1/Appointment";
+
 
 export default function Home() {
   return (
@@ -38,6 +41,8 @@ export default function Home() {
       <ProductSlider data={productData} start={0} limit={6} />
       <Category/>
       <GoldScheme/>
+      <ShopGender/>
+      <Appointment/>
       <Banner />
       <Benefit props="md:py-20 py-10" />
       <Testimonial data={testimonialData} limit={6} />

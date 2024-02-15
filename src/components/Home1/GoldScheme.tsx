@@ -37,7 +37,7 @@ const GoldScheme = () => {
               </div>
             </div>
           </div>
-          <Image src={"/images/other/GoldScheme.jpg"} width={800} height={800} alt='goldscheme' />
+          <Image src={"/images/other/GoldScheme.jpg"} width={1000} height={800} alt='goldscheme' />
         </div>
       </div>
     </>

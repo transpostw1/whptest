@@ -4,7 +4,7 @@ const Appointment = () => {
   return (
     <>
       <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mt-5">
-        <div className="bg-gray-100 flex items-center justify-center lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
+        <div className="bg-secondary2 flex items-center justify-center lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
           <div className="lg:py-0 md:py-0 sm:py-10 text-center">
             <h2 className="text-2xl md:text-4xl lg:text-4xl font-semibold text-red text-left mt-2">
               Visualize Your
@@ -36,10 +36,10 @@ const Appointment = () => {
           </div>
         </div>
         <div className="justify-center items-center bg-red-700 grid grid-cols-2">
-          <img className="h-full w-full" src="/images/other/image135.png" alt="" />
-          <img className="h-full w-full" src="/images/other/image136.png" alt="" />
-          {/* <Image  src={"/images/other/image135.png"} alt=""  width={500} height={699} objectFit="cover" />
-          <Image src={"/images/other/image136.png"} alt="" width={500} height={699} /> */}
+          {/* <img className="h-full w-full" src="/images/other/image135.png" alt="" />
+          <img className="h-full w-full" src="/images/other/image136.png" alt="" /> */}
+          <Image  src={"/images/other/image135.png"} alt=""  width={500} height={699} objectFit="cover" />
+          <Image src={"/images/other/image135.png"} alt="" width={500} height={699} />
         </div>
       </div>
     </>

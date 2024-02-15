@@ -22,6 +22,7 @@ import Category from "@/components/Home1/Category";
 import GoldScheme from "@/components/Home1/GoldScheme";
 import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
+import Gifts from "@/components/Home1/Gifts";
 
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
       <GoldScheme/>
       <ShopGender/>
       <Appointment/>
+      <Gifts/>
       <Banner />
       <Benefit props="md:py-20 py-10" />
       <Testimonial data={testimonialData} limit={6} />

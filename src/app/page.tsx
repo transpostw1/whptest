@@ -45,11 +45,11 @@ export default function Home() {
       <ShopGender/>
       <Appointment/>
       <Gifts/>
-      <Banner />
+      {/* <Banner />
       <Benefit props="md:py-20 py-10" />
       <Testimonial data={testimonialData} limit={6} />
       <Instagram />
-      <Brand />
+      <Brand /> */}
       <Footer />
     </>
   );

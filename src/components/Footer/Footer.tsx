@@ -165,8 +165,6 @@ const Footer = () => {
                   ©2023 WHP Jewellers Ecommerce Pvt.Ltd.All Rights Reserved.
                 </div>
                 <div className="select-block flex items-center gap-5 max-md:hidden">
-                
-              
                 </div>
               </div>
             </div>

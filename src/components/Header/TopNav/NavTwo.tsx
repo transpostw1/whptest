@@ -42,13 +42,16 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               />
             </div>
             <div className="form-search w-72 relative max-lg:hidden z-[1]">
-              <Icon.MagnifyingGlass
-                size={20}
-                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => {
-                  handleSearch(searchKeyword);
-                }}
-              />
+              <button>
+                <Icon.MagnifyingGlass
+                  size={20}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => {
+                    handleSearch(searchKeyword);
+                  }}
+                />
+              </button>
+
               <input
                 type="text"
                 placeholder="What are you looking for?"
@@ -92,7 +95,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
 
                       <div
-                        className={`login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
+                        className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
                                             ${openLoginPopup ? "open" : ""}`}
                       >
                         <Link

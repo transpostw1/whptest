@@ -37,9 +37,11 @@ const Default: React.FC<Props> = ({ data, productId }) => {
     const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
     const { openModalWishlist } = useModalWishlistContext()
     const { addToCompare, removeFromCompare, compareState } = useCompare();
-    const { openModalCompare } = useModalCompareContext()
+    const { openModalCompare } = useModalCompareContext();
     const productMain = data.find(product => product.id === productId) as ProductType
+    // console.log("jhghjgg",productMain)
     const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
+     
 
     const handleOpenSizeGuide = () => {
         setOpenSizeGuide(true);

@@ -36,7 +36,7 @@ export default function Home() {
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
       </div>
-      <MainCarousel />
+      {/* <MainCarousel /> */}
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={productData} start={0} limit={6} />

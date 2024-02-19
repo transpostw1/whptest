@@ -1,4 +1,5 @@
-"use client";import React, { useState, ChangeEvent, FormEvent } from "react";
+"use client";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
@@ -49,7 +50,7 @@ const Login = () => {
     if (phone.length < 5) {
       return "Phone number must be complete";
     }
- 
+
     return "";
   };
 
@@ -57,7 +58,7 @@ const Login = () => {
     if (!otp) {
       return "OTP is required";
     }
-    
+
     return "";
   };
 
@@ -71,12 +72,11 @@ const Login = () => {
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
       </div>
-      <Breadcrumb heading="Login" subHeading="Login" />
+      <Breadcrumb heading="Login/Signup WHP" subHeading="Login" />
       <div className="login-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center">
             <div className=" md:w-1/2 w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
-              <div className="heading4 text-center">Login/Signup to WHP</div>
               <form className="md:mt-7 mt-4" onSubmit={handleRequestOtp}>
                 <div className="flex items-center gap-3 mb-3">
                   <label className="">
@@ -108,9 +108,7 @@ const Login = () => {
                     placeholder="Number Here !"
                     inputStyle={{ width: "100%" }}
                   />
-                  {phoneError && (
-                    <div className="text-red">{phoneError}</div>
-                  )}
+                  {phoneError && <div className="text-red">{phoneError}</div>}
                 </div>
 
                 <div className="block-button md:mt-7 mt-4">

@@ -95,14 +95,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
 
                       <div
-                        className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-white box-shadow-small 
+                        className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
                                             ${openLoginPopup ? "open" : ""}`}
                       >
                         <Link
                           href={"/login"}
                           className="button-main w-full text-center"
                         >
-                          Login
+                          Login With OTP
                         </Link>
                         <div className="text-secondary text-center mt-3 pb-4">
                           Don’t have an account?
@@ -110,13 +110,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             href={"/register"}
                             className="text-black pl-1 hover:underline"
                           >
-                            Register
+                            Signup
                           </Link>
                         </div>
-                        <div className="bottom pt-4 border-t border-line"></div>
-                        <Link href={"#!"} className="body1 hover:underline">
-                          Support
-                        </Link>
+                        
+                  
                       </div>
                     </div>
                   </div>

@@ -40,7 +40,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 alt="80x80"
                 className=" object-cover"
               />
-              <h1 className="text-rose-400 text-xl">WhpJewellers</h1>
+              <h1 className="text-rose-400 text-2xl ">WhpJewellers</h1>
             </div>
             <div className="form-search w-72 relative max-lg:hidden z-[1]">
               <button>

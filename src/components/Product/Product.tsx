@@ -92,14 +92,14 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
   return (
     <>
       {type === "grid" ? (
-        <div className="product-item grid-type text-rose-950">
+        <div className="product-item grid-type">
           <div
             onClick={() => handleDetailProduct(data.id)}
             className="product-main cursor-pointer block"
           >
             <div className="product-thumb bg-gray relative overflow-hidden">
               {data.new && (
-                <div className="product-tag text-button-uppercase bg-green-400 px-3 py-0.5 inline-block rounded-full absolute top-3 left-1 z-[1]">
+                <div className="product-tag text-button-uppercase bg-green-400 px-3 inline-block rounded-full absolute top-3 left-1 z-[1] text-black">
                   New
                 </div>
               )}
@@ -288,6 +288,8 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                 </div>
               </div>
               <div className="text-title ">{data.name}</div>
+              <div>Categories</div>
+              <div>Ratings</div>
               {/* {data.variation.length > 0 && data.action === "add to cart" && (
                 <div className="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
                   {data.variation.map((item, index) => (
@@ -337,24 +339,22 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                 </div>
               )} */}
 
-              <div className=" flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
+              <div className=" flex items-center gap-2 flex-wrap duration-300 relative ">
                 <div className="product-price text-title">
                   {" "}
                   ${data.price}.00
                 </div>
                 {percentSale > 0 && (
                   <>
-                    <div className="product-origin-price caption1 text-secondary2">
+                    <div className="product-origin-price caption1 text-gray-700">
                       <del> ${data.originPrice}.00</del>
                     </div>
-                    <div className="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
+                    <div className="product-sale caption1 font-medium px-3 py-0.5 inline-block rounded-full text-red-700">
                       -{percentSale}%
                     </div>
                   </>
                 )}
               </div>
-              <div>NAME</div>
-              <div>RATING</div>
             </div>
           </div>
         </div>
@@ -442,7 +442,7 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                           <del> ${data.originPrice}.00</del>
                         </div>
                         {data.originPrice && (
-                          <div className="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
+                          <div className="product-sale caption1 font-medium  px-3 py-0.5 inline-block rounded-full">
                             -{percentSale}%
                           </div>
                         )}

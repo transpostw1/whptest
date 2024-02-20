@@ -332,7 +332,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
             >
               <div
                 className={`filter-type pb-8 overflow-scroll no-scrollbar border-line ${
-                  header ? "fixed top-9 w-1/4" : "absoulute"
+                  header ? "fixed top-9 w-1/4 -z-10" : "absoulute"
                 }`}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>

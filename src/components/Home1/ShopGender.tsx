@@ -25,7 +25,7 @@ const ShopGender = () => {
 
   return (
     <>
-      <div className="w-full px-7 mt-24">
+      <div className="w-full px-7 mt-24 text-rose-950">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY GENDER</h1>
         </div>

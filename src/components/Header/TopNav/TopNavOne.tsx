@@ -1,33 +1,73 @@
-import React from 'react'
-import Link from 'next/link';
-import Image from 'next/image';
-import * as Icon from "@phosphor-icons/react/dist/ssr";
+"use client"
+
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import "swiper/css/bundle";
+import "swiper/css/effect-fade";
 
 interface Props {
-    props: string;
-    slogan: string;
+  // props: string;
+  textColor: string;
 }
 
-const TopNavOne: React.FC<Props> = ({ props, slogan }) => {
-    return (
-        <>
-            <div className={`top-nav md:h-[44px] h-[30px] ${props}`}>
-                <div className="container mx-auto h-full">
-                    <div className="top-nav-main flex justify-between max-md:justify-center h-full">
-                        <div className="left-content flex items-center gap-5 max-md:hidden">
-                        </div>
-                        <div className="text-center text-button-uppercase text-white flex items-center">
-                            {slogan}
-                        </div>
-                        <div className="right-content flex items-center gap-5 max-md:hidden">
-                           
-                        </div>
-
-                    </div>
+const TopNavOne: React.FC<Props> = ({ textColor }) => {
+  return (
+    <>
+      <div className={`banner-top style-four w-full  bg-rose-950 py-2 `}>
+        <div className="container flex items-center justify-center">
+          <div className="sm:w-2/3 w-full h-full">
+            <Swiper
+              spaceBetween={0}
+              slidesPerView={1}
+              loop={true}
+              modules={[Navigation, Autoplay]}
+              className="h-full relative flex items-center justify-center bg"
+              autoplay={{
+                delay: 3000,
+              }}
+            >
+              <SwiperSlide>
+                <div
+                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                >
+                  Get 10% off on selected items
                 </div>
-            </div>
-        </>
-    )
+              </SwiperSlide>
+              <SwiperSlide>
+                <div
+                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                >
+                  Free shipping on all orders over $50
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div
+                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                >
+                  10% off on all summer essentials!
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div
+                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                >
+                  Get summer-ready: 10% off swim suits
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div
+                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                >
+                  10% off on all product on shop
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default TopNavOne
+export default TopNavOne;

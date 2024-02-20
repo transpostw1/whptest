@@ -51,12 +51,12 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
       <div className="tab-features-block md:pt-20 pt-10">
         <div className="container">
           <div className="heading flex flex-col items-center text-center">
-            <div className="menu-tab flex items-center gap-2 p-1 bg-surface rounded-2xl">
+            <div className="menu-tab flex items-center gap-2 p-1 bg-surface rounded-2xl text-rose-700">
               {["best sellers", "on sale", "new arrivals"].map(
                 (item, index) => (
                   <div
                     key={index}
-                    className={`tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black ${
+                    className={`tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500  hover:text-rose-900 ${
                       activeTab === item ? "active" : ""
                     }`}
                     onClick={() => handleTabClick(item)}
@@ -64,7 +64,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
                     {activeTab === item && (
                       <motion.div
                         layoutId="active-pill"
-                        className="absolute inset-0 rounded-2xl bg-white"
+                        className="absolute inset-0 rounded-2xl bg-white "
                       ></motion.div>
                     )}
                     <span className="relative heading5 z-[1]">{item}</span>

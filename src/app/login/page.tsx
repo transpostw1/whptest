@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+
+
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
@@ -7,14 +9,69 @@ import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import Footer from "@/components/Footer/Footer";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
+import { ParsedCountry } from "react-international-phone";
+
+import { app } from "../config";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  Auth,
+} from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState<any | null>(
+    null
+  ); 
+  const [otpSent, setOtpSent] = useState(false);
   const [selectedOption, setSelectedOption] = useState("option1");
   const [showModal, setShowModal] = useState(false);
-  const [otp, setOtp] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [otpError, setOtpError] = useState("");
+
+  const auth: Auth = getAuth(app); 
+  const router = useRouter();
+
+  useEffect(() => {
+    const recaptchaVerifier = new RecaptchaVerifier(auth,"recaptcha-container", {
+      size: "invisible",
+
+    });
+    // Set the recaptchaVerifier instance on the window object
+    (window as any).recaptchaVerifier = recaptchaVerifier;
+  }, []); // Empty dependency array ensures effect runs only once
+
+const handlePhoneNumberChange = (
+  phone: string,
+  meta: { country: ParsedCountry; inputValue: string }
+) => {
+  setPhoneNumber(phone);
+};
+  const handleOTPChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setOtp(e.target.value);
+  };
+
+  const handleSendOtp = async () => {
+    try {
+      const formattedPhoneNumber = `+${phoneNumber.replace(/\D/g, "")}`;
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        formattedPhoneNumber,
+        (window as any).recaptchaVerifier // Using recaptchaVerifier from window object
+      );
+      setConfirmationResult(confirmation);
+      setOtpSent(true);
+      setPhoneNumber("");
+      alert("OTP has been sent");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
@@ -22,7 +79,7 @@ const Login = () => {
 
   const handleRequestOtp = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const phoneValidation = validatePhone(phone);
+    const phoneValidation = validatePhone(phoneNumber); // Validate phoneNumber
     if (phoneValidation) {
       setPhoneError(phoneValidation);
     } else {
@@ -57,6 +114,8 @@ const Login = () => {
   const validateOtp = (otp: string) => {
     if (!otp) {
       return "OTP is required";
+    }else{
+      router.push("/")
     }
 
     return "";
@@ -64,10 +123,7 @@ const Login = () => {
 
   return (
     <>
-      <TopNavOne
-        props="style-one bg-black"
-        slogan="New customers save 10% with the code GET10"
-      />
+      <TopNavOne  textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
@@ -79,7 +135,7 @@ const Login = () => {
             <div className=" md:w-1/2 w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <form className="md:mt-7 mt-4" onSubmit={handleRequestOtp}>
                 <div className="flex items-center gap-3 mb-3">
-                  <label className="">
+                  <label className=" text-red-950">
                     <input
                       type="radio"
                       value="option1"
@@ -89,7 +145,7 @@ const Login = () => {
                     />
                     WhatsApp
                   </label>
-                  <label>
+                  <label className=" text-red-950">
                     <input
                       type="radio"
                       value="option2"
@@ -101,18 +157,25 @@ const Login = () => {
                   </label>
                 </div>
                 <div className="phone ">
+                  {!otpSent ? <div id="recaptcha-container"></div> : null}
                   <PhoneInput
                     defaultCountry="in"
-                    value={phone}
-                    onChange={(phone) => setPhone(phone)}
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
                     placeholder="Number Here !"
                     inputStyle={{ width: "100%" }}
                   />
-                  {phoneError && <div className="text-red">{phoneError}</div>}
+                  {phoneError && (
+                    <div className="text-red-600">{phoneError}</div>
+                  )}
                 </div>
 
                 <div className="block-button md:mt-7 mt-4">
-                  <button type="submit" className="p-2 rounded-xl bg-red">
+                  <button
+                    type="submit"
+                    className="p-3 rounded-xl bg-rose-400 text-rose-950"
+                    onClick={handleSendOtp}
+                  >
                     Send OTP
                   </button>
                 </div>
@@ -124,11 +187,11 @@ const Login = () => {
                     <input
                       type="text"
                       value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
+                      onChange={handleOTPChange}
                       className="border border-gray-300 rounded px-3 py-2 mb-4"
                       placeholder="Enter OTP"
                     />
-                    {otpError && <div className="text-red">{otpError}</div>}
+                    {otpError && <div className="text-red-600">{otpError}</div>}
                     <div className="flex justify-end">
                       <button
                         className="text-sm text-gray-500 mr-4"
@@ -137,7 +200,7 @@ const Login = () => {
                         Cancel
                       </button>
                       <button
-                        className="text-sm text-black  bg-pink hover:bg-red focus:ring-4 focus:outline-none font-medium px-4 py-2 rounded-lg"
+                        className="text-sm text-black  bg-pink hover:bg-red focus:ring-4 focus:outline-none font-medium px-4 py-2 rounded-lg "
                         onClick={handleOtpSubmit}
                       >
                         Submit
@@ -156,3 +219,4 @@ const Login = () => {
 };
 
 export default Login;
+

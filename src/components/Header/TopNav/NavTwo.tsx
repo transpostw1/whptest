@@ -29,10 +29,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
   return (
     <>
-      <div className={`top-nav md:h-[65px] h-[65px]  ${props}`}>
-        <div className="container mx-auto h-full py-2">
-          <div className="top-nav-main flex justify-between max-md:justify-center items-center">
-            <div className="left-content flex items-center">
+      <div className={`top-nav md:h-[65px] h-[65px]  text-rose-950 ${props}`}>
+        <div className="container mx-auto h-full py-2 ">
+          <div className="top-nav-main flex justify-between max-md:justify-center items-center ">
+            <div className="left-content flex items-center ">
               <Image
                 src={"/images/other/Logo.png"}
                 width={80}
@@ -40,6 +40,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 alt="80x80"
                 className=" object-cover"
               />
+              <h1 className="text-rose-400 text-2xl ">WhpJewellers</h1>
             </div>
             <div className="form-search w-72 relative max-lg:hidden z-[1]">
               <button>
@@ -63,8 +64,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 }
               />
             </div>
-            <div className="right-content flex items-center  max-md:hidden">
-              <div className="right flex gap-12 relative z-[1]">
+            <div className="right-content flex items-center  max-md:hidden ">
+              <div className="right flex gap-12 relative z-[1] ">
                 <div className="list-action flex items-center gap-11 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-11">
                     <div className="flex flex-col items-center">
@@ -113,8 +114,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             Signup
                           </Link>
                         </div>
-                        
-                  
                       </div>
                     </div>
                   </div>

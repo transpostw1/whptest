@@ -25,13 +25,11 @@ import Appointment from "@/components/Home1/Appointment";
 import Gifts from "@/components/Home1/Gifts";
 
 
+
 export default function Home() {
   return (
     <>
-      <TopNavOne
-        props="style-one bg-black"
-        slogan="25% off on making charges on gold"
-      />
+      <TopNavOne textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
@@ -40,11 +38,11 @@ export default function Home() {
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={productData} start={0} limit={6} />
-      <Category/>
-      <GoldScheme/>
-      <ShopGender/>
-      <Appointment/>
-      <Gifts/>
+      <Category />
+      <GoldScheme />
+      <ShopGender />
+      <Appointment />
+      <Gifts />
       {/* <Banner />
       <Benefit props="md:py-20 py-10" />
       <Testimonial data={testimonialData} limit={6} />

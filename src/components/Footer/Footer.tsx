@@ -6,14 +6,14 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 const Footer = () => {
   return (
     <>
-      <div id="footer" className="footer">
+      <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-surface">
           <div className="container">
             <div className="content-footer py-[60px] flex justify-between flex-wrap gap-y-8">
               <div className="company-infor basis-1/4 max-lg:basis-full pr-7">
-                <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">          
+                <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
                   <div className="caption1  font-bold">
-                   Subscribe for WhatsApp updates
+                    Subscribe for WhatsApp updates
                   </div>
                   <div className="input-block w-full h-[52px] mt-2">
                     <form className="w-full h-full relative" action="post">
@@ -141,9 +141,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <div className="item flex flex-col md:ml-14 lg:ml-14">
-                  <div className="text-button-uppercase pb-3">
-                    Contact
-                  </div>
+                  <div className="text-button-uppercase pb-3">Contact</div>
                   <Link
                     className="caption1 has-line-before duration-300 w-fit"
                     href={"#!"}
@@ -164,8 +162,7 @@ const Footer = () => {
                 <div className="copyright caption1 text-secondary">
                   ©2023 WHP Jewellers Ecommerce Pvt.Ltd.All Rights Reserved.
                 </div>
-                <div className="select-block flex items-center gap-5 max-md:hidden">
-                </div>
+                <div className="select-block flex items-center gap-5 max-md:hidden"></div>
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ import ModalSizeguide from "@/components/Modal/ModalSizeguide";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { useSearchParams } from "next/navigation";
+
 
 // SwiperCore.use([Navigation, Thumbs]);
 
@@ -34,20 +34,32 @@ const getSingleProduct = (id: any) => {
   return singleProduct;
 };
 
-const Default: React.FC<Props> = ({ data, productId }) => {
-    const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
-    const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
-    const [activeColor, setActiveColor] = useState<string>('')
-    const [activeSize, setActiveSize] = useState<string>('')
-    const [activeTab, setActiveTab] = useState<string | undefined>('description')
-    const { addToCart, updateCart, cartState } = useCart()
-    const { openModalCart } = useModalCartContext()
-    const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
-    const { openModalWishlist } = useModalWishlistContext()
-    const { addToCompare, removeFromCompare, compareState } = useCompare();
-    const { openModalCompare } = useModalCompareContext()
-    const productMain = data.find(product => product.id === productId) as ProductType
-    const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
+     
+
+const Default: React.FC<Props> = ({ productId }) => {
+  const id = Number(productId);
+  const data = getSingleProduct(id);
+
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
+  const [showAccordian, setShowAccordian] = useState<number>(1);
+  const [metal, setMetal] = useState<string>("Gold");
+  const [karat, setKarat] = useState<string>("22k");
+  const [size, setSize] = useState<string>("3.0");
+
+  // const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
+  // const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+  // const [activeColor, setActiveColor] = useState<string>('')
+  // const [activeSize, setActiveSize] = useState<string>('')
+  // const [activeTab, setActiveTab] = useState<string | undefined>('description')
+  // const { addToCart, updateCart, cartState } = useCart()
+  // const { openModalCart } = useModalCartContext()
+  // const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
+  // const { openModalWishlist } = useModalWishlistContext()
+  // const { addToCompare, removeFromCompare, compareState } = useCompare();
+  // const { openModalCompare } = useModalCompareContext()
+  // const productMain = data.find(product => product.id === productId) as ProductType
+  // const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
 
   // const handleOpenSizeGuide = () => {
   //     setOpenSizeGuide(true);
@@ -1051,8 +1063,8 @@ const Default: React.FC<Props> = ({ data, productId }) => {
   // );
   return (
     <>
-      <div className="flex">
-        <div className="w-[50%] ">
+      <div className="lg:flex">
+        <div className="lg:w-[50%] sm:w-[100%]">
           <div className="bg-[#f7f5f6]">
             <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
               {productImg.map((product, index) => (
@@ -1088,15 +1100,14 @@ const Default: React.FC<Props> = ({ data, productId }) => {
           </div>
           <>
             <video
-              className="w-[720px] h-[672px]"
+              className="lg:w-[720px] lg:h-[672px] "
               src="/products/GERD23021256.mp4"
               loop
               autoPlay
-              controls
             />
           </>
         </div>
-        <div className="w-[50%] mt-20 ml-[45px]">
+        <div className="lg:w-[50%] sm:w-[100%] lg:mt-20 sm:mt-10 lg:ml-[45px] sm:m-auto">
           <div className="flex justify-between lg:w-[100%] sm:w-[20%]">
             <p className="font-semibold text-3xl mt-4 w-[357px]">{data?.Title}</p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
@@ -1134,7 +1145,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] w-[70%] p-3">
+          <div className="flex border border-[#f3f3f3] lg:w-[70%] p-3">
             <div className="mr-3">
               <p>Metal</p>
               <div className="relative">
@@ -1189,8 +1200,8 @@ const Default: React.FC<Props> = ({ data, productId }) => {
             </div>
             <div className="mr-3">
               <div className="flex m-auto">
-                <p>Size</p>
-                <span className="text-white rounded-full bg-[#e26178] w-[1rem] ml-1 text-center text-xs mt-2">
+                <p className="mt-1">Size</p>
+                <span className="text-white rounded-full bg-[#e26178] w-[18px] h-[18px] ml-1 text-center text-sm font-semibold mt-2">
                   i
                 </span>
               </div>
@@ -1253,7 +1264,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
               </li>
             </ul>
           </div>
-          <div className="bg-[#f7f7f7] w-[65%] p-4 mt-4">
+          <div className="bg-[#f7f7f7] lg:w-[65%] p-4 mt-4">
             <p className="mb-3">Enter pincode to check delivery</p>
             <div className="flex bg-white justify-between p-2">
               <input className="outline-none" />
@@ -1264,11 +1275,11 @@ const Default: React.FC<Props> = ({ data, productId }) => {
               <li>Free delivery in 2 days.</li>
             </ul>
           </div>
-          <div className="flex mt-[25px]">
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[252px] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+          <div className="flex mt-[25px] ">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white lg:w-[252px] sm:w-[230px] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
               Buy Now
             </div>
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[252px] h-[58px]  text-center mr-[10px]">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] lg:w-[252px] sm:w-[230px] h-[58px]  text-center mr-[10px]">
               <div className=" m-[2px] mb-[2px] bg-white">
                 <span className="flex justify-center py-[14px]">
                   <span>Add to Cart</span>
@@ -1293,7 +1304,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
             </span>
             <span> today!</span>
           </div>
-          <div className="flex bg-[#f7f7f7] p-4 w-[90%] mt-7">
+          <div className="flex bg-[#f7f7f7] p-4 lg:w-[90%] mt-7">
             <div>
               <span>
                 <span className="text-[#e26178]">Gold 10+1 Monthly Plan </span>
@@ -1306,7 +1317,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
               </button>
             </div>
           </div>
-          <div className="mt-7">
+          <div className="mt-7 ">
             <div className="p-4 border-t-2 border-[#f7f7f7]">
               <h2>
                 <button
@@ -1422,36 +1433,36 @@ const Default: React.FC<Props> = ({ data, productId }) => {
                 <div className="text-center rounded-md ">
                   <table className="mt-5 ml-10 bg-[#f7f7f7]">
                     <tr className="">
-                      <td className="border rounded-tl-lg p-4">Size</td>
-                      <td className="border p-4">Diameter(inch)</td>
-                      <td className="border p-4">Diameter(cms)</td>
-                      <td className="border p-4">Circumference(inch)</td>
+                      <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">Size</td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">Diameter(inch)</td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">Diameter(cms)</td>
+                      <td className="p-4 border-b-2 border-[#F0ECED]">Circumference(inch)</td>
                     </tr>
                     <tr>
-                      <td className="border-l-2 border-r-2">2.2</td>
-                      <td className="p-2 border-r-2">2.125</td>
-                      <td className="p-2 border-r-2">5.4</td>
-                      <td className="border-r-2 p-2">6.67</td>
+                      <td className="border-r-2 border-[#F0ECED]">2.2</td>
+                      <td className="border-r-2 border-[#F0ECED] p-2">2.125</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">5.4</td>
+                      <td className="">6.67</td>
                     </tr>
                     <tr>
-                      <td className="border-l-2  border-r-2 p-2">2.4</td>
-                      <td className="p-2 border-r-2">2.25</td>
-                      <td className="p-2 border-r-2">5.7</td>
-                      <td className="border-r-2 p-2">7.06</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">2.4</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">2.25</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">5.7</td>
+                      <td className="p-2">7.06</td>
                     </tr>
                     <tr>
-                      <td className="border-l-2  border-r-2 p-2">2.6</td>
-                      <td className="p-2 border-r-2">2.375</td>
-                      <td className="p-2 border-r-2">6</td>
-                      <td className="border-r-2 p-2">7.46</td>
+                      <td className="border-r-2 border-[#F0ECED] p-2">2.6</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">2.375</td>
+                      <td className="p-2 border-r-2 border-[#F0ECED]">6</td>
+                      <td className=" p-2">7.46</td>
                     </tr>
                     <tr>
-                      <td className="border-l-2  border-r-2 border-b-2 p-2">
+                      <td className="border-r-2 border-[#F0ECED] p-2">
                         2.8
                       </td>
-                      <td className=" border-b-2  border-r-2 p-2">2.5</td>
-                      <td className="border-b-2  border-r-2 p-2">6.5</td>
-                      <td className="border-r-2 border-b-2 p-2 rounded-b-lg">
+                      <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
+                      <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
+                      <td className=" p-2 rounded-b-lg">
                         7.85
                       </td>
                     </tr>
@@ -1475,9 +1486,9 @@ const Default: React.FC<Props> = ({ data, productId }) => {
                 </button>
               </h2>
               {showAccordian === 4 ? (
-                <div className="border w-[70%] m-auto">
+                <div className="border border-[#F0ECED] m-auto">
                   <div className="flex justify-between mt-3  pt-2">
-                    <div>
+                    <div className="">
                       <p className="">Component</p>
                       <p>Gold</p>
                       <p>Diamond</p>
@@ -1503,7 +1514,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
                     </div>
                     <div></div>
                   </div>
-                  <div className="flex justify-between mt-4 pt-3 pb-3 border-t-2">
+                  <div className="flex justify-between mt-4 pt-3 pb-3 border-t-2 border-[#F0ECED]">
                     <div>
                       <p className="font-bold">Total</p>
                     </div>
@@ -1557,6 +1568,7 @@ const Default: React.FC<Props> = ({ data, productId }) => {
                   Assitance
                   <span className="right-0">
                     <Icon.CaretDown
+                      size={25}
                       className={`${showAccordian === 5 ? "rotate-180" : null}`}
                     />
                   </span>
@@ -1571,15 +1583,15 @@ const Default: React.FC<Props> = ({ data, productId }) => {
                   </div>
                   <div className="flex">
                     <div className="mr-5 mt-5 text-center">
-                      <Icon.WhatsappLogo className="ml-5" size={25} />
+                      <Icon.WhatsappLogo className="ml-5" size={30} />
                       <p>Whatsapp</p>
                     </div>
                     <div className="mr-5 mt-5">
-                      <Icon.Phone size={25} />
+                      <Icon.Phone size={30} />
                       <p>Call</p>
                     </div>
                     <div className="mr-5 mt-5">
-                      <Icon.ChatDots className="ml-4" size={25} />
+                      <Icon.ChatDots className="ml-4" size={30} />
                       <p>Message</p>
                     </div>
                   </div>

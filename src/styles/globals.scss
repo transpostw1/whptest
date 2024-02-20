@@ -163,6 +163,12 @@ textarea:focus {
   font-weight: 600;
   text-transform: capitalize;
 }
+.heading7 {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
 
 .text-title {
   font-size: 16px;
@@ -233,6 +239,18 @@ textarea:focus {
       color: var(--white);
     }
   }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
 }
 
 @media (max-width: 1023.99px) {

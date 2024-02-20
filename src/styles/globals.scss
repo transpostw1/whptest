@@ -70,7 +70,7 @@ textarea:focus {
   border-color: var(--black);
 }
 
-/* Main class used in Anvogue */
+/* Main class used in WHP */
 .container {
   max-width: 1322px !important;
   width: 100%;
@@ -132,8 +132,8 @@ textarea:focus {
 .heading2 {
   font-size: 44px;
   line-height: 50px;
-  font-weight: 600;
-  text-transform: capitalize;
+  font-weight: 400;
+  text-align: center;
 }
 
 .heading3 {
@@ -186,7 +186,7 @@ textarea:focus {
 .text-button {
   font-size: 16px;
   line-height: 26px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: capitalize;
 }
 

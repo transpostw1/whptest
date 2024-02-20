@@ -3,11 +3,14 @@
     visibility: hidden;
     transform: translateY(30px);
     transition: all ease 0.4s;
+  
 
     &.open {
-        opacity: 1;
+        opacity: 13;
         visibility: visible;
         transform: translateY(0);
+        z-index: 1;
+       
     }
 
     @media (max-width: 1490px) {

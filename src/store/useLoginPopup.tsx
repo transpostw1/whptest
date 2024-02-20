@@ -4,7 +4,9 @@ const useLoginPopup = () => {
     const [openLoginPopup, setOpenLoginPopup] = useState(false)
 
     const handleLoginPopup = () => {
+        console.log("jhjgjhghjgjg")
         setOpenLoginPopup((toggleOpen) => !toggleOpen)
+        console.log(openLoginPopup)
     }
 
     // Check if the click event occurs outside the popup.
@@ -17,15 +19,15 @@ const useLoginPopup = () => {
         }
     }
 
-    useEffect(() => {
-        // Add a global click event to track clicks outside the popup.
-        document.addEventListener('click', handleClickOutsideLoginPopup);
+    // useEffect(() => {
+    //     // Add a global click event to track clicks outside the popup.
+    //     document.addEventListener('click', handleClickOutsideLoginPopup);
 
-        // Cleanup to avoid memory leaks.
-        return () => {
-            document.removeEventListener('click', handleClickOutsideLoginPopup);
-        };
-    }, [openLoginPopup])
+    //     // Cleanup to avoid memory leaks.
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutsideLoginPopup);
+    //     };
+    // }, [openLoginPopup])
     
     return {
         openLoginPopup,

@@ -34,30 +34,20 @@ const getSingleProduct = (id: any) => {
   return singleProduct;
 };
 
-const Default: React.FC<Props> = ({ productId }) => {
-  const id = Number(productId);
-  const data = getSingleProduct(id);
-
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
-  const [showAccordian, setShowAccordian] = useState<number>(1);
-  const [metal, setMetal] = useState<string>("Gold");
-  const [karat, setKarat] = useState<string>("22k");
-  const [size, setSize] = useState<string>("3.0");
-
-  // const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
-  // const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
-  // const [activeColor, setActiveColor] = useState<string>('')
-  // const [activeSize, setActiveSize] = useState<string>('')
-  // const [activeTab, setActiveTab] = useState<string | undefined>('description')
-  // const { addToCart, updateCart, cartState } = useCart()
-  // const { openModalCart } = useModalCartContext()
-  // const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
-  // const { openModalWishlist } = useModalWishlistContext()
-  // const { addToCompare, removeFromCompare, compareState } = useCompare();
-  // const { openModalCompare } = useModalCompareContext()
-  // const productMain = data.find(product => product.id === productId) as ProductType
-  // const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
+const Default: React.FC<Props> = ({ data, productId }) => {
+    const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
+    const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+    const [activeColor, setActiveColor] = useState<string>('')
+    const [activeSize, setActiveSize] = useState<string>('')
+    const [activeTab, setActiveTab] = useState<string | undefined>('description')
+    const { addToCart, updateCart, cartState } = useCart()
+    const { openModalCart } = useModalCartContext()
+    const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
+    const { openModalWishlist } = useModalWishlistContext()
+    const { addToCompare, removeFromCompare, compareState } = useCompare();
+    const { openModalCompare } = useModalCompareContext()
+    const productMain = data.find(product => product.id === productId) as ProductType
+    const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
 
   // const handleOpenSizeGuide = () => {
   //     setOpenSizeGuide(true);

@@ -92,14 +92,14 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
   return (
     <>
       {type === "grid" ? (
-        <div className="product-item grid-type">
+        <div className="product-item grid-type text-rose-950">
           <div
             onClick={() => handleDetailProduct(data.id)}
             className="product-main cursor-pointer block"
           >
             <div className="product-thumb bg-gray relative overflow-hidden">
               {data.new && (
-                <div className="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-1 z-[1]">
+                <div className="product-tag text-button-uppercase bg-green-400 px-3 py-0.5 inline-block rounded-full absolute top-3 left-1 z-[1]">
                   New
                 </div>
               )}

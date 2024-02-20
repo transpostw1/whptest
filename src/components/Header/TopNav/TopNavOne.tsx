@@ -7,23 +7,22 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 
 interface Props {
-  props: string;
+  // props: string;
   textColor: string;
 }
 
-const TopNavOne: React.FC<Props> = ({ props, textColor }) => {
+const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
     <>
-      <div className={`banner-top style-four w-full ${props}`}>
+      <div className={`banner-top style-four w-full  bg-red-950 py-2 `}>
         <div className="container flex items-center justify-center">
           <div className="sm:w-2/3 w-full h-full">
             <Swiper
               spaceBetween={0}
               slidesPerView={1}
               loop={true}
-              navigation
               modules={[Navigation, Autoplay]}
-              className="h-full relative flex items-center justify-center"
+              className="h-full relative flex items-center justify-center bg"
               autoplay={{
                 delay: 3000,
               }}

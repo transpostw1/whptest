@@ -29,7 +29,7 @@ import Gifts from "@/components/Home1/Gifts";
 export default function Home() {
   return (
     <>
-      <TopNavOne props="bg-black py-3" textColor="text-white" />
+      <TopNavOne textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />

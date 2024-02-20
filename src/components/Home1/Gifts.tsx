@@ -96,7 +96,7 @@ const Gifts = () => {
 
   return (
     <>
-      <div className="w-full px-7 my-16">
+      <div className="w-full px-7 my-16  text-rose-950">
         <div className="flex flex-col items-start justify-between">
           <h1 className="lg:text-4xl text-2xl mt-3">GIFTS</h1>
           <p>

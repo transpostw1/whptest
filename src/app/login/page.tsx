@@ -123,10 +123,7 @@ const handlePhoneNumberChange = (
 
   return (
     <>
-      <TopNavOne
-        props="style-one bg-black"
-        slogan="New customers save 10% with the code GET10"
-      />
+      <TopNavOne  textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
@@ -138,7 +135,7 @@ const handlePhoneNumberChange = (
             <div className=" md:w-1/2 w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <form className="md:mt-7 mt-4" onSubmit={handleRequestOtp}>
                 <div className="flex items-center gap-3 mb-3">
-                  <label className="">
+                  <label className=" text-red-950">
                     <input
                       type="radio"
                       value="option1"
@@ -148,7 +145,7 @@ const handlePhoneNumberChange = (
                     />
                     WhatsApp
                   </label>
-                  <label>
+                  <label className=" text-red-950">
                     <input
                       type="radio"
                       value="option2"
@@ -168,11 +165,17 @@ const handlePhoneNumberChange = (
                     placeholder="Number Here !"
                     inputStyle={{ width: "100%" }}
                   />
-                  {phoneError && <div className="text-red">{phoneError}</div>}
+                  {phoneError && (
+                    <div className="text-red-600">{phoneError}</div>
+                  )}
                 </div>
 
                 <div className="block-button md:mt-7 mt-4">
-                  <button type="submit" className="p-2 rounded-xl bg-red" onClick={handleSendOtp}>
+                  <button
+                    type="submit"
+                    className="p-3 rounded-xl bg-rose-400 text-rose-950"
+                    onClick={handleSendOtp}
+                  >
                     Send OTP
                   </button>
                 </div>
@@ -188,7 +191,7 @@ const handlePhoneNumberChange = (
                       className="border border-gray-300 rounded px-3 py-2 mb-4"
                       placeholder="Enter OTP"
                     />
-                    {otpError && <div className="text-red">{otpError}</div>}
+                    {otpError && <div className="text-red-600">{otpError}</div>}
                     <div className="flex justify-end">
                       <button
                         className="text-sm text-gray-500 mr-4"
@@ -198,7 +201,7 @@ const handlePhoneNumberChange = (
                       </button>
                       <button
                         className="text-sm text-black  bg-pink hover:bg-red focus:ring-4 focus:outline-none font-medium px-4 py-2 rounded-lg "
-                        onClick={ handleOtpSubmit} 
+                        onClick={handleOtpSubmit}
                       >
                         Submit
                       </button>

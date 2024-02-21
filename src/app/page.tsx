@@ -3,7 +3,7 @@ import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import MenuOne from "@/components/Header/Menu/MenuOne";
 import SliderOne from "@/components/Slider/SliderOne";
 import WhatNewOne from "@/components/Home1/WhatNewOne";
-import productData from "@/data/Product.json";
+// import productData from "@/data/Product.json";
 import Collection from "@/components/Home1/Collection";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import Banner from "@/components/Home1/Banner";
@@ -23,6 +23,7 @@ import GoldScheme from "@/components/Home1/GoldScheme";
 import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
 import Gifts from "@/components/Home1/Gifts";
+import productData from "@/data/Products.json";
 
 
 

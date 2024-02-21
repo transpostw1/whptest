@@ -38,7 +38,9 @@
     "OrderNo": "101",
     "MakingType": "Percentage",
     "GoldCertifiedBy": "BIS Hallmarked",
-    "GoldColor": "Rose Gold"
+    "GoldColor": "Rose Gold",
+    "QuantityPurchase":"1"
+ 
   },
   {
     "ProductID": 4598,

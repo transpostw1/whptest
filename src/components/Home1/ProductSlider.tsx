@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import Product from "../Product/Product";
+import ProductCard from "../Product/ProductCard";
 import { ProductType } from "@/type/ProductType";
 import { motion } from "framer-motion";
 
@@ -24,21 +25,31 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
   const getFilterData = () => {
     if (activeTab === "on sale") {
       return data.filter(
-        (product) => product.sale || product.category === "Jewellery"
+        (product) =>
+          product.Sale ||
+          product.Categories ===
+            " Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
       );
     }
 
     if (activeTab === "new arrivals") {
       return data.filter(
-        (product) => product.new || product.category === "Jewellery"
+        (product) =>
+          product.New ||
+          product.Categories ===
+            "  Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
       );
     }
 
     if (activeTab === "best sellers") {
       return data
-        .filter((product) => product.category === "Jewellery")
-        .slice()
-        .sort((a, b) => b.sold - a.sold);
+        .filter(
+          (product) =>
+            product.Categories ===
+            " Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
+        )
+        .slice();
+        // .sort((a, b) => b.sold - a.sold);
     }
 
     return data;
@@ -98,7 +109,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
             >
               {filteredProducts.slice(start, limit).map((prd, index) => (
                 <SwiperSlide key={index}>
-                  <Product data={prd} type="grid" />
+                  <ProductCard data={prd} type="grid" />
                 </SwiperSlide>
               ))}
             </Swiper>

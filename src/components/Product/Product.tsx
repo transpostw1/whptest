@@ -16,10 +16,9 @@ import { useRouter } from "next/navigation";
 
 interface ProductProps {
   data: ProductType;
-  type: string;
 }
 
-const Product: React.FC<ProductProps> = ({ data, type }) => {
+const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const [activeColor, setActiveColor] = useState<string>("");
   const [activeSize, setActiveSize] = useState<string>("");
@@ -91,10 +90,10 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
   //   let percentSold = Math.floor((data.sold / data.quantity) * 100);
 
   return (
-    <React.Fragment>
+    <>
       <div className="product-item grid-type">
         <div
-          onClick={() => handleDetailProduct(data.ProductID)}
+          onClick={() => handleDetailProduct(data?.ProductID)}
           className="product-main cursor-pointer block"
         >
           <div className="product-thumb bg-white relative overflow-hidden">
@@ -169,19 +168,19 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
               onMouseLeave={() => setShowVideo(false)}
             >
               {showVideo == true ? (
-                <div className="w-[93%] object-cover duration-700 product-img">
+                <div className="w-[93%] object-cover relative duration-700 product-img">
                   <video src="/products/GERD23021256.mp4" loop autoPlay />
                 </div>
               ) : (
                 <>
                   <Image
                     className="w-[85%] object-cover duration-700 product-img m-auto"
-                    src={data.img}
+                    src={data?.img}
                     width={400}
                     height={400}
-                    alt={data.Title}
+                    alt={data?.Title}
                   />
-                
+
                   <div className="flex justify-between">
                     <div className="">
                       <Icon.Play size={28} weight="light" />
@@ -298,8 +297,8 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                 </div>
               </div> */}
             <div className="product-name text-title duration-300 text-xl">
-              <p>{data.Title}</p>
-              <p className="text-[#d8d8d8]">{data.ShortDesp}</p>
+              <p>{data?.Title}</p>
+              <p className="text-[#d8d8d8]">{data?.ShortDesp}</p>
             </div>
             <div className="flex">
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
@@ -359,10 +358,10 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               <div className="product-price text-title text-lg">
-                ₹{data.ProdPrice}
+                ₹{data?.ProdPrice}
               </div>
               <div className="line-through text-[#dbd9d9]">
-                ₹{data.ProdPriceWithTax}
+                ₹{data?.ProdPriceWithTax}
               </div>
               <div className="text-[#c95d71]">10% OFF</div>
               {/* {percentSale > 0 && (
@@ -433,7 +432,7 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
           >
             <div className="product-thumb bg-gray relative overflow-hidden">
               {data.new && (
-                <div className="product-tag text-button-uppercase bg-green-400 px-3 inline-block rounded-full absolute top-3 left-1 z-[1] text-black">
+                <div className="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-1 z-[1]">
                   New
                 </div>
               )}
@@ -622,8 +621,6 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                 </div>
               </div>
               <div className="text-title ">{data.name}</div>
-              <div>Categories</div>
-              <div>Ratings</div>
               {/* {data.variation.length > 0 && data.action === "add to cart" && (
                 <div className="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
                   {data.variation.map((item, index) => (
@@ -673,270 +670,11 @@ const Product: React.FC<ProductProps> = ({ data, type }) => {
                 </div>
               )} */}
 
-              <div className=" flex items-center gap-2 flex-wrap duration-300 relative ">
-                <div className="product-price text-title">
-                  {" "}
-                  ${data.price}.00
-                </div>
-                {percentSale > 0 && (
-                  <>
-                    <div className="product-origin-price caption1 text-gray-700">
-                      <del> ${data.originPrice}.00</del>
-                    </div>
-                    <div className="product-sale caption1 font-medium px-3 py-0.5 inline-block rounded-full text-red-700">
-                      -{percentSale}%
-                    </div>
-                  </>
-<<<<<<< HEAD
-                )} */}
             </div>
           </div>
         </div>
       </div>
-    </React.Fragment>
-
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          {type === "list" ? (
-            <>
-              <div className="product-item list-type bg-red">
-                <div className="product-main cursor-pointer flex lg:items-center sm:justify-between gap-7 max-lg:gap-5">
-                  <div
-                    onClick={() => handleDetailProduct(data.id)}
-                    className="product-thumb bg-white relative overflow-hidden rounded-2xl block max-sm:w-1/2"
-                  >
-                    {data.new && (
-                      <div className="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]">
-                        New
-                      </div>
-                    )}
-                    {data.sale && (
-                      <div className="product-tag text-button-uppercase text-white bg-red px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]">
-                        Sale
-                      </div>
-                    )}
-                    <div className="product-img w-full aspect-[3/4] rounded-2xl overflow-hidden">
-                      {data.thumbImage.map((img, index) => (
-                        <Image
-                          key={index}
-                          src={img}
-                          width={500}
-                          height={500}
-                          alt={data.name}
-                          className="w-full h-full object-cover duration-700"
-                        />
-                      ))}
-                    </div>
-                    <div className="list-action px-5 absolute w-full bottom-5 max-lg:hidden">
-                      <div
-                        className={`quick-shop-block absolute left-5 right-5 bg-white p-5 rounded-[20px]  ${
-                          openQuickShop ? "open" : ""
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
-                        <div className="list-size flex items-center justify-center flex-wrap gap-2">
-                          {data.sizes.map((item, index) => (
-                            <div
-                              className={`size-item  ${
-                                item !== "freesize" ? "w-10 h-10" : "h-10 px-4"
-                              } flex items-center justify-center text-button bg-white rounded-full border border-line  ${
-                                activeSize === item ? "active" : ""
-                              }`}
-                              key={index}
-                              onClick={() => handleActiveSize(item)}
-                            >
-                              {item}
-                            </div>
-                          ))}
-                        </div>
-                        <div
-                          className="button-main w-full text-center rounded-full py-3 mt-4"
-                          onClick={() => {
-                            handleAddToCart();
-                            setOpenQuickShop(false);
-                          }}
-                        >
-                          Add To cart
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex sm:items-center gap-7 max-lg:gap-4 max-lg:flex-wrap max-lg:w-full max-sm:flex-col max-sm:w-1/2">
-                    <div className="product-infor max-sm:w-full">
-                      <div
-                        onClick={() => handleDetailProduct(data.id)}
-                        className="product-name heading6 inline-block duration-300"
-                      >
-                        {data.name}
-                      </div>
-                      <div className="product-price-block flex items-center gap-2 flex-wrap mt-2 duration-300 relative z-[1]">
-                        <div className="product-price text-title">
-                          ${data.price}.00
-                        </div>
-                        <div className="product-origin-price caption1 text-secondary2">
-                          <del> ${data.originPrice}.00</del>
-                        </div>
-                        {data.originPrice && (
-                          <div className="product-sale caption1 font-medium  px-3 py-0.5 inline-block rounded-full">
-                            -{percentSale}%
-                          </div>
-                        )}
-                      </div>
-                      {data.variation.length > 0 &&
-                      data.action === "add to cart" ? (
-                        <div className="list-color max-md:hidden py-2 mt-5 mb-1 flex items-center gap-3 flex-wrap duration-300">
-                          {data.variation.map((item, index) => (
-                            <div
-                              key={index}
-                              className={`color-item w-8 h-8 rounded-full duration-300 relative`}
-                              style={{ backgroundColor: ` ${item.colorCode}` }}
-                            >
-                              <div className="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">
-                                {item.color}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <>
-                          {data.variation.length > 0 &&
-                          data.action === "quick shop" ? (
-                            <>
-                              <div className="list-color flex items-center gap-2 flex-wrap mt-5">
-                                {data.variation.map((item, index) => (
-                                  <div
-                                    className={`color-item w-12 h-12 rounded-xl duration-300 relative  ${
-                                      activeColor === item.color ? "active" : ""
-                                    }`}
-                                    key={index}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleActiveColor(item.color);
-                                    }}
-                                  >
-                                    <Image
-                                      src={item.colorImage}
-                                      width={100}
-                                      height={100}
-                                      alt="color"
-                                      className="rounded-xl"
-                                    />
-                                    <div className="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">
-                                      {item.color}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      )}
-                      <div className="text-secondary desc mt-5 max-sm:hidden">
-                        {data.description}
-                      </div>
-                    </div>
-                    <div className="action w-fit flex flex-col items-center justify-center">
-                      <div
-                        className="quick-shop-btn button-main whitespace-nowrap py-2 px-9 max-lg:px-5 rounded-full bg-white text-black border border-black hover:bg-black hover:text-white"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpenQuickShop(!openQuickShop);
-                        }}
-                      >
-                        Quick Shop
-                      </div>
-                      <div className="list-action-right flex items-center justify-center gap-3 mt-4">
-                        <div
-                          className={`add-wishlist-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative  ${
-                            wishlistState.wishlistArray.some(
-                              (item) => item.id === data.id
-                            )
-                              ? "active"
-                              : ""
-                          }`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToWishlist();
-                          }}
-                        >
-                          <div className="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
-                            Add To Wishlist
-                          </div>
-                          {wishlistState.wishlistArray.some(
-                            (item) => item.id === data.id
-                          ) ? (
-                            <>
-                              <Icon.Heart
-                                size={18}
-                                weight="fill"
-                                className="text-white"
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <Icon.Heart size={18} />
-                            </>
-                          )}
-                        </div>
-                        <div
-                          className={`compare-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative  ${
-                            compareState.compareArray.some(
-                              (item) => item.id === data.id
-                            )
-                              ? "active"
-                              : ""
-                          }`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToCompare();
-                          }}
-                        >
-                          <div className="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
-                            Compare Product
-                          </div>
-                          <Icon.ArrowsCounterClockwise
-                            size={18}
-                            className="compare-icon"
-                          />
-                          <Icon.CheckCircle
-                            size={20}
-                            className="checked-icon"
-                          />
-                        </div>
-                        <div
-                          className="quick-view-btn-list w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleQuickviewOpen();
-                          }}
-                        >
-                          <div className="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
-                            Quick View
-                          </div>
-                          <Icon.Eye size={18} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      )}
     </>
->>>>>>> 95065d20c2b33f180fb0f7befc36c17e0b5ea2d1
   );
 };
 

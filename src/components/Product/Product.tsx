@@ -174,11 +174,11 @@ const Product: React.FC<ProductProps> = ({data}) => {
               ) : (
                 <>
                   <Image
-                    className="w-[85%] object-cover duration-700 product-img m-auto"
+                    className="w-[85%] duration-700  m-auto"
                     src={data?.img}
                     width={400}
                     height={400}
-                    alt={data?.Title}
+                    alt="This image is temporarry"
                   />
                 
                   <div className="flex justify-between">

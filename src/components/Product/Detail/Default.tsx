@@ -137,7 +137,6 @@ const Default: React.FC<Props> = ({ productId }) => {
   const settingsMain = {
     dots: false,
     infinite: true,
-
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -153,7 +152,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToScroll: 1,
     focusOnSelect: true,
     asNavFor: nav1,
-    nextArrow: <Icon.CaretRight size={50} className="bg-red"/>,
+    nextArrow: <Icon.CaretRight size={50} />,
     prevArrow: <Icon.CaretLeft size={40} />,
   };
 
@@ -1522,40 +1521,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <p className="font-bold">₹32,660</p>
                     </div>
                   </div>
-                  {/* <div>
-                    <table>
-                      <tr className="border-b-2">
-                        <th className="ml-2.5">Component</th>
-                        <th className="ml-2.5">Weight</th>
-                        <th className="ml-2.5">Value</th>
-                      </tr>
-                      <tr>
-                        <td>Gold</td>
-                        <td>2.6gms</td>
-                        <td>₹12,548</td>
-                      </tr>
-                      <tr>
-                        <td>Diamond</td>
-                        <td>0.116 Carat</td>
-                        <td>₹13,375</td>
-                      </tr>
-                      <tr>
-                        <td>Making Charges</td>
-                        <td>-</td>
-                        <td>₹5,762</td>
-                      </tr>
-                      <tr>
-                        <td>Discount-10%</td>
-                        <td>-</td>
-                        <td>₹3,263</td>
-                      </tr>
-                      <tr>
-                        <td>G.S.T</td>
-                        <td>-</td>
-                        <td>₹950</td>
-                      </tr>
-                    </table>
-                  </div> */}
                 </div>
               ) : null}
             </div>

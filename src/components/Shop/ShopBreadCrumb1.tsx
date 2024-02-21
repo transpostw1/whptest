@@ -287,6 +287,8 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   };
 
   useEffect(() => {
+
+    
     window.addEventListener("scroll", scrollHeader);
 
     return () => {
@@ -331,8 +333,8 @@ const ShopBreadCrumb1: React.FC<Props> = ({
               className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}
             >
               <div
-                className={`filter-type pb-8 overflow-scroll no-scrollbar border-line ${
-                  header ? "fixed top-9 w-1/4 -z-10" : "absoulute"
+                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
+                  header ? "fixed top-9 w-1/4 overflow-y-auto" : "relative"
                 }`}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>

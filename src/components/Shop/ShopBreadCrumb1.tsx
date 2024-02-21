@@ -9,6 +9,7 @@ import Product from "../Product/Product";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import HandlePagination from "../Other/HandlePagination";
+import Checkbox from "@/components/Other/CheckBox";
 
 interface Props {
   // data: Array<ProductType>;
@@ -17,36 +18,6 @@ interface Props {
   gender: string | null;
   category: string | null;
 }
-
-interface Props2{
-  label:string;
-  onClick():any
-}
-const CustomCheckbox:React.FC<Props2> = ({ label }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-
-  const toggleCheckbox = () => {
-    setIsChecked(!isChecked);
-  };
-
-  return (
-    <div
-      className="flex items-center cursor-pointer mb-1"
-      onClick={toggleCheckbox}
-    >
-      <div
-        className={`w-5 h-5 border rounded-sm flex items-center justify-center mr-2 ${
-          isChecked
-            ? "bg-[#e26178] border border-[#e26178]"
-            : "bg-white border border-[#e26178]"
-        }`}
-      >
-        {isChecked && <Icon.Check className="w-4 h-4 text-white" weight="bold"/>}
-      </div>
-      <label className="text-md text-gray-900">{label}</label>
-    </div>
-  );
-};
 
 const Filter = [
   {
@@ -59,7 +30,7 @@ const Filter = [
   },
   {
     title: "Weight",
-    options: ["0-2 g","2-5 g","5-10 g","10-20 g"],
+    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
   },
   {
     title: "Gender",
@@ -70,10 +41,20 @@ const Filter = [
     title: "Style",
     options: [],
   },
-  { title: "Occasion", options: ["Everyday","Work Wear","Wedding","Desk to Dinner","Evening","Party Wear"] },
+  {
+    title: "Occasion",
+    options: [
+      "Everyday",
+      "Work Wear",
+      "Wedding",
+      "Desk to Dinner",
+      "Evening",
+      "Party Wear",
+    ],
+  },
   { title: "Colours", options: [] },
-  { title: "Delivery", options: ["Fast Delivery","Cash On Delivery","EMI"] },
-  { title: "Categories", options: ["Gold Earrings","Diamond Earrings"] },
+  { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
+  { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
 const ShopBreadCrumb1: React.FC<Props> = ({
   productPerPage,
@@ -90,7 +71,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [header, setHeader] = useState<boolean | null>(false);
-  const [filters,setFilters]=useState<any>([])
+  const [filters, setFilters] = useState<any>([]);
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
@@ -301,9 +282,10 @@ const ShopBreadCrumb1: React.FC<Props> = ({
     }
   };
 
-  const handleFilters=(option:any)=>{
-    setFilters([option,...filters])
-  }
+  const handleFilters = (option: any) => {
+    setFilters([option, ...filters]);
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", scrollHeader);
 
@@ -311,7 +293,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({
       window.removeEventListener("scroll", scrollHeader);
     };
   }, []);
-  
 
   return (
     <>
@@ -346,10 +327,12 @@ const ShopBreadCrumb1: React.FC<Props> = ({
       <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
         <div className="container">
           <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
-            <div className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}>
+            <div
+              className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}
+            >
               <div
-                className={`filter-type pb-8 overflow-scroll no-scrollbar border-line ${
-                  header ? "fixed top-9 w-1/4 " : ""
+                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
+                  header ? "fixed top-9 w-1/4 overflow-y-auto" : "relative"
                 }`}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>
@@ -357,7 +340,11 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   <p className="heading7">Applied Filters</p>
                 </div>
                 <div>
-                {filters.map((filter:any)=>(<div key={1}>{filter}</div>))}
+                  {filters.map((filter: any) => (
+                    <div key={1} className="bg-red">
+                      {filter}
+                    </div>
+                  ))}
                 </div>
                 <div className="list-type mt-4">
                   {Filter.map((item, index) => (
@@ -380,7 +367,10 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                         <div>
                           {item.options.map((option, index) => (
                             <div key={index}>
-                              <CustomCheckbox label={option} onClick={()=>handleFilters(option)}/>
+                              <Checkbox
+                                label={option}
+                                onClick={() => handleFilters(option)}
+                              />
                             </div>
                           ))}
                         </div>
@@ -658,7 +648,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   >
                     <p>Sort By</p>
                     <p className="mt-1 ml-2 cursor-pointer">
-                      <Icon.CaretDown weight="fill"/>
+                      <Icon.CaretDown weight="fill" />
                     </p>
                   </span>
                 </div>

@@ -20,7 +20,20 @@
             "L",
             "XL"
         ],
-     
+        "variation": [
+            {
+                "color": "red",
+                "colorCode": "#DB4444",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/products/2sdfd"
+            },
+            {
+                "color": "yellow",
+                "colorCode": "#ECB018",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
             "/images/product/22k_gold_chain.jpg",
             "/images/product/22k_gold_chain.jpg"
@@ -58,7 +71,20 @@
             "XL",
             "2XL"
         ],
-       
+        "variation": [
+            {
+                "color": "white",
+                "colorCode": "#F6EFDD",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "purple",
+                "colorCode": "#8684D4",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
             "/images/product/18k_gold_earring5.jpg",
             "/images/product/18k_gold_earring5.jpg"
@@ -91,7 +117,26 @@
         "sizes": [
             "freesize"
         ],
-       
+        "variation": [
+            {
+                "color": "pink",
+                "colorCode": "#F4407D",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "yellow",
+                "colorCode": "#ECB018",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "purple",
+                "colorCode": "#8684D4",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
             "/images/product/18k_gold_earring6.jpg",
             "/images/product/18k_gold_earring6.jpg"
@@ -127,7 +172,26 @@
             "L",
             "XL"
         ],
-       
+        "variation": [
+            {
+                "color": "red",
+                "colorCode": "#DB4444",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "white",
+                "colorCode": "#F6EFDD",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "purple",
+                "colorCode": "#8684D4",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
             "/images/product/18k_gold_earring6.jpg",
             "/images/product/18k_gold_earring6.jpg"
@@ -163,7 +227,26 @@
             "L",
             "XL"
         ],
-       
+        "variation": [
+            {
+                "color": "black",
+                "colorCode": "#1F1F1F",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "yellow",
+                "colorCode": "#ECB018",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "purple",
+                "colorCode": "#8684D4",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
             "/images/product/aaditdiamond_ring.jpg",
             "/images/product/aaditdiamond_ring.jpg"
@@ -200,7 +283,36 @@
             "XL",
             "2XL"
         ],
-       
+        "variation": [
+            {
+                "color": "green",
+                "colorCode": "#D2EF9A",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "red",
+                "colorCode": "#DB4444",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "yellow",
+                "colorCode": "#ECB018",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
+        "thumbImage": [
+          "/images/product/22k_gold_earring.jpg",
+          "/images/product/22k_gold_earring.jpg"
+        ],
+        "images": [
+            "/images/product/1000x1000.png",
+            "/images/product/1000x1000.png",
+            "/images/product/1000x1000.png",
+            "/images/product/1000x1000.png"
+        ],
         "description": "Keep your home organized, yet elegant with storage cabinets by Onita Patio Furniture. Traditionally designed, they are perfect to be used in the any place where you need to store.",
         "action": "quick shop",
         "slug": "shirt"
@@ -223,7 +335,32 @@
         "sizes": [
             "freesize"
         ],
-      
+        "variation": [
+            {
+                "color": "green",
+                "colorCode": "#D2EF9A",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "red",
+                "colorCode": "#DB4444",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "white",
+                "colorCode": "#F6EFDD",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            },
+            {
+                "color": "purple",
+                "colorCode": "#8684D4",
+                "colorImage": "/images/product/color/48x48.png",
+                "image": "/images/product/1000x1000.png"
+            }
+        ],
         "thumbImage": [
           "/images/product/AahanaDiamondRing2.jpg",
           "/images/product/AahanaDiamondRing2.jpg"
@@ -261,32 +398,7 @@
             "L",
             "XL"
         ],
-        "variation": [
-            {
-                "color": "green",
-                "colorCode": "#D2EF9A",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "red",
-                "colorCode": "#DB4444",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "yellow",
-                "colorCode": "#ECB018",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "purple",
-                "colorCode": "#8684D4",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+        
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -322,26 +434,7 @@
             "L",
             "XL"
         ],
-        "variation": [
-            {
-                "color": "green",
-                "colorCode": "#D2EF9A",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "red",
-                "colorCode": "#DB4444",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "white",
-                "colorCode": "#F6EFDD",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+       
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -379,32 +472,7 @@
             "XL",
             "2XL"
         ],
-        "variation": [
-            {
-                "color": "green",
-                "colorCode": "#D2EF9A",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "red",
-                "colorCode": "#DB4444",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "yellow",
-                "colorCode": "#ECB018",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "purple",
-                "colorCode": "#8684D4",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+        
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -437,26 +505,7 @@
         "sizes": [
             "freesize"
         ],
-        "variation": [
-            {
-                "color": "green",
-                "colorCode": "#D2EF9A",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "white",
-                "colorCode": "#F6EFDD",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "purple",
-                "colorCode": "#8684D4",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+       
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -492,32 +541,7 @@
             "L",
             "XL"
         ],
-        "variation": [
-            {
-                "color": "green",
-                "colorCode": "#D2EF9A",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "red",
-                "colorCode": "#DB4444",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "yellow",
-                "colorCode": "#ECB018",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "purple",
-                "colorCode": "#8684D4",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+       
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -6649,20 +6673,7 @@
             "L",
             "XL"
         ],
-        "variation": [
-            {
-                "color": "red",
-                "colorCode": "#DB4444",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "purple",
-                "colorCode": "#8684D4",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+        
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"
@@ -6696,20 +6707,7 @@
             "L",
             "XL"
         ],
-        "variation": [
-            {
-                "color": "yellow",
-                "colorCode": "#ECB018",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            },
-            {
-                "color": "grey",
-                "colorCode": "#F6EFDD",
-                "colorImage": "/images/product/color/48x48.png",
-                "image": "/images/product/1000x1000.png"
-            }
-        ],
+       
         "thumbImage": [
             "/images/product/1000x1000.png",
             "/images/product/1000x1000.png"

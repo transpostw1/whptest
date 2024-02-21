@@ -174,11 +174,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               ) : (
                 <>
                   <Image
-                    className="w-[85%] object-cover duration-700 product-img m-auto"
+                    className="w-[85%] duration-700  m-auto"
                     src={data?.img}
                     width={400}
                     height={400}
-                    alt={data?.Title}
+                    alt="This image is temporarry"
                   />
 
                   <div className="flex justify-between">
@@ -670,6 +670,21 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )} */}
 
+              {/* <div className=" flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
+                <div className="product-price text-title">
+                  {" "}
+                  ${data.price}.00
+                </div>
+                {percentSale > 0 && (
+                  <>
+                    <div className="product-origin-price caption1 text-secondary2">
+                      <del> ${data.originPrice}.00</del>
+                    </div>
+                    <div className="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
+                      -{percentSale}%
+                    </div>
+                  </>
+                )} */}
             </div>
           </div>
         </div>

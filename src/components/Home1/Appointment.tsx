@@ -43,7 +43,6 @@ const Appointment = () => {
             alt=""
             width={500}
             height={699}
-            objectFit="cover"
           />
           <Image
             src={"/images/other/image135.png"}

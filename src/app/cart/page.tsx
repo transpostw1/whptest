@@ -127,7 +127,7 @@ const Cart = () => {
                     ></div>
                   </div>
                 </div>
-                {/* <div className="list-product w-full sm:mt-7 mt-5">
+                <div className="list-product w-full sm:mt-7 mt-5">
                   <div className="w-full">
                     <div className="heading bg-surface bora-4 pt-4 pb-4">
                       <div className="flex">
@@ -231,7 +231,7 @@ const Cart = () => {
                       )}
                     </div>
                   </div>
-                </div> */}
+                </div>
                 <div className="input-block discount-code w-full h-12 sm:mt-7 mt-5">
                   <form className="w-full h-full relative">
                     <input

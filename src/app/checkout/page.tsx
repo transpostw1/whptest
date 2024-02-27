@@ -40,6 +40,16 @@ const Checkout: React.FC = () => {
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
+    const [isModalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+
+
+
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
@@ -109,6 +119,94 @@ const Checkout: React.FC = () => {
         return "Proceed";
     }
   };
+
+
+const AddAddressModal = ({ closeModal }) => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-8 rounded-lg z-50">
+        <button onClick={closeModal}>Close</button>
+        <form>
+          <h2 className="mb-5 text-2xl font-semibold">Add new Address</h2>
+          <div className="mb-4 md:col-span-2">
+            <label className="block mb-1"> Street </label>
+            <input
+              className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+              type="text"
+              placeholder="Type your address"
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-x-3">
+            <div className="mb-4 md:col-span-1">
+              <label className="block mb-1"> City </label>
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Type your city"
+              />
+            </div>
+
+            <div className="mb-4 md:col-span-1">
+              <label className="block mb-1"> State </label>
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Type state here"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-x-2">
+            <div className="mb-4 md:col-span-1">
+              <label className="block mb-1"> ZIP code </label>
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="number"
+                placeholder="Type zip code here"
+              />
+            </div>
+
+            <div className="mb-4 md:col-span-1">
+              <label className="block mb-1"> Phone No </label>
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="number"
+                placeholder="Type phone no here"
+              />
+            </div>
+          </div>
+
+          <div className="mb-4 md:col-span-2">
+            <label className="block mb-1"> Country </label>
+          </div>
+
+          <button
+            type="submit"
+            className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -216,7 +314,7 @@ const Checkout: React.FC = () => {
                   <h1 className="mb-3 text-xl">Shipping Address</h1>
                   <h2
                     className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
-                    // onClick={openModal}
+                    onClick={openModal}
                   >
                     + Add new address
                   </h2>
@@ -226,13 +324,13 @@ const Checkout: React.FC = () => {
                   <h2 className="mb-3">Same as shipping address</h2>
                   <h2
                     className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
-                    // onClick={openModal}
+                    onClick={openModal}
                   >
                     + Add new address
                   </h2>
                 </div>
               </div>
-              {/* {isModalOpen && <AddAddressModal closeModal={closeModal} />} */}
+              {isModalOpen && <AddAddressModal closeModal={closeModal} />}
             </div>
           </>
         );
@@ -346,8 +444,9 @@ const Checkout: React.FC = () => {
               <div className="px-1">
                 <div className="border border-gray-200 rounded-xl">
                   <div>
-                    <h3 className="text-gray-800">sdf</h3>
-                    <h3 className="text-gray-800">sdf</h3>
+                    <h3 className="text-gray-800">Total Amount</h3>
+                    <h3 className="text-gray-800">Making Charges</h3>
+                    <h3 className="text-gray-800">Tax</h3>
                   </div>
                 </div>
                 <div className="flex flex-col mt-3">
@@ -368,4 +467,9 @@ const Checkout: React.FC = () => {
   );
 };
 
+
+ 
+
 export default Checkout;
+
+

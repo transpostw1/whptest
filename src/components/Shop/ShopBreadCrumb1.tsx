@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductType } from "@/type/ProductType";
 import Products from "@/data/Products.json";
 import Product from "../Product/Product";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import HandlePagination from "../Other/HandlePagination";
 import Checkbox from "@/components/Other/CheckBox";
+import ReactPaginate from "react-paginate";
 
 interface Props {
   // data: Array<ProductType>;
@@ -63,58 +61,61 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   category,
 }) => {
   const [showOnlySale, setShowOnlySale] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0);
   const [sortOption, setSortOption] = useState("");
   const [type, setType] = useState<string | null | undefined>(dataType);
   const [size, setSize] = useState<string | null>();
   const [color, setColor] = useState<string | null>();
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [checkedOptions, setCheckedOptions] = useState<any>({});
   const [brand, setBrand] = useState<string | null>();
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
-  const [header, setHeader] = useState<boolean | null>(false);
+  const [header, setHeader] = useState<boolean | null>(true);
   const [filters, setFilters] = useState<any>([]);
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
   });
-  const [currentPage, setCurrentPage] = useState(0);
-  const productsPerPage = 5;
-  const offset = currentPage * productsPerPage;
+  // const [currentPage, setCurrentPage] = useState(0);
+  // const productsPerPage = 5;
+  // const offset = currentPage * productsPerPage;
 
-  const handleShowOnlySale = () => {
-    setShowOnlySale((toggleSelect) => !toggleSelect);
-  };
+  // const handleShowOnlySale = () => {
+  //   setShowOnlySale((toggleSelect) => !toggleSelect);
+  // };
 
-  const handleSortChange = (option: string) => {
-    setSortOption(option);
-    setCurrentPage(0);
-  };
+  // const handleSortChange = (option: string) => {
+  //   setSortOption(option);
+  //   setCurrentPage(0);
+  // };
 
-  const handleType = (type: string | null) => {
-    setType((prevType) => (prevType === type ? null : type));
-    setCurrentPage(0);
-  };
+  // const handleType = (type: string | null) => {
+  //   setType((prevType) => (prevType === type ? null : type));
+  //   setCurrentPage(0);
+  // };
 
-  const handleSize = (size: string) => {
-    setSize((prevSize) => (prevSize === size ? null : size));
-    setCurrentPage(0);
-  };
+  // const handleSize = (size: string) => {
+  //   setSize((prevSize) => (prevSize === size ? null : size));
+  //   setCurrentPage(0);
+  // };
 
-  const handlePriceChange = (values: number | number[]) => {
-    if (Array.isArray(values)) {
-      setPriceRange({ min: values[0], max: values[1] });
-      setCurrentPage(0);
-    }
-  };
+  // const handlePriceChange = (values: number | number[]) => {
+  //   if (Array.isArray(values)) {
+  //     setPriceRange({ min: values[0], max: values[1] });
+  //     setCurrentPage(0);
+  //   }
+  // };
 
-  const handleColor = (color: string) => {
-    setColor((prevColor) => (prevColor === color ? null : color));
-    setCurrentPage(0);
-  };
+  // const handleColor = (color: string) => {
+  //   setColor((prevColor) => (prevColor === color ? null : color));
+  //   setCurrentPage(0);
+  // };
 
-  const handleBrand = (brand: string) => {
-    setBrand((prevBrand) => (prevBrand === brand ? null : brand));
-    setCurrentPage(0);
-  };
+  // const handleBrand = (brand: string) => {
+  //   setBrand((prevBrand) => (prevBrand === brand ? null : brand));
+  //   setCurrentPage(0);
+  // };
 
   // Filter product
   // let filteredData = data.filter((product) => {
@@ -253,33 +254,32 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   //   currentProducts = [];
   // }
 
-  const handlePageChange = (selected: number) => {
-    setCurrentPage(selected);
-  };
+  // const handlePageChange = (selected: number) => {
+  //   setCurrentPage(selected);
+  // };
 
-  const handleClearAll = () => {
-    dataType = null;
-    setShowOnlySale(false);
-    setSortOption("");
-    setType(null);
-    setSize(null);
-    setColor(null);
-    setBrand(null);
-    setPriceRange({ min: 0, max: 100 });
-    setCurrentPage(0);
-    handleType(null);
-  };
+  // const handleClearAll = () => {
+  //   dataType = null;
+  //   setShowOnlySale(false);
+  //   setSortOption("");
+  //   setType(null);
+  //   setSize(null);
+  //   setColor(null);
+  //   setBrand(null);
+  //   setPriceRange({ min: 0, max: 100 });
+  //   setCurrentPage(0);
+  //   handleType(null);
+  // };
 
+  const productsPerPage = 6;
+  const pagesVisited = pageNumber * productsPerPage;
+
+  const pageCount = Math.ceil(Products.length / productPerPage);
+  const changePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
   const handleFilterDropdown = (item: any) => {
     setFilterDropDown(item);
-  };
-
-  const scrollHeader = () => {
-    if (window.scrollY >= 200) {
-      setHeader(true);
-    } else {
-      setHeader(false);
-    }
   };
 
   const handleFilters = (option: any) => {
@@ -287,8 +287,14 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    const scrollHeader = () => {
+      if (window.scrollY >= 650) {
+        setHeader(false);
+      } else {
+        setHeader(true);
+      }
+    };
 
-    
     window.addEventListener("scroll", scrollHeader);
 
     return () => {
@@ -296,6 +302,23 @@ const ShopBreadCrumb1: React.FC<Props> = ({
     };
   }, []);
 
+  const handleOptionSelect = (option: any) => {
+    const newCheckedOptions = {
+      ...checkedOptions,
+      [option]: !checkedOptions[option],
+    };
+    setCheckedOptions(newCheckedOptions);
+
+    if (!selectedOptions.includes(option)) {
+      setSelectedOptions([...selectedOptions, option]);
+    } else {
+      setSelectedOptions(
+        selectedOptions.filter(
+          (selectedOption: any) => selectedOption !== option
+        )
+      );
+    }
+  };
   return (
     <>
       {/* <div className="breadcrumb-block style-img">
@@ -332,20 +355,27 @@ const ShopBreadCrumb1: React.FC<Props> = ({
             <div
               className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}
             >
-              <div
+              <aside
                 className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-                  header ? "fixed top-9 w-1/4 overflow-y-auto" : "relative"
+                  header ? "lg:fixed top-24 w-1/4" : "relative"
                 }`}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>
                 <div className="mt-5">
                   <p className="heading7">Applied Filters</p>
                 </div>
-                <div>
-                  {filters.map((filter: any) => (
-                    <div key={1} className="bg-red">{filter}</div>
+
+                <div className="flex flex-wrap">
+                  {selectedOptions.map((option: string, index: React.Key) => (
+                    <div key={index} className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1">
+                      {option}
+                      <button className="ml-2 align-middle mb-1" onClick={() => handleOptionSelect(option)}>
+                        <Icon.X size={20}/>
+                      </button>
+                    </div>
                   ))}
                 </div>
+
                 <div className="list-type mt-4">
                   {Filter.map((item, index) => (
                     <div
@@ -366,19 +396,23 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                       {filterDropDown === item.title ? (
                         <div>
                           {item.options.map((option, index) => (
-                            <div key={index}>
-                              <Checkbox
-                                label={option}
-                                onClick={() => handleFilters(option)}
+                            <div key={option}>
+                              <input
+                                type="checkbox"
+                                id={option}
+                                checked={checkedOptions[option]}
+                                onChange={() => handleOptionSelect(option)}
                               />
+                              <label className="ml-2" htmlFor={option}>{option}</label>
                             </div>
                           ))}
                         </div>
                       ) : null}
                     </div>
                   ))}
+                  <div></div>
                 </div>
-              </div>
+              </aside>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">
                                 <div className="heading6">Size</div>
                                 <div className="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
@@ -635,7 +669,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 <p className="text-5xl font-bold">Earring</p>
               </div>
               <div className="flex justify-between mt-5">
-                <div className="w-[50%]">
+                <div className="w-[70%]">
                   Earrings are a form of self-expression. They effortlessly
                   transform an outfit, framing the face with style and grace.
                 </div>
@@ -653,46 +687,52 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   </span>
                 </div>
               </div>
-              {dropdown === true ? (
+              {dropdown &&(
                 <div className="flex justify-between mt-3">
-                  <p className="text-lg font-semibold cursor-pointer">Hoops</p>
-                  <p className="text-lg font-semibold cursor-pointer">Studs</p>
-                  <p className="text-lg font-semibold cursor-pointer">Drops</p>
-                  <p className="text-lg font-semibold cursor-pointer">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">Hoops</p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">Studs</p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">Drops</p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Jhumkas
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Danglers
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">
-                    Ear Cuffs
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    EarCuffs
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">Pearls</p>
-                  <p className="text-lg font-semibold cursor-pointer">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">Pearls</p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Chandbali
                   </p>
                 </div>
-              ) : null}
+              )}
 
               <div className="list-product hide-product-sold grid lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
-                {Products.map((item) => (
-                  // item.ProductID === "no-data" ? (
-                  //   <div key={item.ProductID} className="no-data-product">
-                  //     No products match the selected criteria.
-                  //   </div>
-                  // ) : (
+                {/*   <div key={item.ProductID} className="no-data-product">
+                     No products match the selected criteria.
+                  </div> */}
+
+                {Products.slice(
+                  pagesVisited,
+                  pagesVisited + productsPerPage
+                ).map((item) => (
                   <Product key={item.ProductID} data={item} />
                 ))}
               </div>
 
-              {/* {pageCount > 1 && (
+              {pageCount > 1 && (
                 <div className="list-pagination flex items-center md:mt-10 mt-7">
-                  <HandlePagination
+                  <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
                     pageCount={pageCount}
-                    onPageChange={handlePageChange}
+                    onPageChange={changePage}
+                    containerClassName={"pagination"}
+                    activeClassName={"active"}
                   />
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>

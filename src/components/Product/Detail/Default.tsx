@@ -1090,7 +1090,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                       alt={data?.Title}
                       width={100}
                       height={100}
-                      className="mr-1"
+                      className="lg:mr-1 cursor-pointer"
                     />
                   </div>
                 ))}
@@ -1274,11 +1274,11 @@ const Default: React.FC<Props> = ({ productId }) => {
               <li>Free delivery in 2 days.</li>
             </ul>
           </div>
-          <div className="flex mt-[25px] ">
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white lg:w-[252px] sm:w-[230px] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+          <div className="flex sm:justify-around mt-[25px] ">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white lg:w-[252px] sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
               Buy Now
             </div>
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] lg:w-[252px] sm:w-[230px] h-[58px]  text-center mr-[10px]">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] lg:w-[252px] h-[58px]  text-center mr-[10px]">
               <div className=" m-[2px] mb-[2px] bg-white">
                 <span className="flex justify-center py-[14px]">
                   <span>Add to Cart</span>
@@ -1339,7 +1339,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     meets timeless elegance, ensuring every piece exudes
                     sophistication and allure, setting you apart in style.
                   </div>
-                  <div className="grid grid-cols-4  mt-5">
+                  <div className="grid grid-cols-4 justify-items-center mt-5">
                     <div>
                       <span className="text-center">
                         <Icon.SketchLogo size={30} />

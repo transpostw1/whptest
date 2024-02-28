@@ -96,7 +96,7 @@ const Gifts = () => {
 
   return (
     <>
-      <div className="w-full px-7 my-16  text-rose-950">
+      <div className="w-full px-8 my-16  text-rose-950">
         <div className="flex flex-col items-start justify-between">
           <h1 className="lg:text-4xl text-2xl mt-3">GIFTS</h1>
           <p>
@@ -110,11 +110,11 @@ const Gifts = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col gap-2 relative items-center"
+              className="flex flex-col gap-2 relative items-start"
             >
               {category.image}
               <h1 className="text-xl font-semibold">{category.type}</h1>
-              <h3 className="text-red-700 underline">View All</h3>
+              <h3 className="text-red-700 font-medium underline">View All</h3>
             </div>
           ))}
         </div>

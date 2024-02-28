@@ -119,7 +119,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="w-full px-7 my-16  text-rose-950">
+      <div className="w-full px-8 my-16  text-rose-950">
         <div className="flex flex-col items-start justify-between">
           <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY CATEGORY</h1>
           <p>
@@ -133,12 +133,12 @@ const Category = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col relative items-center justify-normal"
+              className="flex flex-col relative items-start justify-between gap-2"
             >
               {category.image}
               <h1 className="text-xl font-semibold">{category.type}</h1>
-              <p className="text-sm">{category.description}</p>
-              <h3 className="text-red underline">View All</h3>
+              <p className="text-sm font-medium">{category.description}</p>
+              <h3 className="text-red-600 underline font-medium">View All</h3>
             </div>
           ))}
         </div>

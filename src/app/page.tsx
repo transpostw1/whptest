@@ -23,6 +23,7 @@ import GoldScheme from "@/components/Home1/GoldScheme";
 import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
 import Gifts from "@/components/Home1/Gifts";
+import PreciousGems from "@/components/Home1/PreciousGems";
 import productData from "@/data/Products.json";
 
 
@@ -40,6 +41,7 @@ export default function Home() {
       {/* <Collection /> */}
       <ProductSlider data={productData} start={0} limit={6} />
       <Category />
+      <PreciousGems/>
       <GoldScheme />
       <ShopGender />
       <Appointment />

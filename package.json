@@ -22,6 +22,7 @@
     "react-international-phone": "^4.2.6",
     "react-loading": "^2.0.3",
     "react-paginate": "^8.2.0",
+    "react-responsive": "^9.0.2",
     "react-slick": "^0.29.0",
     "react-slider": "^2.0.6",
     "sass": "^1.69.5",

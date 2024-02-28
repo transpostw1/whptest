@@ -1,20 +1,15 @@
 "use client";
-
-// import React, { useState } from "react";
-// import { useRouter } from "next/router";
-// import Image from "next/image";
-// import Link from "next/link";
-// import { PhoneInput } from "react-international-phone";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import { useMediaQuery } from "react-responsive";
 import Footer from "@/components/Footer/Footer";
-// import { ProductType } from "@/type/ProductType";
-// import productData from "@/data/Product.json";
-// import Product from "@/components/Product/Product";
+import { ProductType } from "@/type/ProductType";
+import productData from "@/data/Product.json";
+import Product from "@/components/Product/Product";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { PhoneInput } from "react-international-phone";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,24 +26,44 @@ import {
   Gift,
 } from "@phosphor-icons/react";
 
-const Checkout: React.FC = () => {
+
+
+interface ProductProps {
+  data: ProductType;
+}
+
+const Checkout: React.FC<ProductProps> = ({ data }) => {
   // const router = useRouter();
   const { cartState, removeFromCart } = useCart();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [phone, setPhone] = useState("");
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
-    const [isModalOpen, setModalOpen] = useState(false);
-    const openModal = () => {
-      setModalOpen(true);
-    };
-    const closeModal = () => {
-      setModalOpen(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
     };
 
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
 
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
@@ -85,7 +100,7 @@ const Checkout: React.FC = () => {
   };
   const handleProceed = () => {
     if (selectedStep === steps.length - 1) {
-      // Handle completion logic here
+      // Handle completion logic here//
     } else {
       setSelectedStep((prevStep) => prevStep + 1);
       switch (selectedStep) {
@@ -120,93 +135,89 @@ const Checkout: React.FC = () => {
     }
   };
 
-
-const AddAddressModal = ({ closeModal }) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-8 rounded-lg z-50">
-        <button onClick={closeModal}>Close</button>
-        <form>
-          <h2 className="mb-5 text-2xl font-semibold">Add new Address</h2>
-          <div className="mb-4 md:col-span-2">
-            <label className="block mb-1"> Street </label>
-            <input
-              className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-              type="text"
-              placeholder="Type your address"
-            />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-x-3">
-            <div className="mb-4 md:col-span-1">
-              <label className="block mb-1"> City </label>
+  const AddAddressModal: React.FC = ({ closeModal }) => {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-8 flex flex-col justify-between z-50">
+          <button onClick={closeModal}>Close</button>
+          <form>
+            <h2 className="text-2xl font-semibold">Contact Details</h2>
+            <div className="mb-4 md:col-span-2">
               <input
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="text"
-                placeholder="Type your city"
+                placeholder="Enter Your Name"
               />
             </div>
-
-            <div className="mb-4 md:col-span-1">
-              <label className="block mb-1"> State </label>
+            <div className="mb-4 md:col-span-2">
+              <PhoneInput
+                defaultCountry="in"
+                value={phone}
+                placeholder="Number Here !"
+                inputStyle={{ width: "100%" }}
+              />
+            </div>
+            <h2 className="text-2xl font-semibold">Add Address</h2>
+            <div className="my-2 md:col-span-2">
               <input
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="text"
-                placeholder="Type state here"
+                placeholder="Pincode"
               />
             </div>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-x-2">
+            {/* <div className="grid md:grid-cols-2 gap-x-3"> */}
             <div className="mb-4 md:col-span-1">
-              <label className="block mb-1"> ZIP code </label>
               <input
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-                type="number"
-                placeholder="Type zip code here"
+                type="text"
+                placeholder="Flat/House No/Building Name/Company"
               />
             </div>
-
+            {/* </div> */}
             <div className="mb-4 md:col-span-1">
-              <label className="block mb-1"> Phone No </label>
               <input
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-                type="number"
-                placeholder="Type phone no here"
+                type="text"
+                placeholder="Area and Street"
               />
             </div>
-          </div>
+            <div className="grid md:grid-cols-2 gap-x-2">
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="City"
+                />
+              </div>
 
-          <div className="mb-4 md:col-span-2">
-            <label className="block mb-1"> Country </label>
-          </div>
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="State"
+                />
+              </div>
+            </div>
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Landmark"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-          >
-            Add
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    );
+  };
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -248,7 +259,7 @@ const AddAddressModal = ({ closeModal }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${product.quantity * product.price}.00
+                        ${product.quantity * data?.ProdPrice}.00
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
@@ -441,6 +452,38 @@ const AddAddressModal = ({ closeModal }) => {
                 <h3 className="text-red-600 underline">Add</h3>
               </div>
               <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+              <div className="list-product-main w-full">
+                {cartState.cartArray.length < 1 ? (
+                  <p className="text-button pt-3">No products in your cart</p>
+                ) : (
+                  cartState.cartArray.map((product) => (
+                    <div
+                      className="border border-gray-400 flex w-full  items-center "
+                      key={product.id}
+                    >
+                      <Image
+                        src={product.thumbImage[0]}
+                        width={100}
+                        height={200}
+                        alt={product.name}
+                        className="rounded-lg object-cover"
+                      />
+                      {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
+                      <div className="py-4 flex flex-col">
+                        <div className="text-title">
+                          {product.name} X {product.quantity}{" "}
+                        </div>
+                        <div className="text-title text-start">
+                          ${product.quantity * data?.ProdPrice}.00
+                        </div>
+                        <h3>Estimated Delivery Date</h3>
+                      </div>
+                      {/* </div> */}
+                      <div className="w-full md:w-1/6 flex flex-col items-center justify-center"></div>
+                    </div>
+                  ))
+                )}
+              </div>
               <div className="px-1">
                 <div className="border border-gray-200 rounded-xl">
                   <div>
@@ -462,7 +505,7 @@ const AddAddressModal = ({ closeModal }) => {
           </div>
         </div>
       </div>
-      <Footer />
+      {!isMobile && <Footer />}
     </>
   );
 };

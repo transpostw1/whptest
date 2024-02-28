@@ -5,14 +5,14 @@ const Appointment = () => {
     <>
       <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mt-5  text-rose-950">
         <div className="bg-secondary2 flex items-center justify-start lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
-          <div className="flex flex-col lg:py-0 md:py-0 sm:py-10 text-center items-start p-2 gap-3">
+          <div className="flex flex-col lg:py-0 md:py-0 sm:py-10 text-center items-start p-10 gap-3">
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-semibold text-red text-left mt-5">
               Visualize Your
               <br className="hidden sm:inline" />
               Perfect look!{" "}
             </h2>
             <div className="">
-              <p className="text-lg text-red-950 text-left mb-4">
+              <p className="font-medium text-red-950 text-left mb-4">
                 Try Before you Buy:Experience the Elegance of Our Jewellery{" "}
                 <br /> in the Comfort of your Home.Book an appoinment with us{" "}
                 <br />
@@ -21,7 +21,7 @@ const Appointment = () => {
               <h1 className="text-red-950 text-left font-bold">
                 Gold Exchange
               </h1>
-              <p className="text-lg text-red-950 text-left">
+              <p className="font-medium text-red-950 text-left">
                 Trade your previous gold items for newer, more exquisite{" "}
                 <br className="hidden sm:inline" /> pieces that better suit your
                 evolving style.

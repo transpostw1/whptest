@@ -24,6 +24,7 @@ import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
 import Gifts from "@/components/Home1/Gifts";
 import PreciousGems from "@/components/Home1/PreciousGems";
+import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import productData from "@/data/Products.json";
 
 
@@ -46,6 +47,7 @@ export default function Home() {
       <ShopGender />
       <Appointment />
       <Gifts />
+      <SpecialOccasion/>
       {/* <Banner />
       <Benefit props="md:py-20 py-10" />
       <Testimonial data={testimonialData} limit={6} />

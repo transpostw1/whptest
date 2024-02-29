@@ -17,6 +17,8 @@ import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
+
+
 import {
   AddressBook,
   ShoppingCart,
@@ -25,7 +27,6 @@ import {
   ArrowRight,
   Gift,
 } from "@phosphor-icons/react";
-
 
 
 interface ProductProps {

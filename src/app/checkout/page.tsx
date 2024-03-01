@@ -9,7 +9,7 @@ import { ProductType } from "@/type/ProductType";
 import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,ChangeEvent } from "react";
 import { PhoneInput } from "react-international-phone";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,6 +26,7 @@ import {
   Wallet,
   ArrowRight,
   Gift,
+  CreditCard,
 } from "@phosphor-icons/react";
 
 
@@ -42,6 +43,8 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+   const [selectedPaymentMethod, setSelectedPaymentMethod] =
+     useState<string>("");
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -65,6 +68,12 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  
+   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
+     setSelectedPaymentMethod(event.target.value);
+   };
+
 
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
@@ -349,9 +358,70 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       case "Payment":
         return (
           <>
-            <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300">
-              <h1>Add a payment method</h1>
-              <div>card 1 card2 card 3</div>
+            <div className="flex flex-col lg:w-[50rem] md:w-[30rem] sm:w-[30rem] gap-5">
+              <h1 className="text-red-950 font-medium">PAYMENT METHOD</h1>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+                  <label
+                    htmlFor="upiPayment"
+                    className=" flex gap-2 cursor-pointer font-medium"
+                  >
+                    <Image
+                      src={"/images/other/upi-icon.png"}
+                      alt="upi"
+                      width={30}
+                      height={30}
+                      objectFit="fill"
+                    />
+                    UPI Payment
+                  </label>
+                  <input
+                    type="radio"
+                    id="upiPayment"
+                    name="paymentMethod"
+                    value="upi"
+                    className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+                    checked={selectedPaymentMethod === "upi"}
+                    onChange={handlePaymentMethodChange}
+                  />
+                </div>
+                <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+                  <label
+                    htmlFor="cardPayment"
+                    className="flex gap-2 cursor-pointer font-medium"
+                  >
+                    <CreditCard className="text-2xl text-red-600" />
+                    Credit or Debit Card
+                  </label>
+                  <input
+                    type="radio"
+                    id="cardPayment"
+                    name="paymentMethod"
+                    value="card"
+                    className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+                    checked={selectedPaymentMethod === "card"}
+                    onChange={handlePaymentMethodChange}
+                  />
+                </div>
+              </div>
+              <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
+              <div>
+                <div>
+                  -10% off on HDFC Bank Credit Card. Use{" "}
+                  <span className="font-bold">HDFC10</span>
+                  <span className="text-red-600 underline">
+                    View more Offers
+                  </span>
+                </div>
+                <div>
+                  -7% off on SBI Bank Credit Card. Use{" "}
+                  <span className="font-bold">SBI7</span>
+                  {"  "}
+                  <span className="text-red-600 underline">
+                    View more Offers
+                  </span>
+                </div>
+              </div>
             </div>
           </>
         );
@@ -439,14 +509,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
             <div className="w-full lg:w-3/4 mt-5">
               <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
               <div className="flex justify-between border border-gray-400 p-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 font-medium">
                   <Gift style={{ color: "red", fontSize: "24px" }} />
                   <h3>Available Coupons</h3>
                 </div>
                 <h3 className="text-red-600 underline">View</h3>
               </div>
               <div className="flex justify-between border border-gray-400 p-3 mt-3">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center font-medium">
                   <Gift style={{ color: "red", fontSize: "24px" }} />
                   <h3>Gift Message</h3>
                 </div>
@@ -455,7 +525,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
               <div className="list-product-main w-full">
                 {cartState.cartArray.length < 1 ? (
-                  <p className="text-button pt-3">No products in your cart</p>
+                  <p className="text-button">No products in your cart</p>
                 ) : (
                   cartState.cartArray.map((product) => (
                     <div
@@ -485,12 +555,29 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                   ))
                 )}
               </div>
-              <div className="px-1">
-                <div className="border border-gray-200 rounded-xl">
-                  <div>
-                    <h3 className="text-gray-800">Total Amount</h3>
-                    <h3 className="text-gray-800">Making Charges</h3>
-                    <h3 className="text-gray-800">Tax</h3>
+              <div className="">
+                <div className="bg-gray-100 p-2">
+                  <div className="">
+                    <div className="flex justify-between font-medium">
+                      <h3>Subtotal</h3>
+                      <h3>₹24237.59</h3>
+                    </div>
+                    <div className="flex justify-between font-medium">
+                      <h3>Discount</h3>
+                      <h3>₹0</h3>
+                    </div>
+                    <div className="flex justify-between font-medium">
+                      <h3>Shipping Charges</h3>
+                      <h3>₹0</h3>
+                    </div>
+                    <div className="flex justify-between font-medium">
+                      <h3>G.S.T</h3>
+                      <h3>₹951.27</h3>
+                    </div>
+                    <div className="flex justify-between font-bold">
+                      <h3 className="text-gray-800">Total Price</h3>
+                      <h3>₹24237.59</h3>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col mt-3">

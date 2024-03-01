@@ -8,6 +8,8 @@ import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
 import Checkbox from "@/components/Other/CheckBox";
 import ReactPaginate from "react-paginate";
+import SortBy from "../Other/SortBy";
+import MobileFilters from "../Other/MobileFilters";
 
 interface Props {
   // data: Array<ProductType>;
@@ -62,9 +64,9 @@ const ShopBreadCrumb1: React.FC<Props> = ({
 }) => {
   const [showOnlySale, setShowOnlySale] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption, setSortOption] = useState<boolean>(false);
   const [type, setType] = useState<string | null | undefined>(dataType);
-  const [size, setSize] = useState<string | null>();
+  const [mobileFilter, setMobileFilter] = useState<boolean | null>(false);
   const [color, setColor] = useState<string | null>();
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const [checkedOptions, setCheckedOptions] = useState<any>({});
@@ -77,6 +79,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
     min: 0,
     max: 100,
   });
+  const [length, setLength] = useState<number|null>(null)
   // const [currentPage, setCurrentPage] = useState(0);
   // const productsPerPage = 5;
   // const offset = currentPage * productsPerPage;
@@ -271,7 +274,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   //   handleType(null);
   // };
 
-  const productsPerPage = 6;
+  const productsPerPage = 9;
   const pagesVisited = pageNumber * productsPerPage;
 
   const pageCount = Math.ceil(Products.length / productPerPage);
@@ -281,27 +284,15 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   const handleFilterDropdown = (item: any) => {
     setFilterDropDown(item);
   };
-
-  const handleFilters = (option: any) => {
-    setFilters([option, ...filters]);
+  const handleCloseMobileFilters = () => {
+    setMobileFilter(false);
+    {
+      console.log("nahi pata");
+    }
   };
-
-  useEffect(() => {
-    const scrollHeader = () => {
-      if (window.scrollY >= 650) {
-        setHeader(false);
-      } else {
-        setHeader(true);
-      }
-    };
-
-    window.addEventListener("scroll", scrollHeader);
-
-    return () => {
-      window.removeEventListener("scroll", scrollHeader);
-    };
-  }, []);
-
+  const handleOnClose = () => {
+    setSortOption(false);
+  };
   const handleOptionSelect = (option: any) => {
     const newCheckedOptions = {
       ...checkedOptions,
@@ -319,43 +310,30 @@ const ShopBreadCrumb1: React.FC<Props> = ({
       );
     }
   };
+  useEffect(() => {
+    const scrollHeader = () => {
+      if (window.scrollY >= 850) {
+        setHeader(false);
+      } else {
+        setHeader(true);
+      }
+    };
+
+    window.addEventListener("scroll", scrollHeader);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHeader);
+    };
+  }, []);
   return (
     <>
-      {/* <div className="breadcrumb-block style-img">
-                <div className="breadcrumb-main bg-linear overflow-hidden">
-                    <div className="container lg:pt-[134px] pt-24 pb-10 relative">
-                        <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
-                            <div className="text-content">
-                                <div className="heading2 text-center">{dataType === null ? 'Shop' : dataType}</div>
-                                <div className="link flex items-center justify-center gap-1 caption1 mt-3">
-                                    <Link href={'/'}>Homepage</Link>
-                                    <Icon.CaretRight size={14} className='text-secondary2' />
-                                    <div className='text-secondary2 capitalize'>{dataType === null ? 'Shop' : dataType}</div>
-                                </div>
-                            </div>
-                            <div className="list-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                                {['t-shirt', 'dress', 'top', 'swimwear', 'shirt'].map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${dataType === item ? 'active' : ''}`}
-                                        onClick={() => handleType(item)}
-                                    >
-                                        {item}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-      <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
+      <div className="shop-product breadcrumb1 lg:py-20 md:py-14">
         <div className="container">
-          <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
+          <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
             <div
-              className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}
+              className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden`}
             >
-              <aside
+              <div
                 className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
                   header ? "lg:fixed top-24 w-1/4" : "relative"
                 }`}
@@ -367,10 +345,16 @@ const ShopBreadCrumb1: React.FC<Props> = ({
 
                 <div className="flex flex-wrap">
                   {selectedOptions.map((option: string, index: React.Key) => (
-                    <div key={index} className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1">
+                    <div
+                      key={index}
+                      className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                    >
                       {option}
-                      <button className="ml-2 align-middle mb-1" onClick={() => handleOptionSelect(option)}>
-                        <Icon.X size={20}/>
+                      <button
+                        className="ml-2 align-middle mb-1"
+                        onClick={() => handleOptionSelect(option)}
+                      >
+                        <Icon.X size={20} />
                       </button>
                     </div>
                   ))}
@@ -403,7 +387,9 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                                 checked={checkedOptions[option]}
                                 onChange={() => handleOptionSelect(option)}
                               />
-                              <label className="ml-2" htmlFor={option}>{option}</label>
+                              <label className="ml-2" htmlFor={option}>
+                                {option}
+                              </label>
                             </div>
                           ))}
                         </div>
@@ -412,7 +398,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   ))}
                   <div></div>
                 </div>
-              </aside>
+              </div>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">
                                 <div className="heading6">Size</div>
                                 <div className="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
@@ -539,6 +525,70 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                                 </div>
                             </div> */}
             </div>
+            <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden block h-[52px]">
+              <div className="flex justify-center align-middle mt-4 text-white">
+                <div
+                  className="mr-5"
+                  onClick={() => setSortOption(!sortOption)}
+                >
+                  SortBy
+                </div>
+                <div className="flex" onClick={() => setMobileFilter(!mobileFilter)}>
+                  <p>Filter </p>
+                </div>
+              </div>
+            </div>
+            {sortOption && (
+              <SortBy visible={sortOption} onClose={handleOnClose} />
+            )}
+            {mobileFilter && (
+              <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
+                <div className="mt-24 p-4">
+                  <Icon.X size={25} onClick={() => setMobileFilter(false)} />
+                  <div className="h-[700px] overflow-y-auto no-scrollbar">
+                    <div className="mt-5">
+                      <p className="heading7">Filter</p>
+                    </div>
+                    <div className="list-type mt-4">
+                      {Filter.map((item, index) => (
+                        <div
+                          key={index}
+                          className={`item cursor-pointer`}
+                          onClick={() => handleFilterDropdown(item.title)}
+                        >
+                          <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
+                            <p className="text-lg font-semibold">
+                              {item.title}
+                            </p>
+
+                            <p className="mt-1">
+                              <Icon.CaretDown weight="fill" />
+                            </p>
+                          </div>
+                          {filterDropDown === item.title ? (
+                            <div>
+                              {item.options.map((option, index) => (
+                                <div key={option}>
+                                  <input
+                                    type="checkbox"
+                                    id={option}
+                                    checked={checkedOptions[option]}
+                                    onChange={() => handleOptionSelect(option)}
+                                  />
+                                  <label className="ml-2" htmlFor={option}>
+                                    {option}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
               {/* <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
                                  <div className="left flex has-line items-center flex-wrap gap-5">
@@ -665,15 +715,15 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 )}
               </div> */}
 
-              <div>
+              <div className="mt-11 lg:mt-0">
                 <p className="text-5xl font-bold">Earring</p>
               </div>
               <div className="flex justify-between mt-5">
-                <div className="w-[70%]">
+                <div className="lg:w-[70%] sm:w-[100%]">
                   Earrings are a form of self-expression. They effortlessly
                   transform an outfit, framing the face with style and grace.
                 </div>
-                <div className="">
+                <div className="hidden lg:block">
                   <span
                     className="flex cursor-pointer font-semibold"
                     onClick={() => {
@@ -687,11 +737,33 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   </span>
                 </div>
               </div>
-              {dropdown &&(
-                <div className="flex justify-between mt-3">
-                  <p className="text-lg font-semibold cursor-pointer mr-2">Hoops</p>
-                  <p className="text-lg font-semibold cursor-pointer mr-2">Studs</p>
-                  <p className="text-lg font-semibold cursor-pointer mr-2">Drops</p>
+              <div className="flex flex-wrap lg:hidden">
+                {selectedOptions.map((option: string, index: React.Key) => (
+                  <div
+                    key={index}
+                    className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                  >
+                    {option}
+                    <button
+                      className="ml-2 align-middle mb-1"
+                      onClick={() => handleOptionSelect(option)}
+                    >
+                      <Icon.X size={20} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {dropdown && (
+                <div className="lg:flex justify-between mt-3 hidden">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Hoops
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Studs
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Drops
+                  </p>
                   <p className="text-lg font-semibold cursor-pointer mr-2">
                     Jhumkas
                   </p>
@@ -701,7 +773,9 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   <p className="text-lg font-semibold cursor-pointer mr-2">
                     EarCuffs
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer mr-2">Pearls</p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Pearls
+                  </p>
                   <p className="text-lg font-semibold cursor-pointer mr-2">
                     Chandbali
                   </p>

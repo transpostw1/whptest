@@ -1106,7 +1106,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             />
           </>
         </div>
-        <div className="lg:w-[50%] sm:w-[100%] lg:mt-20 sm:mt-10 lg:ml-[45px] sm:m-auto">
+        <div className="lg:w-[50%] sm:w-[100%] lg:mt-20 sm:mt-10 lg:ml-[25px] sm:m-auto p-4">
           <div className="flex justify-between lg:w-[100%] sm:w-[20%]">
             <p className="font-semibold text-3xl mt-4 w-[357px]">{data?.Title}</p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
@@ -1144,7 +1144,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] lg:w-[70%] p-3">
+          <div className="flex border border-[#f3f3f3] lg:w-[72%] p-3">
             <div className="mr-3">
               <p>Metal</p>
               <div className="relative">
@@ -1275,10 +1275,10 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div>
           <div className="flex sm:justify-around mt-[25px] ">
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white lg:w-[252px] sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
               Buy Now
             </div>
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] lg:w-[252px] h-[58px]  text-center mr-[10px]">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
               <div className=" m-[2px] mb-[2px] bg-white">
                 <span className="flex justify-center py-[14px]">
                   <span>Add to Cart</span>
@@ -1472,7 +1472,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <div className="p-4 border-t-2 border-[#f7f7f7]">
               <h2>
                 <button
-                  className="flex w-full justify-between text-xl"
+                  className="flex w-full justify-between justify-items-center text-xl"
                   onClick={() => handleToggle(4)}
                 >
                   Price Breakup

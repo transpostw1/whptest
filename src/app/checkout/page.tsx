@@ -9,7 +9,7 @@ import { ProductType } from "@/type/ProductType";
 import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 
-import React, { useState,useEffect,ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { PhoneInput } from "react-international-phone";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +17,6 @@ import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
-
 
 import {
   AddressBook,
@@ -28,7 +27,6 @@ import {
   Gift,
   CreditCard,
 } from "@phosphor-icons/react";
-
 
 interface ProductProps {
   data: ProductType;
@@ -43,8 +41,8 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-   const [selectedPaymentMethod, setSelectedPaymentMethod] =
-     useState<string>("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
+  const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -69,11 +67,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     setModalOpen(false);
   };
 
-  
-   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
-     setSelectedPaymentMethod(event.target.value);
-   };
-
+  const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedPaymentMethod(event.target.value);
+  };
 
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
@@ -87,6 +83,10 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
+
+   const handleOrderComplete = () => {
+     setIsOrderPlaced(true);
+   };
 
   const handleStepClick = (index: number) => {
     setSelectedStep(index);
@@ -139,7 +139,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       case 2:
         return "Proceed to Payment";
       case 3:
-        return "Complete";
+        return "Place Order";
       default:
         return "Proceed";
     }
@@ -240,7 +240,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               ) : (
                 cartState.cartArray.map((product) => (
                   <div
-                    className="justify-between p-4 border rounded-lg border-gray-400 flex flex-col md:flex-row lg:flex-row lg:w-full md:w-full w-48 items-center mb-4"
+                    className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
                     key={product.id}
                   >
                     <Image
@@ -250,7 +250,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                       alt={product.name}
                       className="rounded-lg object-cover"
                     />
-                    <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3">
+                    <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
                         <div className="text-title">{product.name}</div>
                         <div className="text-title">Gold 21gms</div>
@@ -471,31 +471,48 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         <div className="content-main flex flex-col justify-between px-14">
           <div className="flex w-full justify-between items-center">
             <div className="flex gap-3">
-              <div className="flex flex-wrap mt-2 items-center">
-                {steps.map((step, index) => (
-                  <div
-                    className="flex items-center w-40"
-                    key={index}
-                    onClick={() => handleStepClick(index)}
-                  >
-                    <div
-                      className={`p-2 rounded-full border border-gray-300 ${
-                        selectedStep >= index ? "bg-rose-400" : "bg-white"
-                      }`}
-                    >
-                      {step.icon}
-                    </div>
-                    <h2 className="p-2 rounded-full cursor-pointer">
-                      {step.label}
-                    </h2>
-                    {index < steps.length - 1 && (
-                      <ArrowRight
-                        style={{ marginLeft: "10px", marginRight: "10px" }}
-                      />
-                    )}
+              {isOrderPlaced ? (
+                <div className="flex">
+                  <Image
+                    src={"/images/collection/check.png"}
+                    alt="check"
+                    width={100}
+                    height={10}
+                  />
+                  <div className="flex flex-col items-start justify-center py-3 ">
+                    <h1 className="text-3xl text-red-700 font-semibold">
+                      Order Placed!!
+                    </h1>
+                    <h1>ID-#32432</h1>
                   </div>
-                ))}
-              </div>
+                </div>
+              ) : (
+                <div className="flex flex-wrap mt-2 items-center">
+                  {steps.map((step, index) => (
+                    <div
+                      className="flex items-center w-40"
+                      key={index}
+                      onClick={() => handleStepClick(index)}
+                    >
+                      <div
+                        className={`p-2 rounded-full border border-gray-300 ${
+                          selectedStep >= index ? "bg-rose-400" : "bg-white"
+                        }`}
+                      >
+                        {step.icon}
+                      </div>
+                      <h2 className="p-2 rounded-full cursor-pointer">
+                        {step.label}
+                      </h2>
+                      {index < steps.length - 1 && (
+                        <ArrowRight
+                          style={{ marginLeft: "10px", marginRight: "10px" }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <h2>(Review of 3 Items)</h2>
           </div>
@@ -505,6 +522,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 <h1 className="text-2xl">Your Shopping Bag</h1>
               </div>
               {renderComponent()}
+              <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3>
             </div>
             <div className="w-full lg:w-3/4 mt-5">
               <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
@@ -524,36 +542,38 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               </div>
               <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
               <div className="list-product-main w-full">
-                {cartState.cartArray.length < 1 ? (
-                  <p className="text-button">No products in your cart</p>
-                ) : (
-                  cartState.cartArray.map((product) => (
-                    <div
-                      className="border border-gray-400 flex w-full  items-center "
-                      key={product.id}
-                    >
-                      <Image
-                        src={product.thumbImage[0]}
-                        width={100}
-                        height={200}
-                        alt={product.name}
-                        className="rounded-lg object-cover"
-                      />
-                      {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
-                      <div className="py-4 flex flex-col">
-                        <div className="text-title">
-                          {product.name} X {product.quantity}{" "}
+                <div className="hidden  lg:block mb-2">
+                  {cartState.cartArray.length < 1 ? (
+                    <p className="text-button">No products in your cart</p>
+                  ) : (
+                    cartState.cartArray.map((product) => (
+                      <div
+                        className="border border-gray-200 flex w-full  items-center mb-2 "
+                        key={product.id}
+                      >
+                        <Image
+                          src={product.thumbImage[0]}
+                          width={100}
+                          height={200}
+                          alt={product.name}
+                          className="rounded-lg object-cover"
+                        />
+                        {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
+                        <div className="py-4 flex flex-col">
+                          <div className="text-title">
+                            {product.name} X {product.quantity}{" "}
+                          </div>
+                          <div className="text-title text-start">
+                            ${product.quantity * data?.ProdPrice}.00
+                          </div>
+                          <h3>Estimated Delivery Date</h3>
                         </div>
-                        <div className="text-title text-start">
-                          ${product.quantity * data?.ProdPrice}.00
-                        </div>
-                        <h3>Estimated Delivery Date</h3>
+                        {/* </div> */}
+                        <div className="w-full md:w-1/6 flex flex-col items-center justify-center"></div>
                       </div>
-                      {/* </div> */}
-                      <div className="w-full md:w-1/6 flex flex-col items-center justify-center"></div>
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
+                </div>
               </div>
               <div className="">
                 <div className="bg-gray-100 p-2">
@@ -580,14 +600,53 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col mt-3">
-                  <button
-                    onClick={() => handleProceed()}
-                    className="hover:to-blue-900 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:bg-rose-600 text-white font-bold py-2 px-4 rounded"
-                  >
-                    {proceedButtonTitle()}
-                  </button>
-                </div>
+
+                {!isOrderPlaced && (
+                  <div className="flex flex-col mt-3 relative">
+                    {/* Render different buttons based on screen size */}
+                    {isMobile ? (
+                      <div className="w-full sticky top-0 p-4 flex justify-between">
+                        <div>
+                          <h3 className="font-semibold">₹24237.59</h3>
+                          <h2 className="text-red-500 font-medium">
+                            View Order Summary
+                          </h2>
+                        </div>
+                        <button
+                          onClick={() => {
+                            if (proceedButtonTitle() === "Place Order") {
+                              handleOrderComplete();
+                            } else {
+                              handleProceed();
+                            }
+                          }}
+                          className="w-52 flex justify-center  hover:to-blue-900 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-rose-600 "
+                        >
+                          {proceedButtonTitle()}
+                          <ArrowRight
+                            style={{ marginLeft: "10px", marginRight: "10px" }}
+                          />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          if (proceedButtonTitle() === "Place Order") {
+                            handleOrderComplete();
+                          } else {
+                            handleProceed();
+                          }
+                        }}
+                        className="flex  justify-center items-center hover:to-blue-900 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:bg-rose-600 text-white font-bold py-2 px-4 rounded"
+                      >
+                        {proceedButtonTitle()}
+                        <ArrowRight
+                          style={{ marginLeft: "10px", marginRight: "10px" }}
+                        />
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -598,9 +657,4 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   );
 };
 
-
- 
-
 export default Checkout;
-
-

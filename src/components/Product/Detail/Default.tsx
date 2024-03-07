@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
@@ -21,31 +23,22 @@ import ModalSizeguide from "@/components/Modal/ModalSizeguide";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
-
-// SwiperCore.use([Navigation, Thumbs]);
+import axios from "axios";
+import { error } from "console";
 
 interface Props {
   productId: string | number | null;
 }
 
-const getSingleProduct = (id: any) => {
-  const singleProduct = Products.find((product) => product.ProductID === id);
-  return singleProduct;
-};
-
-     
-
 const Default: React.FC<Props> = ({ productId }) => {
-  const id = Number(productId);
-  const data = getSingleProduct(id);
-
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
   const [showAccordian, setShowAccordian] = useState<number>(1);
   const [metal, setMetal] = useState<string>("Gold");
   const [karat, setKarat] = useState<string>("22k");
   const [size, setSize] = useState<string>("3.0");
+  const [data, setData] = useState<ProductType>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
   // const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
@@ -156,20 +149,39 @@ const Default: React.FC<Props> = ({ productId }) => {
     prevArrow: <Icon.CaretLeft size={40} />,
   };
 
-  const productImg = [
-    data?.img,
-    data?.img,
-    data?.img,
-    data?.img,
-    data?.img,
-    data?.img,
-    data?.img,
-  ];
+
+  async function getData() {
+    const res = await fetch(`http://164.92.120.19/api/products/${productId}`);
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  }
+
+  async function singleProduct() {
+    const product = await getData();
+    setData(product);
+    console.log(product, "aaditya");
+  }
+  useEffect(() => {
+    singleProduct();
+  }, [productId]);
+
+  const product:ProductType=data[0]
+  
+  // const sortedImages = product.imageDetails?.sort(
+  //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
+  // );
+
+  // if (!sortedImages) {
+  //   return null; // or render a default image or fallback UI
+  // }
 
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
-
   // return (
   //   // <>
   //   //     <div className="product-detail default">
@@ -1066,40 +1078,41 @@ const Default: React.FC<Props> = ({ productId }) => {
         <div className="lg:w-[50%] sm:w-[100%]">
           <div className="bg-[#f7f5f6]">
             <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-              {productImg.map((product, index) => (
+              {product&&(product.imageDetails?.map((image, index) => (
                 <div key={index}>
                   <Image
                     className="mx-auto mt-32 mb-7 w-[310px] h-[336px]"
-                    src={product}
-                    alt={data?.Title}
+                    src={image?.image_path}
+                    alt={product.title}
                     width={400}
                     height={400}
                   />
                 </div>
-              ))}
+              )))}
             </Slider>
             <div className="m-auto w-[50%]">
               <Slider
                 {...settingsThumbnails}
                 ref={(slider: any) => setNav2(slider)}
               >
-                {productImg.map((product, index) => (
+                {product &&(product.imageDetails?.map((image, index) => (
                   <div key={index}>
                     <Image
-                      src={product}
-                      alt={data?.Title}
+                      src={image?.image_path}
+                      alt={product?.title}
                       width={100}
                       height={100}
                       className="lg:mr-1 cursor-pointer"
                     />
                   </div>
-                ))}
+                )))}
               </Slider>
             </div>
           </div>
           <>
+          {}
             <video
-              className="lg:w-[720px] lg:h-[672px] "
+              className="lg:w-[720px] lg:h-[620px] "
               src="/products/GERD23021256.mp4"
               loop
               autoPlay
@@ -1107,8 +1120,10 @@ const Default: React.FC<Props> = ({ productId }) => {
           </>
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:mt-20 sm:mt-10 lg:ml-[25px] sm:m-auto p-4">
-          <div className="flex justify-between lg:w-[100%] sm:w-[20%]">
-            <p className="font-semibold text-3xl mt-4 w-[357px]">{data?.Title}</p>
+          <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
+            <p className="font-semibold text-3xl mt-4">
+              {product?.title}
+            </p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
               <Icon.ShareFat size={30} weight="fill" className="text-white" />
             </span>
@@ -1132,9 +1147,11 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           </div>
           <div className="mb-5">
-            <span className="font-extrabold text-2xl">₹{data?.ProdPrice}</span>
+            <span className="font-extrabold text-2xl">
+              ₹{product?.productPrice}
+            </span>
             <span className="line-through ml-3 text-[#c5b8b8]">
-              ₹{data?.ProdPriceWithTax}
+              ₹{product?.productPrice}
             </span>
             <span className="ml-3 text-[#e26178] underline">10% OFF</span>
           </div>
@@ -1144,7 +1161,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] lg:w-[72%] p-3">
+          <div className="flex border border-[#f3f3f3] lg:w-[77%] p-3">
             <div className="mr-3">
               <p>Metal</p>
               <div className="relative">
@@ -1290,7 +1307,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
             <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
               {" "}
-              <Icon.Heart size={27} weight="thin"/>
+              <Icon.Heart size={27} weight="thin" />
             </div>
           </div>
           <div className="mt-4 border border-[#f7f7f7] w-[445px] p-2 text-center">
@@ -1392,7 +1409,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     our Gold Collection, are designed for the modern woman. The
                     pair weighs 4.810 gms of pure gold
                   </div>
-                  <div className="grid grid-cols-4 mt-4 w-[70%]">
+                  <div className="grid grid-cols-4 mt-4 lg:w-[70%] sm:w-[100%]">
                     <div className="p-2">
                       <Icon.Scales className="mr-1 mt-1" size={27} />
                       <p>4.810 gms, Gold</p>
@@ -1429,13 +1446,21 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </button>
               </h2>
               {showAccordian === 3 ? (
-                <div className="text-center rounded-md ">
-                  <table className="mt-5 ml-10 bg-[#f7f7f7]">
+                <div className="text-center rounded-md w-[80%]">
+                  <table className="mt-5 bg-[#f7f7f7]">
                     <tr className="">
-                      <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">Size</td>
-                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">Diameter(inch)</td>
-                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">Diameter(cms)</td>
-                      <td className="p-4 border-b-2 border-[#F0ECED]">Circumference(inch)</td>
+                      <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
+                        Size
+                      </td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
+                        Diameter(inch)
+                      </td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
+                        Diameter(cms)
+                      </td>
+                      <td className="p-4 border-b-2 border-[#F0ECED]">
+                        Circumference(inch)
+                      </td>
                     </tr>
                     <tr>
                       <td className="border-r-2 border-[#F0ECED]">2.2</td>
@@ -1456,14 +1481,10 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <td className=" p-2">7.46</td>
                     </tr>
                     <tr>
-                      <td className="border-r-2 border-[#F0ECED] p-2">
-                        2.8
-                      </td>
+                      <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
                       <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
                       <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
-                      <td className=" p-2 rounded-b-lg">
-                        7.85
-                      </td>
+                      <td className=" p-2 rounded-b-lg">7.85</td>
                     </tr>
                   </table>
                 </div>
@@ -1485,18 +1506,21 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </button>
               </h2>
               {showAccordian === 4 ? (
-                <div className="border border-[#F0ECED] m-auto">
-                  <div className="flex justify-between mt-3  pt-2">
-                    <div className="">
-                      <p className="">Component</p>
+                <div className="lg:w-[80%] sm:w-[100%] p-4">
+                  <div className="flex justify-between border border-[#ebe7e7] p-2">
+                    <div>Component</div>
+                    <div>Weight</div>
+                    <div>Value</div>
+                  </div>
+                  <div className="flex justify-between p-2 border border-[#ebe7e7]">
+                    <div>
                       <p>Gold</p>
                       <p>Diamond</p>
                       <p>Making Charges</p>
-                      <p>Discount-10%</p>
+                      <p>Discount 10%</p>
                       <p>G.S.T</p>
                     </div>
                     <div>
-                      <p className="">Weight</p>
                       <p>2.6 gms</p>
                       <p>0.116 Carat</p>
                       <p>-</p>
@@ -1504,21 +1528,11 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <p>-</p>
                     </div>
                     <div>
-                      <p className="">Value</p>
                       <p>₹12,548</p>
                       <p>₹13,375</p>
                       <p>₹5,762</p>
                       <p>₹3,263</p>
                       <p>₹950</p>
-                    </div>
-                    <div></div>
-                  </div>
-                  <div className="flex justify-between mt-4 pt-3 pb-3 border-t-2 border-[#F0ECED]">
-                    <div>
-                      <p className="font-bold">Total</p>
-                    </div>
-                    <div>
-                      <p className="font-bold">₹32,660</p>
                     </div>
                   </div>
                 </div>

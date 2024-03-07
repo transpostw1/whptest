@@ -3,13 +3,15 @@
 import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductType } from "@/type/ProductType";
-import Products from "@/data/Products.json";
+// import Products from "@/data/Products.json";
 import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
 import Checkbox from "@/components/Other/CheckBox";
 import ReactPaginate from "react-paginate";
 import SortBy from "../Other/SortBy";
 import MobileFilters from "../Other/MobileFilters";
+import axios from "axios";
+import DownloadAppBanner from "../Other/DownloadAppBanner";
 
 interface Props {
   // data: Array<ProductType>;
@@ -56,16 +58,10 @@ const Filter = [
   { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
   { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
-const ShopBreadCrumb1: React.FC<Props> = ({
-  productPerPage,
-  dataType,
-  gender,
-  category,
-}) => {
+const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [showOnlySale, setShowOnlySale] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const [sortOption, setSortOption] = useState<boolean>(false);
-  const [type, setType] = useState<string | null | undefined>(dataType);
   const [mobileFilter, setMobileFilter] = useState<boolean | null>(false);
   const [color, setColor] = useState<string | null>();
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
@@ -75,11 +71,12 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [header, setHeader] = useState<boolean | null>(true);
   const [filters, setFilters] = useState<any>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
   });
-  const [length, setLength] = useState<number|null>(null)
+  const [length, setLength] = useState<number | null>(null);
   // const [currentPage, setCurrentPage] = useState(0);
   // const productsPerPage = 5;
   // const offset = currentPage * productsPerPage;
@@ -277,7 +274,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   const productsPerPage = 9;
   const pagesVisited = pageNumber * productsPerPage;
 
-  const pageCount = Math.ceil(Products.length / productPerPage);
+  const pageCount = Math.ceil(data.length / productsPerPage);
   const changePage = ({ selected }: any) => {
     setPageNumber(selected);
   };
@@ -286,9 +283,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   };
   const handleCloseMobileFilters = () => {
     setMobileFilter(false);
-    {
-      console.log("nahi pata");
-    }
   };
   const handleOnClose = () => {
     setSortOption(false);
@@ -311,6 +305,20 @@ const ShopBreadCrumb1: React.FC<Props> = ({
     }
   };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response: any = await axios.get<ProductType[]>(
+          "http://164.92.120.19/api/getall-products"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.log("data is unable to fetch");
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const scrollHeader = () => {
       if (window.scrollY >= 850) {
         setHeader(false);
@@ -327,16 +335,14 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   }, []);
   return (
     <>
-      <div className="shop-product breadcrumb1 lg:py-20 md:py-14">
+      <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
         <div className="container">
           <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
             <div
               className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden`}
             >
               <div
-                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-                  header ? "lg:fixed top-24 w-1/4" : "relative"
-                }`}
+                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto `}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>
                 <div className="mt-5">
@@ -533,7 +539,10 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 >
                   SortBy
                 </div>
-                <div className="flex" onClick={() => setMobileFilter(!mobileFilter)}>
+                <div
+                  className="flex"
+                  onClick={() => setMobileFilter(!mobileFilter)}
+                >
                   <p>Filter </p>
                 </div>
               </div>
@@ -589,7 +598,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 </div>
               </div>
             )}
-            <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
+            <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 h-[650px] overflow-y-auto no-scrollbar">
               {/* <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
                                  <div className="left flex has-line items-center flex-wrap gap-5">
                                     <div className="choose-layout flex items-center gap-2">
@@ -715,7 +724,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 )}
               </div> */}
 
-              <div className="mt-11 lg:mt-0">
+              <div className="">
                 <p className="text-5xl font-bold">Earring</p>
               </div>
               <div className="flex justify-between mt-5">
@@ -787,27 +796,27 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                      No products match the selected criteria.
                   </div> */}
 
-                {Products.slice(
-                  pagesVisited,
-                  pagesVisited + productsPerPage
-                ).map((item) => (
-                  <Product key={item.ProductID} data={item} />
-                ))}
+                {data
+                  .slice(pagesVisited, pagesVisited + productsPerPage)
+                  .map((item: any) => (
+                    <Product key={item.productId} data={item} />
+                  ))}
               </div>
-
-              {pageCount > 1 && (
-                <div className="list-pagination flex items-center md:mt-10 mt-7">
-                  <ReactPaginate
-                    previousLabel={"<"}
-                    nextLabel={">"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={"pagination"}
-                    activeClassName={"active"}
-                  />
-                </div>
-              )}
             </div>
+          </div>
+          <div className="flex justify-center">
+            {pageCount > 1 && (
+              <div className="list-pagination flex items-center md:mt-10 mt-7">
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  pageCount={pageCount}
+                  onPageChange={changePage}
+                  containerClassName={"pagination"}
+                  activeClassName={"active"}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

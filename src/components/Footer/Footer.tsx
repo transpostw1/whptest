@@ -83,31 +83,31 @@ const Footer = () => {
                       className="caption1 has-line-before duration-300 w-fit"
                       href={"#!"}
                     >
-                      Women
+                      Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
                     >
-                      Men
+                      Bangles
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
                     >
-                      Clothes
+                      Rings
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
                     >
-                      Accessories
+                      Necklaces
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"/blog"}
                     >
-                      Blog
+                      Stones
                     </Link>
                   </div>
                   <div className="item flex flex-col basis-1/3 ">

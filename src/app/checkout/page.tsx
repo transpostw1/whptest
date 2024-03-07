@@ -10,7 +10,7 @@ import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { PhoneInput } from "react-international-phone";
+import { PhoneInput,ParsedCountry } from "react-international-phone";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

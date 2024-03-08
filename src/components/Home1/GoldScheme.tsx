@@ -13,7 +13,10 @@ const GoldScheme = () => {
           <div className="flex flex-col justify-start h-full py-10 px-4 gap-32 ">
             <div className="flex flex-wrap w-full justify-between">
               <h3 className="font-semibold text-lg">Gold Schemes</h3>
-              <a href="/benefits" className="text-red-600 underline flex items-center">
+              <a
+                href="/benefits"
+                className="text-red-600 underline flex items-center"
+              >
                 Benefit Calculator
                 <Icon.ArrowRight />
               </a>
@@ -36,13 +39,15 @@ const GoldScheme = () => {
           </div>
         </div>
         <div className="w-full lg:w-1/2 h-96 lg:h-auto">
-          <Image
-            src={"/images/other/GoldScheme2.jpg"}
-            width={1000}
-            height={400}
-            alt="gemstones"
-            className="object-fill w-full h-full"
-          />
+          <div className="banner-img">
+            <Image
+              src={"/images/other/GoldScheme2.jpg"}
+              width={1000}
+              height={400}
+              alt="gemstones"
+              className="object-fill w-full h-full duration-1000"
+            />
+          </div>
         </div>
       </div>
     </>

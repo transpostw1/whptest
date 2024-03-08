@@ -18,6 +18,8 @@ const app = initializeApp(firebaseConfig);
 export { app };
 
 export const auth = getAuth(app);
+
+
 export const slogans = [
   "WELCOME TO WHP JEWELLERS",
   "WE OFFER SAFE AND SECURE SHIPPING",

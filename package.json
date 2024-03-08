@@ -12,6 +12,7 @@
     "@phosphor-icons/react": "^2.0.14",
     "@types/react-otp-input": "^2.0.5",
     "@types/tailwindcss": "^3.1.0",
+    "axios": "^1.6.7",
     "firebase": "^10.8.0",
     "formik": "^2.4.5",
     "framer-motion": "^10.17.4",

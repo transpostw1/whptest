@@ -15,17 +15,18 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
-      phoneNumber: phoneNumber,
+      phoneNumber: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
-        .max(2, "Must be 15 characters or less")
+        .max(7, "Must be 15 characters or less")
         .required("Required"),
       lastName: Yup.string()
         .max(20, "Must be 20 characters or less")
@@ -33,9 +34,16 @@ const Register = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: (values) => {
+      console.log(values);
+       setSubmitted(true);
       alert(JSON.stringify(values, null, 2));
     },
   });
+  const handlePhoneChange = (value: string) => {
+   const formattedPhoneNumber = value.startsWith("+") ? value : `+${value}`;
+   setPhoneNumber(formattedPhoneNumber);
+   formik.setFieldValue("phoneNumber", formattedPhoneNumber);
+  };
 
   return (
     <>
@@ -65,6 +73,7 @@ const Register = () => {
                     id="firstName"
                     type="text"
                     {...formik.getFieldProps("firstName")}
+                    disabled={submitted}
                   />
                   {formik.touched.firstName && formik.errors.firstName ? (
                     <div className="text-red-500">
@@ -82,6 +91,7 @@ const Register = () => {
                     id="lastName"
                     type="text"
                     {...formik.getFieldProps("lastName")}
+                    disabled={submitted}
                   />
                   {formik.touched.lastName && formik.errors.lastName ? (
                     <div className="text-red-500">{formik.errors.lastName}</div>
@@ -97,6 +107,7 @@ const Register = () => {
                     id="email"
                     type="email"
                     {...formik.getFieldProps("email")}
+                    disabled={submitted}
                   />
                   {formik.touched.email && formik.errors.email ? (
                     <div className="text-red-500">{formik.errors.email}</div>
@@ -109,7 +120,7 @@ const Register = () => {
                   <PhoneInput
                     country={"in"}
                     value={phoneNumber}
-                    onChange={setPhoneNumber}
+                    onChange={handlePhoneChange}
                     containerClass="border h-full w-full rounded-lg"
                     inputStyle={{
                       marginTop: "1rem",
@@ -127,15 +138,22 @@ const Register = () => {
                     buttonStyle={{
                       height: "3rem",
                     }}
+                    disabled={submitted}
                   />
                 </div>
-                <div className="block-button md:mt-7 mt-4">
-                  {/* <button className="button-main">Generate Otp</button> */}
-                  <div className="mt-4">
-                    <OtpVerification phoneNumber={phoneNumber} />
-                  </div>
-                </div>
               </form>
+
+              <div className="block-button md:mt-7 mt-4">
+                {/* <button className="button-main">Generate Otp</button> */}
+                <div className="mt-4">
+                  <OtpVerification
+                    phoneNumber={phoneNumber}
+                    formikValues={formik.values}
+                    onSubmit={formik.handleSubmit}
+                    isRegisterPage={true}
+                  />
+                </div>
+              </div>
             </div>
             <div className="right md:w-1/2 w-full lg:pl-[60px] md:pl-[40px] flex items-center">
               <div className="text-content">

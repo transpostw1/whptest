@@ -191,7 +191,7 @@
         opacity: 1;
     }
 }
-
+$primary-color:#e26178;
 
 .list-pagination {
     .pagination {
@@ -202,7 +202,7 @@
         li {
             width: 44px;
             height: 44px;
-            border-radius: 6px;
+            border-radius: 20px;
             border: 1px solid var(--line);
             transition: all ease 0.3s;
 
@@ -219,7 +219,7 @@
 
             &:hover,
             &.active {
-                background-color: var(--black);
+                background-color:$primary-color;
                 color: var(--white);
             }
 

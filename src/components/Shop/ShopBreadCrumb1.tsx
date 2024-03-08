@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductType } from "@/type/ProductType";
-import Products from "@/data/Products.json";
+// import Products from "@/data/Products.json";
 import Product from "../Product/Product";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import HandlePagination from "../Other/HandlePagination";
 import Checkbox from "@/components/Other/CheckBox";
+import ReactPaginate from "react-paginate";
+import SortBy from "../Other/SortBy";
+import MobileFilters from "../Other/MobileFilters";
+import axios from "axios";
+import DownloadAppBanner from "../Other/DownloadAppBanner";
 
 interface Props {
   // data: Array<ProductType>;
@@ -56,65 +58,64 @@ const Filter = [
   { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
   { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
-const ShopBreadCrumb1: React.FC<Props> = ({
-  productPerPage,
-  dataType,
-  gender,
-  category,
-}) => {
+const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [showOnlySale, setShowOnlySale] = useState(false);
-  const [sortOption, setSortOption] = useState("");
-  const [type, setType] = useState<string | null | undefined>(dataType);
-  const [size, setSize] = useState<string | null>();
+  const [pageNumber, setPageNumber] = useState(0);
+  const [sortOption, setSortOption] = useState<boolean>(false);
+  const [mobileFilter, setMobileFilter] = useState<boolean | null>(false);
   const [color, setColor] = useState<string | null>();
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [checkedOptions, setCheckedOptions] = useState<any>({});
   const [brand, setBrand] = useState<string | null>();
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
-  const [header, setHeader] = useState<boolean | null>(false);
+  const [header, setHeader] = useState<boolean | null>(true);
   const [filters, setFilters] = useState<any>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
   });
-  const [currentPage, setCurrentPage] = useState(0);
-  const productsPerPage = 5;
-  const offset = currentPage * productsPerPage;
+  const [length, setLength] = useState<number | null>(null);
+  // const [currentPage, setCurrentPage] = useState(0);
+  // const productsPerPage = 5;
+  // const offset = currentPage * productsPerPage;
 
-  const handleShowOnlySale = () => {
-    setShowOnlySale((toggleSelect) => !toggleSelect);
-  };
+  // const handleShowOnlySale = () => {
+  //   setShowOnlySale((toggleSelect) => !toggleSelect);
+  // };
 
-  const handleSortChange = (option: string) => {
-    setSortOption(option);
-    setCurrentPage(0);
-  };
+  // const handleSortChange = (option: string) => {
+  //   setSortOption(option);
+  //   setCurrentPage(0);
+  // };
 
-  const handleType = (type: string | null) => {
-    setType((prevType) => (prevType === type ? null : type));
-    setCurrentPage(0);
-  };
+  // const handleType = (type: string | null) => {
+  //   setType((prevType) => (prevType === type ? null : type));
+  //   setCurrentPage(0);
+  // };
 
-  const handleSize = (size: string) => {
-    setSize((prevSize) => (prevSize === size ? null : size));
-    setCurrentPage(0);
-  };
+  // const handleSize = (size: string) => {
+  //   setSize((prevSize) => (prevSize === size ? null : size));
+  //   setCurrentPage(0);
+  // };
 
-  const handlePriceChange = (values: number | number[]) => {
-    if (Array.isArray(values)) {
-      setPriceRange({ min: values[0], max: values[1] });
-      setCurrentPage(0);
-    }
-  };
+  // const handlePriceChange = (values: number | number[]) => {
+  //   if (Array.isArray(values)) {
+  //     setPriceRange({ min: values[0], max: values[1] });
+  //     setCurrentPage(0);
+  //   }
+  // };
 
-  const handleColor = (color: string) => {
-    setColor((prevColor) => (prevColor === color ? null : color));
-    setCurrentPage(0);
-  };
+  // const handleColor = (color: string) => {
+  //   setColor((prevColor) => (prevColor === color ? null : color));
+  //   setCurrentPage(0);
+  // };
 
-  const handleBrand = (brand: string) => {
-    setBrand((prevBrand) => (prevBrand === brand ? null : brand));
-    setCurrentPage(0);
-  };
+  // const handleBrand = (brand: string) => {
+  //   setBrand((prevBrand) => (prevBrand === brand ? null : brand));
+  //   setCurrentPage(0);
+  // };
 
   // Filter product
   // let filteredData = data.filter((product) => {
@@ -253,38 +254,69 @@ const ShopBreadCrumb1: React.FC<Props> = ({
   //   currentProducts = [];
   // }
 
-  const handlePageChange = (selected: number) => {
-    setCurrentPage(selected);
-  };
+  // const handlePageChange = (selected: number) => {
+  //   setCurrentPage(selected);
+  // };
 
-  const handleClearAll = () => {
-    dataType = null;
-    setShowOnlySale(false);
-    setSortOption("");
-    setType(null);
-    setSize(null);
-    setColor(null);
-    setBrand(null);
-    setPriceRange({ min: 0, max: 100 });
-    setCurrentPage(0);
-    handleType(null);
-  };
+  // const handleClearAll = () => {
+  //   dataType = null;
+  //   setShowOnlySale(false);
+  //   setSortOption("");
+  //   setType(null);
+  //   setSize(null);
+  //   setColor(null);
+  //   setBrand(null);
+  //   setPriceRange({ min: 0, max: 100 });
+  //   setCurrentPage(0);
+  //   handleType(null);
+  // };
 
+  const productsPerPage = 9;
+  const pagesVisited = pageNumber * productsPerPage;
+
+  const pageCount = Math.ceil(data.length / productsPerPage);
+  const changePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
   const handleFilterDropdown = (item: any) => {
     setFilterDropDown(item);
   };
+  const handleCloseMobileFilters = () => {
+    setMobileFilter(false);
+  };
+  const handleOnClose = () => {
+    setSortOption(false);
+  };
+  const handleOptionSelect = (option: any) => {
+    const newCheckedOptions = {
+      ...checkedOptions,
+      [option]: !checkedOptions[option],
+    };
+    setCheckedOptions(newCheckedOptions);
 
-  const scrollHeader = () => {
-    if (window.scrollY >= 200) {
-      setHeader(true);
+    if (!selectedOptions.includes(option)) {
+      setSelectedOptions([...selectedOptions, option]);
     } else {
-      setHeader(false);
+      setSelectedOptions(
+        selectedOptions.filter(
+          (selectedOption: any) => selectedOption !== option
+        )
+      );
     }
   };
-
-  const handleFilters = (option: any) => {
-    setFilters([option, ...filters]);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response: any = await axios.get<ProductType[]>(
+          "http://164.92.120.19/api/getall-products"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.log("data is unable to fetch");
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollHeader);
@@ -293,47 +325,16 @@ const ShopBreadCrumb1: React.FC<Props> = ({
       window.removeEventListener("scroll", scrollHeader);
     };
   }, []);
-
   return (
     <>
-      {/* <div className="breadcrumb-block style-img">
-                <div className="breadcrumb-main bg-linear overflow-hidden">
-                    <div className="container lg:pt-[134px] pt-24 pb-10 relative">
-                        <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
-                            <div className="text-content">
-                                <div className="heading2 text-center">{dataType === null ? 'Shop' : dataType}</div>
-                                <div className="link flex items-center justify-center gap-1 caption1 mt-3">
-                                    <Link href={'/'}>Homepage</Link>
-                                    <Icon.CaretRight size={14} className='text-secondary2' />
-                                    <div className='text-secondary2 capitalize'>{dataType === null ? 'Shop' : dataType}</div>
-                                </div>
-                            </div>
-                            <div className="list-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                                {['t-shirt', 'dress', 'top', 'swimwear', 'shirt'].map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={`tab-item text-button-uppercase cursor-pointer has-line-before line-2px ${dataType === item ? 'active' : ''}`}
-                                        onClick={() => handleType(item)}
-                                    >
-                                        {item}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-      <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
+      <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
         <div className="container">
-          <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
+          <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
             <div
-              className={`sidebar lg:w-4/3 md:w-1/3 w-full sm:hidden md:pr-12 lg:block`}
+              className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden`}
             >
               <div
-                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-                  header ? "fixed top-9 w-1/4 overflow-y-auto" : "relative"
-                }`}
+                className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto `}
               >
                 <div className="heading6 border-b-2">FILTER BY</div>
                 <div className="mt-5">
@@ -346,6 +347,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                     </div>
                   ))}
                 </div>
+
                 <div className="list-type mt-4">
                   {Filter.map((item, index) => (
                     <div
@@ -366,17 +368,23 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                       {filterDropDown === item.title ? (
                         <div>
                           {item.options.map((option, index) => (
-                            <div key={index}>
-                              <Checkbox
-                                label={option}
-                                onClick={() => handleFilters(option)}
+                            <div key={option}>
+                              <input
+                                type="checkbox"
+                                id={option}
+                                checked={checkedOptions[option]}
+                                onChange={() => handleOptionSelect(option)}
                               />
+                              <label className="ml-2" htmlFor={option}>
+                                {option}
+                              </label>
                             </div>
                           ))}
                         </div>
                       ) : null}
                     </div>
                   ))}
+                  <div></div>
                 </div>
               </div>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">
@@ -505,7 +513,74 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                                 </div>
                             </div> */}
             </div>
-            <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
+            <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden block h-[52px]">
+              <div className="flex justify-center align-middle mt-4 text-white">
+                <div
+                  className="mr-5"
+                  onClick={() => setSortOption(!sortOption)}
+                >
+                  SortBy
+                </div>
+                <div
+                  className="flex"
+                  onClick={() => setMobileFilter(!mobileFilter)}
+                >
+                  <p>Filter </p>
+                </div>
+              </div>
+            </div>
+            {sortOption && (
+              <SortBy visible={sortOption} onClose={handleOnClose} />
+            )}
+            {mobileFilter && (
+              <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
+                <div className="mt-24 p-4">
+                  <Icon.X size={25} onClick={() => setMobileFilter(false)} />
+                  <div className="h-[700px] overflow-y-auto no-scrollbar">
+                    <div className="mt-5">
+                      <p className="heading7">Filter</p>
+                    </div>
+                    <div className="list-type mt-4">
+                      {Filter.map((item, index) => (
+                        <div
+                          key={index}
+                          className={`item cursor-pointer`}
+                          onClick={() => handleFilterDropdown(item.title)}
+                        >
+                          <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
+                            <p className="text-lg font-semibold">
+                              {item.title}
+                            </p>
+
+                            <p className="mt-1">
+                              <Icon.CaretDown weight="fill" />
+                            </p>
+                          </div>
+                          {filterDropDown === item.title ? (
+                            <div>
+                              {item.options.map((option, index) => (
+                                <div key={option}>
+                                  <input
+                                    type="checkbox"
+                                    id={option}
+                                    checked={checkedOptions[option]}
+                                    onChange={() => handleOptionSelect(option)}
+                                  />
+                                  <label className="ml-2" htmlFor={option}>
+                                    {option}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 h-[650px] overflow-y-auto no-scrollbar">
               {/* <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
                                  <div className="left flex has-line items-center flex-wrap gap-5">
                                     <div className="choose-layout flex items-center gap-2">
@@ -631,15 +706,15 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                 )}
               </div> */}
 
-              <div>
+              <div className="">
                 <p className="text-5xl font-bold">Earring</p>
               </div>
               <div className="flex justify-between mt-5">
-                <div className="w-[50%]">
+                <div className="lg:w-[70%] sm:w-[100%]">
                   Earrings are a form of self-expression. They effortlessly
                   transform an outfit, framing the face with style and grace.
                 </div>
-                <div className="">
+                <div className="hidden lg:block">
                   <span
                     className="flex cursor-pointer font-semibold"
                     onClick={() => {
@@ -653,47 +728,77 @@ const ShopBreadCrumb1: React.FC<Props> = ({
                   </span>
                 </div>
               </div>
-              {dropdown === true ? (
-                <div className="flex justify-between mt-3">
-                  <p className="text-lg font-semibold cursor-pointer">Hoops</p>
-                  <p className="text-lg font-semibold cursor-pointer">Studs</p>
-                  <p className="text-lg font-semibold cursor-pointer">Drops</p>
-                  <p className="text-lg font-semibold cursor-pointer">
+              <div className="flex flex-wrap lg:hidden">
+                {selectedOptions.map((option: string, index: React.Key) => (
+                  <div
+                    key={index}
+                    className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                  >
+                    {option}
+                    <button
+                      className="ml-2 align-middle mb-1"
+                      onClick={() => handleOptionSelect(option)}
+                    >
+                      <Icon.X size={20} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {dropdown && (
+                <div className="lg:flex justify-between mt-3 hidden">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Hoops
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Studs
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Drops
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Jhumkas
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Danglers
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">
-                    Ear Cuffs
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    EarCuffs
                   </p>
-                  <p className="text-lg font-semibold cursor-pointer">Pearls</p>
-                  <p className="text-lg font-semibold cursor-pointer">
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
+                    Pearls
+                  </p>
+                  <p className="text-lg font-semibold cursor-pointer mr-2">
                     Chandbali
                   </p>
                 </div>
-              ) : null}
+              )}
 
               <div className="list-product hide-product-sold grid lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
-                {Products.map((item) => (
-                  // item.ProductID === "no-data" ? (
-                  //   <div key={item.ProductID} className="no-data-product">
-                  //     No products match the selected criteria.
-                  //   </div>
-                  // ) : (
-                  <Product key={item.ProductID} data={item} />
-                ))}
-              </div>
+                {/*   <div key={item.ProductID} className="no-data-product">
+                     No products match the selected criteria.
+                  </div> */}
 
-              {/* {pageCount > 1 && (
-                <div className="list-pagination flex items-center md:mt-10 mt-7">
-                  <HandlePagination
-                    pageCount={pageCount}
-                    onPageChange={handlePageChange}
-                  />
-                </div>
-              )} */}
+                {data
+                  .slice(pagesVisited, pagesVisited + productsPerPage)
+                  .map((item: any) => (
+                    <Product key={item.productId} data={item} />
+                  ))}
+              </div>
             </div>
+          </div>
+          <div className="flex justify-center">
+            {pageCount > 1 && (
+              <div className="list-pagination flex items-center md:mt-10 mt-7">
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  pageCount={pageCount}
+                  onPageChange={changePage}
+                  containerClassName={"pagination"}
+                  activeClassName={"active"}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

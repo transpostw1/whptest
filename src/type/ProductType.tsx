@@ -4,6 +4,16 @@ interface Variation {
   colorImage: string;
   image: string;
 }
+export interface ImageDetails{
+    image_path:string|null,
+    order:number|string|null,
+    alt_text?:string|null,
+}
+export interface VideoDetails{
+    video_path:string|null,
+    order:number|string|null,
+    alt_text?:string|null,
+}
 
 export interface ProductType {
   ProductID: string;

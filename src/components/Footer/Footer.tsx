@@ -8,9 +8,9 @@ const Footer = () => {
     <>
       <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-gray-50">
-          <div className="container">
+          <div className="container mt-8">
             <div className="flex flex-wrap gap-3 items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 ">
                 <Image
                   src={"/images/other/logo2.png"}
                   width={40}

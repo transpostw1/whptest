@@ -14,7 +14,7 @@ const WhpApp = () => {
             you want! Shining new app, made just for you! it's Free, Easy &
             Smart.
           </p>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 justify-center">
             <Image
               src={"/images/other/GooglePlay.png"}
               height={200}

@@ -77,7 +77,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
   let totalCart = 0;
   cartState.cartArray.forEach(
-    (item) => (totalCart += item.price * item.quantity)
+    (item) => (totalCart += item.ProdPriceWithDiscountTax * item.quantity)
   );
 
   const handlePayment = (item: string) => {
@@ -241,23 +241,23 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 cartState.cartArray.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
-                    key={product.id}
+                    key={product.ProductID}
                   >
                     <Image
-                      src={product.thumbImage[0]}
+                      src={product.img[0]}
                       width={100}
                       height={200}
-                      alt={product.name}
+                      alt={product.Title}
                       className="rounded-lg object-cover"
                     />
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
-                        <div className="text-title">{product.name}</div>
+                        <div className="text-title">{product.Title}</div>
                         <div className="text-title">Gold 21gms</div>
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product.id)}
+                            onClick={() => removeFromCart(product.ProductID)}
                           >
                             Remove
                           </div>
@@ -291,7 +291,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.id,
+                              product.ProductID,
                               product.quantity + 1
                             )
                           }
@@ -549,19 +549,19 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     cartState.cartArray.map((product) => (
                       <div
                         className="border border-gray-200 flex w-full  items-center mb-2 "
-                        key={product.id}
+                        key={product.ProductID}
                       >
                         <Image
-                          src={product.thumbImage[0]}
+                          src={product.img[0]}
                           width={100}
                           height={200}
-                          alt={product.name}
+                          alt={product.Title}
                           className="rounded-lg object-cover"
                         />
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
                         <div className="py-4 flex flex-col">
                           <div className="text-title">
-                            {product.name} X {product.quantity}{" "}
+                            {product.Title} X {product.quantity}{" "}
                           </div>
                           <div className="text-title text-start">
                             ${product.quantity * data?.ProdPrice}.00
@@ -580,7 +580,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                   <div className="">
                     <div className="flex justify-between font-medium">
                       <h3>Subtotal</h3>
-                      <h3>₹24237.59</h3>
+                      <h3>₹{totalCart}</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>

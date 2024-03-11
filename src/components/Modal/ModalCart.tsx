@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import productData from '@/data/Product.json'
+import productData from '@/data/Products.json'
 import { ProductType } from '@/type/ProductType';
 import { useModalCartContext } from '@/context/ModalCartContext'
 import { useCart } from '@/context/CartContext'
@@ -27,11 +27,11 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
     const { cartState, addToCart, removeFromCart, updateCart } = useCart()
 
     const handleAddToCart = (productItem: ProductType) => {
-        if (!cartState.cartArray.find(item => item.id === productItem.id)) {
+        if (!cartState.cartArray.find(item => item.ProductID === productItem.ProductID)) {
             addToCart({ ...productItem });
-            updateCart(productItem.id, productItem.quantityPurchase, '', '')
+            updateCart(productItem.ProductID, productItem.QuantityPurchase, '', '')
         } else {
-            updateCart(productItem.id, productItem.quantityPurchase, '', '')
+            updateCart(productItem.ProductID, productItem.QuantityPurchase, '', '')
         }
     };
 
@@ -43,7 +43,9 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
     let [totalCart, setTotalCart] = useState<number>(0)
     let [discountCart, setDiscountCart] = useState<number>(0)
 
-    cartState.cartArray.map(item => totalCart += item.price * item.quantity)
+    cartState.cartArray.map(
+      (item) => (totalCart += item.ProdPriceWithDiscountTax * item.quantity)
+    );
 
     return (
       <>
@@ -59,27 +61,27 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
               <div className="list px-6">
                 {productData.slice(0, 4).map((product) => (
                   <div
-                    key={product.id}
+                    key={product.ProductID}
                     className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                   >
                     <div className="infor flex items-center gap-5">
                       <div className="bg-img">
                         <Image
-                          src={product.images[0]}
+                          src={product.img[0]}
                           width={300}
                           height={300}
-                          alt={product.name}
+                          alt={product.Title}
                           className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
                         />
                       </div>
                       <div className="">
-                        <div className="name text-button">{product.name}</div>
+                        <div className="name text-button">{product.Title}</div>
                         <div className="flex items-center gap-2 mt-2">
                           <div className="product-price text-title">
-                            ${product.price}.00
+                            ₹{product.ProdPriceWithDiscountTax}.00
                           </div>
                           <div className="product-origin-price text-title text-secondary2">
-                            <del>${product.originPrice}.00</del>
+                            <del>₹{product.ProdPrice}.00</del>
                           </div>
                         </div>
                       </div>
@@ -107,7 +109,7 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
                   <Icon.X size={14} />
                 </div>
               </div>
-              <div className="time px-6">
+              {/* <div className="time px-6">
                 <div className=" flex items-center gap-3 px-5 py-3 bg-green rounded-lg">
                   <p className="text-3xl">🔥</p>
                   <div className="caption1">
@@ -123,42 +125,44 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
                     Please checkout now before your items sell out!
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="list-product px-6">
                 {cartState.cartArray.map((product) => (
                   <div
-                    key={product.id}
+                    key={product.ProductID}
                     className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                   >
                     <div className="infor flex items-center gap-3 w-full">
                       <div className="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
                         <Image
-                          src={product.images[0]}
+                          src={product.img[0]}
                           width={300}
                           height={300}
-                          alt={product.name}
+                          alt={product.Title}
                           className="w-full h-full"
                         />
                       </div>
                       <div className="w-full">
                         <div className="flex items-center justify-between w-full">
-                          <div className="name text-button">{product.name}</div>
+                          <div className="name text-button">
+                            {product.Title}
+                          </div>
                           <div
                             className="remove-cart-btn caption1 font-semibold text-red underline cursor-pointer"
-                            onClick={() => removeFromCart(product.id)}
+                            onClick={() => removeFromCart(product.ProductID)}
                           >
                             Remove
                           </div>
                         </div>
                         <div className="flex items-center justify-between gap-2 mt-3 w-full">
-                          <div className="flex items-center text-secondary2 capitalize">
+                          {/* <div className="flex items-center text-secondary2 capitalize">
                             {product.selectedSize || product.sizes[0]}/
                             {product.selectedColor ||
                               product.variation[0].color}
-                          </div>
+                          </div> */}
                           <div className="product-price text-title">
-                            ${product.price}.00
+                            ₹{product.ProdPriceWithDiscountTax}.00
                           </div>
                         </div>
                       </div>
@@ -167,7 +171,7 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
                 ))}
               </div>
               <div className="footer-modal bg-white absolute bottom-0 left-0 w-full">
-                <div className="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
+                {/* <div className="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
                   <div
                     className="item flex items-center gap-3 cursor-pointer"
                     onClick={() => handleActiveTab("shipping")}
@@ -182,10 +186,10 @@ const ModalCart = ({ serverTimeLeft }: { serverTimeLeft: CountdownTimeType }) =>
                     <Icon.Tag className="text-xl" />
                     <div className="caption1">Coupon</div>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex items-center justify-between pt-6 px-6">
                   <div className="heading5">Subtotal</div>
-                  <div className="heading5">$135.00</div>
+                  <div className="heading5"> ₹135.00</div>
                 </div>
                 <div className="block-button text-center p-6">
                   <div className="flex items-center gap-4">

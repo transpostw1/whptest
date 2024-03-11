@@ -1,8 +1,8 @@
 import React from "react";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import MenuOne from "@/components/Header/Menu/MenuOne";
-import SliderOne from "@/components/Slider/SliderOne";
-import WhatNewOne from "@/components/Home1/WhatNewOne";
+// import MenuOne from "@/components/Header/Menu/MenuOne";
+// import SliderOne from "@/components/Slider/SliderOne";
+// import WhatNewOne from "@/components/Home1/WhatNewOne";
 // import productData from "@/data/Product.json";
 import Collection from "@/components/Home1/Collection";
 import ProductSlider from "@/components/Home1/ProductSlider";
@@ -15,6 +15,9 @@ import ProductSlider from "@/components/Home1/ProductSlider";
 // import Testimonial from "@/components/Home1/Testimonial";
 // import Instagram from "@/components/Home1/Instagram";
 // import Brand from "@/components/Home1/Brand";
+
+
+
 import Footer from "@/components/Footer/Footer";
 
 
@@ -31,7 +34,9 @@ import Gifts from "@/components/Home1/Gifts";
 import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
+import WhpApp from "@/components/Home1/WhpApp";
 import productData from "@/data/Products.json";
+
 
 
 
@@ -48,13 +53,14 @@ export default function Home() {
       {/* <Collection /> */}
       <ProductSlider data={productData} start={0} limit={6} />
       <Category />
-      <PreciousGems/>
       <GoldScheme />
       <ShopGender />
+      <PreciousGems />
       <Appointment />
       <Gifts />
-      <SpecialOccasion/>
-      <Reviews/>
+      <SpecialOccasion />
+      <Reviews />
+      <WhpApp/>
       {/* <Banner />
       <Benefit props="md:py-20 py-10" /> */}
       {/* <Testimonial data={testimonialData} limit={6} /> */}

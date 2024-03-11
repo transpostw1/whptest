@@ -77,53 +77,55 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:mb-16 mt-28 pl-8">
-      <div className="w-full md:w-1/2 flex flex-col items-start">
-        <h2 className="text-2xl md:text-4xl font-semibold mb-4 text-red-950">
-          TESTIMONIALS
-        </h2>
-        <h1 className="text-2xl md:text-6xl mb-8 text-red-950">
-          Hear from our <br /> customers
-        </h1>
-        <div className="flex -space-x-4 rtl:space-x-reverse mb-8">
-          {[...Array(3)].map((_, index) => (
-            <div
-              key={index}
-              className="w-20 h-20 border-2 border-gray-300 rounded-full overflow-hidden"
-            >
-              <Image
-                src="/images/other/userimage.jpg"
-                alt="User"
-                width={80}
-                height={80}
-              />
-            </div>
-          ))}
-          <a
-            className="flex items-center justify-center w-20 h-20 text-xs font-medium text-white bg-gray-700 border-2 border-gray-300 rounded-full hover:bg-gray-600"
-            href="#"
-          >
-            +99
-          </a>
-        </div>
-        <div className="flex items-center gap-8 cursor-pointer">
-          <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
-          <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
-        </div>
-      </div>
-      <div className="w-full md:w-1/2 mt-8 items-center h-full">
-        <Slider {...settings} ref={sliderRef}>
-          {TestimonialData.map((testimonial, index) => (
-            <div key={index} className="p-2">
-              <div className="bg-white border border-gray-200 flex flex-col h-full p-4 text-red-950">
-                <p className="text-sm mb-32">{testimonial.content}</p>
-                <h1 className="text-lg font-bold">{testimonial.author}</h1>
+    <>
+      <div className="flex flex-col md:flex-row items-center md:mb-16 mt-28 pl-8">
+        <div className="w-full md:w-1/2 flex flex-col items-start">
+          <h2 className="text-2xl md:text-4xl font-semibold mb-4 text-red-950">
+            TESTIMONIALS
+          </h2>
+          <h1 className="text-2xl md:text-6xl mb-8 text-red-950">
+            Hear from our <br /> customers
+          </h1>
+          <div className="flex -space-x-4 rtl:space-x-reverse mb-8">
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="w-20 h-20 border-2 border-gray-300 rounded-full overflow-hidden"
+              >
+                <Image
+                  src="/images/other/userimage.jpg"
+                  alt="User"
+                  width={80}
+                  height={80}
+                />
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+            <a
+              className="flex items-center justify-center w-20 h-20 text-xs font-medium text-white bg-gray-700 border-2 border-gray-300 rounded-full hover:bg-gray-600"
+              href="#"
+            >
+              +99
+            </a>
+          </div>
+          <div className="flex items-center gap-8 cursor-pointer">
+            <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
+            <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 mt-8 items-center h-full">
+          <Slider {...settings} ref={sliderRef}>
+            {TestimonialData.map((testimonial, index) => (
+              <div key={index} className="p-2">
+                <div className="bg-white border border-gray-200 flex flex-col h-full p-4 text-red-950">
+                  <p className="text-sm mb-32">{testimonial.content}</p>
+                  <h1 className="text-lg font-bold">{testimonial.author}</h1>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

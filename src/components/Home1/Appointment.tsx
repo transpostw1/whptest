@@ -3,7 +3,7 @@ import Image from "next/image";
 const Appointment = () => {
   return (
     <>
-      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mt-5  text-rose-950">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1   text-rose-950">
         <div className="bg-secondary2 flex items-center justify-start lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
           <div className="flex flex-col lg:py-0 md:py-0 sm:py-10 text-center items-start p-10 gap-3">
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-semibold text-red text-left mt-5">

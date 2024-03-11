@@ -135,14 +135,14 @@ const Category = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col relative items-start justify-between gap-2  "
+              className="flex flex-col relative items-start justify-between  "
             >
-              <div className="divvv u-hover--sparkle "> {category.image}</div>
+              <div className="divvv u-hover--sparkle cursor-pointer "> {category.image}</div>
 
               <div >
                 <h1 className="text-xl font-semibold">{category.type}</h1>
                 <p className="text-sm font-medium">{category.description}</p>
-                <h3 className="text-red-600 underline font-medium">View All</h3>
+                <h3 className="text-red-600 underline font-bold cursor-pointer">VIEW ALL</h3>
               </div>
             </div>
           ))}

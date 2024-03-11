@@ -104,7 +104,7 @@ const OtpVerification = ({
       router.push("/");
     } catch (error:any) {
       console.error("Error signing in with OTP:", error);
-      // setErrorMessage(error.response?.data?.message );
+      setErrorMessage(error.response?.data?.message );
       if (error.response) {
 
         console.error("Backend error data:", error.response.data);

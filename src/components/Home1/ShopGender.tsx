@@ -25,7 +25,7 @@ const ShopGender = () => {
 
   return (
     <>
-      <div className="w-full px-7 mt-24 text-rose-950">
+      <div className="w-full px-7 mt-24 text-rose-950 mb-9">
         <div className="flex items-center justify-between">
           <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY GENDER</h1>
         </div>
@@ -47,7 +47,7 @@ const ShopGender = () => {
 
               <h1 className="text-xl font-semibold">{category.type}</h1>
               <p className="text-sm">{category.description}</p>
-              <h3 className="text-red underline">View All</h3>
+              <h3 className="text-red-700 font-bold underline">VIEW ALL</h3>
             </div>
           ))}
         </div>

@@ -110,13 +110,13 @@ const Gifts = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col gap-2 relative items-start"
+              className="flex flex-col gap-2 relative items-center"
             >
               <div className="effect11 img">
                 {category.image} <a href="#">{category.type}</a>
               </div>
               {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}
-              <h3 className="text-red-700 font-medium underline">View All</h3>
+              <h3 className="text-red-700 font-bold underline text-center cursor-pointer">VIEW ALL</h3>
             </div>
           ))}
         </div>

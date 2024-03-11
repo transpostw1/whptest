@@ -9,7 +9,7 @@ $bg: rgba(0, 0, 0, 0.2);
 }
 
 .blurcontainer {
-//   width: 85vw;
+  // width: 85vw;
   margin: 1rem auto;
 }
 
@@ -21,7 +21,7 @@ $bg: rgba(0, 0, 0, 0.2);
 .imgg,
 .overlay {
   transition: .4s all;
-  border-radius: 12px;
+  border-radius: 2px;
 }
 
 .bg {
@@ -42,13 +42,15 @@ $bg: rgba(0, 0, 0, 0.2);
     background: $bg;
     color: #060303;
     opacity: 0;
-    // h2 {
-    //   padding: 20%;
-    // //   font-family: 'Droid Serif', serif;
-    // }
+    h2 {
+      padding: 20%;
+    //   font-family: 'Droid Serif', serif;
+    }
     p {
         padding: 35%;
-    //   font-family: 'Julius Sans One', sans-serif;
+        align-items: center;
+        margin-top: 52px;
+        //   font-family: 'Julius Sans One', sans-serif;
     }
   }
   &:hover {
@@ -64,7 +66,7 @@ $bg: rgba(0, 0, 0, 0.2);
 
 @media screen and (max-width: 1148px) {
   .bg {
-    max-width: 48%;
+    max-width: 148%;
     margin: 1%;
   }
 }

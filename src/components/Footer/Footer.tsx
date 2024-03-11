@@ -7,8 +7,26 @@ const Footer = () => {
   return (
     <>
       <div id="footer" className="footer  text-rose-950">
-        <div className="footer-main bg-surface">
+        <div className="footer-main bg-gray-50">
           <div className="container">
+            <div className="flex flex-wrap gap-3 items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Image
+                  src={"/images/other/logo2.png"}
+                  width={40}
+                  height={40}
+                  alt="80x80"
+                  className=" object-fill"
+                />
+                <h1 className="text-rose-400 text-2xl ">whpJewellers</h1>
+              </div>
+              <div className="w-96">
+                <h3>
+                  Crafting Timeless Elegance,One Jewel at a Time.Discover Your
+                  Statement Piece Today.
+                </h3>
+              </div>
+            </div>
             <div className="content-footer py-[60px] flex justify-between flex-wrap gap-y-8">
               <div className="company-infor basis-1/4 max-lg:basis-full pr-7">
                 <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">

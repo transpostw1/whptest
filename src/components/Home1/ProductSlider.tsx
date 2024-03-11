@@ -24,29 +24,19 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
   const getFilterData = () => {
     if (activeTab === "on sale") {
       return data.filter(
-        (product) =>
-          product.sale ||
-          product.Categories ===
-            " Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
+        (product) => product.sale || product.category === "Jewellery"
       );
     }
 
     if (activeTab === "new arrivals") {
       return data.filter(
-        (product) =>
-          product.New ||
-          product.Categories ===
-            " Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
+        (product) => product.new || product.category === "Jewellery"
       );
     }
 
     if (activeTab === "best sellers") {
       return data
-        .filter(
-          (product) =>
-            product.Categories ===
-            "Women's Jewellery/Earrings/Gold Earrings, Women's Jewellery/Gold Jewellery/Earring"
-        )
+        .filter((product) => product.category === "Jewellery")
         .slice()
         .sort((a, b) => b.sold - a.sold);
     }

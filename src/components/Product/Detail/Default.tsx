@@ -1112,7 +1112,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <>
           {}
             <video
-              className="lg:w-[720px] lg:h-[620px] "
+              className=""
               src="/products/GERD23021256.mp4"
               loop
               autoPlay
@@ -1148,12 +1148,12 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div>
           <div className="mb-5">
             <span className="font-extrabold text-2xl">
-              ₹{product?.productPrice}
+              ₹{product?.discountPrice}
             </span>
             <span className="line-through ml-3 text-[#c5b8b8]">
               ₹{product?.productPrice}
             </span>
-            <span className="ml-3 text-[#e26178] underline">10% OFF</span>
+            <span className="ml-3 text-[#e26178] underline">{product&&(product?.discountValue)}% OFF</span>
           </div>
           <div>
             <span>
@@ -1412,11 +1412,11 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <div className="grid grid-cols-4 mt-4 lg:w-[70%] sm:w-[100%]">
                     <div className="p-2">
                       <Icon.Scales className="mr-1 mt-1" size={27} />
-                      <p>4.810 gms, Gold</p>
+                      <p>{product&&product.metalWeight}gms, {product&&product.metalType}</p>
                     </div>
                     <div className="p-2">
                       <Icon.HandCoins className="mr-1 mt-1" size={27} />
-                      <p>22k Gold</p>
+                      <p>{product&&product.metalPurity} {product&&product.metalType}</p>
                     </div>
                     <div className="p-2">
                       <Icon.ArrowsLeftRight className="mr-1 mt-1" size={27} />
@@ -1506,7 +1506,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </button>
               </h2>
               {showAccordian === 4 ? (
-                <div className="lg:w-[80%] sm:w-[100%] p-4">
+                <div className="lg:w-[100%] sm:w-[100%] p-4">
                   <div className="flex justify-between border border-[#ebe7e7] p-2">
                     <div>Component</div>
                     <div>Weight</div>
@@ -1521,8 +1521,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <p>G.S.T</p>
                     </div>
                     <div>
-                      <p>2.6 gms</p>
-                      <p>0.116 Carat</p>
+                      <p>{product&&product.metalWeight} gms</p>
+                      <p>{product&&product.metalPurity} Carat</p>
                       <p>-</p>
                       <p>-</p>
                       <p>-</p>

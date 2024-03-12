@@ -23,9 +23,10 @@ import ModalSizeguide from "@/components/Modal/ModalSizeguide";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import axios from "axios";
-import { error } from "console";
-
+import { usePathname, useRouter } from "next/navigation";
 interface Props {
   productId: string | number | null;
 }
@@ -39,6 +40,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [size, setSize] = useState<string>("3.0");
   const [data, setData] = useState<ProductType>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // const [openSizeGuide, setOpenSizeGuide] = useState<boolean>(false)
   // const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
@@ -139,7 +141,6 @@ const Default: React.FC<Props> = ({ productId }) => {
   const settingsThumbnails = {
     dots: false,
     infinite: true,
-
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -149,39 +150,32 @@ const Default: React.FC<Props> = ({ productId }) => {
     prevArrow: <Icon.CaretLeft size={40} />,
   };
 
-
   async function getData() {
     const res = await fetch(`http://164.92.120.19/api/products/${productId}`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
-
     return res.json();
   }
 
   async function singleProduct() {
     const product = await getData();
     setData(product);
-    console.log(product, "aaditya");
   }
   useEffect(() => {
     singleProduct();
   }, [productId]);
 
-  const product:ProductType=data[0]
-  
-  // const sortedImages = product.imageDetails?.sort(
-  //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  // );
-
-  // if (!sortedImages) {
-  //   return null; // or render a default image or fallback UI
-  // }
+  const product: ProductType = data[0];
 
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
+  const handleBuyNow = () => {
+    router.push("/checkout");
+  };
+
   // return (
   //   // <>
   //   //     <div className="product-detail default">
@@ -1076,41 +1070,42 @@ const Default: React.FC<Props> = ({ productId }) => {
     <>
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
-          <div className="bg-[#f7f5f6]">
+          <div className="bg-[#fffff]">
             <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-              {product&&(product.imageDetails?.map((image, index) => (
-                <div key={index}>
-                  <Image
-                    className="mx-auto mt-32 mb-7 w-[310px] h-[336px]"
-                    src={image?.image_path}
-                    alt={product.title}
-                    width={400}
-                    height={400}
-                  />
-                </div>
-              )))}
+              {product &&
+                product.imageDetails?.map((image, index) => (
+                  <div key={index}>
+                    <InnerImageZoom
+                      src={image.image_path}
+                      srcSet={image}
+                      zoomScale={1.5}
+                      zoomType="click"
+                      hideCloseButton={true}
+                    />
+                  </div>
+                ))}
             </Slider>
-            <div className="m-auto w-[50%]">
+            <div className="m-auto w-[60%] h-full">
               <Slider
                 {...settingsThumbnails}
                 ref={(slider: any) => setNav2(slider)}
               >
-                {product &&(product.imageDetails?.map((image, index) => (
-                  <div key={index}>
-                    <Image
-                      src={image?.image_path}
-                      alt={product?.title}
-                      width={100}
-                      height={100}
-                      className="lg:mr-1 cursor-pointer"
-                    />
-                  </div>
-                )))}
+                {product &&
+                  product.imageDetails?.map((image, index) => (
+                    <div key={index}>
+                      <Image
+                        src={image?.image_path}
+                        alt={product?.title}
+                        width={100}
+                        height={100}
+                        className="lg:mr-1 cursor-pointer"
+                      />
+                    </div>
+                  ))}
               </Slider>
             </div>
           </div>
           <>
-          {}
             <video
               className=""
               src="/products/GERD23021256.mp4"
@@ -1119,11 +1114,9 @@ const Default: React.FC<Props> = ({ productId }) => {
             />
           </>
         </div>
-        <div className="lg:w-[50%] sm:w-[100%] lg:mt-20 sm:mt-10 lg:ml-[25px] sm:m-auto p-4">
+        <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px] sm:m-auto p-4">
           <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
-            <p className="font-semibold text-3xl mt-4">
-              {product?.title}
-            </p>
+            <p className="font-semibold text-3xl">{product?.title}</p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
               <Icon.ShareFat size={30} weight="fill" className="text-white" />
             </span>
@@ -1153,7 +1146,9 @@ const Default: React.FC<Props> = ({ productId }) => {
             <span className="line-through ml-3 text-[#c5b8b8]">
               ₹{product?.productPrice}
             </span>
-            <span className="ml-3 text-[#e26178] underline">{product&&(product?.discountValue)}% OFF</span>
+            <span className="ml-3 text-[#e26178] underline">
+              {product && product?.discountValue}% OFF
+            </span>
           </div>
           <div>
             <span>
@@ -1161,12 +1156,12 @@ const Default: React.FC<Props> = ({ productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] lg:w-[77%] p-3">
+          <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] p-3">
             <div className="mr-3">
               <p>Metal</p>
               <div className="relative">
                 <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none w-36"
+                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-20 sm:w-20"
                   value={metal}
                   onChange={(e) => setMetal(e.target.value)}
                 >
@@ -1192,7 +1187,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <p>Karat</p>
               <div className="relative">
                 <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none w-36"
+                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none sm:w-20 lg:w-20"
                   value={karat}
                   onChange={(e) => setKarat(e.target.value)}
                 >
@@ -1291,25 +1286,33 @@ const Default: React.FC<Props> = ({ productId }) => {
               <li>Free delivery in 2 days.</li>
             </ul>
           </div>
-          <div className="flex sm:justify-around mt-[25px] ">
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
-              Buy Now
-            </div>
-            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
-              <div className=" m-[2px] mb-[2px] bg-white">
-                <span className="flex justify-center py-[14px]">
-                  <span>Add to Cart</span>
-                  <span className="mt-1">
-                    <Icon.ShoppingCart />
+          {product && (
+            <div className="flex sm:justify-around mt-[25px] ">
+              <div
+
+                className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
+              >
+                <Link href={{pathname:'/checkout',query:{id:JSON.stringify(product.productId)}}}>
+                 Buy Now
+                </Link>
+              </div>
+              <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
+                <div className=" m-[2px] mb-[2px] bg-white">
+                  <span className="flex justify-center py-[14px]">
+                    <span>Add to Cart</span>
+                    <span className="mt-1">
+                      <Icon.ShoppingCart />
+                    </span>
                   </span>
-                </span>
+                </div>
+              </div>
+              <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
+                {" "}
+                <Icon.Heart size={27} weight="thin" />
               </div>
             </div>
-            <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
-              {" "}
-              <Icon.Heart size={27} weight="thin" />
-            </div>
-          </div>
+          )}
+
           <div className="mt-4 border border-[#f7f7f7] w-[445px] p-2 text-center">
             <span className="underline text-[#e26178] cursor-pointer ">
               Schedule free trial
@@ -1412,11 +1415,17 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <div className="grid grid-cols-4 mt-4 lg:w-[70%] sm:w-[100%]">
                     <div className="p-2">
                       <Icon.Scales className="mr-1 mt-1" size={27} />
-                      <p>{product&&product.metalWeight}gms, {product&&product.metalType}</p>
+                      <p>
+                        {product && product.metalWeight}gms,{" "}
+                        {product && product.metalType}
+                      </p>
                     </div>
                     <div className="p-2">
                       <Icon.HandCoins className="mr-1 mt-1" size={27} />
-                      <p>{product&&product.metalPurity} {product&&product.metalType}</p>
+                      <p>
+                        {product && product.metalPurity}{" "}
+                        {product && product.metalType}
+                      </p>
                     </div>
                     <div className="p-2">
                       <Icon.ArrowsLeftRight className="mr-1 mt-1" size={27} />
@@ -1521,8 +1530,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <p>G.S.T</p>
                     </div>
                     <div>
-                      <p>{product&&product.metalWeight} gms</p>
-                      <p>{product&&product.metalPurity} Carat</p>
+                      <p>{product && product.metalWeight} gms</p>
+                      <p>{product && product.metalPurity} Carat</p>
                       <p>-</p>
                       <p>-</p>
                       <p>-</p>

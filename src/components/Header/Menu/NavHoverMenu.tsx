@@ -77,10 +77,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
               <ul className="flex items-center justify-between gap-14 h-full  text-rose-950">
                 <li className="h-full relative ">
                   <Link
-                    href="#!"
+                    href="/shop/breadcrumb1"
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1
                                             ${
-                                              pathname.includes("/homepages/")
+                                              pathname.includes("/shop/breadcrumb1")
                                                 ? "active"
                                                 : ""
                                             }`}

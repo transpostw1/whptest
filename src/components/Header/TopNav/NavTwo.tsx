@@ -42,7 +42,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               />
               <h1 className="text-rose-400 text-2xl ">WhpJewellers</h1>
             </div>
-            <div className="form-search w-72 relative max-lg:hidden z-[1]">
+            <div className="form-search w-72 relative max-lg:hidden">
               <button>
                 <Icon.MagnifyingGlass
                   size={20}
@@ -56,7 +56,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <input
                 type="text"
                 placeholder="What are you looking for?"
-                className=" h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4"
+                className=" h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 onKeyDown={(e) =>

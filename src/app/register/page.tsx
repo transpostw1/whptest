@@ -47,15 +47,12 @@ const Register = () => {
 
   return (
     <>
-      <TopNavOne textColor="text-white" />
+      {/* <TopNavOne textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="relative w-full">
         <NavHoverMenu props="bg-white" />
-        <Breadcrumb
-          heading="Create An Account"
-          subHeading="Create An Account"
-        />
-      </div>
+      </div> */}
+      <Breadcrumb heading="Create An Account" subHeading="Create An Account" />
       <div className="register-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col">

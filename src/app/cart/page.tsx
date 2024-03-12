@@ -79,11 +79,11 @@ const Cart = () => {
 
     return (
       <>
-        <TopNavOne textColor="text-white" />
+        {/* <TopNavOne textColor="text-white" />
         <div id="header" className="relative w-full">
           <MenuOne props="bg-transparent" />
           <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-        </div>
+        </div> */}
         <div className="cart-block md:py-20 py-10">
           <div className="container">
             <div className="content-main flex justify-between max-xl:flex-col gap-y-8">

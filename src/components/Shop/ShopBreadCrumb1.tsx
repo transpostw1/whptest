@@ -315,7 +315,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
         if (selectedOptions > 0) {
           selectedOptions.forEach((option: string) => {
             filteredData = filteredData.filter(
-              (product) => product?.tags?.includes(option) // Assuming option matches the field in the product data
+              (product) => product?.tags?.includes(option) 
             );
           });
         }
@@ -395,7 +395,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                       ) : null}
                     </div>
                   ))}
-                  <div></div>
+
                 </div>
               </div>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">

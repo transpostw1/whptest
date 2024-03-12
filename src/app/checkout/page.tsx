@@ -10,13 +10,14 @@ import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { PhoneInput,ParsedCountry } from "react-international-phone";
+import { PhoneInput, ParsedCountry } from "react-international-phone";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 import {
   AddressBook,
@@ -28,21 +29,30 @@ import {
   CreditCard,
 } from "@phosphor-icons/react";
 
+
+
 interface ProductProps {
   data: ProductType;
 }
 
 const Checkout: React.FC<ProductProps> = ({ data }) => {
+
   // const router = useRouter();
+
+
   const { cartState, removeFromCart } = useCart();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [phone, setPhone] = useState("");
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
+  const { userState } = useUser();
+
+  const isLoggedIn = userState.isLoggedIn;
+  const router = useRouter();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -59,6 +69,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     };
   }, []);
 
+  
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -67,26 +78,30 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     setModalOpen(false);
   };
 
+
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
+
 
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
+
   let totalCart = 0;
   cartState.cartArray.forEach(
     (item) => (totalCart += item.ProdPriceWithDiscountTax * item.quantity)
   );
+  console.log("hjhkhjk", totalCart);
 
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
 
-   const handleOrderComplete = () => {
-     setIsOrderPlaced(true);
-   };
+  const handleOrderComplete = () => {
+    setIsOrderPlaced(true);
+  };
 
   const handleStepClick = (index: number) => {
     setSelectedStep(index);
@@ -95,12 +110,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         setSelectedComponent("CartItems");
         break;
       case 1:
-        setSelectedComponent("Login");
-        break;
-      case 2:
         setSelectedComponent("DeliveryDetails");
         break;
-      case 3:
+      case 2:
         setSelectedComponent("Payment");
         break;
       default:
@@ -109,18 +121,23 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     }
   };
   const handleProceed = () => {
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
     if (selectedStep === steps.length - 1) {
       // Handle completion logic here//
     } else {
       setSelectedStep((prevStep) => prevStep + 1);
       switch (selectedStep) {
         case 0:
-          setSelectedComponent("Login");
+          setSelectedComponent("CartItems");
           break;
         case 1:
           setSelectedComponent("DeliveryDetails");
           break;
-        case 2:
+        case 1:
           setSelectedComponent("Payment");
           break;
         default:
@@ -131,14 +148,16 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const proceedButtonTitle = () => {
+    if (!isLoggedIn) {
+      return "Please Login to Proceed";
+    }
+
     switch (selectedStep) {
       case 0:
-        return "Proceed to Login";
-      case 1:
         return "Proceed to Delivery Details";
-      case 2:
+      case 1:
         return "Proceed to Payment";
-      case 3:
+      case 2:
         return "Place Order";
       default:
         return "Proceed";
@@ -305,27 +324,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
             </div>
           </>
         );
-      case "Login":
-        return (
-          <>
-            <div className=" border w-full border-gray-300 p-8 items-center">
-              {/* <div className="flex flex-col justify-center"> */}
-              <h3>Enter Phone Number</h3>
-              <PhoneInput
-                defaultCountry="in"
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-                placeholder="Number Here !"
-                inputStyle={{ width: "100%" }}
-              />
-              <OTPField />
-              <button className="p-1 mt-2 rounded-lg bg-rose-400">
-                Submit
-              </button>
-              {/* </div> */}
-            </div>
-          </>
-        );
       case "DeliveryDetails":
         return (
           <>
@@ -451,7 +449,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       icon: <ShoppingCart className="text-gray-300 text-2xl rounded-full" />,
       label: "Cart",
     },
-    { icon: <SignIn className="text-gray-300 text-2xl" />, label: "Login" },
     {
       icon: <AddressBook className="text-gray-300 text-2xl" />,
       label: "Address",
@@ -525,22 +522,31 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3>
             </div>
             <div className="w-full lg:w-3/4 mt-5">
-              <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
-              <div className="flex justify-between border border-gray-400 p-3">
-                <div className="flex items-center gap-2 font-medium">
-                  <Gift style={{ color: "red", fontSize: "24px" }} />
-                  <h3>Available Coupons</h3>
+              {selectedComponent === "CartItems" && (
+                <div>
+                  <h1 className="my-5 text-2xl font-bold text-rose-600">
+                    Coupons
+                  </h1>
+                  <div className="flex justify-between border border-gray-400 p-3">
+                    <div className="flex items-center gap-2 font-medium">
+                      <Gift style={{ color: "red", fontSize: "24px" }} />
+                      <h3>Available Coupons</h3>
+                    </div>
+                    <h3 className="text-red-600 underline">View</h3>
+                  </div>
+                  <div className="flex justify-between border border-gray-400 p-3 mt-3">
+                    <div className="flex gap-2 items-center font-medium">
+                      <Gift style={{ color: "red", fontSize: "24px" }} />
+                      <h3>Gift Message</h3>
+                    </div>
+                    <h3 className="text-red-600 underline">Add</h3>
+                  </div>
                 </div>
-                <h3 className="text-red-600 underline">View</h3>
-              </div>
-              <div className="flex justify-between border border-gray-400 p-3 mt-3">
-                <div className="flex gap-2 items-center font-medium">
-                  <Gift style={{ color: "red", fontSize: "24px" }} />
-                  <h3>Gift Message</h3>
-                </div>
-                <h3 className="text-red-600 underline">Add</h3>
-              </div>
-              <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+              )}
+
+              <h1 className="my-5 text-2xl font-bold text-rose-600">
+                ORDER SUMMARY
+              </h1>
               <div className="list-product-main w-full">
                 <div className="hidden  lg:block mb-2">
                   {cartState.cartArray.length < 1 ? (
@@ -576,7 +582,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 </div>
               </div>
               <div className="">
-                <div className="bg-gray-100 p-2">
+                <div className="bg-gray-100 p-2 ">
                   <div className="">
                     <div className="flex justify-between font-medium">
                       <h3>Subtotal</h3>
@@ -596,7 +602,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="flex justify-between font-bold">
                       <h3 className="text-gray-800">Total Price</h3>
-                      <h3>₹24237.59</h3>
+                      <h3>₹{totalCart}</h3>
                     </div>
                   </div>
                 </div>

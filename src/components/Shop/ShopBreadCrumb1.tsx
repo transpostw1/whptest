@@ -318,13 +318,13 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", scrollHeader);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", scrollHeader);
 
-    return () => {
-      window.removeEventListener("scroll", scrollHeader);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", scrollHeader);
+  //   };
+  // }, []);
   return (
     <>
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">

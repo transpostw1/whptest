@@ -24,7 +24,7 @@ import Footer from "@/components/Footer/Footer";
 
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-// import MainCarousel from "@/components/Slider/MainCarousel";
+import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
 import GoldScheme from "@/components/Home1/GoldScheme";

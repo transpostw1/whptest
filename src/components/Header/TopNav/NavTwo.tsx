@@ -9,6 +9,7 @@ import useLoginPopup from "@/store/useLoginPopup";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 
 interface Props {
   props: string;
@@ -20,12 +21,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openModalWishlist } = useModalWishlistContext();
   const { openModalCart } = useModalCartContext();
   const { cartState } = useCart();
+  const { userState } = useUser();
+  const { logOut } = useUser();
+
+  const isLoggedIn = userState.isLoggedIn;
 
   const router = useRouter();
 
   const handleSearch = (value: string) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
+  };
+
+  const handleLogout = () => {
+    logOut();
   };
   return (
     <>
@@ -85,35 +94,64 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
 
                     <div className="user-icon flex items-center justify-center cursor-pointer">
-                      <div className="flex flex-col items-center">
-                        <Icon.User
-                          size={28}
-                          color="black"
-                          onClick={handleLoginPopup}
-                        />
-                        <h4 className="text-sm">User</h4>
-                      </div>
+                      {isLoggedIn ? (
+                        <>
+                          <div className="flex flex-col items-center">
+                            <Icon.User
+                              size={28}
+                              color="red"
+                              onClick={handleLoginPopup}
+                            />
+                            <h4 className="text-sm">MyProfile</h4>
+                          </div>
 
-                      <div
-                        className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
+                          <div
+                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
                                             ${openLoginPopup ? "open" : ""}`}
-                      >
-                        <Link
-                          href={"/login"}
-                          className="button-main w-full text-center"
-                        >
-                          Login With OTP
-                        </Link>
-                        <div className="text-secondary text-center mt-3 pb-4">
-                          Don’t have an account?
-                          <Link
-                            href={"/register"}
-                            className="text-black pl-1 hover:underline"
                           >
-                            Signup
-                          </Link>
-                        </div>
-                      </div>
+                            <button
+                              className="button-main w-full text-center"
+                              onClick={handleLogout}
+                            >
+                              Logout
+                            </button>
+                            <div className="text-secondary text-center mt-3 pb-4">
+                              Visit Again!
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex flex-col items-center">
+                            <Icon.User
+                              size={28}
+                              color="black"
+                              onClick={handleLoginPopup}
+                            />
+                            <h4 className="text-sm">User</h4>
+                          </div>
+                          <div
+                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
+                                            ${openLoginPopup ? "open" : ""}`}
+                          >
+                            <Link
+                              href={"/login"}
+                              className="button-main w-full text-center"
+                            >
+                              Login With OTP
+                            </Link>
+                            <div className="text-secondary text-center mt-3 pb-4">
+                              Don’t have an account?
+                              <Link
+                                href={"/register"}
+                                className="text-black pl-1 hover:underline"
+                              >
+                                Signup
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div

@@ -11,9 +11,9 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
-import { baseUrl, signup,login } from "@/utils/constants";
+import { signup, login } from "@/utils/constants";
+import { useUser } from "@/context/UserContext";
 import { url } from "inspector";
-
 
 interface OtpVerificationProps {
   formikValues: any; // Define the type of formikValues prop
@@ -23,9 +23,8 @@ interface OtpVerificationProps {
 }
 
 class Token {
-  static token = ''
+  static token = "";
 }
-
 
 const OtpVerification = ({
   formikValues,
@@ -38,7 +37,8 @@ const OtpVerification = ({
   const [verificationId, setVerificationId] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
-   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { logIn } = useUser();
 
   const setUpRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -74,7 +74,7 @@ const OtpVerification = ({
       console.error("Error sending OTP:", error);
     }
   };
-  const onVerify = async (action:string) => {
+  const onVerify = async (action: string) => {
     if (!verificationId || !otp) {
       console.error("Invalid verification ID or OTP");
       return;
@@ -89,7 +89,7 @@ const OtpVerification = ({
       console.log(token);
 
       let endpoint = action === "login" ? login : signup;
-      console.log(endpoint,"dfgdgdfg")
+      console.log(endpoint, "dfgdgdfg");
       const response = await axios.post(
         endpoint,
         {
@@ -101,16 +101,16 @@ const OtpVerification = ({
           },
         }
       );
+       logIn();
       router.push("/");
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Error signing in with OTP:", error);
-      setErrorMessage(error.response?.data?.message );
+      setErrorMessage(error.response?.data?.message);
       if (error.response) {
-
         console.error("Backend error data:", error.response.data);
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
-          setErrorMessage(error.response?.data?.error);
+        setErrorMessage(error.response?.data?.error);
       } else if (error.request) {
         console.error("No response received:", error.request);
       } else {
@@ -119,26 +119,24 @@ const OtpVerification = ({
     }
   };
 
-
   useEffect(() => {
     setUpRecaptcha();
   }, []);
 
-
   const handleCombinedClick = () => {
-    onVerify('login');
+    onVerify("login");
     if (isRegisterPage) {
-      onVerify('signup');
+      onVerify("signup");
       onSubmit(formikValues);
     }
   };
- const handleLoginSubmit = () => {
-  if(isRegisterPage){
-  onSubmit(formikValues);
-  onSendOtp();
-  }
-   onSendOtp();
- };
+  const handleLoginSubmit = () => {
+    if (isRegisterPage) {
+      onSubmit(formikValues);
+      onSendOtp();
+    }
+    onSendOtp();
+  };
   return (
     <div className="otpVerification">
       {isOtpSent ? (

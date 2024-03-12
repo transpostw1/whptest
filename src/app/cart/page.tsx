@@ -167,10 +167,10 @@ const Cart = () => {
                               <div className="flex items-center gap-6">
                                 <div className="bg-img md:w-[100px] w-20 aspect-[3/4]">
                                   <Image
-                                    src={product.thumbImage[0]}
+                                    src={product.img[0]}
                                     width={1000}
                                     height={1000}
-                                    alt={product.name}
+                                    alt={product.Title}
                                     className="w-full h-full object-cover rounded-lg"
                                   />
                                 </div>
@@ -347,8 +347,8 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-              <div className="xl:w-1/3 xl:pl-12 w-full">
-                <div className="checkout-block bg-surface p-6 rounded-2xl">
+              <div className="xl:w-1/3 xl:pl-12 w-full bg-blue-700">
+                <div className="  p-6 rounded-2xl">
                   <div className="heading5">Order Summary</div>
                   <div className="total-block py-5 flex justify-between border-b border-line">
                     <div className="text-title">Subtotal</div>

@@ -29,18 +29,15 @@ import {
   CreditCard,
 } from "@phosphor-icons/react";
 
-
-
 interface ProductProps {
   data: ProductType;
 }
 
 const Checkout: React.FC<ProductProps> = ({ data }) => {
-
   // const router = useRouter();
 
+  const { cartState, updateCart, removeFromCart } = useCart();
 
-  const { cartState, removeFromCart } = useCart();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [phone, setPhone] = useState("");
   const [selectedStep, setSelectedStep] = useState(0);
@@ -69,7 +66,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     };
   }, []);
 
-  
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -78,20 +74,31 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     setModalOpen(false);
   };
 
+  const handleQuantityChange = (productId: string, newQuantity: number) => {
+    const itemToUpdate = cartState.cartArray.find(
+      (item) => item.id === productId
+    );
 
+    if (itemToUpdate) {
+      updateCart(
+        productId,
+        newQuantity,
+        itemToUpdate.selectedSize,
+        itemToUpdate.selectedColor
+      );
+    }
+  };
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
 
   const searchParams = useSearchParams();
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
-
   let totalCart = 0;
   cartState.cartArray.forEach(
-    (item) => (totalCart += item.ProdPriceWithDiscountTax * item.quantity)
+    (item) => (totalCart += item.productPrice * item.quantity)
   );
   console.log("hjhkhjk", totalCart);
 
@@ -166,26 +173,11 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
   const AddAddressModal: React.FC = ({ closeModal }) => {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-8 flex flex-col justify-between z-50">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
+        <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
           <button onClick={closeModal}>Close</button>
           <form>
-            <h2 className="text-2xl font-semibold">Contact Details</h2>
-            <div className="mb-4 md:col-span-2">
-              <input
-                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-                type="text"
-                placeholder="Enter Your Name"
-              />
-            </div>
-            <div className="mb-4 md:col-span-2">
-              <PhoneInput
-                defaultCountry="in"
-                value={phone}
-                placeholder="Number Here !"
-                inputStyle={{ width: "100%" }}
-              />
-            </div>
+            
             <h2 className="text-2xl font-semibold">Add Address</h2>
             <div className="my-2 md:col-span-2">
               <input
@@ -260,10 +252,10 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 cartState.cartArray.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
-                    key={product.ProductID}
+                    key={product.productid}
                   >
                     <Image
-                      src={product.img[0]}
+                      src={product.imageDetails[2]}
                       width={100}
                       height={200}
                       alt={product.Title}
@@ -271,12 +263,12 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     />
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
-                        <div className="text-title">{product.Title}</div>
-                        <div className="text-title">Gold 21gms</div>
+                        <div className="text-title">{product.displayTitle}</div>
+                        <div className="text-title">{product.metalType}{product.metalPurity}</div>
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product.ProductID)}
+                            onClick={() => removeFromCart(product.productid)}
                           >
                             Remove
                           </div>
@@ -310,7 +302,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.ProductID,
+                              product.productid,
                               product.quantity + 1
                             )
                           }
@@ -558,16 +550,16 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         key={product.ProductID}
                       >
                         <Image
-                          src={product.img[0]}
+                          src={product.imageDetails[0]}
                           width={100}
                           height={200}
-                          alt={product.Title}
+                          alt={product.displayTitle}
                           className="rounded-lg object-cover"
                         />
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
                         <div className="py-4 flex flex-col">
                           <div className="text-title">
-                            {product.Title} X {product.quantity}{" "}
+                            {product.displayTitle} X {product.quantity}
                           </div>
                           <div className="text-title text-start">
                             ${product.quantity * data?.ProdPrice}.00

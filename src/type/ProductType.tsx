@@ -6,12 +6,12 @@ interface Variation {
 }
 export interface ImageDetails{
     image_path:string|null,
-    order:number|string|null,
+    order:string,
     alt_text?:string|null,
 }
 export interface VideoDetails{
     video_path:string|null,
-    order:number|string|null,
+    order:number|string,
     alt_text?:string|null,
 }
 

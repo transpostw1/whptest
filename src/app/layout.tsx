@@ -29,7 +29,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={instrument.className}>
           {children}
-          <ModalCart serverTimeLeft={serverTimeLeft} />
+          {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
           <ModalWishlist />
           <ModalSearch />
           <ModalQuickview />

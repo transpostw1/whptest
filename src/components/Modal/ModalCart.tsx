@@ -10,16 +10,18 @@ import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { countdownTime } from "@/store/countdownTime";
 import CountdownTimeType from "@/type/CountdownType";
-import { getProducts } from "@/utils/constants";
-import { baseUrl } from "@/utils/constants";
-import instance from "@/utils/axios";
+import { useProductContext } from "@/context/ProductContext";
+
 const ModalCart = ({
   serverTimeLeft,
 }: {
   serverTimeLeft: CountdownTimeType;
 }) => {
   const [timeLeft, setTimeLeft] = useState(serverTimeLeft);
-  const [productData, setProductData] = useState<ProductType[]>([]);
+  const [dataFetched, setDataFetched] = useState(false);
+
+  const { products, fetchData } = useProductContext();
+  console.log(products, "56456464");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,19 +31,12 @@ const ModalCart = ({
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(getProducts);
-        setProductData(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error("Error fetching product data:", error);
-      }
-    };
-
+useEffect(() => {
+  if (!dataFetched) {
     fetchData();
-  }, []);
+    setDataFetched(true);
+  }
+}, []);
 
   const [activeTab, setActiveTab] = useState<string | undefined>("");
   const { isModalOpen, closeModalCart } = useModalCartContext();
@@ -50,7 +45,7 @@ const ModalCart = ({
   const handleAddToCart = (productItem: ProductType) => {
     if (
       !cartState.cartArray.find(
-        (item) => item.ProductID === productItem.ProductID
+        (item) => item.productid === productItem.ProductID
       )
     ) {
       addToCart({ ...productItem });
@@ -84,15 +79,15 @@ const ModalCart = ({
           <div className="left w-1/2 border-r border-line py-6 max-md:hidden text-rose-950">
             <div className="heading5 px-6 pb-3">You May Also Like</div>
             <div className="list px-6">
-              {productData.slice(0, 4).map((product) => (
+              {products.slice(0, 4).map((product) => (
                 <div
-                  key={product.ProductID}
+                  key={product.productid}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
                       <Image
-                        src={productData.imageDetails[0]}
+                        src={product.imageDetails[0]}
                         width={300}
                         height={300}
                         alt={product.Title}
@@ -100,13 +95,15 @@ const ModalCart = ({
                       />
                     </div>
                     <div className="">
-                      <div className="name text-button">{product.Title}</div>
+                      <div className="name text-button">
+                        {product.displayTitle}
+                      </div>
                       <div className="flex items-center gap-2 mt-2">
                         <div className="product-price text-title">
-                          ₹{product.ProdPriceWithDiscountTax}.00
+                          ₹{product.discountPrice}.00
                         </div>
                         <div className="product-origin-price text-title text-secondary2">
-                          <del>₹{product.ProdPrice}.00</del>
+                          <del>₹{product.productPrice}.00</del>
                         </div>
                       </div>
                     </div>
@@ -155,13 +152,13 @@ const ModalCart = ({
             <div className="list-product px-6">
               {cartState.cartArray.map((product) => (
                 <div
-                  key={product.ProductID}
+                  key={product.productid}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-3 w-full">
                     <div className="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
                       <Image
-                        src={product.img[0]}
+                        src={product.imageDetails[0]}
                         width={300}
                         height={300}
                         alt={product.Title}
@@ -170,10 +167,12 @@ const ModalCart = ({
                     </div>
                     <div className="w-full">
                       <div className="flex items-center justify-between w-full">
-                        <div className="name text-button">{product.Title}</div>
+                        <div className="name text-button">
+                          {product.displayTitle}
+                        </div>
                         <div
                           className="remove-cart-btn caption1 font-semibold text-red underline cursor-pointer"
-                          onClick={() => removeFromCart(product.ProductID)}
+                          onClick={() => removeFromCart(product.productid)}
                         >
                           Remove
                         </div>
@@ -185,7 +184,7 @@ const ModalCart = ({
                               product.variation[0].color}
                           </div> */}
                         <div className="product-price text-title">
-                          ₹{product.ProdPriceWithDiscountTax}.00
+                          ₹{product.discountPrice}.00
                         </div>
                       </div>
                     </div>

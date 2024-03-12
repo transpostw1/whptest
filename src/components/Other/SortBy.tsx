@@ -23,7 +23,7 @@ const SortBy: React.FC<Props> = (props) => {
   if (!props.visible) return null;
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-25 z-10"
+      className="fixed inset-0 bg-black bg-opacity-25 z-50"
       id="container"
       onClick={handleOnClose}
     >

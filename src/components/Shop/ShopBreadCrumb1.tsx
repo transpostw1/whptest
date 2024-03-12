@@ -311,20 +311,31 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
           "http://164.92.120.19/api/getall-products"
         );
         setData(response.data);
+        let filteredData = data;
+        if (selectedOptions > 0) {
+          selectedOptions.forEach((option: string) => {
+            filteredData = filteredData.filter(
+              (product) => product?.tags?.includes(option) // Assuming option matches the field in the product data
+            );
+          });
+        }
+
+        setData(filteredData);
+        console.log(filteredData,"aaditya")
       } catch (error) {
         console.log("data is unable to fetch");
       }
     };
     fetchData();
+  }, [selectedOptions]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHeader);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHeader);
+    };
   }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", scrollHeader);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", scrollHeader);
-  //   };
-  // }, []);
   return (
     <>
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">

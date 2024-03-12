@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useState, useReducer, useEffect } from 'react';
 import { ProductType } from '@/type/ProductType';
 
-interface CartItem extends ProductType {
+interface CartItem {
     quantity: number
     selectedSize: string
     selectedColor: string
@@ -45,7 +45,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             return {
               ...state,
               cartArray: state.cartArray.filter(
-                (item) => item.ProductID !== action.payload
+                (item) => item.productid !== action.payload
               ),
             };
         case 'UPDATE_CART':

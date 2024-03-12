@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
 import ModalCart from "@/components/Modal/ModalCart";
@@ -12,7 +12,7 @@ import { countdownTime } from "@/store/countdownTime";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-const instrument = Instrument_Sans({ subsets: ["latin"] });
+const instrument = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "WHP Web",

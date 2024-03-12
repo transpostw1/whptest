@@ -1,7 +1,10 @@
 import exp from "constants";
 import { initializeApp } from "firebase/app";
 import "firebase/auth";
-const firebaseConfig = {
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = 
+{
   apiKey: "AIzaSyBgFoDFSsGYKCs1_GMN2-IsS876mjIP7tM",
   authDomain: "whp-12afa.firebaseapp.com",
   projectId: "whp-12afa",
@@ -13,6 +16,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export { app };
+
+export const auth = getAuth(app);
 
 
 export const slogans = [

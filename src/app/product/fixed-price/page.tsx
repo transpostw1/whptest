@@ -1,12 +1,16 @@
-'use client'
-import React from 'react'
+'use client';
+
+
+
+import React from 'react';
 import { useSearchParams } from 'next/navigation';
-import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
-import BreadcrumbProduct from '@/components/Breadcrumb/BreadcrumbProduct'
+import TopNavOne from '@/components/Header/TopNav/TopNavOne';
+import MenuOne from '@/components/Header/Menu/MenuOne';
+import BreadcrumbProduct from '@/components/Breadcrumb/BreadcrumbProduct';
 import FixedPrice from '@/components/Product/Detail/FixedPrice';
-import Footer from '@/components/Footer/Footer'
-import productData from '@/data/Product.json'
+import Footer from '@/components/Footer/Footer';
+import productData from '@/data/Product.json';
+
 
 const ProductFixedPrice = () => {
     const searchParams = useSearchParams()

@@ -31,6 +31,11 @@ interface Props {
   productId: string | number | null;
 }
 
+const getSingleProduct = (id: any) => {
+  const singleProduct = Products.find((product) => product.ProductID === id);
+  return singleProduct;
+};
+
 const Default: React.FC<Props> = ({ productId }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -1116,7 +1121,9 @@ const Default: React.FC<Props> = ({ productId }) => {
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px] sm:m-auto p-4">
           <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
-            <p className="font-semibold text-3xl">{product?.title}</p>
+            <p className="font-semibold text-3xl">
+              {product?.title}
+            </p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
               <Icon.ShareFat size={30} weight="fill" className="text-white" />
             </span>
@@ -1144,7 +1151,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               ₹{product?.discountPrice}
             </span>
             <span className="line-through ml-3 text-[#c5b8b8]">
-              ₹{product?.productPrice}
+              ₹{product && product?.productPrice}
             </span>
             <span className="ml-3 text-[#e26178] underline">
               {product && product?.discountValue}% OFF
@@ -1286,33 +1293,25 @@ const Default: React.FC<Props> = ({ productId }) => {
               <li>Free delivery in 2 days.</li>
             </ul>
           </div>
-          {product && (
-            <div className="flex sm:justify-around mt-[25px] ">
-              <div
-
-                className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
-              >
-                <Link href={{pathname:'/checkout',query:{id:JSON.stringify(product.productId)}}}>
-                 Buy Now
-                </Link>
-              </div>
-              <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
-                <div className=" m-[2px] mb-[2px] bg-white">
-                  <span className="flex justify-center py-[14px]">
-                    <span>Add to Cart</span>
-                    <span className="mt-1">
-                      <Icon.ShoppingCart />
-                    </span>
+          <div className="flex sm:justify-around mt-[25px] ">
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+              Buy Now
+            </div>
+            <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
+              <div className=" m-[2px] mb-[2px] bg-white">
+                <span className="flex justify-center py-[14px]">
+                  <span>Add to Cart</span>
+                  <span className="mt-1">
+                    <Icon.ShoppingCart />
                   </span>
-                </div>
-              </div>
-              <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
-                {" "}
-                <Icon.Heart size={27} weight="thin" />
+                </span>
               </div>
             </div>
-          )}
-
+            <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
+              {" "}
+              <Icon.Heart size={27} weight="thin" />
+            </div>
+          </div>
           <div className="mt-4 border border-[#f7f7f7] w-[445px] p-2 text-center">
             <span className="underline text-[#e26178] cursor-pointer ">
               Schedule free trial
@@ -1470,6 +1469,18 @@ const Default: React.FC<Props> = ({ productId }) => {
                       <td className="p-4 border-b-2 border-[#F0ECED]">
                         Circumference(inch)
                       </td>
+                      <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
+                        Size
+                      </td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
+                        Diameter(inch)
+                      </td>
+                      <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
+                        Diameter(cms)
+                      </td>
+                      <td className="p-4 border-b-2 border-[#F0ECED]">
+                        Circumference(inch)
+                      </td>
                     </tr>
                     <tr>
                       <td className="border-r-2 border-[#F0ECED]">2.2</td>
@@ -1491,8 +1502,10 @@ const Default: React.FC<Props> = ({ productId }) => {
                     </tr>
                     <tr>
                       <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
+                      <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
                       <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
                       <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
+                      <td className=" p-2 rounded-b-lg">7.85</td>
                       <td className=" p-2 rounded-b-lg">7.85</td>
                     </tr>
                   </table>

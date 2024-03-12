@@ -23,6 +23,13 @@ const SearchResult = () => {
   let filteredData = data;
 
   const router = useRouter();
+  const handleSearch = (value: string) => {
+    router.push(`/search-result?query=${value}`);
+    setSearchKeyword("");
+  };
+
+  const searchParams = useSearchParams();
+  let query = searchParams.get("query") as string;
 
   async function getData() {
     const res = await fetch("http://164.92.120.19/api/getall-products/");
@@ -39,7 +46,7 @@ const SearchResult = () => {
     if (query === null) {
       query = "dress";
     }
-    const filteredData = data.filter((product) =>
+    filteredData = data.filter((product) =>
       product?.title.toLowerCase().includes(query.toLowerCase())
     );
   }
@@ -48,13 +55,17 @@ const SearchResult = () => {
     singleProduct();
   }, []);
 
-  const handleSearch = (value: string) => {
-    router.push(`/search-result?query=${value}`);
-    setSearchKeyword("");
-  };
+  
 
-  const searchParams = useSearchParams();
-  let query = searchParams.get("query") as string;
+
+  // useEffect(()=>{
+  //   const result=data.filter((item)=>{
+  //     const temp=item.title.toLowerCase();
+  //     if(temp.includes(query.toLowerCase()))return true;
+  //     return false;
+  //   })
+  //   setData(result);
+  // },[data,query])
 
   if (filteredData.length === 0) {
     filteredData = [
@@ -104,7 +115,7 @@ const SearchResult = () => {
         discountPrice: "no-data",
         offerStartDate: "no-data",
         offerEndDate: "no-data",
-        mediaId: "no-data",
+        mediaId: -1,
         imageDetails: [],
         videoDetails: [],
         materialId: -1,
@@ -144,7 +155,6 @@ const SearchResult = () => {
 
   return (
     <>
-      {console.log(data, "aaditya")}
       <TopNavOne
         props="style-one bg-black"
         slogan="New customers save 10% with the code GET10"
@@ -188,7 +198,8 @@ const SearchResult = () => {
             <div
               className={`list-product hide-product-sold grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-5`}
             >
-              {filteredData.map((item) =>
+              
+              {data&&(currentProducts.map((item) =>
                 item.productId === -1 ? (
                   <div key={item.productId} className="no-data-product">
                     No products match the selected criteria.
@@ -196,7 +207,7 @@ const SearchResult = () => {
                 ) : (
                   <Product key={item.productId} data={item} />
                 )
-              )}
+              ))}
             </div>
 
             {pageCount > 1 && (

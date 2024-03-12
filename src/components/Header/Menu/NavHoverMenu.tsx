@@ -74,27 +74,29 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
             </Link>
 
             <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-              <ul className="flex items-center justify-between gap-14 h-full  text-rose-950">
-                <li className="h-full relative ">
+              <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
+                <li className="h-full relative">
                   <Link
                     href="/shop/breadcrumb1"
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1
-                                            ${
-                                              pathname.includes("/shop/breadcrumb1")
-                                                ? "active"
-                                                : ""
-                                            }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
+                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                    }`}
                   >
                     All Jewellery
                   </Link>
-                  <div className="sub-menu absolute py-3 px-5 -left-10 w-max grid grid-cols-4 gap-5 bg-white rounded-b-xl">
+                  <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
                     <ul>
+                      <li>
+                        <p className="font-bold text-black">
+                          Explore Categories
+                        </p>
+                      </li>
                       <li>
                         <Link
                           href="/homepages/fashion11"
                           className="text-secondary duration-300"
                         >
-                          Home Fashion 1
+                          Bracelets
                         </Link>
                       </li>
                       <li>
@@ -102,11 +104,68 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           href="/homepages/fashion11"
                           className="text-secondary duration-300"
                         >
-                          Home Fashion 1
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/fashion11"
+                          className="text-secondary duration-300"
+                        >
+                          Bangles
                         </Link>
                       </li>
                     </ul>
                     <ul>
+                      <li className="font-bold text-black">Shop For</li>
+                      <li>Men</li>
+                      <li>Women</li>
+                    </ul>
+
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop by type</p>
+                      </li>
                       <li>
                         <Link
                           href="/homepages/jewelry"
@@ -114,7 +173,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname === "/homepages/jewelry" ? "active" : ""
                           }`}
                         >
-                          Home Jewelry
+                          Gold
                         </Link>
                       </li>
                       <li>
@@ -124,17 +183,50 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname === "/homepages/furniture" ? "active" : ""
                           }`}
                         >
-                          Home Furniture
+                          Rose Gold
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          White Gold
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          Diamond
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          Gemstones
                         </Link>
                       </li>
                     </ul>
                     <ul>
                       <li>
+                        <p className="font-bold text-black">Shop By Price</p>
+                      </li>
+                      <li>
                         <Link
                           href="/homepages/yoga"
                           className={`text-secondary duration-300`}
                         >
-                          Home Yoga
+                          less than 10k
                         </Link>
                       </li>
                       <li>
@@ -142,8 +234,38 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           href="/homepages/organic"
                           className="text-secondary duration-300"
                         >
-                          Home Organic
+                          10k to 20k
                         </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/organic"
+                          className="text-secondary duration-300"
+                        >
+                          20k to 30k
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/organic"
+                          className="text-secondary duration-300"
+                        >
+                          30k and Above
+                        </Link>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop By Karat</p>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
                       </li>
                     </ul>
                   </div>

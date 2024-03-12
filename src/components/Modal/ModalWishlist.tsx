@@ -18,7 +18,7 @@ const ModalWishlist = () => {
                     className={`modal-wishlist-main py-6 ${isModalOpen ? 'open' : ''}`}
                     onClick={(e) => { e.stopPropagation() }}
                 >
-                    <div className="heading px-6 pb-3 flex items-center justify-between relative">
+                    <div className="heading px-6 pb-3 flex items-center justify-between relative text-red-950">
                         <div className="heading5">Wishlist</div>
                         <div
                             className="close-btn absolute right-6 top-0 w-6 h-6 rounded-full bg-surface flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
@@ -27,7 +27,7 @@ const ModalWishlist = () => {
                             <Icon.X size={14} />
                         </div>
                     </div>
-                    <div className="list-product px-6">
+                    <div className="list-product px-6 text-red-950">
                         {wishlistState.wishlistArray.map((product) => (
                             <div key={product.id} className='item py-5 flex items-center justify-between gap-3 border-b border-line'>
                                 <div className="infor flex items-center gap-5">
@@ -56,7 +56,7 @@ const ModalWishlist = () => {
                     </div>
                     <div className="footer-modal p-6 border-t bg-white border-line absolute bottom-0 left-0 w-full text-center">
                         <Link href={'/wishlist'} onClick={closeModalWishlist} className='button-main w-full text-center uppercase'>View All Wish List</Link>
-                        <div onClick={closeModalWishlist} className="text-button-uppercase mt-4 text-center has-line-before cursor-pointer inline-block">Or continue shopping</div>
+                        <div onClick={closeModalWishlist} className="text-button-uppercase mt-4 text-center has-line-before cursor-pointer inline-block text-red-950">Or continue shopping</div>
                     </div>
                 </div>
             </div>

@@ -1,77 +1,90 @@
 interface Variation {
-    color: string;
-    colorCode: string;
-    colorImage: string;
-    image: string;
+  color: string;
+  colorCode: string;
+  colorImage: string;
+  image: string;
 }
-export interface ImageDetails{
-    image_path:string|null,
-    order:string,
-    alt_text?:string|null,
+export interface GoldDetails {
+  goldCertifiedBy: string;
+  goldSetting: any; // You might want to specify the type if you have more details
 }
-export interface VideoDetails{
-    video_path:string|null,
-    order:number|string,
-    alt_text?:string|null,
+
+export interface SilverDetails {
+  poojaArticle: any; // Specify type if available
+  utensils: any; // Specify type if available
+  silverWeight: any; // Specify type if available
+}
+
+export interface ProductAttributes {
+  goldDetails: GoldDetails[] | null;
+  gemstoneDetails: any; // Specify type if available
+  diamondDetails: any; // Specify type if available
+  silverDetails: SilverDetails[] | null;
+}
+
+export interface ImageDetails {
+  image_path: string|null;
+  order: string;
+  alt_text?: string | null|undefined;
 }
 
 export interface ProductType {
-    productId: number,
-    SKU?:string|number,
-    variantId?:number|null,
-    title?:string,
-    displayTitle?:string,
-    shortDesc?:string,
-    longDesc?:string,
-    url?:string,
-    tags?:string[]|null,
-    collectionName?:string|null,
-    shopFor?:string[]|null,
-    occasion?:string|null,
-    theme?:string|null,
-    length?:string|null,
-    breadth?:string|null,
-    height?:string|null,
-    weightRange?:string|null,
-    addDate?:string|null,
-    lastModificationDate?:string|null,
-    created_at?:string|null,
-    updated_at?:string|null,
-    sizeId?:number|null,
-    productSize?:string|null,
-    productQty?:number|null,
-    attributedId?:number|null,
-    preSalesProductQueries?:string|null,
-    isReplaceable?:number|null,
-    isReturnable?:number|null,
-    isInternationalShippingAvailable?:number|null,
-    customizationAvailability?:number|null,
-    fastDelivery?:number|null,
-    tryAtHome?:number|null,
-    isActive?:number|null,
-    grossWeight?:number|null,
-    netWeight?:number|null,
-    productAttributes?:string[]|null,
-    discountId?:number|null,
-    discountCategory?:string|null,
-    discountActive?:number|null,
-    typeOfDiscount?:string|null,
-    discountValue?:string|null,
-    discountAmount?:string|null,
-    discountPrice?:string|null,
-    offerStartDate?:string|null,
-    offerEndDate?:string|null,
-    mediaId?:string|null,
-    imageDetails?:ImageDetails[]|null,
-    videoDetails?:VideoDetails[]|null,
-    materialId?:number|null,
-    metalType?:string|null,
-    metalPurity?:string|null,
-    metalWeight?:string|null,
-    makingType?:string|null,
-    makingChargesPerGrams?:string|null,
-    additionalCost?:string|null,
-    productPrice?:string|null,
-    stoneDetails?:string[]|null,
-    diamondDetails?:string[]|null,
+  productId: number;
+  SKU: string;
+  variantId: any; // Specify type if available
+  title: string;
+  displayTitle: string;
+  shortDesc: string;
+  longDesc: string | null;
+  url: string;
+  tags: string[];
+  collectionName: string | null;
+  shopFor: string[];
+  occasion: string | null;
+  theme: string | null;
+  length: any; // Specify type if available
+  breadth: any; // Specify type if available
+  height: any; // Specify type if available
+  weightRange: string;
+  addDate: string;
+  lastModificationDate: string | null;
+  created_at: string;
+  updated_at: string;
+  sizeId: number;
+  productSize: any; // Specify type if available
+  productQty: number;
+  attributeId: number;
+  preSalesProductQueries: any; // Specify type if available
+  isReplaceable: number;
+  isReturnable: number;
+  isInternationalShippingAvailable: number;
+  customizationAvailability: number;
+  fastDelivery: number;
+  tryAtHome: number;
+  isActive: number;
+  grossWeight: any; // Specify type if available
+  netWeight: any; // Specify type if available
+  productAttributes: ProductAttributes;
+  discountId: number;
+  discountCategory: string;
+  discountActive: number;
+  typeOfDiscount: string;
+  discountValue: string;
+  discountAmount: string;
+  discountPrice: string;
+  offerStartDate: string;
+  offerEndDate: string;
+  mediaId: number;
+  imageDetails: ImageDetails[];
+  videoDetails: any; // Specify type if available
+  materialId: number;
+  metalType: string;
+  metalPurity: string;
+  metalWeight: string;
+  makingType: string;
+  makingChargesPerGrams: string;
+  additionalCost: string;
+  productPrice: string;
+  stoneDetails: any; // Specify type if available
+  diamondDetails: any; // Specify type if available
 }

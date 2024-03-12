@@ -327,7 +327,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
       }
     };
     fetchData();
-  }, [selectedOptions]);
+  }, []);
 
   useEffect(() => {
     const scrollHeader = () => {
@@ -565,7 +565,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
               <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
                 <div className="mt-24 p-4">
                   <Icon.X size={25} onClick={() => setMobileFilter(false)} />
-                  <div className="h-[700px] overflow-y-auto no-scrollbar">
+                  <div className="h-[650px] overflow-y-auto no-scrollbar">
                     <div className="mt-5">
                       <p className="heading7">Filter</p>
                     </div>

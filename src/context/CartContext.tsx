@@ -43,14 +43,16 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             };
         case 'REMOVE_FROM_CART':
             return {
-                ...state,
-                cartArray: state.cartArray.filter((item) => item.id !== action.payload),
+              ...state,
+              cartArray: state.cartArray.filter(
+                (item) => item.ProductID !== action.payload
+              ),
             };
         case 'UPDATE_CART':
             return {
                 ...state,
                 cartArray: state.cartArray.map((item) =>
-                    item.id === action.payload.itemId
+                    item.ProductID === action.payload.itemId
                         ? {
                             ...item,
                             quantity: action.payload.quantity,

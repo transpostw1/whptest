@@ -1,5 +1,6 @@
 import React from 'react'
 import { CartProvider } from '@/context/CartContext'
+import { UserProvider } from '@/context/UserContext'
 import { ModalCartProvider } from '@/context/ModalCartContext'
 import { WishlistProvider } from '@/context/WishlistContext'
 import { ModalWishlistProvider } from '@/context/ModalWishlistContext'
@@ -10,24 +11,26 @@ import { ModalQuickviewProvider } from '@/context/ModalQuickviewContext'
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
+      <UserProvider>
         <CartProvider>
-            <ModalCartProvider>
-                <WishlistProvider>
-                    <ModalWishlistProvider>
-                        <CompareProvider>
-                            <ModalCompareProvider>
-                                <ModalSearchProvider>
-                                    <ModalQuickviewProvider>
-                                        {children}
-                                    </ModalQuickviewProvider>
-                                </ModalSearchProvider>
-                            </ModalCompareProvider>
-                        </CompareProvider>
-                    </ModalWishlistProvider>
-                </WishlistProvider>
-            </ModalCartProvider>
+          <ModalCartProvider>
+            <WishlistProvider>
+              <ModalWishlistProvider>
+                <CompareProvider>
+                  <ModalCompareProvider>
+                    <ModalSearchProvider>
+                      <ModalQuickviewProvider>
+                        {children}
+                      </ModalQuickviewProvider>
+                    </ModalSearchProvider>
+                  </ModalCompareProvider>
+                </CompareProvider>
+              </ModalWishlistProvider>
+            </WishlistProvider>
+          </ModalCartProvider>
         </CartProvider>
-    )
+      </UserProvider>
+    );
 }
 
 export default GlobalProvider

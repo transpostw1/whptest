@@ -70,8 +70,8 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [header, setHeader] = useState<boolean | null>(true);
-  const [filters, setFilters] = useState<any>([]);
-  const [data, setData] = useState<ProductType[]>([]);
+  const [data, setData] = useState<ProductType>([]);
+  const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
@@ -236,7 +236,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   //   ];
   // }
 
-  // // Find page number base on filteredData
+  //  Find page number base on filteredData
   // const pageCount = Math.ceil(filteredData.length / productsPerPage);
   // const pageCount=3;
 
@@ -284,9 +284,11 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const handleCloseMobileFilters = () => {
     setMobileFilter(false);
   };
+
   const handleOnClose = () => {
     setSortOption(false);
   };
+
   const handleOptionSelect = (option: any) => {
     const newCheckedOptions = {
       ...checkedOptions,
@@ -311,6 +313,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
           "http://164.92.120.19/api/getall-products"
         );
         setData(response.data);
+        setFilteredData(response.data)
         // let filteredData = data;
         // if (selectedOptions > 0) {
         //   selectedOptions.forEach((option: string) => {
@@ -329,21 +332,57 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const scrollHeader = () => {
-      if (window.scrollY >= 850) {
-        setHeader(false);
-      } else {
-        setHeader(true);
+  const handleFilter=()=>{
+    selectedOptions.map((item:string)=>{
+      switch (item) {
+        case "less than 10K":
+          let filters=filteredData.filter(product => parseFloat(product.productPrice) < 10000);
+      setFilteredData(filters)
+      console.log(selectedOptions,"eeeeeee")
+          break;
+          case "10k to 20K":
+            let filters2=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
+      setFilteredData( filters2)
+      console.log(selectedOptions,"kkhhd")
+          break;
+          case "20k to 30K":
+          let filters3=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
+      setFilteredData(filters3)
+      console.log(selectedOptions,"wwwwww")
+          break;
+          case "30k and Above":
+            let filters4=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
+      setFilteredData(filters4)
+      console.log(selectedOptions,"dddddddddd")
+        default:
+          return []
       }
-    };
+    })
+    // if(selectedOptions.includes("less than 10k")&&selectedOptions.length>0){
+    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) < 10000);
+    //   setFilteredData(filters)
+    // }
+    // if(selectedOptions.includes("10k to 20k")&&selectedOptions.length>0){
+    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
+    //   setFilteredData(filters)
+    // }
+    // if(selectedOptions.includes("20k to 30k")&&selectedOptions.length>0){
+    //   let filters=filteredData.filter(product => parseFloat(product.productPrice)>=10000 && parseFloat(product.productPrice)<30000);
+    //   setFilteredData(filters)
+    // }
+    // if(selectedOptions.includes("30k and above")&&selectedOptions.length>0){
+    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) >= 30000);
+    //   setFilteredData(filters)
+    // }
+    // else{
 
-    window.addEventListener("scroll", scrollHeader);
-
-    return () => {
-      window.removeEventListener("scroll", scrollHeader);
-    };
-  }, []);
+    //   setFilteredData(data)
+    // }
+  }
+  useEffect(()=>{
+    handleFilter()
+  },[selectedOptions])
+  
   return (
     <>
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
@@ -413,7 +452,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                       ) : null}
                     </div>
                   ))}
-                  <div></div>
+
                 </div>
               </div>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">
@@ -807,7 +846,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                      No products match the selected criteria.
                   </div> */}
 
-                {data
+                {filteredData
                   .slice(pagesVisited, pagesVisited + productsPerPage)
                   .map((item: any) => (
                     <Product key={item.productId} data={item} />

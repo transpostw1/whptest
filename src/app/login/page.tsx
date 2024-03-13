@@ -92,11 +92,11 @@ const Login = () => {
 
   return (
     <>
-      <TopNavOne textColor="text-white" />
+      {/* <TopNavOne textColor="text-white" />
       <NavTwo props="style-three bg-white" />
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
-      </div>
+      </div> */}
       <Breadcrumb heading="Login/Signup WHP" subHeading="Login" />
       <div className="login-block md:py-20 py-10">
         <div className="container">

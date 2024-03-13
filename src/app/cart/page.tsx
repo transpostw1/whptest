@@ -10,6 +10,7 @@ import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from '@/context/CartContext'
 import { countdownTime } from '@/store/countdownTime'
+import { useProductContext } from "@/context/ProductContext";
 
 
 
@@ -17,6 +18,10 @@ import { countdownTime } from '@/store/countdownTime'
 const Cart = () => {
     const [timeLeft, setTimeLeft] = useState(countdownTime());
     const router = useRouter()
+     const { products, fetchData } = useProductContext();
+     useEffect(() => {
+       fetchData(); // Call fetchData only once when the component mounts
+     }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -74,11 +79,11 @@ const Cart = () => {
 
     return (
       <>
-        <TopNavOne  textColor="text-white" />
+        {/* <TopNavOne textColor="text-white" />
         <div id="header" className="relative w-full">
           <MenuOne props="bg-transparent" />
           <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-        </div>
+        </div> */}
         <div className="cart-block md:py-20 py-10">
           <div className="container">
             <div className="content-main flex justify-between max-xl:flex-col gap-y-8">
@@ -167,10 +172,10 @@ const Cart = () => {
                               <div className="flex items-center gap-6">
                                 <div className="bg-img md:w-[100px] w-20 aspect-[3/4]">
                                   <Image
-                                    src={product.img[0]}
+                                    src={product.imageDetails[0]}
                                     width={1000}
                                     height={1000}
-                                    alt={product.Title}
+                                    alt={product.displayTitle}
                                     className="w-full h-full object-cover rounded-lg"
                                   />
                                 </div>

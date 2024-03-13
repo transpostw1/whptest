@@ -119,12 +119,12 @@ const Wishlist = () => {
 
     return (
       <>
-        <TopNavOne textColor="text-white" />
+        {/* <TopNavOne textColor="text-white" />
         <NavTwo props="style-three bg-white" />
         <div id="header" className="w-full relative">
-          <NavHoverMenu props="bg-white" />
+          <NavHoverMenu props="bg-white" /> */}
           <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-        </div>
+        {/* </div> */}
         <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
           <div className="container">
             <div className="list-product-block relative">

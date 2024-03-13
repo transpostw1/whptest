@@ -36,7 +36,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   const handleDetailProduct = (productId: string | number) => {
     console.log(productId,"productId")
-    // redirect to shop with category selected
     router.push(`/product/default?id=${productId}`);
   };
  

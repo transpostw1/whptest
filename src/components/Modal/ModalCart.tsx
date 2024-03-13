@@ -10,39 +10,31 @@ import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { countdownTime } from "@/store/countdownTime";
 import CountdownTimeType from "@/type/CountdownType";
-import { getProducts } from "@/utils/constants";
-import { baseUrl } from "@/utils/constants";
-import instance from "@/utils/axios";
+import { useProductContext } from "@/context/ProductContext";
+
 const ModalCart = ({
   serverTimeLeft,
 }: {
   serverTimeLeft: CountdownTimeType;
 }) => {
   const [timeLeft, setTimeLeft] = useState(serverTimeLeft);
-  const [productData, setProductData] = useState<ProductType[]>([]);
+  const [dataFetched, setDataFetched] = useState(false);
+
+  const { products, fetchData } = useProductContext();
+  console.log(products, "56456464");
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft(countdownTime());
+  //   }, 1000);
+
+  //   return () => clearInterval(timer);
+  // }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(countdownTime());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(getProducts);
-        setProductData(response.data);
-        console.log(response.data,productData,"sdfsfdsf")
-        // const products = response.data
-      } catch (error) {
-        console.error("Error fetching product data:", error);
-      }
-    };
-
     fetchData();
-  }, []);
+    setDataFetched(true);
+}, []);
 
   const [activeTab, setActiveTab] = useState<string | undefined>("");
   const { isModalOpen, closeModalCart } = useModalCartContext();
@@ -51,7 +43,7 @@ const ModalCart = ({
   const handleAddToCart = (productItem: ProductType) => {
     if (
       !cartState.cartArray.find(
-        (item) => item.productId === productItem.productId
+        (item) => item.ProductID === productItem.productId
       )
     ) {
       addToCart({ ...productItem });
@@ -85,7 +77,7 @@ const ModalCart = ({
           <div className="left w-1/2 border-r border-line py-6 max-md:hidden text-rose-950">
             <div className="heading5 px-6 pb-3">You May Also Like</div>
             <div className="list px-6">
-              {productData.slice(0, 4).map((product) => (
+              {products.slice(0, 4).map((product) => (
                 <div
                   key={product.productId}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
@@ -93,10 +85,10 @@ const ModalCart = ({
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
                       <Image
-                        src={product.imageDetails[1]}
+                        src={product.imageDetails[0].image_path}
                         width={300}
                         height={300}
-                        alt={product.title}
+                        alt={product?.title}
                         className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
                       />
                     </div>
@@ -158,7 +150,7 @@ const ModalCart = ({
             <div className="list-product px-6">
               {cartState.cartArray.map((product) => (
                 <div
-                  key={product.productId}
+                  key={product.ProductID}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-3 w-full">

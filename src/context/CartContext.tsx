@@ -56,9 +56,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-  // useEffect(() => {
-  //   localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  // }, [cartItems]);
 
   return (
     <CartContext.Provider

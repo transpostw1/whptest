@@ -172,53 +172,53 @@ const ModalCart = ({
                 </div>
               </div> */}
 
-            <div className="list-product px-6">
-              {cartItems.map((product) => (
-                <div
-                  key={product.productid}
-                  className="item py-5 flex items-center justify-between gap-3 border-b border-line"
-                >
-                  <div className="infor flex items-center gap-3 w-full">
-                    <div className="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                      <Image
-                        src={
-                          product.imageDetails &&
-                          product.imageDetails.length > 0
-                            ? product.imageDetails[0]?.image_path
-                            : ""
-                        }
-                        width={300}
-                        height={300}
-                        alt={product.Title}
-                        className="w-full h-full"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <div className="flex items-center justify-between w-full">
-                        <div className="name text-button">
-                          {product.displayTitle}
-                        </div>
-                        <div
-                          className="remove-cart-btn caption1 font-semibold text-red underline cursor-pointer"
-                          onClick={() => removeFromCart(product.productid)}
-                        >
-                          Remove
-                        </div>
+            <div className="list-product">
+              {cartItems.map((cartItem) => {
+                // Find the corresponding product details using product ID
+                const productDetails = products.find(
+                  (product) => product.productId === cartItem.productId
+                );
+
+                if (!productDetails) return null; // Return null if product details are not found
+
+                return (
+                  <div
+                    key={cartItem.productId}
+                    className="item py-5 flex items-center justify-between gap-3 border-b border-line"
+                  >
+                    <div className="infor flex items-center gap-3 w-full">
+                      <div className="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
+                        <Image
+                          src={productDetails.imageDetails[0].image_path} // Use productDetails to access the image path
+                          width={300}
+                          height={300}
+                          alt={productDetails.Title}
+                          className="w-full h-full"
+                        />
                       </div>
-                      <div className="flex items-center justify-between gap-2 mt-3 w-full">
-                        {/* <div className="flex items-center text-secondary2 capitalize">
-                            {product.selectedSize || product.sizes[0]}/
-                            {product.selectedColor ||
-                              product.variation[0].color}
-                          </div> */}
-                        <div className="product-price text-title">
-                          ₹{product.discountPrice}.00
+                      <div className="w-full">
+                        <div className="flex items-center justify-between w-full">
+                          <div className="name text-button">
+                            {productDetails.displayTitle}
+                          </div>
+                          <div
+                            className="remove-cart-btn caption1 font-semibold text-red underline cursor-pointer"
+                            onClick={() => removeFromCart(cartItem.productId)}
+                          >
+                            Remove
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between gap-2 mt-3 w-full">
+                          <div className="product-price text-title">
+                            ₹{productDetails.discountPrice}.00{" "}
+                            {/* Use productDetails to access discountPrice */}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className="footer-modal bg-white absolute bottom-0 left-0 w-full">
               {/* <div className="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">

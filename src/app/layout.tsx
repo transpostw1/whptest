@@ -38,7 +38,7 @@ export default function RootLayout({
             <NavHoverMenu props="bg-white" />
           </div>
           {children}
-          {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
+          <ModalCart serverTimeLeft={serverTimeLeft} />
           <ModalWishlist />
           <ModalSearch />
           <ModalQuickview />

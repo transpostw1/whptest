@@ -16,18 +16,18 @@ export interface VideoDetails{
 }
 
 export interface ProductType {
-  ProductID: string;
+  productId: string;
   Title: string;
   Url: string;
   img: string;
   SKU: string;
   IsActive: boolean;
-  New:boolean;
+  New: boolean;
   Stocks: number;
-  Sold:number;
-  Sale:boolean;
+  Sold: number;
+  Sale: boolean;
   QuantityPurchase: number;
-  Action:string;
+  Action: string;
   ThumbImgName: string;
   Desp: string | null;
   ShortDesp: string;
@@ -63,4 +63,5 @@ export interface ProductType {
   GoldColor: string | null;
   GoldRingSize: string | null;
   GoldEarringType: string | null;
+  productPrice:string|null
 }

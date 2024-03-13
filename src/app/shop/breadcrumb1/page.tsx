@@ -24,16 +24,7 @@ export default function BreadCrumb1() {
 
   return (
     <>
-      <TopNavOne
-        props="style-one bg-black"
-        slogan="New customers save 10% with the code GET10"
-      />
-      <NavTwo props="style-three bg-white" />
-
-      <div id="header" className="relative w-full">
-        <NavHoverMenu props="bg-white" />
-      </div>
-
+    
       <ShopBreadCrumb1
         data={productData}
         productPerPage={9}

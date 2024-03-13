@@ -20,7 +20,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
   const { openModalWishlist } = useModalWishlistContext();
   const { openModalCart } = useModalCartContext();
-  const { cartState } = useCart();
+  const { cartItems } = useCart();
   const { userState } = useUser();
   const { logOut } = useUser();
 
@@ -32,6 +32,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
   };
+  //  const cartItemsCount = cartState.cartArray ? cartState.cartArray.length : 0;
 
   const handleLogout = () => {
     logOut();
@@ -173,7 +174,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
 
                     <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartState.cartArray.length}
+                      {cartItems.length}
+                      
                     </span>
                   </div>
                   <div className="choose-currency flex items-center ">

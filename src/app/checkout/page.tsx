@@ -91,12 +91,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const searchParams = useSearchParams();
+
+
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
   cartState.cartArray.forEach(
-    (item) => (totalCart += item.productPrice * item.quantity)
+    (item) => (totalCart += item.productPrice * "20")
   );
   console.log("hjhkhjk", totalCart);
 
@@ -320,7 +322,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     key={product.productid}
                   >
                     <Image
-                      src={product.imageDetails[2]}
+                      src={product.imageDetails[0].image_path}
                       width={100}
                       height={200}
                       alt={product.Title}
@@ -348,7 +350,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${product.quantity * data?.ProdPrice}.00
+                        ${ product?.productPrice}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
@@ -619,19 +621,20 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         key={product.ProductID}
                       >
                         <Image
-                          src={product.imageDetails[0]}
+                          src={product.imageDetails[0].image_path}
                           width={100}
                           height={200}
                           alt={product.displayTitle}
                           className="rounded-lg object-cover"
                         />
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
-                        <div className="py-4 flex flex-col">
+                        <div className="p-4 flex flex-col">
                           <div className="text-title">
-                            {product.displayTitle} X {product.quantity}
+                            {product.displayTitle} X Quantity
+                             {/* {product.quantity} */}
                           </div>
                           <div className="text-title text-start">
-                            ${product.quantity * data?.ProdPrice}.00
+                            ₹{product.productPrice}
                           </div>
                           <h3>Estimated Delivery Date</h3>
                         </div>
@@ -651,7 +654,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>
-                      <h3>₹0</h3>
+                      <h3>₹00</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Shipping Charges</h3>

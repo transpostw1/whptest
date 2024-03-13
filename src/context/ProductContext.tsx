@@ -34,11 +34,10 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
 
   // Define fetchData function outside useEffect
   const fetchData = async () => {
-    console.log("innn")
     try {
       const response = await instance.get(getProducts);
       setProducts(response.data);
-      console.log(response.data, "sdfsfdsf apiii");
+      console.log("Product fetched>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.")
     } catch (error) {
       console.error("Error fetching product data:", error);
     }

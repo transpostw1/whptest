@@ -18,41 +18,64 @@ const ModalCart = ({
   serverTimeLeft: CountdownTimeType;
 }) => {
   const [timeLeft, setTimeLeft] = useState(serverTimeLeft);
+
+
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  console.log(products, "56456464");
+  console.log(products, "yesss i keep rendering ");
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft(countdownTime());
+  //   }, 1000);
+
+  //   return () => clearInterval(timer);
+  // }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(countdownTime());
-    }, 1000);
-
-    return () => clearInterval(timer);
+    if (!dataFetched) {
+      fetchData();
+      setDataFetched(true);
+    }
   }, []);
-
-useEffect(() => {
-  if (!dataFetched) {
-    fetchData();
-    setDataFetched(true);
-  }
-}, []);
 
   const [activeTab, setActiveTab] = useState<string | undefined>("");
   const { isModalOpen, closeModalCart } = useModalCartContext();
-  const { cartState, addToCart, removeFromCart, updateCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const handleAddToCart = (productItem: ProductType) => {
-    if (
-      !cartState.cartArray.find(
-        (item) => item.productid === productItem.ProductID
-      )
-    ) {
-      addToCart({ ...productItem });
-      updateCart(productItem.ProductID, productItem.QuantityPurchase, "", "");
-    } else {
-      updateCart(productItem.ProductID, productItem.QuantityPurchase, "", "");
-    }
+    console.log(productItem, "9999999999");
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === productItem.productId
+    );
+    console.log(productAlreadyExists,"exists>>>")
+    const currentquantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentquantity+1
+    productAlreadyExists
+      ? updateCart(productItem.productId, updatedQuantity)
+      : addToCart({ ...productItem });
+
+
+
+
+
+    // if (
+    //   !
+    // ) {
+    //   addToCart({ ...productItem });
+    //   // updateCart(productItem.productid, productItem.Quantity, "", "");
+    // } else {
+    //   updateCart(productItem.productid, productItem.Quantity, "", "");
+    // }
+
+
+
+
+
+
+
+
   };
 
   const handleActiveTab = (tab: string) => {
@@ -63,7 +86,7 @@ useEffect(() => {
   let [totalCart, setTotalCart] = useState<number>(0);
   let [discountCart, setDiscountCart] = useState<number>(0);
 
-  cartState.cartArray.map(
+  cartItems.map(
     (item) => (totalCart += item.ProdPriceWithDiscountTax * item.quantity)
   );
 
@@ -87,7 +110,7 @@ useEffect(() => {
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
                       <Image
-                        src={product.imageDetails[0]}
+                        src={product.imageDetails[0].image_path}
                         width={300}
                         height={300}
                         alt={product.Title}
@@ -150,7 +173,7 @@ useEffect(() => {
               </div> */}
 
             <div className="list-product px-6">
-              {cartState.cartArray.map((product) => (
+              {cartItems.map((product) => (
                 <div
                   key={product.productid}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
@@ -158,7 +181,12 @@ useEffect(() => {
                   <div className="infor flex items-center gap-3 w-full">
                     <div className="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
                       <Image
-                        src={product.imageDetails[0]}
+                        src={
+                          product.imageDetails &&
+                          product.imageDetails.length > 0
+                            ? product.imageDetails[0]?.image_path
+                            : ""
+                        }
                         width={300}
                         height={300}
                         alt={product.Title}

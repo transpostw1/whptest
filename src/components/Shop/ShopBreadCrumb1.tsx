@@ -317,17 +317,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
         );
         setData(response.data);
         setFilteredData(response.data)
-        // let filteredData = data;
-        // if (selectedOptions > 0) {
-        //   selectedOptions.forEach((option: string) => {
-        //     filteredData = filteredData.filter(
-        //       (product) => product?.tags?.includes(option) // Assuming option matches the field in the product data
-        //     );
-        //   });
-        // }
-
-        // setData(filteredData);
-        // console.log(filteredData,"aaditya")
       } catch (error) {
         console.log("data is unable to fetch");
       }
@@ -778,7 +767,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
               </div> */}
 
               <div className="">
-                <p className="text-4xl font-bold uppercase">{name}</p>
+                <p className="text-4xl font-bold uppercase">{name||"Earring"}</p>
               </div>
               <div className="flex justify-between mt-5">
                 <div className="lg:w-[70%] sm:w-[100%]">
@@ -854,6 +843,13 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                   .map((item: any) => (
                     <Product key={item.productId} data={item} />
                   ))}
+                  <div>
+                    <video autoPlay muted loop>
+                      <source src="/dummy/BIRS0681R68-VIDEO-51508.mp4"type="video/mp4"/>
+                    </video>
+                    <p className="product-name text-title duration-300 text-xl">18kt Diamond Ring</p>
+                    <p className="text-[#dbd8d8] font-bold">Delivery Within 7 days</p>
+                  </div>
               </div>
             </div>
           </div>

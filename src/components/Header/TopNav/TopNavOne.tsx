@@ -16,13 +16,13 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
     <>
       <div className={`banner-top style-four w-full  bg-[#280F13] py-2 `}>
         <div className="container flex items-center justify-center">
-          <div className="sm:w-2/3 w-full h-full">
+          <div className="sm:w-2/3 w-full align-middle">
             <Swiper
               spaceBetween={0}
               slidesPerView={1}
               loop={true}
               modules={[Navigation, Autoplay]}
-              className="h-full relative flex items-center justify-center bg"
+              className="h-[50%] relative flex items-center justify-center bg"
               autoplay={{
                 delay: 3000,
               }}
@@ -50,14 +50,14 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 ${textColor}`}
                 >
                   Get summer-ready: 10% off swim suits
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 ${textColor}`}
                 >
                   10% off on all product on shop
                 </div>

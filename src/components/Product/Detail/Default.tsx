@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ProductType } from "@/type/ProductType";
+import { ImageDetails, ProductType } from "@/type/ProductType";
 import Products from "@/data/Products.json";
 import Rate from "@/components/Other/Rate";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -158,10 +158,14 @@ const Default: React.FC<Props> = ({ productId }) => {
     }
     return res.json();
   }
-
+  const [filteredImages,setFilteredImages]=useState<ImageDetails[]|null>()
   async function singleProduct() {
     const product = await getData();
     setData(product);
+    const sortedImages=data.imageDetails.sort((a,b)=>{
+      return parseInt(a.order)-parseInt(b.order);
+    })
+    setFilteredImages(sortedImages)
   }
   useEffect(() => {
     singleProduct();
@@ -1073,7 +1077,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <div className="bg-[#fffff]">
             <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
               {product &&
-                product.imageDetails?.map((image, index) => (
+                filteredImages.map((image, index) => (
                   <div key={index}>
                     <InnerImageZoom
                       src={image.image_path}
@@ -1359,7 +1363,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     meets timeless elegance, ensuring every piece exudes
                     sophistication and allure, setting you apart in style.
                   </div>
-                  <div className="grid grid-cols-4 justify-items-center mt-5">
+                  <div className="grid grid-cols-4 justify-items-center mt-5 gap-10">
                     <div>
                       <span className="text-center">
                         <Icon.SketchLogo size={30} />

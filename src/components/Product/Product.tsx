@@ -54,7 +54,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             >
               {showVideo == true ? (
                 <div className="w-[93%] object-cover relative duration-700 product-img">
-                  <video src="/products/GERD23021256.mp4" loop autoPlay  />
+                  <video loop autoPlay> <source src="/products/GERD23021256.mp4" type="video/mp4"/></video>
                 </div>
               ) : (
                 <>

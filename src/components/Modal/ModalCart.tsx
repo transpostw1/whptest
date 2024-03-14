@@ -84,13 +84,13 @@ const ModalCart = ({
                 >
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
-                      <Image
+                      {/* <Image
                         src={product.imageDetails[0].image_path}
                         width={300}
                         height={300}
                         alt={product?.title}
                         className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
-                      />
+                      /> */}
                     </div>
                     <div className="">
                       <div className="name text-button">

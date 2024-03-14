@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
@@ -15,6 +16,7 @@ import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 
+
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
@@ -29,6 +31,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+ 
   return (
     <GlobalProvider>
       <html lang="en">

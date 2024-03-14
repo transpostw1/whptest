@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React,{useEffect,useState} from "react";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 // import MenuOne from "@/components/Header/Menu/MenuOne";
 // import SliderOne from "@/components/Slider/SliderOne";
@@ -35,12 +36,14 @@ import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
 import WhpApp from "@/components/Home1/WhpApp";
+
 import productData from "@/data/Products.json";
 
 
 
 
 export default function Home() {
+
   return (
     <>
       {/* <TopNavOne textColor="text-white" />

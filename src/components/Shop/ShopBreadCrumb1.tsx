@@ -12,6 +12,7 @@ import SortBy from "../Other/SortBy";
 import MobileFilters from "../Other/MobileFilters";
 import axios from "axios";
 import DownloadAppBanner from "../Other/DownloadAppBanner";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   // data: Array<ProductType>;
@@ -77,6 +78,8 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     max: 100,
   });
   const [length, setLength] = useState<number | null>(null);
+  const param=useSearchParams()
+  const name =param.get("url");
   // const [currentPage, setCurrentPage] = useState(0);
   // const productsPerPage = 5;
   // const offset = currentPage * productsPerPage;
@@ -775,7 +778,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
               </div> */}
 
               <div className="">
-                <p className="text-5xl font-bold">Earring</p>
+                <p className="text-4xl font-bold uppercase">{name}</p>
               </div>
               <div className="flex justify-between mt-5">
                 <div className="lg:w-[70%] sm:w-[100%]">
@@ -841,7 +844,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                 </div>
               )}
 
-              <div className="list-product hide-product-sold grid lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
+              <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
                 {/*   <div key={item.ProductID} className="no-data-product">
                      No products match the selected criteria.
                   </div> */}

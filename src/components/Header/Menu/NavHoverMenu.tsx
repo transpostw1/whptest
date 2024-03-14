@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -9,12 +9,17 @@ import Product from "@/components/Product/Product";
 import productData from "@/data/Product.json";
 import useMenuMobile from "@/store/useMenuMobile";
 import { useModalSearchContext } from "@/context/ModalSearchContext";
+import { CategoryType } from "@/type/CategoryType";
+import axios from "@/utils/axios";
+import { getAllParentCategories } from "@/utils/constants";
 
 interface Props {
   props: string;
 }
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
+  const [data, setData] = useState<CategoryType[] | null>(null);
+
   const pathname = usePathname();
 
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -41,6 +46,32 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollPosition]);
+
+  async function getData() {
+    const res = await fetch("http://164.92.120.19/api/getAllParentCategories");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return res.json();
+  }
+
+  async function getAllCategories() {
+    try {
+      const category = await getData();
+      if (category) {
+        setData(category);
+      }
+    } catch (error) {
+      console.error("Error getting categories:", error);
+    }
+  }
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log(data, "at at at");
+  }, [data]);
 
   // const handleGenderClick = (gender: string) => {
   //   router.push(`/shop/breadcrumb1?gender=${gender}`);
@@ -85,76 +116,35 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     All Jewellery
                   </Link>
                   <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
-                    <ul>
-                      <li>
-                        <p className="font-bold text-black">
-                          Explore Categories
-                        </p>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bracelets
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Bangles
-                        </Link>
-                      </li>
+                    <ul className="">
+                      <p className="font-bold text-black">Explore Categories</p>
+                      
+                       {data &&
+                        data.map((item, index) => (
+                          <React.Fragment key={item.id}>
+                            {index % 3 === 0 && <ul></ul>}
+                            <li>
+                              <Link
+                                href={{
+                                  pathname: "/shop/breadcrumb1",
+                                  query: { url: item.url },
+                                }}
+                                className=" text-secondary duration-300"
+                              >
+                                <div className="flex">
+                                  <Image
+                                    src={item.menuImg}
+                                    alt={item.name}
+                                    height={25}
+                                    width={25}
+                                    className="mr-1"
+                                  />
+                                  <p>{item.name}</p>
+                                </div>
+                              </Link>
+                            </li>
+                          </React.Fragment>
+                        ))}
                     </ul>
                     <ul>
                       <li className="font-bold text-black">Shop For</li>
@@ -795,5 +785,4 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     </>
   );
 };
-
 export default NavHoverMenu;

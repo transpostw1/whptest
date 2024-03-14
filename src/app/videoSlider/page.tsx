@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import VideoFeed from"@/components/Video/Video"
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 // import { Products } from '@/data/products';
 
@@ -9,10 +10,7 @@ const VideoSlider = () => {
   const { products, fetchData } = useProductContext();
 
   const videos = [
-    { src: "/products/GERD23021256.mp4" },
-    { src: "/products/GERD23021256.mp4" },
-    { src: "/products/GERD23021256.mp4" },
-    { src: "/products/GERD23021256.mp4" },
+    "/products/GERD23021256.mp4","/products/GERD23021256.mp4","/products/GERD23021256.mp4","/products/GERD23021256.mp4"
     // more videos...
   ];
   const video="/products/GERD23021256.mp4"
@@ -41,7 +39,7 @@ const VideoSlider = () => {
 
   return (
     <div>
-      <button onClick={handleOpenModal}><img src={"/dummy/Group_38486.png"} alt='this is video slider'/></button>
+      <button onClick={handleOpenModal}><img src={"/dummy/Group_38486.png"} alt='video slider'/></button>
       {showModal && (
         <div className="modal" style={{
           position: 'fixed',
@@ -55,8 +53,8 @@ const VideoSlider = () => {
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50">Close</button>
-          <VideoFeed src={video} products={products} />
+          <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"><Icon.X size={25}/></button>
+          <VideoFeed src={videos} products={products} />
         </div>
       )}
     </div>

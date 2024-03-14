@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Video from './Video';
 import { useSwipeable } from 'react-swipeable';
+import VideoOverlayProducts from './VideoOverlayProducts'; // Import the new component
 
 const VideoFeed = ({ videos, products }) => {
     const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
@@ -50,7 +51,7 @@ const VideoFeed = ({ videos, products }) => {
                 style={{ position: 'absolute', width: '100%', height: '100%' }}
                 {...swipeHandlers}
             >
-                <Video src={videos[currentIndex].src} products={products} />
+                <Video src={videos[currentIndex]} products={products} />
             </motion.div>
         </AnimatePresence>
     );

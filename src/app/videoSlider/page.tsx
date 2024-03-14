@@ -1,45 +1,70 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import VideoFeed from"@/components/Video/Video"
+import VideoFeed from "@/components/Video/VideoFeed";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
-// import { Products } from '@/data/products';
 
 const VideoSlider = () => {
   const [showModal, setShowModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
   const { products, fetchData } = useProductContext();
 
   const videos = [
-    "/products/GERD23021256.mp4","/products/GERD23021256.mp4","/products/GERD23021256.mp4","/products/GERD23021256.mp4"
+    { src: '/products/GERD23021256.mp4' },
+    { src: '/products/GERD23021256.mp4' },
+    { src: '/products/GERD23021256.mp4' },
+    { src: '/products/GERD23021256.mp4' },
     // more videos...
   ];
-  const video="/products/GERD23021256.mp4"
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleChange = (e) => {
+      setIsMobile(e.matches);
+    };
+
+    // Check immediately and add listener
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange); // For compatibility with older browsers
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (showModal) {
-      // Prevent scrolling on body
       document.body.style.overflow = 'hidden';
     } else {
-      // Enable scrolling on body
       document.body.style.overflow = 'auto';
     }
 
-    // Clean up function to reset overflow when component unmounts
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, [showModal]);
 
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  useEffect(()=>{
-    fetchData()
-  },[])
+  // Define the missing functions to handle modal open and close
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // Conditionally render based on isMobile
+  if (!isMobile) {
+    return null; // Do not render anything if not on mobile
+  }
 
   return (
     <div>
-      <button onClick={handleOpenModal}><img src={"/dummy/Group_38486.png"} alt='video slider'/></button>
+      <button onClick={handleOpenModal}><img src={"/dummy/Group_38486.png"} alt='video slider' /></button>
       {showModal && (
         <div className="modal" style={{
           position: 'fixed',
@@ -53,8 +78,8 @@ const VideoSlider = () => {
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"><Icon.X size={25}/></button>
-          <VideoFeed src={videos} products={products} />
+          <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"><Icon.X size={25} /></button>
+          <VideoFeed videos={videos} products={products} />
         </div>
       )}
     </div>

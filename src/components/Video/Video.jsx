@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faVolumeUp, faVolumeMute, faHeart, faShareNodes , } from '@fortawesome/free-solid-svg-icons';
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+
 import VideoOverlayProducts from './VideoOverlayProducts'; // Import the new component
 
 const Video = ({ src, products }) => {
@@ -37,23 +40,23 @@ const Video = ({ src, products }) => {
     <div className="absolute top-[65%] right-5 transform -translate-y-1/2 z-20 flex flex-col items-center space-y-2">
             <div className='w-[60px] text-center bg-white rounded-full p-3'>
               <button onClick={handleShare} className=" focus:outline-none">
-                <Icon.ShareNetwork size={25}/>
+              
+              <Icon.ShareNetwork size={25}/>
               </button>
             </div>
             <div className='w-[60px] text-center bg-white rounded-full p-3'>
             <button onClick={handleLike} className="text-[#ff2147] focus:outline-none">
-              <Icon.Heart size={25}/>
+            <Icon.Heart size={25}/>
             </button>
             </div>
     </div>
           
       {/* Mute/unmute button */}
       <button onClick={toggleMute} className="absolute top-5 left-5 z-20">
-        {isMuted?<Icon.SpeakerX className="text-white" size={25}/>:<Icon.SpeakerHigh className="text-white" size={25}/>}
-      
+      {isMuted?<Icon.SpeakerX className="text-white" size={25}/>:<Icon.SpeakerHigh className="text-white" size={25}/>}
       </button>
       {/* Overlay products */}
-      <div className="absolute bottom-0 left-0 w-full z-20">
+      <div className="absolute bottom-0 w-full z-20">
         <VideoOverlayProducts products={products} />
       </div>
     </div>

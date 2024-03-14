@@ -14,7 +14,7 @@ const Explore = () => {
         >
           <div className="banner-img">
             <Image
-              src={"/images/banner/Anayra.jpg"}
+              src={"/images/banner/Anayra.png"}
               width={2000}
               height={1300}
               alt="banner1"
@@ -28,7 +28,7 @@ const Explore = () => {
         >
           <div className="banner-img">
             <Image
-              src={"/images/banner/9Ratna.jpg"}
+              src={"/images/banner/Essential.png"}
               width={2000}
               height={1300}
               alt="banner2"

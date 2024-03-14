@@ -32,7 +32,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
   };
-  //  const cartItemsCount = cartState.cartArray ? cartState.cartArray.length : 0;
+   const cartLength = cartItems ? cartItems.length : 0;
 
   const handleLogout = () => {
     logOut();
@@ -174,7 +174,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
 
                     <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartItems.length}
+                      {cartLength}
                       
                     </span>
                   </div>

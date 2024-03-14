@@ -1,7 +1,7 @@
 "use client";
 
-
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { auth } from "@/app/config";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -11,20 +11,22 @@ type UserAction = { type: "LOG_IN" } | { type: "LOG_OUT" };
 
 interface UserContextProps {
   userState: UserState;
+  isLoggedIn: boolean;
   logIn: () => void;
   logOut: () => void;
 }
-
 
 const initialState: UserState = {
   isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
 };
 
-
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-
 const userReducer = (state: UserState, action: UserAction): UserState => {
+  const userDetails = auth.currentUser;
+  const user = userDetails?.uid;
+  
+
   switch (action.type) {
     case "LOG_IN":
       localStorage.setItem("isLoggedIn", "true");

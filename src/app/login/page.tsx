@@ -78,7 +78,7 @@ const Login = () => {
     });
   const formik = useFormik({
     initialValues: {
-      phoneNumber: "+",
+      phoneNumber: "",
     },
     validationSchema: validationSchema, // Pass the validation schema
     onSubmit: (values, { setSubmitting }) => {

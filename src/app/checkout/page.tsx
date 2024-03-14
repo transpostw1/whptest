@@ -15,6 +15,7 @@ import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
+import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
 
 import {
@@ -34,7 +35,7 @@ interface ProductProps {
 const Checkout: React.FC<ProductProps> = ({ data }) => {
   // const router = useRouter();
 
-  const { cartState, updateCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [phone, setPhone] = useState("");
@@ -45,6 +46,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
+  const { getProductById } = useProductContext();
+
+
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -73,9 +77,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartState.cartArray.find(
-      (item) => item.id === productId
-    );
+    const itemToUpdate = cartItems.find((item) => item.id === productId);
 
     if (itemToUpdate) {
       updateCart(
@@ -92,16 +94,13 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
   const searchParams = useSearchParams();
 
-
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  cartState.cartArray.forEach(
-    (item) => (totalCart += item.productPrice * "20")
-  );
+  cartItems.forEach((item) => (totalCart += item.productPrice * "20"));
   console.log("hjhkhjk", totalCart);
-
+  console.log(cartItems, "lllllllllllllllllllllll");
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
@@ -172,8 +171,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const AddAddressModal: React.FC = ({ closeModal }) => {
-
-    
     const validationSchema = Yup.object().shape({
       pincode: Yup.string().required("Pincode is required"),
       flat: Yup.string().required(
@@ -185,27 +182,27 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       landmark: Yup.string(),
     });
 
-      const handleSubmit = (values, { resetForm }) => {
-        // Your submission logic here
-        console.log(values);
-        // Reset the form after successful submission
-        resetForm();
-        // Close the modal
-        closeModal();
-      };
+    const handleSubmit = (values, { resetForm }) => {
+      // Your submission logic here
+      console.log(values);
+      // Reset the form after successful submission
+      resetForm();
+      // Close the modal
+      closeModal();
+    };
 
-      const formik = useFormik({
-        initialValues: {
-          pincode: "",
-          flat: "",
-          area: "",
-          city: "",
-          state: "",
-          landmark: "",
-        },
-        validationSchema: validationSchema,
-        onSubmit: handleSubmit,
-      });
+    const formik = useFormik({
+      initialValues: {
+        pincode: "",
+        flat: "",
+        area: "",
+        city: "",
+        state: "",
+        landmark: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: handleSubmit,
+    });
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
         <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
@@ -313,21 +310,21 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         return (
           <>
             <div className="list-product-main w-full mt-3">
-              {cartState.cartArray.length < 1 ? (
+              {cartItems?.length < 1 ? (
                 <p className="text-button pt-3">No products in your cart</p>
               ) : (
-                cartState.cartArray.map((product) => (
+                cartItems?.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
                     key={product.productid}
                   >
-                    <Image
+                    {/* <Image
                       src={product.imageDetails[0].image_path}
                       width={100}
                       height={200}
                       alt={product.Title}
                       className="rounded-lg object-cover"
-                    />
+                    /> */}
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
                         <div className="text-title">{product.displayTitle}</div>
@@ -350,7 +347,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${ product?.productPrice}
+                        ${product?.productPrice}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
@@ -612,26 +609,30 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               </h1>
               <div className="list-product-main w-full">
                 <div className="hidden  lg:block mb-2">
-                  {cartState.cartArray.length < 1 ? (
+                  {cartItems?.length < 1 ? (
                     <p className="text-button">No products in your cart</p>
                   ) : (
-                    cartState.cartArray.map((product) => (
+                    cartItems?.map((product) => (
                       <div
                         className="border border-gray-200 flex w-full  items-center mb-2 "
-                        key={product.ProductID}
+                        key={cartItems.productId}
                       >
-                        <Image
-                          src={product.imageDetails[0].image_path}
+                        {/* <Image
+                          src={imageDetails[0].image_path}
                           width={100}
                           height={200}
                           alt={product.displayTitle}
                           className="rounded-lg object-cover"
-                        />
+                        /> */}
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
                         <div className="p-4 flex flex-col">
                           <div className="text-title">
-                            {product.displayTitle} X Quantity
-                             {/* {product.quantity} */}
+                            {/* Display the productId */}
+                            Product ID: {product.productId}
+                          </div>
+                          <div className="text-title">
+                            {/* {displayTitle} X Quantity */}
+                            {/* {product.quantity} */}
                           </div>
                           <div className="text-title text-start">
                             ₹{product.productPrice}

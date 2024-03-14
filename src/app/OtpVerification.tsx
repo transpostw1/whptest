@@ -11,6 +11,7 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
+import instance from "../utils/axios";
 import { signup, login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import { url } from "inspector";
@@ -22,11 +23,9 @@ interface OtpVerificationProps {
   errorMessage: string | null; // Add errorMessage prop
 }
 
-class Token {
-  static token = "";
-}
-
-
+// class Token {
+//   static token = "";
+// }
 
 const OtpVerification = ({
   formikValues,
@@ -40,7 +39,7 @@ const OtpVerification = ({
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { logIn } = useUser();
+  const { logIn, userState } = useUser();
 
   const setUpRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -84,26 +83,21 @@ const OtpVerification = ({
     try {
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
+      console.log(credential, "creddd");
       console.log("Successfully signed in with OTP");
-      const user = auth.currentUser;
-      const token = await user.getIdToken();
-      Token.token = token;
-      console.log(token);
+      const token = auth?.currentUser?.accessToken;
+      const userId = auth?.currentUser?.uid;
+      console.log(token, userId, "435435");
 
       let endpoint = action === "login" ? login : signup;
       console.log(endpoint, "dfgdgdfg");
-      const response = await axios.post(
+      const response = await instance.post(
         endpoint,
         {
           ...formikValues,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${Token.token}`,
-          },
-        }
       );
-       logIn();
+      logIn();
       router.push("/");
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);

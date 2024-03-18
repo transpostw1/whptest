@@ -53,7 +53,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             quantity: item.quantity,
             // Add other necessary details from product_details array
             // For example, if you need the price and amount, you can access them like:
+            name: item.product_details[0].displayTitle,
             price: item.product_details[0].discountPrice,
+            image: item.product_details[0].imageDetails[0]?.image_path,
             amount: item.product_details[0].discountPrice * item.quantity,
             // Add other details as needed
           }));

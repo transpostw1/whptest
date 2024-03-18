@@ -13,6 +13,7 @@ import { useCompare } from "@/context/CompareContext";
 import { useModalCompareContext } from "@/context/ModalCompareContext";
 import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
+import { useProductContext } from "@/context/ProductContext";
 
 interface ProductProps {
   data: ProductType;
@@ -22,29 +23,38 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const { addToCart, updateCart, cartState } = useCart();
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
+  const { products, fetchData } = useProductContext();
+
+  const [dataFetched, setDataFetched] = useState(false);
+
+  useEffect(() => {
+    if (!dataFetched) {
+      fetchData();
+      setDataFetched(true);
+    }
+  }, []);
   const router = useRouter();
 
-
-  const sortedImages = data.imageDetails?.sort(
+  const sortedImages = products.imageDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
   );
 
-  const selected= sortedImages?.[0];
+  const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
     return null; // or render a default image or fallback UI
   }
 
   const handleDetailProduct = (productId: string | number) => {
-    console.log(productId,"productId")
+    console.log(productId, "productId");
     // redirect to shop with category selected
     router.push(`/product/default?id=${productId}`);
   };
- 
+
   return (
     <>
       <div className="product-item grid-type ">
         <div
-          onClick={() => handleDetailProduct(data?.productId)}
+          onClick={() => handleDetailProduct(products?.productId)}
           className="product-main cursor-pointer block"
         >
           <div className="product-thumb bg-white relative overflow-hidden">
@@ -55,7 +65,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             >
               {showVideo == true ? (
                 <div className="w-[93%] object-cover relative duration-700 product-img">
-                  <video src="/products/GERD23021256.mp4" loop autoPlay  />
+                  <video src="/products/GERD23021256.mp4" loop autoPlay />
                 </div>
               ) : (
                 <>
@@ -66,7 +76,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     height={400}
                     alt="This image is temporarry"
                   />
-
 
                   <div className="flex justify-between">
                     <div className="">
@@ -79,12 +88,10 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </>
               )}
             </div>
-           
           </div>
           <div className=" mt-4 lg:mb-7">
-
             <div className="product-name text-title duration-300 text-xl">
-              <p>{data?.title}</p>
+              <p>{products?.title}</p>
               <p className="text-[#d8d8d8]">{data?.shortDesc}</p>
             </div>
             <div className="flex">

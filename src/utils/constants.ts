@@ -1,4 +1,6 @@
-export const baseUrl = "http://164.92.120.19/api";
+// export const baseUrl = "http://164.92.120.19/api";
+export const baseUrl = "http://172.16.100.65:8000/api";
+
 
 
 export const signup ="/signup"

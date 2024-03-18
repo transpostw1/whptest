@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { auth } from "@/app/config";
+import { WindowsLogo } from "@phosphor-icons/react";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -48,6 +49,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
 
+
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
   };
@@ -70,3 +72,6 @@ export const useUser = () => {
   }
   return context;
 };
+
+
+

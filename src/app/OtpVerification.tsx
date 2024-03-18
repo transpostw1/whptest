@@ -83,11 +83,11 @@ const OtpVerification = ({
     try {
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
-      console.log(credential, "creddd");
       console.log("Successfully signed in with OTP");
       const token = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-      console.log(token, userId, "435435");
+      console.log( auth.currentUser,"435435");
+      console.log(credential,"CREDDD")
 
       let endpoint = action === "login" ? login : signup;
       console.log(endpoint, "dfgdgdfg");

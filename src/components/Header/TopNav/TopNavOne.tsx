@@ -14,8 +14,10 @@ interface Props {
 const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
     <>
-      <div className={`banner-top style-four w-full  bg-rose-950 py-2 `}>
-        <div className="container flex items-center justify-center">
+      <div
+        className={`banner-top style-four w-full  bg-rose-950 py-2 sticky top-0 `}
+      >
+        <div className="container flex items-center justify-center ">
           <div className="sm:w-2/3 w-full h-full">
             <Swiper
               spaceBetween={0}

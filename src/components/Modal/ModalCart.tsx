@@ -109,10 +109,10 @@ const ModalCart = ({
                       </div>
                       <div className="flex items-center gap-2 mt-2">
                         <div className="product-price text-title">
-                          ₹{product.discountPrice}.00
+                          ₹{product.discountPrice}
                         </div>
                         <div className="product-origin-price text-title text-secondary2">
-                          <del>₹{product.productPrice}.00</del>
+                          <del>₹{product.productPrice}</del>
                         </div>
                       </div>
                     </div>

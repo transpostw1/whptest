@@ -76,7 +76,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartItems.find((item) => item.id === productId);
+    const itemToUpdate = cartItems.find(
+      (item) => item.productId === productId
+    );
 
     if (itemToUpdate) {
       updateCart(
@@ -94,8 +96,22 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
-  let totalCart = 0;
-  cartItems.forEach((item) => (totalCart += item.productPrice));
+let totalCart = 0;
+cartItems.forEach((item) => {
+  const price = parseFloat(item.price);
+  // Check if price is a valid number
+  if (!isNaN(price) && typeof item.quantity === "number") {
+    // Multiply quantity by price and add to totalCart
+    totalCart += price * item.quantity;
+  } else {
+    console.error("Invalid data:", item);
+  }
+});
+
+let cartDiscount = 0;
+
+
+
   console.log("Total Cart Amount in Checkout", totalCart);
   console.log(cartItems, "Checkout Console of CartItems");
   const handlePayment = (item: string) => {
@@ -135,13 +151,13 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       setSelectedStep((prevStep) => prevStep + 1);
       switch (selectedStep) {
         case 0:
-          setSelectedComponent("CartItems");
-          break;
-        case 1:
           setSelectedComponent("DeliveryDetails");
           break;
         case 1:
           setSelectedComponent("Payment");
+          break;
+        case 2:
+          setSelectedComponent("CartItems");
           break;
         default:
           setSelectedComponent("CartItems");
@@ -332,7 +348,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.productid)}
+                            onClick={() => removeFromCart(product?.productId)}
                           >
                             Remove
                           </div>
@@ -344,14 +360,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${product?.price * product.quantity}
+                        ₹{product?.price * product.quantity}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
                           onClick={() => {
                             if (product.quantity > 1) {
                               handleQuantityChange(
-                                product.id,
+                                product.productId,
                                 product.quantity - 1
                               );
                             }
@@ -366,7 +382,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.productid,
+                              product.productId,
                               product.quantity + 1
                             )
                           }
@@ -604,6 +620,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               <h1 className="my-5 text-2xl font-bold text-rose-600">
                 ORDER SUMMARY
               </h1>
+              {selectedComponent !== "CartItems" && (
               <div className="list-product-main w-full">
                 <div className="hidden  lg:block mb-2">
                   {cartItems?.length < 1 ? (
@@ -614,25 +631,20 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         className="border border-gray-200 flex w-full  items-center mb-2 "
                         key={cartItems.productId}
                       >
-                        {/* <Image
-                          src={imageDetails[0].image_path}
+                        <Image
+                          src={product.image}
                           width={100}
                           height={200}
-                          alt={product.displayTitle}
+                          alt={product.Title}
                           className="rounded-lg object-cover"
-                        /> */}
+                        />
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
                         <div className="p-4 flex flex-col">
                           <div className="text-title">
-                            {/* Display the productId */}
-                            Product ID: {product.productId}
-                          </div>
-                          <div className="text-title">
-                            {/* {displayTitle} X Quantity */}
-                            {/* {product.quantity} */}
+                            {product.name} X {product.quantity}
                           </div>
                           <div className="text-title text-start">
-                            ₹{product.productPrice}
+                            ₹{product?.price}
                           </div>
                           <h3>Estimated Delivery Date</h3>
                         </div>
@@ -643,6 +655,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                   )}
                 </div>
               </div>
+              )}
               <div className="">
                 <div className="bg-gray-100 p-2 ">
                   <div className="">

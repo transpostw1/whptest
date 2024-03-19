@@ -36,11 +36,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   console.log(cartItems);
 
   useEffect(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    console.log(storedCartItems + ">>>>>>..stored items");
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
+    if(!isLoggedIn){
+   const storedCartItems = localStorage.getItem("cartItems");
+   console.log(storedCartItems + ">>>>>>..stored items");
+   if (storedCartItems) {
+     setCartItems(JSON.parse(storedCartItems));
+   }
     }
+ 
   }, []);
 
   const userId = auth?.currentUser?.uid;
@@ -122,7 +125,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
  const removeFromCart = async (productId: string) => {
    try {
-     const response = await axios.put<{ data: any }>(
+     const response = await axios.post<{ data: any }>(
        `${baseUrl}${removeCart}`,
        {
          productId,
@@ -168,6 +171,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
            },
          }
        );
+               console.log(productId, quantity);
+
        console.log("Cart item updated:", response.data);
      }
    } catch (error) {

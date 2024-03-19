@@ -1,103 +1,142 @@
-'use client'
+"use client";
 
-// CartContext.tsx
-import React, { createContext, useContext, useState, useReducer, useEffect } from 'react';
-import { ProductType } from '@/type/ProductType';
+import React, { createContext, useEffect, useState } from "react";
+import { ProductType } from "@/type/ProductType";
+import { useUser } from "./UserContext";
+import instance from "@/utils/axios";
+import { addtoCart, getCartItems } from "@/utils/constants";
+
+import { auth } from "@/app/config";
+
+import { getToken } from "@/app/OtpVerification";
+import { request } from "http";
 
 interface CartItem {
-    quantity: number
-    selectedSize: string
-    selectedColor: string
+  productId: string;
+  quantity: number;
 }
-
-interface CartState {
-    cartArray: CartItem[]
-}
-
-type CartAction =
-    | { type: 'ADD_TO_CART'; payload: ProductType }
-    | { type: 'REMOVE_FROM_CART'; payload: string }
-    | {
-        type: 'UPDATE_CART'; payload: {
-            itemId: string; quantity: number, selectedSize: string, selectedColor: string
-        }
-    }
-    | { type: 'LOAD_CART'; payload: CartItem[] }
 
 interface CartContextProps {
-    cartState: CartState;
-    addToCart: (item: ProductType) => void;
-    removeFromCart: (itemId: string) => void;
-    updateCart: (itemId: string, quantity: number, selectedSize: string, selectedColor: string) => void;
+  cartItems: CartItem[];
+  addToCart: (item: ProductType) => void;
+  removeFromCart: (productId: string) => void;
+  updateCart: (productId: string, quantity: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-const cartReducer = (state: CartState, action: CartAction): CartState => {
-    switch (action.type) {
-        case 'ADD_TO_CART':
-            const newItem: CartItem = { ...action.payload, quantity: 1, selectedSize: '', selectedColor: '' };
-            return {
-                ...state,
-                cartArray: [...state.cartArray, newItem],
-            };
-        case 'REMOVE_FROM_CART':
-            return {
-              ...state,
-              cartArray: state.cartArray.filter(
-                (item) => item.productid !== action.payload
-              ),
-            };
-        case 'UPDATE_CART':
-            return {
-                ...state,
-                cartArray: state.cartArray.map((item) =>
-                    item.ProductID === action.payload.itemId
-                        ? {
-                            ...item,
-                            quantity: action.payload.quantity,
-                            selectedSize: action.payload.selectedSize,
-                            selectedColor: action.payload.selectedColor
-                        }
-                        : item
-                ),
-            };
-        case 'LOAD_CART':
-            return {
-                ...state,
-                cartArray: action.payload,
-            };
-        default:
-            return state;
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { userState } = useUser();
+  const isLoggedIn = userState.isLoggedIn;
+  console.log(cartItems);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    console.log(storedCartItems + ">>>>>>..stored items");
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
     }
-};
+  }, []);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [cartState, dispatch] = useReducer(cartReducer, { cartArray: [] });
+  const userId = auth?.currentUser?.uid;
 
-    const addToCart = (item: ProductType) => {
-        dispatch({ type: 'ADD_TO_CART', payload: item });
-    };
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchCartItemsDetails = async () => {
+        try {
+          const response = await instance.get(getCartItems);
+          const cartItemsData = response.data.cart_items.map((item: any) => ({
+            productId: item.product_id,
+            quantity: item.quantity,
+            // Add other necessary details from product_details array
+            // For example, if you need the price and amount, you can access them like:
+            price: item.product_details[0].discountPrice,
+            amount: item.product_details[0].discountPrice * item.quantity,
+            // Add other details as needed
+          }));
 
-    const removeFromCart = (itemId: string) => {
-        dispatch({ type: 'REMOVE_FROM_CART', payload: itemId });
-    };
+          // Update the cartItems state with the extracted data
+          console.log("Fetchedd Cart Items", cartItemsData);
+          setCartItems(cartItemsData);
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      };
+      fetchCartItemsDetails();
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      if (storedCartItems) {
+        setCartItems(JSON.parse(storedCartItems));
+      }
+    }
+  }, [isLoggedIn]);
 
-    const updateCart = (itemId: string, quantity: number, selectedSize: string, selectedColor: string) => {
-        dispatch({ type: 'UPDATE_CART', payload: { itemId, quantity, selectedSize, selectedColor } });
-    };
+  console.log(cartItems, "444444444444444444444");
 
-    return (
-        <CartContext.Provider value={{ cartState, addToCart, removeFromCart, updateCart }}>
-            {children}
-        </CartContext.Provider>
+  const addToCart = (item: ProductType) => {
+    console.log("Add to cart triggreddd>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    console.log(item, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    const newItem: CartItem = { productId: item.productId, quantity: 1 };
+    console.log(newItem, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.new item");
+    const newCartItems = [...cartItems, newItem];
+
+    console.log(newCartItems);
+    console.log("new cart items>>>>>>");
+    setCartItems(newCartItems);
+    if (!isLoggedIn) {
+      console.log(isLoggedIn, "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+    } else {
+      console.log("insidethe elseee");
+      console.log("Request Body:", { cartItems: newCartItems, userId });
+      instance
+        .post(addtoCart, { newCartItems, userid: userId })
+        .then((response) => {
+          console.log(cartItems, "newwww");
+          console.log("Cart items saved to the database:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error saving cart items to the database:", error);
+        });
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+    }
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.productId !== productId)
     );
+
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== productId
+    );
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  };
+
+  const updateCart = (productId: string, quantity: number) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.productId === productId ? { ...item, quantity } : item
+    );
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  };
+
+  return (
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, updateCart }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {
-    const context = useContext(CartContext);
-    if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
-    }
-    return context;
+  const context = React.useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 };

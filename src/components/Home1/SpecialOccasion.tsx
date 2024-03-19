@@ -118,10 +118,10 @@ const SpecialOccasion = () => {
   return (
     <>
       <div className="collection-block md:pt-20 pt-10">
-        <div className="container">
+        {/* <div className="container"> */}
           {/* <Fade bottom> */}
           {/* <div className="heading3 text-center">Special Occasion</div> */}
-          <div className="flex flex-col justify-between text-red-950 gap-8">
+          <div className="flex flex-col justify-between text-red-950 gap-8 px-8">
             <h1 className="text-5xl">
               Something special for <br /> Every Occasion
             </h1>
@@ -133,7 +133,7 @@ const SpecialOccasion = () => {
             </p>
           </div>
           {/* </Fade> */}
-        </div>
+        {/* </div> */}
         <div className="list-collection section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4">
           <Swiper
             spaceBetween={12}

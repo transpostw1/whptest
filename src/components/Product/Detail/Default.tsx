@@ -27,6 +27,7 @@ import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import { parse } from "path";
 interface Props {
   productId: string | number | null;
 }
@@ -158,20 +159,23 @@ const Default: React.FC<Props> = ({ productId }) => {
     }
     return res.json();
   }
-  const [filteredImages,setFilteredImages]=useState<ImageDetails[]|null>()
+
   async function singleProduct() {
     const product = await getData();
     setData(product);
-    const sortedImages=data.imageDetails.sort((a,b)=>{
-      return parseInt(a.order)-parseInt(b.order);
-    })
-    setFilteredImages(sortedImages)
   }
+
   useEffect(() => {
     singleProduct();
   }, [productId]);
 
   const product: ProductType = data[0];
+  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
+    Math.round(parseFloat((data && product?.discountPrice) ?? 0))
+  );
+  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
+    Math.round(parseFloat((data && product?.productPrice) ?? 0))
+  );
 
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
@@ -1077,17 +1081,19 @@ const Default: React.FC<Props> = ({ productId }) => {
           <div className="bg-[#fffff]">
             <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
               {product &&
-                filteredImages.map((image, index) => (
-                  <div key={index}>
-                    <InnerImageZoom
-                      src={image.image_path}
-                      srcSet={image}
-                      zoomScale={1.5}
-                      zoomType="click"
-                      hideCloseButton={true}
-                    />
-                  </div>
-                ))}
+                product.imageDetails
+                  .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                  .map((image, index) => (
+                    <div key={index}>
+                      <InnerImageZoom
+                        src={image.image_path}
+                        srcSet={image}
+                        zoomScale={1.5}
+                        zoomType="click"
+                        hideCloseButton={true}
+                      />
+                    </div>
+                  ))}
             </Slider>
             <div className="m-auto w-[60%] h-full">
               <Slider
@@ -1095,17 +1101,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                 ref={(slider: any) => setNav2(slider)}
               >
                 {product &&
-                  product.imageDetails?.map((image, index) => (
-                    <div key={index}>
-                      <Image
-                        src={image?.image_path}
-                        alt={product?.title}
-                        width={100}
-                        height={100}
-                        className="lg:mr-1 cursor-pointer"
-                      />
-                    </div>
-                  ))}
+                  product.imageDetails
+                    .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                    .map((image, index) => (
+                      <div key={index}>
+                        <Image
+                          src={image?.image_path}
+                          alt={product?.title}
+                          width={100}
+                          height={100}
+                          className="lg:mr-1 cursor-pointer"
+                        />
+                      </div>
+                    ))}
               </Slider>
             </div>
           </div>
@@ -1118,7 +1126,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             />
           </>
         </div>
-        <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px] sm:m-auto p-4">
+        <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
             <p className="font-semibold text-3xl">{product?.title}</p>
             <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
@@ -1145,13 +1153,13 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div>
           <div className="mb-5">
             <span className="font-extrabold text-2xl">
-              ₹{product?.discountPrice}
+              ₹{formattedDiscountedPrice}
             </span>
-            <span className="line-through ml-3 text-[#c5b8b8]">
-              ₹{product?.productPrice}
+            <span className="line-through ml-3 text-[#aa9e9e]">
+              ₹{formattedOriginalPrice}
             </span>
             <span className="ml-3 text-[#e26178] underline">
-              {product && product?.discountValue}% OFF
+              {product && product?.discountValue}% OFF on {product&& product?.discountCategory}
             </span>
           </div>
           <div>
@@ -1160,12 +1168,12 @@ const Default: React.FC<Props> = ({ productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] p-3">
+          <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] md:w-[65%] p-3">
             <div className="mr-3">
               <p>Metal</p>
               <div className="relative">
                 <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-20 sm:w-20"
+                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-[7.5rem] sm:w-20 md:w-[7.5rem]"
                   value={metal}
                   onChange={(e) => setMetal(e.target.value)}
                 >
@@ -1292,12 +1300,14 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div>
           {product && (
             <div className="flex sm:justify-around mt-[25px] ">
-              <div
-
-                className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
-              >
-                <Link href={{pathname:'/checkout',query:{id:JSON.stringify(product.productId)}}}>
-                 Buy Now
+              <div className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+                <Link
+                  href={{
+                    pathname: "/checkout",
+                    query: { id: JSON.stringify(product.productId) },
+                  }}
+                >
+                  Buy Now
                 </Link>
               </div>
               <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">

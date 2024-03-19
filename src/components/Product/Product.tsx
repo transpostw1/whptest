@@ -24,41 +24,62 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
   const router = useRouter();
 
-
   const sortedImages = data.imageDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
   );
 
-  const selected= sortedImages?.[0];
+  const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
     return null; // or render a default image or fallback UI
   }
 
   const handleDetailProduct = (productId: string | number) => {
-    console.log(productId,"productId")
-    router.push(`/product/default?id=${productId}`);
+    console.log(productId, "productId");
+    router.push(`/product/default?id=${productId}?query=${data.url}`);
   };
- 
+  const formattedDiscountedPrice = new Intl.NumberFormat("en-IN").format(
+    Math.round(parseFloat(data.discountPrice))
+  );
+  const formattedOriginalPrice = new Intl.NumberFormat("en-IN").format(
+    Math.round(parseFloat(data.productPrice))
+  );
+
   return (
     <>
       <div className="product-item grid-type ">
-        <div
-          onClick={() => handleDetailProduct(data?.productId)}
-          className="product-main cursor-pointer block"
-        >
+        <div className="product-main cursor-pointer block">
           <div className="product-thumb bg-white relative overflow-hidden">
             <div
               className=" w-full h-full aspect-[4/3]"
-              onMouseEnter={() => setShowVideo(true)}
               onMouseLeave={() => setShowVideo(false)}
             >
               {showVideo == true ? (
-                <div className="w-[93%] object-cover relative duration-700 product-img">
-                  <video loop autoPlay> <source src="/products/GERD23021256.mp4" type="video/mp4"/></video>
+                <div className="mb-2">
+                  <div
+                    className="w-[100%] object-cover relative duration-700 product-img"
+                    onClick={() => handleDetailProduct(data?.productId)}
+                  >
+                    <video loop autoPlay>
+                      {" "}
+                      <source
+                        src="/products/GERD23021256.mp4"
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                  {/* <div className="flex justify-between">
+                    <div className="" onClick={() => setShowVideo(!showVideo)}>
+                      <Icon.Play size={25} weight="light" />
+                    </div>
+                    <div className="float-right">
+                      <Icon.Heart size={25} weight="light" />
+                    </div>
+                  </div> */}
                 </div>
               ) : (
                 <>
                   <Image
+                    onClick={() => handleDetailProduct(data?.productId)}
                     className="w-[95%] duration-700  m-auto"
                     src={selected.image_path}
                     width={400}
@@ -66,10 +87,9 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     alt="This image is temporarry"
                   />
 
-
                   <div className="flex justify-between">
-                    <div className="">
-                      <Icon.Play size={25} weight="light"  />
+                    <div className="" onClick={() => setShowVideo(!showVideo)}>
+                      <Icon.Play size={25} weight="light" />
                     </div>
                     <div className="float-right">
                       <Icon.Heart size={25} weight="light" />
@@ -78,13 +98,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </>
               )}
             </div>
-           
           </div>
-          <div className=" mt-4 lg:mb-7">
-
+          <div
+            className=" mt-4 lg:mb-7"
+            onClick={() => handleDetailProduct(data?.productId)}
+          >
             <div className="product-name text-title duration-300 text-xl">
               <p>{data?.title}</p>
-              <p className="text-[#d8d8d8]">{data?.shortDesc}</p>
+              {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
             <div className="flex">
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
@@ -96,12 +117,12 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               <div className="product-price text-title text-lg">
-                ₹{data?.productPrice}
+                ₹{formattedDiscountedPrice}
               </div>
-              <div className="line-through text-[#dbd9d9]">
-                ₹{data?.productPrice}
+              <div className="line-through text-[#beb3b3]">
+                ₹{formattedOriginalPrice}
               </div>
-              <p className="text-[#c95d71]">10% OFF</p>
+              <p className="text-[#c95d71]">{data&&data?.discountValue}%OFF</p>
               {/* {percentSale > 0 && (
                   <>
                     <div className="product-origin-price caption1 text-secondary2">

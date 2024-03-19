@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,16 +11,18 @@ import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 
+
 interface Props {
   props: string;
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
+  const loginRef=useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
   const { openModalWishlist } = useModalWishlistContext();
   const { openModalCart } = useModalCartContext();
-  const { cartState } = useCart();
+  const { cartItems } = useCart();
   const { userState } = useUser();
   const { logOut } = useUser();
 
@@ -32,6 +34,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
   };
+   const cartLength = cartItems ? cartItems.length : 0;
 
   const handleLogout = () => {
     logOut();
@@ -96,7 +99,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
                         <>
-                          <div className="flex flex-col items-center">
+                          <div className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="red"
@@ -106,8 +109,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           </div>
 
                           <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
-                                            ${openLoginPopup ? "open" : ""}`}
+                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
+                                            ${openLoginPopup ? "open" : ""} z-10`}
                           >
                             <button
                               className="button-main w-full text-center"
@@ -122,7 +125,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
-                          <div className="flex flex-col items-center">
+                          <div className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="black"
@@ -131,7 +134,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             <h4 className="text-sm">User</h4>
                           </div>
                           <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
+                            className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10
                                             ${openLoginPopup ? "open" : ""}`}
                           >
                             <Link
@@ -173,7 +176,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
 
                     <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartState.cartArray.length}
+                      {cartLength}
+                      
                     </span>
                   </div>
                   <div className="choose-currency flex items-center ">

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link'
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'

@@ -9,12 +9,12 @@ const Explore = () => {
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
         <Link
-          href={"/shop/breadcrumb-img"}
+          href={"/shop/breadcrumb1"}
           className="banner-item relative block overflow-hidden duration-500"
         >
           <div className="banner-img">
             <Image
-              src={"/images/banner/Anayra.jpg"}
+              src={"/images/banner/Anayra.png"}
               width={2000}
               height={1300}
               alt="banner1"
@@ -23,12 +23,12 @@ const Explore = () => {
           </div>
         </Link>
         <Link
-          href={"/shop/breadcrumb-img"}
+          href={"/shop/breadcrumb1"}
           className="banner-item relative block overflow-hidden duration-500"
         >
           <div className="banner-img">
             <Image
-              src={"/images/banner/9Ratna.jpg"}
+              src={"/images/banner/Essential.png"}
               width={2000}
               height={1300}
               alt="banner2"

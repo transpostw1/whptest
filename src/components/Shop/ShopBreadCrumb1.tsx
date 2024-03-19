@@ -25,15 +25,21 @@ interface Props {
 const Filter = [
   {
     title: "Price",
-    options: ["Less than 10K", "10k to 20K", "20k to 30k", "30k and Above"],
+    options: [
+      "Less than 10K",
+      "10K to 20K",
+      "20K to 30K",
+      "30K to 50K",
+      "50K Above",
+    ],
   },
   {
     title: "Karat",
-    options: ["14k", "22k", "24k"],
+    options: ["14KT", "18KT", "22KT", "24KT"],
   },
   {
     title: "Weight",
-    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+    options: ["0-2 gms", "2-5 gms", "5-10 gms", "10 gms and above"],
   },
   {
     title: "Gender",
@@ -51,6 +57,7 @@ const Filter = [
       "Work Wear",
       "Wedding",
       "Desk to Dinner",
+      "Casual Wear",
       "Evening",
       "Party Wear",
     ],
@@ -71,15 +78,27 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [header, setHeader] = useState<boolean | null>(true);
-  const [data, setData] = useState<ProductType>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
+  const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
+    "Price High to Low"
+  );
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
   });
   const [length, setLength] = useState<number | null>(null);
-  const param=useSearchParams()
-  const name =param.get("url");
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const param = useSearchParams();
+  const name = param.get("url");
+  const text: string =
+    "Earrings are a form of self-expression. They effortlessly transform an outfit, framing the face with style and grace.";
+
+  const truncatedText = text.split(" ").slice(0, 200).join(" ");
+
+  const toggleShowFullText = () => {
+    setShowFullDescription(!showFullDescription);
+  };
   // const [currentPage, setCurrentPage] = useState(0);
   // const productsPerPage = 5;
   // const offset = currentPage * productsPerPage;
@@ -309,6 +328,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
       );
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -316,7 +336,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
           "http://164.92.120.19/api/getall-products"
         );
         setData(response.data);
-        setFilteredData(response.data)
+        setFilteredData(response.data);
       } catch (error) {
         console.log("data is unable to fetch");
       }
@@ -324,59 +344,97 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     fetchData();
   }, []);
 
-  const handleFilter=()=>{
-    selectedOptions.map((item:string)=>{
-      switch (item) {
-        case "less than 10K":
-          let filters=filteredData.filter(product => parseFloat(product.productPrice) < 10000);
-      setFilteredData(filters)
-      console.log(selectedOptions,"eeeeeee")
-          break;
-          case "10k to 20K":
-            let filters2=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData( filters2)
-      console.log(selectedOptions,"kkhhd")
-          break;
-          case "20k to 30K":
-          let filters3=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData(filters3)
-      console.log(selectedOptions,"wwwwww")
-          break;
-          case "30k and Above":
-            let filters4=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData(filters4)
-      console.log(selectedOptions,"dddddddddd")
-        default:
-          return []
-      }
-    })
-    // if(selectedOptions.includes("less than 10k")&&selectedOptions.length>0){
-    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) < 10000);
-    //   setFilteredData(filters)
-    // }
-    // if(selectedOptions.includes("10k to 20k")&&selectedOptions.length>0){
-    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-    //   setFilteredData(filters)
-    // }
-    // if(selectedOptions.includes("20k to 30k")&&selectedOptions.length>0){
-    //   let filters=filteredData.filter(product => parseFloat(product.productPrice)>=10000 && parseFloat(product.productPrice)<30000);
-    //   setFilteredData(filters)
-    // }
-    // if(selectedOptions.includes("30k and above")&&selectedOptions.length>0){
-    //   let filters=filteredData.filter(product => parseFloat(product.productPrice) >= 30000);
-    //   setFilteredData(filters)
-    // }
-    // else{
+  const handleSelectedSortOption = (value: string) => {
+    setSelectedSortOption(value);
+  };
 
-    //   setFilteredData(data)
-    // }
-  }
-  useEffect(()=>{
-    handleFilter()
-  },[selectedOptions])
-  
+  useEffect(() => {
+    console.log("Selected Options:", selectedOptions);
+    console.log("Filtered Data:", filteredData);
+
+    let filteredArray = filteredData.slice();
+    console.log(filteredArray, "I AM Here");
+
+    if (selectedOptions.length > 0) {
+      filteredArray = data.filter((product) => {
+        const price = parseInt(product.discountPrice);
+        const karat = product.metalPurity;
+        const gender: string = product.shopFor[0];
+        const metalWeight = product.weightRange;
+        const occasion = product.occasion;
+        return selectedOptions.some((option: string) => {
+          if (option === "Less than 10K") {
+            return price < 10000;
+          } else if (option === "10K to 20K") {
+            console.log(option, price);
+            return price >= 10000 && price <= 20000;
+          } else if (option === "20K to 30K") {
+            return price >= 20000 && price <= 30000;
+          } else if (option === "30K to 50K") {
+            console.log(option, price, "AAAAAA");
+            return price >= 30000 && price <= 50000;
+          } else if (option === "50K Above") {
+            return price >= 50000;
+          } else if (option === "14KT") {
+            return karat === option;
+          } else if (option == "22KT") {
+            return karat == option;
+          } else if (option == "18KT") {
+            return karat == option;
+          } else if (option == "24KT") {
+            return karat == option;
+          } else if (option == "Women") {
+            return gender == option;
+          } else if (option == "Men") {
+            return gender == option;
+          } else if (option == "Kids") {
+            return gender == option;
+          } else if (option == "0-2 gms") {
+            return metalWeight == option;
+          } else if (option == "2-5 gms") {
+            return metalWeight == option;
+          } else if (option == "5-10 gms") {
+            return metalWeight == option;
+          } else if (option == "10 gms and above") {
+            return metalWeight == option;
+          } else if (option == "Casual Wear") {
+            return occasion == option;
+          } else if (option == "Everyday") {
+            return occasion == option;
+          } else if (option == "Work Wear") {
+            return occasion == option;
+          } else if (option == "Wedding") {
+            return occasion == option;
+          } else if (option == "Evening") {
+            return occasion == option;
+          } else if (option == "Party Wear") {
+            return occasion == option;
+          } else if (option == null) {
+          }
+        });
+      });
+    } else {
+      filteredArray = data;
+    }
+
+    console.log("Filtered Array:", filteredArray);
+    setFilteredData(filteredArray);
+  }, [selectedOptions]);
+
+  useEffect(() => {
+    {console.log("Sort By:",selectedSortOption)}
+    let sortedData = filteredData;
+    if (selectedSortOption == "Price High to Low") {
+      sortedData = sortedData.sort(
+        (a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice)
+      );
+      setFilteredData(sortedData)
+    }
+  }, [selectedSortOption]);
+
   return (
     <>
+      {/* {console.log(selectedOptions + "aaditya")} */}
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
         <div className="container">
           <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
@@ -444,7 +502,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                       ) : null}
                     </div>
                   ))}
-
                 </div>
               </div>
               {/* <div className="filter-size pb-8 border-b border-line mt-8">
@@ -767,25 +824,52 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
               </div> */}
 
               <div className="">
-                <p className="text-4xl font-bold uppercase">{name||"Earring"}</p>
+                <p className="text-4xl font-bold uppercase">
+                  {name || "Earring"}
+                </p>
               </div>
               <div className="flex justify-between mt-5">
-                <div className="lg:w-[70%] sm:w-[100%]">
-                  Earrings are a form of self-expression. They effortlessly
-                  transform an outfit, framing the face with style and grace.
+                <div className="lg:w-[70%] sm:w-[100%] ">
+                  {/* {showFullDescription ? (
+                    <span className="lg:w-[70%] sm:w-[100%] ">{text}</span>
+                  ) : (
+                    <span className="truncate">
+                      {truncatedText}
+                      {text.split(" ").length > 200 && (
+                        <button
+                          className="text-blue-500 hover:underline ml-2"
+                          onClick={toggleShowFullText}
+                        >
+                          View More
+                        </button>
+                      )}
+                    </span>
+                  )} */}
+                  <p>
+                    Earrings are a form of self-expression. They effortlessly
+                    transform an outfit, framing the face with style and grace.
+                  </p>
                 </div>
-                <div className="hidden lg:block">
-                  <span
-                    className="flex cursor-pointer font-semibold"
-                    onClick={() => {
-                      setDropdown(!dropdown);
-                    }}
-                  >
-                    <p>Sort By</p>
-                    <p className="mt-1 ml-2 cursor-pointer">
-                      <Icon.CaretDown weight="fill" />
-                    </p>
-                  </span>
+                <div className="hidden lg:block relative">
+                  <label className="font-semibold">Sort By: </label>
+                  <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                    <option className="bg-[#f7f7f7]">Price Low to High</option>
+                    <option
+                      className="bg-[#f7f7f7]"
+                      onClick={() =>
+                        handleSelectedSortOption("Price High to Low")
+                      }
+                    >
+                      Price High to Low
+                    </option>
+                    <option className="bg-[#f7f7f7]">Customer Rating</option>
+                    <option className="bg-[#f7f7f7]">Latest</option>
+                    <option className="bg-[#f7f7f7]">Discount</option>
+                    <option className="bg-[#f7f7f7]">Featured</option>
+                  </select>
+                  <div className="pointer-events-none ml-3 absolute inset-y-7 bottom-0 right-0 flex items-center px-2 text-gray-700">
+                    <Icon.CaretDown size={18} />
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap lg:hidden">
@@ -843,13 +927,13 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                   .map((item: any) => (
                     <Product key={item.productId} data={item} />
                   ))}
-                  <div>
+                {/* <div>
                     <video autoPlay muted loop>
                       <source src="/dummy/BIRS0681R68-VIDEO-51508.mp4"type="video/mp4"/>
                     </video>
                     <p className="product-name text-title duration-300 text-xl">18kt Diamond Ring</p>
                     <p className="text-[#dbd8d8] font-bold">Delivery Within 7 days</p>
-                  </div>
+                  </div> */}
               </div>
             </div>
           </div>

@@ -122,8 +122,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                        {data &&
                         data.map((item, index) => (
                           <React.Fragment key={item.id}>
-                            {index % 3 === 0 && <ul></ul>}
-                            <li>
+                          
+                            <li className="leading-[0px]">
                               <Link
                                 href={{
                                   pathname: "/shop/breadcrumb1",

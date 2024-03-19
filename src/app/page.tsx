@@ -52,12 +52,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <TopNavOne textColor="text-white" />
-      <NavTwo props="style-three bg-white" />
-      <div id="header" className="w-full relative">
-        <NavHoverMenu props="bg-white" />
-      </div> */}
-      {/* <MainCarousel /> */}
+      <MainCarousel />
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={products} start={0} limit={6} />

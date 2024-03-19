@@ -112,7 +112,7 @@ const Gifts = () => {
               key={category.id}
               className="flex flex-col gap-2 relative items-center"
             >
-              <div className="effect11 img">
+              <div className="effect12 img">
                 {category.image} <a href="#">{category.type}</a>
               </div>
               {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}

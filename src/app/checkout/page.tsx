@@ -21,7 +21,6 @@ import { useRouter } from "next/navigation";
 import {
   AddressBook,
   ShoppingCart,
-  SignIn,
   Wallet,
   ArrowRight,
   Gift,
@@ -82,9 +81,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     if (itemToUpdate) {
       updateCart(
         productId,
-        newQuantity,
-        itemToUpdate.selectedSize,
-        itemToUpdate.selectedColor
+        newQuantity
       );
     }
   };
@@ -98,9 +95,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  cartItems.forEach((item) => (totalCart += item.productPrice * "20"));
-  console.log("hjhkhjk", totalCart);
-  console.log(cartItems, "lllllllllllllllllllllll");
+  cartItems.forEach((item) => (totalCart += item.productPrice));
+  console.log("Total Cart Amount in Checkout", totalCart);
+  console.log(cartItems, "Checkout Console of CartItems");
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
@@ -319,7 +316,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     key={product.productid}
                   >
                     <Image
-                      src={product.image[0].image_path}
+                      src={product.image}
                       width={100}
                       height={200}
                       alt={product.Title}
@@ -335,7 +332,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product.productid)}
+                            onClick={() => removeFromCart(product?.productid)}
                           >
                             Remove
                           </div>
@@ -347,7 +344,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${product?.price}
+                        ${product?.price * product.quantity}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus

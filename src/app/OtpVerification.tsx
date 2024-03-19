@@ -11,10 +11,9 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
-import instance from "../utils/axios";
 import { signup, login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
-import { url } from "inspector";
+import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
   formikValues: any; // Define the type of formikValues prop
@@ -86,18 +85,27 @@ const OtpVerification = ({
       console.log("Successfully signed in with OTP");
       const token = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-      console.log( auth.currentUser,"435435");
-      console.log(credential,"CREDDD")
+      console.log(auth.currentUser, "435435");
+      console.log(credential, "CREDDD");
 
       let endpoint = action === "login" ? login : signup;
       console.log(endpoint, "dfgdgdfg");
-      const response = await instance.post(
+      const response = await axios.post(
         endpoint,
         {
           ...formikValues,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       logIn();
+      console.log(response,"LOGIN RESPPP")
+         const localToken = response.data.token;
+         Cookies.set("localtoken", localToken);
+         console.log("local______", localToken);
       router.push("/");
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);

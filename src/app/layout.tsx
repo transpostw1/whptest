@@ -34,10 +34,9 @@ export default function RootLayout({
         <body className={instrument.className}>
             <TopNavOne textColor="text-white" />
             <NavTwo props="style-three bg-white" />
-            <div id="header" className="w-full relative">
+            <div id="header" className="w-full ">
               <NavHoverMenu props="bg-white" />
             </div>
-
           {children}
           <ModalCart serverTimeLeft={serverTimeLeft} />
           <ModalWishlist />

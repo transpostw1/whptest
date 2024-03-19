@@ -33,10 +33,10 @@ export default function RootLayout({
       <html lang="en">
         <body className={instrument.className}>
             <TopNavOne textColor="text-white" />
-            {/* <NavTwo props="style-three bg-white" />
+            <NavTwo props="style-three bg-white" />
             <div id="header" className="w-full relative">
               <NavHoverMenu props="bg-white" />
-            </div> */}
+            </div>
 
           {children}
           <ModalCart serverTimeLeft={serverTimeLeft} />

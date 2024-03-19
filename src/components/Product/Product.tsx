@@ -13,6 +13,7 @@ import { useCompare } from "@/context/CompareContext";
 import { useModalCompareContext } from "@/context/ModalCompareContext";
 import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
+import { useProductContext } from "@/context/ProductContext";
 
 interface ProductProps {
   data: ProductType;
@@ -22,13 +23,23 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const { addToCart, updateCart, cartState } = useCart();
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
+  const { products, fetchData } = useProductContext();
+
+  const [dataFetched, setDataFetched] = useState(false);
+
+  useEffect(() => {
+    if (!dataFetched) {
+      fetchData();
+      setDataFetched(true);
+    }
+  }, []);
   const router = useRouter();
 
   const sortedImages = data.imageDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
   );
 
-  const selected = sortedImages?.[0];
+  const selected  = sortedImages?.[0];
   if (!selected || !selected.image_path) {
     return null; // or render a default image or fallback UI
   }

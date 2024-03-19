@@ -1,28 +1,34 @@
 import axios, { AxiosInstance } from "axios";
 import { baseUrl } from "./constants";
-import { auth } from "@/app/config";
+import Cookies from "js-cookie";
+
+const getLocalToken = () => {
+  console.log("calling get token");
+
+  return Cookies.get("localtoken");
+};
+
+const CookieToken = getLocalToken();
+console.log(CookieToken, "COOKIE TOKEN CONSOLED");
 
 const instance: AxiosInstance = axios.create({
-  baseURL: baseUrl, // Add baseURL here
+  baseURL: baseUrl,
+  headers: {
+    Authorization: `Bearer ${CookieToken}`,
+  },
 });
 
-instance.interceptors.request.use(
-  async (config) => {
-    try {
-      // Get the Firebase auth token result
-      const tokenResult = await auth.currentUser?.getIdTokenResult(true); // Force refresh
-
-      if (tokenResult) {
-        const token = tokenResult.token;
-
-        console.log(token, "Interceptor token");
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    } catch (error) {
-      console.error("Error getting ID token result:", error);
+//request.interceptor//
+instance.interceptors.response.use(
+  (response) => {
+    console.log("uuuu");
+    const refreshToken = response.headers["refreshed_token"];
+    console.log(response, "maan");
+    if (refreshToken) {
+      ("IN");
+      Cookies.set("localtoken", refreshToken);
     }
-
-    return config;
+    return response;
   },
   (error) => {
     return Promise.reject(error);

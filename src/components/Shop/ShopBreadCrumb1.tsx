@@ -371,7 +371,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
           } else if (option === "20K to 30K") {
             return price >= 20000 && price <= 30000;
           } else if (option === "30K to 50K") {
-            console.log(option, price, "AAAAAA");
+            console.log(option, price, "AAA");
             return price >= 30000 && price <= 50000;
           } else if (option === "50K Above") {
             return price >= 50000;

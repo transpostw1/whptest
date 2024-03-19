@@ -1084,6 +1084,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 product.imageDetails
                   .sort((a, b) => parseInt(a.order) - parseInt(b.order))
                   .map((image, index) => (
+                    
                     <div key={index}>
                       <InnerImageZoom
                         src={image.image_path}

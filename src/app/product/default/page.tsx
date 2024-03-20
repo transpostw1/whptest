@@ -23,7 +23,7 @@ const ProductDefault = () => {
 
     return (
         <>
-            <Default data={productData} productId={productId} />
+            <Default productId={productId} />
         </>
     )
 }

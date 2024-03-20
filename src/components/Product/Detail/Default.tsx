@@ -28,6 +28,7 @@ import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { parse } from "path";
+
 interface Props {
   productId: string | number | null;
 }

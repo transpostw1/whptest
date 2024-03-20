@@ -130,11 +130,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
                         <>
-                          <div className="flex flex-col items-center" >
+                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="red"
-                              onClick={handleLoginPopup}
+                              
                             />
                             <h4 className="text-sm">MyProfile</h4>
                           </div>
@@ -156,11 +156,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
-                          <div className="flex flex-col items-center" >
+                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="black"
-                              onClick={handleLoginPopup}
+                              
                             />
                             <h4 className="text-sm">User</h4>
                           </div>

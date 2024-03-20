@@ -37,7 +37,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [phone, setPhone] = useState("");
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -335,7 +334,7 @@ let cartDiscount = 0;
                       src={product.image}
                       width={100}
                       height={200}
-                      alt={product.Title}
+                      alt="image"
                       className="rounded-lg object-cover"
                     />
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
@@ -348,7 +347,7 @@ let cartDiscount = 0;
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.productId)}
+                            onClick={() => removeFromCart(product?.product_id)}
                           >
                             Remove
                           </div>

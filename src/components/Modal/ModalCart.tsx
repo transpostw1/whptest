@@ -21,7 +21,7 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  // console.log(products, "yesss i keep rendering ");
+  console.log(products, "yesss i keep rendering ");
 
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -91,7 +91,7 @@ const ModalCart = ({
                         height={300}
                         alt={product?.title}
                         className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
-                      /> */}
+                      /> 
                     </div>
                     <div className="">
                       <div className="name text-button">

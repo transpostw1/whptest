@@ -8,7 +8,6 @@ import BreadcrumbProduct from '@/components/Breadcrumb/BreadcrumbProduct'
 import Default from '@/components/Product/Detail/Default';
 import Footer from '@/components/Footer/Footer'
 import { ProductType } from '@/type/ProductType'
-import productData from '@/data/Product.json'
 import NavHoverMenu from '@/components/Header/Menu/NavHoverMenu';
 import NavTwo from '@/components/Header/TopNav/NavTwo';
 

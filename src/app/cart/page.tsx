@@ -49,7 +49,7 @@ const Cart = () => {
     let [shipCart, setShipCart] = useState<number>(30)
     let [applyCode, setApplyCode] = useState<number>(0)
 
-    cartState.cartArray.map(item => totalCart += item.price * item.quantity)
+    // cartState.cartArray.map(item => totalCart += item.price * item.quantity)
 
     const handleApplyCode = (minValue: number, discount: number) => {
         if (totalCart > minValue) {

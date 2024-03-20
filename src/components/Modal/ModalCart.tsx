@@ -39,6 +39,8 @@ const ModalCart = ({
     }
   }, []);
 
+
+
   const [activeTab, setActiveTab] = useState<string | undefined>("");
   const { isModalOpen, closeModalCart } = useModalCartContext();
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
@@ -54,15 +56,6 @@ const ModalCart = ({
     productAlreadyExists
       ? updateCart(productItem.productId, updatedQuantity)
       : addToCart({ ...productItem });
-
-    // if (
-    //   !
-    // ) {
-    //   addToCart({ ...productItem });
-    //   // updateCart(productItem.productid, productItem.Quantity, "", "");
-    // } else {
-    //   updateCart(productItem.productid, productItem.Quantity, "", "");
-    // }
   };
 
   const handleActiveTab = (tab: string) => {
@@ -124,7 +117,7 @@ const ModalCart = ({
                       handleAddToCart(product);
                     }}
                   >
-                    <Icon.Handbag alt=""/>
+                    <Icon.Handbag alt="" />
                   </div>
                 </div>
               ))}
@@ -162,7 +155,7 @@ const ModalCart = ({
               {cartItems?.map((cartItem) => {
                 // Find the corresponding product details using product ID
                 const productDetails = products.find(
-                  (product) => product.productId === cartItem.productId
+                  (product) => product.productId === cartItem.product_id
                 );
 
                 if (!productDetails) return null; // Return null if product details are not found

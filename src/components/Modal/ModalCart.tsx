@@ -22,7 +22,6 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  console.log(products, "yesss i keep rendering ");
 
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -44,11 +43,9 @@ const ModalCart = ({
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const handleAddToCart = (productItem: ProductType) => {
-    console.log(productItem, "9999999999");
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productId
     );
-    console.log(productAlreadyExists, "exists>>>");
     const currentquantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentquantity + 1;
     productAlreadyExists

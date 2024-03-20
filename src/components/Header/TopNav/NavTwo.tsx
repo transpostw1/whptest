@@ -30,6 +30,24 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   const router = useRouter();
 
+  const [fixedHeader, setFixedHeader] = useState(false);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition || scrollPosition > lastScrollPosition);
+      setLastScrollPosition(scrollPosition);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollPosition]);
+
+
   const handleSearch = (value: string) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
@@ -41,17 +59,30 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
   return (
     <>
-      <div className={`top-nav md:h-[65px] h-[65px]  text-rose-950 ${props}`}>
+      <div className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
+          fixedHeader ? " fixed" : "relative"
+        } text-rose-950 ${props}`}>
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between max-md:justify-center items-center ">
             <div className="left-content flex items-center ">
-              <Image
+              <Link href={"/"}>
+                <Image
                 src={"/images/other/Logo.png"}
                 width={80}
                 height={80}
                 alt="80x80"
                 className=" object-cover"
-              />
+                /> 
+                </Link>
+                <Link href={"/"}>
+                <Image
+                src={"/images/whpnameLogo.png"}
+                width={170}
+                height={80}
+                alt="80x80"
+                className=" object-cover"
+                />
+                </Link>
             </div>
             <div className="form-search w-72 relative max-lg:hidden">
               <button>

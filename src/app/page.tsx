@@ -36,25 +36,26 @@ import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
 import WhpApp from "@/components/Home1/WhpApp";
-
+import { useProductContext } from "@/context/ProductContext";
 import productData from "@/data/Products.json";
-
+import VideoSlider from "./videoSlider/page";
 
 
 
 export default function Home() {
+  const { products, fetchData } = useProductContext();
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+  
 
   return (
     <>
-      {/* <TopNavOne textColor="text-white" />
-      <NavTwo props="style-three bg-white" />
-      <div id="header" className="w-full relative">
-        <NavHoverMenu props="bg-white" />
-      </div> */}
-      {/* <MainCarousel /> */}
+      <MainCarousel />
       <Explore />
       {/* <Collection /> */}
-      <ProductSlider data={productData} start={0} limit={6} />
+      <ProductSlider data={products} start={0} limit={6} />
       <Category />
       <GoldScheme />
       <ShopGender />
@@ -63,6 +64,7 @@ export default function Home() {
       <Gifts />
       <SpecialOccasion />
       <Reviews />
+      <VideoSlider/>
       <WhpApp/>
       {/* <Banner />
       <Benefit props="md:py-20 py-10" /> */}

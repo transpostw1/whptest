@@ -13,6 +13,7 @@ import MobileFilters from "../Other/MobileFilters";
 import axios from "axios";
 import DownloadAppBanner from "../Other/DownloadAppBanner";
 import { useSearchParams } from "next/navigation";
+import Loader from "../Other/Loader";
 
 interface Props {
   // data: Array<ProductType>;
@@ -25,24 +26,25 @@ interface Props {
 const Filter = [
   {
     title: "Price",
-    options: ["Less than 10K", "10k to 20K", "20k to 30k", "30k and Above"],
+    options: [
+      "Less than 10K",
+      "10K to 20K",
+      "20K to 30K",
+      "30K to 50K",
+      "50K Above",
+    ],
   },
   {
     title: "Karat",
-    options: ["14k", "22k", "24k"],
+    options: ["14KT", "18KT", "22KT", "24KT"],
   },
   {
     title: "Weight",
-    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+    options: ["0-2 gms", "2-5 gms", "5-10 gms", "10 gms and above"],
   },
   {
     title: "Gender",
     options: ["Men", "Women", "Kids"],
-  },
-  { title: "Type", options: [] },
-  {
-    title: "Style",
-    options: [],
   },
   {
     title: "Occasion",
@@ -51,16 +53,16 @@ const Filter = [
       "Work Wear",
       "Wedding",
       "Desk to Dinner",
+      "Casual Wear",
       "Evening",
       "Party Wear",
     ],
   },
-  { title: "Colours", options: [] },
   { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
-  { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
 const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [showOnlySale, setShowOnlySale] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const [sortOption, setSortOption] = useState<boolean>(false);
   const [mobileFilter, setMobileFilter] = useState<boolean | null>(false);
@@ -71,17 +73,240 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [dropdown, setDropdown] = useState<boolean | null>(false);
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [header, setHeader] = useState<boolean | null>(true);
-  const [data, setData] = useState<ProductType>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
+  const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
+    "Price High to Low"
+  );
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
     max: 100,
   });
   const [length, setLength] = useState<number | null>(null);
-  const param=useSearchParams()
-  const name =param.get("url");
-  
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const param = useSearchParams();
+  const name = param.get("url");
+  const text: string =
+    "Earrings are a form of self-expression. They effortlessly transform an outfit, framing the face with style and grace.";
 
+  const truncatedText = text.split(" ").slice(0, 200).join(" ");
+
+  // const filter=[{price:"Less than 10K",selected:false},{price:"10K to 20K",selected:false},]
+
+  const toggleShowFullText = () => {
+    setShowFullDescription(!showFullDescription);
+  };
+  // const [currentPage, setCurrentPage] = useState(0);
+  // const productsPerPage = 5;
+  // const offset = currentPage * productsPerPage;
+
+  // const handleShowOnlySale = () => {
+  //   setShowOnlySale((toggleSelect) => !toggleSelect);
+  // };
+
+  // const handleSortChange = (option: string) => {
+  //   setSortOption(option);
+  //   setCurrentPage(0);
+  // };
+
+  // const handleType = (type: string | null) => {
+  //   setType((prevType) => (prevType === type ? null : type));
+  //   setCurrentPage(0);
+  // };
+
+  // const handleSize = (size: string) => {
+  //   setSize((prevSize) => (prevSize === size ? null : size));
+  //   setCurrentPage(0);
+  // };
+
+  // const handlePriceChange = (values: number | number[]) => {
+  //   if (Array.isArray(values)) {
+  //     setPriceRange({ min: values[0], max: values[1] });
+  //     setCurrentPage(0);
+  //   }
+  // };
+
+  // const handleColor = (color: string) => {
+  //   setColor((prevColor) => (prevColor === color ? null : color));
+  //   setCurrentPage(0);
+  // };
+
+  // const handleBrand = (brand: string) => {
+  //   setBrand((prevBrand) => (prevBrand === brand ? null : brand));
+  //   setCurrentPage(0);
+  // };
+
+  // Filter product
+  // let filteredData = data.filter((product) => {
+  //   let isShowOnlySaleMatched = true;
+  //   if (showOnlySale) {
+  //     isShowOnlySaleMatched = product.sale;
+  //   }
+
+  //   let isDatagenderMatched = true;
+  //   if (gender) {
+  //     isDatagenderMatched = product.gender === gender;
+  //   }
+
+  //   let isDataCategoryMatched = true;
+  //   if (category) {
+  //     isDataCategoryMatched = product.category === category;
+  //   }
+
+  //   let isDataTypeMatched = true;
+  //   if (dataType) {
+  //     isDataTypeMatched = product.type === dataType;
+  //   }
+
+  //   let isTypeMatched = true;
+  //   if (type) {
+  //     dataType = type;
+  //     isTypeMatched = product.type === type;
+  //   }
+
+  //   let isSizeMatched = true;
+  //   if (size) {
+  //     isSizeMatched = product.sizes.includes(size);
+  //   }
+
+  //   let isPriceRangeMatched = true;
+  //   if (priceRange.min !== 0 || priceRange.max !== 100) {
+  //     isPriceRangeMatched =
+  //       product.price >= priceRange.min && product.price <= priceRange.max;
+  //   }
+
+  //   let isColorMatched = true;
+  //   if (color) {
+  //     isColorMatched = product.variation.some((item) => item.color === color);
+  //   }
+
+  //   let isBrandMatched = true;
+  //   if (brand) {
+  //     isBrandMatched = product.brand === brand;
+  //   }
+
+  //   return (
+  //     isShowOnlySaleMatched &&
+  //     isDatagenderMatched &&
+  //     isDataCategoryMatched &&
+  //     isDataTypeMatched &&
+  //     isTypeMatched &&
+  //     isSizeMatched &&
+  //     isColorMatched &&
+  //     isBrandMatched &&
+  //     isPriceRangeMatched
+  //   );
+  // });
+
+  // Create a copy array filtered to sort
+  // let sortedData = [...filteredData];
+
+  // if (sortOption === "soldQuantityHighToLow") {
+  //   filteredData = sortedData.sort((a, b) => b.sold - a.sold);
+  // }
+
+  // if (sortOption === "discountHighToLow") {
+  //   filteredData = sortedData.sort(
+  //     (a, b) =>
+  //       Math.floor(100 - (b.price / b.originPrice) * 100) -
+  //       Math.floor(100 - (a.price / a.originPrice) * 100)
+  //   );
+  // }
+
+  // if (sortOption === "priceHighToLow") {
+  //   filteredData = sortedData.sort((a, b) => b.price - a.price);
+  // }
+
+  // if (sortOption === "priceLowToHigh") {
+  //   filteredData = sortedData.sort((a, b) => a.price - b.price);
+  // }
+
+  // const totalProducts = filteredData.length;
+  // const selectedType = type;
+  // const selectedSize = size;
+  // const selectedColor = color;
+  // const selectedBrand = brand;
+
+  // if (filteredData.length === 0) {
+  //   filteredData = [
+  //     {
+  //       id: "no-data",
+  //       category: "no-data",
+  //       type: "no-data",
+  //       name: "no-data",
+  //       gender: "no-data",
+  //       new: false,
+  //       sale: false,
+  //       rate: 0,
+  //       price: 0,
+  //       originPrice: 0,
+  //       brand: "no-data",
+  //       sold: 0,
+  //       quantity: 0,
+  //       quantityPurchase: 0,
+  //       sizes: [],
+  //       variation: [],
+  //       thumbImage: [],
+  //       images: [],
+  //       description: "no-data",
+  //       action: "no-data",
+  //       slug: "no-data",
+  //     },
+  //   ];
+  // }
+
+  //  Find page number base on filteredData
+  // const pageCount = Math.ceil(filteredData.length / productsPerPage);
+  // const pageCount=3;
+
+  // If page number 0, set current page = 0
+  // if (pageCount === 0) {
+  //   setCurrentPage(0);
+  // }
+
+  // Get product data for current page
+  let currentProducts: ProductType[];
+
+  // if (filteredData.length > 0) {
+  //   currentProducts = filteredData.slice(offset, offset + productsPerPage);
+  // } else {
+  //   currentProducts = [];
+  // }
+
+  // const handlePageChange = (selected: number) => {
+  //   setCurrentPage(selected);
+  // };
+
+  // const handleClearAll = () => {
+  //   dataType = null;
+  //   setShowOnlySale(false);
+  //   setSortOption("");
+  //   setType(null);
+  //   setSize(null);
+  //   setColor(null);
+  //   setBrand(null);
+  //   setPriceRange({ min: 0, max: 100 });
+  //   setCurrentPage(0);
+  //   handleType(null);
+  // };
+  const [filter, setFilter] = useState([
+    { option: "Less than 10K", selected: false },
+    { option: "10K to 20K", selected: false },
+    { option: "20K to 30K", selected: false },
+    { option: "30K to 50K", selected: false },
+    { option: "50K Above", selected: false },
+    { option: "14KT", selected: false },
+    { option: "18KT", selected: false },
+    { option: "22KT", selected: false },
+    { option: "24KT", selected: false },
+    { option: "0-2 gms", selected: false },
+    { option: "2-5 gms", selected: false },
+    { option: "5-10 gms", selected: false },
+    { option: "10 gms and above", selected: false },
+    { option: "Men", selected: false },
+    { option: "Women", selected: false },
+    { option: "Kids", selected: false },
+]);
   const productsPerPage = 9;
   const pagesVisited = pageNumber * productsPerPage;
 
@@ -116,7 +341,19 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
         )
       );
     }
+    toggleSelection(option);
   };
+  
+    function toggleSelection(option:string) {
+      const updatedFilter = filter.map(item => {
+          if (item.option === option) {
+              return { ...item, selected: !item.selected };
+          }
+          return item;
+      });
+      setFilter(updatedFilter);
+    }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -124,8 +361,8 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
           "http://164.92.120.19/api/getall-products"
         );
         setData(response.data);
-        setFilteredData(response.data)
-        
+        setFilteredData(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.log("data is unable to fetch");
       }
@@ -133,40 +370,235 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     fetchData();
   }, []);
 
-  const handleFilter=()=>{
-    selectedOptions.map((item:string)=>{
-      switch (item) {
-        case "less than 10K":
-          let filters=filteredData.filter(product => parseFloat(product.productPrice) < 10000);
-      setFilteredData(filters)
-      console.log(selectedOptions,"eeeeeee")
-          break;
-          case "10k to 20K":
-            let filters2=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData( filters2)
-      console.log(selectedOptions,"kkhhd")
-          break;
-          case "20k to 30K":
-          let filters3=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData(filters3)
-      console.log(selectedOptions,"wwwwww")
-          break;
-          case "30k and Above":
-            let filters4=filteredData.filter(product => parseFloat(product.productPrice) >= 10000 && parseFloat(product.productPrice)<20000);
-      setFilteredData(filters4)
-      console.log(selectedOptions,"dddddddddd")
-        default:
-          return []
-      }
-    })
-
+  if(isLoading){
+    <Loader/>
   }
+
+  const handleSelectedSortOption = (value: string) => {
+    setSelectedSortOption(value);
+  };
+
+  // useEffect(() => {
+  //   console.log("Selected Options:", selectedOptions);
+  //   console.log("Filtered Data:", filteredData);
+
+  //   let filteredArray = filteredData.slice();
+  //   console.log(filteredArray, "I AM Here");
+
+  //   if (selectedOptions.length > 0) {
+  //     filteredArray = filteredData.filter((product) => {
+  //       const price = parseInt(product.discountPrice);
+  //       const karat = product.metalPurity;
+  //       const gender: string = product.shopFor[0];
+  //       const metalWeight = product.weightRange;
+  //       const occasion = product.occasion;
+  //       return selectedOptions.some((option: string) => {
+  //         if (option === "Less than 10K") {
+  //           return price < 10000;
+  //         }
+  //         if (option === "10K to 20K") {
+  //           console.log(option, price);
+  //           return price >= 10000 && price <= 20000;
+  //         }
+  //         if (option === "20K to 30K") {
+  //           return price >= 20000 && price <= 30000;
+  //         }
+  //         if (option === "30K to 50K") {
+  //           console.log(option, price, "AAA");
+  //           return price >= 30000 && price <= 50000;
+  //         }
+  //         if (option === "50K Above") {
+  //           return price >= 50000;
+  //         }
+  //         if (option === "14KT") {
+  //           return karat === option;
+  //         }
+  //         if (option == "22KT") {
+  //           return karat == option;
+  //         }
+  //         if (option == "18KT") {
+  //           return karat == option;
+  //         }
+  //         if (option == "24KT") {
+  //           return karat == option;
+  //         }
+  //         if (option == "Women") {
+  //           return gender == option;
+  //         }
+  //         if (option == "Men") {
+  //           return gender == option;
+  //         }
+  //         if (option == "Kids") {
+  //           return gender == option;
+  //         }
+  //         if (option == "0-2 gms") {
+  //           return metalWeight == option;
+  //         }
+  //         if (option == "2-5 gms") {
+  //           return metalWeight == option;
+  //         }
+  //         if (option == "5-10 gms") {
+  //           return metalWeight == option;
+  //         }
+  //         if (option == "10 gms and above") {
+  //           return metalWeight == option;
+  //         }
+  //         if (option == "Casual Wear") {
+  //           return occasion == option;
+  //         }
+  //         if (option == "Everyday") {
+  //           return occasion == option;
+  //         }
+  //         if (option == "Work Wear") {
+  //           return occasion == option;
+  //         }
+  //         if (option == "Wedding") {
+  //           return occasion == option;
+  //         }
+  //         if (option == "Evening") {
+  //           return occasion == option;
+  //         }
+  //         if (option == "Party Wear") {
+  //           return occasion == option;
+  //         }
+  //         if (option == null) {
+  //         }
+  //       });
+  //     });
+  //   } else {
+  //     filteredArray = data;
+  //   }
+
+  //   console.log("Filtered Array:", filteredArray);
+  //   setFilteredData(filteredArray);
+  // }, [selectedOptions]);
+
+  // useEffect(() => {
+  //   console.log("Selected Options:", selectedOptions);
+  //   console.log("Filtered Data:", filteredData);
+
+  //   let filteredArray: ProductType[] = filteredData.slice();
+  //   console.log(filteredArray, "I AM Here");
+
+  //   if (selectedOptions.length > 0) {
+  //     filteredArray = filteredData.filter((product) => {
+  //       const price = parseInt(product.discountPrice.toString());
+  //       const karat = product.metalPurity;
+  //       const gender: string = product.shopFor[0];
+  //       const metalWeight = product.weightRange;
+  //       const occasion = product.occasion;
+  //       return selectedOptions.some((option: string) => {
+  //         if (option === "Less than 10K") {
+  //           return price < 10000;
+  //         }
+  //         if (option === "10K to 20K") {
+  //           console.log(option, price);
+  //           return price >= 10000 && price <= 20000;
+  //         }
+  //         if (option === "20K to 30K") {
+  //           return price >= 20000 && price <= 30000;
+  //         }
+  //         if (option === "30K to 50K") {
+  //           console.log(option, price, "AAA");
+  //           return price >= 30000 && price <= 50000;
+  //         }
+  //         if (option === "50K Above") {
+  //           return price >= 50000;
+  //         }
+  //         if (option === "14KT" || option === "22KT" || option === "18KT" || option === "24KT") {
+  //           return karat === option;
+  //         }
+  //         if (option === "Women" || option === "Men" || option === "Kids") {
+  //           return gender === option;
+  //         }
+  //         if (option === "0-2 gms" || option === "2-5 gms" || option === "5-10 gms" || option === "10 gms and above") {
+  //           return metalWeight === option;
+  //         }
+  //         if (option === "Casual Wear" || option === "Everyday" || option === "Work Wear" || option === "Wedding" || option === "Evening" || option === "Party Wear") {
+  //           return occasion === option;
+  //         }
+  //         return false; // Handle null option case if needed
+  //       });
+  //     });
+  //   } else {
+  //     filteredArray = data; // If no options selected, keep the data unchanged
+  //   }
+
+  //   console.log("Filtered Array:", filteredArray);
+  //   setFilteredData(filteredArray);
+  // }, [selectedOptions, filteredData]);
   useEffect(()=>{
-    handleFilter()
-  },[selectedOptions])
-  
+    const selectedOptions = filter.filter(item => item.selected === true);
+    console.log("Selected items:", selectedOptions);
+    let filteredArray =[];
+
+    if (selectedOptions.length > 0) {
+           filteredArray = data.filter((product) => {
+            const price = parseInt(product.discountPrice.toString());
+            const karat = product.metalPurity;
+            const gender: string = product.shopFor[0];
+            const metalWeight = product.weightRange;
+            const occasion = product.occasion;
+            return selectedOptions.every((option) => {
+             const options = option.option;
+             console.log("Options",options);
+             
+              if (options === "Less than 10K") {
+                return price < 10000;
+              }
+              if (options === "10K to 20K") {
+                return price >= 10000 && price <= 20000;
+              }
+              if (options === "20K to 30K") {
+                return price >= 20000 && price <= 30000;
+              }
+              if (options === "30K to 50K") {
+                console.log(option, price, "AAA");
+                return price >= 30000 && price <= 50000;
+              }
+              if (options === "50K Above") {
+                return price >= 50000;
+              }
+              if (options === "14KT" || options === "22KT" || options === "18KT" || options === "24KT") {
+                return karat === options;
+              }
+              if (options === "Women" || options === "Men" || options === "Kids") {
+                return gender === options;
+              }
+              if (options === "0-2 gms" || options === "2-5 gms" || options === "5-10 gms" || options === "10 gms and above") {
+                return metalWeight === options;
+              }
+              if (options === "Casual Wear" || options === "Everyday" || options === "Work Wear" || options === "Wedding" || options === "Evening" || options === "Party Wear") {
+                return occasion === options;
+              }
+              return false; // Handle null option case if needed
+            });
+          });
+        } else {
+          filteredArray = data; // If no options selected, keep the data unchanged
+        }
+
+        console.log("Filtereddd Arrayyy", filteredArray);
+        setFilteredData(filteredArray);
+
+  },[filter]);
+
+  useEffect(() => {
+    
+    let sortedData = [...filteredData];
+    if (selectedSortOption == "Price - High To Low") {
+      sortedData = sortedData.sort(
+        (a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice)
+      );
+      console.log("Sorted Options:", sortedData);
+      setFilteredData(sortedData);
+      console.log("Sorted Data",filteredData)
+    }
+  }, [selectedSortOption]);
+
   return (
     <>
+      {/* {console.log(selectedOptions + "aaditya")} */}
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
         <div className="container">
           <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
@@ -234,7 +666,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                       ) : null}
                     </div>
                   ))}
-
                 </div>
               </div>
              
@@ -293,6 +724,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                                     onChange={() => handleOptionSelect(option)}
                                   />
                                   <label className="ml-2" htmlFor={option}>
+
                                     {option}
                                   </label>
                                 </div>
@@ -310,25 +742,52 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
              
 
               <div className="">
-                <p className="text-4xl font-bold uppercase">{name}</p>
+                <p className="text-4xl font-bold uppercase">
+                  {name || "Earring"}
+                </p>
               </div>
               <div className="flex justify-between mt-5">
-                <div className="lg:w-[70%] sm:w-[100%]">
-                  Earrings are a form of self-expression. They effortlessly
-                  transform an outfit, framing the face with style and grace.
+                <div className="lg:w-[70%] sm:w-[100%] ">
+                  {/* {showFullDescription ? (
+                    <span className="lg:w-[70%] sm:w-[100%] ">{text}</span>
+                  ) : (
+                    <span className="truncate">
+                      {truncatedText}
+                      {text.split(" ").length > 200 && (
+                        <button
+                          className="text-blue-500 hover:underline ml-2"
+                          onClick={toggleShowFullText}
+                        >
+                          View More
+                        </button>
+                      )}
+                    </span>
+                  )} */}
+                  <p>
+                    Earrings are a form of self-expression. They effortlessly
+                    transform an outfit, framing the face with style and grace.
+                  </p>
                 </div>
-                <div className="hidden lg:block">
-                  <span
-                    className="flex cursor-pointer font-semibold"
-                    onClick={() => {
-                      setDropdown(!dropdown);
-                    }}
-                  >
-                    <p>Sort By</p>
-                    <p className="mt-1 ml-2 cursor-pointer">
-                      <Icon.CaretDown weight="fill" />
-                    </p>
-                  </span>
+                <div className="hidden lg:block relative">
+                  <label className="font-semibold">Sort By: </label>
+                  <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                    <option>All</option>
+                    <option className="bg-[#f7f7f7]">Recommended</option>
+                    <option
+                      className="bg-[#f7f7f7]"
+                     
+                    >
+                      Newest First
+                    </option>
+                    <option className="bg-[#f7f7f7]">Price - Low To High</option>
+                    <option className="bg-[#f7f7f7]"  onClick={() =>
+                        handleSelectedSortOption("Price - High To Low")
+                      }>Price - High To Low</option>
+                   
+                  </select>
+                  <div className="pointer-events-none ml-3 absolute inset-y-7 bottom-0 right-0 flex items-center px-2 text-gray-700">
+                    <Icon.CaretDown size={18} />
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap lg:hidden">
@@ -386,6 +845,13 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                   .map((item: any) => (
                     <Product key={item.productId} data={item} />
                   ))}
+                {/* <div>
+                    <video autoPlay muted loop>
+                      <source src="/dummy/BIRS0681R68-VIDEO-51508.mp4"type="video/mp4"/>
+                    </video>
+                    <p className="product-name text-title duration-300 text-xl">18kt Diamond Ring</p>
+                    <p className="text-[#dbd8d8] font-bold">Delivery Within 7 days</p>
+                  </div> */}
               </div>
             </div>
           </div>

@@ -16,6 +16,7 @@ export default function BreadCrumb1() {
 
   return (
     <>
+    
       <ShopBreadCrumb1
         productPerPage={9}
         dataType={type}

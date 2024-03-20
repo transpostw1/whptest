@@ -1465,7 +1465,7 @@ const MenuOne: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.Handbag size={24} color="black" />
                   <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                    {cartState.cartArray.length}
+                    {/* {cartItems.length} */}0
                   </span>
                 </div>
               </div>

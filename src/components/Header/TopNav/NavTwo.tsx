@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,16 +11,18 @@ import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 
+
 interface Props {
   props: string;
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
+  const loginRef=useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
   const { openModalWishlist } = useModalWishlistContext();
   const { openModalCart } = useModalCartContext();
-  const { cartState } = useCart();
+  const { cartItems } = useCart();
   const { userState } = useUser();
   const { logOut } = useUser();
 
@@ -28,27 +30,59 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   const router = useRouter();
 
+  const [fixedHeader, setFixedHeader] = useState(false);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition || scrollPosition > lastScrollPosition);
+      setLastScrollPosition(scrollPosition);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollPosition]);
+
+
   const handleSearch = (value: string) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
   };
+   const cartLength = cartItems ? cartItems.length : 0;
 
   const handleLogout = () => {
     logOut();
   };
   return (
     <>
-      <div className={`top-nav md:h-[65px] h-[65px]  text-rose-950 ${props}`}>
+      <div className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
+          fixedHeader ? " fixed" : "relative"
+        } text-rose-950 ${props}`}>
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between max-md:justify-center items-center ">
             <div className="left-content flex items-center ">
-              <Image
+              <Link href={"/"}>
+                <Image
                 src={"/images/other/Logo.png"}
                 width={80}
                 height={80}
                 alt="80x80"
                 className=" object-cover"
-              />
+                /> 
+                </Link>
+                <Link href={"/"}>
+                <Image
+                src={"/images/whpnameLogo.png"}
+                width={170}
+                height={80}
+                alt="80x80"
+                className=" object-cover"
+                />
+                </Link>
             </div>
             <div className="form-search w-72 relative max-lg:hidden">
               <button>
@@ -96,18 +130,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
                         <>
-                          <div className="flex flex-col items-center">
+                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="red"
-                              onClick={handleLoginPopup}
+                              
                             />
                             <h4 className="text-sm">MyProfile</h4>
                           </div>
 
                           <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
-                                            ${openLoginPopup ? "open" : ""}`}
+                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
+                                            ${openLoginPopup ? "open" : ""} z-10`}
                           >
                             <button
                               className="button-main w-full text-center"
@@ -122,16 +156,16 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
-                          <div className="flex flex-col items-center">
+                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
                             <Icon.User
                               size={28}
                               color="black"
-                              onClick={handleLoginPopup}
+                              
                             />
                             <h4 className="text-sm">User</h4>
                           </div>
                           <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small 
+                            className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10
                                             ${openLoginPopup ? "open" : ""}`}
                           >
                             <Link
@@ -173,7 +207,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
 
                     <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartState.cartArray.length}
+                      {cartLength}
+                      
                     </span>
                   </div>
                   <div className="choose-currency flex items-center ">

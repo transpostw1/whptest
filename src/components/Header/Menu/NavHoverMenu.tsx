@@ -36,7 +36,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition);
+      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition || scrollPosition > lastScrollPosition);
       setLastScrollPosition(scrollPosition);
     };
 
@@ -88,9 +88,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   return (
     <>
       <div
-        className={`header-menu style-one ${
+        className={`header-menu-navHoverMenu style-one ${
           fixedHeader ? " fixed" : "relative"
-        } w-full md:h-[74px] h-[56px] ${props}`}
+        } w-full md:h-[60px] h-[40px] ${props}`}
       >
         <div className="container mx-auto h-full">
           <div className="header-main flex items-center justify-between h-full">
@@ -122,8 +122,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                        {data &&
                         data.map((item, index) => (
                           <React.Fragment key={item.id}>
-                            {index % 3 === 0 && <ul></ul>}
-                            <li>
+                          
+                            <li className="leading-[0px]">
                               <Link
                                 href={{
                                   pathname: "/shop/breadcrumb1",

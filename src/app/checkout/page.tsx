@@ -15,12 +15,12 @@ import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
+import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
 
 import {
   AddressBook,
   ShoppingCart,
-  SignIn,
   Wallet,
   ArrowRight,
   Gift,
@@ -34,10 +34,9 @@ interface ProductProps {
 const Checkout: React.FC<ProductProps> = ({ data }) => {
   // const router = useRouter();
 
-  const { cartState, updateCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [phone, setPhone] = useState("");
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -45,6 +44,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
+  const { getProductById } = useProductContext();
+
+
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -73,16 +75,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartState.cartArray.find(
-      (item) => item.id === productId
+    const itemToUpdate = cartItems.find(
+      (item) => item.productId === productId
     );
 
     if (itemToUpdate) {
       updateCart(
         productId,
-        newQuantity,
-        itemToUpdate.selectedSize,
-        itemToUpdate.selectedColor
+        newQuantity
       );
     }
   };
@@ -91,15 +91,28 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const searchParams = useSearchParams();
+
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
-  let totalCart = 0;
-  cartState.cartArray.forEach(
-    (item) => (totalCart += item.productPrice * item.quantity)
-  );
-  console.log("hjhkhjk", totalCart);
+let totalCart = 0;
+cartItems.forEach((item) => {
+  const price = parseFloat(item.price);
+  // Check if price is a valid number
+  if (!isNaN(price) && typeof item.quantity === "number") {
+    // Multiply quantity by price and add to totalCart
+    totalCart += price * item.quantity;
+  } else {
+    console.error("Invalid data:", item);
+  }
+});
 
+let cartDiscount = 0;
+
+
+
+  console.log("Total Cart Amount in Checkout", totalCart);
+  console.log(cartItems, "Checkout Console of CartItems");
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
@@ -137,13 +150,13 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       setSelectedStep((prevStep) => prevStep + 1);
       switch (selectedStep) {
         case 0:
-          setSelectedComponent("CartItems");
-          break;
-        case 1:
           setSelectedComponent("DeliveryDetails");
           break;
         case 1:
           setSelectedComponent("Payment");
+          break;
+        case 2:
+          setSelectedComponent("CartItems");
           break;
         default:
           setSelectedComponent("CartItems");
@@ -170,8 +183,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const AddAddressModal: React.FC = ({ closeModal }) => {
-
-    
     const validationSchema = Yup.object().shape({
       pincode: Yup.string().required("Pincode is required"),
       flat: Yup.string().required(
@@ -183,27 +194,27 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       landmark: Yup.string(),
     });
 
-      const handleSubmit = (values, { resetForm }) => {
-        // Your submission logic here
-        console.log(values);
-        // Reset the form after successful submission
-        resetForm();
-        // Close the modal
-        closeModal();
-      };
+    const handleSubmit = (values, { resetForm }) => {
+      // Your submission logic here
+      console.log(values);
+      // Reset the form after successful submission
+      resetForm();
+      // Close the modal
+      closeModal();
+    };
 
-      const formik = useFormik({
-        initialValues: {
-          pincode: "",
-          flat: "",
-          area: "",
-          city: "",
-          state: "",
-          landmark: "",
-        },
-        validationSchema: validationSchema,
-        onSubmit: handleSubmit,
-      });
+    const formik = useFormik({
+      initialValues: {
+        pincode: "",
+        flat: "",
+        area: "",
+        city: "",
+        state: "",
+        landmark: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: handleSubmit,
+    });
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
         <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
@@ -311,24 +322,24 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         return (
           <>
             <div className="list-product-main w-full mt-3">
-              {cartState.cartArray.length < 1 ? (
+              {cartItems?.length < 1 ? (
                 <p className="text-button pt-3">No products in your cart</p>
               ) : (
-                cartState.cartArray.map((product) => (
+                cartItems?.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
                     key={product.productid}
                   >
                     <Image
-                      src={product.imageDetails[2]}
+                      src={product.image}
                       width={100}
                       height={200}
-                      alt={product.Title}
+                      alt="image"
                       className="rounded-lg object-cover"
                     />
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
-                        <div className="text-title">{product.displayTitle}</div>
+                        <div className="text-title">{product.name}</div>
                         <div className="text-title">
                           {product.metalType}
                           {product.metalPurity}
@@ -336,7 +347,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product.productid)}
+                            onClick={() => removeFromCart(product?.product_id)}
                           >
                             Remove
                           </div>
@@ -348,14 +359,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ${product.quantity * data?.ProdPrice}.00
+                        ₹{product?.price * product.quantity}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
                           onClick={() => {
                             if (product.quantity > 1) {
                               handleQuantityChange(
-                                product.id,
+                                product.productId,
                                 product.quantity - 1
                               );
                             }
@@ -370,7 +381,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.productid,
+                              product.productId,
                               product.quantity + 1
                             )
                           }
@@ -608,30 +619,31 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
               <h1 className="my-5 text-2xl font-bold text-rose-600">
                 ORDER SUMMARY
               </h1>
+              {selectedComponent !== "CartItems" && (
               <div className="list-product-main w-full">
                 <div className="hidden  lg:block mb-2">
-                  {cartState.cartArray.length < 1 ? (
+                  {cartItems?.length < 1 ? (
                     <p className="text-button">No products in your cart</p>
                   ) : (
-                    cartState.cartArray.map((product) => (
+                    cartItems?.map((product) => (
                       <div
                         className="border border-gray-200 flex w-full  items-center mb-2 "
-                        key={product.ProductID}
+                        key={cartItems.productId}
                       >
                         <Image
-                          src={product.imageDetails[0]}
+                          src={product.image}
                           width={100}
                           height={200}
-                          alt={product.displayTitle}
+                          alt={product.Title}
                           className="rounded-lg object-cover"
                         />
                         {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
-                        <div className="py-4 flex flex-col">
+                        <div className="p-4 flex flex-col">
                           <div className="text-title">
-                            {product.displayTitle} X {product.quantity}
+                            {product.name} X {product.quantity}
                           </div>
                           <div className="text-title text-start">
-                            ${product.quantity * data?.ProdPrice}.00
+                            ₹{product?.price}
                           </div>
                           <h3>Estimated Delivery Date</h3>
                         </div>
@@ -642,6 +654,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                   )}
                 </div>
               </div>
+              )}
               <div className="">
                 <div className="bg-gray-100 p-2 ">
                   <div className="">
@@ -651,7 +664,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>
-                      <h3>₹0</h3>
+                      <h3>₹00</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Shipping Charges</h3>

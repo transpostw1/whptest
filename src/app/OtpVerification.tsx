@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
 import { signup, login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
-import { url } from "inspector";
+import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
   formikValues: any; // Define the type of formikValues prop
@@ -22,11 +22,9 @@ interface OtpVerificationProps {
   errorMessage: string | null; // Add errorMessage prop
 }
 
-class Token {
-  static token = "";
-}
-
-
+// class Token {
+//   static token = "";
+// }
 
 const OtpVerification = ({
   formikValues,
@@ -40,7 +38,7 @@ const OtpVerification = ({
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { logIn } = useUser();
+  const { logIn, userState } = useUser();
 
   const setUpRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -85,10 +83,10 @@ const OtpVerification = ({
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
       console.log("Successfully signed in with OTP");
-      const user = auth.currentUser;
-      const token = await user.getIdToken();
-      Token.token = token;
-      console.log(token);
+      const token = auth?.currentUser?.accessToken;
+      const userId = auth?.currentUser?.uid;
+      console.log(auth.currentUser, "435435");
+      console.log(credential, "CREDDD");
 
       let endpoint = action === "login" ? login : signup;
       console.log(endpoint, "dfgdgdfg");
@@ -99,11 +97,15 @@ const OtpVerification = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${Token.token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-       logIn();
+      logIn();
+      console.log(response,"LOGIN RESPPP")
+         const localToken = response.data.token;
+         Cookies.set("localtoken", localToken);
+         console.log("local______", localToken);
       router.push("/");
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);

@@ -21,7 +21,7 @@ const MainCarousel = () => {
             modules={[Pagination, Autoplay]}
             className="h-full relative "
             autoplay={{
-              delay: 4000,
+              delay: 6000,
             }}
           >
             <SwiperSlide>
@@ -43,13 +43,38 @@ const MainCarousel = () => {
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">
                   <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                    <Image
-                      src={"/images/slider/SliderThree.jpg"}
-                      width={2560}
-                      height={1080}
-                      alt="1920x820"
+                    <video
                       className="w-full h-full object-cover"
-                    />
+                      autoPlay
+                      loop
+                      muted
+                    >
+                      <source
+                        src="/images/other/banner_video_1.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="slider-item h-full w-full relative">
+                <div className="container w-full h-full flex items-center">
+                  <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
+                    <video
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      loop
+                      muted
+                    >
+                      <source
+                        src="/images/other/banner_video_3.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
                   </div>
                 </div>
               </div>

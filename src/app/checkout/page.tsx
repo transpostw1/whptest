@@ -10,6 +10,8 @@ import Footer from "@/components/Footer/Footer";
 import { ProductType } from "@/type/ProductType";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { PhoneInput, ParsedCountry } from "react-international-phone";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -46,8 +48,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const { userState } = useUser();
   const { getProductById } = useProductContext();
 
-
-
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
 
@@ -75,15 +75,10 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartItems.find(
-      (item) => item.productId === productId
-    );
+    const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
-      updateCart(
-        productId,
-        newQuantity
-      );
+      updateCart(productId, newQuantity);
     }
   };
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -95,21 +90,19 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
-let totalCart = 0;
-cartItems.forEach((item) => {
-  const price = parseFloat(item.price);
-  // Check if price is a valid number
-  if (!isNaN(price) && typeof item.quantity === "number") {
-    // Multiply quantity by price and add to totalCart
-    totalCart += price * item.quantity;
-  } else {
-    console.error("Invalid data:", item);
-  }
-});
+  let totalCart = 0;
+  cartItems.forEach((item) => {
+    const price = parseFloat(item.price);
+    // Check if price is a valid number
+    if (!isNaN(price) && typeof item.quantity === "number") {
+      // Multiply quantity by price and add to totalCart
+      totalCart += price * item.quantity;
+    } else {
+      console.error("Invalid data:", item);
+    }
+  });
 
-let cartDiscount = 0;
-
-
+  let cartDiscount = 0;
 
   console.log("Total Cart Amount in Checkout", totalCart);
   console.log(cartItems, "Checkout Console of CartItems");
@@ -185,32 +178,44 @@ let cartDiscount = 0;
   const AddAddressModal: React.FC = ({ closeModal }) => {
     const validationSchema = Yup.object().shape({
       pincode: Yup.string().required("Pincode is required"),
-      flat: Yup.string().required(
-        "Flat/House No/Building Name/Company is required"
+      full_address: Yup.string().required(
+        "full_address/House No/Building Name/Company is required"
       ),
       area: Yup.string().required("Area and Street is required"),
-      city: Yup.string().required("City is required"),
-      state: Yup.string().required("State is required"),
+      country: Yup.string().required("Please add country"),
+      state: Yup.string().required("Please add State"),
+      city: Yup.string().required("Please add City"),
       landmark: Yup.string(),
+      address_type: Yup.string().required("Please select the address type"),
     });
 
-    const handleSubmit = (values, { resetForm }) => {
-      // Your submission logic here
-      console.log(values);
-      // Reset the form after successful submission
-      resetForm();
-      // Close the modal
-      closeModal();
+    const handleSubmit = async (values, { resetForm }) => {
+      try {
+        const CookieToken = Cookies.get("localtoken")
+        const headers = {
+          Authorization: `Bearer ${CookieToken}`,
+        };
+        const response = await axios.post("/customer/address", values, {
+          headers,
+        });
+        console.log("Response from backend:", response.data);
+        resetForm();
+        closeModal();
+      } catch (error) {
+        console.error("Error posting form data:", error);
+      }
     };
 
     const formik = useFormik({
       initialValues: {
         pincode: "",
-        flat: "",
+        full_address: "",
         area: "",
-        city: "",
+        country: "",
         state: "",
+        city: "",
         landmark: "",
+        address_type: "",
       },
       validationSchema: validationSchema,
       onSubmit: handleSubmit,
@@ -219,7 +224,7 @@ let cartDiscount = 0;
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
         <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
           <button onClick={closeModal}>Close</button>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <h2 className="text-2xl font-semibold">Add Address</h2>
             <div className="my-2 md:col-span-2">
               <input
@@ -240,12 +245,12 @@ let cartDiscount = 0;
               <input
                 className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                 type="text"
-                placeholder="Flat/House No/Building Name/Company"
-                {...formik.getFieldProps("flat")}
+                placeholder="full_address/House No/Building Name/Company"
+                {...formik.getFieldProps("full_address")}
               />
-              {formik.touched.flat && formik.errors.flat && (
+              {formik.touched.full_address && formik.errors.full_address && (
                 <div className=" text-red-700 font-medium">
-                  {formik.errors.flat}
+                  {formik.errors.full_address}
                 </div>
               )}
             </div>
@@ -263,21 +268,34 @@ let cartDiscount = 0;
                 </div>
               )}
             </div>
-            <div className="grid md:grid-cols-2 gap-x-2">
+            <div className="grid md:grid-cols-3 gap-x-2">
               <div className="mb-4 md:col-span-1">
                 <input
                   className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                   type="text"
-                  placeholder="City"
-                  {...formik.getFieldProps("city")}
+                  placeholder="Country"
+                  {...formik.getFieldProps("country")}
                 />
-                {formik.touched.city && formik.errors.city && (
+                {formik.touched.country && formik.errors.country && (
                   <div className=" text-red-700 font-medium">
-                    {formik.errors.city}
+                    {formik.errors.country}
                   </div>
                 )}
               </div>
 
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="State"
+                  {...formik.getFieldProps("state")}
+                />
+                {formik.touched.state && formik.errors.state && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.state}
+                  </div>
+                )}
+              </div>
               <div className="mb-4 md:col-span-1">
                 <input
                   className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
@@ -301,6 +319,58 @@ let cartDiscount = 0;
               />
               {formik.touched.landmark && formik.errors.landmark && (
                 <div className="text-red-600">{formik.errors.landmark}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="font-medium">Address Type:</label>
+              <div className="mt-2 flex">
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="home"
+                    name="address_type"
+                    value="home"
+                    checked={formik.values.address_type === "home"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="home" className="ml-2">
+                    Home
+                  </label>
+                </div>
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="work"
+                    name="address_type"
+                    value="work"
+                    checked={formik.values.address_type === "work"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="work" className="ml-2">
+                    Work
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="other"
+                    name="address_type"
+                    value="other"
+                    checked={formik.values.address_type === "other"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="other" className="ml-2">
+                    Other
+                  </label>
+                </div>
+              </div>
+              {formik.touched.address_type && formik.errors.address_type && (
+                <div className="text-red-600 mt-1">
+                  {formik.errors.address_type}
+                </div>
               )}
             </div>
 
@@ -620,40 +690,40 @@ let cartDiscount = 0;
                 ORDER SUMMARY
               </h1>
               {selectedComponent !== "CartItems" && (
-              <div className="list-product-main w-full">
-                <div className="hidden  lg:block mb-2">
-                  {cartItems?.length < 1 ? (
-                    <p className="text-button">No products in your cart</p>
-                  ) : (
-                    cartItems?.map((product) => (
-                      <div
-                        className="border border-gray-200 flex w-full  items-center mb-2 "
-                        key={cartItems.productId}
-                      >
-                        <Image
-                          src={product.image}
-                          width={100}
-                          height={200}
-                          alt={product.Title}
-                          className="rounded-lg object-cover"
-                        />
-                        {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
-                        <div className="p-4 flex flex-col">
-                          <div className="text-title">
-                            {product.name} X {product.quantity}
+                <div className="list-product-main w-full">
+                  <div className="hidden  lg:block mb-2">
+                    {cartItems?.length < 1 ? (
+                      <p className="text-button">No products in your cart</p>
+                    ) : (
+                      cartItems?.map((product) => (
+                        <div
+                          className="border border-gray-200 flex w-full  items-center mb-2 "
+                          key={cartItems.productId}
+                        >
+                          <Image
+                            src={product.image}
+                            width={100}
+                            height={200}
+                            alt={product.Title}
+                            className="rounded-lg object-cover"
+                          />
+                          {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}
+                          <div className="p-4 flex flex-col">
+                            <div className="text-title">
+                              {product.name} X {product.quantity}
+                            </div>
+                            <div className="text-title text-start">
+                              ₹{product?.price}
+                            </div>
+                            <h3>Estimated Delivery Date</h3>
                           </div>
-                          <div className="text-title text-start">
-                            ₹{product?.price}
-                          </div>
-                          <h3>Estimated Delivery Date</h3>
+                          {/* </div> */}
+                          <div className="w-full md:w-1/6 flex flex-col items-center justify-center"></div>
                         </div>
-                        {/* </div> */}
-                        <div className="w-full md:w-1/6 flex flex-col items-center justify-center"></div>
-                      </div>
-                    ))
-                  )}
+                      ))
+                    )}
+                  </div>
                 </div>
-              </div>
               )}
               <div className="">
                 <div className="bg-gray-100 p-2 ">

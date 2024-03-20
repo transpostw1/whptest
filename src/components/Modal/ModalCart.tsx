@@ -4,7 +4,6 @@ import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import productData from "@/data/Products.json";
 import { ProductType } from "@/type/ProductType";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
@@ -22,7 +21,7 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  console.log(products, "yesss i keep rendering ");
+  // console.log(products, "yesss i keep rendering ");
 
   // useEffect(() => {
   //   const timer = setInterval(() => {

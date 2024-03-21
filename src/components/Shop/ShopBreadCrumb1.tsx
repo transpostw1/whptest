@@ -76,7 +76,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
   const [data, setData] = useState<ProductType[]>([]);
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
-    "Price High to Low"
+    "All"
   );
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: 0,
@@ -180,9 +180,6 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     <Loader/>
   }
 
-  const handleSelectedSortOption = (value: string) => {
-    setSelectedSortOption(value);
-  };
 
   // useEffect(() => {
   //   console.log("Selected Options:", selectedOptions);
@@ -294,22 +291,25 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
 
   },[filter]);
 
+  const handleSelectedSortOption = (value: string) => {
+    setSelectedSortOption(value);
+  };
+
   useEffect(() => {
-    
+    console.log("this is a sorting useEffect");
     let sortedData = [...filteredData];
-    if (selectedSortOption == "Price - High To Low") {
-      sortedData = sortedData.sort(
-        (a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice)
-      );
-      console.log("Sorted Options:", sortedData);
-      setFilteredData(sortedData);
-      console.log("Sorted Data",filteredData)
+    if(selectedSortOption === "All") {
+        setFilteredData(data);
+    } else if (selectedSortOption === "Price - High To Low") {
+        sortedData.sort((a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice));
+        setFilteredData(sortedData);
     }
-  }, [selectedSortOption]);
+    console.log("sorted Array:", filteredData);
+}, [selectedSortOption, filteredData, data]);
 
   return (
     <>
-      {/* {console.log(selectedOptions + "aaditya")} */}
+      
       <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
         <div className="container">
           <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 ">
@@ -466,7 +466,7 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
                     <option className="bg-[#f7f7f7]">Recommended</option>
                     <option
                       className="bg-[#f7f7f7]"
-                     
+                      onClick={()=>{handleSelectedSortOption("Newest First")}}
                     >
                       Newest First
                     </option>

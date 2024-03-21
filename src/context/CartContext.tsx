@@ -21,7 +21,7 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  product_id: string;
+  productId: string|number;
   quantity: number;
 }
 
@@ -29,7 +29,7 @@ interface CartContextProps {
   cartItems: CartItem[];
   addToCart: (item: ProductType) => void;
   removeFromCart: (productId: string) => void;
-  updateCart: (productId: string, quantity: number) => void;
+  updateCart: (productId: string|number, quantity: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);

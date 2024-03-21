@@ -802,7 +802,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      {!isMobile && <Footer />}
+      {/* {!isMobile && <Footer />} */}
     </>
   );
 };

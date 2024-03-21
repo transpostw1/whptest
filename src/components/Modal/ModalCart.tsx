@@ -38,8 +38,6 @@ const ModalCart = ({
     }
   }, []);
 
-
-
   const [activeTab, setActiveTab] = useState<string | undefined>("");
   const { isModalOpen, closeModalCart } = useModalCartContext();
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
@@ -60,8 +58,20 @@ const ModalCart = ({
   };
 
   let moneyForFreeship = 150;
-  let [totalCart, setTotalCart] = useState<number>(0);
+  // let [totalCart, setTotalCart] = useState<number>(0);
   let [discountCart, setDiscountCart] = useState<number>(0);
+
+  let totalCart = 0;
+  cartItems.forEach((item) => {
+    const price = parseFloat(item.price);
+    // Check if price is a valid number
+    if (!isNaN(price) && typeof item.quantity === "number") {
+      // Multiply quantity by price and add to totalCart
+      totalCart += price * item.quantity;
+    } else {
+      console.error("Invalid data:", item);
+    }
+  });
 
   // cartItems?.map((item) => (totalCart += item.productPrice * item.quantity));
 
@@ -91,7 +101,7 @@ const ModalCart = ({
                         height={300}
                         alt={product?.title}
                         className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
-                      /> 
+                      />
                     </div>
                     <div className="">
                       <div className="name text-button">
@@ -187,7 +197,12 @@ const ModalCart = ({
                         </div>
                         <div className="flex items-center justify-between gap-2 mt-3 w-full">
                           <div className="product-price text-title">
-                            ₹{productDetails.discountPrice}.00{" "}
+                            ₹
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(
+                                parseFloat(productDetails.discountPrice)
+                              )
+                            )}
                           </div>
                         </div>
                       </div>
@@ -215,7 +230,7 @@ const ModalCart = ({
                 </div> */}
               <div className="flex items-center justify-between pt-6 px-6">
                 <div className="heading5">Subtotal</div>
-                <div className="heading5"> ₹135.00</div>
+                <div className="heading5"> ₹{totalCart}</div>
               </div>
               <div className="block-button text-center p-6">
                 <div className="flex items-center gap-4">
@@ -241,8 +256,6 @@ const ModalCart = ({
                   Or continue shopping
                 </div>
               </div>
-            
-            
             </div>
           </div>
         </div>

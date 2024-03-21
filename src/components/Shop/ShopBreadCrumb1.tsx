@@ -295,17 +295,17 @@ const ShopBreadCrumb1: React.FC<Props> = ({}) => {
     setSelectedSortOption(value);
   };
 
-  useEffect(() => {
-    console.log("this is a sorting useEffect");
-    let sortedData = [...filteredData];
-    if(selectedSortOption === "All") {
-        setFilteredData(data);
-    } else if (selectedSortOption === "Price - High To Low") {
-        sortedData.sort((a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice));
-        setFilteredData(sortedData);
-    }
-    console.log("sorted Array:", filteredData);
-}, [selectedSortOption, filteredData, data]);
+//   useEffect(() => {
+//     console.log("this is a sorting useEffect");
+//     let sortedData = [...filteredData];
+//     if(selectedSortOption === "All") {
+//         setFilteredData(data);
+//     } else if (selectedSortOption === "Price - High To Low") {
+//         sortedData.sort((a, b) => parseFloat(b.discountPrice) - parseFloat(a.discountPrice));
+//         setFilteredData(sortedData);
+//     }
+//     console.log("sorted Array:", filteredData);
+// }, [selectedSortOption, filteredData, data]);
 
   return (
     <>

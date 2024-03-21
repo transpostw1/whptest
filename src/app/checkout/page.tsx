@@ -19,6 +19,8 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
+import { baseUrl,getProductbyId,getCartItems, addAddress } from "@/utils/constants";
+
 
 import {
   AddressBook,
@@ -36,7 +38,7 @@ interface ProductProps {
 const Checkout: React.FC<ProductProps> = ({ data }) => {
   // const router = useRouter();
 
-  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateCart,setCartItems} = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [selectedStep, setSelectedStep] = useState(0);
@@ -47,9 +49,11 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
   const { getProductById } = useProductContext();
+  
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
+  console.log("==========",cartItems,"=====")
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -65,6 +69,72 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
+ const cookieTokenn = Cookies.get("localtoken");
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchCartItemsDetails = async () => {
+        try {
+          const response = await axios.get(`${baseUrl}${getCartItems}`, {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          });
+          console.log(response, "Kartt response");
+          const cartItemsData = response.data.cart_items.map((item: any) => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+            name: item.product_details[0].displayTitle,
+            price: item.product_details[0].discountPrice,
+            image: JSON.parse(item.product_details[0].imageDetails)[0]
+              .image_path,
+          }));
+          console.log("Fetchedd Cart Items", cartItemsData);
+          setCartItems(cartItemsData);
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      };
+      fetchCartItemsDetails();
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      console.log(storedCartItems, "STOREDDD2");
+      if (storedCartItems) {
+        const cartItemsFromStorage = JSON.parse(storedCartItems);
+        const productIds = cartItemsFromStorage.map(
+          (item: any) => item.product_id
+        );
+        const updatedCartItems= [];
+        const fetchProductDetails = async () => {
+          for (const productId of productIds) {
+            try {
+              console.log(productId, "kkk");
+              const response = await axios.get(
+                `${baseUrl}${getProductbyId}${productId}`
+              );
+              const productDetails = response.data[0];
+
+              const updatedCartItem = {
+                product_id: productId,
+                quantity: 1,
+                name: productDetails.displayTitle,
+                price: productDetails.discountPrice,
+                image: productDetails.imageDetails[0].image_path,
+              };
+
+              console.log(updatedCartItem, "======================");
+              updatedCartItems.push(updatedCartItem);
+            } catch (error) {
+              console.error("Error fetching product details:", error);
+            }
+          }
+          setCartItems(updatedCartItems);
+        };
+        fetchProductDetails();
+      }
+    }
+  }, [isLoggedIn]);
+
 
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
@@ -75,7 +145,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartItems.find((item) => item.productId === productId);
+    const itemToUpdate = cartItems.find((item) => item.product_id === productId);
 
     if (itemToUpdate) {
       updateCart(productId, newQuantity);
@@ -174,7 +244,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         return "Proceed";
     }
   };
-
   const AddAddressModal: React.FC = ({ closeModal }) => {
     const validationSchema = Yup.object().shape({
       pincode: Yup.string().required("Pincode is required"),
@@ -191,13 +260,14 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
     const handleSubmit = async (values, { resetForm }) => {
       try {
-        const CookieToken = Cookies.get("localtoken")
+         const cookieTokenn = Cookies.get("localtoken");
         const headers = {
-          Authorization: `Bearer ${CookieToken}`,
+          Authorization: `Bearer ${cookieTokenn}`,
         };
-        const response = await axios.post("/customer/address", values, {
-          headers,
-        });
+     const response = await axios.post(
+       `${baseUrl}${addAddress}`,  // Data to be sent in the request body
+       { headers } 
+     );
         console.log("Response from backend:", response.data);
         resetForm();
         closeModal();
@@ -300,12 +370,12 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 <input
                   className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                   type="text"
-                  placeholder="State"
-                  {...formik.getFieldProps("state")}
+                  placeholder="City"
+                  {...formik.getFieldProps("city")}
                 />
-                {formik.touched.state && formik.errors.state && (
+                {formik.touched.city && formik.errors.city && (
                   <div className=" text-red-700 font-medium">
-                    {formik.errors.state}
+                    {formik.errors.city}
                   </div>
                 )}
               </div>
@@ -398,10 +468,10 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 cartItems?.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
-                    key={product.productid}
+                    key={product?.productid}
                   >
                     <Image
-                      src={product.image}
+                      src={product?.image}
                       width={100}
                       height={200}
                       alt="image"
@@ -409,7 +479,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                     />
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
-                        <div className="text-title">{product.name}</div>
+                        <div className="text-title">{product?.name}</div>
                         <div className="text-title">
                           {product.metalType}
                           {product.metalPurity}
@@ -436,7 +506,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                           onClick={() => {
                             if (product.quantity > 1) {
                               handleQuantityChange(
-                                product.productId,
+                                product.product_id,
                                 product.quantity - 1
                               );
                             }
@@ -451,7 +521,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.productId,
+                              product.product_id,
                               product.quantity + 1
                             )
                           }

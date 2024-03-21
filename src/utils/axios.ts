@@ -3,7 +3,7 @@ import { baseUrl } from "./constants";
 import Cookies from "js-cookie";
 
 const getLocalToken = () => {
-  console.log("calling get token");
+
 
   return Cookies.get("localtoken");
 };
@@ -21,9 +21,8 @@ const instance: AxiosInstance = axios.create({
 //request.interceptor//
 instance.interceptors.response.use(
   (response) => {
-    console.log("uuuu");
+
     const refreshToken = response.headers["refreshed_token"];
-    console.log(response, "maan");
     if (refreshToken) {
       ("IN");
       Cookies.set("localtoken", refreshToken);

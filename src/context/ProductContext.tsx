@@ -38,7 +38,7 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get(getProducts);
       setProducts(response.data);
-      console.log("Product Fetched Successfully")
+      // console.log("Product Fetched Successfully")
     } catch (error) {
       console.error("Error fetching product data:", error);
     }

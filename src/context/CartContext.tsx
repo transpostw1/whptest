@@ -30,6 +30,7 @@ interface CartContextProps {
   addToCart: (item: ProductType) => void;
   removeFromCart: (productId: string) => void;
   updateCart: (productId: string, quantity: number) => void;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -55,10 +56,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const userId = auth?.currentUser?.uid;
   const cookieTokenn = Cookies.get("localtoken");
+  
   // useEffect(() => {
   //   if (isLoggedIn) {
   //     const fetchCartItemsDetails = async () => {
-  //       console.log("FETCHCALLEDD///////////////////////////////////");
   //       try {
   //         const response = await axios.get(`${baseUrl}${getCartItems}`, {
   //           headers: {
@@ -86,96 +87,39 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   //     console.log(storedCartItems, "STOREDDD2");
   //     if (storedCartItems) {
   //       const cartItemsFromStorage = JSON.parse(storedCartItems);
-  //       const productIds = cartItemsFromStorage.map((item) => item.product_id);
+  //       const productIds = cartItemsFromStorage.map(
+  //         (item: any) => item.product_id
+  //       );
   //       const updatedCartItems = [];
-  //       for (const productId of productIds) {
-  //         try {
-  //           const response = axios.get(
-  //             `${baseUrl}${getProductbyId}${productId}`
-  //           );
-  //           const productDetails = response.data;
-  //           console.log(response.data,"+++++++")
-  //           const updatedCartItem = {
-  //             product_id: productId,
-  //             quantity: 1, // Assuming quantity is 1 for each item from local storage
-  //             name: productDetails.displayTitle,
-  //             price: productDetails.discountPrice,
-  //             image: JSON.parse(productDetails.imageDetails)[0].image_path,
-  //           };
-  //           console.log(updatedCartItem,"======================")
-  //           updatedCartItems.push(updatedCartItem);
-  //         } catch (error) {
-  //           console.error("Error fetching product details:", error);
+  //        const fetchProductDetails = async () => {
+  //         for (const productId of productIds) {
+  //           try {
+  //             console.log(productId, "kkk");
+  //             const response = await axios.get(
+  //               `${baseUrl}${getProductbyId}${productId}`
+  //             );
+  //             const productDetails = response.data[0];
+
+  //             const updatedCartItem = {
+  //               product_id: productId,
+  //               quantity: 1,
+  //               name: productDetails.displayTitle,
+  //               price: productDetails.discountPrice,
+  //               image: productDetails.imageDetails[0].image_path,
+  //             };
+
+  //             console.log(updatedCartItem, "======================");
+  //             updatedCartItems.push(updatedCartItem);
+  //           } catch (error) {
+  //             console.error("Error fetching product details:", error);
+  //           }
   //         }
-  //       }
-  //       setCartItems(updatedCartItems);
+  //         setCartItems(updatedCartItems);
+  //       };
+  //       fetchProductDetails();
   //     }
   //   }
   // }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      const fetchCartItemsDetails = async () => {
-        try {
-          const response = await axios.get(`${baseUrl}${getCartItems}`, {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          });
-          console.log(response, "Kartt response");
-          const cartItemsData = response.data.cart_items.map((item: any) => ({
-            product_id: item.product_id,
-            quantity: item.quantity,
-            name: item.product_details[0].displayTitle,
-            price: item.product_details[0].discountPrice,
-            image: JSON.parse(item.product_details[0].imageDetails)[0]
-              .image_path,
-          }));
-          console.log("Fetchedd Cart Items", cartItemsData);
-          setCartItems(cartItemsData);
-        } catch (error) {
-          console.error("Error fetching cart items:", error);
-        }
-      };
-      fetchCartItemsDetails();
-    } else {
-      const storedCartItems = localStorage.getItem("cartItems");
-      console.log(storedCartItems, "STOREDDD2");
-      if (storedCartItems) {
-        const cartItemsFromStorage = JSON.parse(storedCartItems);
-        const productIds = cartItemsFromStorage.map(
-          (item: any) => item.product_id
-        );
-        const updatedCartItems = [];
-         const fetchProductDetails = async () => {
-          for (const productId of productIds) {
-            try {
-              console.log(productId, "kkk");
-              const response = await axios.get(
-                `${baseUrl}${getProductbyId}${productId}`
-              );
-              const productDetails = response.data[0];
-
-              const updatedCartItem = {
-                product_id: productId,
-                quantity: 1,
-                name: productDetails.displayTitle,
-                price: productDetails.discountPrice,
-                image: productDetails.imageDetails[0].image_path,
-              };
-
-              console.log(updatedCartItem, "======================");
-              updatedCartItems.push(updatedCartItem);
-            } catch (error) {
-              console.error("Error fetching product details:", error);
-            }
-          }
-          setCartItems(updatedCartItems);
-        };
-        fetchProductDetails();
-      }
-    }
-  }, [isLoggedIn]);
 
   console.log(cartItems, "CART ITEMS in CART CONTEXT");
 
@@ -290,7 +234,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateCart }}
+      value={{ cartItems, addToCart, removeFromCart, updateCart , setCartItems} }
     >
       {children}
     </CartContext.Provider>

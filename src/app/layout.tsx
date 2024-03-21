@@ -11,7 +11,7 @@ import ModalCart from "@/components/Modal/ModalCart";
 import ModalWishlist from "@/components/Modal/ModalWishlist";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import ModalQuickview from "@/components/Modal/ModalQuickview";
-import ModalCompare from "@/components/Modal/ModalCompare";
+
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
@@ -46,7 +46,6 @@ export default function RootLayout({
           <ModalWishlist />
           <ModalSearch />
           <ModalQuickview />
-          <ModalCompare />
           <Footer/>
         </body>
       </html>

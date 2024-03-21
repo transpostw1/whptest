@@ -5,9 +5,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ImageDetails, ProductType } from "@/type/ProductType";
-import Products from "@/data/Products.json";
-import Rate from "@/components/Other/Rate";
+import { ProductType } from "@/type/ProductType";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Scrollbar } from "swiper/modules";
 import "swiper/css/bundle";
@@ -17,18 +15,14 @@ import { useCart } from "@/context/CartContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
-import { useCompare } from "@/context/CompareContext";
-import { useModalCompareContext } from "@/context/ModalCompareContext";
-import ModalSizeguide from "@/components/Modal/ModalSizeguide";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
-import axios from "axios";
+
 import { usePathname, useRouter } from "next/navigation";
-import { parse } from "path";
+
 
 interface Props {
   productId: string | number | null;

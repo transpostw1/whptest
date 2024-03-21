@@ -2,7 +2,6 @@
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { useMediaQuery } from "react-responsive";
 import { useFormik } from "formik";
 import * as Yup from "yup";

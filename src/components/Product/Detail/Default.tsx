@@ -20,6 +20,7 @@ import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useCompare } from "@/context/CompareContext";
 import { useModalCompareContext } from "@/context/ModalCompareContext";
 import ModalSizeguide from "@/components/Modal/ModalSizeguide";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -43,6 +44,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [data, setData] = useState<ProductType>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const settingsMain = {
     dots: false,
@@ -97,7 +99,16 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleBuyNow = () => {
     router.push("/checkout");
   };
-
+  const handleAddToCart=(productItem:ProductType)=>{
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === productItem.productId
+    );
+    const currentquantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentquantity + 1;
+    productAlreadyExists
+      ? updateCart(productItem.productId, updatedQuantity)
+      : addToCart({ ...productItem });
+  }
   
   return (
     <>
@@ -336,7 +347,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                   Buy Now
                 </Link>
               </div>
-              <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]">
+
+              <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]" onClick={()=>handleAddToCart(product)}>
                 <div className=" m-[2px] mb-[2px] bg-white">
                   <span className="flex justify-center py-[14px]">
                     <span>Add to Cart</span>

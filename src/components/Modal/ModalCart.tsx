@@ -23,13 +23,7 @@ const ModalCart = ({
   const { products, fetchData } = useProductContext();
   // console.log(products, "yesss i keep rendering ");
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeLeft(countdownTime());
-  //   }, 1000);
 
-  //   return () => clearInterval(timer);
-  // }, []);
 
   useEffect(() => {
     if (!dataFetched) {
@@ -91,15 +85,15 @@ const ModalCart = ({
           <div className="left w-1/2 border-r border-line py-6 max-md:hidden text-rose-950">
             <div className="heading5 px-6 pb-3">You May Also Like</div>
             <div className="list px-6">
-              {products.slice(0, 4).map((product) => (
+              {/* {products.slice(0, 4).map((product) => (
                 <div
-                  key={product.productid}
+                  key={"id"}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
                       <Image
-                        key={""}
+                        key={"one"}
                         src={product?.imageDetails[0]?.image_path}
                         width={300}
                         height={300}
@@ -126,12 +120,12 @@ const ModalCart = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       handleAddToCart(product);
-                    }}
-                  >
+                    }} */}
+                  {/* >
                     <Icon.Handbag alt="" />
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
           <div className="right cart-block md:w-1/2 w-full py-6 relative overflow-hidden text-rose-950">
@@ -141,7 +135,7 @@ const ModalCart = ({
                 className="close-btn absolute right-6 top-0 w-6 h-6 rounded-full bg-surface flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
                 onClick={closeModalCart}
               >
-                <Icon.X size={14} alt="" key={""} />
+                <Icon.X size={14} alt="" key={"two"} />
               </div>
             </div>
             {/* <div className="time px-6">

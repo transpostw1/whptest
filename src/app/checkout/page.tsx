@@ -36,7 +36,6 @@ interface ProductProps {
 }
 
 const Checkout: React.FC<ProductProps> = ({ data }) => {
-  // const router = useRouter();
 
   const { cartItems, updateCart,setCartItems,removeFromCart} = useCart();
 

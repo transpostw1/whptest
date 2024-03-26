@@ -21,7 +21,7 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  // console.log(products, "yesss i keep rendering ");
+
 
 
 
@@ -37,7 +37,6 @@ const ModalCart = ({
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const handleAddToCart = (productItem: ProductType) => {
-    console.log(productItem, "9999999999");
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productId
     );
@@ -63,7 +62,7 @@ const ModalCart = ({
     const price = parseFloat(item.price);
     // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === "number") {
-      // Multiply quantity by price and add to totalCart
+      // Multiply quantity by price and add to totalCart  
       totalCart += price * item.quantity;
     } else {
       console.error("Invalid data:", item);
@@ -85,9 +84,9 @@ const ModalCart = ({
           <div className="left w-1/2 border-r border-line py-6 max-md:hidden text-rose-950">
             <div className="heading5 px-6 pb-3">You May Also Like</div>
             <div className="list px-6">
-              {/* {products.slice(0, 4).map((product) => (
+              {products.slice(0, 4).map((product) => (
                 <div
-                  key={"id"}
+                  key={"i"}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-5">
@@ -120,12 +119,12 @@ const ModalCart = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       handleAddToCart(product);
-                    }} */}
-                  {/* >
+                    }}
+                  >
                     <Icon.Handbag alt="" />
                   </div>
                 </div>
-              ))} */}
+              ))}
             </div>
           </div>
           <div className="right cart-block md:w-1/2 w-full py-6 relative overflow-hidden text-rose-950">

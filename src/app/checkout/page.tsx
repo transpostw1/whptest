@@ -731,7 +731,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            <h2>(Review of 3 Items)</h2>
+            <h2>(Review of {cartItems.length} Items)</h2>
           </div>
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">

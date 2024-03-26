@@ -54,63 +54,63 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const userId = auth?.currentUser?.uid;
   const cookieTokenn = Cookies.get("localtoken");
   
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     const fetchCartItemsDetails = async () => {
-  //       try {
-  //         const response = await axios.get(`${baseUrl}${getCartItems}`, {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieTokenn}`,
-  //           },
-  //         });
-  //         const cartItemsData = response.data.cart_items.map((item: any) => ({
-  //           product_id: item.product_id,
-  //           quantity: item.quantity,
-  //           name: item.product_details[0].displayTitle,
-  //           price: item.product_details[0].discountPrice,
-  //           image: JSON.parse(item.product_details[0].imageDetails)[0]
-  //             .image_path,
-  //         }));
-  //         setCartItems(cartItemsData);
-  //       } catch (error) {
-  //         console.error("Error fetching cart items:", error);
-  //       }
-  //     };
-  //     fetchCartItemsDetails();
-  //   } else {
-  //     const storedCartItems = localStorage.getItem("cartItems");
-  //     if (storedCartItems) {
-  //       const cartItemsFromStorage = JSON.parse(storedCartItems);
-  //       const productIds = cartItemsFromStorage.map(
-  //         (item: any) => item.product_id
-  //       );
-  //       const updatedCartItems = [];
-  //        const fetchProductDetails = async () => {
-  //         for (const productId of productIds) {
-  //           try {
-  //             const response = await axios.get(
-  //               `${baseUrl}${getProductbyId}${productId}`
-  //             );
-  //             const productDetails = response.data[0];
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchCartItemsDetails = async () => {
+        try {
+          const response = await axios.get(`${baseUrl}${getCartItems}`, {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          });
+          const cartItemsData = response.data.cart_items.map((item: any) => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+            name: item.product_details[0].displayTitle,
+            price: item.product_details[0].discountPrice,
+            image: JSON.parse(item.product_details[0].imageDetails)[0]
+              .image_path,
+          }));
+          setCartItems(cartItemsData);
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      };
+      fetchCartItemsDetails();
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      if (storedCartItems) {
+        const cartItemsFromStorage = JSON.parse(storedCartItems);
+        const productIds = cartItemsFromStorage.map(
+          (item: any) => item.product_id
+        );
+        const updatedCartItems = [];
+         const fetchProductDetails = async () => {
+          for (const productId of productIds) {
+            try {
+              const response = await axios.get(
+                `${baseUrl}${getProductbyId}${productId}`
+              );
+              const productDetails = response.data[0];
 
-  //             const updatedCartItem = {
-  //               product_id: productId,
-  //               quantity: 1,
-  //               name: productDetails.displayTitle,
-  //               price: productDetails.discountPrice,
-  //               image: productDetails.imageDetails[0].image_path,
-  //             };
-  //             updatedCartItems.push(updatedCartItem);
-  //           } catch (error) {
-  //             console.error("Error fetching product details:", error);
-  //           }
-  //         }
-  //         setCartItems(updatedCartItems);
-  //       };
-  //       fetchProductDetails();
-  //     }
-  //   }
-  // }, [isLoggedIn]);
+              const updatedCartItem = {
+                product_id: productId,
+                quantity: 1,
+                name: productDetails.displayTitle,
+                price: productDetails.discountPrice,
+                image: productDetails.imageDetails[0].image_path,
+              };
+              updatedCartItems.push(updatedCartItem);
+            } catch (error) {
+              console.error("Error fetching product details:", error);
+            }
+          }
+          setCartItems(updatedCartItems);
+        };
+        fetchProductDetails();
+      }
+    }
+  }, [isLoggedIn]);
 
 
 
@@ -164,6 +164,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         const updatedCartItems = cartItems.filter(
           (item) => item.product_id !== product_id
         );
+        console.log(updatedCartItems)
         setCartItems(updatedCartItems);
       } else {
         // If not logged in, update only local state and localStorage

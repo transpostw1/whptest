@@ -2,14 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { ProductType } from "@/type/ProductType";
-import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 import HandlePagination from "@/components/Other/HandlePagination";
 import { useProductContext } from "@/context/ProductContext";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-import NavTwo from "@/components/Header/TopNav/NavTwo";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const SearchResult = () => {
@@ -141,7 +137,6 @@ const SearchResult = () => {
   return (
     <>
       <div id="header" className="relative w-full">
-        <Breadcrumb heading="Search Result" subHeading="Search Result" />
       </div>
       <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
         <div className="container">

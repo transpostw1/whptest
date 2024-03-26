@@ -1,6 +1,5 @@
 import React from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
-import Footer from "@/components/Footer/Footer";
 import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
@@ -14,9 +13,6 @@ import Reviews from "@/components/Home1/Reviews";
 import WhpApp from "@/components/Home1/WhpApp";
 import productData from "@/data/Products.json";
 
-
-
-
 export default function Home() {
   return (
     <>
@@ -25,14 +21,14 @@ export default function Home() {
       {/* <Collection /> */}
       <ProductSlider data={productData} start={0} limit={6} />
       <Category />
-      <GoldScheme />
       <ShopGender />
       <PreciousGems />
       <Appointment />
       <Gifts />
+      <GoldScheme />
       <SpecialOccasion />
       <Reviews />
-      {/* <WhpApp/> */}
+      <WhpApp/>
       
     </>
   );

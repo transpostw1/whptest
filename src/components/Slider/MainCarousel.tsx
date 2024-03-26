@@ -39,7 +39,7 @@ const MainCarousel = () => {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            {/* <SwiperSlide>
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">
                   <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
@@ -58,7 +58,7 @@ const MainCarousel = () => {
                   </div>
                 </div>
               </div>
-            </SwiperSlide>
+            </SwiperSlide> */}
             <SwiperSlide>
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">

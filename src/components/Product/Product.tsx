@@ -11,7 +11,6 @@ import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
-import { useProductContext } from "@/context/ProductContext";
 
 interface ProductProps {
   data: ProductType;
@@ -21,16 +20,8 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const { addToCart, updateCart, cartState } = useCart();
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
-  const { products, fetchData } = useProductContext();
+  
 
-  const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    if (!dataFetched) {
-      fetchData();
-      setDataFetched(true);
-    }
-  }, []);
   const router = useRouter();
 
   const sortedImages = data.imageDetails?.sort(

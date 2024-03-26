@@ -11,7 +11,6 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { useModalSearchContext } from "@/context/ModalSearchContext";
 import { CategoryType } from "@/type/CategoryType";
 import axios from "@/utils/axios";
-import { getAllParentCategories } from "@/utils/constants";
 
 interface Props {
   props: string;
@@ -108,7 +107,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
               <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
                 <li className="h-full relative">
                   <Link
-                    href="/shop/breadcrumb1"
+                    href=""
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
                       pathname.includes("/shop/breadcrumb1") ? "active" : ""
                     }`}

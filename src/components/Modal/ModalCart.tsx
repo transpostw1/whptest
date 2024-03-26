@@ -21,10 +21,7 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-<<<<<<< HEAD
-=======
   console.log(products, "yesss i keep rendering ");
->>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
 
 
 
@@ -87,11 +84,7 @@ const ModalCart = ({
             <div className="list px-6">
               {products.slice(0, 4).map((product) => (
                 <div
-<<<<<<< HEAD
-                  key={"i"}
-=======
                   key={product.productId}
->>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-5">

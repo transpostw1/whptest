@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useCart } from "@/context/CartContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
@@ -18,7 +17,7 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
-  const { addToCart, updateCart, cartState } = useCart();
+  
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
   
 

@@ -43,28 +43,12 @@ import axios, { AxiosInstance } from "axios";
 import { baseUrl } from "./constants";
 import Cookies from "js-cookie";
 
-<<<<<<< HEAD
-const instance: AxiosInstance = axios.create({
-  baseURL: baseUrl,
-});
-=======
-const getLocalToken = () => {
->>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
 
 // Add a function to get the local token from cookies
 const getLocalToken = () => {
   return Cookies.get("localtoken");
 };
 
-<<<<<<< HEAD
-// Add a function to update the local token in cookies
-const updateLocalToken = (token: string) => {
-  Cookies.set("localtoken", token);
-};
-
-// Set the initial Authorization header
-instance.defaults.headers.common["Authorization"] = `Bearer ${getLocalToken()}`;
-=======
 const CookieToken = getLocalToken();
 
 const instance: AxiosInstance = axios.create({
@@ -73,7 +57,6 @@ const instance: AxiosInstance = axios.create({
     Authorization: `Bearer ${CookieToken}`
   },
 });
->>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
 
 // Add a response interceptor to update the local token if a new one is provided
 instance.interceptors.response.use(

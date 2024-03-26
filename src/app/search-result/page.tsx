@@ -2,14 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import MenuOne from "@/components/Header/Menu/MenuOne";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
-import Footer from "@/components/Footer/Footer";
 import { ProductType } from "@/type/ProductType";
-import productData from "@/data/Product.json";
 import Product from "@/components/Product/Product";
 import HandlePagination from "@/components/Other/HandlePagination";
+import { useProductContext } from "@/context/ProductContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const SearchResult = () => {
@@ -18,41 +14,39 @@ const SearchResult = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const productsPerPage = 8;
   const offset = currentPage * productsPerPage;
-  let filteredData = data;
+
 
   const router = useRouter();
-
-  async function getData() {
-    const res = await fetch("http://164.92.120.19/api/getall-products/");
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
-  }
-
-  async function singleProduct() {
-    const product = await getData();
-    setData(product);
-    if (query === null) {
-      query = "dress";
-    }
-    const filteredData = data.filter((product) =>
-      product?.title.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-
-  useEffect(() => {
-    singleProduct();
-  }, []);
-
   const handleSearch = (value: string) => {
     router.push(`/search-result?query=${value}`);
     setSearchKeyword("");
   };
+  const { products, fetchData } = useProductContext();
+  let filteredData=products
 
   const searchParams = useSearchParams();
   let query = searchParams.get("query") as string;
+
+  const filterProducts = (query: string) => {
+    const filtered = products.filter(product => product.title.toLowerCase().includes(query.toLowerCase()));
+    setData(filtered);
+  };
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+  useEffect(()=>{
+    filterProducts(query);
+  },[query])
+  // useEffect(()=>{
+  //   const result=data.filter((item)=>{
+  //     const temp=item.title.toLowerCase();
+  //     if(temp.includes(query.toLowerCase()))return true;
+  //     return false;
+  //   })
+  //   setData(result);
+  // },[data,query])
 
   if (filteredData.length === 0) {
     filteredData = [
@@ -102,7 +96,7 @@ const SearchResult = () => {
         discountPrice: "no-data",
         offerStartDate: "no-data",
         offerEndDate: "no-data",
-        mediaId: "no-data",
+        mediaId: -1,
         imageDetails: [],
         videoDetails: [],
         materialId: -1,
@@ -130,7 +124,7 @@ const SearchResult = () => {
   // Get product data for current page
   let currentProducts: ProductType[];
 
-  if (filteredData.length > 0) {
+  if (data.length > 0) {
     currentProducts = filteredData.slice(offset, offset + productsPerPage);
   } else {
     currentProducts = [];
@@ -142,20 +136,13 @@ const SearchResult = () => {
 
   return (
     <>
-    {console.log(data,"aaditya")}
-      <TopNavOne
-        props="style-one bg-black"
-        slogan="New customers save 10% with the code GET10"
-      />
       <div id="header" className="relative w-full">
-        <MenuOne props="bg-transparent" />
-        <Breadcrumb heading="Search Result" subHeading="Search Result" />
       </div>
       <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
         <div className="container">
           <div className="heading flex flex-col items-center">
             <div className="heading4 text-center">
-              Found {filteredData.length} results for {String.raw`"`}
+              Found {data.length} results for {String.raw`"`}
               {query}
               {String.raw`"`}
             </div>
@@ -185,7 +172,8 @@ const SearchResult = () => {
             <div
               className={`list-product hide-product-sold grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-5`}
             >
-              {filteredData.map((item) =>
+              
+              {data.map((item) =>
                 item.productId === -1 ? (
                   <div key={item.productId} className="no-data-product">
                     No products match the selected criteria.
@@ -207,7 +195,6 @@ const SearchResult = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

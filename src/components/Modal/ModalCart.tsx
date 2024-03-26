@@ -21,6 +21,10 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
+<<<<<<< HEAD
+=======
+  console.log(products, "yesss i keep rendering ");
+>>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
 
 
 
@@ -40,7 +44,6 @@ const ModalCart = ({
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productId
     );
-    console.log(productAlreadyExists, "exists>>>");
     const currentquantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentquantity + 1;
     productAlreadyExists
@@ -56,7 +59,6 @@ const ModalCart = ({
   // let [totalCart, setTotalCart] = useState<number>(0);
   let [discountCart, setDiscountCart] = useState<number>(0);
 
-
   let totalCart = 0;
   cartItems.forEach((item) => {
     const price = parseFloat(item.price);
@@ -68,7 +70,6 @@ const ModalCart = ({
       console.error("Invalid data:", item);
     }
   });
-
 
   // cartItems?.map((item) => (totalCart += item.productPrice * item.quantity));
 
@@ -86,7 +87,11 @@ const ModalCart = ({
             <div className="list px-6">
               {products.slice(0, 4).map((product) => (
                 <div
+<<<<<<< HEAD
                   key={"i"}
+=======
+                  key={product.productId}
+>>>>>>> bc1fd5c9fbef04c0d77af7675fc585cc17f2cb6d
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
                   <div className="infor flex items-center gap-5">
@@ -96,7 +101,7 @@ const ModalCart = ({
                         src={product?.imageDetails[0]?.image_path}
                         width={300}
                         height={300}
-                        alt={product.Title}
+                        alt={product?.title}
                         className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
                       />
                     </div>
@@ -137,23 +142,6 @@ const ModalCart = ({
                 <Icon.X size={14} alt="" key={"two"} />
               </div>
             </div>
-            {/* <div className="time px-6">
-                <div className=" flex items-center gap-3 px-5 py-3 bg-green rounded-lg">
-                  <p className="text-3xl">🔥</p>
-                  <div className="caption1">
-                    Your cart will expire in{" "}
-                    <span className="text-red caption1 font-semibold">
-                      {timeLeft.minutes}:
-                      {timeLeft.seconds < 10
-                        ? `0${timeLeft.seconds}`
-                        : timeLeft.seconds}
-                    </span>{" "}
-                    minutes!
-                    <br />
-                    Please checkout now before your items sell out!
-                  </div>
-                </div>
-              </div> */}
 
             <div className="apicart">
               {cartItems?.map((cartItem) => {
@@ -194,7 +182,12 @@ const ModalCart = ({
                         </div>
                         <div className="flex items-center justify-between gap-2 mt-3 w-full">
                           <div className="product-price text-title">
-                            ₹{productDetails.discountPrice}
+                            ₹
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(
+                                parseFloat(productDetails.discountPrice)
+                              )
+                            )}
                           </div>
                         </div>
                       </div>
@@ -204,22 +197,6 @@ const ModalCart = ({
               })}
             </div>
             <div className=" bg-white absolute bottom-0 left-0 w-full">
-              {/* <div className="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
-                  <div
-                    className="item flex items-center gap-3 cursor-pointer"
-                    onClick={() => handleActiveTab("shipping")}
-                  >
-                    <Icon.Truck className="text-xl" />
-                    <div className="caption1">Shipping</div>
-                  </div>
-                  <div
-                    className="item flex items-center gap-3 cursor-pointer"
-                    onClick={() => handleActiveTab("coupon")}
-                  >
-                    <Icon.Tag className="text-xl" />
-                    <div className="caption1">Coupon</div>
-                  </div>
-                </div> */}
               <div className="flex items-center justify-between pt-6 px-6">
                 <div className="heading5">Subtotal</div>
                 <div className="heading5"> ₹{totalCart}</div>

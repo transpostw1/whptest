@@ -21,7 +21,7 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  product_id: string;
+  productId: string|number;
   quantity: number;
 }
 

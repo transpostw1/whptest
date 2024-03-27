@@ -51,7 +51,7 @@ const OtpVerification = ({
   };
 
   const onSendOtp = async () => {
-    console.log(formikValues.phoneNumber);
+    
     if (!formikValues.phoneNumber) {
       console.error("Invalid phone number");
       return;
@@ -83,7 +83,7 @@ const OtpVerification = ({
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
       console.log("Successfully signed in with OTP");
-      const token = auth?.currentUser?.accessToken;
+      const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
       console.log(auth.currentUser, "435435");
       console.log(credential, "CREDDD");
@@ -97,7 +97,7 @@ const OtpVerification = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokenn}`,
           },
         }
       );

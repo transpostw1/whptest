@@ -5,13 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useCart } from "@/context/CartContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
-import { useProductContext } from "@/context/ProductContext";
 
 interface ProductProps {
   data: ProductType;
@@ -19,18 +17,10 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
-  const { addToCart, updateCart, cartState } = useCart();
+  
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
-  const { products, fetchData } = useProductContext();
+  
 
-  const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    if (!dataFetched) {
-      fetchData();
-      setDataFetched(true);
-    }
-  }, []);
   const router = useRouter();
 
   const sortedImages = data.imageDetails?.sort(
@@ -81,18 +71,18 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 <>
                   <Image
                     onClick={() => handleDetailProduct(data?.productId)}
-                    className="w-[95%] duration-700  m-auto"
+                    className="w-[95%] duration-700 hover:scale-110  m-auto"
                     src={selected.image_path}
                     width={400}
                     height={400}
                     alt="This image is temporarry"
                   />
 
-                  <div className="flex justify-between">
-                    <div className="" onClick={() => setShowVideo(!showVideo)}>
-                      <Icon.Play size={25} weight="light" />
+                  <div className="flex justify-between ">
+                    <div className="z-0 hover:z-50" onClick={() => setShowVideo(!showVideo)}>
+                      <Icon.Play size={25}  weight="light" />
                     </div>
-                    <div className="float-right">
+                    <div className="float-right z-0 hover:z-50">
                       <Icon.Heart size={25} weight="light" />
                     </div>
                   </div>

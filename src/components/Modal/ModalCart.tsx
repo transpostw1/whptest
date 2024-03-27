@@ -23,13 +23,8 @@ const ModalCart = ({
   const { products, fetchData } = useProductContext();
   console.log(products, "yesss i keep rendering ");
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeLeft(countdownTime());
-  //   }, 1000);
 
-  //   return () => clearInterval(timer);
-  // }, []);
+
 
   useEffect(() => {
     if (!dataFetched) {
@@ -44,7 +39,7 @@ const ModalCart = ({
 
   const handleAddToCart = (productItem: ProductType) => {
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productId
+      (item) => item.product_id === productItem.productId
     );
     const currentquantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentquantity + 1;
@@ -66,7 +61,7 @@ const ModalCart = ({
     const price = parseFloat(item.price);
     // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === "number") {
-      // Multiply quantity by price and add to totalCart
+      // Multiply quantity by price and add to totalCart  
       totalCart += price * item.quantity;
     } else {
       console.error("Invalid data:", item);
@@ -92,16 +87,23 @@ const ModalCart = ({
                   key={product.productId}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
-                  <div className="infor flex items-center gap-5">
+                  <div className="flex items-center gap-5">
                     <div className="bg-img">
-                      <Image
-                        key={""}
-                        src={product?.imageDetails[0]?.image_path}
-                        width={300}
-                        height={300}
-                        alt={product?.title}
-                        className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
-                      />
+                      {product?.imageDetails.map((detail, index) => {
+                        if (detail.order === '0') {
+                          return (
+                            <Image
+                              key={index} // Use a more unique key if possible
+                              src={detail.image_path}
+                              width={300}
+                              height={300}
+                              alt={product?.title}
+                              className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
+                            />
+                          );
+                        }
+                        return null; // Skip rendering if order is not '0'
+                      })}
                     </div>
                     <div className="">
                       <div className="name text-button">
@@ -137,7 +139,7 @@ const ModalCart = ({
                 className="close-btn absolute right-6 top-0 w-6 h-6 rounded-full bg-surface flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
                 onClick={closeModalCart}
               >
-                <Icon.X size={14} alt="" key={""} />
+                <Icon.X size={14} alt="" key={"two"} />
               </div>
             </div>
 

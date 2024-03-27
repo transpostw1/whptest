@@ -18,7 +18,7 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
-import { baseUrl,getProductbyId,getCartItems, addAddress } from "@/utils/constants";
+import { baseUrl,getProductbyId,getCartItems, addAddress,removeCart } from "@/utils/constants";
 
 
 import {
@@ -35,9 +35,8 @@ interface ProductProps {
 }
 
 const Checkout: React.FC<ProductProps> = ({ data }) => {
-  // const router = useRouter();
 
-  const { cartItems, addToCart, removeFromCart, updateCart,setCartItems} = useCart();
+  const { cartItems, updateCart,setCartItems,removeFromCart} = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [selectedStep, setSelectedStep] = useState(0);
@@ -52,7 +51,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
-  console.log("==========",cartItems,"=====")
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -68,73 +66,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
- const cookieTokenn = Cookies.get("localtoken");
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      const fetchCartItemsDetails = async () => {
-        try {
-          const response = await axios.get(`${baseUrl}${getCartItems}`, {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          });
-          console.log(response, "Kartt response");
-          const cartItemsData = response.data.cart_items.map((item: any) => ({
-            product_id: item.product_id,
-            quantity: item.quantity,
-            name: item.product_details[0].displayTitle,
-            price: item.product_details[0].discountPrice,
-            image: JSON.parse(item.product_details[0].imageDetails)[0]
-              .image_path,
-          }));
-          console.log("Fetchedd Cart Items", cartItemsData);
-          setCartItems(cartItemsData);
-        } catch (error) {
-          console.error("Error fetching cart items:", error);
-        }
-      };
-      fetchCartItemsDetails();
-    } else {
-      const storedCartItems = localStorage.getItem("cartItems");
-      console.log(storedCartItems, "STOREDDD2");
-      if (storedCartItems) {
-        const cartItemsFromStorage = JSON.parse(storedCartItems);
-        const productIds = cartItemsFromStorage.map(
-          (item: any) => item.product_id
-        );
-        const updatedCartItems= [];
-        const fetchProductDetails = async () => {
-          for (const productId of productIds) {
-            try {
-              console.log(productId, "kkk");
-              const response = await axios.get(
-                `${baseUrl}${getProductbyId}${productId}`
-              );
-              const productDetails = response.data[0];
-
-              const updatedCartItem = {
-                product_id: productId,
-                quantity: 1,
-                name: productDetails.displayTitle,
-                price: productDetails.discountPrice,
-                image: productDetails.imageDetails[0].image_path,
-              };
-
-              console.log(updatedCartItem, "======================");
-              updatedCartItems.push(updatedCartItem);
-            } catch (error) {
-              console.error("Error fetching product details:", error);
-            }
-          }
-          setCartItems(updatedCartItems);
-        };
-        fetchProductDetails();
-      }
-    }
-  }, [isLoggedIn]);
 
 
+  
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -173,8 +107,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
 
   let cartDiscount = 0;
 
-  console.log("Total Cart Amount in Checkout", totalCart);
-  console.log(cartItems, "Checkout Console of CartItems");
+
   const handlePayment = (item: string) => {
     setActivePayment(item);
   };
@@ -244,31 +177,41 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     }
   };
   const AddAddressModal: React.FC = ({ closeModal }) => {
-    const validationSchema = Yup.object().shape({
-      pincode: Yup.string().required("Pincode is required"),
-      full_address: Yup.string().required(
-        "full_address/House No/Building Name/Company is required"
-      ),
-      area: Yup.string().required("Area and Street is required"),
-      country: Yup.string().required("Please add country"),
-      state: Yup.string().required("Please add State"),
-      city: Yup.string().required("Please add City"),
-      landmark: Yup.string(),
-      address_type: Yup.string().required("Please select the address type"),
-    });
+    // const validationSchema = Yup.object().shape({
+    //   pincode: Yup.string().required("Pincode is required"),
+    //   full_address: Yup.string().required(
+    //     "Full Address Company is required"
+    //   ),
+    //   area: Yup.string().required("Area and Street is required"),
+    //   country: Yup.string().required("Please add country"),
+    //   state: Yup.string().required("Please add State"),
+    //   city: Yup.string().required("Please add City"),
+    //   landmark: Yup.string(),
+    //   address_type: Yup.string().required("Please select the address type"),
+    // });
 
-    const handleSubmit = async (values, { resetForm }) => {
+    const handleSubmit = async (values) => {
       try {
          const cookieTokenn = Cookies.get("localtoken");
-        const headers = {
-          Authorization: `Bearer ${cookieTokenn}`,
-        };
-     const response = await axios.post(
-       `${baseUrl}${addAddress}`,  // Data to be sent in the request body
-       { headers } 
-     );
+      const response = await axios.post<{ data: any }>(
+        `${baseUrl}${addAddress}`,
+        {
+        pincode:values.pincode,
+        full_address:values.full_address,
+        area:values.area,
+        country:values.country,
+        state:values.state,
+        city:values.city,
+        landmark:values.landmark,
+        address_type:values.address_type
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieTokenn}`,
+          },
+        }
+      );
         console.log("Response from backend:", response.data);
-        resetForm();
         closeModal();
       } catch (error) {
         console.error("Error posting form data:", error);
@@ -286,7 +229,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         landmark: "",
         address_type: "",
       },
-      validationSchema: validationSchema,
+      // validationSchema: validationSchema,
       onSubmit: handleSubmit,
     });
     return (
@@ -467,7 +410,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 cartItems?.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
-                    key={product?.productid}
+                    key={product?.product_id}
                   >
                     <Image
                       src={product?.image}
@@ -486,7 +429,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.product_id)}
+                            onClick={() => removeFromCart(product?.product_id,product?.quantity)}
                           >
                             Remove
                           </div>
@@ -674,7 +617,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         <NavHoverMenu props="bg-white" />
         <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
       </div> */}
-      <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
       <div className="cart-block flex-wrap">
         <div className="content-main flex flex-col justify-between px-14">
           <div className="flex w-full justify-between items-center">
@@ -722,7 +664,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            <h2>(Review of 3 Items)</h2>
+            <h2>(Review of {cartItems.length} Items)</h2>
           </div>
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">

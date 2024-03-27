@@ -4,7 +4,7 @@ const Appointment = () => {
   return (
     <>
       <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1   text-rose-950">
-        <div className="bg-secondary2 flex items-center justify-start lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
+        <div className="bg-secondary2 bg-gradient-to-r from-pink-100 to-gray-100 flex items-center justify-start lg:h-full md:h-full sm:h-full lg:py-0 md:py-0 sm:py-10">
           <div className="flex flex-col lg:py-0 md:py-0 sm:py-10 text-center items-start p-10 gap-3">
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-semibold text-red text-left mt-5">
               Visualize Your
@@ -30,26 +30,27 @@ const Appointment = () => {
             <a href="/product-page">
               <button
                 type="button"
-                className="text-white bg-gradient-to-br bg-rose-500 hover:bg-rose-600 focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
+                className="text-white bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
               >
                 Book Appointment
               </button>
             </a>
           </div>
         </div>
-        <div className="justify-center items-center bg-red-700 grid grid-cols-2">
-          {/* <img className="h-full w-full" src="/images/other/image135.png" alt="" />
-          <img className="h-full w-full" src="/images/other/image136.png" alt="" /> */}
+        <div className="justify-center items-center bg-red-700 flex">
+        
           <Image
+          className="max-w-[50%] h-auto"
             src={"/images/other/image135.png"}
             alt=""
             width={1000}
             height={699}
           />
           <Image
-            src={"/images/other/image135.png"}
+          className="max-w-[50%] h-auto"
+            src={"/images/other/image1366.png"}
             alt=""
-            width={500}
+            width={1000}
             height={699}
           />
         </div>

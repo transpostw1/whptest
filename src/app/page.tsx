@@ -1,6 +1,6 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
-import Footer from "@/components/Footer/Footer";
 import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
@@ -12,28 +12,34 @@ import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
 import WhpApp from "@/components/Home1/WhpApp";
-import productData from "@/data/Products.json";
-
-
-
+import { useProductContext } from "@/context/ProductContext";
+import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
+import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 
 export default function Home() {
+  const { products, fetchData } = useProductContext();
+  useEffect(()=>{
+    fetchData();
+  },[])
+
   return (
     <>
       <MainCarousel />
       <Explore />
       {/* <Collection /> */}
-      <ProductSlider data={productData} start={0} limit={6} />
+      <ProductSlider data={products} start={0} limit={6} />
       <Category />
-      <GoldScheme />
+      <GetFastDeliveryProducts data={products} start={7} limit={14}/>
+      <WhatWeOffer/>
       <ShopGender />
       <PreciousGems />
       <Appointment />
       <Gifts />
+      <GoldScheme />
       <SpecialOccasion />
       <Reviews />
-      {/* <WhpApp/> */}
-      
+      {/* <WhpApp /> */}
+
     </>
   );
 }

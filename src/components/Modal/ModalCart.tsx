@@ -37,8 +37,9 @@ const ModalCart = ({
   const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
 
   const handleAddToCart = (productItem: ProductType) => {
+    console.log(cartItems,productItem,"+++++++++")
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productId
+      (item) => item.product_id === productItem.productId
     );
     console.log(productAlreadyExists, "exists>>>");
     const currentquantity = productAlreadyExists?.quantity ?? 0;

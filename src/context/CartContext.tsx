@@ -39,6 +39,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartUpdated,setCartUpdated] = useState<boolean>(false)
   const { userState } = useUser();
   const isLoggedIn = userState.isLoggedIn;
 
@@ -58,11 +59,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (isLoggedIn) {
       const fetchCartItemsDetails = async () => {
         try {
-          const response = await axios.get(`${baseUrl}${getCartItems}`, {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          });
+          const response = await instance.get(`${baseUrl}${getCartItems}`
+          );
           const cartItemsData = response.data.cart_items.map((item: any) => ({
             product_id: item.product_id,
             quantity: item.quantity,
@@ -110,7 +108,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         fetchProductDetails();
       }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn,cartUpdated]);
 
 
 
@@ -121,6 +119,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setCartItems(cart);
     if (!isLoggedIn) {
       localStorage.setItem("cartItems", JSON.stringify(cart));
+      setCartUpdated(!cartUpdated)
     } else {
       try {
         const response = await axios.post<{ data: any }>(
@@ -150,7 +149,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           `${baseUrl}${removeCart}`,
           {
             product_id,
-            quantity,
+            quantity:0,
           },
           {
             headers: {

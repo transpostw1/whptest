@@ -417,9 +417,6 @@ const ShopBreadCrumb1 = () => {
                     >
                       All
                     </option>
-                    <option className="bg-[#f7f7f7]" value="recommended">
-                      Recommended
-                    </option>
                     <option className="bg-[#f7f7f7]" value="newestFirst">
                       Newest First
                     </option>

@@ -34,7 +34,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
       </div>
 
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px]"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px] cursor-pointer"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">
@@ -46,7 +46,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
           </span>
         </div>
       </div>
-      <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center">
+      <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
         {" "}
         <Icon.Heart size={27} weight="thin" />
       </div>

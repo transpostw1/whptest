@@ -1,28 +1,24 @@
-"use client";
-
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import Product from "../Product/Product";
 import { ProductType } from "@/type/ProductType";
 
-interface Props {
+interface Props{
   data: ProductType[];
   start: number;
   limit: number;
 }
 
-const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
-  const filteredProducts = data;
-
+const GetFastDeliveryProducts:React.FC<Props> = ({data,start,limit}) => {
+    const filteredProducts = data;
   return (
     <>
-      <div className="tab-features-block pt-10">
+      <div className="tab-features-block pt-4">
         <div className="container">
-          <div>
-            <p className="font-bold text-[1.5rem]">Best Seller</p>
-          </div>
+          <div><p className="font-bold text-[1.5rem]">GET IN 24-48 HRS</p></div>
 
           <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
             <Swiper
@@ -56,7 +52,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ProductSlider;
+export default GetFastDeliveryProducts

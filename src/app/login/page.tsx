@@ -37,7 +37,7 @@ const Login = () => {
     },
   });
 
-
+  if (typeof window !== 'undefined') {
   return (
     <>
       {/* <TopNavOne textColor="text-white" />
@@ -83,6 +83,10 @@ const Login = () => {
       <Footer />
     </>
   );
+} else {
+  return null;
+}
+
 };
 
 export default Login;

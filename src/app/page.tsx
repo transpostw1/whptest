@@ -20,7 +20,7 @@ export default function Home() {
   const { products, fetchData } = useProductContext();
   useEffect(()=>{
     fetchData();
-  },[])
+  },[fetchData])
 
   return (
     <>

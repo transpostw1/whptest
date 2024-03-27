@@ -176,7 +176,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         return "Proceed";
     }
   };
-  const AddAddressModal: React.FC = ({ closeModal }) => {
+  const AddAddressModal: React.FC = ({ closeModal}:any) => {
     // const validationSchema = Yup.object().shape({
     //   pincode: Yup.string().required("Pincode is required"),
     //   full_address: Yup.string().required(
@@ -502,7 +502,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                   </h2>
                 </div>
               </div>
-              {isModalOpen && <AddAddressModal closeModal={closeModal} />}
+              {isModalOpen && <AddAddressModal closeModal={false}/>}
             </div>
           </>
         );

@@ -22,6 +22,7 @@ import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
   productId: string|number;
+  product_id:string|number;
   quantity: number;
 }
 

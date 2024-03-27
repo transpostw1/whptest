@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import TopNavOne from '@/components/Header/TopNav/TopNavOne'
+// import TopNavOne from '@/components/Header/TopNav/TopNavOne'
 import MenuOne from '@/components/Header/Menu/MenuOne'
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
+// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from '@/context/CartContext'
@@ -29,15 +29,17 @@ const Cart = () => {
     }, []);
 
     const { cartState, updateCart, removeFromCart } = useCart();
+    const cartArray = cartState?.cartArray || [];
+
+    
 
     const handleQuantityChange = (productId: string, newQuantity: number) => {
  
-        const itemToUpdate = cartState.cartArray.find((item) => item.id === productId);
+      const itemToUpdate = cartArray.find((item) => item.id === productId);
 
-        if (itemToUpdate) {
-
-            updateCart(productId, newQuantity, itemToUpdate.selectedSize, itemToUpdate.selectedColor);
-        }
+      if (itemToUpdate) {
+        updateCart(productId, newQuantity, itemToUpdate.selectedSize, itemToUpdate.selectedColor);
+       }
     };
 
     let moneyForFreeship = 150;
@@ -47,7 +49,14 @@ const Cart = () => {
     let [applyCode, setApplyCode] = useState<number>(0)
 
     // cartState.cartArray.map(item => totalCart += item.price * item.quantity)
-
+    useEffect(() => {
+      let calculatedTotal = 0;
+      cartArray.forEach((item) => {
+          calculatedTotal += item.price * item.quantity;
+      });
+      setTotalCart(calculatedTotal);
+  }, [cartArray]); // This will recalculate totalCart whenever cartArray changes
+  
     const handleApplyCode = (minValue: number, discount: number) => {
         if (totalCart > minValue) {
             setApplyCode(minValue)
@@ -66,7 +75,7 @@ const Cart = () => {
         shipCart = 30
     }
 
-    if (cartState.cartArray.length === 0) {
+    if (cartState?.cartArray?.length === 0) {
         shipCart = 0
     }
 

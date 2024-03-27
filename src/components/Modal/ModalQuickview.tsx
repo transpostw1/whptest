@@ -49,7 +49,7 @@ const ModalQuickview = () => {
 
     const handleAddToCart = () => {
         if (selectedProduct) {
-            if (!cartState.cartArray.find(item => item.id === selectedProduct.id)) {
+            if (!cartState?.cartArray?.find(item => item.id === selectedProduct.id)) {
                 addToCart({ ...selectedProduct });
                 updateCart(selectedProduct.id, selectedProduct.quantityPurchase, activeSize, activeColor)
             } else {
@@ -63,7 +63,7 @@ const ModalQuickview = () => {
     const handleAddToWishlist = () => {
         // if product existed in wishlit, remove from wishlist and set state to false
         if (selectedProduct) {
-            if (wishlistState.wishlistArray.some(item => item.id === selectedProduct.id)) {
+            if (wishlistState?.wishlistArray?.some(item => item.id === selectedProduct.id)) {
                 removeFromWishlist(selectedProduct.id);
             } else {
                 // else, add to wishlist and set state to true
@@ -76,8 +76,8 @@ const ModalQuickview = () => {
     const handleAddToCompare = () => {
         // if product existed in wishlit, remove from wishlist and set state to false
         if (selectedProduct) {
-            if (compareState.compareArray.length < 3) {
-                if (compareState.compareArray.some(item => item.id === selectedProduct.id)) {
+            if (compareState?.compareArray?.length < 3) {
+                if (compareState?.compareArray?.some(item => item.id === selectedProduct.id)) {
                     removeFromCompare(selectedProduct.id);
                 } else {
                     // else, add to wishlist and set state to true

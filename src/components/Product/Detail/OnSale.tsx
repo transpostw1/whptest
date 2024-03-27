@@ -80,7 +80,7 @@ const OnSale: React.FC<Props> = ({ data, productId }) => {
     };
 
     const handleAddToCart = () => {
-        if (!cartState.cartArray.find(item => item.id === productMain.id)) {
+        if (!cartState?.cartArray?.find(item => item.id === productMain.id)) {
             addToCart({ ...productMain });
             updateCart(productMain.id, productMain.quantityPurchase, activeSize, activeColor)
         } else {
@@ -91,7 +91,7 @@ const OnSale: React.FC<Props> = ({ data, productId }) => {
 
     const handleAddToWishlist = () => {
         // if product existed in wishlit, remove from wishlist and set state to false
-        if (wishlistState.wishlistArray.some(item => item.id === productMain.id)) {
+        if (wishlistState?.wishlistArray?.some(item => item.id === productMain.id)) {
             removeFromWishlist(productMain.id);
         } else {
             // else, add to wishlist and set state to true
@@ -102,7 +102,7 @@ const OnSale: React.FC<Props> = ({ data, productId }) => {
 
     const handleAddToCompare = () => {
         // if product existed in wishlit, remove from wishlist and set state to false
-        if (compareState.compareArray.length < 3) {
+        if (compareState?.compareArray?.length < 3) {
             if (compareState.compareArray.some(item => item.id === productMain.id)) {
                 removeFromCompare(productMain.id);
             } else {

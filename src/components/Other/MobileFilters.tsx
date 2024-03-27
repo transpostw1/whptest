@@ -8,7 +8,7 @@ interface Props {
 const MobileFilters: React.FC<Props> = (props) => {
   const handleCloseMobileFilters = (e: any) => {
       if (e.target.value === "container") {
-          {console.log("aaditya")}
+        
           props.onClose();
     }
   };

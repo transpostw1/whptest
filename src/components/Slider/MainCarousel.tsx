@@ -11,7 +11,7 @@ import "swiper/css/effect-fade";
 const MainCarousel = () => {
   return (
     <>
-      <div className="slider-block style-one bg-linear 2xl:h-[820px] xl:h-[740px] lg:h-[680px] md:h-[580px] sm:h-[500px] h-[420px] w-full">
+      <div className="slider-block style-one bg-linear 2xl:h-[500px] xl:h-[622px] lg:h-[562] md:h-[462px] sm:h-[382px] h-[302px] w-full">
         <div className="slider-main h-full w-full">
           <Swiper
             spaceBetween={0}
@@ -50,7 +50,7 @@ const MainCarousel = () => {
                       muted
                     >
                       <source
-                        src="/images/other/banner_video_1.mp4"
+                        src="/images/other/banner_video_4.mp4"
                         type="video/mp4"
                       />
                       Your browser does not support the video tag.

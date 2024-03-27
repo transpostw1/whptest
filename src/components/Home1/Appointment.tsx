@@ -47,9 +47,10 @@ const Appointment = () => {
             height={699}
           />
           <Image
-            src={"/images/other/image135.png"}
+          className="h-full"
+            src={"/images/other/image136.png"}
             alt=""
-            width={500}
+            width={1000}
             height={699}
           />
         </div>

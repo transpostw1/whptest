@@ -113,6 +113,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }`}
                   >
                     All Jewellery
+                    <Image className="cursor-pointer" src={"/images/icons/arrow.svg"} alt="Arrow" width={20} height={20} />
                   </Link>
                   <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
                     <ul className="">

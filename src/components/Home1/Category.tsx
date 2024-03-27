@@ -1,10 +1,17 @@
 import React from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
  
 
 
 const Category = () => {
-  let categories = [
+  let categories: {
+    id: number;
+    type: string;
+    description: string;
+    image: JSX.Element;
+    href: string; // Ensure href is of type Url
+  }[] = [
     {
       id: 1,
       type: "PENDANTS",
@@ -18,6 +25,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=pendant'
     },
     {
       id: 2,
@@ -32,6 +40,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=earrings'
     },
     {
       id: 3,
@@ -46,6 +55,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=rings'
     },
     {
       id: 4,
@@ -60,12 +70,13 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=chains'
     },
     {
       id: 5,
       type: "BRACELET & BANGLES",
       description:
-        "Stunning bangles & vracelets, where every piece is a harmony of style.",
+        "Stunning bangles & bracelets, where every piece is a harmony of style.",
       image: (
         <Image
           src={"/images/category/Bracelet.jpg"}
@@ -74,6 +85,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=bracelets'
     },
     {
       id: 6,
@@ -88,6 +100,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=mangulsutra'
     },
     {
       id: 7,
@@ -102,6 +115,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=necklace'
     },
     {
       id: 8,
@@ -116,6 +130,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href : '/shop/breadcrumb1?url=silver'
     },
   ];
 
@@ -137,7 +152,9 @@ const Category = () => {
               key={category.id}
               className="flex flex-col relative items-start justify-between  "
             >
+              <Link href={category.href}>
               <div className="divvv u-hover--sparkle cursor-pointer "> {category.image}</div>
+              </Link>
 
               <div >
                 <h1 className="text-xl font-semibold">{category.type}</h1>

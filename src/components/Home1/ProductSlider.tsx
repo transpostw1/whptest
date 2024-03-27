@@ -19,9 +19,9 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
   return (
     <>
       <div className="tab-features-block pt-10">
-        <div className="container">
+        <div className="px-8">
           <div>
-            <p className="font-bold text-[1.5rem]">Best Seller</p>
+            <p className="font-bold text-[1.5rem] font-[500] lg:text-3xl text-2xl text-[#0C0C0C]">BEST SELLERS</p>
           </div>
 
           <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">

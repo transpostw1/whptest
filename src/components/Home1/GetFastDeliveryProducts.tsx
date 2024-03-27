@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay, Navigation, Zoom } from "swiper/modules";
 import "swiper/css/bundle";
 import Product from "../Product/Product";
 import { ProductType } from "@/type/ProductType";
@@ -16,17 +16,18 @@ const GetFastDeliveryProducts:React.FC<Props> = ({data,start,limit}) => {
     const filteredProducts = data;
   return (
     <>
-      <div className="tab-features-block pt-4">
-        <div className="container">
-          <div><p className="font-bold text-[1.5rem]">GET IN 24-48 HRS</p></div>
+      <div className="tab-features-block py-8 ">
+        <div className="px-8">
+          <div><p className="font-bold text-[1.5rem] font-[500] lg:text-3xl text-2xl text-[#0C0C0C]">GET IN 24-48 HRS</p></div>
 
-          <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+          <div className="list-product  hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
             <Swiper
               spaceBetween={12}
               slidesPerView={2}
               navigation
               loop={true}
-              modules={[Navigation, Autoplay]}
+              modules={[Navigation, Autoplay, Zoom]}
+              zoom
               breakpoints={{
                 576: {
                   slidesPerView: 2,

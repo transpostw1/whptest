@@ -136,9 +136,9 @@ const Category = () => {
 
   return (
     <>
-      <div className="w-full px-8 my-16  text-rose-950">
+      <div className="w-full px-8 my-16 font-[500]  text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY CATEGORY</h1>
+          <h1 className="lg:text-3xl text-2xl mt-3">SHOP BY CATEGORY</h1>
           <p className="">
             Effortlessly find your perfect piece by exploring our jewellery
             categories. <br />

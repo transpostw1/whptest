@@ -71,18 +71,18 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 <>
                   <Image
                     onClick={() => handleDetailProduct(data?.productId)}
-                    className="w-[95%] duration-700  m-auto"
+                    className="w-[95%] duration-700 hover:scale-110  m-auto"
                     src={selected.image_path}
                     width={400}
                     height={400}
                     alt="This image is temporarry"
                   />
 
-                  <div className="flex justify-between">
-                    <div className="" onClick={() => setShowVideo(!showVideo)}>
-                      <Icon.Play size={25} weight="light" />
+                  <div className="flex justify-between ">
+                    <div className="z-0 hover:z-50" onClick={() => setShowVideo(!showVideo)}>
+                      <Icon.Play size={25}  weight="light" />
                     </div>
-                    <div className="float-right">
+                    <div className="float-right z-0 hover:z-50">
                       <Icon.Heart size={25} weight="light" />
                     </div>
                   </div>

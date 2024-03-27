@@ -217,7 +217,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <select
                       name="currency"
                       id="chooseCurrency"
-                      className="caption2  text-[16px] font-[500] pe-2 p-2 cursor-pointer">
+                      className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer">
                       <option value="INR">&#8377; INR</option>
                       <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>

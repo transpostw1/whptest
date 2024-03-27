@@ -27,10 +27,10 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
               <p className="font-bold text-[1.5rem]">Best Seller</p>
             </div>
             <div className="flex">
-              <button onClick={() => swiperRef.current.slideNext()}>
+              <button onClick={() => swiperRef.current.slidePrev()}>
                 <Icon.CaretLeft size={30}/>
               </button>
-              <button onClick={() => swiperRef.current.slidePrev()}>
+              <button onClick={() => swiperRef.current.slideNext()}>
                 <Icon.CaretRight size={30}/>
               </button>
             </div>

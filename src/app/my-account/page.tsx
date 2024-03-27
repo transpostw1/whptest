@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
+// import MenuOne from '@/components/Header/Menu/MenuOne'
+// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
@@ -14,8 +14,8 @@ const MyAccount = () => {
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-transparent" />
-                <Breadcrumb heading='My Account' subHeading='My Account' />
+                {/* <MenuOne props="bg-transparent" /> */}
+                {/* <Breadcrumb heading='My Account' subHeading='My Account' /> */}
             </div>
             <div className="cart-block md:py-20 py-10">
                 <div className="container">

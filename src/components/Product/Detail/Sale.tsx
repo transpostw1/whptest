@@ -241,7 +241,7 @@ const Sale: React.FC<Props> = ({ data, productId }) => {
                                         >
                                             Size Guide
                                         </div>
-                                        <ModalSizeguide data={productMain} isOpen={openSizeGuide} onClose={handleCloseSizeGuide} />
+                                        {/* <ModalSizeguide data={productMain} isOpen={openSizeGuide} onClose={handleCloseSizeGuide} /> */}
                                     </div>
                                     <div className="list-size flex items-center gap-2 flex-wrap mt-3">
                                         {productMain.sizes.map((item, index) => (

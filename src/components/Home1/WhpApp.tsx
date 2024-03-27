@@ -11,7 +11,7 @@ const WhpApp = () => {
           </h2>
           <p>
             Now you can explore timeless glamour of Waman Hari Pether whenever
-            you want! Shining new app, made just for you! it's Free, Easy &
+            you want! Shining new app, made just for you! it is Free, Easy &
             Smart.
           </p>
           <div className="flex flex-wrap gap-2 justify-center">

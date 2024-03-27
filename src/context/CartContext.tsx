@@ -21,11 +21,18 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  productId: string|number;
+  productId: string;
+  product_id:string;
   quantity: number;
+  name:string;
+  metalType:string;
+  metalPurity:string;
+  price:any;
+  image:any;
 }
 
 interface CartContextProps {
+  cartState:CartItem;
   cartItems: CartItem[];
   addToCart: (item: ProductType) => void;
   removeFromCart: (productId: string) => void;
@@ -114,7 +121,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
   const addToCart = async (item: ProductType) => {
-    const newItem: CartItem = { product_id: item.productId, quantity: 1 };
+    const newItem: CartItem = { productId: item.productId, quantity: 1 };
     const cart = [...cartItems, newItem];
     setCartItems(cart);
     if (!isLoggedIn) {
@@ -165,14 +172,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Update local state and localStorage only if the API call is successful
         const updatedCartItems = cartItems.filter(
-          (item) => item.product_id !== product_id
+          (item) => item.productId !== product_id
         );
         console.log(updatedCartItems)
         setCartItems(updatedCartItems);
       } else {
         // If not logged in, update only local state and localStorage
         const updatedCartItems = cartItems.filter(
-          (item) => item.product_id !== product_id
+          (item) => item.productId !== product_id
         );
         setCartItems(updatedCartItems);
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
@@ -186,7 +193,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const updateCart = async (productId: string, quantity: number) => {
     try {
       const updatedCartItems = cartItems.map((item) =>
-        item.product_id === productId ? { ...item, quantity } : item
+        item.productId === productId ? { ...item, quantity } : item
       );
       setCartItems(updatedCartItems);
       localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));

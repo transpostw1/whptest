@@ -1,10 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import NavTwo from '@/components/Header/TopNav/NavTwo'
-import NavHoverMenu from '@/components/Header/Menu/NavHoverMenu'
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
-import Footer from '@/components/Footer/Footer'
 import { ProductType } from '@/type/ProductType'
 import Product from '@/components/Product/Product'
 import { useWishlist } from '@/context/WishlistContext'
@@ -119,12 +114,6 @@ const Wishlist = () => {
 
     return (
       <>
-        {/* <TopNavOne textColor="text-white" />
-        <NavTwo props="style-three bg-white" />
-        <div id="header" className="w-full relative">
-          <NavHoverMenu props="bg-white" /> */}
-          <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-        {/* </div> */}
         <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
           <div className="container">
             <div className="list-product-block relative">
@@ -301,7 +290,6 @@ const Wishlist = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </>
     );
 }

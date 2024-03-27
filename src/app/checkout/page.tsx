@@ -194,7 +194,6 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     const handleSubmit = async (values) => {
       try {
          const cookieTokenn = Cookies.get("localtoken");
-         console.log("address",cookieTokenn,values)
       const response = await axios.post<{ data: any }>(
         `${baseUrl}${addAddress}`,
         {

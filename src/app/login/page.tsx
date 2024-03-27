@@ -83,7 +83,7 @@ const Login = () => {
     validationSchema: validationSchema, // Pass the validation schema
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
-        console.log(values);
+        
         setSubmitting(false);
       }, 400);
     },

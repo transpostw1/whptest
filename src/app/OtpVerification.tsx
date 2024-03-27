@@ -51,7 +51,7 @@ const OtpVerification = ({
   };
 
   const onSendOtp = async () => {
-    console.log(formikValues.phoneNumber);
+    
     if (!formikValues.phoneNumber) {
       console.error("Invalid phone number");
       return;

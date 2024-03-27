@@ -36,8 +36,8 @@ export default function Home() {
       <GoldScheme />
       <SpecialOccasion />
       <Reviews />
-      <WhpApp/>
-      
+      <WhpApp />
+
     </>
   );
 }

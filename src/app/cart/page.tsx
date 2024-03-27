@@ -18,10 +18,7 @@ import { useProductContext } from "@/context/ProductContext";
 const Cart = () => {
     const [timeLeft, setTimeLeft] = useState(countdownTime());
     const router = useRouter()
-     const { products, fetchData } = useProductContext();
-     useEffect(() => {
-       fetchData(); // Call fetchData only once when the component mounts
-     }, []);
+
 
     useEffect(() => {
         const timer = setInterval(() => {

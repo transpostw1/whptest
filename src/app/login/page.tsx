@@ -54,7 +54,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import Footer from "@/components/Footer/Footer";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
@@ -97,7 +96,6 @@ const Login = () => {
       <div id="header" className="w-full relative">
         <NavHoverMenu props="bg-white" />
       </div> */}
-      <Breadcrumb heading="Login/Signup WHP" subHeading="Login" />
       <div className="login-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center ">

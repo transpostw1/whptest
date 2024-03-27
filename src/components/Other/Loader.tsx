@@ -9,7 +9,7 @@ export default function Loader() {
     flex-col 
     justify-center 
     items-center 
-    bg-black
+    bg-transparent
   "
     >
       <p className="font-bold">Loading data</p>

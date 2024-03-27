@@ -11,7 +11,6 @@ import { useModalCartContext } from '@/context/ModalCartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useModalWishlistContext } from '@/context/ModalWishlistContext';
 import { useCompare } from '@/context/CompareContext'
-import { useModalCompareContext } from '@/context/ModalCompareContext'
 import Rate from '../Other/Rate';
 
 const ModalQuickview = () => {
@@ -23,7 +22,7 @@ const ModalQuickview = () => {
     const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
     const { openModalWishlist } = useModalWishlistContext()
     const { addToCompare, removeFromCompare, compareState } = useCompare();
-    const { openModalCompare } = useModalCompareContext()
+   
     const percentSale = selectedProduct && Math.floor(100 - ((selectedProduct.price / selectedProduct.originPrice) * 100))
 
     const handleActiveColor = (item: string) => {
@@ -88,7 +87,7 @@ const ModalQuickview = () => {
                 alert('Compare up to 3 products')
             }
         }
-        openModalCompare();
+       
     };
 
     return (

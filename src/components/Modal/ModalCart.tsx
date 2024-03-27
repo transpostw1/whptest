@@ -23,13 +23,8 @@ const ModalCart = ({
   const { products, fetchData } = useProductContext();
   console.log(products, "yesss i keep rendering ");
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeLeft(countdownTime());
-  //   }, 1000);
 
-  //   return () => clearInterval(timer);
-  // }, []);
+
 
   useEffect(() => {
     if (!dataFetched) {
@@ -66,7 +61,7 @@ const ModalCart = ({
     const price = parseFloat(item.price);
     // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === "number") {
-      // Multiply quantity by price and add to totalCart
+      // Multiply quantity by price and add to totalCart  
       totalCart += price * item.quantity;
     } else {
       console.error("Invalid data:", item);
@@ -95,7 +90,7 @@ const ModalCart = ({
                   <div className="infor flex items-center gap-5">
                     <div className="bg-img">
                       <Image
-                        key={""}
+                        key={"one"}
                         src={product?.imageDetails[0]?.image_path}
                         width={300}
                         height={300}
@@ -137,26 +132,9 @@ const ModalCart = ({
                 className="close-btn absolute right-6 top-0 w-6 h-6 rounded-full bg-surface flex items-center justify-center duration-300 cursor-pointer hover:bg-black hover:text-white"
                 onClick={closeModalCart}
               >
-                <Icon.X size={14} alt="" key={""} />
+                <Icon.X size={14} alt="" key={"two"} />
               </div>
             </div>
-            {/* <div className="time px-6">
-                <div className=" flex items-center gap-3 px-5 py-3 bg-green rounded-lg">
-                  <p className="text-3xl">🔥</p>
-                  <div className="caption1">
-                    Your cart will expire in{" "}
-                    <span className="text-red caption1 font-semibold">
-                      {timeLeft.minutes}:
-                      {timeLeft.seconds < 10
-                        ? `0${timeLeft.seconds}`
-                        : timeLeft.seconds}
-                    </span>{" "}
-                    minutes!
-                    <br />
-                    Please checkout now before your items sell out!
-                  </div>
-                </div>
-              </div> */}
 
             <div className="apicart">
               {cartItems?.map((cartItem) => {
@@ -212,22 +190,6 @@ const ModalCart = ({
               })}
             </div>
             <div className=" bg-white absolute bottom-0 left-0 w-full">
-              {/* <div className="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
-                  <div
-                    className="item flex items-center gap-3 cursor-pointer"
-                    onClick={() => handleActiveTab("shipping")}
-                  >
-                    <Icon.Truck className="text-xl" />
-                    <div className="caption1">Shipping</div>
-                  </div>
-                  <div
-                    className="item flex items-center gap-3 cursor-pointer"
-                    onClick={() => handleActiveTab("coupon")}
-                  >
-                    <Icon.Tag className="text-xl" />
-                    <div className="caption1">Coupon</div>
-                  </div>
-                </div> */}
               <div className="flex items-center justify-between pt-6 px-6">
                 <div className="heading5">Subtotal</div>
                 <div className="heading5"> ₹{totalCart}</div>

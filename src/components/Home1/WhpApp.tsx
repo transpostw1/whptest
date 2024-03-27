@@ -32,7 +32,7 @@ const WhpApp = () => {
           </div>
         </div>
         <div className="w-full md:w-1/2 mt-8 items-center h-full ml-4">
-          <Image src={"/dummy/whp_mobile_banner.png"} alt="mobileAppBanner" width={100} height={100} className="w-[30%] h-[50%] object-cover" />
+          <Image src={"/dummy/Download_App_Image.png"} alt="mobileAppBanner" width={125} height={100} className="w-[30%] h-[50%] object-cover" />
         </div>
       </div>
     </>

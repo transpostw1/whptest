@@ -49,7 +49,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
 
   const handleSearch = (value: string) => {
-    router.push(`/search-result?query=${value}`);
+    router.push(`/shop/breadcrumb1?query=${value}`);
     setSearchKeyword("");
   };
    const cartLength = cartItems ? cartItems.length : 0;

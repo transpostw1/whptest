@@ -2,10 +2,6 @@
 
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import Footer from "@/components/Footer/Footer";
-import NavTwo from "@/components/Header/TopNav/NavTwo";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import OtpVerification from "../OtpVerification";
@@ -15,10 +11,6 @@ import * as Yup from 'yup';
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-
-
-
-
     const validationSchema = Yup.object({
       phoneNumber: Yup.string()
         .required("Phone number is required")
@@ -80,7 +72,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 } else {

@@ -16,10 +16,11 @@ import { useUser } from "@/context/UserContext";
 import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
+  phoneNumber:string;
   formikValues: any; // Define the type of formikValues prop
   onSubmit: () => void;
   isRegisterPage: boolean;
-  errorMessage: string | null; // Add errorMessage prop
+  errorMessage: string|any; // Add errorMessage prop
 }
 
 // class Token {

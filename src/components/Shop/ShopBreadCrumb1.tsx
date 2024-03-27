@@ -151,7 +151,7 @@ const ShopBreadCrumb1 = () => {
     const fetchData = async () => {
       try {
         const response: any = await axios.get<ProductType[]>(
-          "http://whpapi.transpost.co/api/getall-products"
+          "https://whpapi.transpost.co/api/getall-products"
         );
         setData(response.data);
         setFilteredData(response.data);

@@ -64,7 +64,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   };
 
   async function getData() {
-    const res = await fetch(`http://164.92.120.19/api/products/${productId}`);
+    const res = await fetch(`http://whpapi.transpost.co/api/products/${productId}`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");

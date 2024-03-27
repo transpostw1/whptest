@@ -47,7 +47,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   async function getData() {
-    const res = await fetch("http://164.92.120.19/api/getAllParentCategories");
+    const res = await fetch("http://whpapi.transpost.co/api/getAllParentCategories");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

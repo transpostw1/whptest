@@ -1,4 +1,4 @@
-export const baseUrl = "http://164.92.120.19/api";
+export const baseUrl = "http://whpapi.transpost.co/api";
 // export const baseUrl = "http://172.16.100.87:8005/api";
 
 

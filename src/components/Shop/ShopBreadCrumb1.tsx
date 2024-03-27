@@ -134,13 +134,6 @@ const ShopBreadCrumb1 = () => {
                     ))}
                 </div>
               )}
-            {/* <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
-              {filteredData
-                .slice(pagesVisited, pagesVisited + productsPerPage)
-                .map((item) => (
-                  <Product key={item.productId} data={item} />
-                ))}
-            </div> */}
           </div>
         </div>
         <div className="flex justify-center">
@@ -170,6 +163,7 @@ const ShopBreadCrumb1 = () => {
         </div>
       </div>
       {sortOption && <SortBy visible={sortOption} onClose={() => setSortOption(false)} onSortOptionChange={handleSortOptionChange} />}
+      
     </div>
   );
 };

@@ -26,11 +26,11 @@ const GetFastDeliveryProducts: React.FC<Props> = ({ data, start, limit }) => {
               <p className="font-bold text-[1.5rem]">GET IN 24-48 HRS</p>
             </div>
             <div className="flex">
-              <button onClick={() => swiperRef.current.slideNext()}>
-                <Icon.CaretLeft size={30} />
-              </button>
               <button onClick={() => swiperRef.current.slidePrev()}>
-                <Icon.CaretRight size={30} />
+                <Icon.CaretLeft size={30}/>
+              </button>
+              <button onClick={() => swiperRef.current.slideNext()}>
+                <Icon.CaretRight size={30}/>
               </button>
             </div>
           </div>

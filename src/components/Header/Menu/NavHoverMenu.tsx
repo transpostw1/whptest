@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -9,12 +9,16 @@ import Product from "@/components/Product/Product";
 import productData from "@/data/Product.json";
 import useMenuMobile from "@/store/useMenuMobile";
 import { useModalSearchContext } from "@/context/ModalSearchContext";
+import { CategoryType } from "@/type/CategoryType";
+import axios from "@/utils/axios";
 
 interface Props {
   props: string;
 }
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
+  const [data, setData] = useState<CategoryType[] | null>(null);
+
   const pathname = usePathname();
 
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -31,7 +35,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition);
+      setFixedHeader(scrollPosition > 0 && scrollPosition < lastScrollPosition || scrollPosition > lastScrollPosition);
       setLastScrollPosition(scrollPosition);
     };
 
@@ -41,6 +45,32 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollPosition]);
+
+  async function getData() {
+    const res = await fetch("http://164.92.120.19/api/getAllParentCategories");
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return res.json();
+  }
+
+  async function getAllCategories() {
+    try {
+      const category = await getData();
+      if (category) {
+        setData(category);
+      }
+    } catch (error) {
+      console.error("Error getting categories:", error);
+    }
+  }
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log(data, "at at at");
+  }, [data]);
 
   // const handleGenderClick = (gender: string) => {
   //   router.push(`/shop/breadcrumb1?gender=${gender}`);
@@ -57,9 +87,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   return (
     <>
       <div
-        className={`header-menu style-one ${
+        className={`header-menu-navHoverMenu style-one ${
           fixedHeader ? " fixed" : "relative"
-        } w-full md:h-[74px] h-[56px] ${props}`}
+        } w-full md:h-[60px] h-[40px] ${props}`}
       >
         <div className="container mx-auto h-full">
           <div className="header-main flex items-center justify-between h-full">
@@ -74,39 +104,57 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
             </Link>
 
             <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-              <ul className="flex items-center justify-between gap-14 h-full  text-rose-950">
-                <li className="h-full relative ">
+              <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
+                <li className="h-full relative">
                   <Link
-                    href="/shop/breadcrumb1"
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1
-                                            ${
-                                              pathname.includes("/shop/breadcrumb1")
-                                                ? "active"
-                                                : ""
-                                            }`}
+                    href=""
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
+                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                    }`}
                   >
                     All Jewellery
                   </Link>
-                  <div className="sub-menu absolute py-3 px-5 -left-10 w-max grid grid-cols-4 gap-5 bg-white rounded-b-xl">
-                    <ul>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Home Fashion 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/homepages/fashion11"
-                          className="text-secondary duration-300"
-                        >
-                          Home Fashion 1
-                        </Link>
-                      </li>
+                  <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
+                    <ul className="">
+                      <p className="font-bold text-black">Explore Categories</p>
+                      
+                       {data &&
+                        data.map((item, index) => (
+                          <React.Fragment key={item.id}>
+                          
+                            <li className="leading-[0px]">
+                              <Link
+                                href={{
+                                  pathname: "/shop/breadcrumb1",
+                                  query: { url: item.url },
+                                }}
+                                className=" text-secondary duration-300"
+                              >
+                                <div className="flex">
+                                  <Image
+                                    src={item.menuImg}
+                                    alt={item.name}
+                                    height={25}
+                                    width={25}
+                                    className="mr-1"
+                                  />
+                                  <p>{item.name}</p>
+                                </div>
+                              </Link>
+                            </li>
+                          </React.Fragment>
+                        ))}
                     </ul>
                     <ul>
+                      <li className="font-bold text-black">Shop For</li>
+                      <li>Men</li>
+                      <li>Women</li>
+                    </ul>
+
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop by type</p>
+                      </li>
                       <li>
                         <Link
                           href="/homepages/jewelry"
@@ -114,7 +162,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname === "/homepages/jewelry" ? "active" : ""
                           }`}
                         >
-                          Home Jewelry
+                          Gold
                         </Link>
                       </li>
                       <li>
@@ -124,17 +172,50 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname === "/homepages/furniture" ? "active" : ""
                           }`}
                         >
-                          Home Furniture
+                          Rose Gold
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          White Gold
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          Diamond
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/furniture"
+                          className={`text-secondary duration-300 ${
+                            pathname === "/homepages/furniture" ? "active" : ""
+                          }`}
+                        >
+                          Gemstones
                         </Link>
                       </li>
                     </ul>
                     <ul>
                       <li>
+                        <p className="font-bold text-black">Shop By Price</p>
+                      </li>
+                      <li>
                         <Link
                           href="/homepages/yoga"
                           className={`text-secondary duration-300`}
                         >
-                          Home Yoga
+                          less than 10k
                         </Link>
                       </li>
                       <li>
@@ -142,8 +223,38 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           href="/homepages/organic"
                           className="text-secondary duration-300"
                         >
-                          Home Organic
+                          10k to 20k
                         </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/organic"
+                          className="text-secondary duration-300"
+                        >
+                          20k to 30k
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/homepages/organic"
+                          className="text-secondary duration-300"
+                        >
+                          30k and Above
+                        </Link>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop By Karat</p>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
                       </li>
                     </ul>
                   </div>
@@ -673,5 +784,4 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     </>
   );
 };
-
 export default NavHoverMenu;

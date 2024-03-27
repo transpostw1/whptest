@@ -15,9 +15,6 @@ import { useCart } from '@/context/CartContext'
 import { useModalCartContext } from '@/context/ModalCartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { useModalWishlistContext } from '@/context/ModalWishlistContext'
-import { useCompare } from '@/context/CompareContext'
-import { useModalCompareContext } from '@/context/ModalCompareContext'
-import ModalSizeguide from '@/components/Modal/ModalSizeguide'
 
 SwiperCore.use([Navigation, Thumbs]);
 
@@ -36,8 +33,7 @@ const Sale: React.FC<Props> = ({ data, productId }) => {
     const { openModalCart } = useModalCartContext()
     const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist()
     const { openModalWishlist } = useModalWishlistContext()
-    const { addToCompare, removeFromCompare, compareState } = useCompare();
-    const { openModalCompare } = useModalCompareContext()
+    
     const productMain = data.find(product => product.id === productId) as ProductType
     const percentSale = Math.floor(100 - ((productMain.price / productMain.originPrice) * 100))
 
@@ -107,7 +103,7 @@ const Sale: React.FC<Props> = ({ data, productId }) => {
             alert('Compare up to 3 products')
         }
 
-        openModalCompare();
+        
     };
 
     const handleActiveTab = (tab: string) => {

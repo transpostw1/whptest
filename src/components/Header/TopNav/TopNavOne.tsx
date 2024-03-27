@@ -22,42 +22,42 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
               slidesPerView={1}
               loop={true}
               modules={[Navigation, Autoplay]}
-              className="h-full relative flex items-center justify-center bg"
+              className="h-[50%] relative flex items-center justify-center bg"
               autoplay={{
                 delay: 3000,
               }}
             >
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
                   Get 10% off on selected items
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
                   Free shipping on all orders over ₹50
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
                   10% off on all summer essentials!
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 ${textColor}`}
                 >
                   Get summer-ready: 10% off swim suits
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase px-8 ${textColor}`}
                 >
                   10% off on all product on shop
                 </div>

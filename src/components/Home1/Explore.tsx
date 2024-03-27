@@ -9,7 +9,7 @@ const Explore = () => {
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
         <Link
-          href={"/shop/breadcrumb-img"}
+          href={"/shop/breadcrumb1"}
           className="banner-item relative block overflow-hidden duration-500"
         >
           <div className="banner-img">
@@ -23,7 +23,7 @@ const Explore = () => {
           </div>
         </Link>
         <Link
-          href={"/shop/breadcrumb-img"}
+          href={"/shop/breadcrumb1"}
           className="banner-item relative block overflow-hidden duration-500"
         >
           <div className="banner-img">

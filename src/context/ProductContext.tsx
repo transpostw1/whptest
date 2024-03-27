@@ -12,6 +12,7 @@ import { getProducts } from "@/utils/constants";
 import instance from "@/utils/axios";
 
 interface ProductType {
+  title: any;
   // Define the properties of your product
 }
 

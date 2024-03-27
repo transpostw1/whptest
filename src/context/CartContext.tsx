@@ -21,7 +21,7 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  product_id: string;
+  productId: string|number;
   quantity: number;
 }
 
@@ -148,8 +148,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await axios.post<{ data: any }>(
           `${baseUrl}${removeCart}`,
           {
-            product_id,
-            quantity:0,
+            cart: [
+              {
+                product_id,
+                quantity: 0,
+              },
+            ],
           },
           {
             headers: {

@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
@@ -10,9 +11,11 @@ import ModalCart from "@/components/Modal/ModalCart";
 import ModalWishlist from "@/components/Modal/ModalWishlist";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import ModalQuickview from "@/components/Modal/ModalQuickview";
-import ModalCompare from "@/components/Modal/ModalCompare";
+
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
+import Footer from "@/components/Footer/Footer";
+
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -28,6 +31,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+ 
   return (
     <GlobalProvider>
       <html lang="en">
@@ -42,7 +46,7 @@ export default function RootLayout({
           <ModalWishlist />
           <ModalSearch />
           <ModalQuickview />
-          <ModalCompare />
+          <Footer/>
         </body>
       </html>
     </GlobalProvider>

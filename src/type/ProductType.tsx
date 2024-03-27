@@ -4,64 +4,87 @@ interface Variation {
   colorImage: string;
   image: string;
 }
-export interface ImageDetails{
-    image_path:string|null,
-    order:string,
-    alt_text?:string|null,
+export interface GoldDetails {
+  goldCertifiedBy: string;
+  goldSetting: any; // You might want to specify the type if you have more details
 }
-export interface VideoDetails{
-    video_path:string|null,
-    order:number|string,
-    alt_text?:string|null,
+
+export interface SilverDetails {
+  poojaArticle: any; // Specify type if available
+  utensils: any; // Specify type if available
+  silverWeight: any; // Specify type if available
+}
+
+export interface ProductAttributes {
+  goldDetails: GoldDetails[] | null;
+  gemstoneDetails: any; // Specify type if available
+  diamondDetails: any; // Specify type if available
+  silverDetails: SilverDetails[] | null;
+}
+
+export interface ImageDetails {
+  image_path: string|null;
+  order: string;
+  alt_text?: string | null|undefined;
 }
 
 export interface ProductType {
-  productId: string;
-  Title: string;
-  Url: string;
-  img: string;
+  productId: number|string;
   SKU: string;
-  IsActive: boolean;
-  New: boolean;
-  Stocks: number;
-  Sold: number;
-  Sale: boolean;
-  QuantityPurchase: number;
-  Action: string;
-  ThumbImgName: string;
-  Desp: string | null;
-  ShortDesp: string;
-  WeightRange: string;
-  AvailableIn: string;
-  ShopFor: string;
-  IsFastDelivery: string;
-  IsHomeTry: boolean;
-  Metal: string;
-  Purity: string;
-  MetalWeight: string;
-  MakingChrgPErGrm: string;
-  DiamondClarity1: string;
-  DiamondQty1: string;
-  CareWt1: string;
-  AdditionalPrice: string;
-  ProdPrice: number;
-  ProdPriceWithTax: number;
-  ProdPriceWithDiscountTax: number;
-  IsDiscount: boolean;
-  DiscountType: string;
-  DiscountVal: string;
-  DiscountFrom: string;
-  DiscountTo: string;
-  DiscountCategory: string;
-  Categories: string;
-  ImgName1: string;
-  OrderNo: string;
-  MakingType: string;
-  DiamondCertifiedBy: string | null;
-  DiamondDiamondShape1: string | null;
-  GoldCertifiedBy: string | null;
-  GoldColor: string | null;
-  GoldRingSize: string | null;
-  GoldEarringType: string | null;
-  productPrice:string|null
+  variantId: any; // Specify type if available
+  title: string;
+  displayTitle: string;
+  shortDesc: string;
+  longDesc: string | null;
+  url: string;
+  tags: string[];
+  collectionName: string | null;
+  shopFor: string[];
+  occasion: string | null;
+  theme: string | null;
+  length: any; // Specify type if available
+  breadth: any; // Specify type if available
+  height: any; // Specify type if available
+  weightRange: string;
+  addDate: string;
+  lastModificationDate: string | null;
+  created_at: string;
+  updated_at: string;
+  sizeId: number;
+  productSize: any; // Specify type if available
+  productQty: number;
+  attributeId: number;
+  preSalesProductQueries: any; // Specify type if available
+  isReplaceable: number;
+  isReturnable: number;
+  isInternationalShippingAvailable: number;
+  customizationAvailability: number;
+  fastDelivery: number;
+  tryAtHome: number;
+  isActive: number;
+  grossWeight: any; // Specify type if available
+  netWeight: any; // Specify type if available
+  productAttributes: ProductAttributes;
+  discountId: number;
+  discountCategory: string;
+  discountActive: number;
+  typeOfDiscount: string;
+  discountValue: string;
+  discountAmount: string;
+  discountPrice: string;
+  offerStartDate: string;
+  offerEndDate: string;
+  mediaId: number;
+  imageDetails: ImageDetails[];
+  videoDetails: any; // Specify type if available
+  materialId: number;
+  metalType: string;
+  metalPurity: string;
+  metalWeight: string;
+  makingType: string;
+  makingChargesPerGrams: string;
+  additionalCost: string;
+  productPrice: string;
+  stoneDetails: any; // Specify type if available
+  diamondDetails: any; // Specify type if available
 }

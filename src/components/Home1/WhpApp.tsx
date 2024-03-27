@@ -4,7 +4,7 @@ import Image from "next/image";
 const WhpApp = () => {
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center md:mb-16 mt-28 pl-8 text-red-950 ">
+      <div className=" flex-col md:flex-row md:mb-16 mt-28 pl-8 text-red-950 bg-[#f7f7f7] w-full h-full flex justify-center items-center overflow-hidden">
         <div className="w-full md:w-1/2 flex flex-col items-start gap-3">
           <h2 className="font-normal text-5xl ">
             Download the Waman Hari Pethe App
@@ -31,7 +31,9 @@ const WhpApp = () => {
             />
           </div>
         </div>
-        <div className="w-full md:w-1/2 mt-8 items-center h-full bg-red-600"></div>
+        <div className="w-full md:w-1/2 mt-8 items-center h-full ml-4">
+          <Image src={"/dummy/Download_App_Image.png"} alt="mobileAppBanner" width={125} height={100} className="w-[30%] h-[50%] object-cover" />
+        </div>
       </div>
     </>
   );

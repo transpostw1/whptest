@@ -370,7 +370,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   className="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center"
                   onClick={handleMenuMobile}
                 >
-                  <Icon.X size={14} />
+                  <Icon.X size={20} />
                 </div>
                 <Link
                   href={"/"}
@@ -392,6 +392,11 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
               </div>
               <div className="list-nav mt-6">
                 <ul>
+                  <li>
+                    <Link href={'/register'}  className={`text-xl font-semibold flex items-center justify-between`}>
+                    Login
+                    </Link>
+                  </li>
                   <li
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(1)}
@@ -415,41 +420,31 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       </div>
                       <div className="list-nav-item w-full grid grid-cols-2 pt-2 pb-6">
                         <ul>
-                          <li>
-                            <Link
-                              href="/homepages/cosmetic1"
-                              className={`nav-item-mobile text-secondary duration-300 ${
-                                pathname === "/homepages/cosmetic1"
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              Home Cosmetic 1
-                            </Link>
-                          </li>
-
-                          <li>
-                            <Link
-                              href="/homepages/yoga"
-                              className={`nav-item-mobile text-secondary duration-300 ${
-                                pathname === "/homepages/yoga" ? "active" : ""
-                              }`}
-                            >
-                              Home Yoga
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/homepages/organic"
-                              className={`nav-item-mobile text-secondary duration-300 ${
-                                pathname === "/homepages/organic"
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              Home Organic
-                            </Link>
-                          </li>
+                        {data &&
+                        data.map((item, index) => (
+                          <React.Fragment key={item.id}>
+                            <li className="leading-[0px]">
+                              <Link
+                                href={{
+                                  pathname: "/shop/breadcrumb1",
+                                  query: { url: item.url },
+                                }}
+                                className=" text-secondary duration-300"
+                              >
+                                <div className="flex">
+                                  <Image
+                                    src={item.menuImg}
+                                    alt={item.name}
+                                    height={25}
+                                    width={25}
+                                    className="mr-1"
+                                  />
+                                  <p>{item.name}</p>
+                                </div>
+                              </Link>
+                            </li>
+                          </React.Fragment>
+                        ))}
                         </ul>
                       </div>
                     </div>
@@ -496,7 +491,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       </span>
                     </a>
                   </li>
-                  <li
+                  {/* <li
                     className={`${openSubNavMobile === 5 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(5)}
                   >
@@ -572,8 +567,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         </ul>
                       </div>
                     </div>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={`${openSubNavMobile === 6 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(6)}
                   >
@@ -675,7 +670,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         </ul>
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>

@@ -22,6 +22,8 @@ import CheckPincode from "./CheckPincode";
 import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { baseUrl } from "@/utils/constants";
+
 interface Props {
   productId: string | number | null;
 }
@@ -57,7 +59,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   };
 
   async function getData() {
-    const res = await fetch(`http://164.92.120.19/api/products/${productId}`);
+    const res = await fetch(`${baseUrl}/products/${productId}`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");

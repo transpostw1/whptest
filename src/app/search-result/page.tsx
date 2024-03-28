@@ -34,11 +34,11 @@ const SearchResult = () => {
 
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [fetchData]);
 
-  useEffect(()=>{
+  useEffect(() => {
     filterProducts(query);
-  },[query])
+  }, [query]);
   // useEffect(()=>{
   //   const result=data.filter((item)=>{
   //     const temp=item.title.toLowerCase();

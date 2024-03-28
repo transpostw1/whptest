@@ -72,10 +72,6 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     getAllCategories();
   }, []);
 
-  useEffect(() => {
-    console.log(data, "at at at");
-  }, [data]);
-
   // const handleGenderClick = (gender: string) => {
   //   router.push(`/shop/breadcrumb1?gender=${gender}`);
   // };

@@ -19,9 +19,6 @@ import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 
 export default function Home() {
   const { products, fetchData } = useProductContext();
-  useEffect(()=>{
-    fetchData();
-  },[fetchData])
 
   return (
     <>
@@ -29,7 +26,7 @@ export default function Home() {
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={products} start={0} limit={6} />
-      <WhpTv/>
+      <WhpTv products={products}/>
       <Category />
       <GetFastDeliveryProducts data={products} start={7} limit={14}/>
       <WhatWeOffer/>

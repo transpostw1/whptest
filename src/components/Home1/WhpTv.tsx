@@ -10,24 +10,30 @@ import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import VideoFeed from "@/components/Video/VideoFeed";
-import { useProductContext } from "@/context/ProductContext";
+import { ProductType } from "@/type/ProductType";
 
+interface PlayList{
+    sequence:number;
+    src:string
+}
+interface Props{
+    data:ProductType[]
+}
 
 // import Fade from 'react-reveal'
 
-const Whptv = () => {
+const Whptv:React.FC<Props> = ({data}) => {
 
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
-  const { products, fetchData } = useProductContext();
-  const [playList,setPlayList]=useState([
+  const [playList,setPlayList]=useState<PlayList[]>([
     { sequence: 1, src: '/images/reels/1.mp4' },
     { sequence: 2, src: '/images/reels/2.mp4' },
     { sequence: 3, src: '/images/reels/3.mp4' },
     { sequence: 4, src: '/images/reels/4.mp4' },
     // more videos...
   ])
-const [videos,setVideos]=useState([])
+const [videos,setVideos]=useState<PlayList[]>([])
 const [id,setId]=useState(1)
 
 
@@ -40,7 +46,7 @@ const [id,setId]=useState(1)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
       setIsMobile(e.matches);
     };
 
@@ -65,9 +71,6 @@ const [id,setId]=useState(1)
     };
   }, [showModal]);
 
-  useEffect(() => {
-    fetchData();
-  }, [])
 
   useEffect(()=>{
       for(const i of playList){
@@ -75,14 +78,14 @@ const [id,setId]=useState(1)
           i.sequence=0;
         }
       }
-      let sortPlayList=[...playList]
-       sortPlayList=playList.sort((a,b)=>(a.sequence-b.sequence));
+      let sortPlayList:PlayList[]=[...playList]
+       sortPlayList=playList.sort((a,b)=>(b.sequence-a.sequence));
       setVideos(sortPlayList);
     
   },[showModal, playList, id])
   // Define the missing functions to handle modal open and close
   
-  const handleOpenModal = (id) => {
+  const handleOpenModal = (id:any) => {
     setShowModal(true);
     setId(id);
   };
@@ -139,7 +142,7 @@ const [id,setId]=useState(1)
               
                 <div
                   className="collection-item block relative overflow-hidden cursor-pointer"
-                  onClick={handleOpenModal(1)}
+                  onClick={()=>handleOpenModal(1)}
                 >
                   <div className="bg-img">
                     <Image
@@ -163,7 +166,7 @@ const [id,setId]=useState(1)
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={handleOpenModal(2)}
+                onClick={()=>handleOpenModal(2)}
               >
                 <div className="bg-img">
                   <Image
@@ -186,7 +189,7 @@ const [id,setId]=useState(1)
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={handleOpenModal(3)}
+                onClick={() =>handleOpenModal(3)}
               >
                 <div className="bg-img">
                   <Image
@@ -209,7 +212,7 @@ const [id,setId]=useState(1)
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={handleOpenModal(4)}
+                onClick={()=>handleOpenModal(4)}
               >
                 <div className="bg-img">
                   <Image
@@ -232,7 +235,7 @@ const [id,setId]=useState(1)
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={handleOpenModal(5)}
+                onClick={()=>handleOpenModal(5)}
               >
                 <div className="bg-img">
                   <Image
@@ -255,7 +258,7 @@ const [id,setId]=useState(1)
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={handleOpenModal(6)}
+                onClick={()=>handleOpenModal(6)}
               >
                 <div className="bg-img">
                   <Image
@@ -291,7 +294,7 @@ const [id,setId]=useState(1)
           alignItems: 'center'
         }}>
           <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"><Icon.X size={25} /></button>
-          <VideoFeed videos={videos} products={products} />
+          <VideoFeed videos={videos} products={data} />
         </div>
       )}
       </div>

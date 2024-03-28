@@ -73,10 +73,6 @@ const Login = () => {
       </div>
     </>
   );
-} else {
-  return null;
-}
-
 };
 
 export default Login;

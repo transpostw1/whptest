@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React ,{useState, useEffect}from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,14 +8,92 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
+import VideoFeed from "@/components/Video/VideoFeed";
+import { useProductContext } from "@/context/ProductContext";
+
+
 // import Fade from 'react-reveal'
 
-const SpecialOccasion = () => {
-  const router = useRouter();
+const Whptv = () => {
 
-  const handleTypeClick = (type: string) => {
-    router.push(`/shop/breadcrumb1?type=${type}`);
+  const [showModal, setShowModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
+  const { products, fetchData } = useProductContext();
+  const [playList,setPlayList]=useState([
+    { sequence: 1, src: '/images/reels/1.mp4' },
+    { sequence: 2, src: '/images/reels/2.mp4' },
+    { sequence: 3, src: '/images/reels/3.mp4' },
+    { sequence: 4, src: '/images/reels/4.mp4' },
+    // more videos...
+  ])
+const [videos,setVideos]=useState([])
+const [id,setId]=useState(1)
+
+
+  // const router = useRouter();
+
+  // const handleTypeClick = (type: string) => {
+  //   router.push(`/shop/breadcrumb1?type=${type}`);
+  // };
+
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleChange = (e) => {
+      setIsMobile(e.matches);
+    };
+
+    // Check immediately and add listener
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange); // For compatibility with older browsers
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showModal]);
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  useEffect(()=>{
+      for(const i of playList){
+        if(i.sequence===id){
+          i.sequence=0;
+        }
+      }
+      let sortPlayList=[...playList]
+       sortPlayList=playList.sort((a,b)=>(a.sequence-b.sequence));
+      setVideos(sortPlayList);
+    
+  },[showModal, playList, id])
+  // Define the missing functions to handle modal open and close
+  
+  const handleOpenModal = (id) => {
+    setShowModal(true);
+    setId(id);
   };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // Conditionally render based on isMobile
+  if (!isMobile) {
+    return null; // Do not render anything if not on mobile
+  }
 
   return (
     <>
@@ -24,15 +102,12 @@ const SpecialOccasion = () => {
         {/* <Fade bottom> */}
         {/* <div className="heading3 text-center">Special Occasion</div> */}
         <div className="flex flex-col justify-between text-red-950 gap-8 px-8">
-          <h1 className="text-5xl">
-            Something special for <br /> Every Occasion
-          </h1>
-          <p className="font-medium text-gray-700">
-            Crafted to add a touch of elegance and charm to every occasion. From
-            celebrations to <br />
-            cherished milestones, find the perfect piece that speaks to your
-            unique style and sentiments.
-          </p>
+        <h1 className="text-5xl">
+          Shop with <br /> WHP TV
+        </h1>
+        <p className="font-medium text-gray-700">
+          Elevate your day with our exquisite jewelry, perfect for any occasion. Find the piece that speaks to your style and story.
+        </p>
         </div>
         {/* </Fade> */}
         {/* </div> */}
@@ -60,14 +135,14 @@ const SpecialOccasion = () => {
             className="h-full"
           >
             <SwiperSlide>
-              <Link href="/videoSlider">
+              
                 <div
                   className="collection-item block relative overflow-hidden cursor-pointer"
-                  onClick={() => handleTypeClick("")}
+                  onClick={handleOpenModal(1)}
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/Occassion1.png"}
+                      src={"/images/reels/1.jpg"}
                       width={1000}
                       height={600}
                       alt=""
@@ -82,16 +157,16 @@ const SpecialOccasion = () => {
                     </span>
                   </div>
                 </div>
-              </Link>
+              
             </SwiperSlide>
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={() => handleTypeClick("top")}
+                onClick={handleOpenModal(2)}
               >
                 <div className="bg-img">
                   <Image
-                    src={"/images/other/Occassion2.png"}
+                    src={"/images/reels/2.jpg"}
                     width={1000}
                     height={600}
                     alt=""
@@ -110,11 +185,11 @@ const SpecialOccasion = () => {
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={() => handleTypeClick("sets")}
+                onClick={handleOpenModal(3)}
               >
                 <div className="bg-img">
                   <Image
-                    src={"/images/other/Occassion3.png"}
+                    src={"/images/reels/3.jpg"}
                     width={1000}
                     height={600}
                     alt=""
@@ -133,11 +208,11 @@ const SpecialOccasion = () => {
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={() => handleTypeClick("outerwear")}
+                onClick={handleOpenModal(4)}
               >
                 <div className="bg-img">
                   <Image
-                    src={"/images/other/Occassion4.png"}
+                    src={"/images/reels/4.jpg"}
                     width={1000}
                     height={600}
                     alt=""
@@ -156,11 +231,11 @@ const SpecialOccasion = () => {
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={() => handleTypeClick("underwear")}
+                onClick={handleOpenModal(5)}
               >
                 <div className="bg-img">
                   <Image
-                    src={"/images/other/Occassion2.png"}
+                    src={"/images/reels/5.jpg"}
                     width={1000}
                     height={600}
                     alt=""
@@ -179,11 +254,11 @@ const SpecialOccasion = () => {
             <SwiperSlide>
               <div
                 className="collection-item block relative overflow-hidden cursor-pointer"
-                onClick={() => handleTypeClick("t-shirt")}
+                onClick={handleOpenModal(6)}
               >
                 <div className="bg-img">
                   <Image
-                    src={"/images/other/Occassion3.png"}
+                    src={"/images/reels/6.jpg"}
                     width={1000}
                     height={600}
                     alt="gift"
@@ -201,9 +276,26 @@ const SpecialOccasion = () => {
             </SwiperSlide>
           </Swiper>
         </div>
+        {showModal && (
+        <div className="modal" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          zIndex: 1000,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <button onClick={handleCloseModal} className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"><Icon.X size={25} /></button>
+          <VideoFeed videos={videos} products={products} />
+        </div>
+      )}
       </div>
     </>
   );
 };
 
-export default SpecialOccasion;
+export default Whptv;

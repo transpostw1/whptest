@@ -11,6 +11,7 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { useModalSearchContext } from "@/context/ModalSearchContext";
 import { CategoryType } from "@/type/CategoryType";
 import axios from "@/utils/axios";
+import { baseUrl } from "@/utils/constants";
 
 interface Props {
   props: string;
@@ -50,7 +51,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   async function getData() {
-    const res = await fetch("http://164.92.120.19/api/getAllParentCategories");
+    const res = await fetch(`${baseUrl}/getAllParentCategories`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

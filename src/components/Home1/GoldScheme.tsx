@@ -11,7 +11,7 @@ const GoldScheme = () => {
           <div className="px-2">
             <h2 className="font-semibold">GOLD SCHEME</h2>
             <h1 className="py-4 lg:text-6xl md:text-4xl text-2xl">
-              It's time to invest <br /> in a Golden Future
+              It is time to invest <br /> in a Golden Future
             </h1>
             <p className="text-gray-400">
               Invest in timeless wealth with our Gold Scheme, catering to a wide

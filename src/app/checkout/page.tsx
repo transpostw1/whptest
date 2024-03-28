@@ -1,12 +1,7 @@
 "use client";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import NavTwo from "@/components/Header/TopNav/NavTwo";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
+;
 import { useMediaQuery } from "react-responsive";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import Footer from "@/components/Footer/Footer";
-import { ProductType } from "@/type/ProductType";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { PhoneInput, ParsedCountry } from "react-international-phone";
 import axios from "axios";
@@ -30,11 +25,9 @@ import {
   CreditCard,
 } from "@phosphor-icons/react";
 
-interface ProductProps {
-  data: ProductType;
-}
 
-const Checkout: React.FC<ProductProps> = ({ data }) => {
+
+const Checkout = () => {
 
   const { cartItems, updateCart,setCartItems,removeFromCart} = useCart();
 
@@ -73,7 +66,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   const openModal = () => {
     setModalOpen(true);
   };
-  const closeModal = () => {
+  const closeModal= () => {
     setModalOpen(false);
   };
 
@@ -108,9 +101,9 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
   let cartDiscount = 0;
 
 
-  const handlePayment = (item: string) => {
-    setActivePayment(item);
-  };
+  // const handlePayment = (item: string) => {
+  //   setActivePayment(item);
+  // };
 
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);
@@ -176,7 +169,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
         return "Proceed";
     }
   };
-  const AddAddressModal: React.FC = ({ closeModal }) => {
+  const AddAddressModal: React.FC = ({ closeModal }:any) => {
     // const validationSchema = Yup.object().shape({
     //   pincode: Yup.string().required("Pincode is required"),
     //   full_address: Yup.string().required(
@@ -190,7 +183,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
     //   address_type: Yup.string().required("Please select the address type"),
     // });
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async (values:any) => {
       try {
          const cookieTokenn = Cookies.get("localtoken");
       const response = await axios.post<{ data: any }>(
@@ -410,7 +403,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                 cartItems?.map((product) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
-                    key={product?.product_id}
+                    key={product?.productId}
                   >
                     <Image
                       src={product?.image}
@@ -429,7 +422,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.product_id,product?.quantity)}
+                            onClick={() => removeFromCart(product?.productId,product?.quantity)}
                           >
                             Remove
                           </div>
@@ -448,7 +441,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                           onClick={() => {
                             if (product.quantity > 1) {
                               handleQuantityChange(
-                                product.product_id,
+                                product.productId,
                                 product.quantity - 1
                               );
                             }
@@ -463,7 +456,7 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                         <Icon.Plus
                           onClick={() =>
                             handleQuantityChange(
-                              product.product_id,
+                              product.productId,
                               product.quantity + 1
                             )
                           }
@@ -709,13 +702,13 @@ const Checkout: React.FC<ProductProps> = ({ data }) => {
                       cartItems?.map((product) => (
                         <div
                           className="border border-gray-200 flex w-full  items-center mb-2 "
-                          key={cartItems.productId}
+                          key={cartItems.product_id}
                         >
                           <Image
                             src={product.image}
                             width={100}
                             height={200}
-                            alt={product.Title}
+                            alt={product.name}
                             className="rounded-lg object-cover"
                           />
                           {/* <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3"> */}

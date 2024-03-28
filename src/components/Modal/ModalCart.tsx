@@ -87,16 +87,23 @@ const ModalCart = ({
                   key={product.productId}
                   className="item py-5 flex items-center justify-between gap-3 border-b border-line"
                 >
-                  <div className="infor flex items-center gap-5">
+                  <div className="flex items-center gap-5">
                     <div className="bg-img">
-                      <Image
-                        key={"one"}
-                        src={product?.imageDetails[0]?.image_path}
-                        width={300}
-                        height={300}
-                        alt={product?.title}
-                        className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
-                      />
+                      {product?.imageDetails.map((detail, index) => {
+                        if (detail.order === '0') {
+                          return (
+                            <Image
+                              key={index} // Use a more unique key if possible
+                              src={detail.image_path}
+                              width={300}
+                              height={300}
+                              alt={product?.title}
+                              className="w-[100px] aspect-square flex-shrink-0 rounded-lg"
+                            />
+                          );
+                        }
+                        return null; // Skip rendering if order is not '0'
+                      })}
                     </div>
                     <div className="">
                       <div className="name text-button">

@@ -17,7 +17,6 @@ import { useWishlist } from '@/context/WishlistContext'
 import { useModalWishlistContext } from '@/context/ModalWishlistContext'
 
 import { useRouter } from 'next/navigation';
-// import ModalSizeguide from '@/components/Modal/ModalSizeguide'
 
 SwiperCore.use([Navigation, Thumbs]);
 
@@ -317,7 +316,6 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                                                 >
                                                     Size Guide
                                                 </div>
-                                                {/* <ModalSizeguide data={productMain} isOpen={openSizeGuide} onClose={handleCloseSizeGuide} /> */}
                                             </div>
                                             <div className="list-size flex items-center gap-2 flex-wrap mt-3">
                                                 {productMain.sizes.map((item, index) => (

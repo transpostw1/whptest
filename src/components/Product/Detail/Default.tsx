@@ -4,14 +4,10 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Scrollbar } from "swiper/modules";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import SwiperCore from "swiper/core";
-import { useCart } from "@/context/CartContext";
+
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
@@ -20,12 +16,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
-import { usePathname, useRouter } from "next/navigation";
 import Accordian from "./Accordian";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
 import Buttons from "./Buttons";
-import Loader from "@/components/Other/Loader";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 interface Props {
@@ -35,13 +29,12 @@ interface Props {
 const Default: React.FC<Props> = ({ productId }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
-  const [showAccordian, setShowAccordian] = useState<number>(1);
   const [metal, setMetal] = useState<string>("Gold");
   const [karat, setKarat] = useState<string>("22k");
   const [size, setSize] = useState<string>("3.0");
-  const [data, setData] = useState<ProductType>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
+  
   const settingsMain = {
     dots: false,
     infinite: true,
@@ -64,7 +57,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   };
 
   async function getData() {
-    const res = await fetch(`https://whpapi.transpost.co/api/products/${productId}`);
+    const res = await fetch(`http://164.92.120.19/api/products/${productId}`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");
@@ -83,7 +76,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, [productId]);
 
-  const product: ProductType = data[0];
+  const product = data[0];
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat((data && product?.discountPrice) ?? 0))

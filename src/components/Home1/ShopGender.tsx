@@ -25,9 +25,9 @@ const ShopGender = () => {
 
   return (
     <>
-      <div className="w-full px-7 mt-24 text-rose-950 mb-9">
+      <div className="w-full px-7 mt-20 font-[500] text-[#39161C] mb-9">
         <div className="flex items-center justify-between">
-          <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY GENDER</h1>
+          <h1 className="lg:text-3xl text-2xl mt-3">SHOP BY GENDER</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 mt-3 ">
           {categories.map((category) => (

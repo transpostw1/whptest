@@ -12,6 +12,7 @@ import FilterOptions from "./FilterOptions";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
+import { baseUrl } from "@/utils/constants";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean|null>(false);
@@ -46,7 +47,7 @@ const ShopBreadCrumb1 = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://164.92.120.19/api/getall-products"
+          `${baseUrl}/getall-products`
         );
         setData(response.data);
         setFilteredData(response.data);

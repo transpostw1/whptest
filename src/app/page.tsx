@@ -11,6 +11,7 @@ import Gifts from "@/components/Home1/Gifts";
 import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
+import WhpTv from "@/components/Home1/WhpTv";
 import WhpApp from "@/components/Home1/WhpApp";
 import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
@@ -28,6 +29,7 @@ export default function Home() {
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={products} start={0} limit={6} />
+      <WhpTv/>
       <Category />
       <GetFastDeliveryProducts data={products} start={7} limit={14}/>
       <WhatWeOffer/>

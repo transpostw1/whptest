@@ -12,8 +12,11 @@ const nextConfig = {
             {
                 protocol:"https",
                 hostname:"wamanharipethe.s3.amazonaws.com",
+            },{
+                protocol:"https",
+                hostname:"wamanharipethe.s3.amazonaws.com/menu_images",
             }
-        ]
+        ],
     },
 }
 

@@ -18,7 +18,7 @@ interface UserContextProps {
 }
 
 const initialState: UserState = {
-  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+  isLoggedIn: typeof window !== 'undefined' && localStorage.getItem("isLoggedIn") === "true",
 };
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -26,16 +26,19 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const userReducer = (state: UserState, action: UserAction): UserState => {
   const userDetails = auth.currentUser;
   const user = userDetails?.uid;
-  
 
   switch (action.type) {
     case "LOG_IN":
-      localStorage.setItem("isLoggedIn", "true");
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("isLoggedIn", "true");
+      }
       return {
         isLoggedIn: true,
       };
     case "LOG_OUT":
-      localStorage.setItem("isLoggedIn", "false");
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("isLoggedIn", "false");
+      }
       return {
         isLoggedIn: false,
       };
@@ -48,7 +51,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
-
 
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
@@ -72,6 +74,3 @@ export const useUser = () => {
   }
   return context;
 };
-
-
-

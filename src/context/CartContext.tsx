@@ -32,7 +32,6 @@ interface CartItem {
 }
 
 interface CartContextProps {
-  cartState:CartItem;
   cartItems: CartItem[];
   addToCart: (item: ProductType) => void;
   removeFromCart: (productId: string) => void;

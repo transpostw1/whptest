@@ -5,17 +5,14 @@ import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import OtpVerification from "../OtpVerification";
-import * as Yup from 'yup';
-
-
+import * as Yup from "yup";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-    const validationSchema = Yup.object({
-      phoneNumber: Yup.string()
-        .required("Phone number is required")
-        // .matches(/^\+[1-9]\d{1,14}$/, "Invalid phone number"),
-    });
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string().required("Phone number is required"),
+    // .matches(/^\+[1-9]\d{1,14}$/, "Invalid phone number"),
+  });
   const formik = useFormik({
     initialValues: {
       phoneNumber: "",
@@ -23,12 +20,10 @@ const Login = () => {
     validationSchema: validationSchema, // Pass the validation schema
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
-        
         setSubmitting(false);
       }, 400);
     },
   });
-
 
   return (
     <>
@@ -65,6 +60,10 @@ const Login = () => {
                     phoneNumber={phoneNumber}
                     formikValues={formik.values}
                     errorMessage={formik.errors.phoneNumber}
+                    onSubmit={function (): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                    isRegisterPage={false}
                   />
                 </div>
               </form>

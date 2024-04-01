@@ -143,6 +143,9 @@ const ShopBreadCrumb1 = () => {
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
+                breakLabel="..."
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={3 }
                 pageCount={pageCount}
                 onPageChange={changePage}
                 containerClassName={"pagination"}

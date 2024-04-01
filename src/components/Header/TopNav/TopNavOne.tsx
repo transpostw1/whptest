@@ -7,7 +7,6 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 
 interface Props {
-  props: string;
   textColor: string;
 }
 

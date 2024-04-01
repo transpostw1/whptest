@@ -26,9 +26,8 @@ import {
 } from "@phosphor-icons/react";
 
 
-
 const Checkout = () => {
-
+  
   const { cartItems, updateCart,setCartItems,removeFromCart} = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);

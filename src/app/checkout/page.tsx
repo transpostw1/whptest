@@ -502,7 +502,6 @@ let cartDiscount = 0;
 
   const OTPField: React.FC = () => {
     const [otp, setOTP] = useState("");
-
     return (
       <div className="">
         <input
@@ -516,6 +515,8 @@ let cartDiscount = 0;
     );
   };
 
+
+  
   const steps = [
     {
       icon: <ShoppingCart className="text-gray-300 text-2xl rounded-full" />,

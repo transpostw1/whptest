@@ -24,13 +24,6 @@ const ModalCart = ({
   const { products, fetchData } = useProductContext();
   console.log(products, "yesss i keep rendering ");
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeLeft(countdownTime());
-  //   }, 1000);
-
-  //   return () => clearInterval(timer);
-  // }, []);
 
   useEffect(() => {
     if (!dataFetched) {

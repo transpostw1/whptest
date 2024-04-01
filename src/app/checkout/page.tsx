@@ -1,11 +1,6 @@
 "use client";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import NavTwo from "@/components/Header/TopNav/NavTwo";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-import { useMediaQuery } from "react-responsive";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Footer from "@/components/Footer/Footer";
 import { ProductType } from "@/type/ProductType";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { PhoneInput, ParsedCountry } from "react-international-phone";

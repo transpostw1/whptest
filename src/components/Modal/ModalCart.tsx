@@ -21,9 +21,6 @@ const ModalCart = ({
   const [dataFetched, setDataFetched] = useState(false);
 
   const { products, fetchData } = useProductContext();
-  console.log(products, "yesss i keep rendering ");
-
-
 
 
   useEffect(() => {

@@ -170,6 +170,8 @@ const Checkout = () => {
     }
   };
   const AddAddressModal: React.FC = ({ closeModal }:any) => {
+
+
     // const validationSchema = Yup.object().shape({
     //   pincode: Yup.string().required("Pincode is required"),
     //   full_address: Yup.string().required(
@@ -183,6 +185,8 @@ const Checkout = () => {
     //   address_type: Yup.string().required("Please select the address type"),
     // });
 
+
+    
     const handleSubmit = async (values:any) => {
       try {
          const cookieTokenn = Cookies.get("localtoken");

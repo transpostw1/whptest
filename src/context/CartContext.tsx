@@ -21,14 +21,14 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  productId: string;
-  product_id: string;
+  // productId: string|number;
+  product_id: string|number;
   quantity: number;
-  name: string;
-  metalType: string;
-  metalPurity: string;
-  price: any;
-  image: any;
+  // name: string;
+  // metalType: string;
+  // metalPurity: string;
+  // price: any;
+  // image: any;
 }
 
 interface CartContextProps {
@@ -121,7 +121,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isLoggedIn, cartUpdated]);
 
   const addToCart = async (item: ProductType) => {
-    const newItem: CartItem = { productId: item.productId, quantity: 1 };
+    const newItem: CartItem = { product_id: item.productId, quantity: 1 };
     const cart = [...cartItems, newItem];
     setCartItems(cart);
     if (!isLoggedIn) {

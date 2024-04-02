@@ -13,6 +13,7 @@ import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { baseUrl } from "@/utils/constants";
+import WhpApp from "../Home1/WhpApp";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean|null>(false);
@@ -127,7 +128,7 @@ const ShopBreadCrumb1 = () => {
             {isLoading === true ? (
                 <ProductSkeleton />
               ) : (
-                <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
+                <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
                   {filteredData
                     .slice(pagesVisited, pagesVisited + productsPerPage)
                     .map((item: any) => (
@@ -139,7 +140,7 @@ const ShopBreadCrumb1 = () => {
         </div>
         <div className="flex justify-center">
           {pageCount > 1 && (
-            <div className="list-pagination flex items-center md:mt-10 mt-7">
+            <div className="list-pagination flex items-center md:mt-10 mt-7 mb-4">
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
@@ -154,9 +155,10 @@ const ShopBreadCrumb1 = () => {
             </div>
           )}
         </div>
+        <WhpApp/>
       </div>
 
-      <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden block h-[52px]">
+      <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden block h-[52px] ">
         <div className="flex justify-center align-middle mt-4 text-white">
           <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
             SortBy

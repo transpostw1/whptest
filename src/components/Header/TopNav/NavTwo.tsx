@@ -114,7 +114,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   className=" object-cover"
                 />
               </Link>
-              <div className="max-md:hidden">
+              <div className="md:hidden lg:block max-sm:hidden">
               <Link href={"/"}>
                 <Image
                   src={"/images/whpnameLogo.png"}
@@ -125,7 +125,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </Link></div>
             </div>
-            <div className="flex sm:block lg:hidden justify-between">
+            <div className="flex sm:block lg:hidden md:hidden justify-between">
               <div><Image src={"/images/icons/blog.svg"} alt={"contactIcon"} width={25} height={25} /></div>
               <div className="ml-4"><Image src={"/images/icons/contact.svg"} alt={"contactIcon"} width={25} height={25} /></div>
               <div className="ml-4 text-black"><Icon.MapPin size={25}/></div>

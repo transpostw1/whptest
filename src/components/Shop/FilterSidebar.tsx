@@ -2,22 +2,30 @@
 import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions"; // Replace with your hook path
+import { ProductType } from "@/type/ProductType";
 
-const FilterSidebar = ({ data, onFilterChange, mobileFilter, setMobileFilter }) => {
-  const [selectedOptions, setSelectedOptions] = useState({});
+interface Props{
+  data:ProductType[];
+  onFilterChange:string;
+  mobileFilter:string;
+  setMobileFilter:string;
+
+}
+const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setMobileFilter }) => {
+  const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [filterDropDown, setFilterDropDown] = useState<string>("Price");
 
-  const handleFilterDropdown = (item) => {
+  const handleFilterDropdown = (item:string) => {
     setFilterDropDown(item);
   };
 
-  const handleOptionSelect = (option, category) => {
-    setSelectedOptions((prevSelectedOptions) => {
+  const handleOptionSelect = (option:string, category:string) => {
+    setSelectedOptions((prevSelectedOptions:any) => {
       const updatedOptions = { ...prevSelectedOptions };
       if (updatedOptions[category]) {
         if (updatedOptions[category].includes(option)) {
           updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption) => selectedOption !== option
+            (selectedOption:any) => selectedOption !== option
           );
         } else {
           updatedOptions[category].push(option);
@@ -37,8 +45,8 @@ const FilterSidebar = ({ data, onFilterChange, mobileFilter, setMobileFilter }) 
         filteredArray = filteredArray.filter((product) => {
           switch (category) {
             case "Price":
-              return selectedValues.some((option) => {
-                const price = parseInt(product.discountPrice.toString());
+              return selectedValues.some((option:string) => {
+                const price = parseInt(product?.discountPrice);
                 switch (option) {
                   case "Less than 10K":
                     return price < 10000;
@@ -53,7 +61,7 @@ const FilterSidebar = ({ data, onFilterChange, mobileFilter, setMobileFilter }) 
                 }
               });
             case "Karat":
-              return selectedValues.some((option) =>
+              return selectedValues.some((option:string) =>
                 product.metalPurity.includes(option.slice(0, -1))
               );
             case "Weight":

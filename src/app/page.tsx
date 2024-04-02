@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect } from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper"
 import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
@@ -17,13 +18,14 @@ import WhpApp from "@/components/Home1/WhpApp";
 import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
-import StickyNav from "@/components/Home1/StickyNav";
+import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
   const { products, fetchData } = useProductContext();
 
   return (
     <>
+      <MobileMainCategorySwiper/>
       <MainCarousel />
       <Explore />
       {/* <Collection /> */}

@@ -6,12 +6,10 @@ interface Props {
 }
 
 const SortOptions = [
-  "Latest",
-  "Discount",
-  "Featured",
-  "Price Low To High",
-  "Price High To Low",
-  "Customer Rating",
+  "All",
+  "Newest First",
+  "Price-Low To High",
+  "Price-High To Low",
 ];
 const SortBy: React.FC<Props> = (props) => {
   const handleOnClose = (e: any) => {
@@ -23,7 +21,7 @@ const SortBy: React.FC<Props> = (props) => {
   if (!props.visible) return null;
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-25 z-50"
+      className="fixed inset-0 bg-black bg-opacity-25 z-50 bottom-0"
       id="container"
       onClick={handleOnClose}
     >

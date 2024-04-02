@@ -64,7 +64,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   useEffect(() => {
     getAllCategories();
   }, []);
-  
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     const handleChange = (e: any) => {
@@ -81,280 +81,201 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
 
   if (isMobile) {
     return null;
-  } else {
-    return (
-      <>
-        <div
-          className={`header-menu-navHoverMenu style-one sm:hidden lg:block ${
-            fixedHeader ? " fixed" : "relative"
-          } w-full md:h-[60px] h-[40px] ${props}`}
-        >
-          <div className="container mx-auto h-full">
-            <div className="header-main flex items-center justify-between h-full">
-              <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-                <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
-                  <li className="h-full relative">
-                    <Link
-                      href=""
-                      className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
-                        pathname.includes("/shop/breadcrumb1") ? "active" : ""
-                      }`}
-                    >
-                      All Jewellery
-                      <Image
-                        className="cursor-pointer"
-                        src={"/images/icons/arrow.svg"}
-                        alt="Arrow"
-                        width={20}
-                        height={20}
-                      />
-                    </Link>
-                    <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
-                      <ul className="">
-                        <p className="font-bold text-black">
-                          Explore Categories
-                        </p>
+  }
+  return (
+    <>
+      <div
+        className={`header-menu-navHoverMenu style-one ${
+          fixedHeader ? " fixed" : "relative"
+        } w-full md:h-[60px] h-[40px] ${props}`}
+      >
+        <div className="container mx-auto h-full">
+          <div className="header-main flex items-center justify-between h-full">
+            <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
+              <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
+                <li className="h-full relative">
+                  <Link
+                    href=""
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
+                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                    }`}
+                  >
+                    All Jewellery
+                    <Image
+                      className="cursor-pointer"
+                      src={"/images/icons/arrow.svg"}
+                      alt="Arrow"
+                      width={20}
+                      height={20}
+                    />
+                  </Link>
+                  <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
+                    <ul className="">
+                      <p className="font-bold text-black">Explore Categories</p>
 
-                        {data &&
-                          data.map((item, index) => (
-                            <React.Fragment key={item.id}>
-                              <li className="leading-[0px]">
-                                <Link
-                                  href={{
-                                    pathname: "/shop/breadcrumb1",
-                                    query: { url: item.url },
-                                  }}
-                                  className=" text-secondary duration-300"
-                                >
-                                  <div className="flex">
-                                    <Image
-                                      src={item.menuImg}
-                                      alt={item.name}
-                                      height={25}
-                                      width={25}
-                                      className="mr-1"
-                                    />
-                                    <p>{item.name}</p>
-                                  </div>
-                                </Link>
-                              </li>
-                            </React.Fragment>
-                          ))}
-                      </ul>
-                      <ul>
-                        <li className="font-bold text-black">Shop For</li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Men</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Women</Link>
-                        </li>
-                      </ul>
-
-                      <ul>
-                        <li>
-                          <p className="font-bold text-black">Shop by type</p>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Gold</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Rose Gold</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>White Gold</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Diamond</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>Gemstones</Link>
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <p className="font-bold text-black">Shop By Price</p>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>less than 10k</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>10k to 20k</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>20k to 30k</Link>
-                        </li>
-                        <li className="text-secondary duration-300 cursor-pointer">
-                          <Link href={"/shop/breacrumb1"}>30k and Above</Link>
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <p className="font-bold text-black">Shop By Karat</p>
-                        </li>
-                        <li>
-                          <Link href={"/shop/breadcrumb1"}>14kt</Link>
-                        </li>
-                        <li>
-                          <Link href={"/shop/breadcrumb1"}>18kt</Link>
-                        </li>
-                        <li>
-                          <Link href={"/shop/breadcrumb1"}>22kt</Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      New Arrivals
-                    </Link>
-                  </li>
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Earrings
-                    </Link>
-                  </li>
-
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Pendants
-                    </Link>
-                  </li>
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Bangles
-                    </Link>
-                  </li>
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Necklace
-                    </Link>
-                  </li>
-                  <li className="h-full relative">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Offers
-                    </Link>
-                    {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
-                    <ul className="w-full">
-                      <li>
-                        <Link
-                          href="/blog/default"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/default" ? "active" : ""
-                          }`}
-                        >
-                          Blog Default
-                        </Link>
+                      {data &&
+                        data.map((item, index) => (
+                          <React.Fragment key={item.id}>
+                            <li className="leading-[0px]">
+                              <Link
+                                href={{
+                                  pathname: "/shop/breadcrumb1",
+                                  query: { url: item.url },
+                                }}
+                                className=" text-secondary duration-300"
+                              >
+                                <div className="flex">
+                                  <Image
+                                    src={item.menuImg}
+                                    alt={item.name}
+                                    height={25}
+                                    width={25}
+                                    className="mr-1"
+                                  />
+                                  <p>{item.name}</p>
+                                </div>
+                              </Link>
+                            </li>
+                          </React.Fragment>
+                        ))}
+                    </ul>
+                    <ul>
+                      <li className="font-bold text-black">Shop For</li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Men</Link>
                       </li>
-                      <li>
-                        <Link
-                          href="/blog/list"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/list" ? "active" : ""
-                          }`}
-                        >
-                          Blog List
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/grid"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/grid" ? "active" : ""
-                          }`}
-                        >
-                          Blog Grid
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/detail1"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/detail1" ? "active" : ""
-                          }`}
-                        >
-                          Blog Detail 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/detail2"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/detail2" ? "active" : ""
-                          }`}
-                        >
-                          Blog Detail 2
-                        </Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Women</Link>
                       </li>
                     </ul>
-                  </div> */}
-                  </li>
-                  <li className="h-full relative">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Gifts
-                    </Link>
-                    {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
-                    <ul className="w-full">
+                    <ul>
                       <li>
-                        <Link href="/shop/breadcrumb1">About Us</Link>
+                        <p className="font-bold text-black">Shop by type</p>
                       </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Contact Us</Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Gold</Link>
                       </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Store List</Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Rose Gold</Link>
                       </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">404</Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>White Gold</Link>
                       </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">FAQs</Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Diamond</Link>
                       </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Coming Soon</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Customer Feedbacks</Link>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>Gemstones</Link>
                       </li>
                     </ul>
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop By Price</p>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>less than 10k</Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>10k to 20k</Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>20k to 30k</Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link href={"/shop/breacrumb1"}>30k and Above</Link>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="font-bold text-black">Shop By Karat</p>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                      </li>
+                      <li>
+                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    New Arrivals
+                  </Link>
+                </li>
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Earrings
+                  </Link>
+                </li>
+
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Pendants
+                  </Link>
+                </li>
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Bangles
+                  </Link>
+                </li>
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Necklace
+                  </Link>
+                </li>
+                <li className="h-full relative">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Offers
+                  </Link>
+                  {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
                   </div> */}
-                  </li>
-                  <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Gold Services
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+                </li>
+                <li className="h-full relative">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Gifts
+                  </Link>
+                  {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
+                  </div> */}
+                </li>
+                <li className="h-full">
+                  <Link
+                    href="#!"
+                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                  >
+                    Gold Services
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 };
 export default NavHoverMenu;

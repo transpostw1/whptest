@@ -3,6 +3,7 @@ import React from "react";
 interface Props {
   visible: boolean;
   onClose: VoidFunction;
+  onSortOptionChange:(option:string)=>void;
 }
 
 const SortOptions = [
@@ -17,6 +18,9 @@ const SortBy: React.FC<Props> = (props) => {
       props.onClose();
     }
   };
+  const updateSortOption=(option:string)=>{
+    props.onSortOptionChange(option);
+  }
   
   if (!props.visible) return null;
   return (
@@ -31,7 +35,7 @@ const SortBy: React.FC<Props> = (props) => {
         </p>
         <div className="p-4">
           {SortOptions.map((option: any) => (
-            <div key={option} className="mt-4 text-lg hover:text-[#e26178]">{option}</div>
+            <div key={option} className="mt-4 text-lg hover:text-[#e26178]" onClick={()=>updateSortOption(option)}>{option}</div>
           ))}
         </div>
       </div>

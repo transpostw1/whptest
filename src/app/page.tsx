@@ -31,7 +31,7 @@ export default function Home() {
       {/* <Collection /> */}
       <ProductSlider data={products} start={0} limit={6} />
       <WhpTv products={products}/>
-      {/* <RoseGold/> */}
+      <RoseGold/>
       <Category />
       <GetFastDeliveryProducts data={products} start={7} limit={14}/>
       <WhatWeOffer/>

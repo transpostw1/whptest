@@ -1,36 +1,92 @@
-"use client"
-import React ,{useState,useEffect} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const WhpApp = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [width, setWidth] = useState<number>(300);
+  const [height, setHeight] = useState<number>(200);
+  const [bannerwidth, setBannerWidth] = useState<number>(300);
+  const [bannerheight, setBannerHeight] = useState<number>(200);
+
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const handleChange = (e: any) => {
-      setIsMobile(e.matches);
+    const handleResize = () => {
+      // Get the current viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth < 768) {
+        // Small screens
+        setWidth(145);
+        setHeight(43);
+        setBannerWidth(255);
+        setBannerHeight(298);
+      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
+        // Medium screens
+        setWidth(180);
+        setHeight(50);
+        setBannerWidth(300);
+        setBannerHeight(390);
+      } else {
+        // Large screens
+        setWidth(225);
+        setHeight(65);
+        setBannerWidth(397);
+        setBannerHeight(465);
+      }
     };
 
-    setIsMobile(mediaQuery.matches);
-    mediaQuery.addListener(handleChange);
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+    handleResize();
 
     return () => {
-      mediaQuery.removeListener(handleChange);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  if(isMobile){
-    return (<div>
-      <Image src="/dummy/mobileDownloadAppBanner.png" alt="mobile_App_Banner" width={375} height={532}/>
-    </div>)
-  }
   return (
     <>
-      <div>
-        <Image
-          src={"/dummy/WhpAppImage.png"}
-          alt="Download WHP App From Play Store or App Store"
-          width={1440}
-          height={520}
-        />
+      <div className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4">
+        <div className="lg:w-[50%] sm:w-[100%] md:w-[50%]">
+          {width < 180 ? (
+            <p className="text-center text-2xl font-semibold">
+              Download the WHP App
+            </p>
+          ) : (
+            <p className="lg:text-[3rem] md:text-[2rem] text-start font-semibold leading-10 lg:text-start md:text-center">
+              Download the Waman Hari Pethe App
+            </p>
+          )}
+          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start">
+            Now you can explore the timeless glamour of Waman Hari Pethe
+            whenever you want! Shining new app, made just for you! It's Free,
+            Easy & Smart.
+          </p>
+          <div className="flex max-sm:justify-center lg:justify-start  md:justify-start mt-5 mb-5">
+            <div className=" mr-4">
+              <Image
+                src={"/dummy/appStoreButton.png"}
+                alt={"the download app button"}
+                width={width}
+                height={height}
+              />
+            </div>
+            <div>
+              <Image
+                src={"/dummy/playStoreButton.png"}
+                alt={"the download app button"}
+                width={width}
+                height={height}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <Image
+            src={"/dummy/mobileAppBanner.png"}
+            alt="Download WHP App From Play Store or App Store"
+            width={bannerwidth}
+            height={bannerheight}
+          />
+        </div>
       </div>
     </>
   );

@@ -95,7 +95,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             onClick={() => handleDetailProduct(data?.productId)}
           >
             <div className="product-name text-title duration-300 text-xl">
-              <p>{data?.title}</p>
+              <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
             <div className="flex">

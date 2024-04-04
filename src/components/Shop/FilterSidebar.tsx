@@ -1,4 +1,4 @@
-// FilterSidebar.tsx
+
 import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions"; // Replace with your hook path
@@ -6,40 +6,21 @@ import { ProductType } from "@/type/ProductType";
 
 interface Props{
   data:ProductType[];
-  onFilterChange:string;
-  mobileFilter:string;
-  setMobileFilter:string;
-
+  onFilterChange:(arg:ProductType[])=>void;
+  mobileFilter:boolean;
+  setMobileFilter:(arg:boolean)=>void;
+  selectedOptions:any;
+  handleOptionSelect:(arg:string,arg2:string)=>void
 }
-const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setMobileFilter }) => {
-  const [selectedOptions, setSelectedOptions] = useState<any>({});
+const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setMobileFilter,selectedOptions,handleOptionSelect }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("Price");
 
   const handleFilterDropdown = (item:string) => {
     setFilterDropDown(item);
   };
 
-  const handleOptionSelect = (option:string, category:string) => {
-    setSelectedOptions((prevSelectedOptions:any) => {
-      const updatedOptions = { ...prevSelectedOptions };
-      if (updatedOptions[category]) {
-        if (updatedOptions[category].includes(option)) {
-          updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption:any) => selectedOption !== option
-          );
-        } else {
-          updatedOptions[category].push(option);
-        }
-      } else {
-        updatedOptions[category] = [option];
-      }
-      return updatedOptions;
-    });
-  };
-
   useEffect(() => {
     let filteredArray = data.slice();
-  
     Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
       if (selectedValues.length > 0) {
         filteredArray = filteredArray.filter((product) => {
@@ -76,13 +57,12 @@ const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setM
         });
       }
     });
-  
-    console.log("Filtered array:", filteredArray);
     onFilterChange(filteredArray);
   }, [selectedOptions, data]);
 
   return (
-    <div className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden`}>
+    <>
+    <div className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden md:block`}>
       <div className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto`}>
         <div className="heading6 border-b-2">FILTER BY</div>
         <div className="mt-5">
@@ -91,7 +71,7 @@ const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setM
 
         <div className="flex flex-wrap">
           {Object.entries(selectedOptions).flatMap(([category, options]) =>
-            options.map((option, index) => (
+            options.map((option:string, index:number) => (
               <div key={`${category}-${index}`} className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1">
                 {option}
                 <button
@@ -114,10 +94,10 @@ const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setM
           />
         </div>
       </div>
-
+      </div>
       {mobileFilter && (
         <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
-          <div className="mt-24 p-4">
+          <div className="mt-36 p-4">
             <Icon.X size={25} onClick={() => setMobileFilter(false)} />
             <div className="h-[650px] overflow-y-auto no-scrollbar">
               <div className="mt-5">
@@ -135,7 +115,7 @@ const FilterSidebar:React.FC<Props>= ({ data, onFilterChange, mobileFilter, setM
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

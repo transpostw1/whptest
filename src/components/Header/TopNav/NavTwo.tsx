@@ -14,6 +14,7 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
+import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
 
 interface Props {
@@ -159,12 +160,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div className="flex flex-col items-center">
+                      <Link href={"/offers"}>
                       <Image
                         src={"/images/icons/offer.svg"}
                         alt="Offer"
                         width={30}
                         height={30}
-                      />
+                      /></Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
                     <div className="flex flex-col items-center">
@@ -193,66 +195,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Contact</h4>
                     </div>
                     {contactPopUp ? (
-                      <div className="absolute top-[100px] w-[343px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
-                        <p className="text-xl font-semibold">
-                          Get in Touch with us
-                        </p>
-                        <p className="mt-3">
-                          Connect with us and we will assist you with all your
-                          needs
-                        </p>
-                        <p className="font-semibold mt-5">
-                          Contact us on :(10:30AM -7:30PM)
-                        </p>
-                        <div className="mt-1 flex">
-                          <span className="mr-2">
-                            <Image
-                              src="/images/icons/phone.png"
-                              alt="phone_image"
-                              width={22}
-                              height={22}
-                            />
-                          </span>
-                          <span>1800-222-225</span>
-                        </div>
-                        <div className="mt-1 flex">
-                          <span className="mr-2">
-                            <Image
-                              src="/images/icons/Email.png"
-                              alt="Email_image"
-                              width={22}
-                              height={22}
-                            />
-                          </span>
-                          <span>care@whpjewellers.in</span>
-                        </div>
-                        <div className="flex mt-4">
-                          <div className="mr-3">
-                            <Image
-                              src="/images/icons/faceBook.png"
-                              alt=""
-                              width={40}
-                              height={40}
-                            />
-                          </div>
-                          <div className="mr-3">
-                            <Image
-                              src="/images/icons/youtube.png"
-                              alt=""
-                              width={40}
-                              height={40}
-                            />
-                          </div>
-                          <div className="mr-3">
-                            <Image
-                              src="/images/icons/Instagram.png"
-                              alt=""
-                              width={40}
-                              height={40}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      <ContactInfo/>
                     ) : null}
                     <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>
                     <div className="user-icon flex items-center justify-center cursor-pointer">

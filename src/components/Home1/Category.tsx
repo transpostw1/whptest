@@ -150,7 +150,7 @@ const Category = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col relative items-start justify-between  "
+              className="flex flex-col relative items-start justify-between "
             >
               <Link href={category.href}>
               <div className="divvv u-hover--sparkle cursor-pointer "> {category.image}</div>

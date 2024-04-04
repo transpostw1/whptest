@@ -1,7 +1,10 @@
 // FilterOptions.jsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
+interface Filter{
+  title:string|any;
+  options:string[]
+}
 const Filter = [
   {
     title: "Price",
@@ -39,11 +42,18 @@ const Filter = [
   { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
   { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
+interface Props{
+  filterDropDown:string;
+  handleFilterDropdown:(arg:string)=>void;
+  handleOptionSelect:(option:string,category:string)=>void;
+  selectedOptions:string[]
+}
 
-const FilterOptions = ({ filterDropDown, handleFilterDropdown, handleOptionSelect }) => {
+const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, handleOptionSelect ,selectedOptions}) => {
+  
   return (
     <>
-      {Filter.map((item, index) => (
+      {Filter.map((item:Filter, index:number) => (
         <div key={index} className={`item cursor-pointer`} onClick={() => handleFilterDropdown(item.title)}>
           <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
             <p className="text-lg font-semibold">{item.title}</p>
@@ -54,9 +64,14 @@ const FilterOptions = ({ filterDropDown, handleFilterDropdown, handleOptionSelec
           </div>
           {filterDropDown === item.title ? (
             <div>
-              {item.options.map((option) => (
+              {item.options.map((option:string) => (
                 <div key={option}>
-                  <input type="checkbox" id={option} onChange={() => handleOptionSelect(option)} />
+                  <input
+                    type="checkbox"
+                    id={option}
+                    checked={selectedOptions[item.title]?.includes(option)}
+                    onChange={() => handleOptionSelect(option, item.title)}
+                  />
                   <label className="ml-2" htmlFor={option}>
                     {option}
                   </label>

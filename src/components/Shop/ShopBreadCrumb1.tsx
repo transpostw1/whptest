@@ -5,6 +5,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
 import ReactPaginate from "react-paginate";
+import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
@@ -33,17 +34,16 @@ const ShopBreadCrumb1 = () => {
   const changePage = ({ selected }: any) => {
     setPageNumber(selected);
   };
+
   const handleSortOptionChange = (option: string) => {
     setSelectedSortOption(option);
   };
 
-  const handleSelectedOptions = (options: any) => {
-    setSelectedOptions(options);
-  };
   const handleFilterChange = (filteredProducts: ProductType[]) => {
     setFilteredData(filteredProducts);
     setPageNumber(0);
   };
+
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const updatedOptions = { ...prevSelectedOptions };
@@ -100,8 +100,9 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   return (
-    <div className="shop-product breadcrumb1 sm:py-10 lg:py-0">
+    <div className="shop-product breadcrumb1">
       <div className="container">
+        <MobileMainCategorySwiper/>
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
           <FilterSidebar
             data={data}
@@ -126,7 +127,7 @@ const ShopBreadCrumb1 = () => {
                       options.map((option: string, index: number) => (
                         <div
                           key={`${category}-${index}`}
-                          className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1 w-[3rem]"
+                          className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
                         >
                           {option}
                           <button
@@ -187,7 +188,7 @@ const ShopBreadCrumb1 = () => {
                 nextLabel={">"}
                 breakLabel="..."
                 marginPagesDisplayed={2}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={2}
                 pageCount={pageCount}
                 onPageChange={changePage}
                 containerClassName={"pagination"}

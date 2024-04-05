@@ -12,7 +12,7 @@ const WhatWeOffer = () => {
                     <div className='w-full flex flex-col sm:w-[50%] p-4 sm:p-[4rem]'>
                         <div>
                             <p className='lg:text-[3rem] text-[2rem] font-semibold pb-5'>What we Offer</p>
-                            <p className='text-sm md:text-base w-[30rem]'>Discover our offerings. Our commitment to quality, elegance, and personalised service ensures an exceptional experience.</p>
+                            <p className='text-sm md:text-base w-[30rem] max-w-[100%]'>Discover our offerings. Our commitment to quality, elegance, and personalised service ensures an exceptional experience.</p>
                         </div>
                         <div className='mt-auto flex-end'>
                             <div className='flex justify-between'>

@@ -22,6 +22,7 @@ export default function Home() {
 
   return (
     <>
+    <div className="overflow-x-hidden">
       <MainCarousel />
       <Explore />
       {/* <Collection /> */}
@@ -38,7 +39,7 @@ export default function Home() {
       <SpecialOccasion />
       <Reviews />
       {/* <WhpApp /> */}
-
+      </div>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
+import StickyNav from "../Header/StickyNav";
 
 const dummyData = [
   {
@@ -94,6 +95,8 @@ const OfferBanners = [
 ];
 const Offers = () => {
   return (
+    <>
+    <StickyNav/>
     <div className="p-6">
       <div className="lg:w-[50%] md:w-[60%] ">
         <p className="text-2xl font-semibold">OFFERS</p>
@@ -135,7 +138,7 @@ const Offers = () => {
           </div>
         ))}
       </div>
-    </div>
+    </div></>
   );
 };
 

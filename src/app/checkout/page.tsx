@@ -24,6 +24,7 @@ import {
   Gift,
   CreditCard,
 } from "@phosphor-icons/react";
+import StickyNav from "@/components/Header/StickyNav";
 
 
 
@@ -610,6 +611,7 @@ const Checkout = () => {
         <NavHoverMenu props="bg-white" />
         <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
       </div> */}
+      <StickyNav/>
       <div className="cart-block flex-wrap">
         <div className="content-main flex flex-col justify-between px-14">
           <div className="flex w-full justify-between items-center">

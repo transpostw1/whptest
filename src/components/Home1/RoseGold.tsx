@@ -61,8 +61,8 @@ const RoseGold = () => {
             every look.
           </p>
         </div>
-        <div className="flex mt-7 max-sm:justify-center mb-5">
-          <div className="mr-2">
+        <div className="flex mt-7 max-sm:justify-center mb-5 ">
+          <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants1.png"}
               alt={"roseGoldVariants"}
@@ -70,7 +70,7 @@ const RoseGold = () => {
               height={40}
             />
           </div>
-          <div className="mr-2">
+          <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants2.png"}
               alt={"roseGoldVariants"}
@@ -78,7 +78,7 @@ const RoseGold = () => {
               height={40}
             />
           </div>
-          <div className="mr-2">
+          <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants3.png"}
               alt={"roseGoldVariants"}

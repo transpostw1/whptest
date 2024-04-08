@@ -27,19 +27,19 @@ const MainCarousel = () => {
             <SwiperSlide>
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">
-                  <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
+                  <div className="sub-img absolute left-0 top-0 w-full h-full">
                     <Image
-                      src={"/images/slider/SliderTwo.png"}
+                      src={"/dummy/swiperImage.jpg"}
                       width={2560}
                       height={1080}
                       alt="1920x820"
-                      className="w-full h-full object-fill"
+                      className="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                     />
                   </div>
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            {/* <SwiperSlide>
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">
                   <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
@@ -78,7 +78,7 @@ const MainCarousel = () => {
                   </div>
                 </div>
               </div>
-            </SwiperSlide>
+            </SwiperSlide> */}
           </Swiper>
         </div>
       </div>

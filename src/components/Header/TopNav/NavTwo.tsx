@@ -24,7 +24,7 @@ interface Props {
 const NavTwo: React.FC<Props> = ({ props }) => {
   const loginRef = useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
-  
+
   const [data, setData] = useState<CategoryType[] | null>(null);
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -40,7 +40,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
-  
+
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
@@ -116,22 +116,48 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </Link>
               <div className="md:hidden lg:block max-sm:hidden">
-              <Link href={"/"}>
-                <Image
-                  src={"/images/whpnameLogo.png"}
-                  width={170}
-                  height={80}
-                  alt="80x80"
-                  className=" object-cover"
-                />
-              </Link></div>
+                <Link href={"/"}>
+                  <Image
+                    src={"/images/whpnameLogo.png"}
+                    width={170}
+                    height={80}
+                    alt="80x80"
+                    className=" object-cover"
+                  />
+                </Link>
+              </div>
             </div>
             <div className="flex sm:block lg:hidden md:hidden justify-between">
-              <div><Image src={"/images/icons/blog.svg"} alt={"contactIcon"} width={25} height={25} /></div>
-              <div className="ml-4"><Image src={"/images/icons/contact.svg"} alt={"contactIcon"} width={25} height={25} /></div>
-              <div className="ml-4 text-black"><Icon.MapPin size={25}/></div>
-              <div className="ml-4 text-black"><Icon.Heart size={25}/></div>
-              <div className="ml-4" onClick={handleMenuMobile}><Image src={"/images/icons/hamBurgerIcon.png"} alt={"hamBurgerIcon"} width={25} height={25} /></div>
+              <div>
+                <Image
+                  src={"/images/icons/blog.svg"}
+                  alt={"contactIcon"}
+                  width={25}
+                  height={25}
+                />
+              </div>
+              <div className="ml-4">
+                <Image
+                  src={"/images/icons/contact.svg"}
+                  alt={"contactIcon"}
+                  width={25}
+                  height={25}
+                />
+              </div>
+              <div className="ml-4 text-black">
+                <Icon.MapPin size={25} />
+              </div>
+              <div className="ml-4 text-black">
+                <Icon.Heart size={25} />
+              </div>
+              <div className="ml-4" onClick={handleMenuMobile}>
+                <Image
+                  src={"/images/icons/hamBurgerIcon.png"}
+                  alt={"hamBurgerIcon"}
+                  width={25}
+                  height={25}
+                />
+              </div>
             </div>
             <div className="form-search w-72 relative max-lg:hidden">
               <button>
@@ -161,12 +187,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div className="flex flex-col items-center">
                       <Link href={"/offers"}>
-                      <Image
-                        src={"/images/icons/offer.svg"}
-                        alt="Offer"
-                        width={30}
-                        height={30}
-                      /></Link>
+                        <Image
+                          src={"/images/icons/offer.svg"}
+                          alt="Offer"
+                          width={30}
+                          height={30}
+                        />
+                      </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
                     <div className="flex flex-col items-center">
@@ -194,9 +221,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       />
                       <h4 className="text-sm">Contact</h4>
                     </div>
-                    {contactPopUp ? (
-                      <ContactInfo/>
-                    ) : null}
+                    {contactPopUp ? <ContactInfo /> : null}
                     <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
@@ -268,24 +293,26 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Wishlist</h4>
                     </div>
                   </div>
-                  <div
-                    className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                    onClick={openModalCart}
-                  >
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/cart.svg"}
-                        alt="Cart"
-                        width={30}
-                        height={30}
-                      />
-                      <h4 className="text-sm">Cart</h4>
-                    </div>
+                  <Link href={"/checkout"}>
+                    <div
+                      className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                      onClick={openModalCart}
+                    >
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src={"/images/icons/cart.svg"}
+                          alt="Cart"
+                          width={30}
+                          height={30}
+                        />
+                        <h4 className="text-sm">Cart</h4>
+                      </div>
 
-                    <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartLength}
-                    </span>
-                  </div>
+                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartLength}
+                      </span>
+                    </div>
+                  </Link>
                   <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
                   <div className="choose-currency flex items-center p-2 bg-[#e1dcdd] bg-opacity-[0.1] ">
                     <select
@@ -431,7 +458,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-xl font-semibold flex items-center mt-5">
                       All Jewellery
                       <span className="text-right">
-                        <Icon.CaretRight size={20} weight="fill"/>
+                        <Icon.CaretRight size={20} weight="fill" />
                       </span>
                     </p>
                     <div className="sub-nav-mobile h-full">
@@ -504,9 +531,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className={`text-xl font-semibold flex items-center  mt-5`}
                     >
                       Gold Services
-                      
-                        <Icon.CaretRight size={20} weight="fill"/>
-                      
+                      <Icon.CaretRight size={20} weight="fill" />
                     </p>
                   </li>
                 </ul>

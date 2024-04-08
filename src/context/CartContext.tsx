@@ -21,8 +21,7 @@ import { request } from "http";
 import { updateCookie } from "@/utils/Token";
 
 interface CartItem {
-  productId: string;
-  product_id: string;
+  productId: number | any;
   quantity: number;
   name: string;
   metalType: string;
@@ -32,11 +31,11 @@ interface CartItem {
 }
 
 interface CartContextProps {
-  cartState: CartItem;
+  cartState?: CartItem;
   cartItems: CartItem[];
   addToCart: (item: ProductType) => void;
-  removeFromCart: (productId: string) => void;
-  updateCart: (productId: string, quantity: number) => void;
+  removeFromCart: (productId: number, quantity: number) => void;
+  updateCart: (productId: number, quantity: number) => void;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
@@ -52,7 +51,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (!isLoggedIn) {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         const storedCartItems = localStorage.getItem("cartItems");
         if (storedCartItems) {
           setCartItems(JSON.parse(storedCartItems));
@@ -70,13 +69,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         try {
           const response = await instance.get(`${baseUrl}${getCartItems}`);
           const cartItemsData = response.data.cart_items.map((item: any) => ({
-            product_id: item.product_id,
+            productId: item.productId,
             quantity: item.quantity,
             name: item.product_details[0].displayTitle,
-            price: item.product_details[0].discountPrice,
+            price: parseInt(item.product_details[0].discountPrice),
             image: JSON.parse(item.product_details[0].imageDetails)[0]
               .image_path,
           }));
+
           setCartItems(cartItemsData);
         } catch (error) {
           console.error("Error fetching cart items:", error);
@@ -84,14 +84,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       };
       fetchCartItemsDetails();
     } else {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         const storedCartItems = localStorage.getItem("cartItems");
         if (storedCartItems) {
           const cartItemsFromStorage = JSON.parse(storedCartItems);
           const productIds = cartItemsFromStorage.map(
-            (item: any) => item.product_id
+            (item: any) => item.productId
           );
-          const updatedCartItems = [];
+          
+          const updatedCartItems: any = [];
           const fetchProductDetails = async () => {
             for (const productId of productIds) {
               try {
@@ -99,9 +100,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
                   `${baseUrl}${getProductbyId}${productId}`
                 );
                 const productDetails = response.data[0];
-
+                
                 const updatedCartItem = {
-                  product_id: productId,
+                  productId: productId,
                   quantity: 1,
                   name: productDetails.displayTitle,
                   price: productDetails.discountPrice,
@@ -121,11 +122,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isLoggedIn, cartUpdated]);
 
   const addToCart = async (item: ProductType) => {
-    const newItem: CartItem = { productId: item.productId, quantity: 1 };
+    const image=item.imageDetails.sort((a:any,b:any)=>parseInt(b.order)-parseInt(a.order))
+    const newItem: any = {
+      productId: item.productId,
+      quantity: 1,
+      image: image[1].image_path,
+      name: item.displayTitle,
+      price: item.discountPrice,
+    };
     const cart = [...cartItems, newItem];
     setCartItems(cart);
     if (!isLoggedIn) {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         localStorage.setItem("cartItems", JSON.stringify(cart));
       }
       setCartUpdated(!cartUpdated);
@@ -148,7 +156,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const removeFromCart = async (product_id: string, quantity: number) => {
+  const removeFromCart = async (productId: number, quantity: number) => {
     try {
       if (isLoggedIn) {
         const response = await axios.post<{ data: any }>(
@@ -156,7 +164,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           {
             cart: [
               {
-                product_id,
+                productId: productId,
                 quantity: 0,
               },
             ],
@@ -167,21 +175,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             },
           }
         );
-        console.log("Item removed from cart:", response.data, product_id);
 
         // Update local state and localStorage only if the API call is successful
         const updatedCartItems = cartItems.filter(
-          (item) => item.productId !== product_id
+          (item) => item.productId !== productId
         );
-        console.log(updatedCartItems);
         setCartItems(updatedCartItems);
       } else {
         // If not logged in, update only local state and localStorage
         const updatedCartItems = cartItems.filter(
-          (item) => item.productId !== product_id
+          (item) => item.productId !== productId
         );
         setCartItems(updatedCartItems);
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
         }
       }
@@ -190,13 +196,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const updateCart = async (productId: string, quantity: number) => {
+  const updateCart = async (productId: number, quantity: number) => {
     try {
       const updatedCartItems = cartItems.map((item) =>
         item.productId === productId ? { ...item, quantity } : item
       );
       setCartItems(updatedCartItems);
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
       }
 
@@ -204,8 +210,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await axios.post<{ data: any }>(
           `${baseUrl}${cartUpdate}`,
           {
-            product_id: productId,
-            quantity,
+            cart: [
+              {
+                productId,
+                quantity,
+              },
+            ],
           },
           {
             headers: {

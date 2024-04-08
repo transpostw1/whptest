@@ -1,5 +1,4 @@
 "use client";
-;
 import { useMediaQuery } from "react-responsive";
 import { useFormik } from "formik";
 import React, { useState, useEffect, ChangeEvent } from "react";
@@ -13,8 +12,13 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
-import { baseUrl,getProductbyId,getCartItems, addAddress,removeCart } from "@/utils/constants";
-
+import {
+  baseUrl,
+  getProductbyId,
+  getCartItems,
+  addAddress,
+  removeCart,
+} from "@/utils/constants";
 
 import {
   AddressBook,
@@ -25,12 +29,14 @@ import {
   CreditCard,
 } from "@phosphor-icons/react";
 import StickyNav from "@/components/Header/StickyNav";
+import CouponsModal from "@/components/Other/CouponsModal";
 
-
+interface Props {
+  closeModal: (arg: string) => void;
+}
 
 const Checkout = () => {
-
-  const { cartItems, updateCart,setCartItems,removeFromCart} = useCart();
+  const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [selectedStep, setSelectedStep] = useState(0);
@@ -41,10 +47,14 @@ const Checkout = () => {
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
   const { getProductById } = useProductContext();
-  
+  const [couponsModal, setCouponsModal] = useState<boolean>(false);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
+
+  const handleCouponsModal = () => {
+    setCouponsModal(true);
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -61,18 +71,18 @@ const Checkout = () => {
     };
   }, []);
 
-
-  
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
-  const closeModal= () => {
+  const closeModal = () => {
     setModalOpen(false);
   };
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartItems.find((item) => item.product_id === productId);
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    const itemToUpdate = cartItems.find(
+      (item) => item.productId === productId
+    );
 
     if (itemToUpdate) {
       updateCart(productId, newQuantity);
@@ -89,7 +99,7 @@ const Checkout = () => {
 
   let totalCart = 0;
   cartItems.forEach((item) => {
-    const price = parseFloat(item.price);
+    const price = parseInt(item.price);
     // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === "number") {
       // Multiply quantity by price and add to totalCart
@@ -100,7 +110,6 @@ const Checkout = () => {
   });
 
   let cartDiscount = 0;
-
 
   // const handlePayment = (item: string) => {
   //   setActivePayment(item);
@@ -170,41 +179,28 @@ const Checkout = () => {
         return "Proceed";
     }
   };
-  const AddAddressModal: React.FC = ({ closeModal }:any) => {
-    // const validationSchema = Yup.object().shape({
-    //   pincode: Yup.string().required("Pincode is required"),
-    //   full_address: Yup.string().required(
-    //     "Full Address Company is required"
-    //   ),
-    //   area: Yup.string().required("Area and Street is required"),
-    //   country: Yup.string().required("Please add country"),
-    //   state: Yup.string().required("Please add State"),
-    //   city: Yup.string().required("Please add City"),
-    //   landmark: Yup.string(),
-    //   address_type: Yup.string().required("Please select the address type"),
-    // });
-
-    const handleSubmit = async (values:any) => {
+  const AddAddressModal: React.FC<Props> = ({ closeModal }: any) => {
+    const handleSubmit = async (values: any) => {
       try {
-         const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post<{ data: any }>(
-        `${baseUrl}${addAddress}`,
-        {
-        pincode:values.pincode,
-        full_address:values.full_address,
-        area:values.area,
-        country:values.country,
-        state:values.state,
-        city:values.city,
-        landmark:values.landmark,
-        address_type:values.address_type
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieTokenn}`,
+        const cookieTokenn = Cookies.get("localtoken");
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${addAddress}`,
+          {
+            pincode: values.pincode,
+            full_address: values.full_address,
+            area: values.area,
+            country: values.country,
+            state: values.state,
+            city: values.city,
+            landmark: values.landmark,
+            address_type: values.address_type,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          }
+        );
         console.log("Response from backend:", response.data);
         closeModal();
       } catch (error) {
@@ -401,7 +397,7 @@ const Checkout = () => {
               {cartItems?.length < 1 ? (
                 <p className="text-button pt-3">No products in your cart</p>
               ) : (
-                cartItems?.map((product) => (
+                cartItems?.map((product:any) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
                     key={product?.productId}
@@ -416,20 +412,21 @@ const Checkout = () => {
                     <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
                       <div className="py-4">
                         <div className="text-title">{product?.name}</div>
-                        <div className="text-title">
-                          {product.metalType}
-                          {product.metalPurity}
-                        </div>
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.productId,product?.quantity)}
+                            onClick={() =>
+                              removeFromCart(
+                                product?.productId,
+                                product?.quantity
+                              )
+                            }
                           >
                             Remove
                           </div>
-                          <div className="text-sm max-md:text-base">
+                          {/* <div className="text-sm max-md:text-base">
                             *Save for later
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -605,13 +602,7 @@ const Checkout = () => {
 
   return (
     <>
-      {/* <TopNavOne textColor="text-white" />
-      <NavTwo props="style-three bg-white" />
-      <div id="header" className="w-full relative">
-        <NavHoverMenu props="bg-white" />
-        <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-      </div> */}
-      <StickyNav/>
+      <StickyNav />
       <div className="cart-block flex-wrap">
         <div className="content-main flex flex-col justify-between px-14">
           <div className="flex w-full justify-between items-center">
@@ -680,8 +671,18 @@ const Checkout = () => {
                       <Gift style={{ color: "red", fontSize: "24px" }} />
                       <h3>Available Coupons</h3>
                     </div>
-                    <h3 className="text-red-600 underline">View</h3>
+                    <h3 className="text-red-600 underline cursor-pointer">
+                      View
+                    </h3>
+                    <input className="border border-black" />
+                    <button
+                      className="bg-black text-white"
+                     
+                    >
+                      check
+                    </button>
                   </div>
+                  {couponsModal && <CouponsModal />}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">
                     <div className="flex gap-2 items-center font-medium">
                       <Gift style={{ color: "red", fontSize: "24px" }} />
@@ -701,10 +702,10 @@ const Checkout = () => {
                     {cartItems?.length < 1 ? (
                       <p className="text-button">No products in your cart</p>
                     ) : (
-                      cartItems?.map((product) => (
+                      cartItems?.map((product,index) => (
                         <div
                           className="border border-gray-200 flex w-full  items-center mb-2 "
-                          key={cartItems.product_id}
+                          key={index}
                         >
                           <Image
                             src={product.image}

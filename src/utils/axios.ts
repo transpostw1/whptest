@@ -60,17 +60,18 @@
 
 // export default instance;
 
-
-
-
 import axios, { AxiosInstance } from "axios";
 import { baseUrl } from "./constants";
 import Cookies from "js-cookie";
 
 
-// Add a function to get the local token from cookies
 const getLocalToken = () => {
   return Cookies.get("localtoken");
+};
+
+
+const updateLocalToken = (newToken:string) => {
+  Cookies.set("localtoken", newToken);
 };
 
 const CookieToken = getLocalToken();

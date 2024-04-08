@@ -120,7 +120,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 >
                   {product &&
                     product.imageDetails
-                      .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                      .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
                       .map((image, index) => (
                         <div key={index}>
                           <Image

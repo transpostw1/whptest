@@ -12,12 +12,14 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
+import { useCouponContext } from "@/context/CouponContext";
 import {
   baseUrl,
   getProductbyId,
   getCartItems,
   addAddress,
   removeCart,
+  coupon,
 } from "@/utils/constants";
 
 import {
@@ -30,31 +32,35 @@ import {
 } from "@phosphor-icons/react";
 import StickyNav from "@/components/Header/StickyNav";
 import CouponsModal from "@/components/Other/CouponsModal";
+import { ProductType } from "@/type/ProductType";
 
 interface Props {
   closeModal: (arg: string) => void;
 }
+interface Coupon {
+  productId: number;
+  quantity: number;
+}
 
 const Checkout = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
-
+  const { totalDiscount, setTotalDiscount } = useCouponContext();
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [cartProductIds, setCartProductIds] = useState<Coupon[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
+  const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
+  const [address, setAddress] = useState<any>();
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
   const { getProductById } = useProductContext();
-  const [couponsModal, setCouponsModal] = useState<boolean>(false);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
-
-  const handleCouponsModal = () => {
-    setCouponsModal(true);
-  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -80,9 +86,7 @@ const Checkout = () => {
   };
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
-    const itemToUpdate = cartItems.find(
-      (item) => item.productId === productId
-    );
+    const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
       updateCart(productId, newQuantity);
@@ -108,8 +112,6 @@ const Checkout = () => {
       console.error("Invalid data:", item);
     }
   });
-
-  let cartDiscount = 0;
 
   // const handlePayment = (item: string) => {
   //   setActivePayment(item);
@@ -201,7 +203,8 @@ const Checkout = () => {
             },
           }
         );
-        console.log("Response from backend:", response.data);
+        setAddress(response.data);
+        console.log("address", response.data);
         closeModal();
       } catch (error) {
         console.error("Error posting form data:", error);
@@ -394,10 +397,11 @@ const Checkout = () => {
         return (
           <>
             <div className="list-product-main w-full mt-3">
+              <h1 className="text-2xl">Your Shopping Bag</h1>
               {cartItems?.length < 1 ? (
                 <p className="text-button pt-3">No products in your cart</p>
               ) : (
-                cartItems?.map((product:any) => (
+                cartItems?.map((product: any) => (
                   <div
                     className="justify-between p-4  border rounded-lg border-gray-400 flex  md:flex-row lg:flex-row lg:w-full md:w-full  items-center mb-4"
                     key={product?.productId}
@@ -471,10 +475,20 @@ const Checkout = () => {
       case "DeliveryDetails":
         return (
           <>
-            <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
+            <div className="text-2xl">DELIVERY ADDRESS</div>
+            {/* <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
               <div className="flex justify-between">
                 <div>
                   <h1 className="mb-3 text-xl">Shipping Address</h1>
+                  {address&&(<div>
+                    <h2>{address.data.address_type}</h2>
+                    <h2>{address.data.full_type}</h2>
+                    <h2>{address.data.country}</h2>
+                    <h2>{address.data.state}</h2>
+                    <h2>{address.data.full_address}</h2>
+                    <h2>{address.data.pincode}</h2>
+                    <h2>{address.data.landmark}</h2>
+                  </div>)}
                   <h2
                     className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
                     onClick={openModal}
@@ -494,7 +508,41 @@ const Checkout = () => {
                 </div>
               </div>
               {isModalOpen && <AddAddressModal closeModal={closeModal} />}
-            </div>
+            </div> */}
+            {console.log("address",address)}
+            {address ==undefined ? (
+              <div
+                className="flex justify-center items-center border border-dashed border-[#e26178] text-[#e26178] w-[25%] h-[114px] cursor-pointer"
+                onClick={openModal}
+              >
+                <p className="align-">Add New +</p>
+              </div>
+            ) : (
+              <div className="flex border border-black p-3">
+                <div className="mt-1 mr-2">
+                  <Icon.CheckCircle weight="fill" size={23} />
+                </div>
+                <div>
+                  <p className="font-semibold">
+                    Aaditya Telange, +919004073287
+                  </p>
+                  <p className="w-[60%]">
+                    {address?.data?.full_address},{address?.data?.landmark},
+                    {address?.data?.pincode},{address?.data?.state},
+                    {address?.data?.country}
+                  </p>
+                  <p className="flex text-[#e26178] cursor-pointer">
+                    Edit
+                    <Icon.Pen className="mt-1 ml-1" />
+                  </p>
+                </div>
+                <div className="cursor-pointer">
+                  <Icon.X size={24} />
+                </div>
+              </div>
+            )}
+
+            {isModalOpen && <AddAddressModal closeModal={closeModal} />}
           </>
         );
       case "Payment":
@@ -600,6 +648,53 @@ const Checkout = () => {
     { icon: <Wallet className="text-gray-300 text-2xl" />, label: "Payment" },
   ];
 
+  const handleCouponCheck = () => {
+    const products = cartItems.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+    }));
+    setCartProductIds(products);
+  };
+  useEffect(() => {
+    const fetchCouponData = async () => {
+      const cookieToken = Cookies.get("localtoken");
+      try {
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${coupon}`,
+          {
+            products: cartProductIds,
+            coupon: couponCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+            },
+          }
+        );
+        setDataAfterCouponCode(response.data);
+      } catch (error) {
+        console.log("Error occurred", error);
+      }
+    };
+
+    fetchCouponData();
+  }, [cartProductIds]);
+
+  let totalCartDiscount: number = 0;
+
+  dataAfterCouponCode.map((element: any) => {
+    const discount = parseInt(element.discountedValue);
+    if (!isNaN(discount)) {
+      totalCartDiscount += discount;
+    }
+  });
+  setTotalDiscount(totalCartDiscount);
+  console.log("cart discount:", totalDiscount);
+  useEffect(() => {
+    console.log("cart items ids:", cartProductIds);
+    console.log("coupon code:", couponCode);
+    console.log("data after coupon code", dataAfterCouponCode);
+  }, [cartProductIds, couponCode, dataAfterCouponCode]);
   return (
     <>
       <StickyNav />
@@ -654,11 +749,7 @@ const Checkout = () => {
           </div>
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
-              <div className="heading bg-surface bora-4 pt-4 pb-4">
-                <h1 className="text-2xl">Your Shopping Bag</h1>
-              </div>
               {renderComponent()}
-              <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3>
             </div>
             <div className="w-full lg:w-3/4 mt-5">
               {selectedComponent === "CartItems" && (
@@ -674,15 +765,18 @@ const Checkout = () => {
                     <h3 className="text-red-600 underline cursor-pointer">
                       View
                     </h3>
-                    <input className="border border-black" />
+                    <input
+                      className="border border-black"
+                      type="text"
+                      onKeyUp={(e) => setCouponCode(e.currentTarget.value)}
+                    />
                     <button
                       className="bg-black text-white"
-                     
+                      onClick={handleCouponCheck}
                     >
                       check
                     </button>
                   </div>
-                  {couponsModal && <CouponsModal />}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">
                     <div className="flex gap-2 items-center font-medium">
                       <Gift style={{ color: "red", fontSize: "24px" }} />
@@ -702,7 +796,7 @@ const Checkout = () => {
                     {cartItems?.length < 1 ? (
                       <p className="text-button">No products in your cart</p>
                     ) : (
-                      cartItems?.map((product,index) => (
+                      cartItems?.map((product, index) => (
                         <div
                           className="border border-gray-200 flex w-full  items-center mb-2 "
                           key={index}
@@ -741,7 +835,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>
-                      <h3>₹00</h3>
+                      <h3>₹{totalDiscount}</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Shipping Charges</h3>
@@ -753,7 +847,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-bold">
                       <h3 className="text-gray-800">Total Price</h3>
-                      <h3>₹{totalCart}</h3>
+                      <h3>₹{totalCart - totalDiscount}</h3>
                     </div>
                   </div>
                 </div>
@@ -809,7 +903,6 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      {/* {!isMobile && <Footer />} */}
     </>
   );
 };

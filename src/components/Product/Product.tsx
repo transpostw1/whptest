@@ -33,7 +33,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }
 
   const handleDetailProduct = (productId: string | number) => {
-    console.log(productId, "productId");
     router.push(`/product/default?id=${productId}?query=${data.url}`);
   };
   const formattedDiscountedPrice = new Intl.NumberFormat("en-IN").format(

@@ -4,9 +4,7 @@ const useLoginPopup = () => {
     const [openLoginPopup, setOpenLoginPopup] = useState(false)
 
     const handleLoginPopup = () => {
-        console.log("jhjgjhghjgjg")
         setOpenLoginPopup((toggleOpen) => !toggleOpen)
-        console.log(openLoginPopup)
     }
 
     // Check if the click event occurs outside the popup.

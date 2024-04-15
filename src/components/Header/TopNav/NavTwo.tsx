@@ -1,4 +1,3 @@
-// NavTwo component
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -24,9 +23,36 @@ interface Props {
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
-  const loginRef = useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<CategoryType[] | null>(null);
+  const { openLoginPopup, handleLoginPopup,handleCloseLoginPop} = useLoginPopup();
+  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
+  const { openModalWishlist } = useModalWishlistContext();
+  const { openModalCart } = useModalCartContext();
+  const { cartItems } = useCart();
+  const { userState } = useUser();
+  const { logOut } = useUser();
+  const isLoggedIn = userState.isLoggedIn;
+  const router = useRouter();
+  const [fixedHeader, setFixedHeader] = useState(false);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        handleCloseLoginPop();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const handleModalToggle = () => {
     setIsModalOpen((prevState) => !prevState);
@@ -47,23 +73,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     }
   };
 
-  const [data, setData] = useState<CategoryType[] | null>(null);
-  const { openLoginPopup, handleLoginPopup } = useLoginPopup();
-  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { openModalWishlist } = useModalWishlistContext();
-  const { openModalCart } = useModalCartContext();
-  const { cartItems } = useCart();
-  const { userState } = useUser();
-  const { logOut } = useUser();
 
-  const isLoggedIn = userState.isLoggedIn;
-
-  const router = useRouter();
-
-  const [fixedHeader, setFixedHeader] = useState(false);
-  const [lastScrollPosition, setLastScrollPosition] = useState(0);
-
-  const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
   };
@@ -116,7 +126,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     setIsModalOpen(true);
   };
 
-  const cartLength = cartItems ? cartItems.length : 0;
+  const cartLength:number = cartItems ? cartItems.length : 0;
 
   const handleLogout = () => {
     logOut();
@@ -130,7 +140,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       <div
         className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
           fixedHeader ? " fixed" : "relative"
-        } text-rose-950 ${props}`}
+        } text-rose-950 ${props}`} ref={divRef}
       >
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between items-center ">

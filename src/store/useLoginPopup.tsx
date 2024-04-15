@@ -7,15 +7,18 @@ const useLoginPopup = () => {
         setOpenLoginPopup((toggleOpen) => !toggleOpen)
     }
 
-    // Check if the click event occurs outside the popup.
-    const handleClickOutsideLoginPopup: EventListener = (event) => {
-        // Cast event.target to Element to use the closest method.
-        const targetElement = event.target as Element;
-
-        if (openLoginPopup && !targetElement.closest('.login-popup')) {
-            setOpenLoginPopup(false)
-        }
+    const handleCloseLoginPop=()=>{
+        setOpenLoginPopup(false);
     }
+    // Check if the click event occurs outside the popup.
+    // const handleClickOutsideLoginPopup: EventListener = (event) => {
+    //     // Cast event.target to Element to use the closest method.
+    //     const targetElement = event.target as Element;
+
+    //     if (openLoginPopup && !targetElement.closest('.login-popup')) {
+    //         setOpenLoginPopup(false)
+    //     }
+    // }
 
     // useEffect(() => {
     //     // Add a global click event to track clicks outside the popup.
@@ -29,7 +32,7 @@ const useLoginPopup = () => {
     
     return {
         openLoginPopup,
-        handleLoginPopup,
+        handleLoginPopup,handleCloseLoginPop
     }
 }
 

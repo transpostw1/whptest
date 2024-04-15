@@ -1,3 +1,4 @@
+// NavTwo component
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
+import ModalSearch from "@/components/Modal/ModalSearch";
 
 interface Props {
   props: string;
@@ -24,6 +26,26 @@ interface Props {
 const NavTwo: React.FC<Props> = ({ props }) => {
   const loginRef = useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalToggle = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
+
+  const handleInputClick = () => {
+    console.log('clicked');
+    setIsModalOpen(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchKeyword(value);
+    if (value.trim() !== "") {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  };
 
   const [data, setData] = useState<CategoryType[] | null>(null);
   const { openLoginPopup, handleLoginPopup } = useLoginPopup();
@@ -86,7 +108,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const handleSearch = (value: string) => {
     router.push(`/shop/breadcrumb1?query=${value}`);
     setSearchKeyword("");
+    setIsModalOpen(false);
   };
+
+  const handleSearchInModal = (value: string) => {
+    setSearchKeyword(value);
+    setIsModalOpen(true);
+  };
+
   const cartLength = cartItems ? cartItems.length : 0;
 
   const handleLogout = () => {
@@ -160,27 +189,33 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               </div>
             </div>
             <div className="form-search w-72 relative max-lg:hidden">
-              <button>
-                <Icon.MagnifyingGlass
-                  size={20}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                  onClick={() => {
-                    handleSearch(searchKeyword);
-                  }}
-                />
-              </button>
+              <Icon.MagnifyingGlass
+                size={20}
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={() => {
+                  handleSearch(searchKeyword);
+                }}
+              />
 
               <input
                 type="text"
                 placeholder="What are you looking for?"
-                className=" h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
+                className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && handleSearch(searchKeyword)
-                }
+                onChange={handleInputChange}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch(searchKeyword)}
               />
             </div>
+            {isModalOpen && (
+              <ModalSearch
+                searchKeyword={searchKeyword}
+                setSearchKeyword={setSearchKeyword}
+                handleSearch={handleSearch}
+                closeModal={() => setIsModalOpen(false)}
+                isModalOpen={isModalOpen}
+              />
+            )}
+
             <div className="ps-3 right-content flex items-center  max-md:hidden ">
               <div className="right flex gap-12 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">

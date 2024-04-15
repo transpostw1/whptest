@@ -25,6 +25,7 @@ export default function Home() {
 
   return (
     <>
+    <div className="overflow-x-hidden">
       <MobileMainCategorySwiper/>
       <MainCarousel />
       <Explore />
@@ -42,6 +43,8 @@ export default function Home() {
       <GoldScheme />
       <SpecialOccasion />
       <Reviews />
+      {/* <WhpApp /> */}
+      </div>
       <WhpApp />
       <StickyNav/>
 

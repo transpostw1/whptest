@@ -23,6 +23,8 @@ import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
+import useRecentlyViewedProducts from '@/hooks/useRecentlyViewedProducts';
+
 
 interface Props {
   productId: string | number | null;
@@ -37,6 +39,8 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   
+  const { recentlyViewedProducts, saveToRecentlyViewed } = useRecentlyViewedProducts();
+
   const settingsMain = {
     dots: false,
     infinite: true,
@@ -78,7 +82,16 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, [productId]);
 
+  
+
   const product = data[0];
+ 
+  
+  useEffect(() => {
+    if (product) {
+      saveToRecentlyViewed(product);
+    }
+  }, [product, saveToRecentlyViewed]);
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat((data && product?.discountPrice) ?? 0))

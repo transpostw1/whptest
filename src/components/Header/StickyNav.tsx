@@ -3,10 +3,16 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import ModalSearch from "@/components/Modal/ModalSearch";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false); // New state variable
+
+  const toggleSearchModal = () => {
+    setIsSearchModalOpen((prevState) => !prevState);
+  };
 
   const handleOptionClicked = (option: number) => {
     setClicked(option);
@@ -28,6 +34,7 @@ const StickyNav = () => {
     return null;
   }
   return (
+    <>
     <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
       <div className="flex justify-evenly items-center">
         <Link href={"/"}>
@@ -42,16 +49,16 @@ const StickyNav = () => {
           </div>
         </Link>
         <Link href={"/"}>
-          <div
-            className={`${
-              clicked === 2 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(2)}
-          >
-            <Icon.MagnifyingGlass size={25} />
-            <p>Search</p>
-          </div>
-        </Link>
+            <div
+              className={`${
+                clicked === 2 ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={toggleSearchModal} // Open the search modal when clicked
+            >
+              <Icon.MagnifyingGlass size={25} />
+              <p>Search</p>
+            </div>
+          </Link>
         <Link href={"/offers"}>
           <div
             className={`${
@@ -87,6 +94,17 @@ const StickyNav = () => {
         </Link>
       </div>
     </div>
+    {isSearchModalOpen && (
+        <ModalSearch
+          searchKeyword=""
+          setSearchKeyword={() => {}}
+          handleSearch={() => {}}
+          closeModal={toggleSearchModal}
+          isModalOpen={isSearchModalOpen}
+          handleModalToggle={toggleSearchModal}
+        />
+      )}
+    </>
   );
 };
 

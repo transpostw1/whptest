@@ -8,6 +8,7 @@ import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
 import ModalCart from "@/components/Modal/ModalCart";
 import ModalWishlist from "@/components/Modal/ModalWishlist";
+import ModalSearch from '@/components/Modal/ModalSearch'
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
@@ -40,6 +41,7 @@ export default function RootLayout({
           {children}
           {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
           <ModalWishlist />
+          <ModalSearch />
           <Footer/>
         </body>
       </html>

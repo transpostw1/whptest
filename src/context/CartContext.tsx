@@ -87,6 +87,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             };
           });
           setCartItems(cartItemsData);
+          setTotalDiscount(0);
         } catch (error) {
           console.error("Error fetching cart items:", error);
         }
@@ -123,6 +124,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
               }
             }
             setCartItems(updatedCartItems);
+            setTotalDiscount(0)
           };
           fetchProductDetails();
         }
@@ -143,6 +145,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     };
     const cart = [...cartItems, newItem];
     setCartItems(cart);
+    setTotalDiscount(0);
     if (!isLoggedIn) {
       if (typeof window !== "undefined") {
         localStorage.setItem("cartItems", JSON.stringify(cart));
@@ -204,6 +207,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           (item) => item.productId !== productId
         );
         setCartItems(updatedCartItems);
+        setTotalDiscount(0);
 
         if (typeof window !== "undefined") {
           localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
@@ -220,6 +224,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         item.productId === productId ? { ...item, quantity } : item
       );
       setCartItems(updatedCartItems);
+      setTotalDiscount(0)
 
       if (typeof window !== "undefined") {
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));

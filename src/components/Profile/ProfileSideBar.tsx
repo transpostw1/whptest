@@ -23,6 +23,18 @@ function ProfileSidebar() {
           >
             <span className="flex-1 whitespace-nowrap">My Wishlist</span>
           </a>
+          <a
+            href="#/"
+            className="flex items-center p-2  text-black hover:bg-gray-700"
+          >
+            <span className="flex-1 whitespace-nowrap">GMS</span>
+          </a>
+          <a
+            href="#/"
+            className="flex items-center p-2  text-black hover:bg-gray-700"
+          >
+            <span className="flex-1 whitespace-nowrap">GMS</span>
+          </a>
         </div>
         <a
           href="#/"

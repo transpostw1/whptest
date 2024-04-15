@@ -20,6 +20,8 @@ import {
   addAddress,
   removeCart,
   coupon,
+  getAddress,
+  order,
 } from "@/utils/constants";
 
 import {
@@ -41,12 +43,20 @@ interface Coupon {
   productId: number;
   quantity: number;
 }
+interface Prop {
+  billingAddressModal: () => void;
+}
 
 const Checkout = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { totalDiscount, setTotalDiscount } = useCouponContext();
+  const [allAddress, setAllAddress] = useState<any>([]);
+  const [billingAddress, setBillingAddress] = useState<any>();
+  const [showBillingAddressModal, setShowBillingAddressModal] =
+    useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
+  const [billingSameAsDelivery, setBillingSameAsDelivery] = useState(true);
   const [cartProductIds, setCartProductIds] = useState<Coupon[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
@@ -84,7 +94,9 @@ const Checkout = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  const billingAddressModal = () => {
+    setShowBillingAddressModal(false);
+  };
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
@@ -94,6 +106,21 @@ const Checkout = () => {
   };
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
+  };
+
+  const handleGetAddress = async () => {
+    try {
+      const cookieToken = Cookies.get("localtoken");
+      const response = await axios.get(`${baseUrl}${getAddress}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      setAllAddress(response.data.customerAddress);
+    } catch (error) {
+      setAllAddress([]);
+      console.error("Error fetching address:", error);
+    }
   };
 
   const searchParams = useSearchParams();
@@ -113,11 +140,26 @@ const Checkout = () => {
     }
   });
 
-  // const handlePayment = (item: string) => {
-  //   setActivePayment(item);
-  // };
-
-  const handleOrderComplete = () => {
+  const handleOrderComplete = async () => {
+    const cookieToken = Cookies.get("localtoken");
+    const response = await axios.post(
+      `${baseUrl}${order}`,
+      {
+        shippingAddress: [address],
+        isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
+        billingAddress: [billingAddress],
+        productDetails: {
+          products: cartProductIds,
+        },
+        shippingCharges: 100,
+        grandTotal: totalCart - totalDiscount,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
     setIsOrderPlaced(true);
   };
 
@@ -204,6 +246,7 @@ const Checkout = () => {
           }
         );
         setAddress(response.data);
+        setBillingAddress(response.data);
         console.log("address", response.data);
         closeModal();
       } catch (error) {
@@ -390,6 +433,222 @@ const Checkout = () => {
       </div>
     );
   };
+  const BillingAddressModal: React.FC<Prop> = ({
+    billingAddressModal,
+  }: any) => {
+    const handleSubmit = async (values: any) => {
+      try {
+        const cookieTokenn = Cookies.get("localtoken");
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${addAddress}`,
+          {
+            pincode: values.pincode,
+            full_address: values.full_address,
+            area: values.area,
+            country: values.country,
+            state: values.state,
+            city: values.city,
+            landmark: values.landmark,
+            address_type: values.address_type,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          }
+        );
+        setBillingAddress(response.data);
+        console.log("address", response.data);
+        billingAddressModal();
+      } catch (error) {
+        console.error("Error posting form data:", error);
+      }
+    };
+    const formik = useFormik({
+      initialValues: {
+        pincode: "",
+        full_address: "",
+        area: "",
+        country: "",
+        state: "",
+        city: "",
+        landmark: "",
+        address_type: "",
+      },
+      // validationSchema: validationSchema,
+      onSubmit: handleSubmit,
+    });
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
+        <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
+          <button onClick={billingAddressModal}>Close</button>
+          <form onSubmit={formik.handleSubmit}>
+            <h2 className="text-2xl font-semibold">Add Address</h2>
+            <div className="my-2 md:col-span-2">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Pincode"
+                {...formik.getFieldProps("pincode")}
+              />
+              {formik.touched.pincode && formik.errors.pincode && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.pincode}
+                </div>
+              )}
+            </div>
+
+            {/* <div className="grid md:grid-cols-2 gap-x-3"> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="full_address/House No/Building Name/Company"
+                {...formik.getFieldProps("full_address")}
+              />
+              {formik.touched.full_address && formik.errors.full_address && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.full_address}
+                </div>
+              )}
+            </div>
+            {/* </div> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Area and Street"
+                {...formik.getFieldProps("area")}
+              />
+              {formik.touched.area && formik.errors.area && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.area}
+                </div>
+              )}
+            </div>
+            <div className="grid md:grid-cols-3 gap-x-2">
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="Country"
+                  {...formik.getFieldProps("country")}
+                />
+                {formik.touched.country && formik.errors.country && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.country}
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="State"
+                  {...formik.getFieldProps("state")}
+                />
+                {formik.touched.state && formik.errors.state && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="City"
+                  {...formik.getFieldProps("city")}
+                />
+                {formik.touched.city && formik.errors.city && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.city}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Landmark"
+                {...formik.getFieldProps("landmark")}
+              />
+              {formik.touched.landmark && formik.errors.landmark && (
+                <div className="text-red-600">{formik.errors.landmark}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="font-medium">Address Type:</label>
+              <div className="mt-2 flex">
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="home"
+                    name="address_type"
+                    value="home"
+                    checked={formik.values.address_type === "home"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="home" className="ml-2">
+                    Home
+                  </label>
+                </div>
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="work"
+                    name="address_type"
+                    value="work"
+                    checked={formik.values.address_type === "work"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="work" className="ml-2">
+                    Work
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="other"
+                    name="address_type"
+                    value="other"
+                    checked={formik.values.address_type === "other"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="other" className="ml-2">
+                    Other
+                  </label>
+                </div>
+              </div>
+              {formik.touched.address_type && formik.errors.address_type && (
+                <div className="text-red-600 mt-1">
+                  {formik.errors.address_type}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  };
+  const handleCheckBoxChange = () => {
+    setBillingSameAsDelivery(!billingSameAsDelivery);
+    if (billingSameAsDelivery == true) {
+      setShowBillingAddressModal(true);
+    }
+  };
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -476,41 +735,7 @@ const Checkout = () => {
         return (
           <>
             <div className="text-2xl">DELIVERY ADDRESS</div>
-            {/* <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
-              <div className="flex justify-between">
-                <div>
-                  <h1 className="mb-3 text-xl">Shipping Address</h1>
-                  {address&&(<div>
-                    <h2>{address.data.address_type}</h2>
-                    <h2>{address.data.full_type}</h2>
-                    <h2>{address.data.country}</h2>
-                    <h2>{address.data.state}</h2>
-                    <h2>{address.data.full_address}</h2>
-                    <h2>{address.data.pincode}</h2>
-                    <h2>{address.data.landmark}</h2>
-                  </div>)}
-                  <h2
-                    className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
-                    onClick={openModal}
-                  >
-                    + Add new address
-                  </h2>
-                </div>
-                <div>
-                  <h1 className="mb-3 text-xl">Billing Address</h1>
-                  <h2 className="mb-3">Same as shipping address</h2>
-                  <h2
-                    className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
-                    onClick={openModal}
-                  >
-                    + Add new address
-                  </h2>
-                </div>
-              </div>
-              {isModalOpen && <AddAddressModal closeModal={closeModal} />}
-            </div> */}
-            {console.log("address",address)}
-            {address ==undefined ? (
+            {address == undefined && allAddress.length === 0 ? (
               <div
                 className="flex justify-center items-center border border-dashed border-[#e26178] text-[#e26178] w-[25%] h-[114px] cursor-pointer"
                 onClick={openModal}
@@ -518,30 +743,124 @@ const Checkout = () => {
                 <p className="align-">Add New +</p>
               </div>
             ) : (
-              <div className="flex border border-black p-3">
-                <div className="mt-1 mr-2">
-                  <Icon.CheckCircle weight="fill" size={23} />
+              <>
+                <div className="flex border border-black p-3">
+                  <div className="mt-1 mr-2">
+                    <Icon.CheckCircle weight="fill" size={23} />
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      Aaditya Telange, +919004073287
+                    </p>
+                    <p className="w-[60%]">
+                      {address?.data?.full_address},{address?.data?.landmark},
+                      {address?.data?.pincode},{address?.data?.state},
+                      {address?.data?.country}
+                    </p>
+                    <p className="flex text-[#e26178] cursor-pointer">
+                      Edit
+                      <Icon.Pen className="mt-1 ml-1" />
+                    </p>
+                  </div>
+                  <div className="cursor-pointer">
+                    <Icon.X size={24} />
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold">
-                    Aaditya Telange, +919004073287
-                  </p>
-                  <p className="w-[60%]">
-                    {address?.data?.full_address},{address?.data?.landmark},
-                    {address?.data?.pincode},{address?.data?.state},
-                    {address?.data?.country}
-                  </p>
-                  <p className="flex text-[#e26178] cursor-pointer">
-                    Edit
-                    <Icon.Pen className="mt-1 ml-1" />
-                  </p>
+                <div className="flex">
+                  <input
+                    type="checkbox"
+                    value={"Billing address same as Delivery Address"}
+                    className="mr-1"
+                    checked={billingSameAsDelivery}
+                    onChange={handleCheckBoxChange}
+                  />
+                  <p>Billing address same as Delivery Address</p>
                 </div>
-                <div className="cursor-pointer">
-                  <Icon.X size={24} />
-                </div>
-              </div>
-            )}
+                <p className="text-xl font-semibold">BILLING ADDRESS</p>
+                {billingSameAsDelivery == true ? (
+                  <div className="flex border border-black p-3">
+                    <div className="mt-1 mr-2">
+                      <Icon.CheckCircle weight="fill" size={23} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">
+                        Aaditya Telange, +919004073287
+                      </p>
+                      <p className="w-[60%]">
+                        {address?.data?.full_address},{address?.data?.landmark},
+                        {address?.data?.pincode},{address?.data?.state},
+                        {address?.data?.country}
+                      </p>
+                      <p className="flex text-[#e26178] cursor-pointer">
+                        Edit
+                        <Icon.Pen className="mt-1 ml-1" />
+                      </p>
+                    </div>
+                    <div className="cursor-pointer">
+                      <Icon.X size={24} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex border border-black p-3">
+                    <div className="mt-1 mr-2">
+                      <Icon.CheckCircle weight="fill" size={23} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">
+                        Aaditya Telange, +919004073287
+                      </p>
+                      <p className="w-[60%]">
+                        {billingAddress?.data?.full_address},
+                        {billingAddress?.data?.landmark},
+                        {billingAddress?.data?.pincode},
+                        {billingAddress?.data?.state},
+                        {billingAddress?.data?.country}
+                      </p>
+                      <p className="flex text-[#e26178] cursor-pointer">
+                        Edit
+                        <Icon.Pen className="mt-1 ml-1" />
+                      </p>
+                    </div>
+                    <div className="cursor-pointer">
+                      <Icon.X size={24} />
+                    </div>
+                  </div>
+                )}
 
+                {/* <div>
+                  {Array.isArray(allAddress) &&
+                    allAddress.map((item: any, index: any) => (
+                      <div key={index} className="flex border border-black p-3">
+                        <div className="mt-1 mr-2">
+                          <Icon.CheckCircle weight="fill" size={23} />
+                        </div>
+                        <div>
+                          <p className="font-semibold">
+                            Aaditya Telange, +919004073287
+                          </p>
+                          <p className="w-[60%]">
+                            {item?.full_address},
+                            {item?.landmark},
+                            {item?.pincode},
+                            {item?.state},
+                            {item?.country}
+                          </p>
+                          <p className="flex text-[#e26178] cursor-pointer">
+                            Edit
+                            <Icon.Pen className="mt-1 ml-1" />
+                          </p>
+                        </div>
+                        <div className="cursor-pointer">
+                          <Icon.X size={24} />
+                        </div>
+                      </div>
+                    ))}
+                </div> */}
+              </>
+            )}
+            {showBillingAddressModal && (
+              <BillingAddressModal billingAddressModal={billingAddressModal} />
+            )}
             {isModalOpen && <AddAddressModal closeModal={closeModal} />}
           </>
         );
@@ -642,7 +961,12 @@ const Checkout = () => {
       label: "Cart",
     },
     {
-      icon: <AddressBook className="text-gray-300 text-2xl" />,
+      icon: (
+        <AddressBook
+          className="text-gray-300 text-2xl"
+          onClick={handleGetAddress}
+        />
+      ),
       label: "Address",
     },
     { icon: <Wallet className="text-gray-300 text-2xl" />, label: "Payment" },
@@ -680,21 +1004,21 @@ const Checkout = () => {
     fetchCouponData();
   }, [cartProductIds]);
 
-  let totalCartDiscount: number = 0;
+  useEffect(() => {
+    let totalCartDiscount = 0;
+    dataAfterCouponCode.map((element: any) => {
+      const discount = parseInt(element.discountedValue);
+      if (!isNaN(discount)) {
+        totalCartDiscount += discount;
+      }
+    });
+    setTotalDiscount(totalCartDiscount);
+  }, [dataAfterCouponCode]);
 
-  dataAfterCouponCode.map((element: any) => {
-    const discount = parseInt(element.discountedValue);
-    if (!isNaN(discount)) {
-      totalCartDiscount += discount;
-    }
-  });
-  setTotalDiscount(totalCartDiscount);
   console.log("cart discount:", totalDiscount);
   useEffect(() => {
-    console.log("cart items ids:", cartProductIds);
-    console.log("coupon code:", couponCode);
-    console.log("data after coupon code", dataAfterCouponCode);
-  }, [cartProductIds, couponCode, dataAfterCouponCode]);
+    console.log("All Address", allAddress);
+  }, [allAddress]);
   return (
     <>
       <StickyNav />
@@ -843,7 +1167,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>G.S.T</h3>
-                      <h3>₹951.27</h3>
+                      <h3>₹00</h3>
                     </div>
                     <div className="flex justify-between font-bold">
                       <h3 className="text-gray-800">Total Price</h3>

@@ -156,6 +156,12 @@ const Footer = () => {
                     >
                       Return & Refund
                     </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"https://calendly.com/aadityatelange/30min"}
+                    >
+                      Book,Exchange and BuyBack
+                    </Link>
                   </div>
                 </div>
                 <div className="item flex flex-col md:ml-14 lg:ml-14">

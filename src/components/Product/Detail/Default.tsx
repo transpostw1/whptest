@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
@@ -102,6 +103,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   return (
     <>
+      <StickyNav/>
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -131,7 +133,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 >
                   {product &&
                     product.imageDetails
-                      .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                      .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
                       .map((image, index) => (
                         <div key={index}>
                           <Image

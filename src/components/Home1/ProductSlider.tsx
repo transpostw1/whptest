@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
-  const swiperRef = useRef();
+  const swiperRef = useRef<any>();
   const filteredProducts = data;
 
   return (

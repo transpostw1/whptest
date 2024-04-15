@@ -26,7 +26,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
         <Link
           href={{
             pathname: "/checkout",
-            query: { id: JSON.stringify(product.productId) },
           }}
         >
           Buy Now

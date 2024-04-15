@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
@@ -8,16 +8,17 @@ import ReactPaginate from "react-paginate";
 import SortBy from "../Other/SortBy";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import FilterOptions from "./FilterOptions";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { baseUrl } from "@/utils/constants";
+import WhpApp from "../Home1/WhpApp";
 
 const ShopBreadCrumb1 = () => {
-  const [sortOption, setSortOption] = useState<boolean|null>(false);
-  const [isLoading, setIsLoading] = useState<boolean|null>(true);
-  const [mobileFilter, setMobileFilter] = useState<boolean|null>(false);
+  const [sortOption, setSortOption] = useState<boolean>(false);
+  const [selectedOptions, setSelectedOptions] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [mobileFilter, setMobileFilter] = useState<boolean>(false);
   const [data, setData] = useState<ProductType[]>([]);
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
@@ -29,29 +30,45 @@ const ShopBreadCrumb1 = () => {
 
   const pageCount = Math.ceil(filteredData.length / productsPerPage);
 
-  const changePage = ({ selected }:any) => {
+  const changePage = ({ selected }: any) => {
     setPageNumber(selected);
   };
-
-  const handleSortOptionChange = (option:string) => {
+  const handleSortOptionChange = (option: string) => {
     setSelectedSortOption(option);
   };
 
-  const handleFilterChange = (filteredProducts:ProductType[]) => {
-    console.log("Filtered products:", filteredProducts);
+  const handleSelectedOptions = (options: any) => {
+    setSelectedOptions(options);
+  };
+  const handleFilterChange = (filteredProducts: ProductType[]) => {
     setFilteredData(filteredProducts);
     setPageNumber(0);
+  };
+  const handleOptionSelect = (option: string, category: string) => {
+    setSelectedOptions((prevSelectedOptions: any) => {
+      const updatedOptions = { ...prevSelectedOptions };
+      if (updatedOptions[category]) {
+        if (updatedOptions[category].includes(option)) {
+          updatedOptions[category] = updatedOptions[category].filter(
+            (selectedOption: any) => selectedOption !== option
+          );
+        } else {
+          updatedOptions[category].push(option);
+        }
+      } else {
+        updatedOptions[category] = [option];
+      }
+      return updatedOptions;
+    });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/getall-products`
-        );
+        const response = await axios.get(`${baseUrl}/getall-products`);
         setData(response.data);
         setFilteredData(response.data);
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (error) {
         console.log("data is unable to fetch");
       }
@@ -62,17 +79,17 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     let sortedData = [...filteredData];
 
-    if (selectedSortOption === "all") {
-      sortedData=filteredData
-    } else if (selectedSortOption === "priceHighToLow") {
+    if (selectedSortOption === "All") {
+      sortedData = filteredData;
+    } else if (selectedSortOption === "Price-High To Low") {
       sortedData.sort(
         (a, b) => parseInt(b.discountPrice) - parseInt(a.discountPrice)
       );
-    } else if (selectedSortOption === "priceLowToHigh") {
+    } else if (selectedSortOption === "Price-Low To High") {
       sortedData.sort(
         (a, b) => parseInt(a.discountPrice) - parseInt(b.discountPrice)
       );
-    } else if (selectedSortOption == "newestFirst") {
+    } else if (selectedSortOption == "Newest First") {
       sortedData.sort(
         (a, b) => new Date(a.addDate).getTime() - new Date(b.addDate).getTime()
       );
@@ -91,6 +108,8 @@ const ShopBreadCrumb1 = () => {
             onFilterChange={handleFilterChange}
             mobileFilter={mobileFilter}
             setMobileFilter={setMobileFilter}
+            selectedOptions={selectedOptions}
+            handleOptionSelect={handleOptionSelect}
           />
 
           <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 h-[650px] overflow-y-auto no-scrollbar">
@@ -101,21 +120,43 @@ const ShopBreadCrumb1 = () => {
               <div className="lg:w-[70%] sm:w-[100%]">
                 Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace.
+                <div className="flex flex-wrap lg:hidden sm:block md:hidden">
+                  {Object.entries(selectedOptions).flatMap(
+                    ([category, options ]) =>
+                      options.map((option: string, index: number) => (
+                        <div
+                          key={`${category}-${index}`}
+                          className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1 w-[3rem]"
+                        >
+                          {option}
+                          <button
+                            className="ml-2 align-middle mb-1"
+                            onClick={() => handleOptionSelect(option, category)}
+                          >
+                            <Icon.X size={20} />
+                          </button>
+                        </div>
+                      ))
+                  )}
+                </div>
               </div>
+
               <div className="hidden lg:block relative">
                 <label className="font-semibold">Sort By: </label>
                 <select
                   onChange={(e) => handleSortOptionChange(e.target.value)}
                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
-                  <option className="bg-[#f7f7f7]"  value="all">All</option>
-                  <option className="bg-[#f7f7f7]" value="newestFirst">
+                  <option className="bg-[#f7f7f7]" value="All">
+                    All
+                  </option>
+                  <option className="bg-[#f7f7f7]" value="Newest First">
                     Newest First
                   </option>
-                  <option className="bg-[#f7f7f7]" value="priceLowToHigh">
+                  <option className="bg-[#f7f7f7]" value="Price-Low To High">
                     Price-Low To High
                   </option>
-                  <option className="bg-[#f7f7f7]" value="priceHighToLow">
+                  <option className="bg-[#f7f7f7]" value="Price-High To Low">
                     Price-High To Low
                   </option>
                 </select>
@@ -124,25 +165,29 @@ const ShopBreadCrumb1 = () => {
                 </div>
               </div>
             </div>
+
             {isLoading === true ? (
-                <ProductSkeleton />
-              ) : (
-                <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
-                  {filteredData
-                    .slice(pagesVisited, pagesVisited + productsPerPage)
-                    .map((item: any) => (
-                      <Product key={item.productId} data={item} />
-                    ))}
-                </div>
-              )}
+              <ProductSkeleton />
+            ) : (
+              <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
+                {filteredData
+                  .slice(pagesVisited, pagesVisited + productsPerPage)
+                  .map((item: any) => (
+                    <Product key={item.productId} data={item} />
+                  ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-center">
           {pageCount > 1 && (
-            <div className="list-pagination flex items-center md:mt-10 mt-7">
+            <div className="list-pagination flex items-center md:mt-10 mt-7 mb-4">
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
+                breakLabel="..."
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={3}
                 pageCount={pageCount}
                 onPageChange={changePage}
                 containerClassName={"pagination"}
@@ -151,9 +196,10 @@ const ShopBreadCrumb1 = () => {
             </div>
           )}
         </div>
+        <WhpApp />
       </div>
 
-      <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden block h-[52px]">
+      <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden sm:block md:hidden h-[52px] ">
         <div className="flex justify-center align-middle mt-4 text-white">
           <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
             SortBy
@@ -163,8 +209,13 @@ const ShopBreadCrumb1 = () => {
           </div>
         </div>
       </div>
-      {sortOption && <SortBy visible={sortOption} onClose={() => setSortOption(false)} onSortOptionChange={handleSortOptionChange} />}
-      
+      {sortOption && (
+        <SortBy
+          visible={sortOption}
+          onClose={() => setSortOption(false)}
+          onSortOptionChange={handleSortOptionChange}
+        />
+      )}
     </div>
   );
 };

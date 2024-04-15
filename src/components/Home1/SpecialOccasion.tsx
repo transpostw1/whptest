@@ -38,13 +38,12 @@ const SpecialOccasion = () => {
         <div className="list-collection section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4">
           <Swiper
             spaceBetween={12}
-            slidesPerView={2}
+            slidesPerView={1.5}
             // navigation
-            loop={true}
             modules={[Navigation, Autoplay]}
             breakpoints={{
               576: {
-                slidesPerView: 2,
+                slidesPerView: 1.5,
                 spaceBetween: 12,
               },
               768: {

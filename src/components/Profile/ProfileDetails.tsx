@@ -1,9 +1,29 @@
 import React from "react";
 import { AiFillEdit } from "react-icons/ai";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
+
 
 const ProfileDetails = () => {
   return (
     <div className="mt-10 m-24">
+      <div className="flex justify-between">
+        <div>
+          <p className="font-bold text-xl">Personal Information</p>
+          <p className="text-[#cfcdcd]">Manage your profile</p>
+        </div>
+        <div className="flex">
+          <Icon.SignOut className="mt-1" />
+          <p className="cursor-pointer">Logout</p>
+        </div>
+      </div>
+      <div className="relative w-[80px] h-[80px] mt-4">
+        <div className="flex text-[#e26178] bg-[#E26178]  bg-opacity-5 w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
+          D
+        </div>
+        <div className="absolute top-2 right-0 w-[20px] h-[20px] rounded-full bg-[#e26178] text-white">
+          <Icon.Pen />
+        </div>
+      </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
           <div>
@@ -16,7 +36,7 @@ const ProfileDetails = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-gray-50 border border-gray-900 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
+              className="bg-gray-50  text-black text-md focus:ring-blue-500 block w-full p-2.5 "
               placeholder="John"
               required
             />
@@ -31,7 +51,7 @@ const ProfileDetails = () => {
             <input
               type="text"
               id="last_name"
-              className="bg-gray-50 border border-gray-900 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
+              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
               placeholder="Doe"
               required
             />
@@ -46,7 +66,7 @@ const ProfileDetails = () => {
             <input
               type="tel"
               id="phone"
-              className="bg-gray-50 border border-gray-900 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
+              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
               placeholder="123-45-678"
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               required
@@ -62,15 +82,15 @@ const ProfileDetails = () => {
             <input
               type="email"
               id="email"
-              className="bg-gray-50 border border-gray-900 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
+              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
               placeholder="john@whp.com"
               required
             />
           </div>
         </div>
       </form>
-      <div className="bg-white p-4 rounded-lg shadow-md relative mt-6">
-        <h2 className="text-xl font-semibold mb-4">My Addresses</h2>
+      <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+      <div className="flex bg-white p-4 rounded-lg shadow-md relative mt-6">
         <ul>
           <li className="mb-2">123 Main Street, Cityville</li>
           <li className="mb-2">456 Elm Street, Townsville</li>

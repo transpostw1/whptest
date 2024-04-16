@@ -1,28 +1,25 @@
-import React from "react";
-import Link from "next/link";
+"use client";
+import React, { useState } from "react";
+
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
-import ProfileImage from "@/components/Profile/ProfileImage";
+
+import ProfileOrders from "@/components/Profile/ProfileOrder";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 
-
 const ProfilePage = () => {
+  const [componentToRender, setComponentToRender] =
+    useState<string>("personalInfo");
+  const handleComponentToRender = (component: string) => {
+    setComponentToRender(component);
+  };
   return (
     <div className="flex">
       <div className="lg:w-96 md:w-56">
-        <h1 className="font-sans lg:text-5xl md:text-3xl hidden sm:block p-5">
-          My Account
-        </h1>
-        <ProfileSidebar />
+        <ProfileSidebar handleComponent={handleComponentToRender} componentName={componentToRender}/>
       </div>
       <div className="w-screen ">
-        <div className="flex flex-wrap items-center justify-between mt-6">
-          <ProfileImage />
-          <Link className="lg:mr-24 md:mr-20" href={"#/"}>
-            {" "}
-            Edit Profile
-          </Link>
-        </div>
-        <ProfileDetails />
+        {componentToRender === "personalInfo" && <ProfileDetails />}
+        {componentToRender === "orders" && <ProfileOrders />}
       </div>
     </div>
   );

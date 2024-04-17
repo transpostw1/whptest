@@ -59,8 +59,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
   return (
     <>
-      <div className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${fixedHeader ? " fixed" : "relative"
-        } text-rose-950 ${props}`}>
+      <div
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
+          fixedHeader ? " fixed" : "relative"
+        } text-rose-950 ${props}`}
+      >
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between max-md:justify-center items-center ">
             <div className="left-content flex items-center ">
@@ -110,7 +113,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div className="flex flex-col items-center">
-                      <Image src={"/images/icons/offer.svg"} alt="Offer" width={30} height={30} />
+                      <Image
+                        src={"/images/icons/offer.svg"}
+                        alt="Offer"
+                        width={30}
+                        height={30}
+                      />
                       <h4 className="text-sm">Offers</h4>
                     </div>
                     <div className="flex flex-col items-center">
@@ -118,30 +126,40 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Stores</h4>
                     </div>
                     <div className="flex flex-col items-center">
-                      <Image src={"/images/icons/blog.svg"} alt="Blog" width={30} height={30} />
+                      <Image
+                        src={"/images/icons/blog.svg"}
+                        alt="Blog"
+                        width={30}
+                        height={30}
+                      />
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div className="flex flex-col items-center ">
-                      <Image src={"/images/icons/contact.svg"} alt="Contact" width={30} height={30} />
+                      <Image
+                        src={"/images/icons/contact.svg"}
+                        alt="Contact"
+                        width={30}
+                        height={30}
+                      />
                       <h4 className="text-sm">Contact</h4>
                     </div>
-                    <span className="w-[2px] h-[40px] bg-[#E9E9E9]">
-                    </span>
+                    <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
                         <>
-                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
-                            <Icon.User
-                              size={28}
-                              color="red"
-
-                            />
+                          <div
+                            onClick={handleLoginPopup}
+                            className="flex flex-col items-center"
+                          >
+                            <Icon.User size={28} color="red" />
                             <h4 className="text-sm">Profile</h4>
                           </div>
 
                           <div
                             className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
-                                            ${openLoginPopup ? "open" : ""} z-10`}
+                                            ${
+                                              openLoginPopup ? "open" : ""
+                                            } z-10`}
                           >
                             <button
                               className="button-main w-full text-center"
@@ -156,12 +174,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
-                          <div onClick={handleLoginPopup} className="flex flex-col items-center" >
-                            <Icon.User
-                              size={28}
-                              color="black"
-
-                            />
+                          <div
+                            onClick={handleLoginPopup}
+                            className="flex flex-col items-center"
+                          >
+                            <Icon.User size={28} color="black" />
                             <h4 className="text-sm">User</h4>
                           </div>
                           <div
@@ -197,7 +214,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Wishlist</h4>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                     onClick={openModalCart}
                   >
@@ -210,20 +227,43 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {cartLength}
 
                     </span>
-                  </div>
-                  <div className="w-[2px] h-[40px]  bg-[#E9E9E9]">
-                  </div>
+                  </div> */}
+                  <Link href="/checkout">
+                    <div className="max-md:hidden cart-icon flex items-center relative cursor-pointer">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src={"/images/icons/cart.svg"}
+                          alt="Cart"
+                          width={30}
+                          height={30}
+                        />
+                        <h4 className="text-sm">Cart</h4>
+                      </div>
+
+                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartLength}
+                      </span>
+                    </div>
+                  </Link>
+                  <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
                   <div className="choose-currency flex items-center p-2 bg-[#e1dcdd] bg-opacity-[0.1] ">
                     <select
                       name="currency"
                       id="chooseCurrency"
-                      className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer">
+                      className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
+                    >
                       <option value="INR">&#8377; INR</option>
                       <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>
                       <option value="GBP">&#163; GBP</option>
                     </select>
-                    <Image className="cursor-pointer" src={"/images/icons/arrow.svg"} alt="Arrow" width={30} height={30} />
+                    <Image
+                      className="cursor-pointer"
+                      src={"/images/icons/arrow.svg"}
+                      alt="Arrow"
+                      width={30}
+                      height={30}
+                    />
                   </div>
                 </div>
               </div>

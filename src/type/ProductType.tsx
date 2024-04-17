@@ -29,7 +29,8 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
-  productId: number|string;
+  productId: number | string;
+  product_id: number | string;
   SKU: string;
   variantId: any; // Specify type if available
   title: string;

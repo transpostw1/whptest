@@ -419,13 +419,13 @@ const Checkout = () => {
                       <div className="py-4">
                         <div className="text-title">{product?.name}</div>
                         <div className="text-title">
-                          {product.metalType}
-                          {product.metalPurity}
+                          {product?.metalType}
+                          {product?.metalPurity}
                         </div>
                         <div className="flex">
                           <div
                             className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-                            onClick={() => removeFromCart(product?.productId,product?.quantity)}
+                            onClick={() => removeFromCart(product?.product_id)}
                           >
                             Remove
                           </div>

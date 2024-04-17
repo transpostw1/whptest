@@ -15,3 +15,4 @@ export const addAddress = "/customer/address";
 export const coupon="/coupon"
 export const getAddress="/customer/getAddresses"
 export const order="/orders"
+export const getOrders="/getOrders"

@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AiFillEdit } from "react-icons/ai";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
+import { useUser } from "@/context/UserContext";
 
 const ProfileDetails = () => {
+  const router = useRouter();
+  const { logOut, isLoggedIn } = useUser();
+
+  useEffect(() => {
+    if (window.location.href === "/profile" && isLoggedIn === false) {
+      console.log("this effecct is running")
+     router.replace("/")
+    }
+  }, [isLoggedIn, router]);
+  const handleLogOut = () => {
+    logOut();
+    router.push("/");
+  };
   return (
     <div className="mt-10 m-24">
       <div className="flex justify-between">
@@ -13,7 +27,9 @@ const ProfileDetails = () => {
         </div>
         <div className="flex">
           <Icon.SignOut className="mt-1" />
-          <p className="cursor-pointer">Logout</p>
+          <p className="cursor-pointer" onClick={() => handleLogOut()}>
+            Logout
+          </p>
         </div>
       </div>
       <div className="relative w-[80px] h-[80px] mt-4">

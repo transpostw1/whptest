@@ -72,7 +72,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       setIsModalOpen(false);
     }
   };
-
+  const handleProfilePage=()=>{
+    router.push("/profile")
+  }
 
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
@@ -272,14 +274,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {isLoggedIn ? (
                         <>
                           <div
-                            onClick={handleLoginPopup}
+                            onClick={handleProfilePage}
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="red" />
                             <h4 className="text-sm">Profile</h4>
                           </div>
 
-                          <div
+                          {/* <div
                             className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
                                             ${
                                               openLoginPopup ? "open" : ""
@@ -294,7 +296,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             <div className="text-secondary text-center mt-3 pb-4">
                               Visit Again!
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : (
                         <>

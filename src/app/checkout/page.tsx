@@ -140,29 +140,6 @@ const Checkout = () => {
     }
   });
 
-  const handleOrderComplete = async () => {
-    const cookieToken = Cookies.get("localtoken");
-    const response = await axios.post(
-      `${baseUrl}${order}`,
-      {
-        shippingAddress: [address],
-        isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
-        billingAddress: [billingAddress],
-        productDetails: {
-          products: cartProductIds,
-        },
-        shippingCharges: 100,
-        grandTotal: totalCart - totalDiscount,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      }
-    );
-    setIsOrderPlaced(true);
-  };
-
   const handleStepClick = (index: number) => {
     setSelectedStep(index);
     switch (index) {
@@ -245,9 +222,9 @@ const Checkout = () => {
             },
           }
         );
-        setAddress(response.data);
-        setBillingAddress(response.data);
-        console.log("address", response.data);
+        setAddress(response.data.data);
+        setBillingAddress(response.data.data);
+        console.log("address", response.data.data);
         closeModal();
       } catch (error) {
         console.error("Error posting form data:", error);
@@ -457,8 +434,8 @@ const Checkout = () => {
             },
           }
         );
-        setBillingAddress(response.data);
-        console.log("address", response.data);
+        setBillingAddress(response.data.data);
+        console.log("address", response.data.data);
         billingAddressModal();
       } catch (error) {
         console.error("Error posting form data:", error);
@@ -744,27 +721,36 @@ const Checkout = () => {
               </div>
             ) : (
               <>
-                <div className="flex border border-black p-3">
-                  <div className="mt-1 mr-2">
-                    <Icon.CheckCircle weight="fill" size={23} />
-                  </div>
-                  <div>
-                    <p className="font-semibold">
-                      Aaditya Telange, +919004073287
-                    </p>
-                    <p className="w-[60%]">
-                      {address?.data?.full_address},{address?.data?.landmark},
-                      {address?.data?.pincode},{address?.data?.state},
-                      {address?.data?.country}
-                    </p>
-                    <p className="flex text-[#e26178] cursor-pointer">
-                      Edit
-                      <Icon.Pen className="mt-1 ml-1" />
-                    </p>
-                  </div>
-                  <div className="cursor-pointer">
-                    <Icon.X size={24} />
-                  </div>
+                <div>
+                  {Array.isArray(allAddress) &&
+                    allAddress.map((item: any, index: any) => (
+                      <div
+                        key={index}
+                        className="flex border justify-between border-black p-3 mb-2"
+                      >
+                        <div className="flex">
+                          <div className="mt-1 mr-2">
+                            <Icon.CheckCircle weight="fill" size={23} />
+                          </div>
+                          <div>
+                            <p className="font-semibold">
+                              Aaditya Telange, +919004073287
+                            </p>
+                            <p className="w-[60%]">
+                              {item?.full_address},{item?.landmark},
+                              {item?.pincode},{item?.state},{item?.country}
+                            </p>
+                            <p className="flex text-[#e26178] cursor-pointer">
+                              Edit
+                              <Icon.Pen className="mt-1 ml-1" />
+                            </p>
+                          </div>
+                        </div>
+                        <div className="cursor-pointer">
+                          <Icon.X size={24} />
+                        </div>
+                      </div>
+                    ))}
                 </div>
                 <div className="flex">
                   <input
@@ -776,10 +762,11 @@ const Checkout = () => {
                   />
                   <p>Billing address same as Delivery Address</p>
                 </div>
-                <p className="text-xl font-semibold">BILLING ADDRESS</p>
                 {billingSameAsDelivery == true ? (
-                  <div className="flex border border-black p-3">
-                    <div className="mt-1 mr-2">
+                  <>
+                    <p className="text-xl font-semibold">BILLING ADDRESS</p>
+                    <div className="flex border border-black p-3">
+                      {/* <div className="mt-1 mr-2">
                       <Icon.CheckCircle weight="fill" size={23} />
                     </div>
                     <div>
@@ -787,9 +774,8 @@ const Checkout = () => {
                         Aaditya Telange, +919004073287
                       </p>
                       <p className="w-[60%]">
-                        {address?.data?.full_address},{address?.data?.landmark},
-                        {address?.data?.pincode},{address?.data?.state},
-                        {address?.data?.country}
+                        {address.full_address},{address.landmark},
+                        {address.pincode},{address.state},{address.country}
                       </p>
                       <p className="flex text-[#e26178] cursor-pointer">
                         Edit
@@ -798,8 +784,9 @@ const Checkout = () => {
                     </div>
                     <div className="cursor-pointer">
                       <Icon.X size={24} />
+                    </div> */}
                     </div>
-                  </div>
+                  </>
                 ) : (
                   <div className="flex border border-black p-3">
                     <div className="mt-1 mr-2">
@@ -810,11 +797,9 @@ const Checkout = () => {
                         Aaditya Telange, +919004073287
                       </p>
                       <p className="w-[60%]">
-                        {billingAddress?.data?.full_address},
-                        {billingAddress?.data?.landmark},
-                        {billingAddress?.data?.pincode},
-                        {billingAddress?.data?.state},
-                        {billingAddress?.data?.country}
+                        {billingAddress?.full_address},
+                        {billingAddress?.landmark},{billingAddress?.pincode},
+                        {billingAddress?.state},{billingAddress?.country}
                       </p>
                       <p className="flex text-[#e26178] cursor-pointer">
                         Edit
@@ -826,36 +811,6 @@ const Checkout = () => {
                     </div>
                   </div>
                 )}
-
-                {/* <div>
-                  {Array.isArray(allAddress) &&
-                    allAddress.map((item: any, index: any) => (
-                      <div key={index} className="flex border border-black p-3">
-                        <div className="mt-1 mr-2">
-                          <Icon.CheckCircle weight="fill" size={23} />
-                        </div>
-                        <div>
-                          <p className="font-semibold">
-                            Aaditya Telange, +919004073287
-                          </p>
-                          <p className="w-[60%]">
-                            {item?.full_address},
-                            {item?.landmark},
-                            {item?.pincode},
-                            {item?.state},
-                            {item?.country}
-                          </p>
-                          <p className="flex text-[#e26178] cursor-pointer">
-                            Edit
-                            <Icon.Pen className="mt-1 ml-1" />
-                          </p>
-                        </div>
-                        <div className="cursor-pointer">
-                          <Icon.X size={24} />
-                        </div>
-                      </div>
-                    ))}
-                </div> */}
               </>
             )}
             {showBillingAddressModal && (
@@ -957,19 +912,33 @@ const Checkout = () => {
 
   const steps = [
     {
-      icon: <ShoppingCart className="text-gray-300 text-2xl rounded-full" />,
+      icon: <ShoppingCart className="text-white text-2xl rounded-full" />,
       label: "Cart",
     },
     {
       icon: (
         <AddressBook
-          className="text-gray-300 text-2xl"
+          className={`text-gray-300 text-2xl ${
+            selectedComponent == "DeliveryDetails" ||
+            selectedComponent == "Payment"
+              ? "text-white"
+              : ""
+          }`}
           onClick={handleGetAddress}
         />
       ),
       label: "Address",
     },
-    { icon: <Wallet className="text-gray-300 text-2xl" />, label: "Payment" },
+    {
+      icon: (
+        <Wallet
+          className={`text-gray-300 text-2xl ${
+            selectedComponent == "Payment" ? "text-white" : ""
+          }`}
+        />
+      ),
+      label: "Payment",
+    },
   ];
 
   const handleCouponCheck = () => {
@@ -1017,8 +986,40 @@ const Checkout = () => {
 
   console.log("cart discount:", totalDiscount);
   useEffect(() => {
-    console.log("All Address", allAddress);
+    console.log("All Address", address);
   }, [allAddress]);
+
+  const requestData = {
+    shippingAddress: allAddress[0],
+    isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
+    billingAddress: billingAddress,
+    productDetails: cartProductIds,
+    shippingCharges: 100,
+    grandTotal: totalCart - totalDiscount,
+  };
+  console.log("requested Data", requestData);
+
+  const handleOrderComplete = async () => {
+    
+    const cookieToken = Cookies.get("localtoken");
+    const response = await axios.post(
+      `${baseUrl}${order}`,
+      {
+        shippingAddress: address,
+        isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
+        billingAddress: billingAddress,
+        productDetails: cartProductIds,
+        shippingCharges: 100,
+        grandTotal: totalCart - totalDiscount,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
+    setIsOrderPlaced(true);
+  };
   return (
     <>
       <StickyNav />

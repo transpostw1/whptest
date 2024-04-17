@@ -65,7 +65,7 @@ const OtpVerification = ({
       setLoading(true);
       const result = await signInWithPhoneNumber(
         auth,
-        "+" + formikValues.phoneNumber,
+        '+'+formikValues.phoneNumber,
         window.recaptchaVerifier
       );
       setVerificationId(result.verificationId);

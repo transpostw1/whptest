@@ -1,4 +1,3 @@
-// NavTwo component
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -24,16 +23,61 @@ interface Props {
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
-  const loginRef = useRef(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<CategoryType[] | null>(null);
+  const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
+    useLoginPopup();
+  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
+  const { openModalWishlist } = useModalWishlistContext();
+  const { openModalCart } = useModalCartContext();
+  const { cartItems } = useCart();
+  const { userState } = useUser();
+  const isLoggedIn = userState.isLoggedIn;
+  const router = useRouter();
+  const [contactPopUp, setContactPopUp] = useState<boolean>(false);
+  const [fixedHeader, setFixedHeader] = useState(false);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        handleCloseLoginPop();
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (
+        contactRef.current &&
+        !contactRef.current.contains(event.target as Node)
+      ) {
+        setContactPopUp(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const handleModalToggle = () => {
     setIsModalOpen((prevState) => !prevState);
   };
 
   const handleInputClick = () => {
-    console.log('clicked');
+    console.log("clicked");
     setIsModalOpen(true);
   };
 
@@ -46,24 +90,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       setIsModalOpen(false);
     }
   };
+  const handleProfilePage = () => {
+    router.push("/profile");
+  };
 
-  const [data, setData] = useState<CategoryType[] | null>(null);
-  const { openLoginPopup, handleLoginPopup } = useLoginPopup();
-  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { openModalWishlist } = useModalWishlistContext();
-  const { openModalCart } = useModalCartContext();
-  const { cartItems } = useCart();
-  const { userState } = useUser();
-  const { logOut } = useUser();
-
-  const isLoggedIn = userState.isLoggedIn;
-
-  const router = useRouter();
-
-  const [fixedHeader, setFixedHeader] = useState(false);
-  const [lastScrollPosition, setLastScrollPosition] = useState(0);
-
-  const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
   };
@@ -116,21 +146,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     setIsModalOpen(true);
   };
 
-  const cartLength = cartItems ? cartItems.length : 0;
+  const cartLength: number = cartItems ? cartItems.length : 0;
 
-  const handleLogout = () => {
-    logOut();
-  };
-  const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const handleContactPopup = () => {
-    setContactPopUp(!contactPopUp);
+    setContactPopUp(true);
   };
   return (
-    <>
+    <div ref={contactRef}>
       <div
         className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
           fixedHeader ? " fixed" : "relative"
         } text-rose-950 ${props}`}
+        ref={divRef}
       >
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between items-center ">
@@ -203,7 +230,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onChange={handleInputChange}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch(searchKeyword)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && handleSearch(searchKeyword)
+                }
               />
             </div>
             {isModalOpen && (
@@ -213,6 +242,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 handleSearch={handleSearch}
                 closeModal={() => setIsModalOpen(false)}
                 isModalOpen={isModalOpen}
+                handleModalToggle={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             )}
 
@@ -262,28 +294,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {isLoggedIn ? (
                         <>
                           <div
-                            onClick={handleLoginPopup}
+                            onClick={handleProfilePage}
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="red" />
                             <h4 className="text-sm">Profile</h4>
-                          </div>
-
-                          <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
-                                            ${
-                                              openLoginPopup ? "open" : ""
-                                            } z-10`}
-                          >
-                            <button
-                              className="button-main w-full text-center"
-                              onClick={handleLogout}
-                            >
-                              Logout
-                            </button>
-                            <div className="text-secondary text-center mt-3 pb-4">
-                              Visit Again!
-                            </div>
                           </div>
                         </>
                       ) : (
@@ -600,7 +615,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

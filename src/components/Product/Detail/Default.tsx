@@ -50,17 +50,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     asNavFor: nav2,
   };
 
-  const settingsThumbnails = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    focusOnSelect: true,
-    asNavFor: nav1,
-    nextArrow: <Icon.CaretRight size={50} />,
-    prevArrow: <Icon.CaretLeft size={40} />,
-  };
+
 
   async function getData() {
     const res = await fetch(`${baseUrl}/products/${productId}`);
@@ -85,7 +75,20 @@ const Default: React.FC<Props> = ({ productId }) => {
   
 
   const product = data[0];
- 
+  
+  const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
+
+  const settingsThumbnails = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: slidesToShow,
+    slidesToScroll: 1,
+    focusOnSelect: true,
+    asNavFor: nav1,
+    nextArrow: <Icon.CaretRight size={50} />,
+    prevArrow: <Icon.CaretLeft size={40} />,
+  };
   
   useEffect(() => {
     if (product) {

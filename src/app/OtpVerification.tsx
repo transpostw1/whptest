@@ -106,7 +106,7 @@ const OtpVerification = ({
       console.log(response,"LOGIN RESPPP")
          const localToken = response.data.token;
          Cookies.set("localtoken", localToken);
-         console.log("local______", localToken);
+         console.log("intial token",Cookies.get("localtoken"))
       router.push("/");
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);

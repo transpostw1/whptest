@@ -1,20 +1,29 @@
-'use client';
-
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import Image from 'next/image';
-import * as Icon from '@phosphor-icons/react/dist/ssr';
-import { useCart } from '@/context/CartContext';
-import { useUser } from '@/context/UserContext';
-import { useProductContext } from '@/context/ProductContext';
+"use client";
+import { useMediaQuery } from "react-responsive";
+import { useFormik } from "formik";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { PhoneInput, ParsedCountry } from "react-international-phone";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
+import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
+import { useProductContext } from "@/context/ProductContext";
+import { useRouter } from "next/navigation";
+import { useCouponContext } from "@/context/CouponContext";
 import {
   baseUrl,
   getProductbyId,
   getCartItems,
   addAddress,
   removeCart,
-} from '@/utils/constants';
+  coupon,
+  getAddress,
+  order,
+} from "@/utils/constants";
+
 import {
   AddressBook,
   ShoppingCart,
@@ -22,33 +31,44 @@ import {
   ArrowRight,
   Gift,
   CreditCard,
-} from '@phosphor-icons/react';
-import StickyNav from '@/components/Header/StickyNav';
-import CouponsModal from '@/components/Other/CouponsModal';
+} from "@phosphor-icons/react";
+import StickyNav from "@/components/Header/StickyNav";
+import CouponsModal from "@/components/Other/CouponsModal";
+import { ProductType } from "@/type/ProductType";
 
 interface Props {
   closeModal: (arg: string) => void;
 }
+interface Coupon {
+  productId: number;
+  quantity: number;
+}
+interface Prop {
+  billingAddressModal: () => void;
+}
 
 const Checkout = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
+  const { totalDiscount, setTotalDiscount } = useCouponContext();
+  const [allAddress, setAllAddress] = useState<any>([]);
+  const [billingAddress, setBillingAddress] = useState<any>();
+  const [showBillingAddressModal, setShowBillingAddressModal] =
+    useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [billingSameAsDelivery, setBillingSameAsDelivery] = useState(true);
+  const [cartProductIds, setCartProductIds] = useState<Coupon[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
-  const [selectedComponent, setSelectedComponent] = useState('CartItems');
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
+  const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
+  const [selectedComponent, setSelectedComponent] = useState("CartItems");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<string>("");
+  const [address, setAddress] = useState<any>();
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
-  const { getProductById } = useProductContext();
-  const [couponsModal, setCouponsModal] = useState<boolean>(false);
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState('');
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
-
-  const handleCouponsModal = () => {
-    setCouponsModal(true);
-  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -72,7 +92,9 @@ const Checkout = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  const billingAddressModal = () => {
+    setShowBillingAddressModal(false);
+  };
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
@@ -85,6 +107,26 @@ const Checkout = () => {
     setSelectedPaymentMethod(event.target.value);
   };
 
+  const handleGetAddress = async () => {
+    try {
+      const cookieToken = Cookies.get("localtoken");
+      const response = await axios.get(`${baseUrl}${getAddress}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      setAllAddress(response.data.customerAddress);
+    } catch (error) {
+      setAllAddress([]);
+      console.error("Error fetching address:", error);
+    }
+  };
+
+  const searchParams = useSearchParams();
+
+  let discount = searchParams.get("discount");
+  let ship = searchParams.get("ship");
+
   let totalCart = 0;
   cartItems.forEach((item) => {
     const price = parseInt(item.price);
@@ -94,10 +136,6 @@ const Checkout = () => {
       console.error('Invalid data:', item);
     }
   });
-
-  const handleOrderComplete = () => {
-    setIsOrderPlaced(true);
-  };
 
   const handleStepClick = (index: number) => {
     setSelectedStep(index);
@@ -160,28 +198,400 @@ const Checkout = () => {
         return 'Proceed';
     }
   };
-
-  const AddAddressModal: React.FC<Props> = ({ closeModal }) => {
-    // ... AddAddressModal component code ...
-  };
-
-  useEffect(() => {
-    const loadRazorpayScript = async () => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.async = true;
-      script.onload = () => {
-        console.log('Razorpay SDK loaded');
-      };
-      document.body.appendChild(script);
+  const AddAddressModal: React.FC<Props> = ({ closeModal }: any) => {
+    const handleSubmit = async (values: any) => {
+      try {
+        const cookieTokenn = Cookies.get("localtoken");
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${addAddress}`,
+          {
+            pincode: values.pincode,
+            full_address: values.full_address,
+            area: values.area,
+            country: values.country,
+            state: values.state,
+            city: values.city,
+            landmark: values.landmark,
+            address_type: values.address_type,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          }
+        );
+        setAddress(response.data.data);
+        setBillingAddress(response.data.data);
+        console.log("address", response.data.data);
+        closeModal();
+      } catch (error) {
+        console.error("Error posting form data:", error);
+      }
     };
 
     loadRazorpayScript();
 
-    return () => {
-      // Cleanup
+            {/* <div className="grid md:grid-cols-2 gap-x-3"> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="full_address/House No/Building Name/Company"
+                {...formik.getFieldProps("full_address")}
+              />
+              {formik.touched.full_address && formik.errors.full_address && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.full_address}
+                </div>
+              )}
+            </div>
+            {/* </div> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Area and Street"
+                {...formik.getFieldProps("area")}
+              />
+              {formik.touched.area && formik.errors.area && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.area}
+                </div>
+              )}
+            </div>
+            <div className="grid md:grid-cols-3 gap-x-2">
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="Country"
+                  {...formik.getFieldProps("country")}
+                />
+                {formik.touched.country && formik.errors.country && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.country}
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="State"
+                  {...formik.getFieldProps("state")}
+                />
+                {formik.touched.state && formik.errors.state && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="City"
+                  {...formik.getFieldProps("city")}
+                />
+                {formik.touched.city && formik.errors.city && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.city}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Landmark"
+                {...formik.getFieldProps("landmark")}
+              />
+              {formik.touched.landmark && formik.errors.landmark && (
+                <div className="text-red-600">{formik.errors.landmark}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="font-medium">Address Type:</label>
+              <div className="mt-2 flex">
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="home"
+                    name="address_type"
+                    value="home"
+                    checked={formik.values.address_type === "home"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="home" className="ml-2">
+                    Home
+                  </label>
+                </div>
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="work"
+                    name="address_type"
+                    value="work"
+                    checked={formik.values.address_type === "work"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="work" className="ml-2">
+                    Work
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="other"
+                    name="address_type"
+                    value="other"
+                    checked={formik.values.address_type === "other"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="other" className="ml-2">
+                    Other
+                  </label>
+                </div>
+              </div>
+              {formik.touched.address_type && formik.errors.address_type && (
+                <div className="text-red-600 mt-1">
+                  {formik.errors.address_type}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  };
+  const BillingAddressModal: React.FC<Prop> = ({
+    billingAddressModal,
+  }: any) => {
+    const handleSubmit = async (values: any) => {
+      try {
+        const cookieTokenn = Cookies.get("localtoken");
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${addAddress}`,
+          {
+            pincode: values.pincode,
+            full_address: values.full_address,
+            area: values.area,
+            country: values.country,
+            state: values.state,
+            city: values.city,
+            landmark: values.landmark,
+            address_type: values.address_type,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          }
+        );
+        setBillingAddress(response.data.data);
+        console.log("address", response.data.data);
+        billingAddressModal();
+      } catch (error) {
+        console.error("Error posting form data:", error);
+      }
     };
-  }, []);
+    const formik = useFormik({
+      initialValues: {
+        pincode: "",
+        full_address: "",
+        area: "",
+        country: "",
+        state: "",
+        city: "",
+        landmark: "",
+        address_type: "",
+      },
+      // validationSchema: validationSchema,
+      onSubmit: handleSubmit,
+    });
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 h-full">
+        <div className="bg-white p-8 flex flex-col justify-between z-50 rounded-xl">
+          <button onClick={billingAddressModal}>Close</button>
+          <form onSubmit={formik.handleSubmit}>
+            <h2 className="text-2xl font-semibold">Add Address</h2>
+            <div className="my-2 md:col-span-2">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Pincode"
+                {...formik.getFieldProps("pincode")}
+              />
+              {formik.touched.pincode && formik.errors.pincode && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.pincode}
+                </div>
+              )}
+            </div>
+
+            {/* <div className="grid md:grid-cols-2 gap-x-3"> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="full_address/House No/Building Name/Company"
+                {...formik.getFieldProps("full_address")}
+              />
+              {formik.touched.full_address && formik.errors.full_address && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.full_address}
+                </div>
+              )}
+            </div>
+            {/* </div> */}
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Area and Street"
+                {...formik.getFieldProps("area")}
+              />
+              {formik.touched.area && formik.errors.area && (
+                <div className=" text-red-700 font-medium">
+                  {formik.errors.area}
+                </div>
+              )}
+            </div>
+            <div className="grid md:grid-cols-3 gap-x-2">
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="Country"
+                  {...formik.getFieldProps("country")}
+                />
+                {formik.touched.country && formik.errors.country && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.country}
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="State"
+                  {...formik.getFieldProps("state")}
+                />
+                {formik.touched.state && formik.errors.state && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="mb-4 md:col-span-1">
+                <input
+                  className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                  type="text"
+                  placeholder="City"
+                  {...formik.getFieldProps("city")}
+                />
+                {formik.touched.city && formik.errors.city && (
+                  <div className=" text-red-700 font-medium">
+                    {formik.errors.city}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="mb-4 md:col-span-1">
+              <input
+                className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
+                type="text"
+                placeholder="Landmark"
+                {...formik.getFieldProps("landmark")}
+              />
+              {formik.touched.landmark && formik.errors.landmark && (
+                <div className="text-red-600">{formik.errors.landmark}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="font-medium">Address Type:</label>
+              <div className="mt-2 flex">
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="home"
+                    name="address_type"
+                    value="home"
+                    checked={formik.values.address_type === "home"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="home" className="ml-2">
+                    Home
+                  </label>
+                </div>
+                <div className="flex items-center mr-4">
+                  <input
+                    type="radio"
+                    id="work"
+                    name="address_type"
+                    value="work"
+                    checked={formik.values.address_type === "work"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="work" className="ml-2">
+                    Work
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="other"
+                    name="address_type"
+                    value="other"
+                    checked={formik.values.address_type === "other"}
+                    onChange={formik.handleChange}
+                    className="form-radio"
+                  />
+                  <label htmlFor="other" className="ml-2">
+                    Other
+                  </label>
+                </div>
+              </div>
+              {formik.touched.address_type && formik.errors.address_type && (
+                <div className="text-red-600 mt-1">
+                  {formik.errors.address_type}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  };
+  const handleCheckBoxChange = () => {
+    setBillingSameAsDelivery(!billingSameAsDelivery);
+    if (billingSameAsDelivery == true) {
+      setShowBillingAddressModal(true);
+    }
+  };
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -189,6 +599,7 @@ const Checkout = () => {
         return (
           <>
             <div className="list-product-main w-full mt-3">
+              <h1 className="text-2xl">Your Shopping Bag</h1>
               {cartItems?.length < 1 ? (
                 <p className="text-button pt-3">No products in your cart</p>
               ) : (
@@ -244,24 +655,112 @@ const Checkout = () => {
       case 'DeliveryDetails':
         return (
           <>
-            <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
-              <div className="flex justify-between">
-                <div>
-                  <h1 className="mb-3 text-xl">Shipping Address</h1>
-                  <h2 className="hover:text-red-500 hover:underline cursor-pointer text-gray-600" onClick={openModal}>
-                    + Add new address
-                  </h2>
-                </div>
-                <div>
-                  <h1 className="mb-3 text-xl">Billing Address</h1>
-                  <h2 className="mb-3">Same as shipping address</h2>
-                  <h2 className="hover:text-red-500 hover:underline cursor-pointer text-gray-600" onClick={openModal}>
-                    + Add new address
-                  </h2>
-                </div>
+            <div className="text-2xl">DELIVERY ADDRESS</div>
+            {address == undefined && allAddress.length === 0 ? (
+              <div
+                className="flex justify-center items-center border border-dashed border-[#e26178] text-[#e26178] w-[25%] h-[114px] cursor-pointer"
+                onClick={openModal}
+              >
+                <p className="align-">Add New +</p>
               </div>
-              {isModalOpen && <AddAddressModal closeModal={closeModal} />}
-            </div>
+            ) : (
+              <>
+                <div>
+                  {Array.isArray(allAddress) &&
+                    allAddress.map((item: any, index: any) => (
+                      <div
+                        key={index}
+                        className="flex border justify-between border-black p-3 mb-2"
+                      >
+                        <div className="flex">
+                          <div className="mt-1 mr-2">
+                            <Icon.CheckCircle weight="fill" size={23} />
+                          </div>
+                          <div>
+                            <p className="font-semibold">
+                              Aaditya Telange, +919004073287
+                            </p>
+                            <p className="w-[60%]">
+                              {item?.full_address},{item?.landmark},
+                              {item?.pincode},{item?.state},{item?.country}
+                            </p>
+                            <p className="flex text-[#e26178] cursor-pointer">
+                              Edit
+                              <Icon.Pen className="mt-1 ml-1" />
+                            </p>
+                          </div>
+                        </div>
+                        <div className="cursor-pointer">
+                          <Icon.X size={24} />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+                <div className="flex">
+                  <input
+                    type="checkbox"
+                    value={"Billing address same as Delivery Address"}
+                    className="mr-1"
+                    checked={billingSameAsDelivery}
+                    onChange={handleCheckBoxChange}
+                  />
+                  <p>Billing address same as Delivery Address</p>
+                </div>
+                {billingSameAsDelivery == true ? (
+                  <>
+                    <p className="text-xl font-semibold">BILLING ADDRESS</p>
+                    <div className="flex border border-black p-3">
+                      {/* <div className="mt-1 mr-2">
+                      <Icon.CheckCircle weight="fill" size={23} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">
+                        Aaditya Telange, +919004073287
+                      </p>
+                      <p className="w-[60%]">
+                        {address.full_address},{address.landmark},
+                        {address.pincode},{address.state},{address.country}
+                      </p>
+                      <p className="flex text-[#e26178] cursor-pointer">
+                        Edit
+                        <Icon.Pen className="mt-1 ml-1" />
+                      </p>
+                    </div>
+                    <div className="cursor-pointer">
+                      <Icon.X size={24} />
+                    </div> */}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex border border-black p-3">
+                    <div className="mt-1 mr-2">
+                      <Icon.CheckCircle weight="fill" size={23} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">
+                        Aaditya Telange, +919004073287
+                      </p>
+                      <p className="w-[60%]">
+                        {billingAddress?.full_address},
+                        {billingAddress?.landmark},{billingAddress?.pincode},
+                        {billingAddress?.state},{billingAddress?.country}
+                      </p>
+                      <p className="flex text-[#e26178] cursor-pointer">
+                        Edit
+                        <Icon.Pen className="mt-1 ml-1" />
+                      </p>
+                    </div>
+                    <div className="cursor-pointer">
+                      <Icon.X size={24} />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+            {showBillingAddressModal && (
+              <BillingAddressModal billingAddressModal={billingAddressModal} />
+            )}
+            {isModalOpen && <AddAddressModal closeModal={closeModal} />}
           </>
         );
       case 'Payment':
@@ -367,16 +866,100 @@ const Checkout = () => {
 
   const steps = [
     {
-      icon: <ShoppingCart className="text-gray-300 text-2xl rounded-full" />,
-      label: 'Cart',
+      icon: <ShoppingCart className="text-white text-2xl rounded-full" />,
+      label: "Cart",
     },
     {
-      icon: <AddressBook className="text-gray-300 text-2xl" />,
-      label: 'Address',
+      icon: (
+        <AddressBook
+          className={`text-gray-300 text-2xl ${
+            selectedComponent == "DeliveryDetails" ||
+            selectedComponent == "Payment"
+              ? "text-white"
+              : ""
+          }`}
+          onClick={handleGetAddress}
+        />
+      ),
+      label: <p onClick={handleGetAddress}>Address</p>,
     },
-    { icon: <Wallet className="text-gray-300 text-2xl" />, label: 'Payment' },
+    {
+      icon: (
+        <Wallet
+          className={`text-gray-300 text-2xl ${
+            selectedComponent == "Payment" ? "text-white" : ""
+          }`}
+        />
+      ),
+      label: "Payment",
+    },
   ];
 
+  const handleCouponCheck = () => {
+    const products = cartItems.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+    }));
+    setCartProductIds(products);
+  };
+  useEffect(() => {
+    const fetchCouponData = async () => {
+      const cookieToken = Cookies.get("localtoken");
+      try {
+        const response = await axios.post<{ data: any }>(
+          `${baseUrl}${coupon}`,
+          {
+            products: cartProductIds,
+            coupon: couponCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+            },
+          }
+        );
+        setDataAfterCouponCode(response.data);
+      } catch (error) {
+        console.log("Error occurred", error);
+      }
+    };
+
+    fetchCouponData();
+  }, [cartProductIds]);
+
+  useEffect(() => {
+    let totalCartDiscount = 0;
+    dataAfterCouponCode.map((element: any) => {
+      const discount = parseInt(element.discountedValue);
+      if (!isNaN(discount)) {
+        totalCartDiscount += discount;
+      }
+    });
+    setTotalDiscount(totalCartDiscount);
+  }, [dataAfterCouponCode]);
+
+
+  const handleOrderComplete = async () => {
+    
+    const cookieToken = Cookies.get("localtoken");
+    const response = await axios.post(
+      `${baseUrl}${order}`,
+      {
+        shippingAddress: address,
+        isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
+        billingAddress: billingAddress,
+        productDetails: cartProductIds,
+        shippingCharges: 100,
+        grandTotal: totalCart - totalDiscount,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
+    setIsOrderPlaced(true);
+  };
   return (
     <>
       <StickyNav />
@@ -420,11 +1003,7 @@ const Checkout = () => {
             </div>
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
-              <div className="heading bg-surface bora-4 pt-4 pb-4">
-                <h1 className="text-2xl">Your Shopping Bag</h1>
-              </div>
               {renderComponent()}
-              <h3 className="font-medium">Estimated Delivery Date: 29/2/2024</h3>
             </div>
             <div className="w-full lg:w-3/4 mt-5">
               {selectedComponent === 'CartItems' && (
@@ -435,11 +1014,21 @@ const Checkout = () => {
                       <Gift style={{ color: 'red', fontSize: '24px' }} />
                       <h3>Available Coupons</h3>
                     </div>
-                    <h3 className="text-red-600 underline cursor-pointer">View</h3>
-                    <input className="border border-black" />
-                    <button className="bg-black text-white">check</button>
+                    <h3 className="text-red-600 underline cursor-pointer">
+                      View
+                    </h3>
+                    <input
+                      className="border border-black"
+                      type="text"
+                      onKeyUp={(e) => setCouponCode(e.currentTarget.value)}
+                    />
+                    <button
+                      className="bg-black text-white"
+                      onClick={handleCouponCheck}
+                    >
+                      check
+                    </button>
                   </div>
-                  {couponsModal && <CouponsModal />}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">
                     <div className="flex gap-2 items-center font-medium">
                       <Gift style={{ color: 'red', fontSize: '24px' }} />
@@ -491,7 +1080,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>
-                      <h3>₹00</h3>
+                      <h3>₹{totalDiscount}</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Shipping Charges</h3>
@@ -499,11 +1088,11 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>G.S.T</h3>
-                      <h3>₹951.27</h3>
+                      <h3>₹00</h3>
                     </div>
                     <div className="flex justify-between font-bold">
                       <h3 className="text-gray-800">Total Price</h3>
-                      <h3>₹{totalCart}</h3>
+                      <h3>₹{totalCart - totalDiscount}</h3>
                     </div>
                   </div>
                 </div>

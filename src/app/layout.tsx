@@ -41,7 +41,7 @@ export default function RootLayout({
           {children}
           {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
           <ModalWishlist />
-          <ModalSearch />
+          {/* <ModalSearch /> */}
           <Footer/>
         </body>
       </html>

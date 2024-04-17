@@ -33,7 +33,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }
 
   const handleDetailProduct = (productId: string | number) => {
-    console.log(productId, "productId");
     router.push(`/product/default?id=${productId}?query=${data.url}`);
   };
   const formattedDiscountedPrice = new Intl.NumberFormat("en-IN").format(
@@ -95,7 +94,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             onClick={() => handleDetailProduct(data?.productId)}
           >
             <div className="product-name text-title duration-300 text-xl">
-              <p>{data?.title}</p>
+              <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
             <div className="flex">

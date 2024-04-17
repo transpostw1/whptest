@@ -17,16 +17,18 @@ const Buttons: React.FC<Props> = ({ product }) => {
     const currentquantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentquantity + 1;
     productAlreadyExists
-      ? updateCart(productItem.productId, updatedQuantity)
+      ? updateCart(productItem?.productId, updatedQuantity)
       : addToCart({ ...productItem });
   };
   return (
     <div className="flex sm:justify-around mt-[25px] ">
-      <div className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center">
+      <div
+        className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
+        onClick={() => handleAddToCart(product)}
+      >
         <Link
           href={{
             pathname: "/checkout",
-            query: { id: JSON.stringify(product.productId) },
           }}
         >
           Buy Now

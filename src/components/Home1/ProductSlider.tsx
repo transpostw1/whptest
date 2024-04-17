@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
-  const swiperRef = useRef();
+  const swiperRef = useRef<any>();
   const filteredProducts = data;
 
   return (
@@ -39,7 +39,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
           <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
             <Swiper
               spaceBetween={12}
-              slidesPerView={2}
+              slidesPerView={1.5}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
               }}
@@ -47,7 +47,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
               modules={[Navigation, Autoplay]}
               breakpoints={{
                 576: {
-                  slidesPerView: 2,
+                  slidesPerView: 1.5,
                   spaceBetween: 12,
                 },
                 768: {

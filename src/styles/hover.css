@@ -482,3 +482,8 @@
   transform: scale(1.5);
   transform: rotate(0deg);
 }
+.profile-sidebar{
+  background-color:white !important;
+  color: #e26178 !important;
+  border: solid 1px #e26178 !important;
+}

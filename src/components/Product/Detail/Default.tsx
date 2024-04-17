@@ -3,11 +3,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useModalWishlistContext } from "@/context/ModalWishlistContext";
@@ -23,6 +23,8 @@ import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
+import useRecentlyViewedProducts from '@/hooks/useRecentlyViewedProducts';
+
 
 interface Props {
   productId: string | number | null;
@@ -37,6 +39,8 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   
+  const { recentlyViewedProducts, saveToRecentlyViewed } = useRecentlyViewedProducts();
+
   const settingsMain = {
     dots: false,
     infinite: true,
@@ -46,17 +50,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     asNavFor: nav2,
   };
 
-  const settingsThumbnails = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    focusOnSelect: true,
-    asNavFor: nav1,
-    nextArrow: <Icon.CaretRight size={50} />,
-    prevArrow: <Icon.CaretLeft size={40} />,
-  };
+
 
   async function getData() {
     const res = await fetch(`${baseUrl}/products/${productId}`);
@@ -78,7 +72,29 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, [productId]);
 
+  
+
   const product = data[0];
+  
+  const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
+
+  const settingsThumbnails = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: slidesToShow,
+    slidesToScroll: 1,
+    focusOnSelect: true,
+    asNavFor: nav1,
+    nextArrow: <Icon.CaretRight size={50} />,
+    prevArrow: <Icon.CaretLeft size={40} />,
+  };
+  
+  useEffect(() => {
+    if (product) {
+      saveToRecentlyViewed(product);
+    }
+  }, [product, saveToRecentlyViewed]);
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat((data && product?.discountPrice) ?? 0))
@@ -90,6 +106,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   return (
     <>
+      <StickyNav/>
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -119,7 +136,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 >
                   {product &&
                     product.imageDetails
-                      .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                      .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
                       .map((image, index) => (
                         <div key={index}>
                           <Image

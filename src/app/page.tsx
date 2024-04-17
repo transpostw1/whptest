@@ -1,9 +1,11 @@
 "use client"
 import React, { useEffect } from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper"
 import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
 import Category from "@/components/Home1/Category";
+import RoseGold from "@/components/Home1/RoseGold";
 import GoldScheme from "@/components/Home1/GoldScheme";
 import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
@@ -16,17 +18,21 @@ import WhpApp from "@/components/Home1/WhpApp";
 import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
+import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
   const { products, fetchData } = useProductContext();
 
   return (
     <>
+    <div className="overflow-x-hidden">
+      <MobileMainCategorySwiper/>
       <MainCarousel />
       <Explore />
       {/* <Collection /> */}
       <ProductSlider data={products} start={0} limit={6} />
       <WhpTv products={products}/>
+      <RoseGold/>
       <Category />
       <GetFastDeliveryProducts data={products} start={7} limit={14}/>
       <WhatWeOffer/>
@@ -38,6 +44,9 @@ export default function Home() {
       <SpecialOccasion />
       <Reviews />
       {/* <WhpApp /> */}
+      </div>
+      <WhpApp />
+      <StickyNav/>
 
     </>
   );

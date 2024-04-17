@@ -61,13 +61,11 @@ const Checkout = () => {
   const [selectedStep, setSelectedStep] = useState(0);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [address, setAddress] = useState<any>();
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
-  const { getProductById } = useProductContext();
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -927,7 +925,7 @@ const Checkout = () => {
           onClick={handleGetAddress}
         />
       ),
-      label: "Address",
+      label: <p onClick={handleGetAddress}>Address</p>,
     },
     {
       icon: (
@@ -984,20 +982,6 @@ const Checkout = () => {
     setTotalDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
-  console.log("cart discount:", totalDiscount);
-  useEffect(() => {
-    console.log("All Address", address);
-  }, [allAddress]);
-
-  const requestData = {
-    shippingAddress: allAddress[0],
-    isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
-    billingAddress: billingAddress,
-    productDetails: cartProductIds,
-    shippingCharges: 100,
-    grandTotal: totalCart - totalDiscount,
-  };
-  console.log("requested Data", requestData);
 
   const handleOrderComplete = async () => {
     

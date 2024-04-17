@@ -13,7 +13,7 @@ interface Props {
 const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
     <>
-      <div className={`banner-top style-four w-full  bg-rose-950 py-2 h-[30px]`}>
+      <div className={`banner-top style-four w-full  bg-rose-950 h-[25px]`}>
         <div className="container flex items-center justify-center align-middle">
           <div className="sm:w-2/3 w-full h-full">
             <Swiper
@@ -30,35 +30,21 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
                 <div
                   className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
-                  Get 10% off on selected items
+                 Welcome to WHP Jewellers
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
                   className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
-                  Free shipping on all orders over ₹50
+                 Something Special For Everyone
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
                   className={`text-button-uppercase px-8 text-white ${textColor}`}
                 >
-                  10% off on all summer essentials!
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase px-8 ${textColor}`}
-                >
-                  Get summer-ready: 10% off swim suits
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase px-8 ${textColor}`}
-                >
-                  10% off on all product on shop
+                  10% off on all products
                 </div>
               </SwiperSlide>
             </Swiper>

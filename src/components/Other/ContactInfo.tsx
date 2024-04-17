@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 import Image from "next/image";
 
 const ContactInfo = () => {
+
   return (
     <div className="absolute top-[100px] w-[343px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
       <p className="text-xl font-semibold">Get in Touch with us</p>

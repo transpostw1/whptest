@@ -191,8 +191,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             }
           );
         } catch (error) {
-          setError(true);
-          logOut();
+          setError(true)
         }
 
         // Update local state and localStorage only if the API call is successful

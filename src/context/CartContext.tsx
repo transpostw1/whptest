@@ -23,7 +23,7 @@ import { useCouponContext } from "./CouponContext";
 
 interface CartItem {
   productId: number | any;
-  quantity: number;
+  quantity: number|any;
   name: string;
   metalType: string;
   metalPurity: string;

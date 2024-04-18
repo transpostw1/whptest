@@ -1,7 +1,7 @@
 "use client"
 import React, { createContext, useContext, useState } from "react";
 interface CouponContextProps {
-    totalDiscount: number;
+    totalDiscount: number|any;
     setTotalDiscount: React.Dispatch<React.SetStateAction<number>>;
 }
 

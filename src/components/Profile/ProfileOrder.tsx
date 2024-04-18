@@ -6,9 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 interface Props {
   orders: any;
-  imageDetailed:any;
 }
-const ProfileOrders: React.FC<Props> = ({ orders ,imageDetailed}) => {
+const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const router = useRouter();
   const [imageDetail, setImageDetail] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
@@ -60,8 +59,8 @@ const ProfileOrders: React.FC<Props> = ({ orders ,imageDetailed}) => {
                 >
                   <div className="flex">
                     <div>
-                      {Array.isArray(imageDetailed) &&
-                        imageDetailed.map(
+                      {Array.isArray(items.imageDetails) &&
+                        items.imageDetails.map(
                           (image: any, index: any) => (
                             <div key={index}>
                               <Image

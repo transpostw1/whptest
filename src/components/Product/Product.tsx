@@ -32,14 +32,23 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     return null; // or render a default image or fallback UI
   }
 
+//   const sortedVideos = data?.videoDetails?.slice().sort((a: any, b: any) => (
+//     parseInt(a.order) - parseInt(b.order)
+// ));
+// const selectedVideo = sortedVideos?.[0];
+// if (!data || !data.videoDetails || !selectedVideo || !selectedVideo.video_path) {
+//     return null;
+// }
+
   const handleDetailProduct = (productId: string | number) => {
     router.push(`/product/default?id=${productId}?query=${data.url}`);
   };
-  const formattedDiscountedPrice = new Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data.discountPrice))
+ const formattedDiscountedPrice = Intl.NumberFormat("en-IN", { minimumFractionDigits: 2 }).format(
+    Math.round(parseFloat((data.discountPrice) ?? 0))
   );
-  const formattedOriginalPrice = new Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data.productPrice))
+
+  const formattedOriginalPrice = Intl.NumberFormat("en-IN",{ minimumFractionDigits: 2 }).format(
+    Math.round(parseFloat((data.productPrice) ?? 0))
   );
 
   return (
@@ -50,7 +59,8 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             <div
               className=" w-full h-full aspect-[4/3]"
               onMouseLeave={() => setShowVideo(false)}
-            >
+              >
+
               {showVideo == true ? (
                 <div className="mb-2">
                   <div
@@ -58,7 +68,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => handleDetailProduct(data?.productId)}
                   >
                     <video loop autoPlay>
-                      {" "}
                       <source
                         src="/products/GERD23021256.mp4"
                         type="video/mp4"

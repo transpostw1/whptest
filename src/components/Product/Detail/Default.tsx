@@ -23,8 +23,7 @@ import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
-import useRecentlyViewedProducts from '@/hooks/useRecentlyViewedProducts';
-
+import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 
 interface Props {
   productId: string | number | null;
@@ -38,8 +37,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [size, setSize] = useState<string>("3.0");
   const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  
-  const { recentlyViewedProducts, saveToRecentlyViewed } = useRecentlyViewedProducts();
+
+  const { recentlyViewedProducts, saveToRecentlyViewed } =
+    useRecentlyViewedProducts();
 
   const settingsMain = {
     dots: false,
@@ -49,8 +49,6 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToScroll: 1,
     asNavFor: nav2,
   };
-
-
 
   async function getData() {
     const res = await fetch(`${baseUrl}/products/${productId}`);
@@ -72,10 +70,8 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, [productId]);
 
-  
-
   const product = data[0];
-  
+
   const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
 
   const settingsThumbnails = {
@@ -86,27 +82,25 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToScroll: 1,
     focusOnSelect: true,
     asNavFor: nav1,
-    nextArrow: <Icon.CaretRight size={50} />,
-    prevArrow: <Icon.CaretLeft size={40} />,
   };
-  
+
   useEffect(() => {
     if (product) {
       saveToRecentlyViewed(product);
     }
   }, [product, saveToRecentlyViewed]);
 
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat((data && product?.discountPrice) ?? 0))
-  );
+  const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat((data && product?.discountPrice) ?? 0)));
 
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat((data && product?.productPrice) ?? 0))
-  );
+  const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat((data && product?.productPrice) ?? 0)));
 
   return (
     <>
-      <StickyNav/>
+      <StickyNav />
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -118,10 +112,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                   product.imageDetails
                     .sort((a, b) => parseInt(a.order) - parseInt(b.order))
                     .map((image, index) => (
-                      <div key={index}>
+                      <div key={index} className="">
                         <InnerImageZoom
                           src={image.image_path}
-                          srcSet={image}
                           zoomScale={1.5}
                           zoomType="click"
                           hideCloseButton={true}
@@ -136,7 +129,10 @@ const Default: React.FC<Props> = ({ productId }) => {
                 >
                   {product &&
                     product.imageDetails
-                      .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
+                      .sort(
+                        (a: any, b: any) =>
+                          parseInt(a.order) - parseInt(b.order)
+                      )
                       .map((image, index) => (
                         <div key={index}>
                           <Image
@@ -144,7 +140,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                             alt={product?.title}
                             width={100}
                             height={100}
-                            className="lg:mr-1 cursor-pointer"
+                            className="cursor-pointer border"
                           />
                         </div>
                       ))}
@@ -152,14 +148,20 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           )}
-          <>
-            <video
-              className=""
-              src="/products/GERD23021256.mp4"
-              loop
-              autoPlay
-            />
-          </>
+          
+          {product &&
+            product.videoDetails &&
+            product.videoDetails.length > 0 &&
+            product.videoDetails.map((item: any) => (
+              <video
+                key={item.order}
+                className=""
+                src={item.video_path}
+                loop
+                autoPlay
+                muted
+              />
+            ))}
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (

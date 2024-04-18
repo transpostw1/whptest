@@ -24,7 +24,7 @@ const ShopBreadCrumb1 = () => {
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [pageNumber, setPageNumber] = useState<number>(0);
-  const productsPerPage = 9;
+  const productsPerPage = 15;
   const pagesVisited = pageNumber * productsPerPage;
   const param = useSearchParams();
   const name = param.get("url");

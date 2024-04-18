@@ -85,6 +85,10 @@ const Checkout = () => {
     };
   }, []);
 
+  // const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
+  //   Math.round(parseFloat((cartItems && cartItems?.) ?? 0))
+  // );
+
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -126,13 +130,17 @@ const Checkout = () => {
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
-  let totalCart = 0;
+  let totalCart: any = 0;
+  let formattedPrice: any = 0;
   cartItems.forEach((item) => {
     const price = parseInt(item.price);
     // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === "number") {
       // Multiply quantity by price and add to totalCart
-      totalCart += price * item.quantity;
+      formattedPrice += price * item.quantity;
+      totalCart = Intl.NumberFormat("en-IN", {
+        minimumFractionDigits: 2,
+      }).format(Math.round(parseFloat(formattedPrice)));
     } else {
       console.error("Invalid data:", item);
     }
@@ -662,15 +670,15 @@ const Checkout = () => {
                           >
                             Remove
                           </div>
-                          {/* <div className="text-sm max-md:text-base">
-                            *Save for later
-                          </div> */}
                         </div>
                       </div>
                     </div>
                     <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
                       <div className="text-title text-center">
-                        ₹{product?.price * product.quantity}
+                        ₹
+                        {new Intl.NumberFormat("en-IN", {
+                          minimumFractionDigits: 2,
+                        }).format(product?.price * product.quantity)}
                       </div>
                       <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
                         <Icon.Minus
@@ -950,7 +958,10 @@ const Checkout = () => {
     const fetchCouponData = async () => {
       const cookieToken = Cookies.get("localtoken");
       try {
-        const response = await axios.post<{ data: any }>(
+        const response = await axios.post<{
+          discountedProducts: any;
+          data: any;
+        }>(
           `${baseUrl}${coupon}`,
           {
             products: cartProductIds,
@@ -962,7 +973,7 @@ const Checkout = () => {
             },
           }
         );
-        setDataAfterCouponCode(response.data);
+        setDataAfterCouponCode(response.data.discountedProducts);
       } catch (error) {
         console.log("Error occurred", error);
       }
@@ -973,37 +984,28 @@ const Checkout = () => {
 
   useEffect(() => {
     let totalCartDiscount = 0;
-    dataAfterCouponCode.map((element: any) => {
-      const discount = parseInt(element.discountedValue);
-      if (!isNaN(discount)) {
-        totalCartDiscount += discount;
-      }
-    });
+    if (dataAfterCouponCode && dataAfterCouponCode.length > 0) {
+      dataAfterCouponCode.map((element: any) => {
+        const discount = parseInt(element.discountedValue);
+        if (!isNaN(discount)) {
+          totalCartDiscount += discount;
+        }
+      });
+    }
     setTotalDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
+  let formattedDiscountedPrice: any = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat(totalDiscount)));
 
-  const handleOrderComplete = async () => {
-    
-    const cookieToken = Cookies.get("localtoken");
-    const response = await axios.post(
-      `${baseUrl}${order}`,
-      {
-        shippingAddress: address,
-        isShippingAddressSameAsBillingAddress: billingSameAsDelivery,
-        billingAddress: billingAddress,
-        productDetails: cartProductIds,
-        shippingCharges: 100,
-        grandTotal: totalCart - totalDiscount,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      }
-    );
-    setIsOrderPlaced(true);
-  };
+  let totalCartValue: any = formattedPrice - totalDiscount;
+
+  let formattedTotalCartValue: any = Intl.NumberFormat("en-In", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat(totalCartValue)));
+
+  const handleOrderComplete = async () => {};
   return (
     <>
       <StickyNav />
@@ -1144,7 +1146,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Discount</h3>
-                      <h3>₹{totalDiscount}</h3>
+                      <h3>₹{formattedDiscountedPrice}</h3>
                     </div>
                     <div className="flex justify-between font-medium">
                       <h3>Shipping Charges</h3>
@@ -1156,7 +1158,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between font-bold">
                       <h3 className="text-gray-800">Total Price</h3>
-                      <h3>₹{totalCart - totalDiscount}</h3>
+                      <h3>₹{formattedTotalCartValue}</h3>
                     </div>
                   </div>
                 </div>

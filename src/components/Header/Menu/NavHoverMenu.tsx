@@ -10,6 +10,7 @@ import productData from "@/data/Product.json";
 import useMenuMobile from "@/store/useMenuMobile";
 import { useModalSearchContext } from "@/context/ModalSearchContext";
 import { CategoryType } from "@/type/CategoryType";
+import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import TopNavOne from "../TopNav/TopNavOne";
@@ -22,6 +23,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const {setCustomcategory}=useCategory()
 
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -123,6 +125,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                   query: { url: item.url },
                                 }}
                                 className=" text-secondary duration-300"
+                                onClick={()=>setCustomcategory(item.name)}
                               >
                                 <div className="flex">
                                   <Image

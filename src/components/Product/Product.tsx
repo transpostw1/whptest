@@ -43,11 +43,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = (productId: string | number) => {
     router.push(`/product/default?id=${productId}?query=${data.url}`);
   };
- const formattedDiscountedPrice = Intl.NumberFormat("en-IN", { minimumFractionDigits: 2 }).format(
+ const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat((data.discountPrice) ?? 0))
   );
 
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN",{ minimumFractionDigits: 2 }).format(
+  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat((data.productPrice) ?? 0))
   );
 

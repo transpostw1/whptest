@@ -8,7 +8,8 @@ import { ModalWishlistProvider } from "@/context/ModalWishlistContext";
 import { CompareProvider } from "@/context/CompareContext";
 import { ModalSearchProvider } from "@/context/ModalSearchContext";
 import { ModalQuickviewProvider } from "@/context/ModalQuickviewContext";
-import {CouponCodeProvider} from "@/context/CouponContext"
+import { CouponCodeProvider } from "@/context/CouponContext";
+import { CategoryProvider } from "@/context/CategoryContex";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -16,21 +17,25 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ProductProvider>
       <UserProvider>
+        <CategoryProvider>
           <CouponCodeProvider>
-        <CartProvider>
-          <ModalCartProvider>
-            <WishlistProvider>
-              <ModalWishlistProvider>
-                <CompareProvider>
-                  <ModalSearchProvider>
-                    <ModalQuickviewProvider>{children}</ModalQuickviewProvider>
-                  </ModalSearchProvider>
-                </CompareProvider>
-              </ModalWishlistProvider>
-            </WishlistProvider>
-          </ModalCartProvider>
-        </CartProvider>
+            <CartProvider>
+              <ModalCartProvider>
+                <WishlistProvider>
+                  <ModalWishlistProvider>
+                    <CompareProvider>
+                      <ModalSearchProvider>
+                        <ModalQuickviewProvider>
+                          {children}
+                        </ModalQuickviewProvider>
+                      </ModalSearchProvider>
+                    </CompareProvider>
+                  </ModalWishlistProvider>
+                </WishlistProvider>
+              </ModalCartProvider>
+            </CartProvider>
           </CouponCodeProvider>
+        </CategoryProvider>
       </UserProvider>
     </ProductProvider>
   );

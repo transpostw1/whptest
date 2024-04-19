@@ -14,8 +14,11 @@ import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
+import { useCategory } from "@/context/CategoryContex";
+
 
 const ShopBreadCrumb1 = () => {
+  const { category } = useCategory();
   const [sortOption, setSortOption] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -102,20 +105,21 @@ const ShopBreadCrumb1 = () => {
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
-        <MobileMainCategorySwiper/>
+        <MobileMainCategorySwiper />
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
-          <FilterSidebar
-            data={data}
-            onFilterChange={handleFilterChange}
-            mobileFilter={mobileFilter}
-            setMobileFilter={setMobileFilter}
-            selectedOptions={selectedOptions}
-            handleOptionSelect={handleOptionSelect}
-          />
-
-          <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 h-[650px] overflow-y-auto no-scrollbar">
+          
+            <FilterSidebar
+              data={data}
+              onFilterChange={handleFilterChange}
+              mobileFilter={mobileFilter}
+              setMobileFilter={setMobileFilter}
+              selectedOptions={selectedOptions}
+              handleOptionSelect={handleOptionSelect}
+            />
+          
+          <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 no-scrollbar">
             <div className="">
-              <p className="text-4xl font-bold uppercase">{name}</p>
+              <p className="text-4xl font-bold uppercase">{category}</p>
             </div>
             <div className="flex justify-between mt-5">
               <div className="lg:w-[70%] sm:w-[100%]">
@@ -123,7 +127,7 @@ const ShopBreadCrumb1 = () => {
                 transform an outfit, framing the face with style and grace.
                 <div className="flex flex-wrap lg:hidden sm:block md:hidden">
                   {Object.entries(selectedOptions).flatMap(
-                    ([category, options ]) =>
+                    ([category, options]) =>
                       options.map((option: string, index: number) => (
                         <div
                           key={`${category}-${index}`}

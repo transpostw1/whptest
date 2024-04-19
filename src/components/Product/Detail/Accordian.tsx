@@ -13,7 +13,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
-  const makingCharges:any=parseFloat(product?.makingChargesPerGrams)*parseFloat(product?.metalWeight);
+  const makingCharges: any =
+    parseFloat(product?.makingChargesPerGrams) *
+    parseFloat(product?.metalWeight);
   return (
     <div className="mt-7 ">
       <div className="p-4 border-t-2 border-[#f7f7f7]">
@@ -203,15 +205,13 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p>{product.metalType}</p>
                 {product.diamondDetails && <p>Diamond</p>}
                 <p>Making Charges</p>
-                <p>Discount 10%</p>
-                <p>G.S.T</p>
+                <p>Discount</p>
               </div>
               <div>
                 <p>{product.metalWeight} gms</p>
                 {product.diamondDetails && (
                   <p>{product.diamondDetails[0].diamondClarity}</p>
                 )}
-                <p>-</p>
                 <p>-</p>
                 <p>-</p>
               </div>
@@ -225,11 +225,19 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     }).format(product.diamondDetails[0].diamondCost)}
                   </p>
                 )}
-                <p>₹{new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(makingCharges)}</p>
-                <p>₹3,263</p>
-                <p>₹950</p>
+                <p>
+                  ₹
+                  {new Intl.NumberFormat("en-IN", {
+                    minimumFractionDigits: 2,
+                  }).format(makingCharges)}
+                </p>
+                <p>
+                  {product && product.typeOfDiscount === "Percentage" ? (
+                    <p>{product.discountValue}%</p>
+                  ) : (
+                    <p>₹{product.discountValue}</p>
+                  )}
+                </p>
               </div>
             </div>
           </div>

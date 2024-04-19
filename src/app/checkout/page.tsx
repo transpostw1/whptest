@@ -59,6 +59,7 @@ const Checkout = () => {
   const [billingSameAsDelivery, setBillingSameAsDelivery] = useState(true);
   const [cartProductIds, setCartProductIds] = useState<Coupon[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
+  const [addressId, setAddressId] = useState<any>();
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
@@ -124,6 +125,45 @@ const Checkout = () => {
       console.error("Error fetching address:", error);
     }
   };
+
+  // Effect to update selected address when addressId changes
+  // useEffect(() => {
+  //   const setAddressById = (id: any) => {
+  //     console.log("addressId", id);
+  //     const foundAddress = allAddress.find(
+  //       (address: any) => address.address_id === id
+  //     );
+  //     console.log("foundedAddress", foundAddress);
+  //     setAddress(foundAddress
+  //     );
+  //   };
+  //   if (addressId !== null) {
+  //     setAddressById(addressId);
+  //   }
+  // }, [addressId, allAddress]);
+  useEffect(() => {
+    const setAddressById = (id: any) => {
+      console.log("addressId", id);
+
+      let foundAddress = null;
+      for (let i = 0; i < allAddress.length; i++) {
+        if (allAddress[i].address_id == id) {
+          
+          foundAddress = allAddress[i];
+          break;
+        }
+      }
+      console.log("foundedAddress", foundAddress);
+      if (foundAddress) {
+        setAddress(foundAddress);
+      } else {
+        console.log("No address found for ID:", id);
+      }
+    };
+    if (addressId !== null) {
+      setAddressById(addressId);
+    }
+  }, [addressId, allAddress]);
 
   const searchParams = useSearchParams();
 
@@ -717,6 +757,39 @@ const Checkout = () => {
       case "DeliveryDetails":
         return (
           <>
+            {allAddress !== undefined && allAddress.length > 0 && (
+              <div className="flex justify-between mb-3">
+                <div className="flex">
+                  <div className="text-2xl font-semibold flex items-center mr-2">
+                    Address type:
+                  </div>
+                  <div className="relative">
+                    <select
+                      className="appearance-none pl-2 pr-8 py-2 border border-black"
+                      onChange={(e) => setAddressId(e.target.value)}
+                    >
+                      {Array.isArray(allAddress) &&
+                        allAddress.map((item: any, index: any) => (
+                          <option key={index} value={item.address_id}>
+                            {item.address_type} {item?.pincode}
+                          </option>
+                        ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                      {/* Add your dropdown icon here */}
+                      <Icon.CaretDown weight="fill" />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  onClick={openModal}
+                  className="text-[#e26178] cursor-pointer"
+                >
+                  +Add New
+                </div>
+              </div>
+            )}
             <div className="text-2xl">DELIVERY ADDRESS</div>
             {address == undefined && allAddress.length === 0 ? (
               <div
@@ -727,37 +800,21 @@ const Checkout = () => {
               </div>
             ) : (
               <>
-                <div>
-                  {Array.isArray(allAddress) &&
-                    allAddress.map((item: any, index: any) => (
-                      <div
-                        key={index}
-                        className="flex border justify-between border-black p-3 mb-2"
-                      >
-                        <div className="flex">
-                          <div className="mt-1 mr-2">
-                            <Icon.CheckCircle weight="fill" size={23} />
-                          </div>
-                          <div>
-                            <p className="font-semibold">
-                              Aaditya Telange, +919004073287
-                            </p>
-                            <p className="w-[60%]">
-                              {item?.full_address},{item?.landmark},
-                              {item?.pincode},{item?.state},{item?.country}
-                            </p>
-                            <p className="flex text-[#e26178] cursor-pointer">
-                              Edit
-                              <Icon.Pen className="mt-1 ml-1" />
-                            </p>
-                          </div>
-                        </div>
-                        <div className="cursor-pointer">
-                          <Icon.X size={24} />
-                        </div>
-                      </div>
-                    ))}
+                <div className="flex border border-black p-3">
+                  <div className="mt-1 mr-2">
+                    <Icon.CheckCircle weight="fill" size={23} />
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      Aaditya Telange, +919004073287
+                    </p>
+                    <p className="w-[60%]">
+                      {address?.full_address},{address?.landmark},
+                      {address?.pincode},{address?.state},{address?.country}
+                    </p>
+                  </div>
                 </div>
+
                 <div className="flex">
                   <input
                     type="checkbox"
@@ -772,25 +829,18 @@ const Checkout = () => {
                   <>
                     <p className="text-xl font-semibold">BILLING ADDRESS</p>
                     <div className="flex border border-black p-3">
-                      {/* <div className="mt-1 mr-2">
-                      <Icon.CheckCircle weight="fill" size={23} />
-                    </div>
-                    <div>
-                      <p className="font-semibold">
-                        Aaditya Telange, +919004073287
-                      </p>
-                      <p className="w-[60%]">
-                        {address.full_address},{address.landmark},
-                        {address.pincode},{address.state},{address.country}
-                      </p>
-                      <p className="flex text-[#e26178] cursor-pointer">
-                        Edit
-                        <Icon.Pen className="mt-1 ml-1" />
-                      </p>
-                    </div>
-                    <div className="cursor-pointer">
-                      <Icon.X size={24} />
-                    </div> */}
+                      <div className="mt-1 mr-2">
+                        <Icon.CheckCircle weight="fill" size={23} />
+                      </div>
+                      <div>
+                        <p className="font-semibold">
+                          Aaditya Telange, +919004073287
+                        </p>
+                        <p className="w-[60%]">
+                          {address?.full_address},{address?.landmark},
+                          {address?.pincode},{address?.state},{address?.country}
+                        </p>
+                      </div>
                     </div>
                   </>
                 ) : (
@@ -807,13 +857,6 @@ const Checkout = () => {
                         {billingAddress?.landmark},{billingAddress?.pincode},
                         {billingAddress?.state},{billingAddress?.country}
                       </p>
-                      <p className="flex text-[#e26178] cursor-pointer">
-                        Edit
-                        <Icon.Pen className="mt-1 ml-1" />
-                      </p>
-                    </div>
-                    <div className="cursor-pointer">
-                      <Icon.X size={24} />
                     </div>
                   </div>
                 )}

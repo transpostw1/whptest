@@ -148,7 +148,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           )}
-          
+
           {product &&
             product.videoDetails &&
             product.videoDetails.length > 0 &&
@@ -174,7 +174,6 @@ const Default: React.FC<Props> = ({ productId }) => {
               </span>
             </div>
           )}
-          <p className="mb-2">Gold, 2.6 gms, Pear cut Diamonds - 0.116 Carat</p>
           <div className="flex flex-wrap mb-2">
             <div>
               <span className="underline mr-2 cursor-pointer">12 Review</span>
@@ -196,16 +195,27 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              <span className="font-extrabold text-2xl">
-                ₹{formattedDiscountedPrice}
-              </span>
-              <span className="line-through ml-3 text-[#aa9e9e]">
-                ₹{formattedOriginalPrice}
-              </span>
-              <span className="ml-3 text-[#e26178] underline">
-                {product && product?.discountValue}% OFF on{" "}
-                {product && product?.discountCategory}
-              </span>
+              {product.discountPrice && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedDiscountedPrice}
+                  </span>
+                  <span className="line-through ml-3 text-[#aa9e9e]">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                  <span className="ml-3 text-[#e26178] underline">
+                    {product && product?.discountValue}% OFF on{" "}
+                    {product && product?.discountCategory}
+                  </span>
+                </>
+              )}
+              {product.discountPrice == null && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                </>
+              )}
             </div>
           )}
           <div>

@@ -27,23 +27,23 @@ const FilterSidebar: React.FC<Props> = ({
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
   };
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY;
-  //     console.log("scrollPosition",scrollPosition);
-  //     setFixedHeader(
-  //       (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-  //         scrollPosition > lastScrollPosition
-  //     );
-  //     setLastScrollPosition(scrollPosition);
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      console.log("scrollPosition",scrollPosition);
+      setFixedHeader(
+        (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
+          scrollPosition > lastScrollPosition
+      );
+      setLastScrollPosition(scrollPosition);
+    };
 
-  //   window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [lastScrollPosition]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollPosition]);
 
   useEffect(() => {
     let filteredArray = data.slice();
@@ -85,14 +85,14 @@ const FilterSidebar: React.FC<Props> = ({
     });
     onFilterChange(filteredArray);
   }, [selectedOptions, data]);
-  const stickyRef = useStickyBox({offsetTop: 20, offsetBottom: 20})
+  const stickyRef = useStickyBox({ offsetTop: 20, offsetBottom: 20 });
 
   return (
     <>
       <div
-        className={`sidebar lg:w-[300px] md:w-1/3 w-full md:pr-12 lg:block hidden md:block`} ref={stickyRef}
+        className={`sidebar lg:w-[300px] md:w-1/3 w-full md:pr-12 lg:block hidden md:block`}
       >
-       
+        
           <div
             className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
               fixedHeader ? "fixed top-[121px] w-[250px]" : "relative"
@@ -131,6 +131,7 @@ const FilterSidebar: React.FC<Props> = ({
               />
             </div>
           </div>
+        
       </div>
       {mobileFilter && (
         <div className="fixed inset-0 bg-white z-10 h-[100vh] ">

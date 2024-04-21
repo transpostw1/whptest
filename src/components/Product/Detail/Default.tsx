@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductType } from "@/type/ProductType";
@@ -73,7 +73,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const product = data[0];
 
   const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
-
+  let sliderRef = useRef<any>();
   const settingsThumbnails = {
     dots: false,
     infinite: true,
@@ -122,29 +122,39 @@ const Default: React.FC<Props> = ({ productId }) => {
                       </div>
                     ))}
               </Slider>
-              <div className="m-auto w-[60%] h-full">
-                <Slider
-                  {...settingsThumbnails}
-                  ref={(slider: any) => setNav2(slider)}
-                >
-                  {product &&
-                    product.imageDetails
-                      .sort(
-                        (a: any, b: any) =>
-                          parseInt(a.order) - parseInt(b.order)
-                      )
-                      .map((image, index) => (
-                        <div key={index}>
-                          <Image
-                            src={image?.image_path}
-                            alt={product?.title}
-                            width={100}
-                            height={100}
-                            className="cursor-pointer border"
-                          />
-                        </div>
-                      ))}
-                </Slider>
+              <div className="m-auto w-[60%] h-full relative">
+                <>
+                  <Slider
+                    {...settingsThumbnails}
+                    ref={(slider) => {
+                      sliderRef = slider;
+                    }}
+                  >
+                    {product &&
+                      product.imageDetails
+                        .sort(
+                          (a: any, b: any) =>
+                            parseInt(a.order) - parseInt(b.order)
+                        )
+                        .map((image, index) => (
+                          <div key={index}>
+                            <Image
+                              src={image?.image_path}
+                              alt={product?.title}
+                              width={100}
+                              height={100}
+                              className="cursor-pointer border"
+                            />
+                          </div>
+                        ))}
+                  </Slider>
+                </>
+                <div className="absolute top-[40px] -right-[10px] cursor-pointer">
+                  <Icon.CaretRight onClick={() => sliderRef.slickNext()} size={25}/>
+                </div>
+                <div className="absolute top-[40px] -left-[50px] cursor-pointer">
+                  <Icon.CaretLeft onClick={() => sliderRef.slickPrev()} size={25}/>
+                </div>
               </div>
             </div>
           )}

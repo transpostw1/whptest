@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductType } from "@/type/ProductType";
@@ -73,7 +73,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const product = data[0];
 
   const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
-
+  let sliderRef = useRef<any>();
   const settingsThumbnails = {
     dots: false,
     infinite: true,
@@ -122,33 +122,43 @@ const Default: React.FC<Props> = ({ productId }) => {
                       </div>
                     ))}
               </Slider>
-              <div className="m-auto w-[60%] h-full">
-                <Slider
-                  {...settingsThumbnails}
-                  ref={(slider: any) => setNav2(slider)}
-                >
-                  {product &&
-                    product.imageDetails
-                      .sort(
-                        (a: any, b: any) =>
-                          parseInt(a.order) - parseInt(b.order)
-                      )
-                      .map((image, index) => (
-                        <div key={index}>
-                          <Image
-                            src={image?.image_path}
-                            alt={product?.title}
-                            width={100}
-                            height={100}
-                            className="cursor-pointer border"
-                          />
-                        </div>
-                      ))}
-                </Slider>
+              <div className="m-auto w-[60%] h-full relative">
+                <>
+                  <Slider
+                    {...settingsThumbnails}
+                    ref={(slider) => {
+                      sliderRef = slider;
+                    }}
+                  >
+                    {product &&
+                      product.imageDetails
+                        .sort(
+                          (a: any, b: any) =>
+                            parseInt(a.order) - parseInt(b.order)
+                        )
+                        .map((image, index) => (
+                          <div key={index}>
+                            <Image
+                              src={image?.image_path}
+                              alt={product?.title}
+                              width={100}
+                              height={100}
+                              className="cursor-pointer border"
+                            />
+                          </div>
+                        ))}
+                  </Slider>
+                </>
+                <div className="absolute top-[40px] -right-[10px] cursor-pointer">
+                  <Icon.CaretRight onClick={() => sliderRef.slickNext()} size={25}/>
+                </div>
+                <div className="absolute top-[40px] -left-[50px] cursor-pointer">
+                  <Icon.CaretLeft onClick={() => sliderRef.slickPrev()} size={25}/>
+                </div>
               </div>
             </div>
           )}
-          
+
           {product &&
             product.videoDetails &&
             product.videoDetails.length > 0 &&
@@ -174,7 +184,6 @@ const Default: React.FC<Props> = ({ productId }) => {
               </span>
             </div>
           )}
-          <p className="mb-2">Gold, 2.6 gms, Pear cut Diamonds - 0.116 Carat</p>
           <div className="flex flex-wrap mb-2">
             <div>
               <span className="underline mr-2 cursor-pointer">12 Review</span>
@@ -196,16 +205,27 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              <span className="font-extrabold text-2xl">
-                ₹{formattedDiscountedPrice}
-              </span>
-              <span className="line-through ml-3 text-[#aa9e9e]">
-                ₹{formattedOriginalPrice}
-              </span>
-              <span className="ml-3 text-[#e26178] underline">
-                {product && product?.discountValue}% OFF on{" "}
-                {product && product?.discountCategory}
-              </span>
+              {product.discountPrice && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedDiscountedPrice}
+                  </span>
+                  <span className="line-through ml-3 text-[#aa9e9e]">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                  <span className="ml-3 text-[#e26178] underline">
+                    {product && product?.discountValue}% OFF on{" "}
+                    {product && product?.discountCategory}
+                  </span>
+                </>
+              )}
+              {product.discountPrice == null && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                </>
+              )}
             </div>
           )}
           <div>

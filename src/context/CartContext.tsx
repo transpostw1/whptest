@@ -2,8 +2,6 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
-import axios from "axios";
-import { getCartItems, getProductbyId } from "@/utils/constants";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 
@@ -18,7 +16,8 @@ interface CartItem {
 interface CartContextProps {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (productId: number) => void;
+  removeFromCart: (productId: number, quantity: number) => void;
+  updateCart: (productId: number, newQuantity: number) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -27,6 +26,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [storedCartItems, setStoredCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieTokenn, setCookieTokenn] = useState<string | undefined>("");
 
@@ -40,87 +40,88 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      const fetchCartItemsDetails = async () => {
-        try {
-          const response = await instance.get(`${baseUrl}${getCartItems}`, {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          });
-          const cartItemsData = response.data.cart_items.map((item: any) => {
-            const imageDetails = JSON.parse(
-              item.product_details[0].imageDetails
-            );
-            imageDetails.sort((a: any, b: any) => a.order - b.order);
-            const imagePath = imageDetails[0] ? imageDetails[0].image_path : "";
-            return {
-              productId: item.productId,
-              quantity: item.quantity,
-              name: item.product_details[0].displayTitle,
-              price: parseInt(item.product_details[0].discountPrice),
-              image: imagePath,
-            };
-          });
-          setCartItems(cartItemsData);
-        } catch (error) {
-          console.error("Error fetching cart items:", error);
-        }
-      };
-      fetchCartItemsDetails();
+      const cartItemsFromStorage = localStorage.getItem("cartItems");
+      if (cartItemsFromStorage) {
+        setCartItems(JSON.parse(cartItemsFromStorage));
+        setStoredCartItems(JSON.parse(cartItemsFromStorage));
+      } else {
+        // Fetch cart items from the server if local storage is empty
+        fetchCartItemsFromServer().then((cartItems) => {
+          setCartItems(cartItems);
+          setStoredCartItems(cartItems);
+        });
+      }
     } else {
-      const storedCartItems = localStorage.getItem("cartItems");
-      if (storedCartItems) {
-        setCartItems(JSON.parse(storedCartItems));
+      const cartItemsFromStorage = localStorage.getItem("cartItems");
+      if (cartItemsFromStorage) {
+        setCartItems(JSON.parse(cartItemsFromStorage));
+        setStoredCartItems(JSON.parse(cartItemsFromStorage));
       }
     }
-  }, [isLoggedIn, cookieTokenn]);
+  }, [isLoggedIn]);
 
   const addToCart = async (item: CartItem) => {
     setCartItems((prevCartItems) => [...prevCartItems, item]);
+    setStoredCartItems((prevStoredCartItems) => [...prevStoredCartItems, item]);
+    localStorage.setItem("cartItems", JSON.stringify([...storedCartItems, item]));
+
     if (isLoggedIn) {
-      try {
-        await instance.post(
-          `${baseUrl}${getCartItems}`,
-          {
-            productId: item.productId,
-            quantity: item.quantity,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Error adding item to cart:", error);
-      }
-    } else {
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify([...cartItems, item])
-      );
+      await syncCartWithServer(storedCartItems);
     }
   };
 
-  const removeFromCart = async (productId: number) => {
+  const removeFromCart = async (productId: number, quantity: number) => {
     setCartItems((prevCartItems) =>
       prevCartItems.filter((item) => item.productId !== productId)
     );
+    setStoredCartItems((prevStoredCartItems) =>
+      prevStoredCartItems.filter((item) => item.productId !== productId)
+    );
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(storedCartItems.filter((item) => item.productId !== productId))
+    );
+
     if (isLoggedIn) {
-      try {
-        await instance.delete(`${baseUrl}${getCartItems}/${productId}`, {
-          headers: {
-            Authorization: `Bearer ${cookieTokenn}`,
-          },
-        });
-      } catch (error) {
-        console.error("Error removing item from cart:", error);
-      }
-    } else {
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify(cartItems.filter((item) => item.productId !== productId))
+      await syncCartWithServer(storedCartItems);
+    }
+  };
+
+  const updateCart = async (productId: number, newQuantity: number) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+    setStoredCartItems((prevStoredCartItems) =>
+      prevStoredCartItems.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+    localStorage.setItem("cartItems", JSON.stringify(storedCartItems));
+  
+    if (isLoggedIn) {
+      const updatedCartItems = storedCartItems.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
       );
+      await syncCartWithServer(updatedCartItems);
+    }
+  };
+
+  const syncCartWithServer = async (cartItems: CartItem[]) => {
+    try {
+      const cartData = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+
+      await instance.post(`${baseUrl}/cart/sync`, { cart: cartData }, {
+        headers: {
+          Authorization: `Bearer ${cookieTokenn}`,
+        },
+      });
+    } catch (error) {
+      console.error("Error syncing cart with server:", error);
     }
   };
 
@@ -128,12 +129,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     cartItems,
     addToCart,
     removeFromCart,
+    updateCart,
   };
 
   return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
   );
 };
 

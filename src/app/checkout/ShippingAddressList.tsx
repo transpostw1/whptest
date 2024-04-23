@@ -67,10 +67,10 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
 
   useEffect(() => {
     if (addressAdded) {
-      onAddressAdded();
+      onAddressAdded(); // Call the onAddressAdded function when a new address is added
     }
   }, [addressAdded, onAddressAdded]);
-
+  
   const handleAddressSelect = (address: Address) => {
     onAddressSelect(address);
   };

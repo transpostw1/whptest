@@ -5,10 +5,30 @@ import AddAddressModal from './AddAddressModal';
 import AddAddressMobile from './AddAddressMobile';
 import FlashAlert from "../../components/other/FlashAlert";
 
-const DeliveryDetails: React.FC = () => {
-  const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
-  const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
-  const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
+interface DeliveryDetailsProps {
+    onShippingAddressSelected: () => void;
+    onBillingAddressSelected: () => void; // Keep this line
+    useSameAsBillingAddress: boolean;
+    setUseSameAsBillingAddress: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedShippingAddress: Address | null;
+    setSelectedShippingAddress: React.Dispatch<React.SetStateAction<Address | null>>;
+    selectedBillingAddress: Address | null;
+    setSelectedBillingAddress: React.Dispatch<React.SetStateAction<Address | null>>;
+  }
+  
+  const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
+    onShippingAddressSelected,
+    onBillingAddressSelected, // Keep this line
+    useSameAsBillingAddress,
+    setUseSameAsBillingAddress,
+    selectedShippingAddress,
+    setSelectedShippingAddress,
+    selectedBillingAddress,
+    setSelectedBillingAddress,
+  }) => {
+  //const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
+  //const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
+  
   const [isShippingAddressModalOpen, setIsShippingAddressModalOpen] = useState(false);
   const [isBillingAddressModalOpen, setIsBillingAddressModalOpen] = useState(false);
   const [isShippingAddressMobileOpen, setIsShippingAddressMobileOpen] = useState(false);
@@ -18,23 +38,51 @@ const DeliveryDetails: React.FC = () => {
   const [flashKey, setFlashKey] = useState(0);
   const [shippingAddressAdded, setShippingAddressAdded] = useState(false); // Add this state variable
   const [billingAddressAdded, setBillingAddressAdded] = useState(false); // Add this state variable
+  const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
+  const [billingAddressSelected, setBillingAddressSelected] = useState(false);
 
 
   const handleShippingAddressSelect = (address: Address) => {
-    setSelectedShippingAddress(address);
-    if (useSameAsBillingAddress) {
-      setSelectedBillingAddress(address);
+    if (address === null) {
+      setSelectedShippingAddress(null);
+      setShippingAddressSelected(false);
+      if (useSameAsBillingAddress) {
+        setSelectedBillingAddress(null);
+        setBillingAddressSelected(false);
+      }
+    } else {
+      setSelectedShippingAddress(address);
+      setShippingAddressSelected(true);
+      onShippingAddressSelected();
+      if (useSameAsBillingAddress) {
+        setSelectedBillingAddress(address);
+        setBillingAddressSelected(true);
+        onBillingAddressSelected();
+      }
+      console.log("Setting flash message for shipping address");
+      setFlashMessage(`Shipping address updated`);
+      setFlashKey((prevKey) => prevKey + 1);
     }
-    console.log("Setting flash message for shipping address");
-    setFlashMessage(`Shipping address updated`);
-    setFlashKey(prevKey => prevKey + 1);
   };
-
+  
   const handleBillingAddressSelect = (address: Address) => {
-    setSelectedBillingAddress(address);
-    if (!useSameAsBillingAddress) {
-      setFlashMessage(`Billing address updated`);
-      setFlashKey(prevKey => prevKey + 1);
+    console.log('handleBillingAddressSelect called with address:', address);
+    console.log('useSameAsBillingAddress value:', useSameAsBillingAddress);
+    if (address === null) {
+      setSelectedBillingAddress(null);
+      setBillingAddressSelected(false);
+    } else {
+      setSelectedBillingAddress(address);
+      setBillingAddressSelected(true);
+      props.onBillingAddressSelected(); // Call the prop function
+      console.log('billingAddressSelected set to true');
+  
+      if (!useSameAsBillingAddress) {
+        setFlashMessage(`Billing address updated`);
+        setFlashKey((prevKey) => prevKey + 1);
+      } else {
+        setBillingAddressSelected(true);
+      }
     }
   };
 
@@ -71,6 +119,9 @@ const DeliveryDetails: React.FC = () => {
     }
   };
 
+  const isDeliveryDetailsValid = () => {
+    return shippingAddressSelected && (useSameAsBillingAddress || billingAddressSelected);
+  };
 
   console.log("Flash Message:", flashMessage);
 

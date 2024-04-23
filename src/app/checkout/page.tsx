@@ -16,6 +16,7 @@ import ProceedButton from './ProceedButton';
 import CouponsModal from '@/components/Other/CouponsModal';
 import { AddressBook, ShoppingCart, Wallet, ArrowRight, Gift, CreditCard } from "@phosphor-icons/react";
 import Image from 'next/image';
+import FlashAlert from "../../components/other/FlashAlert";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
@@ -27,6 +28,16 @@ const Checkout: React.FC = () => {
   const { userState } = useUser();
   const { getProductById } = useProductContext();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
+  const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
+  const [billingAddressSelected, setBillingAddressSelected] = useState(false);
+  const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
+  const [flashMessage, setFlashMessage] = useState('');
+  const [flashType, setFlashType] = useState<'success' | 'error'>('success');
+  const [flashKey, setFlashKey] = useState(0);
+  const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
+
+  const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
+  const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -34,7 +45,12 @@ const Checkout: React.FC = () => {
   const handleCouponsModal = () => {
     setCouponsModal(true);
   };
-
+  const onShippingAddressSelected = () => {
+    setShippingAddressSelected(true);
+  };
+  const onBillingAddressSelected = () => { // Add this function
+    setBillingAddressSelected(true);
+  };
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
 
@@ -82,49 +98,100 @@ const Checkout: React.FC = () => {
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);
   };
-
-  const handleStepClick = (index: number) => {
-    setSelectedStep(index);
-    switch (index) {
-      case 0:
-        setSelectedComponent('CartItems');
-        break;
-      case 1:
-        setSelectedComponent('DeliveryDetails');
-        break;
-      case 2:
-        setSelectedComponent('Payment');
-        break;
-      default:
-        setSelectedComponent('CartItems');
-        break;
-    }
-  };
-
-  const handleProceed = () => {
+ 
+  
+  const validateDeliveryDetails = () => {
+  if (!shippingAddressSelected) {
+    // Display error message using FlashAlert
+    setFlashMessage('Please select a shipping address before proceeding.');
+    setFlashType('error');
+    setFlashKey((prevKey) => prevKey + 1);
+    return false;
+  } else if (!useSameAsBillingAddress && !selectedBillingAddress) {
+    // Display error message using FlashAlert
+    setFlashMessage('Please select a billing address before proceeding.');
+    setFlashType('error');
+    setFlashKey((prevKey) => prevKey + 1);
+    return false;
+  } else if (useSameAsBillingAddress && !selectedShippingAddress) {
+    // Display error message using FlashAlert
+    setFlashMessage('Please select a shipping address before proceeding.');
+    setFlashType('error');
+    setFlashKey((prevKey) => prevKey + 1);
+    return false;
+  }
+  return true;
+};
+  
+  
+  const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
       router.push('/login');
       return;
     }
-
-    if (selectedStep === steps.length - 1) {
-      // Handle completion logic here
-    } else {
-      setSelectedStep((prevStep) => prevStep + 1);
-      switch (selectedStep) {
-        case 0:
-          setSelectedComponent('DeliveryDetails');
-          break;
-        case 1:
-          setSelectedComponent('Payment');
-          break;
-        case 2:
-          setSelectedComponent('CartItems');
-          break;
-        default:
-          setSelectedComponent('CartItems');
-          break;
+  
+    if (index === 0) {
+      setSelectedStep(0);
+      setSelectedComponent('CartItems');
+    } else if (index === 1) {
+      // Reset the address selection states when returning to the delivery details step
+      setShippingAddressSelected(false);
+      setBillingAddressSelected(false);
+      setSelectedShippingAddress(null);
+      setSelectedBillingAddress(null);
+  
+      // Validate cart items
+      if (cartItems.length === 0) {
+        // Display error message using FlashAlert
+        setFlashMessage('Your cart is empty. Please add items to your cart before proceeding.');
+        setFlashType('error');
+        setFlashKey((prevKey) => prevKey + 1);
+        return;
       }
+      setSelectedStep(1);
+      setSelectedComponent('DeliveryDetails');
+    } else if (index === 2) {
+      if (validateDeliveryDetails()) {
+        setSelectedStep(2);
+        setSelectedComponent('Payment');
+      }
+    }
+  };
+  
+
+  const handleProceed = (useSameAsBillingAddress: boolean) => {
+    if (!isLoggedIn) {
+      router.push('/login');
+      return;
+    }
+  
+    if (selectedStep === 0) {
+      // Validate cart items
+      if (cartItems.length === 0) {
+        // Display error message using FlashAlert
+        setFlashMessage('Your cart is empty. Please add items to your cart before proceeding.');
+        setFlashType('error');
+        setFlashKey((prevKey) => prevKey + 1);
+        return;
+      }
+      setSelectedStep((prevStep) => prevStep + 1);
+      setSelectedComponent('DeliveryDetails');
+    } else if (selectedStep === 1) {
+      if (!validateDeliveryDetails()) {
+        return;
+      }
+      setSelectedStep((prevStep) => prevStep + 1);
+      setSelectedComponent('Payment');
+    } else if (selectedStep === 2) {
+      // Validate payment method
+      if (!selectedPaymentMethod) {
+        // Display error message using FlashAlert
+        setFlashMessage('Please select a payment method before placing the order.');
+        setFlashType('error');
+        setFlashKey((prevKey) => prevKey + 1);
+        return;
+      }
+      setIsOrderPlaced(true);
     }
   };
 
@@ -185,7 +252,7 @@ const Checkout: React.FC = () => {
                     <div
                       className="flex items-center w-40"
                       key={index}
-                      onClick={() => handleStepClick(index)}
+                      onClick={() => handleStepClick(index, useSameAsBillingAddress)}
                     >
                       <div
                         className={`p-2 rounded-full border border-gray-300 ${
@@ -205,6 +272,7 @@ const Checkout: React.FC = () => {
             </div>
             <h2>(Review of {cartItems.length} Items)</h2>
           </div>
+          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
               <div className="heading bg-surface bora-4 pt-4 pb-4">
@@ -217,13 +285,28 @@ const Checkout: React.FC = () => {
                   removeFromCart={removeFromCart}
                 />
               )}
-              {selectedComponent === 'DeliveryDetails' && <DeliveryDetails />}
+              {selectedComponent === 'DeliveryDetails' && (
+                <DeliveryDetails
+                onShippingAddressSelected={onShippingAddressSelected}
+                onBillingAddressSelected={onBillingAddressSelected}
+                useSameAsBillingAddress={useSameAsBillingAddress}
+                setUseSameAsBillingAddress={setUseSameAsBillingAddress}
+                selectedShippingAddress={selectedShippingAddress}
+                setSelectedShippingAddress={setSelectedShippingAddress}
+                selectedBillingAddress={selectedBillingAddress}
+                setSelectedBillingAddress={setSelectedBillingAddress}
+              />
+              )}
               {selectedComponent === 'Payment' && (
                 <Payment
                   selectedPaymentMethod={selectedPaymentMethod}
-                  handlePaymentMethodChange={handlePaymentMethodChange}
+                  handlePaymentMethodChange={(event) => {
+                    setSelectedPaymentMethod(event.target.value);
+                    setPaymentMethodSelected(true);
+                  }}
                 />
               )}
+
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
             <div className="w-full lg:w-3/4 mt-5">
@@ -288,6 +371,7 @@ const Checkout: React.FC = () => {
                 proceedButtonTitle={proceedButtonTitle()}
                 handleOrderComplete={handleOrderComplete}
                 handleProceed={handleProceed}
+                useSameAsBillingAddress={useSameAsBillingAddress} // Add this line
               />
             </div>
           </div>

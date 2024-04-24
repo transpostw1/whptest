@@ -1,89 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import Product from "../Product/Product";
 import { ProductType } from "@/type/ProductType";
-import { motion } from "framer-motion";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 interface Props {
-  data: Array<ProductType>;
+  data: ProductType[];
   start: number;
   limit: number;
 }
 
 const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
-  const [activeTab, setActiveTab] = useState<string>("on sale");
-
-  const handleTabClick = (item: string) => {
-    setActiveTab(item);
-  };
-
-  const getFilterData = () => {
-    if (activeTab === "on sale") {
-      return data.filter(
-        (product) => product.sale || product.category === "Jewellery"
-      );
-    }
-
-    if (activeTab === "new arrivals") {
-      return data.filter(
-        (product) => product.new || product.category === "Jewellery"
-      );
-    }
-
-    if (activeTab === "best sellers") {
-      return data
-        .filter((product) => product.category === "Jewellery")
-        .slice()
-        .sort((a, b) => b.sold - a.sold);
-    }
-
-    return data;
-  };
-
-  const filteredProducts = getFilterData();
+  const swiperRef = useRef<any>();
+  const filteredProducts = data;
 
   return (
     <>
-      <div className="tab-features-block md:pt-20 pt-10">
+      <div className="tab-features-block pt-10">
         <div className="container">
-          <div className="heading flex flex-col items-center text-center">
-            <div className="menu-tab flex items-center gap-2 p-1 bg-surface rounded-2xl text-rose-700">
-              {["best sellers", "on sale", "new arrivals"].map(
-                (item, index) => (
-                  <div
-                    key={index}
-                    className={`tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500  hover:text-rose-900 ${
-                      activeTab === item ? "active" : ""
-                    }`}
-                    onClick={() => handleTabClick(item)}
-                  >
-                    {activeTab === item && (
-                      <motion.div
-                        layoutId="active-pill"
-                        className="absolute inset-0 rounded-2xl bg-white "
-                      ></motion.div>
-                    )}
-                    <span className="relative heading5 z-[1]">{item}</span>
-                  </div>
-                )
-              )}
+          <div className="flex justify-between">
+            <div>
+              <p className="font-bold text-[1.5rem]">Best Seller</p>
+            </div>
+            <div className="flex">
+              <button onClick={() => swiperRef.current.slidePrev()}>
+                <Icon.CaretLeft size={30}/>
+              </button>
+              <button onClick={() => swiperRef.current.slideNext()}>
+                <Icon.CaretRight size={30}/>
+              </button>
             </div>
           </div>
 
           <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
             <Swiper
               spaceBetween={12}
-              slidesPerView={2}
-              navigation
+              slidesPerView={1.5}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
               loop={true}
               modules={[Navigation, Autoplay]}
               breakpoints={{
                 576: {
-                  slidesPerView: 2,
+                  slidesPerView: 1.5,
                   spaceBetween: 12,
                 },
                 768: {

@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 
 import React, {
   createContext,
@@ -18,14 +17,13 @@ interface ProductType {
 
 interface ProductContextType {
   products: ProductType[];
-  fetchData: () => Promise<void>; 
-     getProductById: any
+  fetchData: () => Promise<void>;
+  
 }
 
 const ProductContext = createContext<ProductContextType>({
   products: [],
-  fetchData: async () => {}, 
-   getProductById: () =>  undefined
+  fetchData: async () => {},
 });
 
 export const useProductContext = () => useContext(ProductContext);
@@ -39,7 +37,6 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get(getProducts);
       setProducts(response.data);
-      // console.log("Product Fetched Successfully")
     } catch (error) {
       console.error("Error fetching product data:", error);
     }
@@ -49,5 +46,5 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
     <ProductContext.Provider value={{ products, fetchData }}>
       {children}
     </ProductContext.Provider>
-  )
+  );
 };

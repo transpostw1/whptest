@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import MenuOne from '@/components/Header/Menu/MenuOne'
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
+// import MenuOne from '@/components/Header/Menu/MenuOne'
+// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
@@ -13,8 +13,8 @@ const OrderTracking = () => {
         <>
             <TopNavOne props="style-one bg-black" slogan="New customers save 10% with the code GET10" />
             <div id="header" className='relative w-full'>
-                <MenuOne props="bg-transparent" />
-                <Breadcrumb heading='Order Tracking' subHeading='Order Tracking' />
+                {/* <MenuOne props="bg-transparent" /> */}
+                {/* <Breadcrumb heading='Order Tracking' subHeading='Order Tracking' /> */}
             </div>
             <div className="order-tracking md:py-20 py-10">
                 <div className="container">

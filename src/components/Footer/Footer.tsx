@@ -8,7 +8,7 @@ const Footer = () => {
     <>
       <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-gray-50">
-          <div className="container mt-8">
+          <div className="container">
             <div className="flex flex-wrap gap-3 items-center justify-between">
               <div className="flex items-center gap-3 ">
                 <Image
@@ -155,6 +155,12 @@ const Footer = () => {
                       href={"#!"}
                     >
                       Return & Refund
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"https://calendly.com/aadityatelange/30min"}
+                    >
+                      Book,Exchange and BuyBack
                     </Link>
                   </div>
                 </div>

@@ -1,8 +1,8 @@
 export interface CategoryType{
-    id:number|string|null,
-    name:string|null,
-    url:string|null,
-    menuImg:string|null,
-    parent_id:number|null,
-    order:number|null,
+    id:number|string|any,
+    name:string|any,
+    url:string|any,
+    menuImg:string|any,
+    parent_id:number|any,
+    order:number|any,
 }

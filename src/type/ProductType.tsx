@@ -87,4 +87,6 @@ export interface ProductType {
   productPrice: string;
   stoneDetails: any; // Specify type if available
   diamondDetails: any; // Specify type if available
+  gst:string|any;
+  makingCharges:string|any;
 }

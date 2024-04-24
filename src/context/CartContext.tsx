@@ -1,37 +1,23 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
-import { ProductType } from "@/type/ProductType";
-import { useUser } from "./UserContext";
 import instance from "@/utils/axios";
-import axios from "axios";
-import {
-  addCart,
-  removeCart,
-  cartUpdate,
-  getCartItems,
-  getProductbyId,
-} from "@/utils/constants";
-
-import { auth } from "@/app/config";
-import Cookies from "js-cookie";
 import { baseUrl } from "@/utils/constants";
-
-import { request } from "http";
-import { updateCookie } from "@/utils/Token";
+import Cookies from "js-cookie";
 
 interface CartItem {
-  productId: string|number;
-  product_id:string|number;
+  productId: number;
   quantity: number;
+  name: string;
+  price: number;
+  image: string;
 }
 
 interface CartContextProps {
   cartItems: CartItem[];
-  addToCart: (item: ProductType) => void;
-  removeFromCart: (productId: string) => void;
-  updateCart: (productId: string, quantity: number) => void;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (productId: number) => void;
+  updateCartQuantity: (productId: number, newQuantity: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -40,185 +26,92 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [cartUpdated,setCartUpdated] = useState<boolean>(false)
-  const { userState } = useUser();
-  const isLoggedIn = userState.isLoggedIn;
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [cookieToken, setCookieToken] = useState<string | undefined>("");
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      const storedCartItems = localStorage.getItem("cartItems");
-      if (storedCartItems) {
-        setCartItems(JSON.parse(storedCartItems));
-      }
+    const userToken = Cookies.get("localtoken");
+    if (userToken) {
+      setIsLoggedIn(true);
+      setCookieToken(userToken);
     }
   }, []);
 
-  const userId = auth?.currentUser?.uid;
-  const cookieTokenn = Cookies.get("localtoken");
-  
   useEffect(() => {
+    const cartItemsFromStorage = localStorage.getItem("cartItems");
+    if (cartItemsFromStorage) {
+      setCartItems(JSON.parse(cartItemsFromStorage));
+    } else if (isLoggedIn) {
+      // Fetch cart items from the server if local storage is empty and user is logged in
+      fetchCartItemsFromServer().then((cartItems) => {
+        setCartItems(cartItems);
+      });
+    }
+  }, [isLoggedIn]);
+
+  const addToCart = (item: CartItem) => {
+    setCartItems((prevCartItems) => [...prevCartItems, item]);
+    saveCartItemsToStorage([...cartItems, item]);
+
     if (isLoggedIn) {
-      const fetchCartItemsDetails = async () => {
-        try {
-          const response = await instance.get(`${baseUrl}${getCartItems}`
-          );
-          const cartItemsData = response.data.cart_items.map((item: any) => ({
-            product_id: item.product_id,
-            quantity: item.quantity,
-            name: item.product_details[0].displayTitle,
-            price: item.product_details[0].discountPrice,
-            image: JSON.parse(item.product_details[0].imageDetails)[0]
-              .image_path,
-          }));
-          setCartItems(cartItemsData);
-        } catch (error) {
-          console.error("Error fetching cart items:", error);
-        }
-      };
-      fetchCartItemsDetails();
-    } else {
-      const storedCartItems = localStorage.getItem("cartItems");
-      if (storedCartItems) {
-        const cartItemsFromStorage = JSON.parse(storedCartItems);
-        const productIds = cartItemsFromStorage.map(
-          (item: any) => item.product_id
-        );
-        const updatedCartItems = [];
-         const fetchProductDetails = async () => {
-          for (const productId of productIds) {
-            try {
-              const response = await axios.get(
-                `${baseUrl}${getProductbyId}${productId}`
-              );
-              const productDetails = response.data[0];
-
-              const updatedCartItem = {
-                product_id: productId,
-                quantity: 1,
-                name: productDetails.displayTitle,
-                price: productDetails.discountPrice,
-                image: productDetails.imageDetails[0].image_path,
-              };
-              updatedCartItems.push(updatedCartItem);
-            } catch (error) {
-              console.error("Error fetching product details:", error);
-            }
-          }
-          setCartItems(updatedCartItems);
-        };
-        fetchProductDetails();
-      }
+      syncCartWithServer([...cartItems, item]);
     }
-  }, [isLoggedIn,cartUpdated]);
+  };
 
-
-
-
-  const addToCart = async (item: ProductType) => {
-    const newItem: CartItem = { product_id: item.productId, quantity: 1 };
-    const cart = [...cartItems, newItem];
-    setCartItems(cart);
-    if (!isLoggedIn) {
-      localStorage.setItem("cartItems", JSON.stringify(cart));
-      setCartUpdated(!cartUpdated)
-    } else {
-      try {
-        const response = await axios.post<{ data: any }>(
-          `${baseUrl}${addCart}`,
-          {
-            cart,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Error saving cart items to the database:", error);
-      }
-      // localStorage.setItem("cartItems", JSON.stringify(cart));
+  const removeFromCart = (productId: number) => {
+    const updatedCartItems = cartItems.filter((item) => item.productId !== productId);
+    setCartItems(updatedCartItems);
+    saveCartItemsToStorage(updatedCartItems);
+  
+    if (isLoggedIn) {
+      syncCartWithServer(updatedCartItems);
     }
   };
 
 
+  const updateCartQuantity = (productId: number, newQuantity: number) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.productId === productId ? { ...item, quantity: newQuantity } : item
+    );
+    setCartItems(updatedCartItems);
+    saveCartItemsToStorage(updatedCartItems);
 
-  const removeFromCart = async (product_id: string, quantity: number) => {
+    if (isLoggedIn) {
+      syncCartWithServer(updatedCartItems);
+    }
+  };
+
+  const saveCartItemsToStorage = (cartItems: CartItem[]) => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  };
+
+  const syncCartWithServer = async (cartItems: CartItem[]) => {
     try {
-      if (isLoggedIn) {
-        const response = await axios.post<{ data: any }>(
-          `${baseUrl}${removeCart}`,
-          {
-            cart: [
-              {
-                product_id,
-                quantity: 0,
-              },
-            ],
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          }
-        );
-        console.log("Item removed from cart:", response.data, product_id);
+      const cartData = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
 
-        // Update local state and localStorage only if the API call is successful
-        const updatedCartItems = cartItems.filter(
-          (item) => item.product_id !== product_id
-        );
-        console.log(updatedCartItems)
-        setCartItems(updatedCartItems);
-      } else {
-        // If not logged in, update only local state and localStorage
-        const updatedCartItems = cartItems.filter(
-          (item) => item.product_id !== product_id
-        );
-        setCartItems(updatedCartItems);
-        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-      }
+      await instance.post(`${baseUrl}/cart/sync`, { cart: cartData }, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
     } catch (error) {
-      console.error("Error removing item from cart:", error);
+      console.error("Error syncing cart with server:", error);
     }
   };
 
 
-  const updateCart = async (productId: string, quantity: number) => {
-    try {
-      const updatedCartItems = cartItems.map((item) =>
-        item.product_id === productId ? { ...item, quantity } : item
-      );
-      setCartItems(updatedCartItems);
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-      if (isLoggedIn) {
-        const response = await axios.post<{ data: any }>(
-          `${baseUrl}${cartUpdate}`,
-          {
-            product_id: productId,
-            quantity,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
-          }
-        );
-
-        // console.log("Cart item updated:", response.data);
-      }
-    } catch (error) {
-      console.error("Error updating cart item:", error);
-    }
+  const value: CartContextProps = {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    updateCartQuantity,
   };
 
   return (
-    <CartContext.Provider
-      value={{ cartItems, addToCart,  updateCart , setCartItems,removeFromCart} }
-    >
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
   );
 };
 

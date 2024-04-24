@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import TopNavOne from '@/components/Header/TopNav/TopNavOne'
+// import TopNavOne from '@/components/Header/TopNav/TopNavOne'
 import MenuOne from '@/components/Header/Menu/MenuOne'
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
+// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
 import Footer from '@/components/Footer/Footer'
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from '@/context/CartContext'
@@ -29,15 +29,17 @@ const Cart = () => {
     }, []);
 
     const { cartState, updateCart, removeFromCart } = useCart();
+    const cartArray = cartState?.cartArray || [];
+
+    
 
     const handleQuantityChange = (productId: string, newQuantity: number) => {
  
-        const itemToUpdate = cartState.cartArray.find((item) => item.id === productId);
+      const itemToUpdate = cartArray.find((item) => item.id === productId);
 
-        if (itemToUpdate) {
-
-            updateCart(productId, newQuantity, itemToUpdate.selectedSize, itemToUpdate.selectedColor);
-        }
+      if (itemToUpdate) {
+        updateCart(productId, newQuantity, itemToUpdate.selectedSize, itemToUpdate.selectedColor);
+       }
     };
 
     let moneyForFreeship = 150;
@@ -47,7 +49,14 @@ const Cart = () => {
     let [applyCode, setApplyCode] = useState<number>(0)
 
     // cartState.cartArray.map(item => totalCart += item.price * item.quantity)
-
+    useEffect(() => {
+      let calculatedTotal = 0;
+      cartArray.forEach((item) => {
+          calculatedTotal += item.price * item.quantity;
+      });
+      setTotalCart(calculatedTotal);
+  }, [cartArray]); // This will recalculate totalCart whenever cartArray changes
+  
     const handleApplyCode = (minValue: number, discount: number) => {
         if (totalCart > minValue) {
             setApplyCode(minValue)
@@ -66,7 +75,7 @@ const Cart = () => {
         shipCart = 30
     }
 
-    if (cartState.cartArray.length === 0) {
+    if (cartState?.cartArray?.length === 0) {
         shipCart = 0
     }
 
@@ -76,11 +85,7 @@ const Cart = () => {
 
     return (
       <>
-        {/* <TopNavOne textColor="text-white" />
-        <div id="header" className="relative w-full">
-          <MenuOne props="bg-transparent" />
-          <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" />
-        </div> */}
+        
         <div className="cart-block md:py-20 py-10">
           <div className="container">
             <div className="content-main flex justify-between max-xl:flex-col gap-y-8">
@@ -157,10 +162,10 @@ const Cart = () => {
                       </div>
                     </div>
                     <div className="list-product-main w-full mt-3">
-                      {cartState.cartArray.length < 1 ? (
+                    {cartState?.cartArray?.length < 1 ? (
                         <p className="text-button pt-3">No product in cart</p>
                       ) : (
-                        cartState.cartArray.map((product) => (
+                        cartState?.cartArray?.map((product) => (
                           <div
                             className="item flex md:mt-7 md:pb-7 mt-5 pb-5 border-b border-line w-full"
                             key={product.id}

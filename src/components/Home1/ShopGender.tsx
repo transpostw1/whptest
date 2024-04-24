@@ -25,9 +25,9 @@ const ShopGender = () => {
 
   return (
     <>
-      <div className="w-full px-7 mt-24 text-rose-950 mb-9">
+      <div className="w-full px-7 mt-20 font-[500] text-[#39161C] mb-9">
         <div className="flex items-center justify-between">
-          <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY GENDER</h1>
+          <h1 className="lg:text-3xl text-2xl mt-3">SHOP BY GENDER</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 mt-3 ">
           {categories.map((category) => (
@@ -38,15 +38,12 @@ const ShopGender = () => {
               <div className="rounded-[60px] overflow-hidden bg">
                 {category.image}
                 <div className="overlay">
-                  {/* <h2>
-                    Check This <span>Collection!</span>
-                  </h2> */}
-                  <p>{category.type}</p>
+                  <p className="text-2xl text-center">{category.type}</p>
                 </div>
               </div>
 
               <h1 className="text-xl font-semibold">{category.type}</h1>
-              <p className="text-sm">{category.description}</p>
+              <p className="text-sm ">{category.description}</p>
               <h3 className="text-red-700 font-bold underline">VIEW ALL</h3>
             </div>
           ))}

@@ -12,7 +12,6 @@
 
     &.fixed {
         background-color: var(--white);
-        box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
         top: 0;
         // animation: animateHeader ease 0.5s;
 
@@ -25,7 +24,7 @@
 /* menu header */
 .header-menu-navHoverMenu {
     position: sticky;
-    z-index: 50;
+    z-index: 49;
     // transition: all ease 0.5s;
 
     &.fixed {

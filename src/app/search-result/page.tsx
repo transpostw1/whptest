@@ -6,7 +6,7 @@ import { ProductType } from "@/type/ProductType";
 import Product from "@/components/Product/Product";
 import HandlePagination from "@/components/Other/HandlePagination";
 import { useProductContext } from "@/context/ProductContext";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
+
 
 const SearchResult = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -34,11 +34,11 @@ const SearchResult = () => {
 
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [fetchData]);
 
-  useEffect(()=>{
+  useEffect(() => {
     filterProducts(query);
-  },[query])
+  }, [query]);
   // useEffect(()=>{
   //   const result=data.filter((item)=>{
   //     const temp=item.title.toLowerCase();

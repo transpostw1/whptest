@@ -6,12 +6,9 @@ import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import ModalCart from "@/components/Modal/ModalCart";
 import ModalWishlist from "@/components/Modal/ModalWishlist";
-import ModalSearch from "@/components/Modal/ModalSearch";
-import ModalQuickview from "@/components/Modal/ModalQuickview";
-
+import ModalSearch from '@/components/Modal/ModalSearch'
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
@@ -36,17 +33,16 @@ export default function RootLayout({
     <GlobalProvider>
       <html lang="en">
         <body className={instrument.className}>
-            <TopNavOne textColor="text-white" />
+          <TopNavOne textColor="text-white"/>
             <NavTwo props="style-three bg-white" />
             <div id="header" className="w-full ">
               <NavHoverMenu props="bg-white" />
             </div>
           {children}
-          <ModalCart serverTimeLeft={serverTimeLeft} />
+          {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
           <ModalWishlist />
-          <ModalSearch />
-          <ModalQuickview />
-          <Footer/>
+          {/* <ModalSearch /> */}
+          <Footer />
         </body>
       </html>
     </GlobalProvider>

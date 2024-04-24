@@ -144,40 +144,49 @@ const OtpVerification = ({
   };
   return (
     <div className="otpVerification">
-      {isOtpSent ? (
-        <div className="bg-gray-100">
-          <h1 className="font-bold">Enter Verification Code</h1>
-          <OTPInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            renderSeparator={<span>-</span>}
-            renderInput={(props) => <input {...props} />}
-          />
-          <button
-            className="p-2 bg-pink-500 rounded-2xl font-medium"
-            onClick={handleCombinedClick}
-          >
-            Verify
-          </button>
-          {errorMessage && (
-            <h1 className="text-red-500 font-medium">{errorMessage}</h1>
-          )}
-        </div>
-      ) : (
-        <div>
-          <button
-            className="bg-pink-500 p-3 rounded-2xl text-white font-medium flex flex-col items-center"
-            onClick={handleLoginSubmit}
-          >
-            Send OTP
-            {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
-          </button>
-          {errorMessage && <div className="text-red-500">{errorMessage}</div>}
-        </div>
-      )}{" "}
-      <div id="recaptcha-container"></div>
+  {isOtpSent ? (
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+      <h1 className="text-center text-xl font-bold mb-4">Enter Verification Code</h1>
+      <div className="flex justify-center items-center mb-6">
+        <OTPInput
+          value={otp}
+          onChange={setOtp}
+          numInputs={6}
+          renderSeparator={<span className="mx-2">-</span>}
+          renderInput={(props) => <input {...props} className="otpInput" />}
+        />
+      </div>
+      <button
+        className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
+        onClick={handleCombinedClick}
+      >
+        Verify
+      </button>
+      {errorMessage && (
+        <p className="text-center text-red-500 mt-3">{errorMessage}</p>
+      )}
     </div>
+  ) : (
+    <div className="text-center">
+      <button
+        className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
+        onClick={handleLoginSubmit}
+      >
+        {loading ? (
+          <>
+            <span>Sending OTP</span>
+            <CgSpinner size={20} className="ml-2 animate-spin" />
+          </>
+        ) : (
+          <span>Send OTP</span>
+        )}
+      </button>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+    </div>
+  )}
+  <div id="recaptcha-container"></div>
+</div>
+
   );
 };
 

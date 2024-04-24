@@ -4,6 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
+import fetchCartItemsFromServer from "@/utils/cartUtils";
 
 interface CartItem {
   productId: number;
@@ -15,7 +16,7 @@ interface CartItem {
 
 interface CartContextProps {
   cartItems: CartItem[];
-  addToCart: (item: CartItem) => void;
+  addToCart: (item: CartItem, quantity: number) => void;
   removeFromCart: (productId: number) => void;
   updateCartQuantity: (productId: number, newQuantity: number) => void;
 }
@@ -49,12 +50,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
-  const addToCart = (item: CartItem) => {
-    setCartItems((prevCartItems) => [...prevCartItems, item]);
-    saveCartItemsToStorage([...cartItems, item]);
+  const addToCart = (item: CartItem, quantity: number) => {
+    const newItem = { ...item, quantity };
+    console.log(newItem)
+    setCartItems((prevCartItems) => [...prevCartItems, newItem]);
+    saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
-      syncCartWithServer([...cartItems, item]);
+      syncCartWithServer([...cartItems, newItem]);
     }
   };
 
@@ -67,7 +70,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       syncCartWithServer(updatedCartItems);
     }
   };
-
 
   const updateCartQuantity = (productId: number, newQuantity: number) => {
     const updatedCartItems = cartItems.map((item) =>

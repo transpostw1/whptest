@@ -152,19 +152,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     setContactPopUp(true);
   };
   return (
-<<<<<<< HEAD
-    <>
-=======
     <div ref={contactRef}>
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
       <div
         className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
           fixedHeader ? " fixed" : "relative"
         } text-rose-950 ${props}`}
-<<<<<<< HEAD
-=======
         ref={divRef}
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
       >
         <div className="container mx-auto h-full py-2 ">
           <div className="top-nav-main flex justify-between items-center ">
@@ -260,14 +253,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div className="flex flex-col items-center">
-<<<<<<< HEAD
-                      <Image
-                        src={"/images/icons/offer.svg"}
-                        alt="Offer"
-                        width={30}
-                        height={30}
-                      />
-=======
                       <Link href={"/offers"}>
                         <Image
                           src={"/images/icons/offer.svg"}
@@ -276,7 +261,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           height={30}
                         />
                       </Link>
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
                       <h4 className="text-sm">Offers</h4>
                     </div>
                     <div className="flex flex-col items-center">
@@ -292,14 +276,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       />
                       <h4 className="text-sm">Blog</h4>
                     </div>
-<<<<<<< HEAD
-                    <div className="flex flex-col items-center ">
-=======
                     <div
                       className="flex flex-col items-center"
                       onClick={handleContactPopup}
                     >
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
                       <Image
                         src={"/images/icons/contact.svg"}
                         alt="Contact"
@@ -308,33 +288,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       />
                       <h4 className="text-sm">Contact</h4>
                     </div>
-<<<<<<< HEAD
-=======
                     {contactPopUp ? <ContactInfo /> : null}
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
                     <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>
                     <div className="user-icon flex items-center justify-center cursor-pointer">
                       {isLoggedIn ? (
                         <>
-<<<<<<< HEAD
-                          <div
-                            onClick={handleLoginPopup}
-                            className="flex flex-col items-center"
-                          >
-                            <Icon.User size={28} color="red" />
-                            <h4 className="text-sm">Profile</h4>
-                          </div>
-
-                          <div
-                            className={`login-popup absolute top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small bg-white 
-                                            ${
-                                              openLoginPopup ? "open" : ""
-                                            } z-10`}
-=======
                           <div
                             onClick={handleProfilePage}
                             className="flex flex-col items-center"
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
                           >
                             <Icon.User size={28} color="red" />
                             <h4 className="text-sm">Profile</h4>
@@ -382,38 +343,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Wishlist</h4>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  {/* <div
-                    className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                    onClick={openModalCart}
-                  >
-                    <div className="flex flex-col items-center">
-                      <Image src={"/images/icons/cart.svg"} alt="Cart" width={30} height={30} />
-                      <h4 className="text-sm">Cart</h4>
-                    </div>
-
-                    <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartLength}
-
-                    </span>
-                  </div> */}
-                  <Link href="/checkout">
-                    <div className="max-md:hidden cart-icon flex items-center relative cursor-pointer">
-                      <div className="flex flex-col items-center">
-                        <Image
-                          src={"/images/icons/cart.svg"}
-                          alt="Cart"
-                          width={30}
-                          height={30}
-                        />
-                        <h4 className="text-sm">Cart</h4>
-                      </div>
-
-                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-                        {cartLength}
-                      </span>
-                    </div>
-=======
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
@@ -433,7 +362,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         {cartLength}
                       </span>
                     </div>
->>>>>>> 06ba582ec5fbb62bd06490b412bfec416a794ae8
                   </Link>
                   <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
                   <div className="choose-currency flex items-center p-2 bg-[#e1dcdd] bg-opacity-[0.1] ">

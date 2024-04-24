@@ -18,7 +18,7 @@ interface DeliveryDetailsProps {
   
   const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
     onShippingAddressSelected,
-    onBillingAddressSelected, // Keep this line
+    onBillingAddressSelected,
     useSameAsBillingAddress,
     setUseSameAsBillingAddress,
     selectedShippingAddress,

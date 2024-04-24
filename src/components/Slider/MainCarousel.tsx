@@ -25,16 +25,15 @@ const MainCarousel = () => {
       <SwiperSlide>
             <div className="slider-item w-full">
               <Image
-                src="/images/slider/SliderTwo.png"
+                src="/images/slider/SliderFour.png"
                 alt="Hero Image"
                 width={1920}
                 height={1080}
                 layout="responsive"
-                objectFit="contain"
                 priority
               />
             </div>
-          </SwiperSlide>
+      </SwiperSlide>
             {/* <SwiperSlide>
               <div className="slider-item h-full w-full relative">
                 <div className="container w-full h-full flex items-center">

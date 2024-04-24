@@ -42,7 +42,7 @@ export default function RootLayout({
           {/* <ModalCart serverTimeLeft={serverTimeLeft} /> */}
           <ModalWishlist />
           {/* <ModalSearch /> */}
-          <Footer/>
+          <Footer />
         </body>
       </html>
     </GlobalProvider>

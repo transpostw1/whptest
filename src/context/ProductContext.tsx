@@ -18,13 +18,12 @@ interface ProductType {
 interface ProductContextType {
   products: ProductType[];
   fetchData: () => Promise<void>;
-  getProductById: any;
+  
 }
 
 const ProductContext = createContext<ProductContextType>({
   products: [],
   fetchData: async () => {},
-  getProductById: () => undefined,
 });
 
 export const useProductContext = () => useContext(ProductContext);

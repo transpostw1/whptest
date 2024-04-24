@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductType } from "@/type/ProductType";
@@ -23,8 +23,7 @@ import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
-import useRecentlyViewedProducts from '@/hooks/useRecentlyViewedProducts';
-
+import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 
 interface Props {
   productId: string | number | null;
@@ -38,8 +37,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [size, setSize] = useState<string>("3.0");
   const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  
-  const { recentlyViewedProducts, saveToRecentlyViewed } = useRecentlyViewedProducts();
+
+  const { recentlyViewedProducts, saveToRecentlyViewed } =
+    useRecentlyViewedProducts();
 
   const settingsMain = {
     dots: false,
@@ -49,8 +49,6 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToScroll: 1,
     asNavFor: nav2,
   };
-
-
 
   async function getData() {
     const res = await fetch(`${baseUrl}/products/${productId}`);
@@ -72,12 +70,10 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, [productId]);
 
-  
-
   const product = data[0];
-  
-  const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
 
+  const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
+  let sliderRef = useRef<any>();
   const settingsThumbnails = {
     dots: false,
     infinite: true,
@@ -86,27 +82,25 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToScroll: 1,
     focusOnSelect: true,
     asNavFor: nav1,
-    nextArrow: <Icon.CaretRight size={50} />,
-    prevArrow: <Icon.CaretLeft size={40} />,
   };
-  
+
   useEffect(() => {
     if (product) {
       saveToRecentlyViewed(product);
     }
   }, [product, saveToRecentlyViewed]);
 
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat((data && product?.discountPrice) ?? 0))
-  );
+  const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat((data && product?.discountPrice) ?? 0)));
 
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat((data && product?.productPrice) ?? 0))
-  );
+  const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseFloat((data && product?.productPrice) ?? 0)));
 
   return (
     <>
-      <StickyNav/>
+      <StickyNav />
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -118,10 +112,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                   product.imageDetails
                     .sort((a, b) => parseInt(a.order) - parseInt(b.order))
                     .map((image, index) => (
-                      <div key={index}>
+                      <div key={index} className="">
                         <InnerImageZoom
                           src={image.image_path}
-                          srcSet={image}
                           zoomScale={1.5}
                           zoomType="click"
                           hideCloseButton={true}
@@ -129,37 +122,56 @@ const Default: React.FC<Props> = ({ productId }) => {
                       </div>
                     ))}
               </Slider>
-              <div className="m-auto w-[60%] h-full">
-                <Slider
-                  {...settingsThumbnails}
-                  ref={(slider: any) => setNav2(slider)}
-                >
-                  {product &&
-                    product.imageDetails
-                      .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
-                      .map((image, index) => (
-                        <div key={index}>
-                          <Image
-                            src={image?.image_path}
-                            alt={product?.title}
-                            width={100}
-                            height={100}
-                            className="lg:mr-1 cursor-pointer"
-                          />
-                        </div>
-                      ))}
-                </Slider>
+              <div className="m-auto w-[60%] h-full relative">
+                <>
+                  <Slider
+                    {...settingsThumbnails}
+                    ref={(slider) => {
+                      sliderRef = slider;
+                    }}
+                  >
+                    {product &&
+                      product.imageDetails
+                        .sort(
+                          (a: any, b: any) =>
+                            parseInt(a.order) - parseInt(b.order)
+                        )
+                        .map((image, index) => (
+                          <div key={index}>
+                            <Image
+                              src={image?.image_path}
+                              alt={product?.title}
+                              width={100}
+                              height={100}
+                              className="cursor-pointer border"
+                            />
+                          </div>
+                        ))}
+                  </Slider>
+                </>
+                <div className="absolute top-[40px] -right-[10px] cursor-pointer">
+                  <Icon.CaretRight onClick={() => sliderRef.slickNext()} size={25}/>
+                </div>
+                <div className="absolute top-[40px] -left-[50px] cursor-pointer">
+                  <Icon.CaretLeft onClick={() => sliderRef.slickPrev()} size={25}/>
+                </div>
               </div>
             </div>
           )}
-          <>
-            <video
-              className=""
-              src="/products/GERD23021256.mp4"
-              loop
-              autoPlay
-            />
-          </>
+
+          {product &&
+            product.videoDetails &&
+            product.videoDetails.length > 0 &&
+            product.videoDetails.map((item: any) => (
+              <video
+                key={item.order}
+                className=""
+                src={item.video_path}
+                loop
+                autoPlay
+                muted
+              />
+            ))}
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
@@ -172,7 +184,6 @@ const Default: React.FC<Props> = ({ productId }) => {
               </span>
             </div>
           )}
-          <p className="mb-2">Gold, 2.6 gms, Pear cut Diamonds - 0.116 Carat</p>
           <div className="flex flex-wrap mb-2">
             <div>
               <span className="underline mr-2 cursor-pointer">12 Review</span>
@@ -194,16 +205,27 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              <span className="font-extrabold text-2xl">
-                ₹{formattedDiscountedPrice}
-              </span>
-              <span className="line-through ml-3 text-[#aa9e9e]">
-                ₹{formattedOriginalPrice}
-              </span>
-              <span className="ml-3 text-[#e26178] underline">
-                {product && product?.discountValue}% OFF on{" "}
-                {product && product?.discountCategory}
-              </span>
+              {product.discountPrice && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedDiscountedPrice}
+                  </span>
+                  <span className="line-through ml-3 text-[#aa9e9e]">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                  <span className="ml-3 text-[#e26178] underline">
+                    {product && product?.discountValue}% OFF on{" "}
+                    {product && product?.discountCategory}
+                  </span>
+                </>
+              )}
+              {product.discountPrice == null && (
+                <>
+                  <span className="font-extrabold text-2xl">
+                    ₹{formattedOriginalPrice}
+                  </span>
+                </>
+              )}
             </div>
           )}
           <div>

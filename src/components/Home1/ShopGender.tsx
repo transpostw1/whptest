@@ -38,15 +38,12 @@ const ShopGender = () => {
               <div className="rounded-[60px] overflow-hidden bg">
                 {category.image}
                 <div className="overlay">
-                  {/* <h2>
-                    Check This <span>Collection!</span>
-                  </h2> */}
-                  <p>{category.type}</p>
+                  <p className="text-2xl text-center">{category.type}</p>
                 </div>
               </div>
 
               <h1 className="text-xl font-semibold">{category.type}</h1>
-              <p className="text-sm">{category.description}</p>
+              <p className="text-sm ">{category.description}</p>
               <h3 className="text-red-700 font-bold underline">VIEW ALL</h3>
             </div>
           ))}

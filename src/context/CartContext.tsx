@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import fetchCartItemsFromServer from "@/utils/cartUtils";
+import {fetchCartItemsFromServer} from "@/utils/cartUtils";
 
 interface CartItem {
   productId: number;
@@ -44,7 +44,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       setCartItems(JSON.parse(cartItemsFromStorage));
     } else if (isLoggedIn) {
       // Fetch cart items from the server if local storage is empty and user is logged in
-      fetchCartItemsFromServer().then((cartItems) => {
+      fetchCartItemsFromServer().then((cartItems:any) => {
         setCartItems(cartItems);
       });
     }

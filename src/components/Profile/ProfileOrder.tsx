@@ -42,7 +42,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       <div className="mt-10">
         {Array.isArray(orders) &&
           orders.map((item: any) => (
-            <div key={item.id} className="border border-gray-200">
+            <div key={item.id} className="border border-gray-200  border-b-0 mb-4">
               <div className="flex p-2 border-b-2 justify-between">
                 <div className="flex">
                   <p>Order ID:{item.orderNo}</p>

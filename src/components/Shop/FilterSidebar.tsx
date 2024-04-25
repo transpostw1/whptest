@@ -30,7 +30,6 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      console.log("scrollPosition",scrollPosition);
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
           scrollPosition > lastScrollPosition

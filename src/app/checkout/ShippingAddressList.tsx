@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { baseUrl } from '@/utils/constants';
 import { FaCheckCircle, FaEdit, FaTimes } from 'react-icons/fa';
-import Preloader from '@/components/other/Preloader'; 
+import Preloader from '@/components/Other/Preloader'; 
 
 interface Address {
   address_id: number;

@@ -18,6 +18,19 @@ import { AddressBook, ShoppingCart, Wallet, ArrowRight, Gift, CreditCard } from 
 import Image from 'next/image';
 import FlashAlert from "../../components/other/FlashAlert";
 
+interface Address {
+  address_id: number;
+  customer_id: number;
+  address_type: string;
+  full_address: string;
+  country: string;
+  state: string;
+  city: string;
+  landmark: string | null;
+  pincode: number;
+  created_at: string;
+  updated_at: string;
+}
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -36,8 +49,8 @@ const Checkout: React.FC = () => {
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
 
-  const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
-  const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
+  const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address|null>(null);
+  const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address|null>(null);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -341,7 +354,7 @@ const Checkout: React.FC = () => {
                       <Gift style={{ color: 'red', fontSize: '24px' }} />
                       <h3>Available Coupons</h3>
                     </div>
-                    <h3 className="text-red-600 underline cursor-pointer" onClick={handleCouponsModal}>
+                    <h3 className="text-red-600 underline cursor-pointer">
                       View
                     </h3>
                     <input className="border border-black" />

@@ -43,7 +43,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           <div className="flex">
             <div
               className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
-              onClick={handleRemoveFromCart}
+              onClick={() =>
+                removeFromCart(product?.productId, product?.quantity)
+              }
             >
               Remove
             </div>

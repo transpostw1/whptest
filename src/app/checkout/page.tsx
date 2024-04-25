@@ -209,7 +209,6 @@ const Checkout: React.FC = () => {
         setFlashKey((prevKey) => prevKey + 1);
         return;
       }
-      // Initiate the respective payment method
       placeOrder();
 
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import CartItem from "./CartItem";
 
+
 interface CartItemsProps {
   cartItems: any[];
   handleQuantityChange: (productId: number, newQuantity: number) => void;
@@ -12,6 +13,8 @@ const CartItems: React.FC<CartItemsProps> = ({
   handleQuantityChange,
   removeFromCart,
 }) => {
+
+
   return (
     <div>
       <h1 className="text-2xl">Your Shopping Bag</h1>

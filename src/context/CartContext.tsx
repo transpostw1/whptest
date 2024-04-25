@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import fetchCartItemsFromServer from "@/utils/cartUtils";
+import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 
 interface CartItem {
   productId: number;
@@ -43,8 +43,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (cartItemsFromStorage) {
       setCartItems(JSON.parse(cartItemsFromStorage));
     } else if (isLoggedIn) {
-      // Fetch cart items from the server if local storage is empty and user is logged in
-      fetchCartItemsFromServer().then((cartItems) => {
+      fetchCartItemsFromServer().then((cartItems: CartItem[]) => {
         setCartItems(cartItems);
       });
     }
@@ -52,10 +51,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToCart = (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };
-    console.log(newItem);
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
-
     if (isLoggedIn) {
       syncCartWithServer([...cartItems, newItem]);
     }
@@ -95,7 +92,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity,
       }));
-
       await instance.post(
         `${baseUrl}/cart/sync`,
         { cart: cartData },

@@ -67,13 +67,16 @@ const Checkout: React.FC = () => {
   }, []);
 
 
-  const mappedCartItems = cartItems.map((item) => ({
+  const mappedCartItems = cartItems
+  .filter((item) => item.productId && item.quantity && item.displayTitle && item.productPrice && item.imageDetails)
+  .map((item) => ({
     productId: item.productId,
     quantity: item.quantity,
-    name: item.displayTitle, // Assuming the product name is in the 'displayTitle' property
-    price: item.productPrice, // Assuming the product price is in the 'productPrice' property
-    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '', // Assuming the first image is the main image
+    name: item.displayTitle,
+    price: item.productPrice,
+    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '',
   }));
+
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -93,20 +96,26 @@ const Checkout: React.FC = () => {
   let ship = searchParams.get('ship');
 
   let totalCart = 0;
-  cartItems.forEach((item) => {
+  mappedCartItems.forEach((item) => {
     const price = parseInt(item.price);
-    // Check if price is a valid number
     if (!isNaN(price) && typeof item.quantity === 'number') {
-      // Multiply quantity by price and add to totalCart
       totalCart += price * item.quantity;
-    } else {
-      console.error('Invalid data:', item);
     }
   });
 
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);
+    // Reset the cart and other states
+    setCartItems([]);
+    setSelectedShippingAddress(null);
+    setSelectedBillingAddress(null);
+    setSelectedPaymentMethod('');
+    // Show a success message or perform any other actions
+    setFlashMessage('Your order has been placed successfully!');
+    setFlashType('success');
+    setFlashKey((prevKey) => prevKey + 1);
   };
+
  
   
   const validateDeliveryDetails = () => {
@@ -200,7 +209,9 @@ const Checkout: React.FC = () => {
         setFlashKey((prevKey) => prevKey + 1);
         return;
       }
-      setIsOrderPlaced(true);
+      // Initiate the respective payment method
+      placeOrder();
+
     }
   };
 
@@ -307,14 +318,17 @@ const Checkout: React.FC = () => {
               />
               )}
               {selectedComponent === 'Payment' && (
-                <Payment
+                  <Payment
                   selectedPaymentMethod={selectedPaymentMethod}
-                  handlePaymentMethodChange={(event) => {
-                    setSelectedPaymentMethod(event.target.value);
-                    setPaymentMethodSelected(true);
-                  }}
-                />
+                  handlePaymentMethodChange={handlePaymentMethodChange}
+                  totalCart={totalCart}
+                  onOrderComplete={handleOrderComplete}
+                  selectedShippingAddress={selectedShippingAddress}
+                  selectedBillingAddress={selectedBillingAddress}
+                  placeOrder={handleProceed}
+                />       
               )}
+              
 
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
@@ -375,13 +389,14 @@ const Checkout: React.FC = () => {
                 </div>
               )}
 
-              <ProceedButton
-                isMobile={isMobile}
-                proceedButtonTitle={proceedButtonTitle()}
-                handleOrderComplete={handleOrderComplete}
-                handleProceed={handleProceed}
-                useSameAsBillingAddress={useSameAsBillingAddress} // Add this line
-              />
+              {selectedStep !== 2 && (
+                <ProceedButton
+                  isMobile={isMobile}
+                  proceedButtonTitle={proceedButtonTitle()}
+                  handleProceed={handleProceed}
+                  useSameAsBillingAddress={useSameAsBillingAddress}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -4,7 +4,6 @@ import { ArrowRight } from '@phosphor-icons/react';
 interface ProceedButtonProps {
     isMobile: boolean;
     proceedButtonTitle: string;
-    handleOrderComplete: () => void;
     handleProceed: (useSameAsBillingAddress: boolean) => void;
     useSameAsBillingAddress: boolean; 
   }
@@ -12,16 +11,11 @@ interface ProceedButtonProps {
   const ProceedButton: React.FC<ProceedButtonProps> = ({
     isMobile,
     proceedButtonTitle,
-    handleOrderComplete,
     handleProceed,
     useSameAsBillingAddress,
   }) => {
     const handleClick = () => {
-      if (proceedButtonTitle === 'Place Order') {
-        handleOrderComplete();
-      } else {
-        handleProceed(useSameAsBillingAddress);
-      }
+      handleProceed(useSameAsBillingAddress);
     };
 
   return (

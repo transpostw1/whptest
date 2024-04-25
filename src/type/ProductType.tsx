@@ -29,6 +29,7 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  id: any | null | undefined;
   productId: number | string;
   product_id: number | string;
   SKU: string;
@@ -88,6 +89,4 @@ export interface ProductType {
   productPrice: string;
   stoneDetails: any; // Specify type if available
   diamondDetails: any; // Specify type if available
-  gst:string|any;
-  makingCharges:string|any;
 }

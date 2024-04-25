@@ -8,17 +8,26 @@ interface Props {
   product: ProductType;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
-  const { cartItems, addToCart, removeFromCart, updateCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, updateCartQuantity } = useCart();
 
   const handleAddToCart = (productItem: ProductType) => {
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productId
     );
-    const currentquantity = productAlreadyExists?.quantity ?? 0;
-    const updatedQuantity = currentquantity + 1;
-    productAlreadyExists
-      ? updateCart(productItem?.productId, updatedQuantity)
-      : addToCart({ ...productItem });
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+  
+    if (productAlreadyExists) {
+      updateCartQuantity(productItem?.productId, updatedQuantity);
+    } else {
+      addToCart(
+        {
+          ...productItem,
+          quantity: 1,
+        },
+        1 // Pass the initial quantity as 1
+      );
+    }
   };
   return (
     <div className="flex sm:justify-around mt-[25px] ">

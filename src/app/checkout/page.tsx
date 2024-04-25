@@ -66,6 +66,15 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
+
+  const mappedCartItems = cartItems.map((item) => ({
+    productId: item.productId,
+    quantity: item.quantity,
+    name: item.displayTitle, // Assuming the product name is in the 'displayTitle' property
+    price: item.productPrice, // Assuming the product price is in the 'productPrice' property
+    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '', // Assuming the first image is the main image
+  }));
+
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
@@ -280,7 +289,7 @@ const Checkout: React.FC = () => {
               </div>
               {selectedComponent === 'CartItems' && (
                 <CartItems
-                  cartItems={cartItems}
+                  cartItems={mappedCartItems}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
                 />
@@ -362,7 +371,7 @@ const Checkout: React.FC = () => {
               {(selectedComponent === 'DeliveryDetails' || selectedComponent === 'Payment') && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary totalCart={totalCart} cartItems={cartItems} />
+                  <OrderSummary totalCart={totalCart} cartItems={mappedCartItems} />
                 </div>
               )}
 

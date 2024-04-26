@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import fetchCartItemsFromServer from "@/utils/cartUtils";
+import {fetchCartItemsFromServer} from "@/utils/cartUtils";
 
 interface CartItem {
   productId: number;

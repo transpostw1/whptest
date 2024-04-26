@@ -1,3 +1,5 @@
+"use client"; // Add this line
+
 import Link from "next/link";
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -9,6 +11,7 @@ interface Props {
 }
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, removeFromCart, updateCartQuantity } = useCart();
+
 
   const handleAddToCart = (productItem: ProductType) => {
     const productAlreadyExists = cartItems.find(
@@ -29,15 +32,38 @@ const Buttons: React.FC<Props> = ({ product }) => {
       );
     }
   };
+
+  const handleBuyNow = (productItem: ProductType) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === productItem.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+
+    if (productAlreadyExists) {
+      updateCartQuantity(productItem?.productId, updatedQuantity);
+    } else {
+      addToCart(
+        {
+          ...productItem,
+          quantity: 1,
+        },
+        1
+      );
+    }
+  };
+
+
   return (
     <div className="flex sm:justify-around mt-[25px] ">
       <div
-        className=" cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
-        onClick={() => handleAddToCart(product)}
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
+        onClick={() => handleBuyNow(product)}
       >
         <Link
           href={{
             pathname: "/checkout",
+            query: { buyNow: product.productId.toString() },
           }}
         >
           Buy Now

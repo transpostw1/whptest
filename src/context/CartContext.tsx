@@ -4,18 +4,18 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import { fetchCartItemsFromServer } from "@/utils/cartUtils";
+import {fetchCartItemsFromServer} from "@/utils/cartUtils";
 
 interface CartItem {
-  gst: any;
-  displayTitle: number;
-  discountPrice: any;
-  imageDetails: any;
+  gst?: any;
+  displayTitle?: string;
+  discountPrice?: any;
+  imageDetails?: any;
   productId: number;
-  quantity: number;
-  name: string;
-  price: number;
-  image: string;
+  quantity?: number;
+  name?: string;
+  price?: number;
+  image?: string;
 }
 
 interface CartContextProps {

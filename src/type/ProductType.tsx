@@ -29,8 +29,10 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  gst: any;
+  makingCharges: any;
   id: any | null | undefined;
-  productId: number | string;
+  productId: number;
   product_id: number | string;
   SKU: string;
   variantId: any; // Specify type if available

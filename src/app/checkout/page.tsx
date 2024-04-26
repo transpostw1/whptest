@@ -62,6 +62,10 @@ const Checkout: React.FC = () => {
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const buyNow = searchParams.get("buyNow");
+
+  const [showAllItems, setShowAllItems] = useState(false);
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -126,7 +130,6 @@ const Checkout: React.FC = () => {
   }, [cartProductIds]);
 
   let totalCartDiscount: number = 0;
-  console.log("data After Coupon Code", dataAfterCouponCode?.discountValue);
 
   Array.isArray(dataAfterCouponCode.discountedProducts) &&
     dataAfterCouponCode.discountedProducts.map((element: any) => {
@@ -137,28 +140,62 @@ const Checkout: React.FC = () => {
     });
 
   setTotalDiscount(totalCartDiscount);
+  useEffect(() => {
+    if (buyNow) {
+      setShowAllItems(false);
+    }
+  }, [buyNow]);
+
+  const toggleShowAllItems = () => {
+    setShowAllItems((prevState) => !prevState);
+  };
 
   const mappedCartItems = cartItems
-    .filter(
-      (item) =>
-        item.productId &&
-        item.quantity &&
-        item.displayTitle &&
-        item.discountPrice &&
-        item.gst &&
-        item.imageDetails
-    )
-    .map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      name: item.displayTitle,
-      price: item.discountPrice,
-      gst: item.gst,
-      image:
-        item.imageDetails && item.imageDetails.length > 0
-          ? item.imageDetails[0].image_path
-          : "",
-    }));
+  .filter((item) => item.productId && item.quantity && item.displayTitle && item.discountPrice && item.imageDetails&&item.gst)
+  .map((item) => ({
+    productId: item.productId,
+    quantity: item.quantity,
+    name: item.displayTitle,
+    price: item.discountPrice,
+    gst:item.gst,
+    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '',
+  }));
+
+  // const mappedCartItems = showAllItems
+  //   ? cartItems
+  //       .filter(
+  //         (item) =>
+  //           item.productId &&
+  //           item.quantity &&
+  //           item.displayTitle &&
+  //           item.discountPrice &&
+  //           item.gst &&
+  //           item.imageDetails
+  //       )
+  //       .map((item) => ({
+  //         productId: item.productId,
+  //         quantity: item.quantity,
+  //         name: item.displayTitle,
+  //         price: item.discountPrice,
+  //         gst: item.gst,
+  //         image:
+  //           item.imageDetails && item.imageDetails.length > 0
+  //             ? item.imageDetails[0].image_path
+  //             : "",
+  //       }))
+  //   : cartItems
+  //       .filter((item) => item.productId === parseInt(buyNow as string))
+  //       .map((item) => ({
+  //         productId: item.productId,
+  //         quantity: item.quantity,
+  //         name: item.displayTitle,
+  //         price: item.discountPrice,
+  //         gst: item.gst,
+  //         image:
+  //           item.imageDetails && item.imageDetails.length > 0
+  //             ? item.imageDetails[0].image_path
+  //             : "",
+  //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -171,8 +208,6 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
-  const searchParams = useSearchParams();
 
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
@@ -224,7 +259,7 @@ const Checkout: React.FC = () => {
     }
     return true;
   };
-  let totalPrice = ((totalCart+totalGst) - totalDiscount).toString();
+  let totalPrice = (totalCart + totalGst - totalDiscount);
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
       router.push("/login");
@@ -502,9 +537,14 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>G.S.T</h3>
-                          <h3>₹{Intl.NumberFormat("en-IN", {
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(totalGst.toString())))}</h3>
+                            }).format(
+                              Math.round(parseInt(totalGst.toString()))
+                            )}
+                          </h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
@@ -512,7 +552,7 @@ const Checkout: React.FC = () => {
                             ₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(totalPrice)))}
+                            }).format(Math.round(parseInt(totalPrice.toString())))}
                           </h3>
                         </div>
                       </div>

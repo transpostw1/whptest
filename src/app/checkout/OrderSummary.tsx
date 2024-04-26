@@ -1,12 +1,20 @@
-import React from 'react';
-import OrderSummaryProducts from './OrderSummaryProducts';
+import React from "react";
+import OrderSummaryProducts from "./OrderSummaryProducts";
 
 interface OrderSummaryProps {
+  totalGst:number;
+  totalDiscount: number;
   totalCart: number;
   cartItems: any[];
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ totalCart, cartItems }) => {
+const OrderSummary: React.FC<OrderSummaryProps> = ({
+  totalGst,
+  totalDiscount,
+  totalCart,
+  cartItems,
+}) => {
+  let totalPrice=(totalCart+totalGst)-totalDiscount
   return (
     <div className="">
       <OrderSummaryProducts cartItems={cartItems} />
@@ -14,11 +22,21 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ totalCart, cartItems }) => 
         <div className="">
           <div className="flex justify-between font-medium">
             <h3>Subtotal</h3>
-            <h3>₹{totalCart}</h3>
+            <h3>
+              ₹
+              {Intl.NumberFormat("en-IN", {
+                minimumFractionDigits: 2,
+              }).format(Math.round(parseInt(totalCart.toString())))}
+            </h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Discount</h3>
-            <h3>₹00</h3>
+            <h3>
+              ₹
+              {Intl.NumberFormat("en-IN", {
+                minimumFractionDigits: 2,
+              }).format(Math.round(parseInt(totalDiscount.toString())))}
+            </h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Shipping Charges</h3>
@@ -26,11 +44,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ totalCart, cartItems }) => 
           </div>
           <div className="flex justify-between font-medium">
             <h3>G.S.T</h3>
-            <h3>₹951.27</h3>
+            <h3>₹{Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(totalGst.toString())))}</h3>
           </div>
           <div className="flex justify-between font-bold">
             <h3 className="text-gray-800">Total Price</h3>
-            <h3>₹{totalCart}</h3>
+            <h3>₹{Intl.NumberFormat("en-IN", {
+                minimumFractionDigits: 2,
+              }).format(Math.round(parseInt(totalPrice.toString())))}</h3>
           </div>
         </div>
       </div>

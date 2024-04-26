@@ -4,9 +4,13 @@ import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import {fetchCartItemsFromServer} from "@/utils/cartUtils";
+import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 
 interface CartItem {
+  gst: any;
+  displayTitle: number;
+  discountPrice: any;
+  imageDetails: any;
   productId: number;
   quantity: number;
   name: string;
@@ -43,8 +47,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (cartItemsFromStorage) {
       setCartItems(JSON.parse(cartItemsFromStorage));
     } else if (isLoggedIn) {
-      // Fetch cart items from the server if local storage is empty and user is logged in
-      fetchCartItemsFromServer().then((cartItems:any) => {
+      fetchCartItemsFromServer().then((cartItems: any) => {
         setCartItems(cartItems);
       });
     }
@@ -52,20 +55,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToCart = (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };
-    console.log(newItem)
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
-
     if (isLoggedIn) {
       syncCartWithServer([...cartItems, newItem]);
     }
   };
 
   const removeFromCart = (productId: number) => {
-    const updatedCartItems = cartItems.filter((item) => item.productId !== productId);
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== productId
+    );
     setCartItems(updatedCartItems);
     saveCartItemsToStorage(updatedCartItems);
-  
+
     if (isLoggedIn) {
       syncCartWithServer(updatedCartItems);
     }
@@ -93,17 +96,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity,
       }));
-
-      await instance.post(`${baseUrl}/cart/sync`, { cart: cartData }, {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      });
+      await instance.post(
+        `${baseUrl}/cart/sync`,
+        { cart: cartData },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
     } catch (error) {
       console.error("Error syncing cart with server:", error);
     }
   };
-
 
   const value: CartContextProps = {
     cartItems,
@@ -112,9 +117,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     updateCartQuantity,
   };
 
-  return (
-    <CartContext.Provider value={value}>{children}</CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export const useCart = () => {

@@ -24,6 +24,14 @@ const Login = () => {
       }, 400);
     },
   });
+  const handlekeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("function isexcuted", e.target.value);
+      const value = e.target.value;
+      setPhoneNumber(value);
+      formik.handleChange("phoneNumber")(value);
+    }
+  };
 
   return (
     <>

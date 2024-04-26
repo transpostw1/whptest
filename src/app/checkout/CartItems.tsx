@@ -1,5 +1,6 @@
-import React from 'react';
-import CartItem from './CartItem';
+import React from "react";
+import CartItem from "./CartItem";
+
 
 interface CartItemsProps {
   cartItems: any[];
@@ -7,7 +8,13 @@ interface CartItemsProps {
   removeFromCart: (productId: number, quantity: number) => void;
 }
 
-const CartItems: React.FC<CartItemsProps> = ({ cartItems, handleQuantityChange, removeFromCart }) => {
+const CartItems: React.FC<CartItemsProps> = ({
+  cartItems,
+  handleQuantityChange,
+  removeFromCart,
+}) => {
+
+
   return (
     <div>
       <h1 className="text-2xl">Your Shopping Bag</h1>

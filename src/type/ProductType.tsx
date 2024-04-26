@@ -29,8 +29,9 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
-  id: Key | null | undefined;
-  productId: number|string;
+  id: any | null | undefined;
+  productId: number | string;
+  product_id: number | string;
   SKU: string;
   variantId: any; // Specify type if available
   title: string;

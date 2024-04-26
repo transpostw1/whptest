@@ -4,7 +4,7 @@ import {
   signInWithCredential,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";
 import OTPInput from "react-otp-input";
 import { BsFillShieldLockFill } from "react-icons/bs";
@@ -16,11 +16,11 @@ import { useUser } from "@/context/UserContext";
 import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
-  phoneNumber:string;
+  phoneNumber: string;
   formikValues: any; // Define the type of formikValues prop
-  onSubmit: () => void;
+  onSubmit: (values: any) => void;
   isRegisterPage: boolean;
-  errorMessage: string|any; // Add errorMessage prop
+  errorMessage: string | any; // Add errorMessage prop
 }
 
 // class Token {
@@ -52,7 +52,6 @@ const OtpVerification = ({
   };
 
   const onSendOtp = async () => {
-    
     if (!formikValues.phoneNumber) {
       console.error("Invalid phone number");
       return;
@@ -103,10 +102,10 @@ const OtpVerification = ({
         }
       );
       logIn();
-      console.log(response,"LOGIN RESPPP")
-         const localToken = response.data.token;
-         Cookies.set("localtoken", localToken);
-         console.log("intial token",Cookies.get("localtoken"))
+      console.log(response, "LOGIN RESPPP");
+      const localToken = response.data.token;
+      Cookies.set("localtoken", localToken);
+      console.log("intial token", Cookies.get("localtoken"));
       router.push("/");
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);
@@ -128,6 +127,11 @@ const OtpVerification = ({
     setUpRecaptcha();
   }, []);
 
+  const handleCombinedClick2 = (e: any) => {
+    if (e.key === "Enter") {
+      handleCombinedClick();
+    }
+  };
   const handleCombinedClick = () => {
     onVerify("login");
     if (isRegisterPage) {
@@ -142,51 +146,65 @@ const OtpVerification = ({
     }
     onSendOtp();
   };
+
   return (
     <div className="otpVerification">
-  {isOtpSent ? (
-    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-      <h1 className="text-center text-xl font-bold mb-4">Enter Verification Code</h1>
-      <div className="flex justify-center items-center mb-6">
-        <OTPInput
-          value={otp}
-          onChange={setOtp}
-          numInputs={6}
-          renderSeparator={<span className="mx-2">-</span>}
-          renderInput={(props) => <input {...props} className="otpInput" />}
-        />
-      </div>
-      <button
-        className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
-        onClick={handleCombinedClick}
-      >
-        Verify
-      </button>
-      {errorMessage && (
-        <p className="text-center text-red-500 mt-3">{errorMessage}</p>
-      )}
-    </div>
-  ) : (
-    <div className="text-center">
-      <button
-        className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
-        onClick={handleLoginSubmit}
-      >
-        {loading ? (
-          <>
-            <span>Sending OTP</span>
-            <CgSpinner size={20} className="ml-2 animate-spin" />
-          </>
-        ) : (
-          <span>Send OTP</span>
-        )}
-      </button>
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-    </div>
-  )}
-  <div id="recaptcha-container"></div>
-</div>
+      {isOtpSent ? (
+        <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+          <h1 className="text-center text-xl font-bold mb-4">
+            Enter Verification Code
+          </h1>
+          <div
+            className="flex justify-center items-center mb-6"
+            onKeyDown={handleCombinedClick2}
+          >
+            <OTPInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              renderSeparator={<span className="mx-2">-</span>}
+              renderInput={(props) => <input {...props} className="otpInput" />}
+            />
+          </div>
+          <button
+            className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
+            onClick={handleCombinedClick}
+          >
+            Verify
+          </button>
+          {errorMessage && (
+            <p className="text-center text-red-500 mt-3">{errorMessage}</p>
+          )}
+        </div>
+      ) : (
+        <div className="text-center">
+          <button
+            tabIndex={0}
+            onKeyDown={(event) => {
+              console.log("target key", event.key);
+              if (event.key === "Enter") {
+                event.preventDefault();
+                handleLoginSubmit();
+              }
+            }}
+            className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            onClick={handleLoginSubmit}
+          >
+            {loading ? (
+              <>
+                <span>Sending OTP</span>
+                <CgSpinner size={20} className="ml-2 animate-spin" />
+              </>
+            ) : (
+              <span>Send OTP</span>
+            )}
+          </button>
 
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        </div>
+      )}
+      <div id="recaptcha-container"></div>
+    </div>
   );
 };
 

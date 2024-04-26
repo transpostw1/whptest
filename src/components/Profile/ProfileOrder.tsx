@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
+import ReactLoading from "react-loading";
 import { useRouter } from "next/navigation";
 interface Props {
   orders: any;
@@ -15,17 +16,14 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     logOut();
     router.push("/");
   };
-  // useEffect(() => {
-  //   if (orders.productDetails) {
-  //     const imageDetails: any = JSON.parse(orders.productDetails.imageDetails);
-  //     imageDetails.sort((a: any, b: any) => a.order - b.order);
-  //     setImageDetail(imageDetails);
-  //   }
-  // }, [orders]);
 
-  if (!orders) return <div>Loading....</div>;
+  if (!orders)
+    return (
+      <div className="loading-container flex justify-center items-center h-full">
+        <ReactLoading type="spin" color="#000" height={50} width={50} />
+      </div>
+    );
   return (
-  
     <div className="p-[60px]">
       <div className="flex justify-between ">
         <div>
@@ -42,11 +40,22 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       <div className="mt-10">
         {Array.isArray(orders) &&
           orders.map((item: any) => (
-            <div key={item.id} className="border border-gray-200  border-b-0 mb-4">
+            <div
+              key={item.id}
+              className="border border-gray-200  border-b-0 mb-4"
+            >
               <div className="flex p-2 border-b-2 justify-between">
                 <div className="flex">
                   <p>Order ID:{item.orderNo}</p>
-                  <p className="ml-3">Order Date-14/02/2024</p>
+                  <p className="ml-3">
+                    Order Date -{" "}
+                    {new Date(item.created_at).toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
                 <div className="text-green-600 font-bold">
                   {item.orderStatus}
@@ -60,18 +69,16 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                   <div className="flex">
                     <div>
                       {Array.isArray(items.imageDetails) &&
-                        items.imageDetails.map(
-                          (image: any, index: any) => (
-                            <div key={index}>
-                              <Image
-                                src={image.image_path}
-                                alt={image.alt}
-                                width={25}
-                                height={25}
-                              />
-                            </div>
-                          )
-                        )}
+                        items.imageDetails.map((image: any, index: any) => (
+                          <div key={index}>
+                            <Image
+                              src={image.image_path[0]}
+                              alt={image.alt}
+                              width={25}
+                              height={25}
+                            />
+                          </div>
+                        ))}
                     </div>
                     <div>
                       <p className="text-xl font-semibold">
@@ -84,7 +91,12 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                       <p>Quantity:{items.quantity}</p>
                     </div>
                   </div>
-                  <div>₹{parseInt(items.discountedTotal)}</div>
+                  <div className="font-semibold">
+                    ₹
+                    {Intl.NumberFormat("en-IN", {
+                      minimumFractionDigits: 2,
+                    }).format(Math.round(parseInt(items.discountedTotal)))}
+                  </div>
                 </div>
               ))}
             </div>

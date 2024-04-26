@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Cookies from 'js-cookie';
 import { baseUrl, addAddress } from '@/utils/constants';
 
@@ -81,7 +82,7 @@ const AddAddressModal: React.FC<Props> = ({ closeModal, isForBillingAddress, onA
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 sm:p-8 flex flex-col justify-between z-50 rounded-xl max-w-full sm:max-w-lg mx-4 max-h-[80vh] overflow-y-auto no-scrollbar">
         <button onClick={closeModal} className="self-end">
-          Close
+          <Icon.X size={25}/>
         </button>
         <form onSubmit={formik.handleSubmit}>
           <h2 className="text-2xl font-semibold mb-4">

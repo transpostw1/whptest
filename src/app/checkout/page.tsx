@@ -41,6 +41,11 @@ const Checkout: React.FC = () => {
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const buyNow = searchParams.get("buyNow");
+
+  const [showAllItems, setShowAllItems] = useState(false);
+
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -66,16 +71,60 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (buyNow) {
+      setShowAllItems(false);
+    }
+  }, [buyNow]);
 
-  const mappedCartItems = cartItems
-  .filter((item) => item.productId && item.quantity && item.displayTitle && item.productPrice && item.imageDetails)
-  .map((item) => ({
-    productId: item.productId,
-    quantity: item.quantity,
-    name: item.displayTitle,
-    price: item.productPrice,
-    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '',
-  }));
+  const toggleShowAllItems = () => {
+    setShowAllItems((prevState) => !prevState);
+  };
+
+
+  // const mappedCartItems = cartItems
+  // .filter((item) => item.productId && item.quantity && item.displayTitle && item.productPrice && item.imageDetails)
+  // .map((item) => ({
+  //   productId: item.productId,
+  //   quantity: item.quantity,
+  //   name: item.displayTitle,
+  //   price: item.productPrice,
+  //   image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '',
+  // }));
+
+  const mappedCartItems = showAllItems
+    ? cartItems
+        .filter(
+          (item) =>
+            item.productId &&
+            item.quantity &&
+            item.displayTitle &&
+            item.productPrice &&
+            item.imageDetails
+        )
+        .map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          name: item.displayTitle,
+          price: item.productPrice,
+          image:
+            item.imageDetails && item.imageDetails.length > 0
+              ? item.imageDetails[0].image_path
+              : "",
+        }))
+    : cartItems
+        .filter((item) => item.productId === parseInt(buyNow as string))
+        .map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          name: item.displayTitle,
+          price: item.productPrice,
+          image:
+            item.imageDetails && item.imageDetails.length > 0
+              ? item.imageDetails[0].image_path
+              : "",
+        }));
+
 
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
@@ -90,7 +139,7 @@ const Checkout: React.FC = () => {
     setSelectedPaymentMethod(event.target.value);
   };
 
-  const searchParams = useSearchParams();
+  
 
   let discount = searchParams.get('discount');
   let ship = searchParams.get('ship');

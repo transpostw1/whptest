@@ -5,15 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { usePathname } from "next/navigation";
-import Product from "@/components/Product/Product";
-import productData from "@/data/Product.json";
-import useMenuMobile from "@/store/useMenuMobile";
-import { useModalSearchContext } from "@/context/ModalSearchContext";
 import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
-import TopNavOne from "../TopNav/TopNavOne";
 
 interface Props {
   props: string;
@@ -134,6 +129,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                     height={25}
                                     width={25}
                                     className="mr-1"
+                                    style={{width:"auto",height:"auto"}}
                                   />
                                   <p>{item.name}</p>
                                 </div>

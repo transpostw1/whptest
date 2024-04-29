@@ -190,6 +190,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{width:"auto",height:"auto"}}
                 />
               </div>
               <div className="ml-4">
@@ -198,6 +199,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{width:"auto",height:"auto"}}
                 />
               </div>
               <div className="ml-4 text-black">
@@ -212,6 +214,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"hamBurgerIcon"}
                   width={25}
                   height={25}
+                  style={{width:"auto",height:"auto"}}
                 />
               </div>
             </div>

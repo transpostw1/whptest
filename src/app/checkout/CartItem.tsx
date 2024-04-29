@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
-
+import { useCouponContext } from "@/context/CouponContext";
 interface CartItemProps {
   product: {
     productId: number;
@@ -15,8 +15,10 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart } = useCart();
+  const { totalDiscount, setTotalDiscount,updateTotalDiscount } = useCouponContext();
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {
+      updateTotalDiscount();
       updateCartQuantity(product.productId, newQuantity);
     } else {
       removeFromCart(product.productId);
@@ -28,6 +30,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   }).format(Math.round(parseInt(price.toString())));
 
   const handleRemoveFromCart = () => {
+    updateTotalDiscount();
     removeFromCart(product.productId);
   };
 

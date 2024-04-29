@@ -1,9 +1,15 @@
-import React from "react";
+"use client"
+import React ,{useState}from "react";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import BookExchangeModal from "@/components/Other/BookExchangeModal"
 
 const Footer = () => {
+  const [appointmentModal,setAppointmentModal]=useState<boolean>(false)
+  const handleAppointmentModal=()=>{
+    setAppointmentModal(true)
+  }
   return (
     <>
       <div id="footer" className="footer  text-rose-950">
@@ -156,12 +162,13 @@ const Footer = () => {
                     >
                       Return & Refund
                     </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"https://calendly.com/aadityatelange/30min"}
+                    <div
+                      className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
+                      onClick={()=>setAppointmentModal(true)}
                     >
                       Book,Exchange and BuyBack
-                    </Link>
+                    </div>
+                    {appointmentModal&&<BookExchangeModal/>}
                   </div>
                 </div>
                 <div className="item flex flex-col md:ml-14 lg:ml-14">

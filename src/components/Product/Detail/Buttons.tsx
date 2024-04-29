@@ -28,7 +28,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
           ...productItem,
           quantity: 1,
         },
-        1 // Pass the initial quantity as 1
+        1
       );
     }
   };

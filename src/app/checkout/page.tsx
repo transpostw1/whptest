@@ -32,6 +32,7 @@ import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
+import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
@@ -54,6 +55,7 @@ const Checkout: React.FC = () => {
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
+  const [showModal,setShowModal]=useState<boolean>(false);
 
   const [selectedShippingAddress, setSelectedShippingAddress] =
     useState<Address | null>(null);
@@ -151,15 +153,24 @@ const Checkout: React.FC = () => {
   };
 
   const mappedCartItems = cartItems
-  .filter((item) => item.productId && item.quantity && item.displayTitle && item.discountPrice && item.imageDetails&&item.gst)
-  .map((item) => ({
-    productId: item.productId,
-    quantity: item.quantity,
-    name: item.displayTitle,
-    price: item.discountPrice,
-    gst:item.gst,
-    image: item.imageDetails && item.imageDetails.length > 0 ? item.imageDetails[0].image_path : '',
-  }));
+    .filter(
+      (item) =>
+        item.productId &&
+        item.quantity &&
+        item.displayTitle &&
+        item.discountPrice &&
+        item.imageDetails
+    )
+    .map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+      name: item.displayTitle,
+      price: item.discountPrice,
+      image:
+        item.imageDetails && item.imageDetails.length > 0
+          ? item.imageDetails[0].image_path
+          : "",
+    }));
 
   // const mappedCartItems = showAllItems
   //   ? cartItems
@@ -169,7 +180,6 @@ const Checkout: React.FC = () => {
   //           item.quantity &&
   //           item.displayTitle &&
   //           item.discountPrice &&
-  //           item.gst &&
   //           item.imageDetails
   //       )
   //       .map((item) => ({
@@ -177,7 +187,6 @@ const Checkout: React.FC = () => {
   //         quantity: item.quantity,
   //         name: item.displayTitle,
   //         price: item.discountPrice,
-  //         gst: item.gst,
   //         image:
   //           item.imageDetails && item.imageDetails.length > 0
   //             ? item.imageDetails[0].image_path
@@ -190,7 +199,6 @@ const Checkout: React.FC = () => {
   //         quantity: item.quantity,
   //         name: item.displayTitle,
   //         price: item.discountPrice,
-  //         gst: item.gst,
   //         image:
   //           item.imageDetails && item.imageDetails.length > 0
   //             ? item.imageDetails[0].image_path
@@ -213,16 +221,17 @@ const Checkout: React.FC = () => {
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  let totalGst: number = 0;
   mappedCartItems.forEach((item) => {
     const price = parseInt(item.price);
-    const gst = parseInt(item.gst);
     if (!isNaN(price) && typeof item.quantity === "number") {
       totalCart += price * item.quantity;
-      totalGst += gst;
     }
   });
   let formattedPrice: string = totalCart.toString();
+
+  if(cartItems.length===0){
+    setTotalDiscount(0)
+  }
 
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);
@@ -259,7 +268,8 @@ const Checkout: React.FC = () => {
     }
     return true;
   };
-  let totalPrice = (totalCart + totalGst - totalDiscount);
+  let totalPrice = totalCart - totalDiscount;
+
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
       router.push("/login");
@@ -385,6 +395,9 @@ const Checkout: React.FC = () => {
       label: "Payment",
     },
   ];
+  const handleGiftWrapModal=()=>{
+    setShowModal(true);
+  }
   return (
     <>
       <StickyNav />
@@ -506,7 +519,8 @@ const Checkout: React.FC = () => {
                       <Gift style={{ color: "red", fontSize: "24px" }} />
                       <h3>Gift Message</h3>
                     </div>
-                    <h3 className="text-red-600 underline">Add</h3>
+                    <h3 className="text-red-600 underline cursor-pointer" onClick={()=>handleGiftWrapModal()}>Add</h3>
+                    {showModal&&<GiftWrapModal/>}
                   </div>
                   {loading ? (
                     <Skeleton height={150} />
@@ -535,24 +549,15 @@ const Checkout: React.FC = () => {
                           <h3>Shipping Charges</h3>
                           <h3>₹0</h3>
                         </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>G.S.T</h3>
-                          <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(
-                              Math.round(parseInt(totalGst.toString()))
-                            )}
-                          </h3>
-                        </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
                           <h3>
                             ₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(totalPrice.toString())))}
+                            }).format(
+                              Math.round(parseInt(totalPrice.toString()))
+                            )}
                           </h3>
                         </div>
                       </div>
@@ -566,7 +571,6 @@ const Checkout: React.FC = () => {
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
-                    totalGst={totalGst}
                     totalDiscount={totalDiscount}
                     totalCart={totalCart}
                     cartItems={mappedCartItems}

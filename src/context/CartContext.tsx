@@ -5,6 +5,7 @@ import instance from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {fetchCartItemsFromServer} from "@/utils/cartUtils";
+import { useCouponContext } from "./CouponContext";
 
 interface CartItem {
   gst?: any;
@@ -30,6 +31,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { totalDiscount, setTotalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
@@ -56,8 +58,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const addToCart = (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
+    setTotalDiscount(0)
     saveCartItemsToStorage([...cartItems, newItem]);
     if (isLoggedIn) {
+      setTotalDiscount(0)
       syncCartWithServer([...cartItems, newItem]);
     }
   };
@@ -67,9 +71,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       (item) => item.productId !== productId
     );
     setCartItems(updatedCartItems);
+    
     saveCartItemsToStorage(updatedCartItems);
 
     if (isLoggedIn) {
+      setTotalDiscount(0)
       syncCartWithServer(updatedCartItems);
     }
   };
@@ -82,6 +88,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage(updatedCartItems);
 
     if (isLoggedIn) {
+      setTotalDiscount(0)
       syncCartWithServer(updatedCartItems);
     }
   };

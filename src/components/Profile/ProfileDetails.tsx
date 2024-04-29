@@ -1,23 +1,85 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AiFillEdit } from "react-icons/ai";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
+import { Address } from "@/type/AddressType";
+import { baseUrl } from "@/utils/constants";
+import Cookies from "js-cookie";
+import axios from "axios";
+import EditAddressModal from "./EditAddressModal";
 
 const ProfileDetails = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showModal,setShowModal]=useState<boolean>(false);
+  const  [id,setId]=useState<any>();
+  const [allAddress, setallAddress] = useState<Address[]>();
   const { logOut, isLoggedIn } = useUser();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
-      console.log("this effecct is running")
-     router.replace("/")
+      console.log("this effecct is running");
+      router.replace("/");
     }
   }, [isLoggedIn, router]);
   const handleLogOut = () => {
     logOut();
     router.push("/");
   };
+  const handleEditAddress=async(id:any)=>{
+    setId(id);
+    setShowModal(true);
+  }
+  const handleRemoveAddress = async (id: any) => {
+    setIsLoading(true);
+    setallAddress(allAddress?.filter((item)=>(item.address_id!=id)));
+    try {
+      const cookieTokenn = Cookies.get("localtoken");
+      const response = await axios.post<{ data: any }>(
+        `${baseUrl}/customer/address/remove`,
+        { address_id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieTokenn}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error fetching addresses:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      setIsLoading(true);
+      try {
+        const cookieTokenn = Cookies.get("localtoken");
+        const response = await axios.get<{ customerAddress?: Address[] }>(
+          `${baseUrl}/customer/getAddresses`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieTokenn}`,
+            },
+          }
+        );
+
+        setallAddress(response.data.customerAddress);
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAddresses();
+  }, []);
+  const closeEditModal=()=>{
+    setShowModal(false)
+  }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="mt-10 m-24">
       <div className="flex justify-between">
@@ -106,15 +168,28 @@ const ProfileDetails = () => {
         </div>
       </form>
       <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
-      <div className="flex bg-white p-4 rounded-lg shadow-md relative mt-6">
-        <ul>
-          <li className="mb-2">123 Main Street, Cityville</li>
-          <li className="mb-2">456 Elm Street, Townsville</li>
-        </ul>
-        <button className="absolute top-0 right-0 p-2 text-sm text-black hover:text-red-700">
-          <AiFillEdit />
-        </button>
-      </div>
+      {allAddress &&
+        allAddress.map((address: any) => (
+          <div
+            key={address.address_id}
+            className=" bg-white p-4 rounded-lg shadow-md relative mt-6"
+          >
+            <p>
+              {address.full_address}, {address.city}, {address.pincode},{" "}
+              {address.address_type}
+            </p>
+            <button className="absolute top-0 right-0 p-2 text-sm text-black hover:text-red-700">
+              <Icon.PencilSimple size={25} onClick={()=>handleEditAddress(address.address_id)}/>
+            </button>
+            <button className="absolute top-7 right-0 p-2 text-sm text-black hover:text-red-700">
+              <Icon.X
+                size={25}
+                onClick={() => handleRemoveAddress(address.address_id)}
+              />
+            </button>
+          </div>
+        ))}
+        {showModal&&<EditAddressModal id={id} closeModal={closeEditModal}/>}
     </div>
   );
 };

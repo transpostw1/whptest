@@ -33,7 +33,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full ${
+      className={`fixed top-0 left-0 w-full h-full no-scrollbar ${
         isModalOpen ? "opacity-100 visible" : "opacity-0 invisible"
       } transition-all duration-400 ease-in-out bg-black bg-opacity-60 z-[1000] overflow-y-auto`}
       onClick={closeModal}

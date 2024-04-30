@@ -1,15 +1,15 @@
-"use client"
-import React ,{useState}from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import BookExchangeModal from "@/components/Other/BookExchangeModal"
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 const Footer = () => {
-  const [appointmentModal,setAppointmentModal]=useState<boolean>(false)
-  const handleAppointmentModal=()=>{
-    setAppointmentModal(true)
-  }
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const handleAppointmentModal = () => {
+    setAppointmentModal(true);
+  };
   return (
     <>
       <div id="footer" className="footer  text-rose-950">
@@ -96,6 +96,12 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/about-waman-hari-pethe-jewellers"}
+                    >
+                      About-Us
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"/faqs"}
                     >
                       FAQs
@@ -140,9 +146,9 @@ const Footer = () => {
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"#!"}
+                      href={"/terms-and-condition"}
                     >
-                      Orders FAQs
+                      Terms & Conditions
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
@@ -150,25 +156,25 @@ const Footer = () => {
                     >
                       Shipping
                     </Link>
-                    <Link
+                    <a
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={"/terms-and-condition#privacyPolicy"}
                     >
                       Privacy Policy
-                    </Link>
+                    </a>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={"/terms-and-condition#returnandRefund"}
                     >
                       Return & Refund
                     </Link>
                     <div
                       className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
-                      onClick={()=>setAppointmentModal(true)}
+                      onClick={() => setAppointmentModal(true)}
                     >
                       Book,Exchange and BuyBack
                     </div>
-                    {appointmentModal&&<BookExchangeModal/>}
+                    {appointmentModal && <BookExchangeModal />}
                   </div>
                 </div>
                 <div className="item flex flex-col md:ml-14 lg:ml-14">

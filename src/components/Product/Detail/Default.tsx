@@ -17,6 +17,7 @@ import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import Accordian from "./Accordian";
+import ReviewsAndRatings from "./ReviewsAndRatings";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
 import Buttons from "./Buttons";
@@ -73,7 +74,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const product = data[0];
 
   const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
-  let sliderRef = useRef<any>();
+  let sliderRef = useRef<Slider>();
   const settingsThumbnails = {
     dots: false,
     infinite: true,
@@ -150,10 +151,16 @@ const Default: React.FC<Props> = ({ productId }) => {
                   </Slider>
                 </>
                 <div className="absolute top-[40px] -right-[10px] cursor-pointer">
-                  <Icon.CaretRight onClick={() => sliderRef.slickNext()} size={25}/>
+                  <Icon.CaretRight
+                    onClick={() => sliderRef.slickNext()}
+                    size={25}
+                  />
                 </div>
                 <div className="absolute top-[40px] -left-[50px] cursor-pointer">
-                  <Icon.CaretLeft onClick={() => sliderRef.slickPrev()} size={25}/>
+                  <Icon.CaretLeft
+                    onClick={() => sliderRef.slickPrev()}
+                    size={25}
+                  />
                 </div>
               </div>
             </div>
@@ -332,13 +339,15 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           </div>
-          <p className="mt-2">
-            Only{" "}
-            <span className="text-[#e26178]">
-              {product && product?.productQty}pieces
-            </span>{" "}
-            left!
-          </p>
+          {product && product?.productQty!==null && (
+            <p className="mt-2">
+              Only{" "}
+              <span className="text-[#e26178]">
+                {product && product?.productQty}pieces
+              </span>{" "}
+              left!
+            </p>
+          )}
           <div className="mt-4">
             <ul className="list-disc">
               <li>
@@ -373,6 +382,9 @@ const Default: React.FC<Props> = ({ productId }) => {
           <GoldSchemeSmallBanner />
           <Accordian product={product} />
         </div>
+      </div>
+      <div className="">
+        <ReviewsAndRatings product={product} />
       </div>
     </>
   );

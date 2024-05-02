@@ -73,8 +73,6 @@ const MainCarousel = () => {
                         alt="Hero Image"
                         width={1920}
                         height={1080}
-                        layout="responsive"
-                        priority
                       />
                     </div>
                   </SwiperSlide>

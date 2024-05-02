@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
 import ProfileOrders from "@/components/Profile/ProfileOrder";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
@@ -14,8 +13,7 @@ interface OrdersResponse {
   data: any;
 }
 const ProfilePage = () => {
-  const [componentToRender, setComponentToRender] =
-    useState<string>("personalInfo");
+  const [componentToRender, setComponentToRender] =useState<string>("personalInfo");
   const [ordersData, setOrdersData] = useState<any>();
 
   const handleComponentToRender = (component: string) => {

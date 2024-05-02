@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect ,useRef} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -7,12 +7,29 @@ import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const bookexchangeRef=useRef<any>(null)
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (
+        bookexchangeRef.current &&
+        !bookexchangeRef.current.contains(event.target as Node)
+      ) {
+        setAppointmentModal(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   const handleAppointmentModal = () => {
     setAppointmentModal(true);
   };
   return (
     <>
-      <div id="footer" className="footer  text-rose-950">
+      <div id="footer" className="footer  text-rose-950" ref={bookexchangeRef}>
         <div className="footer-main bg-gray-50">
           <div className="container">
             <div className="flex flex-wrap gap-3 items-center justify-between">

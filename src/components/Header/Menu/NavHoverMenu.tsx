@@ -18,7 +18,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
-  const {setCustomcategory}=useCategory()
+  const { setCustomcategory } = useCategory();
 
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -94,7 +94,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href=""
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
-                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                      pathname.includes("/products") ? "active" : ""
                     }`}
                   >
                     All Jewellery
@@ -116,11 +116,11 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             <li className="leading-[0px]">
                               <Link
                                 href={{
-                                  pathname: "/shop/breadcrumb1",
+                                  pathname: "/products",
                                   query: { url: item.url },
                                 }}
                                 className=" text-secondary duration-300"
-                                onClick={()=>setCustomcategory(item.name)}
+                                onClick={() => setCustomcategory(item.name)}
                               >
                                 <div className="flex">
                                   <Image
@@ -129,7 +129,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                     height={25}
                                     width={25}
                                     className="mr-1"
-                                    style={{width:"auto",height:"auto"}}
+                                    style={{ width: "auto", height: "auto" }}
                                   />
                                   <p>{item.name}</p>
                                 </div>
@@ -189,13 +189,13 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <p className="font-bold text-black">Shop By Karat</p>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                        <Link href={"/products"}>14kt</Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                        <Link href={"/products"}>18kt</Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
+                        <Link href={"/products"}>22kt</Link>
                       </li>
                     </ul>
                   </div>

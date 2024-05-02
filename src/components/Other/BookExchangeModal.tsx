@@ -5,6 +5,7 @@ function BookExchangeModal() {
     name: "",
     email: "",
     phone: "",
+    message:""
   });
   const [showPopup, setShowPopup] = useState(false);
 
@@ -21,7 +22,7 @@ function BookExchangeModal() {
 
     // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "" });
+      setFormData({ name: "", email: "", phone: "",message:"", });
       setShowPopup(false);
     }, 2000);
   };
@@ -87,6 +88,23 @@ function BookExchangeModal() {
               required
             />
           </div>
+          <div className="mb-4">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Message:
+            </label>
+            <input
+              type="text"
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              required
+            />
+          </div>
 
           <button
             type="submit"
@@ -96,7 +114,6 @@ function BookExchangeModal() {
           </button>
         </form>
 
-        {/* Popup */}
         {showPopup && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white p-6 rounded-md shadow-md">

@@ -3,25 +3,25 @@
 import Link from "next/link";
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductType } from "@/type/ProductType";
+import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 
 interface Props {
-  product: ProductType;
+  product: ProductData;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, removeFromCart, updateCartQuantity } =
     useCart();
 
-  const handleAddToCart = (productItem: ProductType) => {
+  const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productId
+      (item) => item.productId === productItem.productDetails.productId
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      updateCartQuantity(productItem?.productId, updatedQuantity);
+      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
     } else {
       addToCart(
         {
@@ -33,15 +33,15 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
-  const handleBuyNow = (productItem: ProductType) => {
+  const handleBuyNow = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productId
+      (item) => item.productId === productItem.productDetails?.productId
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      updateCartQuantity(productItem?.productId, updatedQuantity);
+      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
     } else {
       addToCart(
         {
@@ -62,7 +62,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         <Link
           href={{
             pathname: "/checkout",
-            query: { buyNow: product.productId.toString() },
+            query: { buyNow: product.productDetails?.productId.toString() },
           }}
         >
           Buy Now
@@ -83,7 +83,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
         </div>
       </div>
       <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
-        {" "}
         <Icon.Heart size={27} weight="thin" />
       </div>
     </div>

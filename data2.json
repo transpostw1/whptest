@@ -1,232 +1,136 @@
 {
-    "id": 11,
-    "name": "Masood",
-    "code": "masood2000",
-    "productCatId": null,
-    "discountOn": "Whole Product",
-    "discountType": "Amount",
-    "discountValue": "2000",
-    "discountStartDate": "2024-04-01 00:00:00",
-    "discountEndDate": "2024-04-30 00:00:00",
-    "discountMinAmount": "60000",
-    "discountMaxAmount": "1000000",
-    "isActive": 1,
-    "remarks": null,
-    "settings": "{\"noEmailandMobile\":1,\"noID\":1}",
-    "created_at": "2024-04-12T05:03:35.000000Z",
-    "updated_at": "2024-04-12T05:32:17.000000Z",
-    "discountedProducts": [
-        {
-            "productId": 187,
-            "SKU": "LBR21040",
-            "variantId": null,
-            "isParent": null,
-            "title": "Bracelet For Women",
-            "displayTitle": "Bracelet For Women",
-            "shortDesc": "Delivery within 7-21 days",
-            "longDesc": null,
-            "url": "bracelet-for-women",
-            "tags": [
-                "Jewellery"
-            ],
-            "collectionName": null,
-            "shopFor": [
-                "Women"
-            ],
-            "occasion": "Wedding",
-            "theme": "Wedding",
-            "length": null,
-            "breadth": null,
-            "height": null,
-            "weightRange": "0-2 gms",
-            "addDate": "2024-04-01",
-            "lastModificationDate": null,
-            "created_at": "2024-04-01T06:46:42.000000Z",
-            "updated_at": "2024-04-25T04:34:39.000000Z",
-            "sizeId": null,
-            "productSize": null,
-            "productQty": null,
-            "attributeId": 174,
-            "preSalesProductQueries": null,
-            "isReplaceable": 0,
-            "isReturnable": 0,
-            "isInternationalShippingAvailable": 0,
-            "customizationAvailability": 0,
-            "fastDelivery": 0,
-            "tryAtHome": 0,
-            "isActive": 1,
-            "grossWeight": null,
-            "netWeight": null,
-            "productAttributes": {
-                "goldDetails": [
-                    {
-                        "goldCertifiedBy": null,
-                        "goldSetting": null
-                    }
-                ],
-                "gemstoneDetails": null,
-                "diamondDetails": null,
-                "silverDetails": [
-                    {
-                        "poojaArticle": null,
-                        "utensils": null,
-                        "silverWeight": null
-                    }
-                ]
-            },
-            "discountId": 59,
-            "discountCategory": "Making Charges",
-            "discountActive": 1,
-            "typeOfDiscount": "Percentage",
-            "discountValue": "50.00",
-            "discountAmount": "1875.00",
-            "discountPrice": "32842.18",
-            "offerStartDate": "2024-03-31",
-            "offerEndDate": "2024-05-11",
-            "mediaId": 83,
-            "imageDetails": "[{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/187/1711954003_210602_121524_818_467_0_1.jpg\",\"order\":0,\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/187/1711954003_210602_121524_818_467_0_2.jpg\",\"order\":1,\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/187/1711954003_210602_121524_818_467_0_3.jpg\",\"order\":2,\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/187/1711954002_210602_121524_834_108_0_4.jpg\",\"order\":3,\"alt_text\":null}]",
-            "videoDetails": null,
-            "materialId": 169,
-            "metalType": "Gold",
-            "metalPurity": "18KT",
-            "metalWeight": "1.5000",
-            "metalRate": "9006.0000",
-            "makingType": "fixed",
-            "makingChargesPerGrams": "2500.0000",
-            "makingCharges": "3750.0000",
-            "gst": "1011.1800",
-            "additionalCost": "1000.0000",
-            "productPrice": "34717.1800",
-            "stoneDetails": null,
-            "diamondDetails": [
+    "productDetails": {
+        "productId": 237,
+        "SKU": "DBG0001",
+        "variantId": "DBG0001A2",
+        "isParent": 236,
+        "title": "Rose Gold Diamond Bangle",
+        "displayTitle": "Rose Gold Diamond Bangle",
+        "shortDesc": null,
+        "longDesc": null,
+        "url": "rolse-gold-diamond-bangle",
+        "tags": [
+            "Jewellery",
+            "diamond-bangle",
+            "golden bangle",
+            "rose gold bangle"
+        ],
+        "collectionName": null,
+        "shopFor": [
+            "Women"
+        ],
+        "occasion": "Casual Wear",
+        "theme": "Wedding",
+        "length": null,
+        "breadth": null,
+        "height": null,
+        "weightRange": "10 gms and above",
+        "addDate": "2024-05-02",
+        "lastModificationDate": null,
+        "created_at": "2024-05-02T05:50:01.000000Z",
+        "updated_at": "2024-05-02T05:50:01.000000Z",
+        "sizeId": null,
+        "productSize": null,
+        "productQty": 10,
+        "attributeId": 224,
+        "preSalesProductQueries": null,
+        "isReplaceable": 1,
+        "isReturnable": 0,
+        "isInternationalShippingAvailable": 1,
+        "customizationAvailability": 1,
+        "fastDelivery": 0,
+        "tryAtHome": 0,
+        "isActive": 1,
+        "grossWeight": null,
+        "netWeight": null,
+        "productAttributes": {
+            "goldDetails": [
                 {
-                    "diamondColor": "GH",
-                    "diamondClarity": "VSSI",
-                    "diamondQuantity": "22",
-                    "caratWeight": "0.210",
-                    "diamondCost": "19950"
+                    "goldCertifiedBy": "BIS HallMarked",
+                    "goldSetting": null
                 }
             ],
-            "categories": [],
-            "quantity": 1,
-            "discountedValue": 250.74,
-            "additionalDiscountPrice": 32591.44
+            "gemstoneDetails": null,
+            "diamondDetails": null,
+            "silverDetails": [
+                {
+                    "poojaArticle": null,
+                    "utensils": null,
+                    "silverWeight": null
+                }
+            ]
+        },
+        "discountId": 92,
+        "discountCategory": "Making Charges",
+        "discountActive": 1,
+        "typeOfDiscount": "Percentage",
+        "discountValue": "26.00",
+        "discountAmount": "9750.00",
+        "discountPrice": "227314.80",
+        "offerStartDate": "2024-05-01",
+        "offerEndDate": "2024-05-31",
+        "mediaId": 133,
+        "imageDetails": "[{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)01%20(1).jpg\",\"order\":0,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)02%20(1).jpg\",\"order\":1,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)03%20(1).jpg\",\"order\":2,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629007_DBG%20(0001)04%20(1).jpg\",\"order\":3,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)%20(1).jpg\",\"order\":4,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629001_DBG%20(0001)05%20(1).jpg\",\"order\":5,\"alt_text\":null}]",
+        "videoDetails": null,
+        "materialId": 213,
+        "metalType": "Rose Gold",
+        "metalPurity": "18KT",
+        "metalWeight": "15.0000",
+        "metalRate": "90060.0000",
+        "makingType": "fixed",
+        "makingChargesPerGrams": "2500.0000",
+        "makingCharges": "37500.0000",
+        "gst": "6904.8000",
+        "additionalCost": null,
+        "productPrice": "237064.8000",
+        "stoneDetails": null,
+        "diamondDetails": [
+            {
+                "diamondColor": "GH",
+                "diamondClarity": "VSI",
+                "diamondQuantity": "108",
+                "caratWeight": "1.08",
+                "diamondCost": "102600"
+            }
+        ],
+        "categories": [
+            {
+                "catId": 82,
+                "productId": 237,
+                "productType": null,
+                "productSubType": null,
+                "productSubSubType": null,
+                "created_at": "2024-05-02T05:50:01.000000Z",
+                "updated_at": "2024-05-02T05:50:01.000000Z"
+            }
+        ]
+    },
+    "variants": [
+        {
+            "VariantType": "Gold",
+            "VariantOption": [
+                {
+                    "ProductUrl": "rolse-gold-diamond-bangle-0p237-0sDBG0001-0vDBG0001A2",
+                    "VariantName": "Rose Gold"
+                },
+                {
+                    "ProductUrl": "yellow-golden-diamond-bangle-0p236-0sDBG0001-0vDBG0001A1",
+                    "VariantName": "Yellow Gold"
+                }
+            ]
         },
         {
-            "productId": 214,
-            "SKU": "DBG0001",
-            "variantId": null,
-            "isParent": null,
-            "title": "Yellow Goldn Diamond-Bangle",
-            "displayTitle": "Yellow Goldn Diamond-Bangle",
-            "shortDesc": null,
-            "longDesc": null,
-            "url": "yellow-goldn-diamond-bangle",
-            "tags": [
-                "Jewellery"
-            ],
-            "collectionName": null,
-            "shopFor": [
-                "Women"
-            ],
-            "occasion": null,
-            "theme": null,
-            "length": null,
-            "breadth": null,
-            "height": null,
-            "weightRange": "2-5 gms",
-            "addDate": "2024-04-12",
-            "lastModificationDate": null,
-            "created_at": "2024-04-12T05:49:21.000000Z",
-            "updated_at": "2024-04-25T04:34:39.000000Z",
-            "sizeId": 211,
-            "productSize": null,
-            "productQty": null,
-            "attributeId": 201,
-            "preSalesProductQueries": null,
-            "isReplaceable": 0,
-            "isReturnable": 0,
-            "isInternationalShippingAvailable": 0,
-            "customizationAvailability": 0,
-            "fastDelivery": 0,
-            "tryAtHome": 0,
-            "isActive": 1,
-            "grossWeight": null,
-            "netWeight": null,
-            "productAttributes": {
-                "goldDetails": [
-                    {
-                        "goldCertifiedBy": null,
-                        "goldSetting": null
-                    }
-                ],
-                "gemstoneDetails": null,
-                "diamondDetails": null,
-                "silverDetails": [
-                    {
-                        "poojaArticle": null,
-                        "utensils": null,
-                        "silverWeight": null
-                    }
-                ]
-            },
-            "discountId": 82,
-            "discountCategory": "Making Charges",
-            "discountActive": 1,
-            "typeOfDiscount": "Percentage",
-            "discountValue": "26.00",
-            "discountAmount": "9750.00",
-            "discountPrice": "229122.45",
-            "offerStartDate": "2024-03-31",
-            "offerEndDate": "2024-05-11",
-            "mediaId": 110,
-            "imageDetails": "[{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/214/1712900961_DBG (0001)02.jpg\",\"order\":\"0\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/214/1712900966_DBG (0001)03.jpg\",\"order\":\"1\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/214/1712900967_DBG (0001).jpg\",\"order\":\"2\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/214/1712900967_DBG (0001)04.jpg\",\"order\":\"3\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/214/1712900967_DBG (0001)05.jpg\",\"order\":\"4\",\"alt_text\":null}]",
-            "videoDetails": "[{\"video_path\":\"https://wamanharipethe.s3.amazonaws.com/products/videos/60/1709631614.mp4\",\"order\":\"0\"}]",
-            "materialId": 196,
-            "metalType": "Gold",
-            "metalPurity": "18KT",
-            "metalWeight": "15.0000",
-            "metalRate": "90060.0000",
-            "makingType": "fixed",
-            "makingChargesPerGrams": "2500.0000",
-            "makingCharges": "37500.0000",
-            "gst": "6904.8000",
-            "additionalCost": null,
-            "productPrice": "237064.8000",
-            "stoneDetails": null,
-            "diamondDetails": [
+            "VariantType": "Size",
+            "VariantOption": [
                 {
-                    "diamondColor": "GH",
-                    "diamondClarity": "VSI",
-                    "diamondQuantity": "108",
-                    "caratWeight": "1.08",
-                    "diamondCost": "102600"
+                    "ProductUrl": "rolse-gold-diamond-bangle-0p237-0sDBG0001-0vDBG0001A2",
+                    "VariantName": "2.5"
+                },
+                {
+                    "ProductUrl": "yellow-golden-diamond-bangle-0p236-0sDBG0001-0vDBG0001A1",
+                    "VariantName": "2.5"
                 }
-            ],
-            "categories": [],
-            "quantity": 1,
-            "discountedValue": 1749.26,
-            "additionalDiscountPrice": 227373.19
-        }
-    ],
-    "couponDetails": [
-        {
-            "id": 11,
-            "name": "Masood",
-            "code": "masood2000",
-            "productCatId": null,
-            "discountOn": "Whole Product",
-            "discountType": "Amount",
-            "discountValue": "2000",
-            "discountStartDate": "2024-04-01 00:00:00",
-            "discountEndDate": "2024-04-30 00:00:00",
-            "discountMinAmount": "60000",
-            "discountMaxAmount": "1000000",
-            "isActive": 1,
-            "remarks": null,
-            "settings": "{\"noEmailandMobile\":1,\"noID\":1}",
-            "created_at": "2024-04-12T05:03:35.000000Z",
-            "updated_at": "2024-04-12T05:32:17.000000Z"
+            ]
         }
     ]
 }

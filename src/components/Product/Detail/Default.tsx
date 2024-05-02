@@ -5,18 +5,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
-import { ProductType } from "@/type/ProductType";
+import { ProductData, ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalCartContext } from "@/context/ModalCartContext";
-import { useWishlist } from "@/context/WishlistContext";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import Accordian from "./Accordian";
+import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
@@ -24,19 +22,20 @@ import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
+import axios from "axios";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
+import DropDown from "./DropDown";
 
 interface Props {
   productId: string | number | null;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
+  const router = useRouter();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
-  const [metal, setMetal] = useState<string>("Gold");
-  const [karat, setKarat] = useState<string>("22k");
-  const [size, setSize] = useState<string>("3.0");
-  const [data, setData] = useState<ProductType[]>([]);
+  const [variant, setVariant] = useState<string>("");
+  const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   const { recentlyViewedProducts, saveToRecentlyViewed } =
@@ -52,13 +51,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   };
 
   async function getData() {
-    const res = await fetch(`${baseUrl}/products/${productId}`);
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
+    const res = await axios.get(`${baseUrl}/products/${productId}`);
     setLoading(true);
-    return res.json();
+    return res.data;
   }
 
   async function singleProduct() {
@@ -69,11 +64,25 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   useEffect(() => {
     singleProduct();
-  }, [productId]);
+  }, []);
 
-  const product = data[0];
-
-  const slidesToShow = Math.min(3, product?.imageDetails?.length || 0);
+  const handleNewVariant = async (newUrl: string) => {
+    try {
+      setVariant(newUrl)
+      console.log("variant url",newUrl)
+      setLoading(true);
+      const response = await axios.get(`${baseUrl}/products/${newUrl}`);
+      setData(await response.data);
+    } catch (error) {
+      console.error("error in fetching variants", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const slidesToShow = Math.min(
+    3,
+    data?.productDetails?.imageDetails?.length || 0
+  );
   let sliderRef = useRef<Slider>();
   const settingsThumbnails = {
     dots: false,
@@ -86,32 +95,36 @@ const Default: React.FC<Props> = ({ productId }) => {
   };
 
   useEffect(() => {
-    if (product) {
-      saveToRecentlyViewed(product);
+    if (data) {
+      saveToRecentlyViewed(data);
     }
-  }, [product, saveToRecentlyViewed]);
+  }, [data, saveToRecentlyViewed]);
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
-  }).format(Math.round(parseFloat((data && product?.discountPrice) ?? 0)));
+  }).format(
+    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0))
+  );
 
   const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
-  }).format(Math.round(parseFloat((data && product?.productPrice) ?? 0)));
+  }).format(
+    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0))
+  );
 
   return (
     <>
       <StickyNav />
       <div className="lg:flex">
-        <div className="lg:w-[50%] sm:w-[100%]">
+        {/* <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
             <Skeleton height={500} width={700} />
           ) : (
             <div className="bg-[#fffff]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {product &&
-                  product.imageDetails
-                    .sort((a, b) => parseInt(a.order) - parseInt(b.order))
+                {data &&
+                  data?.imageDetails
+                    .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
                     .map((image, index) => (
                       <div key={index} className="">
                         <InnerImageZoom
@@ -131,8 +144,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                       sliderRef = slider;
                     }}
                   >
-                    {product &&
-                      product.imageDetails
+                    {data &&
+                      data.imageDetails
                         .sort(
                           (a: any, b: any) =>
                             parseInt(a.order) - parseInt(b.order)
@@ -141,7 +154,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                           <div key={index}>
                             <Image
                               src={image?.image_path}
-                              alt={product?.title}
+                              alt={data?.title}
                               width={100}
                               height={100}
                               className="cursor-pointer border"
@@ -166,10 +179,10 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
 
-          {product &&
-            product.videoDetails &&
-            product.videoDetails.length > 0 &&
-            product.videoDetails.map((item: any) => (
+          {data &&
+            data.videoDetails &&
+            data.videoDetails.length > 0 &&
+            data.videoDetails.map((item: any) => (
               <video
                 key={item.order}
                 className=""
@@ -179,13 +192,15 @@ const Default: React.FC<Props> = ({ productId }) => {
                 muted
               />
             ))}
-        </div>
+        </div> */}
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
             <Skeleton height={30} />
           ) : (
             <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
-              <p className="font-semibold text-3xl">{product?.title}</p>
+              <p className="font-semibold text-3xl">
+                {data?.productDetails.displayTitle}
+              </p>
               <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
                 <Icon.ShareFat size={30} weight="fill" className="text-white" />
               </span>
@@ -212,7 +227,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              {product.discountPrice && (
+              {data?.productDetails?.discountPrice && (
                 <>
                   <span className="font-extrabold text-2xl">
                     ₹{formattedDiscountedPrice}
@@ -221,12 +236,12 @@ const Default: React.FC<Props> = ({ productId }) => {
                     ₹{formattedOriginalPrice}
                   </span>
                   <span className="ml-3 text-[#e26178] underline">
-                    {product && product?.discountValue}% OFF on{" "}
-                    {product && product?.discountCategory}
+                    {data && data?.productDetails.discountValue}% OFF on{" "}
+                    {data && data?.productDetails.discountCategory}
                   </span>
                 </>
               )}
-              {product.discountPrice == null && (
+              {data?.productDetails?.discountPrice == null && (
                 <>
                   <span className="font-extrabold text-2xl">
                     ₹{formattedOriginalPrice}
@@ -241,109 +256,14 @@ const Default: React.FC<Props> = ({ productId }) => {
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
           </div>
-          <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] md:w-[65%] p-3">
-            <div className="mr-3">
-              <p>Metal</p>
-              <div className="relative">
-                <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-[7.5rem] sm:w-20 md:w-[7.5rem]"
-                  value={metal}
-                  onChange={(e) => setMetal(e.target.value)}
-                >
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="Rose Gold"
-                  >
-                    Rose Gold
-                  </option>
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="Gold"
-                  >
-                    Gold
-                  </option>
-                </select>
-                <div className="pointer-events-none ml-3 absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <Icon.CaretDown size={20} weight="fill" />
-                </div>
-              </div>
-            </div>
-            <div className="mr-3">
-              <p>Karat</p>
-              <div className="relative">
-                <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none sm:w-20 lg:w-20"
-                  value={karat}
-                  onChange={(e) => setKarat(e.target.value)}
-                >
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="Rose Gold"
-                  >
-                    22k
-                  </option>
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="Gold"
-                  >
-                    18k
-                  </option>
-                </select>
-                <div className="pointer-events-none ml-3 absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <Icon.CaretDown size={20} weight="fill" />
-                </div>
-              </div>
-            </div>
-            <div className="mr-3">
-              <div className="flex m-auto">
-                <p className="mt-1">Size</p>
-                <span className="text-white rounded-full bg-[#e26178] w-[18px] h-[18px] ml-1 text-center text-sm font-semibold mt-2">
-                  i
-                </span>
-              </div>
-
-              <div className="relative">
-                <select
-                  className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none w-20"
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                >
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="3.0"
-                  >
-                    3.0
-                  </option>
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="4.0"
-                  >
-                    4.0
-                  </option>
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="5.0"
-                  >
-                    5.0
-                  </option>
-                  <option
-                    className="p-2 cursor-pointer hover:bg-gray-400"
-                    value="6.0"
-                  >
-                    6.0
-                  </option>
-                </select>
-                <div className="pointer-events-none ml-3 absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <Icon.CaretDown size={20} weight="fill" />
-                </div>
-              </div>
-            </div>
-          </div>
-          {product && product?.productQty!==null && (
+          {data?.productDetails?.variantId !== null && (
+            <DropDown product={data} handleVariant={handleNewVariant} />
+          )}
+          {data && data?.productDetails?.productQty !== null && (
             <p className="mt-2">
               Only{" "}
               <span className="text-[#e26178]">
-                {product && product?.productQty}pieces
+                {data && data?.productDetails?.productQty} pieces
               </span>{" "}
               left!
             </p>
@@ -367,7 +287,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div>
           <CheckPincode />
-          {loading ? <Skeleton height={70} /> : <Buttons product={product} />}
+          {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
 
           <div className="mt-4 border border-[#f7f7f7] w-[445px] p-2 text-center">
             <span className="underline text-[#e26178] cursor-pointer ">
@@ -380,11 +300,11 @@ const Default: React.FC<Props> = ({ productId }) => {
             <span> today!</span>
           </div>
           <GoldSchemeSmallBanner />
-          <Accordian product={product} />
+          <Accordian product={data} />
         </div>
       </div>
       <div className="">
-        <ReviewsAndRatings product={product} />
+        <ReviewsAndRatings product={data} />
       </div>
     </>
   );

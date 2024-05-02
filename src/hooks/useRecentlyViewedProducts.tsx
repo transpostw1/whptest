@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ProductType } from '@/type/ProductType';
+import { ProductData,ProductType } from '@/type/ProductType';
 
 const useRecentlyViewedProducts = () => {
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState<ProductType[]>([]);
@@ -9,12 +9,12 @@ const useRecentlyViewedProducts = () => {
     setRecentlyViewedProducts(storedProducts);
   }, []);
 
-  const saveToRecentlyViewed = (product: ProductType | null) => {
+  const saveToRecentlyViewed = (product: ProductData | null) => {
     if (product) {
       const recentlyViewedProducts = JSON.parse(localStorage.getItem('recentlyViewedProducts') || '[]');
   
       // Check if the product already exists in the local storage
-      const existingProduct = recentlyViewedProducts.find(p => p?.productId === product.productId);  
+      const existingProduct = recentlyViewedProducts.find(p => p?.productId === product?.productDetails?.productId);  
       if (!existingProduct) {
         // If the product doesn't exist, add it to the local storage
         recentlyViewedProducts.unshift(product);

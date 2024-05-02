@@ -1,12 +1,12 @@
 "use client";
-import { ProductType } from "@/type/ProductType";
+import { ProductData, ProductType } from "@/type/ProductType";
 import Image from "next/image";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { FaStar } from "react-icons/fa6";
 
 interface Props {
-  product: ProductType;
+  product: ProductData;
 }
 const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [activeTab, setActiveTab] = useState("tab1");

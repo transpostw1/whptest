@@ -1,12 +1,20 @@
 "use client"
 import React,{useState} from "react";
 
-const GiftWrapModal = () => {
+interface Props{
+  closeModal:()=>void
+}
+const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
   const [formData, setFormData] = useState({
     name: "",
     wrapOption: "",
   });
 
+  const hanldeClose=(e:any)=>{
+    if (e.target.id === "container") {
+      closeModal();
+    }
+  }
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -20,7 +28,7 @@ const GiftWrapModal = () => {
     }, 2000);
   };
   return (
-    <div className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center" id="container" onClick={hanldeClose}>
       <div className="bg-white w-[25%] p-4">
       <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Your Gift Message

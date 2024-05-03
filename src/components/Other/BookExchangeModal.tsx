@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { baseUrl, contactForm } from "@/utils/constants";
+import axios from "axios";
 
-function BookExchangeModal() {
+interface Props{
+  closeModal:()=>void;
+}
+const BookExchangeModal:React.FC<Props>=({closeModal})=> {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message:""
+    message: "",
   });
   const [showPopup, setShowPopup] = useState(false);
 
@@ -13,22 +18,35 @@ function BookExchangeModal() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Submit form logic (here you would typically make an API call or send the data to a server)
+  const handleOnClose = (e:any) => {
+    if (e.target.id === "container") {
+      closeModal();
+    }
+  };
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log("formdata", formData.email);
+
+    // Submit form logic (here you would typically make an API call or send the data to a server)
+    const response = await axios.post(`${baseUrl}${contactForm}`, {
+      name: formData.name,
+      email: formData.email,
+      number: formData.phone,
+      message: formData.message,
+    });
     // Show popup
     setShowPopup(true);
 
     // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "",message:"", });
+      setFormData({ name: "", email: "", phone: "", message: "" });
       setShowPopup(false);
     }, 2000);
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-10 bg-blur- z-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-10 bg-blur- z-50 flex justify-center items-center" id="container" onClick={handleOnClose}>
       <div className="max-w-md w-[25%] bg-white p-6 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Contact Form

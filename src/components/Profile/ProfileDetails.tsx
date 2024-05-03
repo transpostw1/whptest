@@ -11,8 +11,8 @@ import EditAddressModal from "./EditAddressModal";
 const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showModal,setShowModal]=useState<boolean>(false);
-  const  [id,setId]=useState<any>();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
   const { logOut, isLoggedIn } = useUser();
 
@@ -26,13 +26,13 @@ const ProfileDetails = () => {
     logOut();
     router.push("/");
   };
-  const handleEditAddress=async(id:any)=>{
+  const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);
-  }
+  };
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
-    setallAddress(allAddress?.filter((item)=>(item.address_id!=id)));
+    setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
       const response = await axios.post<{ data: any }>(
@@ -74,9 +74,9 @@ const ProfileDetails = () => {
 
     fetchAddresses();
   }, []);
-  const closeEditModal=()=>{
-    setShowModal(false)
-  }
+  const closeEditModal = () => {
+    setShowModal(false);
+  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -94,12 +94,17 @@ const ProfileDetails = () => {
           </p>
         </div>
       </div>
-      <div className="relative w-[80px] h-[80px] mt-4">
-        <div className="flex text-[#e26178] bg-[#E26178]  bg-opacity-5 w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          D
+      <div className="flex justify-between">
+        <div className="relative w-[80px] h-[80px] mt-4">
+          <div className="flex text-[#e26178] bg-[#E26178]  bg-opacity-5 w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
+            D
+          </div>
+          <div className="absolute top-2 right-0 w-[20px] h-[20px] rounded-full bg-[#e26178] text-white">
+            <Icon.Pen />
+          </div>
         </div>
-        <div className="absolute top-2 right-0 w-[20px] h-[20px] rounded-full bg-[#e26178] text-white">
-          <Icon.Pen />
+        <div>
+          <p className="font-bold">Wallet Balance:500</p>
         </div>
       </div>
       <form>
@@ -168,28 +173,32 @@ const ProfileDetails = () => {
         </div>
       </form>
       <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
-      {allAddress &&
-        allAddress.map((address: any) => (
-          <div
-            key={address.address_id}
-            className=" bg-white p-4 rounded-lg shadow-md relative mt-6"
-          >
-            <p>
-              {address.full_address}, {address.city}, {address.pincode},{" "}
-              {address.address_type}
-            </p>
-            <button className="absolute top-0 right-0 p-2 text-sm text-black hover:text-red-700">
-              <Icon.PencilSimple size={25} onClick={()=>handleEditAddress(address.address_id)}/>
-            </button>
-            <button className="absolute top-7 right-0 p-2 text-sm text-black hover:text-red-700">
-              <Icon.X
-                size={25}
-                onClick={() => handleRemoveAddress(address.address_id)}
-              />
-            </button>
-          </div>
-        ))}
-        {showModal&&<EditAddressModal id={id} closeModal={closeEditModal}/>}
+      <div className="flex flex-wrap">
+        {allAddress &&
+          allAddress.map((address: any) => (
+            <div key={address.address_id} className="relative">
+              <div className=" bg-white p-4 rounded-lg shadow-md mt-6 w-[250px] h-[130px] mr-2">
+                <p>
+                  {address.full_address}, {address.city}, {address.pincode},{" "}
+                  {address.address_type}
+                </p>
+              </div>
+              <button className="absolute -top-2 bg-[#e26178] rounded-full right-0 p-2 text-sm text-white">
+                <Icon.PencilSimple
+                  size={18}
+                  onClick={() => handleEditAddress(address.address_id)}
+                />
+              </button>
+              <button className="absolute top-7 right-0 p-2 text-sm text-black hover:text-red-700">
+                <Icon.X
+                  size={25}
+                  onClick={() => handleRemoveAddress(address.address_id)}
+                />
+              </button>
+            </div>
+          ))}
+      </div>
+      {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );
 };

@@ -23,6 +23,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
 import axios from "axios";
+import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
 
@@ -68,8 +69,8 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   const handleNewVariant = async (newUrl: string) => {
     try {
-      setVariant(newUrl)
-      console.log("variant url",newUrl)
+      setVariant(newUrl);
+      console.log("variant url", newUrl);
       setLoading(true);
       const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await response.data);
@@ -305,6 +306,15 @@ const Default: React.FC<Props> = ({ productId }) => {
       </div>
       <div className="">
         <ReviewsAndRatings product={data} />
+      </div>
+      <div>
+        {data && (
+          <SimilarProducts
+            productId={data?.productDetails?.productId}
+            start={0}
+            limit={4}
+          />
+        )}
       </div>
     </>
   );

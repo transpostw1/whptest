@@ -102,7 +102,7 @@ const OtpVerification = ({
         }
       );
       logIn();
-      console.log(response, "LOGIN RESPPP");
+      console.log( "LOGIN RESPPP",response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));

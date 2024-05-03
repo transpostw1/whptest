@@ -161,7 +161,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
 
       {id && (
         <div>
-          {singleOrder[0].productDetails.map((items: any, index: any) => (
+          {singleOrder[0]?.productDetails.map((items: any, index: any) => (
             <div key={index} className="flex justify-between border-b-2 p-4">
               <div className="flex">
                 <div>

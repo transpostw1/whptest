@@ -398,6 +398,9 @@ const Checkout: React.FC = () => {
   const handleGiftWrapModal=()=>{
     setShowModal(true);
   }
+  const handleCloseModal=()=>{
+    setShowModal(false);
+  }
   return (
     <>
       <StickyNav />
@@ -520,7 +523,7 @@ const Checkout: React.FC = () => {
                       <h3>Gift Message</h3>
                     </div>
                     <h3 className="text-red-600 underline cursor-pointer" onClick={()=>handleGiftWrapModal()}>Add</h3>
-                    {showModal&&<GiftWrapModal/>}
+                    {showModal&&<GiftWrapModal closeModal={handleCloseModal}/>}
                   </div>
                   {loading ? (
                     <Skeleton height={150} />

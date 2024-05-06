@@ -120,7 +120,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                   query: { url: item.url },
                                 }}
                                 className=" text-secondary duration-300"
-                                onClick={() => setCustomcategory(item.name)}
+                                onClick={() => setCustomcategory(item.url)}
                               >
                                 <div className="flex">
                                   <Image
@@ -208,34 +208,46 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     New Arrivals
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("earrings")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "earrings" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Earrings
                   </Link>
                 </li>
 
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("pendant")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname:"/products",
+                      query:{url:"pendants"}
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Pendants
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("bangle")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "bangle" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Bangles
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("necklace")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "necklace" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Necklace

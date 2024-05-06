@@ -117,16 +117,16 @@ const Default: React.FC<Props> = ({ productId }) => {
     <>
       <StickyNav />
       <div className="lg:flex">
-        {/* <div className="lg:w-[50%] sm:w-[100%]">
+        <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
             <Skeleton height={500} width={700} />
           ) : (
             <div className="bg-[#fffff]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
-                  data?.imageDetails
+                  data?.productDetails?.imageDetails
                     .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
-                    .map((image, index) => (
+                    .map((image:any, index:any) => (
                       <div key={index} className="">
                         <InnerImageZoom
                           src={image.image_path}
@@ -146,16 +146,16 @@ const Default: React.FC<Props> = ({ productId }) => {
                     }}
                   >
                     {data &&
-                      data.imageDetails
+                      data.productDetails?.imageDetails
                         .sort(
                           (a: any, b: any) =>
                             parseInt(a.order) - parseInt(b.order)
                         )
-                        .map((image, index) => (
+                        .map((image:any, index:any) => (
                           <div key={index}>
                             <Image
                               src={image?.image_path}
-                              alt={data?.title}
+                              alt={data?.productDetails?.title}
                               width={100}
                               height={100}
                               className="cursor-pointer border"
@@ -181,9 +181,9 @@ const Default: React.FC<Props> = ({ productId }) => {
           )}
 
           {data &&
-            data.videoDetails &&
-            data.videoDetails.length > 0 &&
-            data.videoDetails.map((item: any) => (
+            data.productDetails?.videoDetails &&
+            data.productDetails?.videoDetails.length > 0 &&
+            data.productDetails?.videoDetails.map((item: any) => (
               <video
                 key={item.order}
                 className=""
@@ -193,7 +193,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 muted
               />
             ))}
-        </div> */}
+        </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
             <Skeleton height={30} />

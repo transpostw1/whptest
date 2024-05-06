@@ -21,12 +21,16 @@ const Buttons: React.FC<Props> = ({ product }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
+      updateCartQuantity(
+        productItem.productDetails?.productId,
+        updatedQuantity
+      );
     } else {
       addToCart(
         {
           ...productItem,
           quantity: 1,
+          productId: productItem.productDetails.productId,
         },
         1
       );
@@ -41,12 +45,16 @@ const Buttons: React.FC<Props> = ({ product }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
+      updateCartQuantity(
+        productItem.productDetails?.productId,
+        updatedQuantity
+      );
     } else {
       addToCart(
         {
           ...productItem,
           quantity: 1,
+          productId: productItem.productDetails.productId,
         },
         1
       );

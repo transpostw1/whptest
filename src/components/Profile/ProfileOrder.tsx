@@ -61,7 +61,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   if (!orders)
     return (
       <div className="loading-container flex justify-center items-center h-full">
-        <ReactLoading type="spin" color="#000" height={50} width={50} />
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
   return (

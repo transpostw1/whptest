@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
-import ProfileOrders from "@/components/Profile/ProfileOrder";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
+import ProfileOrders from "@/components/Profile/ProfileOrder";
 import ProfileGMS from "@/components/Profile/ProfileGMS"
 import StickyNav from "@/components/Header/StickyNav";
 import axios from "axios";

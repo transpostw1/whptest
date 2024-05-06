@@ -37,7 +37,7 @@ const SimilarProducts: React.FC<Props> = ({ productId, start, limit }) => {
       <div className="tab-features-block pt-10">
         <div className="container">
           <div className="flex justify-between">
-            {products && (
+            {products.length>0 && (
               <>
                 <div>
                   <p className="font-bold text-[1.5rem]">

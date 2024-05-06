@@ -59,7 +59,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="w-[100%] object-cover relative duration-700 product-img"
+                      className="w-[95%] object-cover relative duration-700 product-img"
                       onClick={() => handleDetailProduct()}
                     >
                       <video loop autoPlay muted>
@@ -71,7 +71,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     </div>
                   </div>
                 ) : (
-                  <>
+                  <div className="relative">
                     <Image
                       onClick={() => handleDetailProduct()}
                       className="w-[95%] duration-700 hover:scale-110  m-auto"
@@ -81,18 +81,16 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       alt="This image is temporarry"
                     />
 
-                    <div className="flex justify-between ">
-                      <div
-                        className="z-0 hover:z-50"
-                        onClick={() => setShowVideo(!showVideo)}
-                      >
-                        <Icon.Play size={25} weight="light" />
-                      </div>
-                      <div className="float-right z-0 hover:z-50">
-                        <Icon.Heart size={25} weight="light" />
-                      </div>
+                    <div
+                      className="z-0 absolute flex justify-between bottom-0 hover:z-50 "
+                      onClick={() => setShowVideo(!showVideo)}
+                    >
+                      <Icon.Play size={25} weight="light" />
                     </div>
-                  </>
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
+                      <Icon.Heart size={25} weight="light" />
+                    </div>
+                  </div>
                 )}
               </div>
             ) : (
@@ -114,10 +112,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               </>
             )}
           </div>
-          <div
-            className=" mt-4 lg:mb-7"
-            onClick={() => handleDetailProduct()}
-          >
+          <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}

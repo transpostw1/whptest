@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-
+import Image from "next/image";
 const ProfileGMS = () => {
   const [tabForScheme, setTabForScheme] = useState<string>("plan1");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const numberOfTimesIn1Scheme = 2;
   const numberOfTimesIn2Scheme = 6;
   const numberOfTimesIn3Scheme = 4;
   const totalNumber = 15;
+  
+  if (isLoading) {
+    return (
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
+    );
+  }
   return (
     <div className="p-[60px] ">
       <div className="flex justify-between">
@@ -39,7 +48,9 @@ const ProfileGMS = () => {
           <p className="mt-4">
             Total Installment Paid:{numberOfTimesIn1Scheme}
           </p>
-          <p className="mt-4">Number of Installment Remaining:{6-numberOfTimesIn1Scheme}</p>
+          <p className="mt-4">
+            Number of Installment Remaining:{6 - numberOfTimesIn1Scheme}
+          </p>
           <p className="mt-4">Total Amount Paid:₹10,000</p>
           <p className="mt-4">Equivalent Gold Per Grams:1.2</p>
 
@@ -72,7 +83,9 @@ const ProfileGMS = () => {
           <p className="mt-4">
             Number of Installment Paid:{numberOfTimesIn2Scheme}
           </p>
-          <p className="mt-4">Number of Installment Remaining:{10-numberOfTimesIn2Scheme}</p>
+          <p className="mt-4">
+            Number of Installment Remaining:{10 - numberOfTimesIn2Scheme}
+          </p>
           <p className="mt-4">Total Amount Paid:₹10,000</p>
           <p className="mt-4">Equivalent Gold Per Grams:1.2</p>
 
@@ -105,7 +118,9 @@ const ProfileGMS = () => {
           <p className="mt-4">
             Total Installment Paid:{numberOfTimesIn3Scheme}
           </p>
-          <p className="mt-4">Number of Installment Remaining:{12-numberOfTimesIn3Scheme}</p>
+          <p className="mt-4">
+            Number of Installment Remaining:{12 - numberOfTimesIn3Scheme}
+          </p>
           <p className="mt-4">Total Amount Paid:₹10,000</p>
           <p className="mt-4">Equivalent Gold Per Grams:1.2</p>
 

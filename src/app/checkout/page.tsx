@@ -39,6 +39,7 @@ const Checkout: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const { totalDiscount, setTotalDiscount } = useCouponContext();
   const [couponCode, setCouponCode] = useState<string>("");
+  
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
@@ -55,7 +56,7 @@ const Checkout: React.FC = () => {
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
-  const [showModal,setShowModal]=useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const [selectedShippingAddress, setSelectedShippingAddress] =
     useState<Address | null>(null);
@@ -155,20 +156,21 @@ const Checkout: React.FC = () => {
   const mappedCartItems = cartItems
     .filter(
       (item) =>
-        item.productId &&
-        item.quantity &&
-        item.displayTitle &&
-        item.discountPrice &&
-        item.imageDetails
+        item?.productId &&
+        item?.quantity &&
+        item?.productDetails?.displayTitle &&
+        item?.productDetails?.discountPrice &&
+        item?.productDetails?.imageDetails
     )
     .map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      name: item.displayTitle,
-      price: item.discountPrice,
+      productId: item?.productId,
+      quantity: item?.quantity,
+      name: item?.productDetails?.displayTitle,
+      price: item?.productDetails?.discountPrice,
       image:
-        item.imageDetails && item.imageDetails.length > 0
-          ? item.imageDetails[0].image_path
+        item?.productDetails?.imageDetails &&
+        item?.productDetails?.imageDetails.length > 0
+          ? item.productDetails.imageDetails[0].image_path
           : "",
     }));
 
@@ -229,9 +231,6 @@ const Checkout: React.FC = () => {
   });
   let formattedPrice: string = totalCart.toString();
 
-  if(cartItems.length===0){
-    setTotalDiscount(0)
-  }
 
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);
@@ -395,12 +394,12 @@ const Checkout: React.FC = () => {
       label: "Payment",
     },
   ];
-  const handleGiftWrapModal=()=>{
+  const handleGiftWrapModal = () => {
     setShowModal(true);
-  }
-  const handleCloseModal=()=>{
+  };
+  const handleCloseModal = () => {
     setShowModal(false);
-  }
+  };
   return (
     <>
       <StickyNav />
@@ -522,8 +521,15 @@ const Checkout: React.FC = () => {
                       <Gift style={{ color: "red", fontSize: "24px" }} />
                       <h3>Gift Message</h3>
                     </div>
-                    <h3 className="text-red-600 underline cursor-pointer" onClick={()=>handleGiftWrapModal()}>Add</h3>
-                    {showModal&&<GiftWrapModal closeModal={handleCloseModal}/>}
+                    <h3
+                      className="text-red-600 underline cursor-pointer"
+                      onClick={() => handleGiftWrapModal()}
+                    >
+                      Add
+                    </h3>
+                    {showModal && (
+                      <GiftWrapModal closeModal={handleCloseModal} />
+                    )}
                   </div>
                   {loading ? (
                     <Skeleton height={150} />

@@ -7,6 +7,7 @@ import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
+import Image from "next/image";
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -78,7 +79,11 @@ const ProfileDetails = () => {
     setShowModal(false);
   };
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
+    );
   }
   return (
     <div className="mt-10 m-24">

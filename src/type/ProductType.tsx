@@ -152,7 +152,7 @@ interface ProductDetails {
   offerStartDate: string;
   offerEndDate: string;
   mediaId: number;
-  imageDetails: string; // JSON string, you might want to parse it
+  imageDetails: any; // JSON string, you might want to parse it
   videoDetails: any; // Change this to specific type if available
   materialId: number;
   metalType: string;

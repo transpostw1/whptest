@@ -19,3 +19,4 @@ export const order="/orders"
 export const getOrders="/getOrders";
 export const contactForm="/queries/store"
 export const getAllBanners="/getAllBanners"
+export const getSubBanners="/getAllSubbanner"

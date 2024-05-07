@@ -15,10 +15,10 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart } = useCart();
-  const { totalDiscount, setTotalDiscount} = useCouponContext();
+  const { totalDiscount,updateTotalDiscount} = useCouponContext();
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {
-      setTotalDiscount(0)
+      updateTotalDiscount(0)
       updateCartQuantity(product.productId, newQuantity);
     } else {
       removeFromCart(product.productId);

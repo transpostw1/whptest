@@ -37,9 +37,9 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { totalDiscount, setTotalDiscount } = useCouponContext();
+  const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [couponCode, setCouponCode] = useState<string>("");
-  
+
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
@@ -141,8 +141,8 @@ const Checkout: React.FC = () => {
         totalCartDiscount += discount;
       }
     });
+  updateTotalDiscount(totalCartDiscount);
 
-  setTotalDiscount(totalCartDiscount);
   useEffect(() => {
     if (buyNow) {
       setShowAllItems(false);
@@ -230,7 +230,6 @@ const Checkout: React.FC = () => {
     }
   });
   let formattedPrice: string = totalCart.toString();
-
 
   const handleOrderComplete = () => {
     setIsOrderPlaced(true);

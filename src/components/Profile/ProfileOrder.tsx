@@ -51,9 +51,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       setLoading(false);
     }
   };
-  console.log("single Order", singleOrder);
-  console.log("single Order", id);
-  console.log("message", message);
 
   const handleBack = () => {
     setId(null);
@@ -102,7 +99,8 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                 <div className="flex p-2 border-b-2 justify-between">
                   <div className="flex">
                     <p>Order ID:{item.orderNo}</p>
-                    <p className="ml-3">
+                    <p className="bg-[#e26178] rounded-full text-transparent w-2 h-2 ml-2 mt-2">1</p>
+                    <p className="ml-2">
                       Order Date -{" "}
                       {new Date(item.created_at).toLocaleDateString("en-US", {
                         weekday: "short",
@@ -122,19 +120,17 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     className="flex justify-between border-b-2 p-4"
                   >
                     <div className="flex">
-                      <div>
-                        {Array.isArray(items.imageDetails) &&
-                          items.imageDetails.map((image: any, index: any) => (
-                            <div key={index}>
-                              <Image
-                                src={image.image_path[0]}
-                                alt={image.alt}
-                                width={25}
-                                height={25}
-                              />
-                            </div>
-                          ))}
+                      <div className="mr-3">
+                        <Image
+                          src={
+                            items?.productDetails?.imageDetails[0]?.image_path
+                          }
+                          alt={"image"}
+                          width={85}
+                          height={85}
+                        />
                       </div>
+
                       <div>
                         <p className="text-xl font-semibold">
                           {items.productDetails.displayTitle}
@@ -162,20 +158,15 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       {id && (
         <div>
           {singleOrder[0]?.productDetails.map((items: any, index: any) => (
-            <div key={index} className="flex justify-between border-b-2 p-4">
+            <div key={index} className="flex justify-between p-4">
               <div className="flex">
-                <div>
-                  {Array.isArray(items.imageDetails) &&
-                    items.imageDetails.map((image: any, index: any) => (
-                      <div key={index}>
-                        <Image
-                          src={image.image_path[0]}
-                          alt={image.alt}
-                          width={25}
-                          height={25}
-                        />
-                      </div>
-                    ))}
+                <div className="mr-3">
+                  <Image
+                    src={items?.productDetails?.imageDetails[0].image_path}
+                    alt={"image"}
+                    width={85}
+                    height={85}
+                  />
                 </div>
                 <div>
                   <p className="text-xl font-semibold">
@@ -198,20 +189,20 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
             </div>
           ))}
           <p className="mt-3">
-            Billing Address:{singleOrder[0].billingAddressId[0].full_address},
-            {singleOrder[0].billingAddressId[0].landmark},{" "}
-            {singleOrder[0].billingAddressId[0].pincode},
-            {singleOrder[0].billingAddressId[0].city}
+            Billing Address:{singleOrder[0]?.billingAddressId[0]?.full_address},
+            {singleOrder[0]?.billingAddressId[0]?.landmark},{" "}
+            {singleOrder[0]?.billingAddressId[0]?.pincode},
+            {singleOrder[0]?.billingAddressId[0]?.city}
           </p>
           <p className="mt-3">
-            Shippin Address:{singleOrder[0].shippingAddressId[0].full_address},
-            {singleOrder[0].shippingAddressId[0].landmardk},
-            {singleOrder[0].shippingAddressId[0].pincode},
-            {singleOrder[0].shippingAddressId[0].city}
+            Shippin Address:{singleOrder[0]?.shippingAddressId[0].full_address},
+            {singleOrder[0]?.shippingAddressId[0]?.landmardk},
+            {singleOrder[0]?.shippingAddressId[0]?.pincode},
+            {singleOrder[0]?.shippingAddressId[0]?.city}
           </p>
-          {singleOrder[0].orderStatus === "4" ||
-          singleOrder[0].orderStatus === "5" ? null : (
-            <div onClick={() => handleOrderCancel(singleOrder[0].id)}>
+          {singleOrder[0]?.orderStatus === "4" ||
+          singleOrder[0]?.orderStatus === "5" ? null : (
+            <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
               <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
                 Order Cancel
               </button>

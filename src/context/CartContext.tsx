@@ -38,6 +38,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+
+
+
+  
+
   useEffect(() => {
     const cartItemsFromStorage = localStorage.getItem("cartItems");
     if (cartItemsFromStorage) {

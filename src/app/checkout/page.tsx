@@ -26,7 +26,6 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState } = useUser();
-  const { getProductById } = useProductContext();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -35,7 +34,6 @@ const Checkout: React.FC = () => {
   const [flashType, setFlashType] = useState<'success' | 'error'>('success');
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
-
   const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
   const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
 

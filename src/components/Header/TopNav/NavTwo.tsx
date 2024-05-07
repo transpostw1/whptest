@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -29,7 +28,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { openModalWishlist } = useModalWishlistContext();
+
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
   const { userState } = useUser();
@@ -336,7 +335,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    onClick={openModalWishlist}
+                    // onClick={openModalWishlist}
                   >
                     <div className="flex flex-col items-center">
                       <Icon.Heart size={28} color="black" />

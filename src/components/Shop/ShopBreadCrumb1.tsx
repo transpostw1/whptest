@@ -16,9 +16,8 @@ import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
 import { useCategory } from "@/context/CategoryContex";
 
-
 const ShopBreadCrumb1 = () => {
-  const { category } = useCategory();
+  const { category, setCustomcategory } = useCategory();
   const [sortOption, setSortOption] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,8 +66,12 @@ const ShopBreadCrumb1 = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setCustomcategory(localStorage.getItem("category"));
+      console.log("category:", category);
+
       try {
-        const response = await axios.get(`${baseUrl}/getall-products`);
+        setIsLoading(true);
+        const response = await axios.get(`${baseUrl}/jewellery/${category}`);
         setData(response.data);
         setFilteredData(response.data);
         setIsLoading(false);
@@ -77,7 +80,7 @@ const ShopBreadCrumb1 = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [category, setCustomcategory]);
 
   useEffect(() => {
     let sortedData = [...filteredData];
@@ -107,16 +110,15 @@ const ShopBreadCrumb1 = () => {
       <div className="container">
         <MobileMainCategorySwiper />
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
-          
-            <FilterSidebar
-              data={data}
-              onFilterChange={handleFilterChange}
-              mobileFilter={mobileFilter}
-              setMobileFilter={setMobileFilter}
-              selectedOptions={selectedOptions}
-              handleOptionSelect={handleOptionSelect}
-            />
-          
+          <FilterSidebar
+            data={data}
+            onFilterChange={handleFilterChange}
+            mobileFilter={mobileFilter}
+            setMobileFilter={setMobileFilter}
+            selectedOptions={selectedOptions}
+            handleOptionSelect={handleOptionSelect}
+          />
+
           <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 no-scrollbar">
             <div className="">
               <p className="text-4xl font-bold uppercase">{category}</p>

@@ -3,27 +3,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { baseUrl } from '@/utils/constants';
 import { FaCheckCircle, FaEdit, FaTimes } from 'react-icons/fa';
-import Preloader from '@/components/other/Preloader'; 
+import Preloader from '@/components/Other/Preloader';
+import {Address} from "@/type/AddressType" 
 
-interface Address {
-  address_id: number;
-  customer_id: number;
-  address_type: string;
-  full_address: string;
-  country: string;
-  state: string;
-  city: string;
-  landmark: string | null;
-  pincode: number;
-  created_at: string;
-  updated_at: string;
-}
 
 interface ShippingAddressListProps {
     onAddressSelect: (address: Address) => void;
-    selectedAddress: Address | null;
-    addressAdded: boolean; 
-    onAddressAdded: () => void; 
+    selectedAddress?: Address | null;
+    addressAdded?: boolean; 
+    onAddressAdded: () => void;
+    readOnly?:any; 
   }
 
 const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
@@ -31,6 +20,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
     selectedAddress,
     addressAdded, 
     onAddressAdded, 
+    readOnly
   }) => {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);

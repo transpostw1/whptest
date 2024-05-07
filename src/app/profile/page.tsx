@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
-import ProfileOrders from "@/components/Profile/ProfileOrder";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
+import ProfileOrders from "@/components/Profile/ProfileOrder";
+import ProfileGMS from "@/components/Profile/ProfileGMS"
 import StickyNav from "@/components/Header/StickyNav";
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -14,8 +14,7 @@ interface OrdersResponse {
   data: any;
 }
 const ProfilePage = () => {
-  const [componentToRender, setComponentToRender] =
-    useState<string>("personalInfo");
+  const [componentToRender, setComponentToRender] =useState<string>("personalInfo");
   const [ordersData, setOrdersData] = useState<any>();
 
   const handleComponentToRender = (component: string) => {
@@ -53,6 +52,7 @@ const ProfilePage = () => {
           {componentToRender === "orders" && (
             <ProfileOrders orders={ordersData} />
           )}
+          {componentToRender==="gms"&&(<ProfileGMS/>)}
         </div>
       </div>
     </>

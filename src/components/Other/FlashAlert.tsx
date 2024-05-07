@@ -6,7 +6,7 @@ interface FlashAlertProps {
   duration?: number; // Duration in milliseconds (optional, default is 3000ms)
 }
 
-const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' }> = ({ message, type }) => {
+const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'}> = ({ message, type }) => {
     const [show, setShow] = useState(false);
   
     useEffect(() => {

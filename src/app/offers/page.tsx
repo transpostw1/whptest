@@ -4,7 +4,7 @@ import Offers from '@/components/Offers/Offers'
 
 const page = () => {
   return (
-    <div><Offers/></div>
+    <><Offers/></>
   )
 }
 

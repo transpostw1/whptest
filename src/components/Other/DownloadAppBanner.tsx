@@ -20,12 +20,14 @@ export default function DownloadAppBanner() {
             alt="the applestorebanner.png"
             width={115}
             height={55}
+            style={{width:"auto",height:"auto"}}
           />
           <Image
             src={"/products/googleplaybanner.png"}
             alt="the googleplaybanner.png"
             width={115}
             height={55}
+            style={{width:"auto",height:"auto"}}
           />
         </div>
       </div>
@@ -36,6 +38,7 @@ export default function DownloadAppBanner() {
             alt="fake phone"
             width={250}
             height={250}
+            style={{width:"auto",height:"auto"}}
           />
         </div>
         <div className="">
@@ -44,6 +47,7 @@ export default function DownloadAppBanner() {
             alt="fake phone"
             width={250}
             height={250}
+            style={{width:"auto",height:"auto"}}
           />
         </div>
       </div>

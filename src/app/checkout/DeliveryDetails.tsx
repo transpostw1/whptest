@@ -3,7 +3,8 @@ import ShippingAddressList from './ShippingAddressList';
 import BillingAddressList from './BillingAddressList';
 import AddAddressModal from './AddAddressModal';
 import AddAddressMobile from './AddAddressMobile';
-import FlashAlert from "../../components/other/FlashAlert";
+import FlashAlert from "../../components/Other/FlashAlert";
+import {Address} from "@/type/AddressType"
 
 interface DeliveryDetailsProps {
     onShippingAddressSelected: () => void;

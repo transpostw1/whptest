@@ -5,15 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { usePathname } from "next/navigation";
-import Product from "@/components/Product/Product";
-import productData from "@/data/Product.json";
-import useMenuMobile from "@/store/useMenuMobile";
-import { useModalSearchContext } from "@/context/ModalSearchContext";
 import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
-import TopNavOne from "../TopNav/TopNavOne";
 
 interface Props {
   props: string;
@@ -23,7 +18,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
-  const {setCustomcategory}=useCategory()
+  const { setCustomcategory } = useCategory();
 
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -99,7 +94,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href=""
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
-                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                      pathname.includes("/products") ? "active" : ""
                     }`}
                   >
                     All Jewellery
@@ -121,11 +116,11 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             <li className="leading-[0px]">
                               <Link
                                 href={{
-                                  pathname: "/shop/breadcrumb1",
+                                  pathname: "/products",
                                   query: { url: item.url },
                                 }}
                                 className=" text-secondary duration-300"
-                                onClick={()=>setCustomcategory(item.name)}
+                                onClick={() => setCustomcategory(item.url)}
                               >
                                 <div className="flex">
                                   <Image
@@ -134,6 +129,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                     height={25}
                                     width={25}
                                     className="mr-1"
+                                    style={{ width: "auto", height: "auto" }}
                                   />
                                   <p>{item.name}</p>
                                 </div>
@@ -193,13 +189,13 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <p className="font-bold text-black">Shop By Karat</p>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                        <Link href={"/products"}>14kt</Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                        <Link href={"/products"}>18kt</Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
+                        <Link href={"/products"}>22kt</Link>
                       </li>
                     </ul>
                   </div>
@@ -212,34 +208,46 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     New Arrivals
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("earrings")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "earrings" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Earrings
                   </Link>
                 </li>
 
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("pendant")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname:"/products",
+                      query:{url:"pendants"}
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Pendants
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("bangle")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "bangle" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Bangles
                   </Link>
                 </li>
-                <li className="h-full">
+                <li className="h-full" onClick={() => setCustomcategory("necklace")}>
                   <Link
-                    href="#!"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "necklace" },
+                    }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Necklace

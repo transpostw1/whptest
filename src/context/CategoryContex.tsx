@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Define the type for the setter function
 type SetCategoryType = (category: string|any) => void;
-type SetCategoryType2 = (newState: string) => void;
+type SetCategoryType2 = (newState: string|any) => void;
 
 // Creating a context for setting a string state
 interface ContextType {
@@ -16,6 +16,7 @@ const CategoryContext = createContext<ContextType | undefined>(undefined);
 // Custom hook to use the set string state context
 export const useCategory = (): ContextType => {
   const context = useContext(CategoryContext);
+
   if (!context) {
     throw new Error("useSetState must be used within a SetStateProvider");
   }
@@ -34,6 +35,7 @@ export const CategoryProvider: React.FC<CategoryProviderProps> = ({
   const [category, setCategory] = useState<string|any>("");
 
   const setCustomcategory: SetCategoryType = (newState) => {
+    localStorage.setItem("category",newState);
     setCategory(newState);
   };
 

@@ -1,8 +1,6 @@
-import React from 'react'
-import Image from 'next/image';
-import Link from 'next/link';
- 
-
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Category = () => {
   let categories: {
@@ -25,7 +23,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=pendant'
+      href: "/products?url=pendant",
     },
     {
       id: 2,
@@ -40,7 +38,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=earrings'
+      href: "/products?url=earrings",
     },
     {
       id: 3,
@@ -55,7 +53,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=rings'
+      href: "/products?url=rings",
     },
     {
       id: 4,
@@ -70,7 +68,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=chains'
+      href: "/products?url=chains",
     },
     {
       id: 5,
@@ -85,7 +83,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=bracelets'
+      href: "/products?url=bracelets",
     },
     {
       id: 6,
@@ -100,7 +98,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=mangulsutra'
+      href: "/products?url=mangulsutra",
     },
     {
       id: 7,
@@ -115,7 +113,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=necklace'
+      href: "/products?url=necklace",
     },
     {
       id: 8,
@@ -130,7 +128,7 @@ const Category = () => {
           height={400}
         />
       ),
-      href : '/shop/breadcrumb1?url=silver'
+      href: "/products?url=silver",
     },
   ];
 
@@ -153,13 +151,18 @@ const Category = () => {
               className="flex flex-col relative items-start justify-between "
             >
               <Link href={category.href}>
-              <div className="effect14 cursor-pointer"> {category.image} <a href="#">{category.type}</a></div>
+                <div className="effect14 cursor-pointer">
+                  {" "}
+                  {category.image} <a href="#">{category.type}</a>
+                </div>
               </Link>
 
               <div>
                 <h1 className="text-xl font-semibold">{category.type}</h1>
                 <p className="text-sm font-medium">{category.description}</p>
-                <h3 className="text-red-600 underline font-bold cursor-pointer">VIEW ALL</h3>
+                <h3 className="text-red-600 underline font-bold cursor-pointer">
+                  VIEW ALL
+                </h3>
               </div>
             </div>
           ))}
@@ -167,6 +170,6 @@ const Category = () => {
       </div>
     </>
   );
-}
+};
 
-export default Category
+export default Category;

@@ -29,8 +29,10 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  gst: any;
+  makingCharges: any;
   id: any | null | undefined;
-  productId: number | string;
+  productId: number;
   product_id: number | string;
   SKU: string;
   variantId: any; // Specify type if available
@@ -89,4 +91,110 @@ export interface ProductType {
   productPrice: string;
   stoneDetails: any; // Specify type if available
   diamondDetails: any; // Specify type if available
+}
+interface ProductDetails {
+  productId: number;
+  SKU: string;
+  variantId: string;
+  isParent: number;
+  title: string;
+  displayTitle: string;
+  shortDesc: string | null;
+  longDesc: string | null;
+  url: string;
+  tags: string[];
+  collectionName: string | null;
+  shopFor: string[];
+  occasion: string;
+  theme: string;
+  length: number | null;
+  breadth: number | null;
+  height: number | null;
+  weightRange: string;
+  addDate: string;
+  lastModificationDate: string | null;
+  created_at: string;
+  updated_at: string;
+  sizeId: number | null;
+  productSize: string | null;
+  productQty: number;
+  attributeId: number;
+  preSalesProductQueries: string | null;
+  isReplaceable: number;
+  isReturnable: number;
+  isInternationalShippingAvailable: number;
+  customizationAvailability: number;
+  fastDelivery: number;
+  tryAtHome: number;
+  isActive: number;
+  grossWeight: number | null;
+  netWeight: number | null;
+  productAttributes: {
+    goldDetails: {
+      goldCertifiedBy: string;
+      goldSetting: string | null;
+    }[];
+    gemstoneDetails: any; // Change this to specific type if available
+    diamondDetails: any; // Change this to specific type if available
+    silverDetails: {
+      poojaArticle: string | null;
+      utensils: string | null;
+      silverWeight: number | null;
+    }[];
+  };
+  discountId: number;
+  discountCategory: string;
+  discountActive: number;
+  typeOfDiscount: string;
+  discountValue: string;
+  discountAmount: string;
+  discountPrice: string;
+  offerStartDate: string;
+  offerEndDate: string;
+  mediaId: number;
+  imageDetails: any; // JSON string, you might want to parse it
+  videoDetails: any; // Change this to specific type if available
+  materialId: number;
+  metalType: string;
+  metalPurity: string;
+  metalWeight: string;
+  metalRate: string;
+  makingType: string;
+  makingChargesPerGrams: string;
+  makingCharges: string;
+  gst: string;
+  additionalCost: string|any;
+  productPrice: string;
+  stoneDetails: any; // Change this to specific type if available
+  diamondDetails: {
+    diamondColor: string;
+    diamondClarity: string;
+    diamondQuantity: string;
+    caratWeight: string;
+    diamondCost: string;
+  }[];
+  categories: {
+    catId: number;
+    productId: number;
+    productType: string | null;
+    productSubType: string | null;
+    productSubSubType: string | null;
+    created_at: string;
+    updated_at: string;
+  }[];
+}
+
+interface VariantOption {
+  ProductUrl: string;
+  VariantName: string;
+}
+
+interface Variant {
+  VariantType: string;
+  VariantOption: VariantOption[];
+}
+
+export interface ProductData {
+  productDetails: ProductDetails;
+  variants: Variant[];
 }

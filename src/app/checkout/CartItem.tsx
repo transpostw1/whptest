@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/context/CartContext";
-
+import { useCouponContext } from "@/context/CouponContext";
 interface CartItemProps {
   product: {
     productId: number;
@@ -15,13 +15,19 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart } = useCart();
+  const { totalDiscount, setTotalDiscount} = useCouponContext();
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {
+      setTotalDiscount(0)
       updateCartQuantity(product.productId, newQuantity);
     } else {
       removeFromCart(product.productId);
     }
   };
+  const price = product.price * product.quantity;
+  const formattedPrice = new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseInt(price.toString())));
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.productId);
@@ -51,7 +57,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       </div>
       <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
         <div className="text-title text-center">
-          ₹{product.price * product.quantity}
+          ₹{formattedPrice}
         </div>
         <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
           <Icon.Minus

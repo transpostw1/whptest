@@ -135,7 +135,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const handleSearch = (value: string) => {
-    router.push(`/shop/breadcrumb1?query=${value}`);
+    router.push(`/products?query=${value}`);
     setSearchKeyword("");
     setIsModalOpen(false);
   };
@@ -189,6 +189,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div className="ml-4">
@@ -197,6 +198,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div className="ml-4 text-black">
@@ -211,6 +213,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"hamBurgerIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             </div>
@@ -444,7 +447,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(1)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         New Arrivals
                       </p>
@@ -454,7 +457,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 2 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(2)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         14 Karat
                       </p>
@@ -464,7 +467,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 3 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(3)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Rings
                       </p>
@@ -474,7 +477,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 4 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(4)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Earrings
                       </p>
@@ -484,7 +487,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 5 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(5)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Pendants
                       </p>
@@ -494,7 +497,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 6 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(6)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Chains
                       </p>
@@ -526,7 +529,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                 <li className="leading-[0px]">
                                   <Link
                                     href={{
-                                      pathname: "/shop/breadcrumb1",
+                                      pathname: "/products",
                                       query: { url: item.url },
                                     }}
                                     className=" text-secondary duration-300"
@@ -553,7 +556,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(8)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Men's Jewellery
                       </p>

@@ -5,6 +5,8 @@ import { CreditCard } from "@phosphor-icons/react";
 import axios from "axios";
 import { Address } from "@/type/AddressType";
 import ReactLoading from "react-loading";
+import Cookie from "js-cookie";
+
 
 interface PaymentProps {
   selectedPaymentMethod: string;
@@ -13,7 +15,12 @@ interface PaymentProps {
   onOrderComplete: () => void;
   selectedShippingAddress: Address | null;
   selectedBillingAddress: Address | null;
-  handleProceed: () => void; // Add this line
+  handleProceed: () => void; 
+  mappedCartItems: any[];
+  couponCode: string;
+  totalDiscount: number; // Add the totalDiscount prop
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
+
 }
 
 const Payment: React.FC<PaymentProps> = ({
@@ -24,8 +31,16 @@ const Payment: React.FC<PaymentProps> = ({
   selectedShippingAddress,
   selectedBillingAddress,
   handleProceed,
+  mappedCartItems,
+  couponCode,
+  totalDiscount,
+  setCartItems,
+  
+
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const cookieToken = Cookie.get("localtoken");
+
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -46,7 +61,7 @@ const Payment: React.FC<PaymentProps> = ({
       const orderUrl = "/api/razorpay";
       const response = await axios.post(orderUrl, { amount: totalCart * 100 });
       const { amount, id: order_id, currency } = response.data;
-
+  
       const options = {
         key: "rzp_test_QZVTreX3fAEZto",
         amount: amount.toString(),
@@ -55,8 +70,74 @@ const Payment: React.FC<PaymentProps> = ({
         description: "Transaction",
         order_id: order_id,
         handler: async function (response: any) {
-          // Call the onOrderComplete function when the payment is successful
-          onOrderComplete();
+          try {
+            // Prepare the data to be sent to the API
+            const orderData = {
+              shippingAddress: selectedShippingAddress
+                ? [
+                    {
+                      addressId: selectedShippingAddress.addressId || null,
+                      addressType: selectedShippingAddress.addressType,
+                      fullAddress: selectedShippingAddress.fullAddress,
+                      country: selectedShippingAddress.country,
+                      state: selectedShippingAddress.state,
+                      city: selectedShippingAddress.city,
+                      landmark: selectedShippingAddress.landmark,
+                      pincode: selectedShippingAddress.pincode,
+                    },
+                  ]
+                : [],
+              billingAddress: selectedBillingAddress
+                ? [
+                    {
+                      addressId: selectedBillingAddress.addressId || null,
+                      addressType: selectedBillingAddress.addressType,
+                      fullAddress: selectedBillingAddress.fullAddress,
+                      country: selectedBillingAddress.country,
+                      state: selectedBillingAddress.state,
+                      city: selectedBillingAddress.city,
+                      landmark: selectedBillingAddress.landmark,
+                      pincode: selectedBillingAddress.pincode,
+                    },
+                  ]
+                : [],
+                productDetails: {
+              products: mappedCartItems.map((item) => ({
+                productId: item.productId.toString(),
+                productAmount: item.price,
+                quantity: item.quantity.toString(),
+                productTotal: (item.price * item.quantity).toString(),
+                discountAmount: "0", // Replace with the actual discount amount if available
+                discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
+              })),
+              coupons: [
+                {
+                  couponCode: couponCode, // Replace with the actual coupon code if available
+                  discountPrice: totalDiscount, // Replace with the actual discount price if available
+                },
+              ],
+              productTotal: totalCart.toString(),
+              discountedTotal: (totalCart - totalDiscount).toString(),
+            },
+          
+              // Add other necessary data for productDetails, etc.
+            };
+  
+            // Make the API call
+            const apiResponse = await axios.post('http://164.92.120.19/api/orders', orderData,{
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+              },
+            });
+            console.log(apiResponse.data);
+            // Handle the response as needed
+  
+            // Call the onOrderComplete function after the API call is successful
+            onOrderComplete(setCartItems);
+          } catch (error) {
+            console.error('Error placing order:', error);
+            // Handle the error as needed
+          }
         },
         prefill: {
           name: "Test Customer",
@@ -70,7 +151,7 @@ const Payment: React.FC<PaymentProps> = ({
           color: "#fb7185",
         },
       };
-
+  
       const rzp1 = new (window as any).Razorpay(options);
       rzp1.open();
     } catch (error) {

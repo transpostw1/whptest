@@ -232,7 +232,7 @@ const Checkout: React.FC = () => {
   let formattedPrice: string = totalCart.toString();
 
 
-  const handleOrderComplete = () => {
+  const handleOrderComplete = (setCartItems: React.Dispatch<React.SetStateAction<any[]>>) => {
     setIsOrderPlaced(true);
     // Reset the cart and other states
     setCartItems([]);
@@ -486,6 +486,10 @@ const Checkout: React.FC = () => {
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
+                  mappedCartItems={mappedCartItems}
+                  couponCode={couponCode}
+                  totalDiscount={totalDiscount}
+                  setCartItems={setCartItems}
                 />
               )}
 

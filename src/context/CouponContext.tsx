@@ -11,7 +11,6 @@ const CouponContext = createContext<CouponContextProps | undefined>(undefined);
 export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [totalDiscount, setTotalDiscount] = useState<number>(0);
     const updateTotalDiscount=(discount:any)=>{
-     console.log("dcisc:",discount);
      setTotalDiscount(discount);
     }
 

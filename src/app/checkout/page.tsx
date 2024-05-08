@@ -4,6 +4,7 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -57,11 +58,11 @@ const Checkout: React.FC = () => {
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const [selectedShippingAddress, setSelectedShippingAddress] =
     useState<Address | null>(null);
   const [selectedBillingAddress, setSelectedBillingAddress] =
     useState<Address | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -103,7 +104,7 @@ const Checkout: React.FC = () => {
     }));
     setCartProductIds(products);
   };
-  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchCouponData = async () => {
       setLoading(true);
@@ -173,37 +174,38 @@ const Checkout: React.FC = () => {
           ? item.productDetails.imageDetails[0].image_path
           : "",
     }));
-
   // const mappedCartItems = showAllItems
   //   ? cartItems
   //       .filter(
   //         (item) =>
-  //           item.productId &&
-  //           item.quantity &&
-  //           item.displayTitle &&
-  //           item.discountPrice &&
-  //           item.imageDetails
+  //           item?.productId &&
+  //           item?.quantity &&
+  //           item?.productDetails?.displayTitle &&
+  //           item?.productDetails?.discountPrice &&
+  //           item?.productDetails?.imageDetails
   //       )
   //       .map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.quantity,
-  //         name: item.displayTitle,
-  //         price: item.discountPrice,
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
   //         image:
-  //           item.imageDetails && item.imageDetails.length > 0
-  //             ? item.imageDetails[0].image_path
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
   //             : "",
   //       }))
   //   : cartItems
   //       .filter((item) => item.productId === parseInt(buyNow as string))
   //       .map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.quantity,
-  //         name: item.displayTitle,
-  //         price: item.discountPrice,
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
   //         image:
-  //           item.imageDetails && item.imageDetails.length > 0
-  //             ? item.imageDetails[0].image_path
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
   //             : "",
   //       }));
 
@@ -374,7 +376,7 @@ const Checkout: React.FC = () => {
     },
     {
       icon: (
-        <AddressBook
+        <Icon.MapPin
           className={`text-2xl text-black ${
             selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
           }`}
@@ -401,7 +403,6 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <StickyNav />
       <div className="cart-block flex-wrap">
         <div className="content-main flex flex-col justify-between px-14">
           <div className="flex w-full justify-between items-center">
@@ -496,13 +497,18 @@ const Checkout: React.FC = () => {
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="flex justify-between border border-gray-400 p-3">
                     <div className="flex items-center gap-2 font-medium">
-                      <Gift style={{ color: "red", fontSize: "24px" }} />
-                      <h3>Available Coupons</h3>
+                      <Image
+                        src={"/images/icons/coupon.png"}
+                        alt={"coupons"}
+                        height={25}
+                        width={25}
+                      />
+                      <h3>Coupons Available</h3>
                     </div>
                     <h3 className="text-red-600 underline cursor-pointer">
                       View
                     </h3>
-                    <input
+                    {/* <input
                       className="border border-black"
                       type="text"
                       onChange={(e) => setCouponCode(e.target.value)}
@@ -512,7 +518,7 @@ const Checkout: React.FC = () => {
                       onClick={handleCouponCheck}
                     >
                       check
-                    </button>
+                    </button> */}
                   </div>
                   {couponsModal && <CouponsModal />}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">
@@ -530,10 +536,11 @@ const Checkout: React.FC = () => {
                       <GiftWrapModal closeModal={handleCloseModal} />
                     )}
                   </div>
+                  <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
                   ) : (
-                    <div className="bg-gray-100 p-2 mt-3">
+                    <div className="bg-gray-100 p-2 mt-2">
                       <div className="">
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
@@ -598,6 +605,20 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+      {isMobile && (
+        <div className="flex fixed bottom-0 bg-white">
+          <div>
+            <p className="font-bold text-lg">
+              ₹
+              {Intl.NumberFormat("en-IN", {
+                minimumFractionDigits: 2,
+              }).format(Math.round(parseInt(totalPrice.toString())))}
+            </p>
+            <p className="text-[#e26178]">View Order Summary</p>
+          </div>
+          <div></div>
+        </div>
+      )}
     </>
   );
 };

@@ -6,7 +6,8 @@ import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
-
+import { useRouter } from "next/navigation";
+import {useUser} from "@/context/UserContext";
 interface CartItem {
   productDetails: {
     displayTitle: string;
@@ -36,11 +37,12 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const router=useRouter()
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
-
+  const { logOut} = useUser();
   useEffect(() => {
     const userToken = Cookies.get("localtoken");
     if (userToken) {
@@ -119,6 +121,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       );
     } catch (error) {
       console.error("Error syncing cart with server:", error);
+      logOut()
+      router.push('/login')
     }
   };
 

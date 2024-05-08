@@ -410,14 +410,16 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="ml-3">
                   <Icon.Heart size={25} />
                 </div>
+                <Link href={"/checkout"}>
                 <div className="ml-3">
                   <Image
                     src={"/images/icons/cart.svg"}
                     alt="Cart"
                     width={30}
                     height={30}
-                  />
+                    />
                 </div>
+                    </Link>
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">

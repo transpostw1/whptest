@@ -23,6 +23,7 @@ const ProfileDetails = () => {
       router.replace("/");
     }
   }, [isLoggedIn, router]);
+  
   const handleLogOut = () => {
     logOut();
     router.push("/");

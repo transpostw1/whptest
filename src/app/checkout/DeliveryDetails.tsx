@@ -124,8 +124,6 @@ interface DeliveryDetailsProps {
     return shippingAddressSelected && (useSameAsBillingAddress || billingAddressSelected);
   };
 
-  console.log("Flash Message:", flashMessage);
-
   return (
     <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
       <FlashAlert key={flashKey} message={flashMessage} type={flashType} />

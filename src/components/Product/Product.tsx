@@ -17,7 +17,7 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
 
-  const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
+  const { addToWishlist, removeFromWishlist } = useWishlist();
 
   const router = useRouter();
 
@@ -86,7 +86,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
                       <Icon.Heart size={25} weight="light" />
                     </div>
                   </div>

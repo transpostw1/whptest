@@ -1,17 +1,28 @@
 "use client"; // Add this line
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+
 
 interface Props {
   product: ProductData;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
-  const { cartItems, addToCart, removeFromCart, updateCartQuantity } =
-    useCart();
+  const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+
+
+useEffect(() => {
+  const isInWishlist = wishlistItems.some(
+    (item) => item.productId === product.productDetails.productId
+  );
+  setIsProductInWishlist(isInWishlist);
+}, [wishlistItems, product.productDetails.productId]);
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
@@ -36,6 +47,19 @@ const Buttons: React.FC<Props> = ({ product }) => {
       );
     }
   };
+
+const HandleaddToWishlist = () => {
+  addToWishlist(product.productDetails.productId);
+  setIsProductInWishlist(true);
+};
+
+const HandleremoveFromWishlist = () => {
+   removeFromWishlist(product.productDetails.productId);
+  setIsProductInWishlist(false);
+};
+
+
+
 
   const handleBuyNow = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
@@ -90,8 +114,22 @@ const Buttons: React.FC<Props> = ({ product }) => {
           </span>
         </div>
       </div>
-      <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
-        <Icon.Heart size={27} weight="thin" />
+      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
+        {isProductInWishlist ? (
+          <Icon.Heart
+            size={32}
+            color="#fa0000"
+            weight="fill"
+            onClick={() => HandleremoveFromWishlist()}
+          />
+        ) : (
+          <Icon.Heart
+            size={32}
+            weight="thin"
+            color="#e26178"
+            onClick={() => HandleaddToWishlist()}
+          />
+        )}
       </div>
     </div>
   );

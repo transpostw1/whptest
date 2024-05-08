@@ -1,122 +1,187 @@
-'use client'
-import React, { useState } from 'react'
-// import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import NavTwo from '@/components/Header/TopNav/NavTwo'
-import NavHoverMenu from '@/components/Header/Menu/NavHoverMenu'
-// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
-import Footer from '@/components/Footer/Footer'
-import { ProductType } from '@/type/ProductType'
-import Product from '@/components/Product/Product'
-import { useWishlist } from '@/context/WishlistContext'
-import HandlePagination from '@/components/Other/HandlePagination'
-import * as Icon from "@phosphor-icons/react/dist/ssr";
+"use client";
 
+// import React, { useState } from "react";
+// import Image from "next/image";
+// import { useWishlist } from "@/context/WishlistContext";
+// import * as Icon from "@phosphor-icons/react/dist/ssr";
+
+// const Wishlist = () => {
+//   const [type, setType] = useState<string | undefined>();
+//   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+//   const [isLoading, setIsLoading] = useState<boolean>(false);
+//   const { wishlistItems, removeFromWishlist } = useWishlist();
+//   const handleType = (type: string) => {
+//     setType((prevType) => (prevType === type ? undefined : type));
+//   };
+
+//   return (
+//     <>
+//       <div className="shop-product breadcrumb1 ">
+//         <div className="container">
+//           <div className="list-product-block relative">
+//             {/* <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
+//               <div className="left flex has-line items-center flex-wrap gap-5"></div>
+//               <div className="right flex items-center gap-3">
+//                 <div className="select-block filter-type relative">
+//                   <select
+//                     className="caption1 py-2 pl-3 md:pr-12 pr-8 rounded-lg border border-line capitalize"
+//                     name="select-type"
+//                     id="select-type"
+//                     onChange={(e) => handleType(e.target.value)}
+//                     value={type === undefined ? "Type" : type}
+//                   >
+//                     <option value="Type" disabled>
+//                       Type
+//                     </option>
+//                     {[
+//                       "Rings",
+//                       "Earrings",
+//                       "Pendants",
+//                       "Chains",
+//                       "Bangles",
+//                       "Necklaces",
+//                       "NosePin",
+//                     ].map((item, index) => (
+//                       <option
+//                         key={index}
+//                         className={`item cursor-pointer ${
+//                           type === item ? "active" : ""
+//                         }`}
+//                       >
+//                         {item}
+//                       </option>
+//                     ))}
+//                   </select>
+//                   <Icon.CaretDown
+//                     size={12}
+//                     className="absolute top-1/2 -translate-y-1/2 md:right-4 right-2"
+//                   />
+//                 </div>
+//               </div>
+//             </div> */}
+//             <div>
+//               <div className="list-product hide-product-sold grid md:grid-cols-4 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
+//                 {wishlistItems.map((product, index) => (
+//                   <div key={index} className="relative border border-red-500 w-80 p-4">
+//                     <div className="product-card">
+//                       <div className="product-image">
+//                         {/* Use proper source for the Image component */}
+//                         <Image
+//                           src={product.image_path}
+//                           alt="A Rosica Gold Earrings"
+//                           width={300}
+//                           height={300}
+//                         />
+//                       </div>
+//                       <div className="product-details">
+//                         <h3 className="product-name text-title duration-300 text-xl">
+//                           {product.title}
+//                         </h3>
+//                         <div className="flex items-center gap-2">
+//                           <p className="product-price flex flex-col">
+//                             <span className="discounted-price text-title text-lg ">
+//                               ₹{product.discountPrice}
+//                             </span>
+//                           </p>
+//                           <p>
+//                             <span className="original-price line-through text-[#beb3b3]">
+//                               ₹{product.productPrice}
+//                             </span>
+//                           </p>
+//                         </div>
+//                       </div>
+//                     </div>
+//                     <div className="product-actions  absolute right-4 bottom-20">
+//                       <Icon.Heart
+//                         size={25}
+//                         color="#fa0000"
+//                         weight="fill"
+//                         onClick={() => removeFromWishlist(product.productId)}
+//                       />
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Wishlist;
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { useWishlist } from "@/context/WishlistContext";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
 
 const Wishlist = () => {
-    const { wishlistState } = useWishlist();
-    const [sortOption, setSortOption] = useState('');
-    const [layoutCol, setLayoutCol] = useState<number | null>(4)
-    const [type, setType] = useState<string | undefined>()
-    const [currentPage, setCurrentPage] = useState(0);
-    const productsPerPage = 12;
-    const offset = currentPage * productsPerPage;
+  const [type, setType] = useState<string | undefined>();
+  const { wishlistItems, removeFromWishlist } = useWishlist();
+const router = useRouter();
 
-    const handleLayoutCol = (col: number) => {
-        setLayoutCol(col)
-    }
+  const handleType = (type: string) => {
+    setType((prevType) => (prevType === type ? undefined : type));
+  };
 
-    const handleType = (type: string) => {
-        setType((prevType) => (prevType === type ? undefined : type))
-    }
-
-    const handleSortChange = (option: string) => {
-        setSortOption(option);
-    };
-
-    // Filter product data by type
-    // let filteredData = wishlistState.wishlistArray.filter(product => {
-    //     let isTypeMatched = true;
-    //     if (type) {
-    //         isTypeMatched = product.type === type;
-    //     }
-
-    //     return isTypeMatched
-    // })
-
-   
-
-
-    const handlePageChange = (selected: number) => {
-        setCurrentPage(selected);
-    };
-
-
-    return (
-      <>
-        {/* <TopNavOne textColor="text-white" />
-        <NavTwo props="style-three bg-white" />
-        <div id="header" className="w-full relative">
-          <NavHoverMenu props="bg-white" /> */}
-        {/* <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" /> */}
-        {/* </div> */}
-        <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
-          <div className="container">
-            <div className="list-product-block relative">
-              <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
-                <div className="left flex has-line items-center flex-wrap gap-5"></div>
-                <div className="right flex items-center gap-3">
-                  <div className="select-block filter-type relative">
-                    <select
-                      className="caption1 py-2 pl-3 md:pr-12 pr-8 rounded-lg border border-line capitalize"
-                      name="select-type"
-                      id="select-type"
-                      onChange={(e) => handleType(e.target.value)}
-                      value={type === undefined ? "Type" : type}
-                    >
-                      <option value="Type" disabled>
-                        Type
-                      </option>
-                      {[
-                        "Rings",
-                        "Earrings",
-                        "Pendants",
-                        "Chains",
-                        "Bangles",
-                        "Necklaces",
-                        "NosePin",
-                      ].map((item, index) => (
-                        <option
-                          key={index}
-                          className={`item cursor-pointer ${
-                            type === item ? "active" : ""
-                          }`}
-                        >
-                          {item}dfsfs
-                        </option>
-                      ))}
-                    </select>
-                    <Icon.CaretDown
-                      size={12}
-                      className="absolute top-1/2 -translate-y-1/2 md:right-4 right-2"
+  return (
+    <div className="shop-product breadcrumb1">
+      <div className="container">
+        <div className="list-product-block relative">
+          <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
+            {wishlistItems.map((product, index) => (
+              <div
+                key={index}
+                className="relative"
+                onClick={() => router.push(`/products/${product.url}`)}
+              >
+                <div className="product-card p-4">
+                  <div className="product-image">
+                    <Image
+                      src={product.image_path}
+                      alt={product.title}
+                      width={300}
+                      height={300}
+                      className="rounded-md"
                     />
                   </div>
+                  <div className="product-details mt-4">
+                    <h3 className="product-name text-title text-xl truncate">
+                      {product.title}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <p className="product-price flex flex-col">
+                        <span className="discounted-price text-title text-lg">
+                          ₹{product.discountPrice}
+                        </span>
+                        <span className="original-price line-through text-[#beb3b3]">
+                          ₹{product.productPrice}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-[#E26178] text-center font-semibold text-lg rounded-full">
+                    Buy Now
+                  </div>
+                </div>
+                <div className="product-actions absolute top-2 right-2">
+                  <button
+                    className="heart-icon"
+                    onClick={() => removeFromWishlist(product.productId)}
+                  >
+                    <Icon.Heart size={25} color="#fa0000" weight="fill" />
+                  </button>
                 </div>
               </div>
-              <div>
-                <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
-                  {/* {filteredData
-                    .slice(pagesVisited, pagesVisited + productsPerPage)
-                    .map((item: any) => ( */}
-                      {/* <Product key={item.productId} data={item} /> */}
-                    {/* ))} */}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-        <Footer />
-      </>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
-export default Wishlist
+export default Wishlist;

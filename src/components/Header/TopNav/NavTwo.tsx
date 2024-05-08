@@ -340,15 +340,32 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
                     // onClick={openModalWishlist}
                   >
-                    <div className="flex flex-col items-center">
-                      <Icon.Heart size={28} color="black" />
-                      <h4 className="text-sm">Wishlist</h4>
-                    </div>
+                    <Link href={"/wishlist"}>
+                      {/* <div>
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        
+                      </div> */}
+                      <div
+                        className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                        // onClick={openModalWishlist}
+                      >
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          1
+                        </span>
+                      </div>
+                    </Link>
                   </div>
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      onClick={openModalCart}
+                      // onClick={openModalCart}
                     >
                       <div className="flex flex-col items-center">
                         <Image

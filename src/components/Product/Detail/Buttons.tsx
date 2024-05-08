@@ -6,23 +6,38 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   product: ProductData;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+  const { wishlistItems, addToWishlist, removeFromWishlist,getWishlist } = useWishlist();
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const[isLoading,setIsLoading]=useState<boolean>(false)
 
 
 useEffect(() => {
-  const isInWishlist = wishlistItems.some(
-    (item) => item.productId === product.productDetails.productId
-  );
-  setIsProductInWishlist(isInWishlist);
-}, [wishlistItems, product.productDetails.productId]);
+  const fetchWishlist = async () => {
+    try {
+      setIsLoading(true)
+      await getWishlist();
+      // Check if the current product is in the fetched wishlist items
+      const isInWishlist = wishlistItems.some(
+        (item) => item.productId === product.productDetails.productId
+      );
+      setIsProductInWishlist(isInWishlist);
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    } finally{
+      setIsLoading(false);
+    }
+  };
+
+  fetchWishlist();
+}, []);
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
@@ -84,7 +99,13 @@ const HandleremoveFromWishlist = () => {
       );
     }
   };
-
+  if(isLoading){
+    return (
+      <div>
+        <Skeleton height={70} />
+      </div>
+    );
+  }
   return (
     <div className="flex sm:justify-around mt-[25px] ">
       <div

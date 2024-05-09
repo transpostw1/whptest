@@ -9,7 +9,7 @@ import {
   getwishlisted,
 } from "@/utils/constants";
 import Cookies from "js-cookie";
-import { ProductData } from "@/type/ProductType"; // Assuming you have a ProductData type defined
+import { ProductType } from "@/type/ProductType";
 
 interface WishlistItem {
   productId: number;
@@ -23,9 +23,10 @@ interface WishlistItem {
 
 interface WishlistContextProps {
   wishlistItems: WishlistItem[];
-  addToWishlist: (productData: ProductData) => Promise<void>;
+  addToWishlist: (productType: ProductType) => Promise<void>;
   removeFromWishlist: (productId: number) => Promise<void>;
   getWishlist: () => Promise<WishlistItem[]>;
+  wishlistItemsCount: number;
 }
 
 const WishlistContext = createContext<WishlistContextProps | undefined>(
@@ -38,7 +39,15 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
+  const [wishlistItemsCount, setWishlistItemsCount] = useState(0);
 
+useEffect(() => {
+  const uniqueWishlistItems = wishlistItems.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.productId === item.productId)
+  );
+  setWishlistItemsCount(uniqueWishlistItems.length);
+}, [wishlistItems]);
   useEffect(() => {
     const userToken = Cookies.get("localtoken");
     if (userToken) {
@@ -47,57 +56,161 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  useEffect(() => {
-    const fetchWishlistItems = async () => {
-      try {
-        const wishlistData = await getWishlist();
-        const localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
-        const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
-        setWishlistItems(mergedWishlistItems);
-      } catch (error) {
-        console.error("Error fetching wishlist from server:", error);
-      }
-    };
-
-    fetchWishlistItems();
-  }, [isLoggedIn, cookieToken]);
-
-  const addToWishlist = async (productData: ProductData) => {
+useEffect(() => {
+  const fetchWishlistItems = async () => {
     try {
-      if (isLoggedIn) {
-        await instance.get(`${baseUrl}${addwishlist}`, {
-          params: { productId: productData.productDetails.productId },
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
-        });
-      }
-
-      const updatedWishlistItems = [
-        ...wishlistItems,
-        {
-          productId: productData.productDetails.productId,
-          title: productData.productDetails.title,
-          productPrice: productData.productDetails.productPrice,
-          discountPrice: productData.productDetails.discountPrice,
-          discountValue: productData.productDetails.discountValue,
-          image_path: productData.productDetails.imageDetails[0].image_path,
-          url: productData.productDetails.url,
-        },
-      ];
-
-      localStorage.setItem(
-        "wishlistItems",
-        JSON.stringify(updatedWishlistItems)
+      const wishlistData = await getWishlist();
+      const localWishlistItems = JSON.parse(
+        localStorage.getItem("wishlistItems") || "[]"
       );
-      setWishlistItems(updatedWishlistItems);
+
+      
+      const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
+
+      // Filter out any duplicates from the merged wishlist
+      const uniqueWishlistItems = mergedWishlistItems.filter(
+        (item, index, self) =>
+          index === self.findIndex((t) => t.productId === item.productId)
+      );
+
+      setWishlistItems(uniqueWishlistItems);
     } catch (error) {
-      console.error("Error adding product to wishlist:", error);
+      console.error("Error fetching wishlist from server:", error);
     }
   };
 
+  fetchWishlistItems();
+}, [isLoggedIn, cookieToken]);
+
+//  const addToWishlist = async (product: ProductType) => {
+//    try {
+//      if (isLoggedIn) {
+//        await instance.get(`${baseUrl}${addwishlist}`, {
+//          params: { productId: product.productId },
+//          headers: {
+//            Authorization: `Bearer ${cookieToken}`,
+//          },
+//        });
+//      } else {
+//        const localWishlistItems = JSON.parse(
+//          localStorage.getItem("wishlistItems") || "[]"
+//        );
+//        const isProductInLocalStorage = localWishlistItems.some(
+//          (item: any) => item.productId === product.productId
+//        );
+
+//        if (!isProductInLocalStorage) {
+//          const updatedWishlistItems = [
+//            ...localWishlistItems,
+//            {
+//              productId: product.productId,
+//              title: product.title,
+//              productPrice: product.productPrice,
+//              discountPrice: product.discountPrice,
+//              discountValue: product.discountValue,
+//              image_path: product.imageDetails[0].image_path,
+//              url: product.url,
+//            },
+//          ];
+
+//          localStorage.setItem(
+//            "wishlistItems",
+//            JSON.stringify(updatedWishlistItems)
+//          );
+
+//          setWishlistItems(updatedWishlistItems);
+//        }
+//      }
+//    } catch (error) {
+//      console.error("Error adding product to wishlist:", error);
+//    }
+//  };
+
+
+
+
+const addToWishlist = async (product: ProductType) => {
+  try {
+    if (isLoggedIn) {
+      // Get the existing wishlist items from localStorage
+      const localWishlistItems = JSON.parse(
+        localStorage.getItem("wishlistItems") || "[]"
+      );
+
+      // Add the local wishlist items to the database if they are not already present
+      const dbWishlistItems = await getWishlist();
+      const localItemsToAdd = localWishlistItems.filter(
+        (item: WishlistItem) =>
+          !dbWishlistItems.some((dbItem) => dbItem.productId === item.productId)
+      );
+
+      const promises = localItemsToAdd.map((item:any) =>
+        instance.get(`${baseUrl}${addwishlist}`, {
+          params: { productId: item.productId },
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        })
+      );
+
+      await Promise.all(promises);
+      await instance.get(`${baseUrl}${addwishlist}`, {
+        params: { productId: product.productId },
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+
+      const updatedDbWishlist = await getWishlist();
+
+      
+      const mergedWishlist = [
+        ...updatedDbWishlist,
+        ...localWishlistItems.filter(
+          (item:any) =>
+            !updatedDbWishlist.some(
+              (dbItem) => dbItem.productId === item.productId
+            )
+        ),
+      ];
+      setWishlistItems(mergedWishlist);
+      localStorage.setItem("wishlistItems", JSON.stringify(mergedWishlist));
+    } else {
+   {
+       const localWishlistItems = JSON.parse(
+         localStorage.getItem("wishlistItems") || "[]"
+       );
+       const isProductInLocalStorage = localWishlistItems.some(
+         (item: any) => item.productId === product.productId
+       );
+
+       if (!isProductInLocalStorage) {
+         const updatedWishlistItems = [
+           ...localWishlistItems,
+           {
+             productId: product.productId,
+             title: product.title,
+             productPrice: product.productPrice,
+             discountPrice: product.discountPrice,
+             discountValue: product.discountValue,
+             image_path: product.imageDetails[0].image_path,
+             url: product.url,
+           },
+         ];
+
+         localStorage.setItem(
+           "wishlistItems",
+           JSON.stringify(updatedWishlistItems)
+         );
+
+         setWishlistItems(updatedWishlistItems);
+       }
+     }
+    }
+  } catch (error) {
+    console.error("Error adding product to wishlist:", error);
+  }
+};
   const removeFromWishlist = async (productId: number) => {
     try {
       if (isLoggedIn) {
@@ -148,6 +261,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     addToWishlist,
     removeFromWishlist,
     getWishlist,
+    wishlistItemsCount: wishlistItems.length,
   };
 
   return (

@@ -16,6 +16,7 @@ import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
+import { useWishlist } from "@/context/WishlistContext";
 
 interface Props {
   props: string;
@@ -28,7 +29,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-
+const { wishlistItemsCount,wishlistItems } = useWishlist();
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
   const { userState } = useUser();
@@ -357,7 +358,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
                         <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                          1
+                          {wishlistItems.length}
                         </span>
                       </div>
                     </Link>

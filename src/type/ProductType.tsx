@@ -91,6 +91,7 @@ export interface ProductType {
   productPrice: string;
   stoneDetails: any; // Specify type if available
   diamondDetails: any; // Specify type if available
+  
 }
 interface ProductDetails {
   productId: number;

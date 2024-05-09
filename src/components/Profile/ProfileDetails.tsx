@@ -24,6 +24,7 @@ const ProfileDetails = () => {
     }
   }, [isLoggedIn, router]);
   const handleLogOut = () => {
+    Cookies.remove("localtoken");
     logOut();
     router.push("/");
   };

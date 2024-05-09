@@ -20,6 +20,7 @@ import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
+import BenefitCalculator from "@/components/Home1/BenefitCalculator";
 
 export default function Home() {
   const { products } = useProductContext();
@@ -37,7 +38,7 @@ export default function Home() {
           <BuyAgain data={products} start={0} limit={6} />
         )}
         <WhpTv products={products} />
-        <RoseGold />
+        {/* <RoseGold />
         <Category />
         <GetFastDeliveryProducts data={products} start={7} limit={14} />
         <WhatWeOffer />
@@ -46,7 +47,8 @@ export default function Home() {
         <Appointment />
         <Gifts />
         <GoldScheme />
-        <SpecialOccasion />
+        <SpecialOccasion /> */}
+        <BenefitCalculator/>
         <Reviews />
         {/* <WhpApp /> */}
       </div>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
@@ -17,7 +16,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { wishlistItems,addToWishlist, removeFromWishlist,} = useWishlist();
+  const { wishlistItems,addToWishlist, removeFromWishlist} = useWishlist();
 
   const router = useRouter();
 
@@ -34,7 +33,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
-    return null; // or render a default image or fallback UI
+    return null; 
   }
   const sortedVideos = data?.videoDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -46,7 +45,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   };
 
   const HandleaddToWishlist = () => {
-    addToWishlist(data.productId);
+    addToWishlist(data);
     setIsProductInWishlist(true);
   };
 

@@ -111,8 +111,7 @@
 // };
 
 // export default Wishlist;
-
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -121,7 +120,24 @@ import { useRouter } from "next/navigation";
 const Wishlist = () => {
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
-const router = useRouter();
+  const router = useRouter();
+
+  
+  // Create a Set to store unique product IDs
+  const uniqueProductIds = new Set<number>();
+
+  
+
+  // Filter out duplicate products based on unique product IDs
+  const filteredWishlistItems = wishlistItems.filter((product) => {
+    if (uniqueProductIds.has(product.productId)) {
+      return false; // Skip adding the product if its ID is already in the Set
+    } else {
+      uniqueProductIds.add(product.productId);
+      return true; // Add the product to the Set and render it
+    }
+  });
+  
 
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
@@ -132,14 +148,13 @@ const router = useRouter();
       <div className="container">
         <div className="list-product-block relative">
           <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
-            {wishlistItems.map((product, index) => (
-              <div
-                key={index}
-                className="relative"
-                onClick={() => router.push(`/products/${product.url}`)}
-              >
+            {filteredWishlistItems.map((product, index) => (
+              <div key={index} className="relative">
                 <div className="product-card p-4">
-                  <div className="product-image">
+                  <div
+                    className="product-image"
+                    onClick={() => router.push(`/products/${product.url}`)}
+                  >
                     <Image
                       src={product.image_path}
                       alt={product.title}

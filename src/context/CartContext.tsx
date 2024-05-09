@@ -6,6 +6,9 @@ import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
+import { useRouter } from "next/navigation";
+import {useUser} from "@/context/UserContext";
+
 
 interface CartItem {
   productDetails: {
@@ -40,6 +43,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
+  const router=useRouter()
+  const { logOut} = useUser();
 
   useEffect(() => {
     const userToken = Cookies.get("localtoken");
@@ -126,6 +131,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       );
     } catch (error) {
       console.error("Error syncing cart with server:", error);
+      logOut()
+      router.push('/login')
+
     }
   };
 

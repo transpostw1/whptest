@@ -60,6 +60,7 @@ const Payment: React.FC<PaymentProps> = ({
     try {
       const orderUrl = "/api/razorpay";
       const response = await axios.post(orderUrl, { amount: totalCart * 100 });
+      console.log(response);
       const { amount, id: order_id, currency } = response.data;
   
       const options = {
@@ -72,7 +73,14 @@ const Payment: React.FC<PaymentProps> = ({
         handler: async function (response: any) {
           try {
             // Prepare the data to be sent to the API
+            const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+            console.log(razorpay_payment_id);
             const orderData = {
+              paymentDetails: {
+                paymentId: razorpay_payment_id,
+                orderId: razorpay_order_id,
+                signature: razorpay_signature,
+              },
               shippingAddress: selectedShippingAddress
                 ? [
                     {

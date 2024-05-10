@@ -378,7 +378,7 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                         <h4 className="text-sm">Cart</h4>
                       </div>
 
-                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                         {cartLength}
                       </span>
                     </div>
@@ -424,17 +424,23 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                 <div className="">
                   <p className="text-xl font-semibold">Login</p>
                 </div>
-                <div className="ml-3">
+                <div className="ml-3 relative">
                   <Icon.Heart size={25} />
+                  <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {wishlistItems.length}
+                        </span>
                 </div>
                 <Link href={"/checkout"}>
-                <div className="ml-3">
+                <div className="ml-3 relative">
                   <Image
                     src={"/images/icons/cart.svg"}
                     alt="Cart"
                     width={30}
                     height={30}
                     />
+                    <span className="quantity cart-quantity absolute -right-0 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartLength}
+                      </span>
                 </div>
                     </Link>
               </div>

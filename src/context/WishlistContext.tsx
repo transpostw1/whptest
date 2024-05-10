@@ -48,13 +48,14 @@ useEffect(() => {
   );
   setWishlistItemsCount(uniqueWishlistItems.length);
 }, [wishlistItems]);
-  useEffect(() => {
+
+useEffect(() => {
     const userToken = Cookies.get("localtoken");
     if (userToken) {
       setIsLoggedIn(true);
       setCookieToken(userToken);
     }
-  }, []);
+}, []);
 
 useEffect(() => {
   const fetchWishlistItems = async () => {
@@ -81,53 +82,6 @@ useEffect(() => {
 
   fetchWishlistItems();
 }, [isLoggedIn, cookieToken]);
-
-//  const addToWishlist = async (product: ProductType) => {
-//    try {
-//      if (isLoggedIn) {
-//        await instance.get(`${baseUrl}${addwishlist}`, {
-//          params: { productId: product.productId },
-//          headers: {
-//            Authorization: `Bearer ${cookieToken}`,
-//          },
-//        });
-//      } else {
-//        const localWishlistItems = JSON.parse(
-//          localStorage.getItem("wishlistItems") || "[]"
-//        );
-//        const isProductInLocalStorage = localWishlistItems.some(
-//          (item: any) => item.productId === product.productId
-//        );
-
-//        if (!isProductInLocalStorage) {
-//          const updatedWishlistItems = [
-//            ...localWishlistItems,
-//            {
-//              productId: product.productId,
-//              title: product.title,
-//              productPrice: product.productPrice,
-//              discountPrice: product.discountPrice,
-//              discountValue: product.discountValue,
-//              image_path: product.imageDetails[0].image_path,
-//              url: product.url,
-//            },
-//          ];
-
-//          localStorage.setItem(
-//            "wishlistItems",
-//            JSON.stringify(updatedWishlistItems)
-//          );
-
-//          setWishlistItems(updatedWishlistItems);
-//        }
-//      }
-//    } catch (error) {
-//      console.error("Error adding product to wishlist:", error);
-//    }
-//  };
-
-
-
 
 const addToWishlist = async (product: ProductType) => {
   try {
@@ -211,7 +165,8 @@ const addToWishlist = async (product: ProductType) => {
     console.error("Error adding product to wishlist:", error);
   }
 };
-  const removeFromWishlist = async (productId: number) => {
+
+const removeFromWishlist = async (productId: number) => {
     try {
       if (isLoggedIn) {
         await instance.get(`${baseUrl}${removewishlist}`, {
@@ -233,9 +188,9 @@ const addToWishlist = async (product: ProductType) => {
     } catch (error) {
       console.error("Error removing product from wishlist:", error);
     }
-  };
+};
 
-  const getWishlist = async (): Promise<WishlistItem[]> => {
+const getWishlist = async (): Promise<WishlistItem[]> => {
     try {
       if (isLoggedIn) {
         const response = await instance.get(`${baseUrl}${getwishlisted}`, {
@@ -254,7 +209,7 @@ const addToWishlist = async (product: ProductType) => {
       console.error("Error fetching wishlist items:", error);
       return [];
     }
-  };
+};
 
   const value: WishlistContextProps = {
     wishlistItems,

@@ -70,7 +70,6 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
-      console.log("variant url", newUrl);
       setLoading(true);
       const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await response.data);

@@ -29,6 +29,7 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  rating: number;
   gst: any;
   makingCharges: any;
   id: any | null | undefined;
@@ -183,6 +184,7 @@ interface ProductDetails {
     created_at: string;
     updated_at: string;
   }[];
+  review:any;
 }
 
 interface VariantOption {

@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { FaStar } from "react-icons/fa6";
+import StarRating from "@/components/Other/StarRating";
 
 interface Props {
   product: ProductData;
@@ -51,7 +52,32 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       <div>
         {activeTab === "tab1" && (
           <div className="flex flex-wrap justify-between mx-4">
-            <div className="w-[40%] h-[55%] rounded-3xl bg-[#faf9f9] p-6">
+            {product?.productDetails?.review.map((item: any) => (
+              <div
+                className="lg:w-[40%] sm:w-[100%] md:w-[50%] h-[55%] rounded-3xl bg-[#faf9f9] p-6"
+                key={item.id}
+              >
+                <div className="flex">
+                  <div className="m-2">
+                    <Image
+                      className="rounded-full"
+                      src="/images/icons/propic.jpg"
+                      alt="profile_picture"
+                      height={75}
+                      width={75}
+                    />
+                  </div>
+                  <div className="ml-2">
+                    <p className="">User</p>
+                    <StarRating stars={item.rate} />
+                  </div>
+                </div>
+                <div>
+                  <p>{item.review}</p>
+                </div>
+              </div>
+            ))}
+            <div className="lg:w-[40%] sm:w-[100%] md:w-[50%] h-[55%] rounded-3xl bg-[#faf9f9] p-6">
               <div className="flex">
                 <div className="m-2">
                   <Image
@@ -81,9 +107,8 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   various options of jewellery.
                 </p>
               </div>
-              <div className="flex mt-5"></div>
             </div>
-            <div>
+            <div className="sm:mt-3 lg:mt-0 md:mt-0">
               <div className="flex justify-around">
                 <div className="mr-[100px]">
                   <p>Write a Review</p>

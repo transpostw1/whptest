@@ -70,7 +70,11 @@ const Payment: React.FC<PaymentProps> = ({
         handler: async function (response: any) {
           try {
             // Prepare the data to be sent to the API
-            const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+            const {
+              razorpay_payment_id,
+              razorpay_order_id,
+              razorpay_signature,
+            } = response;
             console.log(razorpay_payment_id);
             const orderData = {
               paymentDetails: {
@@ -79,33 +83,29 @@ const Payment: React.FC<PaymentProps> = ({
                 signature: razorpay_signature,
               },
               shippingAddress: selectedShippingAddress
-                ? [
-                    {
-                      addressId: selectedShippingAddress.address_id || null,
-                      addressType: selectedShippingAddress.address_type,
-                      fullAddress: selectedShippingAddress.full_address,
-                      country: selectedShippingAddress.country,
-                      state: selectedShippingAddress.state,
-                      city: selectedShippingAddress.city,
-                      landmark: selectedShippingAddress.landmark,
-                      pincode: selectedShippingAddress.pincode.toString(),
-                    },
-                  ]
-                : [],
+                ? {
+                    addressId: selectedShippingAddress.address_id || null,
+                    addressType: selectedShippingAddress.address_type,
+                    fullAddress: selectedShippingAddress.full_address,
+                    country: selectedShippingAddress.country,
+                    state: selectedShippingAddress.state,
+                    city: selectedShippingAddress.city,
+                    landmark: selectedShippingAddress.landmark,
+                    pincode: selectedShippingAddress.pincode.toString(),
+                  }
+                : {},
               billingAddress: selectedBillingAddress
-                ? [
-                    {
-                      addressId: selectedBillingAddress.address_id || null,
-                      addressType: selectedBillingAddress.address_type,
-                      fullAddress: selectedBillingAddress.full_address,
-                      country: selectedBillingAddress.country,
-                      state: selectedBillingAddress.state,
-                      city: selectedBillingAddress.city,
-                      landmark: selectedBillingAddress.landmark,
-                      pincode: selectedBillingAddress.pincode.toString(),
-                    },
-                  ]
-                : [],
+                ? {
+                    addressId: selectedBillingAddress.address_id || null,
+                    addressType: selectedBillingAddress.address_type,
+                    fullAddress: selectedBillingAddress.full_address,
+                    country: selectedBillingAddress.country,
+                    state: selectedBillingAddress.state,
+                    city: selectedBillingAddress.city,
+                    landmark: selectedBillingAddress.landmark,
+                    pincode: selectedBillingAddress.pincode.toString(),
+                  }
+                : {},
               productDetails: {
                 products: mappedCartItems.map((item) => ({
                   productId: item.productId.toString(),
@@ -115,20 +115,19 @@ const Payment: React.FC<PaymentProps> = ({
                   discountAmount: "0", // Replace with the actual discount amount if available
                   discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
                 })),
-                coupons: [
-                  {
-                    couponCode: couponCode, // Replace with the actual coupon code if available
-                    discountPrice: totalDiscount, // Replace with the actual discount price if available
-                  },
-                ],
+                coupons: {
+                  couponCode: couponCode, // Replace with the actual coupon code if available
+                  discountPrice: totalDiscount, // Replace with the actual discount price if available
+                },
                 productTotal: totalCart.toString(),
                 discountedTotal: (totalCart - totalDiscount).toString(),
-                shippingCharges:"10",
+                shippingCharges: "10",
               },
 
               // Add other necessary data for productDetails, etc.
             };
 
+            console.log(orderData, "orderData");
             // Make the API call
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
@@ -146,7 +145,6 @@ const Payment: React.FC<PaymentProps> = ({
             onOrderComplete(setCartItems);
           } catch (error) {
             console.error("Error placing order:", error);
-            // Handle the error as needed
           }
         },
         prefill: {
@@ -195,8 +193,13 @@ const Payment: React.FC<PaymentProps> = ({
   if (loading)
     return (
       <div className="fixed inset-0 z-50 bg-black bg-opacity-5">
-      <div className="loading-container flex justify-center items-center h-full">
-          <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+        <div className="loading-container flex justify-center items-center h-full">
+          <Image
+            src="/dummy/loader.gif"
+            alt={"loader"}
+            height={50}
+            width={50}
+          />
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
-
+import StarRating from "../Other/StarRating";
 interface ProductProps {
   data: ProductType;
 }
@@ -17,7 +17,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems,addToWishlist, removeFromWishlist} = useWishlist();
-
+  const ratings=3.5;
   const router = useRouter();
 
    useEffect(() => {
@@ -53,10 +53,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
   };
-
-
-
-
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat(data?.discountPrice ?? 0))
@@ -164,13 +160,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
-            <div className="flex">
+            {/* <div className="flex">
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-            </div>
+            </div> */}
+            <StarRating stars={data.rating}/>
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               {data?.discountPrice && (
@@ -183,17 +180,18 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   ₹{formattedOriginalPrice}
                 </div>
               )}
-              {data?.discountPrice && (
-                <p className="text-[#c95d71]">
-                  {data && data?.discountValue}%OFF
-                </p>
-              )}
+              
               {data?.discountValue == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}
                 </div>
               )}
             </div>
+            {data?.discountPrice && (
+                <p className="text-[#c95d71]">
+                  {data && data?.discountValue}%OFF
+                </p>
+              )}
           </div>
         </div>
       </div>

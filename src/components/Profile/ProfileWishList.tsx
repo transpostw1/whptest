@@ -6,7 +6,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 
-const Wishlist = () => {
+const ProfileWishList = () => {
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
   const router = useRouter();
@@ -67,7 +67,7 @@ const Wishlist = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white">
+                  <div className="bg-[#E26178] text-center font-semibold text-lg rounded-full">
                     Buy Now
                   </div>
                 </div>
@@ -88,4 +88,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default ProfileWishList;

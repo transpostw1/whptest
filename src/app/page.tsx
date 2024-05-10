@@ -38,7 +38,7 @@ export default function Home() {
           <BuyAgain data={products} start={0} limit={6} />
         )}
         <WhpTv products={products} />
-        {/* <RoseGold />
+        <RoseGold />
         <Category />
         <GetFastDeliveryProducts data={products} start={7} limit={14} />
         <WhatWeOffer />
@@ -47,7 +47,7 @@ export default function Home() {
         <Appointment />
         <Gifts />
         <GoldScheme />
-        <SpecialOccasion /> */}
+        <SpecialOccasion />
         <BenefitCalculator/>
         <Reviews />
         {/* <WhpApp /> */}

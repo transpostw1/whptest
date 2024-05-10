@@ -12,6 +12,7 @@ import axios from "axios";
 import Cookie from "js-cookie";
 import { baseUrl, getOrders } from "@/utils/constants";
 import MobileGms from "@/components/Profile/MobileGms";
+import ProfileWishList from "@/components/Profile/ProfileWishList";
 
 interface OrdersResponse {
   customerOrders: any;
@@ -90,6 +91,7 @@ const ProfilePage = () => {
           {componentToRender === "orders" && (
             <ProfileOrders orders={ordersData} />
           )}
+          {componentToRender==="whislist"&&(<ProfileWishList/>)}
           {componentToRender === "gms" && <ProfileGMS />}
         </div>
       </div>

@@ -2,13 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
-import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
 
 interface ProductProps {
@@ -17,10 +14,18 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
-
-  const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
+  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { wishlistItems,addToWishlist, removeFromWishlist} = useWishlist();
 
   const router = useRouter();
+
+   useEffect(() => {
+     const isInWishlist = wishlistItems.some(
+       (item) => item.productId === data.productId
+     );
+     setIsProductInWishlist(isInWishlist);
+   }, [wishlistItems, data.productId]);
 
   const sortedImages = data?.imageDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -28,7 +33,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
-    return null; // or render a default image or fallback UI
+    return null; 
   }
   const sortedVideos = data?.videoDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -38,6 +43,21 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = () => {
     router.push(`/products/${data?.url}`);
   };
+
+  const HandleaddToWishlist = () => {
+    addToWishlist(data);
+    setIsProductInWishlist(true);
+  };
+
+  const HandleremoveFromWishlist = () => {
+    removeFromWishlist(data.productId);
+    setIsProductInWishlist(false);
+  };
+
+
+
+
+
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat(data?.discountPrice ?? 0))
   );
@@ -87,8 +107,22 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
-                      <Icon.Heart size={25} weight="light" />
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                      {/* <Icon.Heart size={25} weight="light" /> */}
+                      {isProductInWishlist ? (
+                        <Icon.Heart
+                          size={25}
+                          color="#fa0000"
+                          weight="fill"
+                          onClick={() => HandleremoveFromWishlist()}
+                        />
+                      ) : (
+                        <Icon.Heart
+                          size={25}
+                          weight="light"
+                          onClick={() => HandleaddToWishlist()}
+                        />
+                      )}
                     </div>
                   </div>
                 )}
@@ -106,7 +140,20 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
                 <div className="relative">
                   <div className="absolute bottom-0 right-0 z-0 hover:z-50">
-                    <Icon.Heart size={25} weight="light" />
+                    {isProductInWishlist ? (
+                      <Icon.Heart
+                        size={25}
+                        color="#fa0000"
+                        weight="fill"
+                        onClick={() => HandleremoveFromWishlist()}
+                      />
+                    ) : (
+                      <Icon.Heart
+                        size={25}
+                        weight="light"
+                        onClick={() => HandleaddToWishlist()}
+                      />
+                    )}
                   </div>
                 </div>
               </>

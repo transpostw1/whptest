@@ -4,7 +4,6 @@ import { CartProvider } from "@/context/CartContext";
 import { UserProvider } from "@/context/UserContext";
 import { ModalCartProvider } from "@/context/ModalCartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
-import { ModalWishlistProvider } from "@/context/ModalWishlistContext";
 import { CompareProvider } from "@/context/CompareContext";
 import { ModalSearchProvider } from "@/context/ModalSearchContext";
 import { ModalQuickviewProvider } from "@/context/ModalQuickviewContext";
@@ -22,7 +21,7 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
             <CartProvider>
               <ModalCartProvider>
                 <WishlistProvider>
-                  <ModalWishlistProvider>
+                  {/* <ModalWishlistProvider> */}
                     <CompareProvider>
                       <ModalSearchProvider>
                         <ModalQuickviewProvider>
@@ -30,7 +29,7 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
                         </ModalQuickviewProvider>
                       </ModalSearchProvider>
                     </CompareProvider>
-                  </ModalWishlistProvider>
+                  {/* </ModalWishlistProvider> */}
                 </WishlistProvider>
               </ModalCartProvider>
             </CartProvider>

@@ -51,7 +51,6 @@ const Explore = () => {
                     src={item.image}
                     width={2000}
                     height={1300}
-                    style={{width:"auto",height:"auto"}}
                     alt="banner1"
                     className="duration-1000"
                   />

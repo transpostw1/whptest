@@ -59,17 +59,19 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         <div className="text-title text-center">
           ₹{formattedPrice}
         </div>
-        <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
+        <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between  md:w-[100px] flex-shrink-0 w-20">
           <Icon.Minus
+            size={28}
             onClick={() => handleQuantityChange(product.quantity - 1)}
-            className={`text-base max-md:text-sm ${
+            className={`text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white ${
               product.quantity === 1 ? "disabled" : ""
             }`}
           />
-          <div className="text-button quantity">{product.quantity}</div>
+          <div className="text-button quantity mr-1 ml-1">{product.quantity}</div>
           <Icon.Plus
+          size={28}
             onClick={() => handleQuantityChange(product.quantity + 1)}
-            className="text-base max-md:text-sm"
+            className="text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white"
           />
         </div>
       </div>

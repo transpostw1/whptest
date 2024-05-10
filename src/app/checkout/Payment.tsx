@@ -6,15 +6,20 @@ import axios from "axios";
 import { Address } from "@/type/AddressType";
 import ReactLoading from "react-loading";
 import Cookie from "js-cookie";
+import { baseUrl } from "@/utils/constants";
 
 interface PaymentProps {
   selectedPaymentMethod: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
-  onOrderComplete: () => void;
+  onOrderComplete: (items: any) => void;
   selectedShippingAddress: Address | null;
   selectedBillingAddress: Address | null;
-  handleProceed: () => void; // Add this line
+  handleProceed: () => void;
+  mappedCartItems: any[];
+  couponCode: string;
+  totalDiscount: number; // Add the totalDiscount prop
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const Payment: React.FC<PaymentProps> = ({
@@ -25,9 +30,14 @@ const Payment: React.FC<PaymentProps> = ({
   selectedShippingAddress,
   selectedBillingAddress,
   handleProceed,
+  mappedCartItems,
+  couponCode,
+  totalDiscount,
+  setCartItems,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const cookieToken = Cookie.get("localtoken");
+
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -60,6 +70,7 @@ const Payment: React.FC<PaymentProps> = ({
           try {
             // Prepare the data to be sent to the API
             const orderData = {
+              orderId: order_id,
               shippingAddress: selectedShippingAddress
                 ? [
                     {
@@ -70,7 +81,7 @@ const Payment: React.FC<PaymentProps> = ({
                       state: selectedShippingAddress.state,
                       city: selectedShippingAddress.city,
                       landmark: selectedShippingAddress.landmark,
-                      pincode: selectedShippingAddress.pincode,
+                      pincode: selectedShippingAddress.pincode.toString(),
                     },
                   ]
                 : [],
@@ -84,15 +95,36 @@ const Payment: React.FC<PaymentProps> = ({
                       state: selectedBillingAddress.state,
                       city: selectedBillingAddress.city,
                       landmark: selectedBillingAddress.landmark,
-                      pincode: selectedBillingAddress.pincode,
+                      pincode: selectedBillingAddress.pincode.toString(),
                     },
                   ]
                 : [],
+              productDetails: {
+                products: mappedCartItems.map((item) => ({
+                  productId: item.productId.toString(),
+                  productAmount: item.price,
+                  quantity: item.quantity.toString(),
+                  productTotal: (item.price * item.quantity).toString(),
+                  discountAmount: "0", // Replace with the actual discount amount if available
+                  discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
+                })),
+                coupons: [
+                  {
+                    couponCode: couponCode, // Replace with the actual coupon code if available
+                    discountPrice: totalDiscount, // Replace with the actual discount price if available
+                  },
+                ],
+                productTotal: totalCart.toString(),
+                discountedTotal: (totalCart - totalDiscount).toString(),
+                shippingCharges:"10",
+              },
+
+              // Add other necessary data for productDetails, etc.
             };
 
             // Make the API call
             const apiResponse = await axios.post(
-              "http://164.92.120.19/api/orders",
+              `${baseUrl}/orders`,
               orderData,
               {
                 headers: {
@@ -104,7 +136,7 @@ const Payment: React.FC<PaymentProps> = ({
             // Handle the response as needed
 
             // Call the onOrderComplete function after the API call is successful
-            onOrderComplete();
+            onOrderComplete(setCartItems);
           } catch (error) {
             console.error("Error placing order:", error);
             // Handle the error as needed
@@ -155,8 +187,10 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading)
     return (
-      <div className="fixed inset-0 z-50 flex bg-white bg-opacity-50 h-full text-black text-5xl items-center justify-center">
-        <ReactLoading type="spin" color="#000" height={50} width={50} />
+      <div className="fixed inset-0 z-50 bg-black bg-opacity-5">
+      <div className="loading-container flex justify-center items-center h-full">
+          <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+        </div>
       </div>
     );
   return (

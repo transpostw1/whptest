@@ -233,7 +233,9 @@ const Checkout: React.FC = () => {
   });
   let formattedPrice: string = totalCart.toString();
 
-  const handleOrderComplete = () => {
+  const handleOrderComplete = (
+    setCartItems: React.Dispatch<React.SetStateAction<any[]>>
+  ) => {
     setIsOrderPlaced(true);
     // Reset the cart and other states
     setCartItems([]);
@@ -353,9 +355,9 @@ const Checkout: React.FC = () => {
 
     switch (selectedStep) {
       case 0:
-        return "Proceed to Delivery Details";
+        return "Address";
       case 1:
-        return "Proceed to Payment";
+        return "Payment";
       case 2:
         return "Place Order";
       default:
@@ -404,8 +406,8 @@ const Checkout: React.FC = () => {
   return (
     <>
       <div className="cart-block flex-wrap">
-        <div className="content-main flex flex-col justify-between px-14">
-          <div className="flex w-full justify-between items-center">
+        <div className="content-main flex flex-col justify-between lg:px-14 px-5">
+          <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
             <div className="flex gap-3">
               {isOrderPlaced ? (
                 <div className="flex">
@@ -423,10 +425,10 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-wrap mt-2 items-center">
+                <div className="flex mt-2 items-center sm:mr-1 lg:mr-3 p-2 w-full">
                   {steps.map((step, index) => (
                     <div
-                      className="flex items-center w-40"
+                      className="flex items-center lg:w-40 max-sm:w-25 max-md:w-25"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -439,21 +441,21 @@ const Checkout: React.FC = () => {
                       >
                         {step.icon}
                       </div>
-                      <h2 className="p-2 rounded-full cursor-pointer">
+                      <h2 className="rounded-full cursor-pointer">
                         {step.label}
                       </h2>
                       {index < steps.length - 1 && (
-                        <ArrowRight
-                          style={{ marginLeft: "10px", marginRight: "10px" }}
-                        />
+                        <Icon.CaretRight className="sm:mr-0 sm:ml-0 lg:mr-[10px] lg:ml-[10px]" />
                       )}
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            <h2>(Review of {cartItems.length} Items)</h2>
           </div>
+          {!isOrderPlaced ? (
+            <h2>(Review of {cartItems.length} Items)</h2>
+          ) : null}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
@@ -486,6 +488,10 @@ const Checkout: React.FC = () => {
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
+                  mappedCartItems={mappedCartItems}
+                  couponCode={couponCode}
+                  totalDiscount={totalDiscount}
+                  setCartItems={setCartItems}
                 />
               )}
 
@@ -595,6 +601,7 @@ const Checkout: React.FC = () => {
 
               {selectedStep !== 2 && (
                 <ProceedButton
+                  totalPrice={totalPrice}
                   isMobile={isMobile}
                   proceedButtonTitle={proceedButtonTitle()}
                   handleProceed={handleProceed}
@@ -605,10 +612,11 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+
       {isMobile && (
-        <div className="flex fixed bottom-0 bg-white">
+        <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>
-            <p className="font-bold text-lg">
+            <p className="font-bold text-[20px]">
               ₹
               {Intl.NumberFormat("en-IN", {
                 minimumFractionDigits: 2,
@@ -616,7 +624,15 @@ const Checkout: React.FC = () => {
             </p>
             <p className="text-[#e26178]">View Order Summary</p>
           </div>
-          <div></div>
+          <div
+            className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleProceed(useSameAsBillingAddress)}
+          >
+            <button className="">{proceedButtonTitle()}</button>
+            <span>
+              <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
+            </span>
+          </div>
         </div>
       )}
     </>

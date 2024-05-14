@@ -7,9 +7,6 @@ module.exports = {
   mode: "jit",
   jit: true,
   theme: {
-    // screens:{
-    //   '4xl':'2560px',
-    // },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

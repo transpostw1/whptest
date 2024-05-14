@@ -7,7 +7,7 @@ interface StarProps {
 
 const StarRating: React.FC<StarProps> = ({ stars }) => {
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
-    let number = index + 0.5;
+    let number = index + 0.3;
     return (
       <span key={index}>
         {stars >= index + 1 ? (

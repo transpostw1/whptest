@@ -57,8 +57,12 @@ const Reviews: React.FC = () => {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
+    prevArrow: (
+      <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
+    ),
+    nextArrow: (
+      <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
+    ),
     arrows: false,
     responsive: [
       {

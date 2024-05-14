@@ -71,7 +71,7 @@ const ProfilePage = () => {
           />
         )}
         {component === "personalInfo" && <MobilePersonalInformation handleComponent={handleComponent}/>}
-        {component==="orders"&&<MobileOrders orders={ordersData}/>}
+        {component==="orders"&&<MobileOrders orders={ordersData} handleComponent={handleComponent}/>}
         {component==="gms"&&<MobileGms handleComponent={handleComponent}/>}
       </div>
     );

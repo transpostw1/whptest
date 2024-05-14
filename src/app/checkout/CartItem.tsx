@@ -63,7 +63,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           <Icon.Minus
             size={28}
             onClick={() => handleQuantityChange(product.quantity - 1)}
-            className={`text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white ${
+            className={`text-base max-md:text-sm text-black border p-1 hover:bg-[#e26178] hover:text-white ${
               product.quantity === 1 ? "disabled" : ""
             }`}
           />

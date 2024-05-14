@@ -185,6 +185,7 @@ interface ProductDetails {
     updated_at: string;
   }[];
   review:any;
+  rating:any;
 }
 
 interface VariantOption {

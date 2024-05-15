@@ -1,0 +1,48 @@
+.card-stack .card {
+  width: 1100px;
+  height: 678px;
+  background-color: #ddd;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.4);
+  border-radius: 10px 10px 0px 0px;
+  display: inline-block;
+  position: absolute;
+  transform-origin: 0% 50%;
+  transition: all 1s ease;
+  text-align: right;
+  // padding: 5px;
+}
+.card-stack .card h4 {
+  color: #2e1c1d;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.card-stack {
+  display: inline-block;
+  position: relative;
+  left: 12%;
+  transform: translateX(-100px);
+}
+
+.card1 {
+  z-index: 1000;
+  left: 0;
+}
+
+.card2 {
+  z-index: 800;
+  left: 70px;
+}
+
+.card3 {
+  z-index: 600;
+  left: 140px;
+}
+
+
+@keyframes remove {
+  0% { transform: translateX(0px); opacity: 1; }
+  50% { transform: translateX(-80px); opacity: 0; }
+  51% { transform: translateX(10px) scale(0.97); opacity: 0; }
+  100% { transform: translateX(0px) scale(0.97); opacity: 1; }
+}

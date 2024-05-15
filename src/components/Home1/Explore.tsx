@@ -28,10 +28,10 @@ const Explore = () => {
     return (
       <div className="flex">
         <div>
-          <Skeleton height={300}/>
+          <Skeleton height={300} />
         </div>
         <div>
-          <Skeleton height={300}/>
+          <Skeleton height={300} />
         </div>
       </div>
     );

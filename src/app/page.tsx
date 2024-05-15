@@ -31,7 +31,7 @@ export default function Home() {
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
-        <Explore />
+        {/* <Explore /> */}
         {/* <Collection /> */}
         <ProductSlider data={products} start={0} limit={6} />
         {logged === "true" && (

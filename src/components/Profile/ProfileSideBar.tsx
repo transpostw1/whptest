@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import AddDetailsModal from "./AddDetailsModal";
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -12,6 +13,10 @@ const ProfileSidebar: React.FC<Props> = ({
   componentName,
   handleOrder,
 }) => {
+ const [isModalOpen, setModalOpen] = useState(false);
+
+ const openModal = () => setModalOpen(true);
+ const closeModal = () => setModalOpen(false);
 
   return (
     <div>
@@ -20,8 +25,11 @@ const ProfileSidebar: React.FC<Props> = ({
           D
         </div>
         <div>
-          <p className="text-xl font-semibold mt-2">Disha Jain</p>
-          <span className="flex text-[#e26178] mt-2">
+          <p className="text-xl font-semibold mt-2">Add Details</p>
+          <span
+            className="flex text-[#e26178] mt-2 cursor-pointer"
+            onClick={openModal}
+          >
             Edit Profile
             <span className="mt-1">
               <Icon.PencilSimple />
@@ -77,6 +85,7 @@ const ProfileSidebar: React.FC<Props> = ({
           </div>
         </div>
       </div>
+      <AddDetailsModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

@@ -52,19 +52,19 @@ const GoldCard: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#e4cf87] h-full border-4 border-[#D4AF37] rounded-lg">
-      <h3 className="font-semibold me-2">Gold</h3>
-      <h1 className="text-center text-4xl font-semibold py-5 text-[#E26178]">
+    <div className="bg-[#e4cf87] h-full border-4 border-[#D4AF37] rounded-lg p-4 md:p-0">
+      <h3 className="font-semibold text-end">Gold</h3>
+      <h1 className="text-center text-3xl md:text-4xl font-semibold py-5 text-[#E26178]">
         BENEFIT CALCULATOR FOR GOLD
       </h1>
-      <div className="flex flex-col md:flex-row justify-around items-center rounded-lg font-sans">
+      <div className="flex flex-col md:flex-row justify-around items-center rounded-lg font-medium">
         <div className="mb-5 md:mb-0 text-center">
           <h2 className="mb-2">I want to deposit</h2>
           <div className="flex items-center justify-center rounded p-2 border border-gray-700 bg-white mb-2">
-            <span className="text-4xl">₹</span>
+            <span className="text-2xl md:text-4xl">₹</span>
             <input
               type="text"
-              className="text-4xl font-bold mx-2 w-32 text-center remove-arrows border-none"
+              className="text-2xl md:text-4xl font-bold mx-2 w-24 md:w-32 text-center remove-arrows border-none"
               value={monthlyDeposit}
               onChange={handleChange}
               min="2000"
@@ -72,13 +72,13 @@ const GoldCard: React.FC = () => {
             />
             <div className="flex flex-col">
               <button
-                className="w-8 h-8 mb-1 text-lg bg-[#E26178] text-white border-none cursor-pointer hover:bg-[#c83d56]"
+                className="w-8 h-8 mb-1 text-lg md:text-xl bg-[#E26178] text-white border-none cursor-pointer hover:bg-[#c83d56]"
                 onClick={handleIncrement}
               >
                 +
               </button>
               <button
-                className="w-8 h-8 mt-1 text-lg bg-[#E26178] text-white border-none cursor-pointer hover:bg-[#c83d56]"
+                className="w-8 h-8 mt-1 text-lg md:text-xl bg-[#E26178] text-white border-none cursor-pointer hover:bg-[#c83d56]"
                 onClick={handleDecrement}
               >
                 -
@@ -90,18 +90,18 @@ const GoldCard: React.FC = () => {
         </div>
         <div className="text-center">
           <h2 className="mb-2">Your total amount</h2>
-          <div className="flex items-center justify-center border border-gray-700 rounded p-2 bg-white mb-2 h-24">
-            <span className="text-4xl">₹</span>
-            <span className="text-4xl font-bold mx-2">
+          <div className="flex items-center justify-center border border-gray-700 rounded p-2 bg-white mb-2 h-20 md:h-24">
+            <span className="text-2xl md:text-4xl">₹</span>
+            <span className="text-2xl md:text-4xl font-bold mx-2">
               {totalAmount.toLocaleString("en-IN")}
             </span>
           </div>
           <p>for {numberOfMonths} months</p>
         </div>
       </div>
-      <h1 className="text-center my-6 font-semibold">
+      <h1 className="text-center my-4 font-semibold text-2xl">
         TOTAL VALUE OF REDEMPTION ON 12TH MONTH(₹):
-        <span className="font-bold text-2xl ">
+        <span className="font-bold text-2xl md:text-3xl ">
           {" "}
           {redemptionAmount.toLocaleString("en-IN")}
         </span>
@@ -113,8 +113,8 @@ const GoldCard: React.FC = () => {
           monthlyDeposit={monthlyDeposit}
         />
       </div>
-      <div className="flex justify-center my-4">
-        <button className="bg-[#E26178] p-2 rounded-lg font-semibold text-white hover:scale-105 transition-transform">
+      <div className="flex justify-center my-2">
+        <button className="bg-[#E26178] p-2 md:p-4 rounded-lg font-semibold text-white hover:scale-105 transition-transform">
           Enroll now
         </button>
       </div>

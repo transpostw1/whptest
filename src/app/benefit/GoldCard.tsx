@@ -1,11 +1,12 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import PieChart from "./PieChart";
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
-  const numberOfMonths = 10;
+  const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
+  const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -51,9 +52,9 @@ const GoldCard: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f8c2cc] h-full border-4 border-[#D4AF37] rounded-lg">
-      <h3 className="font-semibold">Gold</h3>
-      <h1 className="text-center text-4xl font-semibold py-5">
+    <div className="bg-[#e4cf87] h-full border-4 border-[#D4AF37] rounded-lg">
+      <h3 className="font-semibold me-2">Gold</h3>
+      <h1 className="text-center text-4xl font-semibold py-5 text-[#E26178]">
         BENEFIT CALCULATOR FOR GOLD
       </h1>
       <div className="flex flex-col md:flex-row justify-around items-center rounded-lg font-sans">
@@ -62,13 +63,12 @@ const GoldCard: React.FC = () => {
           <div className="flex items-center justify-center rounded p-2 border border-gray-700 bg-white mb-2">
             <span className="text-4xl">₹</span>
             <input
-              type="number"
-              className="text-4xl font-bold mx-2 w-32 text-center remove-arrows"
+              type="text"
+              className="text-4xl font-bold mx-2 w-32 text-center remove-arrows border-none"
               value={monthlyDeposit}
               onChange={handleChange}
               min="2000"
               max="50000"
-              step="1000"
             />
             <div className="flex flex-col">
               <button
@@ -99,14 +99,27 @@ const GoldCard: React.FC = () => {
           <p>for {numberOfMonths} months</p>
         </div>
       </div>
-      <h1 className="text-center mt-20 font-semibold">
-        TOTAL VALUE OF REDEMPTION ON 13TH MONTH(₹): NIL{" "}
+      <h1 className="text-center my-6 font-semibold">
+        TOTAL VALUE OF REDEMPTION ON 12TH MONTH(₹):
+        <span className="font-bold text-2xl ">
+          {" "}
+          {redemptionAmount.toLocaleString("en-IN")}
+        </span>
       </h1>
       <div className="flex justify-center items-center">
-        <PieChart />
+        <PieChart
+          totalAmount={totalAmount}
+          redemptionAmount={redemptionAmount}
+          monthlyDeposit={monthlyDeposit}
+        />
+      </div>
+      <div className="flex justify-center my-4">
+        <button className="bg-[#E26178] p-2 rounded-lg font-semibold text-white hover:scale-105 transition-transform">
+          Enroll now
+        </button>
       </div>
     </div>
   );
 };
 
-export default GoldCard
+export default GoldCard;

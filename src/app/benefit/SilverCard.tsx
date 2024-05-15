@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import PieChart from "./PieChart";
+
 
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
-  const numberOfMonths = 10;
+  const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
+  const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -50,8 +54,8 @@ const SilverCard: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f8c2cc] h-full  border-4 border-[#BCC6CC] rounded-lg">
-      <h3 className="font-semibold">Silver</h3>
+    <div className="bg-[#d0d0d0] h-full  border-4 border-[#8d969b] rounded-lg">
+      <h3 className="font-semibold me-2">Silver</h3>
       <h1 className="text-center text-4xl font-semibold py-5">
         BENEFIT CALCULATOR FOR SILVER
       </h1>
@@ -98,9 +102,25 @@ const SilverCard: React.FC = () => {
           <p>for {numberOfMonths} months</p>
         </div>
       </div>
-      <h1 className="text-center mt-20 font-semibold">
-        TOTAL VALUE OF REDEMPTION ON 13TH MONTH(₹): NIL{" "}
+      <h1 className="text-center my-6 font-semibold">
+        TOTAL VALUE OF REDEMPTION ON 12TH MONTH(₹):
+        <span className="font-bold text-2xl ">
+          {" "}
+          {redemptionAmount.toLocaleString("en-IN")}
+        </span>
       </h1>
+      <div className="flex justify-center items-center">
+        <PieChart
+          totalAmount={totalAmount}
+          redemptionAmount={redemptionAmount}
+          monthlyDeposit={monthlyDeposit}
+        />
+      </div>
+      <div className="flex justify-center my-4">
+        <button className="bg-[#E26178] p-2 rounded-lg font-semibold text-white hover:scale-105 transition-transform">
+          Enroll now
+        </button>
+      </div>
     </div>
   );
 };

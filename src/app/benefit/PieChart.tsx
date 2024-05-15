@@ -1,15 +1,28 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
-const PieChart: React.FC = () => {
+interface PieChartProps {
+  totalAmount: number;
+  redemptionAmount: number;
+  monthlyDeposit: number;
+}
+
+const PieChart: React.FC<PieChartProps> = ({
+  totalAmount,
+  redemptionAmount,
+}) => {
+  const remainingAmount = redemptionAmount - totalAmount;
+
   const data = {
-    labels: ["You Pay", "Special Discount", "100% Discount"],
+    labels: ["You Pay", "50% of 1st Installment"],
     datasets: [
       {
-        data: [19500, 500, 2000],
-        backgroundColor: ["#f8c2cc", "#28a745", "#002d62"],
-        hoverBackgroundColor: ["#f8c2cc", "#28a745", "#002d62"],
+        data: [totalAmount, remainingAmount],
+        backgroundColor: ["#28a745", "#002d62"],
+        hoverBackgroundColor: ["#3F9142", "#003d7d"],
+        hoverOffset: 6,
       },
     ],
   };
@@ -17,29 +30,38 @@ const PieChart: React.FC = () => {
   const options = {
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: "top" as const,
+        labels: {
+          font: {
+            weight: "bold",
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context: any) => {
+            const label = data.labels[context.dataIndex];
+            const value = data.datasets[0].data[context.dataIndex];
+            return `${label}: ₹${value.toLocaleString()}`;
+          },
+        },
+      },
+      datalabels: {
+        color: "#fff",
+        font: {
+          weight: "bold",
+        },
+        formatter: (value: any, context: any) => {
+          return `₹${value.toLocaleString()}`;
+        },
       },
     },
   };
 
   return (
-    <div className="relative w-64 h-64">
-      <Pie data={data} options={options} />
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-center">
-          <p className="text-sm">You Pay</p>
-          <p className="text-xl line-through">₹20,000</p>
-          <p className="text-2xl font-bold">₹19,500</p>
-        </div>
-        <div className="absolute top-1/4 left-3/4 text-center">
-          <p className="text-sm">Special Discount</p>
-          <p className="text-xl font-bold text-green-700">₹500</p>
-        </div>
-        <div className="absolute bottom-1/4 left-1/4 text-center">
-          <p className="text-sm">100% Discount*</p>
-          <p className="text-xl font-bold text-blue-900">₹2,000</p>
-        </div>
-      </div>
+    <div className="relative w-64 h-64 ">
+      <Pie data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );
 };

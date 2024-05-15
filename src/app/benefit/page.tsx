@@ -4,7 +4,6 @@ import GoldCard from "./GoldCard";
 import DiamondCard from "./DiamondCard";
 import SilverCard from "./SilverCard";
 
-
 const Benefit = () => {
   const [cardArray, setCardArray] = useState<number[]>([1, 2, 3]);
 
@@ -26,7 +25,7 @@ const Benefit = () => {
         return <DiamondCard />;
       case 3:
         return <SilverCard />;
-        default :
+      default:
         return null;
     }
   };
@@ -36,12 +35,11 @@ const Benefit = () => {
       <div className="card-stack">
         {cardArray.map((card, index) => (
           <div
-            className={`card card${index + 1}`}
+            className={`card card${index + 1} rounded-lg`}
             key={card}
             onClick={() => nextCard(index)}
           >
             {getCard(card)}
-           
           </div>
         ))}
       </div>

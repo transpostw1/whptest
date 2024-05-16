@@ -85,11 +85,9 @@ const OtpVerification = ({
       console.log("Successfully signed in with OTP");
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-      console.log(auth.currentUser, "435435");
-      console.log(credential, "CREDDD");
+
 
       let endpoint = action === "login" ? login : signup;
-      console.log(endpoint, "dfgdgdfg");
       const response = await axios.post(
         endpoint,
         {
@@ -111,7 +109,7 @@ const OtpVerification = ({
       console.error("Error signing in with OTP:", error);
       setErrorMessage(error.response?.data?.message);
       if (error.response) {
-        console.error("Backend error data:", error.response.data);
+        console.error("Backend error data will show:", error.response.data);
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
         setErrorMessage(error.response?.data?.error);

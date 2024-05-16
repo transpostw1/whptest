@@ -18,10 +18,10 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    phone: Yup.string().required("Phone number is required"),
-    alternatePhone: Yup.string(),
+    phone: Yup.string(),
+    alternatePhone: Yup.string().required("Phone number is required"),
     gender: Yup.string().required("Gender is required"),
-    dateOfBirth: Yup.date().required("Date of birth is required"),
+    dateOfBirth: Yup.date(),
     profilePicture: Yup.mixed().required("Profile picture is required"),
   });
 
@@ -261,11 +261,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <div className="relative flex">
                 <div className="mr-2">
                   <select
-                    id="dobDay"
+                    id="dateOfBirth"
                     // name="dobDay"
-                    {...formik.getFieldProps("dobDay")}
+                    {...formik.getFieldProps("dateOfBirth")}
                     className={`block px-2.5 pb-2.5 pt-4 w-16 text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.dobDay
+                      formik.errors.dateOfBirth
                         ? "border-red-500"
                         : "border-gray-300"
                     } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -278,7 +278,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     ))}
                   </select>
                   <label
-                    htmlFor="dobDay"
+                    htmlFor="dateOfBirth"
                     className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                   >
                     Day
@@ -290,7 +290,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     // name="dobMonth"
                     {...formik.getFieldProps("dobMonth")}
                     className={`block px-2.5 pb-2.5 pt-4 w-24 text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.dobMonth
+                      formik.errors.dateOfBirth
                         ? "border-red-500"
                         : "border-gray-300"
                     } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -351,7 +351,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   </label>
                 </div>
               </div>
-              {(formik.errors.dobDay ||
+              {/* {(formik.errors.dobDay ||
                 formik.errors.dobMonth ||
                 formik.errors.dobYear) && (
                 <div className="text-red-500 mt-1">
@@ -359,7 +359,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     formik.errors.dobMonth ||
                     formik.errors.dobYear}
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <button

@@ -17,10 +17,10 @@ import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
   phoneNumber: string;
-  formikValues: any; // Define the type of formikValues prop
+  formikValues: any;
   onSubmit: (values: any) => void;
   isRegisterPage: boolean;
-  errorMessage: string | any; // Add errorMessage prop
+  errorMessage: string | any;
 }
 
 // class Token {
@@ -86,7 +86,6 @@ const OtpVerification = ({
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
 
-
       let endpoint = action === "login" ? login : signup;
       const response = await axios.post(
         endpoint,
@@ -100,7 +99,7 @@ const OtpVerification = ({
         }
       );
       logIn();
-      console.log( "LOGIN RESPPP",response.data.user);
+      console.log("LOGIN RESPPP", response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));
@@ -131,10 +130,11 @@ const OtpVerification = ({
     }
   };
   const handleCombinedClick = () => {
-    onVerify("login");
     if (isRegisterPage) {
       onVerify("signup");
       onSubmit(formikValues);
+    } else {
+      onVerify("login");
     }
   };
   const handleLoginSubmit = () => {

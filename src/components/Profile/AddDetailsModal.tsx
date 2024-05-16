@@ -8,9 +8,10 @@ interface ModalProps {
 
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
-    
+    phone: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,32 +38,32 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <div className="grid grid-cols-2 gap-2">
             <div className="mb-4">
               <label
-                htmlFor="name"
+                htmlFor="firstname"
                 className="block text-gray-700 font-semibold mb-2"
               >
                 First name
               </label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="firstname"
+                name="firstname"
+                value={formData.firstname}
                 onChange={handleChange}
                 className="w-full border border-gray-400 p-2 rounded-md"
               />
             </div>
             <div className="mb-4">
               <label
-                htmlFor="name"
+                htmlFor="lastname"
                 className="block text-gray-700 font-semibold mb-2"
               >
                 Last name
               </label>
               <input
                 type="text"
-                id="name"
+                id="lastname"
                 name="lastname"
-                value={formData.name}
+                value={formData.lastname}
                 onChange={handleChange}
                 className="w-full border border-gray-400 p-2 rounded-md"
               />
@@ -85,21 +86,21 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="Phone"
+                htmlFor="phone"
                 className="block text-gray-700 font-semibold mb-2"
               >
                 Phone
               </label>
               <input
-                type="number"
-                id="email"
-                name="Phone"
-                value={formData.email}
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
                 className="w-full border border-gray-400 p-2 rounded-md"
               />
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-center col-span-2">
               <button
                 type="submit"
                 className="bg-[#e26178] text-white py-2 px-4 rounded-md"

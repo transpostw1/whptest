@@ -41,7 +41,9 @@ const GoldScheme = () => {
                   Open a WHP Gold Scheme account with an amount as low as ₹2000.
                   Make regular installments and get discounts.
                 </p>
-                <h1 className="text-red underline">Benefit Calculator</h1>
+                <a href="/benefit" className="text-red underline">
+                  Benefit Calculator
+                </a>
               </div>
             </div>
           </div>

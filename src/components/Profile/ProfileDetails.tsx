@@ -25,6 +25,7 @@ const ProfileDetails = () => {
   
   const handleLogOut = () => {
     Cookies.remove("localtoken");
+    localStorage.clear();
     logOut();
     router.push("/");
   };
@@ -100,18 +101,10 @@ const ProfileDetails = () => {
           </p>
         </div>
       </div>
-      <div className="flex justify-between">
-        <div className="relative w-[80px] h-[80px] mt-4">
-          <div className="flex text-[#e26178] bg-[#E26178]  bg-opacity-5 w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-            D
-          </div>
-          <div className="absolute top-2 right-0 w-[20px] h-[20px] rounded-full bg-[#e26178] text-white">
-            <Icon.Pen />
-          </div>
-        </div>
-        <div>
+      <div className="flex justify-end">
+       
           <p className="font-bold">Wallet Balance:500</p>
-        </div>
+      
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">

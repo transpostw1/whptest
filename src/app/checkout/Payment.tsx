@@ -9,6 +9,7 @@ import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 
 interface PaymentProps {
+  orderPlaced: boolean;
   selectedPaymentMethod: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
@@ -23,6 +24,7 @@ interface PaymentProps {
 }
 
 const Payment: React.FC<PaymentProps> = ({
+  orderPlaced,
   selectedPaymentMethod,
   handlePaymentMethodChange,
   totalCart,
@@ -192,7 +194,7 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading)
     return (
-      <div className="fixed inset-0 z-50 bg-black bg-opacity-5">
+      <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
         <div className="loading-container flex justify-center items-center h-full">
           <Image
             src="/dummy/loader.gif"

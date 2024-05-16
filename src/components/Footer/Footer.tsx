@@ -41,15 +41,15 @@ const Footer = () => {
                   <div className="caption1  font-bold">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block w-full h-[52px] mt-2">
-                    <form className="w-full h-full relative" action="post">
+                  <div className="input-block w-full h-[52px] mt-2 relative">
+                    <form className="w-full h-full" action="post">
                       <input
                         type="email"
                         placeholder="Enter your e-mail"
-                        className="caption1 w-full h-full pl-4 pr-14  border border-line"
+                        className="caption1 w-full h-full pl-4 pr-14 border border-line"
                         required
                       />
-                      <button className="w-[44px] h-[44px] bg-pink flex items-center justify-center  absolute top-1 right-1">
+                      <button className="w-[44px] h-[44px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1">
                         <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>

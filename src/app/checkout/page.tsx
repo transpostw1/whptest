@@ -37,10 +37,9 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
+  const { totalDiscount, updateDiscount } = useCouponContext();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [couponCode, setCouponCode] = useState<string>("");
-
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
@@ -126,23 +125,24 @@ const Checkout: React.FC = () => {
       } catch (error) {
         console.log("Error occurred", error);
       } finally {
-        setLoading(false); // Set loading state to false after data fetching is complete
+        setLoading(false);
       }
     };
 
     fetchCouponData();
   }, [cartProductIds]);
 
-  let totalCartDiscount: number = 0;
-
-  Array.isArray(dataAfterCouponCode.discountedProducts) &&
-    dataAfterCouponCode.discountedProducts.map((element: any) => {
-      const discount = parseInt(element.discountedValue);
-      if (!isNaN(discount)) {
-        totalCartDiscount += discount;
-      }
-    });
-  updateTotalDiscount(totalCartDiscount);
+  useEffect(() => {
+    let totalCartDiscount: number = 0;
+    Array.isArray(dataAfterCouponCode.discountedProducts) &&
+      dataAfterCouponCode.discountedProducts.map((element: any) => {
+        const discount = parseInt(element.discountedValue);
+        if (!isNaN(discount)) {
+          totalCartDiscount += discount;
+        }
+      });
+    updateDiscount(totalCartDiscount);
+  }, [dataAfterCouponCode]);
 
   useEffect(() => {
     if (buyNow) {
@@ -210,6 +210,7 @@ const Checkout: React.FC = () => {
   //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
+    console.log("function is runnign");
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
@@ -397,6 +398,7 @@ const Checkout: React.FC = () => {
       label: "Payment",
     },
   ];
+
   const handleGiftWrapModal = () => {
     setShowModal(true);
   };
@@ -481,6 +483,7 @@ const Checkout: React.FC = () => {
               )}
               {selectedComponent === "Payment" && (
                 <Payment
+                  orderPlaced={isOrderPlaced}
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
@@ -514,7 +517,7 @@ const Checkout: React.FC = () => {
                     <h3 className="text-red-600 underline cursor-pointer">
                       View
                     </h3>
-                    {/* <input
+                    <input
                       className="border border-black"
                       type="text"
                       onChange={(e) => setCouponCode(e.target.value)}
@@ -524,7 +527,7 @@ const Checkout: React.FC = () => {
                       onClick={handleCouponCheck}
                     >
                       check
-                    </button> */}
+                    </button>
                   </div>
                   {couponsModal && <CouponsModal />}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">

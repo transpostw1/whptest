@@ -64,7 +64,7 @@ useEffect(() => {
   };
 
 const HandleaddToWishlist = () => {
-  addToWishlist(product.productDetails.productId);
+  addToWishlist(product?.productDetails?.productId);
   setIsProductInWishlist(true);
 };
 
@@ -72,9 +72,6 @@ const HandleremoveFromWishlist = () => {
    removeFromWishlist(product.productDetails.productId);
   setIsProductInWishlist(false);
 };
-
-
-
 
   const handleBuyNow = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(

@@ -7,8 +7,7 @@ import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
 import { useRouter } from "next/navigation";
-import {useUser} from "@/context/UserContext";
-
+import { useUser } from "@/context/UserContext";
 
 interface CartItem {
   productDetails: {
@@ -43,8 +42,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
-  const router=useRouter()
-  const { logOut} = useUser();
+  const router = useRouter();
+  const { logOut } = useUser();
 
   useEffect(() => {
     const userToken = Cookies.get("localtoken");
@@ -53,11 +52,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       setCookieToken(userToken);
     }
   }, []);
-
-
-
-
-  
 
   useEffect(() => {
     const cartItemsFromStorage = localStorage.getItem("cartItems");
@@ -81,7 +75,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeFromCart = (productId: number) => {
-
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId
     );
@@ -95,7 +88,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const updateCartQuantity = (productId: number, newQuantity: number) => {
-
     const updatedCartItems = cartItems.map((item) =>
       item.productId === productId ? { ...item, quantity: newQuantity } : item
     );
@@ -112,7 +104,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {
-    updateTotalDiscount(0)
+    let discount: number = 0;
+    updateTotalDiscount(discount);
     try {
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
@@ -129,9 +122,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       );
     } catch (error) {
       console.error("Error syncing cart with server:", error);
-      logOut()
-      router.push('/login')
-
+      logOut();
+      router.push("/login");
     }
   };
 

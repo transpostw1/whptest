@@ -16,16 +16,17 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { wishlistItems,addToWishlist, removeFromWishlist} = useWishlist();
-  const ratings=3.5;
+  const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+  const [hover, setHover] = useState<boolean>(false);
+  const ratings = 3.5;
   const router = useRouter();
 
-   useEffect(() => {
-     const isInWishlist = wishlistItems.some(
-       (item) => item.productId === data.productId
-     );
-     setIsProductInWishlist(isInWishlist);
-   }, [wishlistItems, data.productId]);
+  useEffect(() => {
+    const isInWishlist = wishlistItems.some(
+      (item) => item.productId === data.productId
+    );
+    setIsProductInWishlist(isInWishlist);
+  }, [wishlistItems, data.productId]);
 
   const sortedImages = data?.imageDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -33,7 +34,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
-    return null; 
+    return null;
   }
   const sortedVideos = data?.videoDetails?.sort(
     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -64,7 +65,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   return (
     <>
-      <div className="product-item grid-type ">
+      <div
+        className="product-item grid-type hover:border hover:p-2 hover:shadow-md hover:rounded-lg"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
         <div className="product-main cursor-pointer block">
           <div className="product-thumb bg-white relative overflow-hidden">
             {data?.videoDetails != null ? (
@@ -90,7 +95,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   <div className="relative">
                     <Image
                       onClick={() => handleDetailProduct()}
-                      className="w-[95%] duration-700 hover:scale-110  m-auto"
+                      className="w-[95%] duration-700  m-auto"
                       src={selected.image_path}
                       width={400}
                       height={400}
@@ -155,7 +160,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               </>
             )}
           </div>
-          <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
+          <div className=" mt-4 lg:mb-4" onClick={() => handleDetailProduct()}>
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
@@ -167,7 +172,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
             </div> */}
-            <StarRating stars={data.rating}/>
+            <StarRating stars={data.rating} />
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               {data?.discountPrice && (
@@ -180,7 +185,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   ₹{formattedOriginalPrice}
                 </div>
               )}
-              
+
               {data?.discountValue == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}
@@ -188,12 +193,28 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               )}
             </div>
             {data?.discountPrice && (
-                <p className="text-[#c95d71]">
-                  {data && data?.discountValue}%OFF
-                </p>
-              )}
+              <p className="text-[#c95d71]">
+                {data && data?.discountValue}%OFF
+              </p>
+            )}
           </div>
         </div>
+        {hover && (
+          <div>
+            <button
+              className="px-3 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d]"
+              onClick={() => console.log("tryAtHome")}
+            >
+              Try At Home
+            </button>
+            <button
+              className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d]"
+              onClick={() => console.log("view Similar")}
+            >
+              View Similar
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

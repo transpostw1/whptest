@@ -18,7 +18,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { totalDiscount,updateTotalDiscount} = useCouponContext();
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {
-      updateTotalDiscount(0)
+      let discount=0;
+      updateTotalDiscount(discount)
       updateCartQuantity(product.productId, newQuantity);
     } else {
       removeFromCart(product.productId);

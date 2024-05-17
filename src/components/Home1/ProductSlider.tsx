@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
+import DummyProduct from "../Other/DummyProduct";
 import Product from "../Product/Product";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import axios from "axios";
+import { baseUrl } from "@/utils/constants";
 
 interface Props {
   data: ProductType[];
@@ -14,9 +17,25 @@ interface Props {
   limit: number;
 }
 
-const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
+const ProductSlider: React.FC<Props> = ({ start, limit }) => {
   const swiperRef = useRef<any>();
-  const filteredProducts = data;
+  const [data, setData] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${baseUrl}/best-sellers`);
+        setData(await response.data);
+      } catch (error) {
+        console.log();
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, []);
 
   return (
     <>
@@ -28,10 +47,10 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
             </div>
             <div className="flex">
               <button onClick={() => swiperRef.current.slidePrev()}>
-                <Icon.CaretLeft size={30}/>
+                <Icon.CaretLeft size={30} />
               </button>
               <button onClick={() => swiperRef.current.slideNext()}>
-                <Icon.CaretRight size={30}/>
+                <Icon.CaretRight size={30} />
               </button>
             </div>
           </div>
@@ -60,11 +79,12 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
                 },
               }}
             >
-              {filteredProducts.slice(start, limit).map((prd, index) => (
-                <SwiperSlide key={index}>
-                  <Product data={prd} />
-                </SwiperSlide>
-              ))}
+              {Array.isArray(data) &&
+                data.map((prd: any, index: any) => (
+                  <SwiperSlide key={index}>
+                    <DummyProduct data={prd} />
+                  </SwiperSlide>
+                ))}
             </Swiper>
           </div>
         </div>

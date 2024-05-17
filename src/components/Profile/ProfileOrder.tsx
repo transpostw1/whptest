@@ -25,12 +25,10 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   useEffect(() => setSingleOrder(orders), [orders]);
 
   const handleOrderDetails = (id: any) => {
-  
     setSingleOrder(() => {
       const matchingOrder = orders.find((order: any) => order.id === id);
       return matchingOrder ? [matchingOrder] : [];
     });
-    
   };
   const handleOrderCancel = async (id: any) => {
     try {
@@ -50,7 +48,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       setLoading(false);
     }
   };
-
+  console.log("SingleOrders", singleOrder);
   const handleBack = () => {
     setSingleOrder(null);
   };
@@ -160,29 +158,28 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
         <div>
           {singleOrder[0]?.productDetails.map((items: any, index: any) => (
             <div key={index} className="flex justify-between p-4">
-              {items.productDetails.map((product:any,index:any)=>(
+              {items.productDetails.map((product: any, index: any) => (
                 <div className="flex" key={index}>
-                <div className="mr-3">
-                  <Image
-                    src={product?.imageDetails[0].image_path}
-                    alt={"image"}
-                    width={85}
-                    height={85}
-                  />
+                  <div className="mr-3">
+                    <Image
+                      src={product?.imageDetails[0].image_path}
+                      alt={"image"}
+                      width={85}
+                      height={85}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold">
+                      {product?.displayTitle}
+                    </p>
+                    <p>
+                      {product?.metalType}-{product?.metalWeight}
+                    </p>
+                    <p>Quantity:{items?.quantity}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xl font-semibold">
-                    {product?.displayTitle}
-                  </p>
-                  <p>
-                    {product?.metalType}-
-                    {product?.metalWeight}
-                  </p>
-                  <p>Quantity:{items?.quantity}</p>
-                </div>
-              </div>
               ))}
-              
+
               <div className="font-semibold">
                 ₹
                 {Intl.NumberFormat("en-IN", {

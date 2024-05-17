@@ -17,10 +17,10 @@ import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
   phoneNumber: string;
-  formikValues: any; // Define the type of formikValues prop
+  formikValues: any;
   onSubmit: (values: any) => void;
   isRegisterPage: boolean;
-  errorMessage: string | any; // Add errorMessage prop
+  errorMessage: string | any;
 }
 
 // class Token {
@@ -85,11 +85,8 @@ const OtpVerification = ({
       console.log("Successfully signed in with OTP");
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-      console.log(auth.currentUser, "435435");
-      console.log(credential, "CREDDD");
 
       let endpoint = action === "login" ? login : signup;
-      console.log(endpoint, "dfgdgdfg");
       const response = await axios.post(
         endpoint,
         {
@@ -102,7 +99,7 @@ const OtpVerification = ({
         }
       );
       logIn();
-      console.log( "LOGIN RESPPP",response.data.user);
+      console.log("LOGIN RESPPP", response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));
@@ -111,7 +108,7 @@ const OtpVerification = ({
       console.error("Error signing in with OTP:", error);
       setErrorMessage(error.response?.data?.message);
       if (error.response) {
-        console.error("Backend error data:", error.response.data);
+        console.error("Backend error data will show:", error.response.data);
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
         setErrorMessage(error.response?.data?.error);
@@ -133,10 +130,11 @@ const OtpVerification = ({
     }
   };
   const handleCombinedClick = () => {
-    onVerify("login");
     if (isRegisterPage) {
       onVerify("signup");
       onSubmit(formikValues);
+    } else {
+      onVerify("login");
     }
   };
   const handleLoginSubmit = () => {

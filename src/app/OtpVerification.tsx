@@ -98,12 +98,17 @@ const OtpVerification = ({
           },
         }
       );
-      logIn();
+      // logIn();
       console.log("LOGIN RESPPP", response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));
-      router.push("/");
+      // router.push("/");
+      if (action === "signup") {
+        router.push("/login");
+      } else {
+        logIn();
+      }
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);
       setErrorMessage(error.response?.data?.message);

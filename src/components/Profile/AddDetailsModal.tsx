@@ -2,15 +2,28 @@ import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useUser } from "@/context/UserContext";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface FormValues {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  alternatePhone: string;
+  gender: string;
+  dateOfBirth: string;
+  profilePicture: File | null;
+}
+
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
+  const { addUserDetails } = useUser();
 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -19,24 +32,23 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       .email("Invalid email address")
       .required("Email is required"),
     phone: Yup.string(),
-    alternatePhone: Yup.string().required("Phone number is required"),
+    alternatePhone: Yup.string().required("Alternate phone number is required"),
     gender: Yup.string().required("Gender is required"),
-    dateOfBirth: Yup.date(),
+    dateOfBirth: Yup.string().required("Date of birth is required"),
     profilePicture: Yup.mixed().required("Profile picture is required"),
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: FormValues) => {
     setIsLoading(true);
     setFormError("");
 
     try {
-      console.log("inisideeeee");
-      console.log(values);
-      alert(JSON.stringify(values, null, 2));
+      await addUserDetails(
+        values as Omit<FormValues, "profilePicture"> & { profilePicture: File }
+      );
       onClose();
       formik.resetForm();
     } catch (error) {
-      console.error("Error submitting form:", error);
       setFormError(
         "An error occurred while submitting the form. Please try again later."
       );

@@ -108,6 +108,7 @@ const OtpVerification = ({
         router.push("/login");
       } else {
         logIn();
+        router.push("/");
       }
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);

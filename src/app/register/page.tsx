@@ -29,7 +29,6 @@ const Register = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
        setSubmitted(true);
       alert(JSON.stringify(values, null, 2));
     },

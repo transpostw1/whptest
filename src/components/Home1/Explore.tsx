@@ -24,6 +24,7 @@ const Explore = () => {
     };
     fetchSubBanners();
   }, []);
+  console.log("SubBanners",data.Component_Two);
   if (loading) {
     return (
       <div className="flex">
@@ -40,7 +41,7 @@ const Explore = () => {
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
         {data &&
-          data.map((item: any) => (
+          data?.Component_Two?.map((item: any) => (
             <div key={item.id}>
               <Link
                 href={"/products"}
@@ -51,7 +52,6 @@ const Explore = () => {
                     src={item.image}
                     width={2000}
                     height={1300}
-                    style={{width:"auto",height:"auto"}}
                     alt="banner1"
                     className="duration-1000"
                   />

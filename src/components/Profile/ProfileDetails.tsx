@@ -19,11 +19,12 @@ const ProfileDetails = () => {
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
-      console.log("this effecct is running");
       router.replace("/");
     }
   }, [isLoggedIn, router]);
+  
   const handleLogOut = () => {
+    Cookies.remove("localtoken");
     logOut();
     router.push("/");
   };

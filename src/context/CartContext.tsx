@@ -7,8 +7,7 @@ import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
 import { useRouter } from "next/navigation";
-import {useUser} from "@/context/UserContext";
-
+import { useUser } from "@/context/UserContext";
 
 interface CartItem {
   productDetails: {
@@ -39,12 +38,12 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { totalDiscount, setTotalDiscount } = useCouponContext();
+  const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
-  const router=useRouter()
-  const { logOut} = useUser();
+  const router = useRouter();
+  const { logOut } = useUser();
 
   useEffect(() => {
     const userToken = Cookies.get("localtoken");
@@ -66,20 +65,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isLoggedIn]);
 
   const addToCart = (item: CartItem, quantity: number) => {
-    setTotalDiscount(0);
     const newItem = { ...item, quantity };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
-      setTotalDiscount(0);
       syncCartWithServer([...cartItems, newItem]);
     }
   };
 
   const removeFromCart = (productId: number) => {
-    setTotalDiscount(0);
-
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId
     );
@@ -88,14 +83,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage(updatedCartItems);
 
     if (isLoggedIn) {
-      setTotalDiscount(0);
       syncCartWithServer(updatedCartItems);
     }
   };
 
   const updateCartQuantity = (productId: number, newQuantity: number) => {
-    setTotalDiscount(0);
-
     const updatedCartItems = cartItems.map((item) =>
       item.productId === productId ? { ...item, quantity: newQuantity } : item
     );
@@ -103,7 +95,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage(updatedCartItems);
 
     if (isLoggedIn) {
-      setTotalDiscount(0);
       syncCartWithServer(updatedCartItems);
     }
   };
@@ -113,9 +104,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {
-    
+    let discount: number = 0;
+    updateTotalDiscount(discount);
     try {
-      setTotalDiscount(0)
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
@@ -131,9 +122,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       );
     } catch (error) {
       console.error("Error syncing cart with server:", error);
-      logOut()
-      router.push('/login')
-
+      logOut();
+      router.push("/login");
     }
   };
 

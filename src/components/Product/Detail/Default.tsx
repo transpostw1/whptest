@@ -26,6 +26,7 @@ import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
+import StarRating from "@/components/Other/StarRating";
 
 interface Props {
   productId: string | number | null;
@@ -70,7 +71,6 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
-      console.log("variant url", newUrl);
       setLoading(true);
       const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await response.data);
@@ -84,7 +84,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     3,
     data?.productDetails?.imageDetails?.length || 0
   );
-  let sliderRef = useRef<Slider>();
+  let sliderRef = useRef<any>();
   const settingsThumbnails = {
     dots: false,
     infinite: true,
@@ -125,8 +125,10 @@ const Default: React.FC<Props> = ({ productId }) => {
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails
-                    .sort((a:any, b:any) => parseInt(a.order) - parseInt(b.order))
-                    .map((image:any, index:any) => (
+                    .sort(
+                      (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
+                    )
+                    .map((image: any, index: any) => (
                       <div key={index} className="">
                         <InnerImageZoom
                           src={image.image_path}
@@ -151,7 +153,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                           (a: any, b: any) =>
                             parseInt(a.order) - parseInt(b.order)
                         )
-                        .map((image:any, index:any) => (
+                        .map((image: any, index: any) => (
                           <div key={index}>
                             <Image
                               src={image?.image_path}
@@ -198,32 +200,35 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
-              <p className="font-semibold text-3xl">
-                {data?.productDetails.displayTitle}
-              </p>
-              <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
-                <Icon.ShareFat size={30} weight="fill" className="text-white" />
-              </span>
-            </div>
+            <>
+              <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
+                <p className="font-semibold text-3xl">
+                  {data?.productDetails.displayTitle}
+                </p>
+                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
+                  <Icon.ShareFat
+                    size={30}
+                    weight="fill"
+                    className="text-white"
+                  />
+                </span>
+              </div>
+              {data?.productDetails?.review && (
+                <div className="flex flex-wrap mb-2">
+                  <div>
+                    <span className="underline mr-2 cursor-pointer">
+                      {data?.productDetails?.review.length} Review
+                    </span>
+                  </div>
+                  <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
+                    3
+                  </div>
+                    <StarRating stars={data?.productDetails?.rating} />
+                  
+                </div>
+              )}
+            </>
           )}
-          <div className="flex flex-wrap mb-2">
-            <div>
-              <span className="underline mr-2 cursor-pointer">12 Review</span>
-            </div>
-            <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
-              3
-            </div>
-            <div className="flex">
-              <span className="flex mt-1">
-                <Icon.Star weight="fill" color="#f4ed25" />
-                <Icon.Star weight="fill" color="#f4ed25" />
-                <Icon.Star weight="fill" color="#f4ed25" />
-                <Icon.Star weight="fill" color="#f4ed25" />
-                <Icon.Star weight="fill" color="#f4ed25" />
-              </span>
-            </div>
-          </div>
           {loading ? (
             <Skeleton height={30} />
           ) : (

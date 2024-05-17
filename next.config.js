@@ -15,6 +15,9 @@ const nextConfig = {
             },{
                 protocol:"https",
                 hostname:"wamanharipethe.s3.amazonaws.com/menu_images",
+            },{
+                protocol:"https",
+                hostname:"wamanharipethe.s3.ap-south-1.amazonaws.com/profile_picture"
             }
         ],
     },

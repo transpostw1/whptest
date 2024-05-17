@@ -18,7 +18,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
           <p>{item.VariantType}</p>
           <div className="relative">
             <select
-              className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-[7.7rem] sm:w-20 md:w-[7.5rem]"
+              className="bg-[#faf9f9] p-4 pt-2 pb-2 mr-2 block appearance-none lg:w-36 sm:w-20 md:w-[7.5rem]"
               onChange={(e) => {
                 handleNewVariants(e);
               }}

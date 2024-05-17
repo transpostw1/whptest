@@ -64,7 +64,6 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     const fetchData = async () => {
       setCustomcategory(localStorage.getItem("category"));
-      console.log("category:", category);
 
       try {
         setIsLoading(true);

@@ -1,136 +1,47 @@
 {
-    "productDetails": {
-        "productId": 237,
-        "SKU": "DBG0001",
-        "variantId": "DBG0001A2",
-        "isParent": 236,
-        "title": "Rose Gold Diamond Bangle",
-        "displayTitle": "Rose Gold Diamond Bangle",
-        "shortDesc": null,
-        "longDesc": null,
-        "url": "rolse-gold-diamond-bangle",
-        "tags": [
-            "Jewellery",
-            "diamond-bangle",
-            "golden bangle",
-            "rose gold bangle"
-        ],
-        "collectionName": null,
-        "shopFor": [
-            "Women"
-        ],
-        "occasion": "Casual Wear",
-        "theme": "Wedding",
-        "length": null,
-        "breadth": null,
-        "height": null,
-        "weightRange": "10 gms and above",
-        "addDate": "2024-05-02",
-        "lastModificationDate": null,
-        "created_at": "2024-05-02T05:50:01.000000Z",
-        "updated_at": "2024-05-02T05:50:01.000000Z",
-        "sizeId": null,
-        "productSize": null,
-        "productQty": 10,
-        "attributeId": 224,
-        "preSalesProductQueries": null,
-        "isReplaceable": 1,
-        "isReturnable": 0,
-        "isInternationalShippingAvailable": 1,
-        "customizationAvailability": 1,
-        "fastDelivery": 0,
-        "tryAtHome": 0,
-        "isActive": 1,
-        "grossWeight": null,
-        "netWeight": null,
-        "productAttributes": {
-            "goldDetails": [
-                {
-                    "goldCertifiedBy": "BIS HallMarked",
-                    "goldSetting": null
-                }
-            ],
-            "gemstoneDetails": null,
-            "diamondDetails": null,
-            "silverDetails": [
-                {
-                    "poojaArticle": null,
-                    "utensils": null,
-                    "silverWeight": null
-                }
-            ]
-        },
-        "discountId": 92,
-        "discountCategory": "Making Charges",
-        "discountActive": 1,
-        "typeOfDiscount": "Percentage",
-        "discountValue": "26.00",
-        "discountAmount": "9750.00",
-        "discountPrice": "227314.80",
-        "offerStartDate": "2024-05-01",
-        "offerEndDate": "2024-05-31",
-        "mediaId": 133,
-        "imageDetails": "[{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)01%20(1).jpg\",\"order\":0,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)02%20(1).jpg\",\"order\":1,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)03%20(1).jpg\",\"order\":2,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629007_DBG%20(0001)04%20(1).jpg\",\"order\":3,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629008_DBG%20(0001)%20(1).jpg\",\"order\":4,\"alt_text\":null},{\"image_path\":\"https:\/\/wamanharipethe.s3.amazonaws.com\/products\/images\/237\/1714629001_DBG%20(0001)05%20(1).jpg\",\"order\":5,\"alt_text\":null}]",
-        "videoDetails": null,
-        "materialId": 213,
-        "metalType": "Rose Gold",
-        "metalPurity": "18KT",
-        "metalWeight": "15.0000",
-        "metalRate": "90060.0000",
-        "makingType": "fixed",
-        "makingChargesPerGrams": "2500.0000",
-        "makingCharges": "37500.0000",
-        "gst": "6904.8000",
-        "additionalCost": null,
-        "productPrice": "237064.8000",
-        "stoneDetails": null,
-        "diamondDetails": [
-            {
-                "diamondColor": "GH",
-                "diamondClarity": "VSI",
-                "diamondQuantity": "108",
-                "caratWeight": "1.08",
-                "diamondCost": "102600"
-            }
-        ],
-        "categories": [
-            {
-                "catId": 82,
-                "productId": 237,
-                "productType": null,
-                "productSubType": null,
-                "productSubSubType": null,
-                "created_at": "2024-05-02T05:50:01.000000Z",
-                "updated_at": "2024-05-02T05:50:01.000000Z"
-            }
-        ]
-    },
-    "variants": [
-        {
-            "VariantType": "Gold",
-            "VariantOption": [
-                {
-                    "ProductUrl": "rolse-gold-diamond-bangle-0p237-0sDBG0001-0vDBG0001A2",
-                    "VariantName": "Rose Gold"
-                },
-                {
-                    "ProductUrl": "yellow-golden-diamond-bangle-0p236-0sDBG0001-0vDBG0001A1",
-                    "VariantName": "Yellow Gold"
-                }
-            ]
-        },
-        {
-            "VariantType": "Size",
-            "VariantOption": [
-                {
-                    "ProductUrl": "rolse-gold-diamond-bangle-0p237-0sDBG0001-0vDBG0001A2",
-                    "VariantName": "2.5"
-                },
-                {
-                    "ProductUrl": "yellow-golden-diamond-bangle-0p236-0sDBG0001-0vDBG0001A1",
-                    "VariantName": "2.5"
-                }
-            ]
-        }
-    ]
+  "paymentDetails": {
+    "paymentId": "pay_O8hoqXAEsLDZub",
+    "orderId": "order_O8hoQ9W9zZyzBE",
+    "signature": "99ddcf64e852e064e368e7c401cb98357bb54485fdefdf5e4305f7649d4cdd03"
+  },
+  "shippingAddress": [
+    {
+      "addressId": 50,
+      "addressType": "home",
+      "fullAddress": "l.g 105,sunder baug,indira nagar",
+      "country": "IN",
+      "state": "MH",
+      "city": "Mumbai",
+      "landmark": null,
+      "pincode": "400069"
+    }
+  ],
+  "billingAddress": [
+    {
+      "addressId": 50,
+      "addressType": "home",
+      "fullAddress": "l.g 105,sunder baug,indira nagar",
+      "country": "IN",
+      "state": "MH",
+      "city": "Mumbai",
+      "landmark": null,
+      "pincode": "400069"
+    }
+  ],
+  "productDetails": {
+    "products": [
+      {
+        "productId": "143",
+        "productAmount": "43638.40",
+        "quantity": "1",
+        "productTotal": "43638.4",
+        "discountAmount": "0",
+        "discountedTotal": "43638.4"
+      }
+    ],
+    "coupons": [{ "couponCode": "", "discountPrice": 0 }],
+    "productTotal": "43638",
+    "discountedTotal": "43638",
+    "shippingCharges": "10"
+  }
 }

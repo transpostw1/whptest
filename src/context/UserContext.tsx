@@ -161,7 +161,9 @@ const addUserDetails = async (details: UserDetails) => {
   });
 
   try {
-    const response = await instance.post(updateProfile, formData,);
+    const response = await instance.post(updateProfile, formData,{
+      
+    });
     return response.data;
   } catch (error) {
     console.error("Error adding user details:", error);

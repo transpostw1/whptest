@@ -70,7 +70,7 @@ const StickyNav = () => {
             <p>Offers</p>
           </div>
         </Link>
-        <Link href={""}>
+        <Link href={"/profile"}>
           <div
             className={`${
               clicked === 4 ? "text-[#e26178]" : ""

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions"; // Replace with your hook path
 import { ProductType } from "@/type/ProductType";
@@ -24,13 +24,14 @@ const FilterSidebar: React.FC<Props> = ({
   const [fixedHeader, setFixedHeader] = useState<boolean>(false);
   const [lastScrollPosition, setLastScrollPosition] = useState<any>(0);
 
+  const divRef = useRef<any>(null);
+
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
   };
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      console.log("scrollPosition",scrollPosition);
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
           scrollPosition > lastScrollPosition
@@ -85,53 +86,64 @@ const FilterSidebar: React.FC<Props> = ({
     });
     onFilterChange(filteredArray);
   }, [selectedOptions, data]);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const { bottom } = divRef.current.getBoundingClientRect();
+    };
+
+    // Attach scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const stickyRef = useStickyBox({ offsetTop: 20, offsetBottom: 20 });
 
   return (
     <>
       <div
         className={`sidebar lg:w-[300px] md:w-1/3 w-full md:pr-12 lg:block hidden md:block`}
+        ref={divRef}
       >
-        
-          <div
-            className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-              fixedHeader ? "fixed top-[121px] w-[250px]" : "relative"
-            }`}
-          >
-            <div className="heading6 border-b-2">FILTER BY</div>
-            <div className="mt-5">
-              <p className="heading7">Applied Filters</p>
-            </div>
-
-            <div className="flex flex-wrap">
-              {Object.entries(selectedOptions).flatMap(([category, options]) =>
-                options.map((option: string, index: number) => (
-                  <div
-                    key={`${category}-${index}`}
-                    className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
-                  >
-                    {option}
-                    <button
-                      className="ml-2 align-middle mb-1"
-                      onClick={() => handleOptionSelect(option, category)}
-                    >
-                      <Icon.X size={20} />
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div className="list-type mt-4">
-              <FilterOptions
-                filterDropDown={filterDropDown}
-                handleFilterDropdown={handleFilterDropdown}
-                handleOptionSelect={handleOptionSelect}
-                selectedOptions={selectedOptions}
-              />
-            </div>
+        <div
+          className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
+            fixedHeader ? "fixed top-[121px] w-[250px]" : "relative"
+          }`}
+        >
+          <div className="heading6 border-b-2">FILTER BY</div>
+          <div className="mt-5">
+            <p className="heading7">Applied Filters</p>
           </div>
-        
+
+          <div className="flex flex-wrap">
+            {Object.entries(selectedOptions).flatMap(([category, options]) =>
+              options.map((option: string, index: number) => (
+                <div
+                  key={`${category}-${index}`}
+                  className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                >
+                  {option}
+                  <button
+                    className="ml-2 align-middle mb-1"
+                    onClick={() => handleOptionSelect(option, category)}
+                  >
+                    <Icon.X size={20} />
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className="list-type mt-4">
+            <FilterOptions
+              filterDropDown={filterDropDown}
+              handleFilterDropdown={handleFilterDropdown}
+              handleOptionSelect={handleOptionSelect}
+              selectedOptions={selectedOptions}
+            />
+          </div>
+        </div>
       </div>
       {mobileFilter && (
         <div className="fixed inset-0 bg-white z-10 h-[100vh] ">

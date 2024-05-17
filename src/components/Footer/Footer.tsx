@@ -1,9 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 const Footer = () => {
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
+
   return (
     <>
       <div id="footer" className="footer  text-rose-950">
@@ -33,15 +41,15 @@ const Footer = () => {
                   <div className="caption1  font-bold">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block w-full h-[52px] mt-2">
-                    <form className="w-full h-full relative" action="post">
+                  <div className="input-block w-full h-[52px] mt-2 relative">
+                    <form className="w-full h-full" action="post">
                       <input
                         type="email"
                         placeholder="Enter your e-mail"
-                        className="caption1 w-full h-full pl-4 pr-14  border border-line"
+                        className="caption1 w-full h-full pl-4 pr-14 border border-line"
                         required
                       />
-                      <button className="w-[44px] h-[44px] bg-pink flex items-center justify-center  absolute top-1 right-1">
+                      <button className="w-[44px] h-[44px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1">
                         <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>
@@ -90,6 +98,12 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/about-waman-hari-pethe-jewellers"}
+                    >
+                      About-Us
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"/faqs"}
                     >
                       FAQs
@@ -134,9 +148,9 @@ const Footer = () => {
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"#!"}
+                      href={"/terms-and-condition"}
                     >
-                      Orders FAQs
+                      Terms & Conditions
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
@@ -144,24 +158,27 @@ const Footer = () => {
                     >
                       Shipping
                     </Link>
-                    <Link
+                    <a
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={"/terms-and-condition#privacyPolicy"}
                     >
                       Privacy Policy
-                    </Link>
+                    </a>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={"/terms-and-condition#returnandRefund"}
                     >
                       Return & Refund
                     </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"https://calendly.com/aadityatelange/30min"}
+                    <div
+                      className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
+                      onClick={() => setAppointmentModal(true)}
                     >
                       Book,Exchange and BuyBack
-                    </Link>
+                    </div>
+                    {appointmentModal && (
+                      <BookExchangeModal closeModal={handleOnClose} />
+                    )}
                   </div>
                 </div>
                 <div className="item flex flex-col md:ml-14 lg:ml-14">

@@ -3,15 +3,16 @@
 "use client";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductType } from "@/type/ProductType";
+import { ProductType, ProductData } from "@/type/ProductType";
 import { TbReplace } from "react-icons/tb";
 import { GiCargoShip } from "react-icons/gi";
 import { VscTools } from "react-icons/vsc";
+import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { TbHomeCheck } from "react-icons/tb";
 
 interface Props {
-  product: ProductType;
+  product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
@@ -19,7 +20,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
   const makingCharges: any =
-    parseFloat(product?.makingCharges) + parseFloat(product?.additionalCost);
+    parseFloat(product?.productDetails?.makingCharges) +
+    parseFloat(product?.productDetails?.additionalCost);
   return (
     <div className="mt-7 ">
       <div className="p-4 border-t-2 border-[#f7f7f7]">
@@ -101,46 +103,49 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <div className="p-2">
                 <Icon.Scales className="mr-1 mt-1" size={27} />
                 <p>
-                  {product?.metalWeight}gms, {product?.metalType}
+                  {product?.productDetails?.metalWeight}gms,{" "}
+                  {product?.productDetails?.metalType}
                 </p>
               </div>
               <div className="p-2">
                 <Icon.HandCoins className="mr-1 mt-1" size={27} />
                 <p>
-                  {product.metalPurity} {product.metalType}
+                  {product?.productDetails.metalPurity}{" "}
+                  {product?.productDetails.metalType}
                 </p>
               </div>
-              {product?.isReturnable == 1 && (
+              {product?.productDetails?.isReturnable == 1 && (
                 <div className="p-2">
                   <Icon.ArrowsLeftRight className="mr-1 mt-1" size={27} />
                   <p>7 days easy returns</p>
                 </div>
               )}
-              {product?.isReplaceable === 1 && (
+              {product?.productDetails?.isReplaceable === 1 && (
                 <div className="p-2">
                   <TbReplace className="mr-1 mt-1" size={27} />
                   <p>7 days easy replaceable</p>
                 </div>
               )}
-              {product?.isInternationalShippingAvailable === 1 && (
+              {product?.productDetails?.isInternationalShippingAvailable ===
+                1 && (
                 <div className="p-2">
                   <GiCargoShip className="mr-1 mt-1" size={27} />
                   <p>Delivered Internationally</p>
                 </div>
               )}
-              {product?.customizationAvailability === 1 && (
+              {product?.productDetails?.customizationAvailability === 1 && (
                 <div className="p-2">
                   <VscTools className="mr-1 mt-1" size={27} />
                   <p>Customization Available</p>
                 </div>
               )}
-              {product?.fastDelivery === 1 && (
+              {product?.productDetails?.fastDelivery === 1 && (
                 <div className="p-2">
                   <FaShippingFast className="mr-1 mt-1" size={27} />
                   <p>Fast Delivery</p>
                 </div>
               )}
-              {product?.tryAtHome === 1 && (
+              {product?.productDetails?.tryAtHome === 1 && (
                 <div className="p-2">
                   <TbHomeCheck className="mr-1 mt-1" size={27} />
                   <p>Try At Home</p>
@@ -234,31 +239,42 @@ const Accordian: React.FC<Props> = ({ product }) => {
             </div>
             <div className="flex justify-between p-2 border border-[#ebe7e7]">
               <div>
-                <p>{product?.metalType}</p>
-                {product?.diamondDetails && <p>Diamond</p>}
+                <p>{product.productDetails?.metalType}</p>
+                {product.productDetails?.diamondDetails && <p>Diamond</p>}
                 <p>Making Charges</p>
-                {product?.discountValue && (
-                  <p>Discount- {product?.discountValue}%</p>
+                {product.productDetails?.discountValue && (
+                  <p>Discount- {product.productDetails?.discountValue}%</p>
                 )}
                 <p>G.S.T</p>
               </div>
               <div>
-                <p>{product?.metalWeight} gms</p>
-                {product?.diamondDetails && (
-                  <p>{product?.diamondDetails[0]?.diamondClarity}</p>
+                <p>{product.productDetails?.metalWeight} gms</p>
+                {product.productDetails?.diamondDetails && (
+                  <p>
+                    {product.productDetails?.diamondDetails[0]?.diamondClarity}
+                  </p>
                 )}
-                {product?.makingCharges && <p>-</p>}
-                {product?.discountValue && <p>-</p>}
-                {product?.gst && <p>-</p>}
+                {product.productDetails?.makingCharges && <p>-</p>}
+                {product.productDetails?.discountValue && <p>-</p>}
+                {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                <p>₹12,548</p>
-                {product?.diamondDetails && (
+                <p>
+                  ₹
+                  {new Intl.NumberFormat("en-IN", {
+                    minimumFractionDigits: 2,
+                  }).format(parseInt(product.productDetails?.metalRate))}
+                </p>
+                {product.productDetails?.diamondDetails && (
                   <p>
                     ₹
                     {new Intl.NumberFormat("en-IN", {
                       minimumFractionDigits: 2,
-                    }).format(product?.diamondDetails[0]?.diamondCost)}
+                    }).format(
+                      parseInt(
+                        product.productDetails?.diamondDetails[0]?.diamondCost
+                      )
+                    )}
                   </p>
                 )}
                 <p>
@@ -267,26 +283,51 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     minimumFractionDigits: 2,
                   }).format(makingCharges)}
                 </p>
-                {product?.discountValue && (
-                  <p>
-                    {product && product?.typeOfDiscount === "Percentage" ? (
+                {product?.productDetails?.discountValue && (
+                  <div>
+                    {product?.productDetails &&
+                    product?.productDetails?.typeOfDiscount === "Percentage" ? (
                       <p>
                         ₹
                         {new Intl.NumberFormat("en-IN", {
                           minimumFractionDigits: 2,
-                        }).format(parseFloat(product?.discountAmount))}
+                        }).format(
+                          parseFloat(product?.productDetails?.discountAmount)
+                        )}
                       </p>
                     ) : (
-                      <p>₹{product?.discountValue}</p>
+                      <p>₹{product.productDetails?.discountValue}</p>
                     )}
-                  </p>
+                  </div>
                 )}
                 <p>
-                  ₹{" "}
+                  ₹
                   {new Intl.NumberFormat("en-IN", {
                     minimumFractionDigits: 2,
-                  }).format(product?.gst)}
+                  }).format(parseInt(product?.productDetails?.gst))}
                 </p>
+              </div>
+            </div>
+            <div className="flex justify-between px-2 border border-[#ebe7e7] border-t-0">
+              <div className="text-md font-semibold">
+                <p>Total</p>
+              </div>
+              <div className="text-md font-semibold">
+                {product?.productDetails?.discountPrice !== null ? (
+                  <p>
+                    ₹
+                    {new Intl.NumberFormat("en-IN", {
+                      minimumFractionDigits: 2,
+                    }).format(parseInt(product?.productDetails?.discountPrice))}
+                  </p>
+                ) : (
+                  <p>
+                    ₹
+                    {new Intl.NumberFormat("en-IN", {
+                      minimumFractionDigits: 2,
+                    }).format(parseInt(product?.productDetails?.productPrice))}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -316,15 +357,20 @@ const Accordian: React.FC<Props> = ({ product }) => {
             </div>
             <div className="flex">
               <div className="mr-5 mt-5 text-center">
-                <Icon.WhatsappLogo className="ml-5" size={30} />
+                <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
                 <p>Whatsapp</p>
               </div>
               <div className="mr-5 mt-5">
-                <Icon.Phone size={30} />
+                <Icon.Phone size={30} color="#e26178" weight="fill" />
                 <p>Call</p>
               </div>
               <div className="mr-5 mt-5">
-                <Icon.ChatDots className="ml-4" size={30} />
+                <Icon.ChatTeardropDots
+                  className="ml-4"
+                  size={30}
+                  weight="fill"
+                  color="#e26178"
+                />
                 <p>Message</p>
               </div>
             </div>

@@ -3,7 +3,8 @@ import ShippingAddressList from './ShippingAddressList';
 import BillingAddressList from './BillingAddressList';
 import AddAddressModal from './AddAddressModal';
 import AddAddressMobile from './AddAddressMobile';
-import FlashAlert from "../../components/other/FlashAlert";
+import FlashAlert from "../../components/Other/FlashAlert";
+import {Address} from "@/type/AddressType"
 
 interface DeliveryDetailsProps {
     onShippingAddressSelected: () => void;
@@ -18,7 +19,7 @@ interface DeliveryDetailsProps {
   
   const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
     onShippingAddressSelected,
-    onBillingAddressSelected, // Keep this line
+    onBillingAddressSelected,
     useSameAsBillingAddress,
     setUseSameAsBillingAddress,
     selectedShippingAddress,
@@ -59,15 +60,12 @@ interface DeliveryDetailsProps {
         setBillingAddressSelected(true);
         onBillingAddressSelected();
       }
-      console.log("Setting flash message for shipping address");
       setFlashMessage(`Shipping address updated`);
       setFlashKey((prevKey) => prevKey + 1);
     }
   };
   
   const handleBillingAddressSelect = (address: Address) => {
-    console.log('handleBillingAddressSelect called with address:', address);
-    console.log('useSameAsBillingAddress value:', useSameAsBillingAddress);
     if (address === null) {
       setSelectedBillingAddress(null);
       setBillingAddressSelected(false);
@@ -122,8 +120,6 @@ interface DeliveryDetailsProps {
   const isDeliveryDetailsValid = () => {
     return shippingAddressSelected && (useSameAsBillingAddress || billingAddressSelected);
   };
-
-  console.log("Flash Message:", flashMessage);
 
   return (
     <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">

@@ -1,24 +1,20 @@
-"use client";
-
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import Product from "../Product/Product";
+import Product from "../Product/Productgraphql";
 import "rc-slider/assets/index.css";
 import ReactPaginate from "react-paginate";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
-import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
-import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
 import { useCategory } from "@/context/CategoryContex";
-
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const ShopBreadCrumb1 = () => {
-  const { category } = useCategory();
+  const { category, setCustomcategory } = useCategory();
   const [sortOption, setSortOption] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,17 +63,119 @@ const ShopBreadCrumb1 = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setCustomcategory(localStorage.getItem("category"));
+
       try {
-        const response = await axios.get(`${baseUrl}/getall-products`);
-        setData(response.data);
-        setFilteredData(response.data);
-        setIsLoading(false);
+        setIsLoading(true);
+        const client = new ApolloClient({
+          uri: "http://localhost:4000/graphql",
+          cache: new InMemoryCache(),
+        });
+
+        const query = gql`
+          query {
+            products(category: "${category}") {
+              productId
+              SKU
+              variantId
+              isParent
+              title
+              displayTitle
+              shortDesc
+              longDesc
+              url
+              tags
+              collectionName
+              shopFor
+              occasion
+              theme
+              length
+              breadth
+              height
+              weightRange
+              addDate
+              lastModificationDate
+              productSize
+              productQty
+              attributeId
+              preSalesProductQueries
+              isReplaceable
+              isReturnable
+              isInternationalShippingAvailable
+              customizationAvailability
+              fastDelivery
+              tryAtHome
+              isActive
+              grossWeight
+              netWeight
+              discountId
+              discountCategory
+              discountActive
+              typeOfDiscount
+              discountValue
+              discountAmount
+              discountPrice
+              offerStartDate
+              offerEndDate
+              mediaId
+              metalType
+              metalPurity
+              metalWeight
+              metalRate
+              makingType
+              makingChargesPerGrams
+              makingCharges
+              gst
+              additionalCost
+              productPrice
+              rating
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                gemstoneDetails
+                diamondDetails
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+              }
+              stoneDetails
+              diamondDetails
+            }
+          }
+        `;
+        console.log(query);
+
+        const { data } = await client.query({ query });
+        console.log('product image details:');
+        console.log(data.products[0].imageDetails); 
+
+        if (data && data.products) {
+          setData(data.products);
+          setFilteredData(data.products);
+          setIsLoading(false);
+        } else {
+          console.error("Error: No products data received");
+        }
       } catch (error) {
-        console.log("data is unable to fetch");
+        console.log("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [category, setCustomcategory]);
 
   useEffect(() => {
     let sortedData = [...filteredData];
@@ -92,9 +190,9 @@ const ShopBreadCrumb1 = () => {
       sortedData.sort(
         (a, b) => parseInt(a.discountPrice) - parseInt(b.discountPrice)
       );
-    } else if (selectedSortOption == "Newest First") {
+    } else if (selectedSortOption === "Newest First") {
       sortedData.sort(
-        (a, b) => new Date(a.addDate).getTime() - new Date(b.addDate).getTime()
+        (a, b) => new Date(b.addDate).getTime() - new Date(a.addDate).getTime()
       );
     }
 
@@ -107,16 +205,15 @@ const ShopBreadCrumb1 = () => {
       <div className="container">
         <MobileMainCategorySwiper />
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
-          
-            <FilterSidebar
-              data={data}
-              onFilterChange={handleFilterChange}
-              mobileFilter={mobileFilter}
-              setMobileFilter={setMobileFilter}
-              selectedOptions={selectedOptions}
-              handleOptionSelect={handleOptionSelect}
-            />
-          
+          <FilterSidebar
+            data={data}
+            onFilterChange={handleFilterChange}
+            mobileFilter={mobileFilter}
+            setMobileFilter={setMobileFilter}
+            selectedOptions={selectedOptions}
+            handleOptionSelect={handleOptionSelect}
+          />
+
           <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 no-scrollbar">
             <div className="">
               <p className="text-4xl font-bold uppercase">{category}</p>
@@ -171,16 +268,24 @@ const ShopBreadCrumb1 = () => {
               </div>
             </div>
 
-            {isLoading === true ? (
+            {isLoading ? (
               <ProductSkeleton />
-            ) : (
+            ) : filteredData.length > 0 ? (
               <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
                 {filteredData
                   .slice(pagesVisited, pagesVisited + productsPerPage)
-                  .map((item: any) => (
-                    <Product key={item.productId} data={item} />
-                  ))}
+                  .map((item: any) => {
+                    //console.log('item',item);
+                    return (
+                      <div key={item.productId}>
+                        {/* <span>{item.title}</span> */}
+                        <Product data={item} />
+                      </div>
+                    );
+                  })}
               </div>
+            ) : (
+              <p>No products found.</p>
             )}
           </div>
         </div>

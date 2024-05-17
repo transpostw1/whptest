@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -17,6 +16,7 @@ import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
+import { useWishlist } from "@/context/WishlistContext";
 
 interface Props {
   props: string;
@@ -29,7 +29,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { openModalWishlist } = useModalWishlistContext();
+const { wishlistItemsCount,wishlistItems } = useWishlist();
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
   const { userState } = useUser();
@@ -136,7 +136,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const handleSearch = (value: string) => {
-    router.push(`/shop/breadcrumb1?query=${value}`);
+    router.push(`/products?query=${value}`);
     setSearchKeyword("");
     setIsModalOpen(false);
   };
@@ -190,6 +190,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div className="ml-4">
@@ -198,6 +199,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div className="ml-4 text-black">
@@ -212,6 +214,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"hamBurgerIcon"}
                   width={25}
                   height={25}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             </div>
@@ -336,17 +339,34 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    onClick={openModalWishlist}
+                    // onClick={openModalWishlist}
                   >
-                    <div className="flex flex-col items-center">
-                      <Icon.Heart size={28} color="black" />
-                      <h4 className="text-sm">Wishlist</h4>
-                    </div>
+                    <Link href={"/wishlist"}>
+                      {/* <div>
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        
+                      </div> */}
+                      <div
+                        className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                        // onClick={openModalWishlist}
+                      >
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {wishlistItems.length}
+                        </span>
+                      </div>
+                    </Link>
                   </div>
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      onClick={openModalCart}
+                      // onClick={openModalCart}
                     >
                       <div className="flex flex-col items-center">
                         <Image
@@ -358,7 +378,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <h4 className="text-sm">Cart</h4>
                       </div>
 
-                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                         {cartLength}
                       </span>
                     </div>
@@ -404,17 +424,25 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="">
                   <p className="text-xl font-semibold">Login</p>
                 </div>
-                <div className="ml-3">
+                <div className="ml-3 relative">
                   <Icon.Heart size={25} />
+                  <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {wishlistItems.length}
+                        </span>
                 </div>
-                <div className="ml-3">
+                <Link href={"/checkout"}>
+                <div className="ml-3 relative">
                   <Image
                     src={"/images/icons/cart.svg"}
                     alt="Cart"
                     width={30}
                     height={30}
-                  />
+                    />
+                    <span className="quantity cart-quantity absolute -right-0 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartLength}
+                      </span>
                 </div>
+                    </Link>
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">
@@ -445,7 +473,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(1)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         New Arrivals
                       </p>
@@ -455,7 +483,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 2 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(2)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         14 Karat
                       </p>
@@ -465,7 +493,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 3 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(3)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Rings
                       </p>
@@ -475,7 +503,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 4 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(4)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Earrings
                       </p>
@@ -485,7 +513,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 5 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(5)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Pendants
                       </p>
@@ -495,7 +523,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 6 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(6)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Chains
                       </p>
@@ -527,7 +555,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                 <li className="leading-[0px]">
                                   <Link
                                     href={{
-                                      pathname: "/shop/breadcrumb1",
+                                      pathname: "/products",
                                       query: { url: item.url },
                                     }}
                                     className=" text-secondary duration-300"
@@ -554,7 +582,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(8)}
                   >
-                    <Link href="/shop/breadcrumb1">
+                    <Link href="/products">
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Men's Jewellery
                       </p>

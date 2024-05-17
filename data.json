@@ -1,251 +1,2549 @@
 {
-  "customerOrders": [
-    {
-      "id": 2,
-      "productDetails": [
+    "customerOrders": [
         {
-          "productAmount": "55541.01",
-          "quantity": "2",
-          "productTotal": "111082.02",
-          "discountAmount": "1507.81",
-          "discountedTotal": "109574.21",
-          "productDetails": {
-            "productId": 221,
-            "SKU": "GPND23024701_GERD23024703",
-            "variantId": null,
-            "isParent": null,
-            "title": "Gold Pendant Set",
-            "displayTitle": "Gold Pendant Set",
-            "shortDesc": null,
-            "longDesc": null,
-            "url": "gold-pendant-set",
-            "tags": ["Jewellery"],
-            "collectionName": null,
-            "shopFor": ["Women"],
-            "occasion": null,
-            "theme": null,
-            "length": null,
-            "breadth": null,
-            "height": null,
-            "weightRange": "5-10 gms",
-            "addDate": "2024-04-12",
-            "lastModificationDate": null,
-            "created_at": "2024-04-12T09:50:24.000000Z",
-            "updated_at": "2024-04-16T05:16:46.000000Z",
-            "sizeId": 218,
-            "productSize": null,
-            "productQty": 10,
-            "attributeId": 208,
-            "preSalesProductQueries": null,
-            "isReplaceable": 0,
-            "isReturnable": 0,
-            "isInternationalShippingAvailable": 0,
-            "customizationAvailability": 0,
-            "fastDelivery": 1,
-            "tryAtHome": 0,
-            "isActive": 1,
-            "grossWeight": null,
-            "netWeight": null,
-            "productAttributes": {
-              "goldDetails": [
+            "id": 2,
+            "productDetails": [
                 {
-                  "goldCertifiedBy": "BIS HallMarked",
-                  "goldSetting": null
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
                 }
-              ],
-              "gemstoneDetails": null,
-              "diamondDetails": null,
-              "silverDetails": [
+            ],
+            "customerId": 20,
+            "employeeId": 1,
+            "billingAddressId": [
                 {
-                  "poojaArticle": null,
-                  "utensils": null,
-                  "silverWeight": null
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
                 }
-              ]
-            },
-            "discountId": 87,
-            "discountCategory": "Making Charges",
-            "discountActive": null,
-            "typeOfDiscount": "Percentage",
-            "discountValue": "15.00",
-            "discountAmount": "26.91",
-            "discountPrice": "55541.01",
-            "offerStartDate": "2024-04-01",
-            "offerEndDate": "2024-04-30",
-            "mediaId": 116,
-            "imageDetails": "[{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg\",\"order\":\"9\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg\",\"order\":\"8\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg\",\"order\":\"7\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg\",\"order\":\"5\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg\",\"order\":\"4\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg\",\"order\":\"6\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg\",\"order\":\"3\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg\",\"order\":\"2\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg\",\"order\":\"1\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg\",\"order\":\"0\",\"alt_text\":null}]",
-            "videoDetails": "[{\"video_path\":\"https://wamanharipethe.s3.amazonaws.com/products/videos/221/1712915431_GPND23024701_GERD23024703_10.jpg\",\"order\":\"0\"}]",
-            "materialId": 203,
-            "metalType": "Gold",
-            "metalPurity": "22KT",
-            "metalWeight": "5.98",
-            "makingType": "percentage",
-            "makingChargesPerGrams": "30.00",
-            "additionalCost": "200.00",
-            "productPrice": "55567.92",
-            "stoneDetails": null,
-            "diamondDetails": null,
-            "categories": [
-              {
-                "catId": 49,
-                "productId": 221,
-                "productType": "3",
-                "productSubType": "7",
-                "productSubSubType": "18",
-                "created_at": "2024-04-12T09:50:24.000000Z",
-                "updated_at": "2024-04-12T09:50:24.000000Z"
-              }
-            ]
-          }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "WHP661e707bc2d3b",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Partially Paid",
+            "orderStatus": "8",
+            "remarks": null,
+            "created_at": "2024-04-16T12:35:07.000000Z",
+            "updated_at": "2024-05-06T06:47:41.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 8,
+                "name": "Order Cancelled",
+                "created_at": "2024-04-30T15:14:26.000000Z",
+                "updated_at": "2024-04-30T15:14:26.000000Z"
+            }
         },
         {
-          "productAmount": "36259.89",
-          "quantity": "1",
-          "productTotal": "36259.89",
-          "discountAmount": "492.19",
-          "discountedTotal": "35767.70",
-          "productDetails": {
-            "productId": 58,
-            "SKU": "GERNGAD21002314",
-            "variantId": null,
-            "isParent": null,
-            "title": "18KT Gold Earring for Women",
-            "displayTitle": "18KT Gold Earring for Women",
-            "shortDesc": "Delivery within 7-21 days",
-            "longDesc": null,
-            "url": "18kt-gold-earring-for-women",
-            "tags": ["Jewellery"],
-            "collectionName": null,
-            "shopFor": ["Women"],
-            "occasion": null,
-            "theme": null,
-            "length": null,
-            "breadth": null,
-            "height": null,
-            "weightRange": "2-5 gms",
-            "addDate": "2024-03-05",
-            "lastModificationDate": null,
-            "created_at": "2024-03-05T06:49:36.000000Z",
-            "updated_at": "2024-04-16T04:56:12.000000Z",
-            "sizeId": 55,
-            "productSize": null,
-            "productQty": 10,
-            "attributeId": 52,
-            "preSalesProductQueries": null,
-            "isReplaceable": 0,
-            "isReturnable": 0,
-            "isInternationalShippingAvailable": 0,
-            "customizationAvailability": 0,
-            "fastDelivery": 0,
-            "tryAtHome": 1,
-            "isActive": 1,
-            "grossWeight": null,
-            "netWeight": null,
-            "productAttributes": {
-              "goldDetails": [
+            "id": 3,
+            "productDetails": [
                 {
-                  "goldCertifiedBy": "BIS HallMarked",
-                  "goldSetting": null
-                }
-              ],
-              "gemstoneDetails": null,
-              "diamondDetails": null,
-              "silverDetails": [
+                    "productAmount": "80422.79",
+                    "quantity": "1",
+                    "productTotal": "80422.79",
+                    "discountAmount": "0",
+                    "discountedTotal": "80422.79",
+                    "productDetails": [
+                        {
+                            "productId": 223,
+                            "SKU": "GNCKLD21002286",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Rose Gold Necklace",
+                            "displayTitle": "Rose Gold Necklace",
+                            "shortDesc": "Delivery within 7-21 days",
+                            "longDesc": null,
+                            "url": "rose-gold-necklace",
+                            "tags": [
+                                "Jewellery",
+                                "rose gold",
+                                "gold necklace",
+                                "necklace",
+                                "gold"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Wedding",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "10 gms and above",
+                            "addDate": "2024-04-17",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-17T04:48:45.000000Z",
+                            "updated_at": "2024-05-02T09:21:11.000000Z",
+                            "sizeId": 220,
+                            "productSize": null,
+                            "productQty": null,
+                            "attributeId": 210,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 0,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": null,
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 89,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "2605.91",
+                            "discountPrice": "75964.25",
+                            "offerStartDate": "2024-03-31",
+                            "offerEndDate": "2024-05-11",
+                            "mediaId": 118,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/223/1713329331_211120_032036_466_718_0_1%20(1).jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/223/1713329331_211120_032036_466_718_0_2%20(1).jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/223/1713329331_211120_032036_466_718_0_3%20(1).jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/223/1713329331_211120_032036_482_360_0_4%20(1).jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/223/1713329325_211120_032036_482_360_0_5%20(1).jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": null,
+                            "materialId": 205,
+                            "metalType": "Gold",
+                            "metalPurity": "18KT",
+                            "metalWeight": "9.7000",
+                            "metalRate": "57909.0000",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "17372.7000",
+                            "gst": "2288.4510",
+                            "additionalCost": "1000.0000",
+                            "productPrice": "78570.1510",
+                            "stoneDetails": null,
+                            "diamondDetails": null
+                        }
+                    ]
+                },
                 {
-                  "poojaArticle": null,
-                  "utensils": null,
-                  "silverWeight": null
+                    "productAmount": "9083.05",
+                    "quantity": "1",
+                    "productTotal": "9083.05",
+                    "discountAmount": "2000",
+                    "discountedTotal": "7083.05",
+                    "productDetails": [
+                        {
+                            "productId": 222,
+                            "SKU": "GPAD13036015A",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "23Kt 1 gm Gold Apta Pan",
+                            "displayTitle": "23Kt 1 gm Gold Apta Pan",
+                            "shortDesc": "Delivery within 24-48 Hours",
+                            "longDesc": null,
+                            "url": "waman-hari-pethe-jewellers-23kt-1gm-gold-apta-pan",
+                            "tags": [
+                                "Jewellery",
+                                "23kt",
+                                "1gm",
+                                "gold apta pan",
+                                "apta pan",
+                                "gold pan",
+                                "23kt gold pan",
+                                "1gm gold pan",
+                                "pan",
+                                "gold"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Men",
+                                "Women",
+                                "Kids"
+                            ],
+                            "occasion": "Wedding",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "0-2 gms",
+                            "addDate": "2024-04-16",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-16T05:22:28.000000Z",
+                            "updated_at": "2024-05-02T09:21:13.000000Z",
+                            "sizeId": 219,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 209,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 88,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "120.00",
+                            "discountPrice": "8899.71",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 117,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/222/1713244948_GPAD13036015A-1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/222/1713244948_GPAD13036015A-2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": null,
+                            "materialId": 204,
+                            "metalType": "Gold",
+                            "metalPurity": "23KT",
+                            "metalWeight": "1.0000",
+                            "metalRate": "7257.0000",
+                            "makingType": "lumpsum",
+                            "makingChargesPerGrams": "800.0000",
+                            "makingCharges": "800.0000",
+                            "gst": "262.7100",
+                            "additionalCost": "700.0000",
+                            "productPrice": "9019.7100",
+                            "stoneDetails": null,
+                            "diamondDetails": null
+                        }
+                    ]
                 }
-              ]
-            },
-            "discountId": 4,
-            "discountCategory": "Making Charges",
-            "discountActive": 1,
-            "typeOfDiscount": "Percentage",
-            "discountValue": "15.00",
-            "discountAmount": "19.80",
-            "discountPrice": "36259.89",
-            "offerStartDate": "2024-03-01",
-            "offerEndDate": "2024-03-31",
-            "mediaId": 6,
-            "imageDetails": "[{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/58/1709621376.jpg\",\"order\":\"2\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/58/1709621381.jpg\",\"order\":\"1\",\"alt_text\":null},{\"image_path\":\"https://wamanharipethe.s3.amazonaws.com/products/images/58/1709621382.jpg\",\"order\":\"0\",\"alt_text\":null}]",
-            "videoDetails": null,
-            "materialId": 52,
-            "metalType": "Gold",
-            "metalPurity": "18KT",
-            "metalWeight": "4.40",
-            "makingType": "percentage",
-            "makingChargesPerGrams": "30.00",
-            "additionalCost": "850.00",
-            "productPrice": "36279.69",
-            "stoneDetails": null,
-            "diamondDetails": null,
-            "categories": [
-              {
-                "catId": 9,
-                "productId": 58,
-                "productType": "3",
-                "productSubType": "5",
-                "productSubSubType": "6",
-                "created_at": "2024-03-05T06:49:36.000000Z",
-                "updated_at": "2024-03-05T06:49:36.000000Z"
-              },
-              {
-                "catId": 10,
-                "productId": 58,
-                "productType": "3",
-                "productSubType": "7",
-                "productSubSubType": "8",
-                "created_at": "2024-03-05T06:49:36.000000Z",
-                "updated_at": "2024-03-05T06:49:36.000000Z"
-              }
-            ]
-          }
-        }
-      ],
-      "customerId": 20,
-      "employeeId": 1,
-      "billingAddressId": [
+            ],
+            "customerId": 20,
+            "employeeId": 1,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "WHP66220c5ca973f",
+            "productTotal": "89505.00",
+            "discountedTotal": "87505.00",
+            "balanceAmount": "2505.00",
+            "paymentStatus": "Partially Paid",
+            "orderStatus": "7",
+            "remarks": null,
+            "created_at": "2024-04-19T06:17:00.000000Z",
+            "updated_at": "2024-04-30T10:19:58.000000Z",
+            "payments": [
+                {
+                    "paymentId": 21,
+                    "date": "2024-04-24",
+                    "paymentMethod": "Cash",
+                    "transactionNo": null,
+                    "orderId": 3,
+                    "amount": 50000,
+                    "created_at": "2024-04-24T06:26:31.000000Z",
+                    "updated_at": "2024-04-24T06:26:31.000000Z"
+                },
+                {
+                    "paymentId": 22,
+                    "date": "2024-04-24",
+                    "paymentMethod": "Cheque",
+                    "transactionNo": "321",
+                    "orderId": 3,
+                    "amount": 30000,
+                    "created_at": "2024-04-24T06:26:31.000000Z",
+                    "updated_at": "2024-04-24T06:26:31.000000Z"
+                },
+                {
+                    "paymentId": 23,
+                    "date": "2024-04-24",
+                    "paymentMethod": "NEFT",
+                    "transactionNo": "123qwert",
+                    "orderId": 3,
+                    "amount": 5000,
+                    "created_at": "2024-04-24T06:28:43.000000Z",
+                    "updated_at": "2024-04-24T06:28:43.000000Z"
+                }
+            ],
+            "order_list": {
+                "id": 7,
+                "name": "On Hold",
+                "created_at": "2024-04-30T15:14:05.000000Z",
+                "updated_at": "2024-04-30T15:14:05.000000Z"
+            }
+        },
         {
-          "address_id": 50,
-          "customer_id": 20,
-          "address_type": "home",
-          "full_address": "kamani.Sunder Baug,opposite to Phenoix Market city",
-          "country": "IN",
-          "state": "MH",
-          "city": "Mumbai",
-          "landmark": null,
-          "pincode": 400069,
-          "created_at": "2024-04-15T06:11:33.000000Z",
-          "updated_at": "2024-04-16T07:21:54.000000Z"
-        }
-      ],
-      "shippingAddressId": [
+            "id": 5,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "6f8e0b28-f9f3-4182-b251-e15621948679",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T06:18:09.000000Z",
+            "updated_at": "2024-05-09T06:18:09.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
         {
-          "address_id": 50,
-          "customer_id": 20,
-          "address_type": "home",
-          "full_address": "kamani.Sunder Baug,opposite to Phenoix Market city",
-          "country": "IN",
-          "state": "MH",
-          "city": "Mumbai",
-          "landmark": null,
-          "pincode": 400069,
-          "created_at": "2024-04-15T06:11:33.000000Z",
-          "updated_at": "2024-04-16T07:21:54.000000Z"
+            "id": 6,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "8eb4ab90-8184-47ed-bf55-6f9612742b05",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T06:18:32.000000Z",
+            "updated_at": "2024-05-09T06:18:32.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 7,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "cc82b433-b35b-4233-b709-8db5af2c2f16",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T06:19:53.000000Z",
+            "updated_at": "2024-05-09T06:19:53.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 8,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": 11,
+            "orderNo": "8f9a8d22-8062-413f-b8d6-314c607a83f9",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T06:20:42.000000Z",
+            "updated_at": "2024-05-09T06:20:42.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 9,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": null,
+            "orderNo": "2e6d1c03-1eae-4b3c-ac2e-23be5429ae90",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T06:32:06.000000Z",
+            "updated_at": "2024-05-09T06:32:06.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 10,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": null,
+            "orderNo": "1dcb602c-2016-4617-891f-0f2383533e3b",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T07:17:24.000000Z",
+            "updated_at": "2024-05-09T07:17:24.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 11,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": null,
+            "orderNo": "764abd8b-6c6f-42d3-bd9a-1d59f6905c1b",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T07:18:35.000000Z",
+            "updated_at": "2024-05-09T07:18:35.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 12,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": null,
+            "orderNo": "a63d4b58-fb98-4eba-86df-77f80453fcd2",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-09T07:34:44.000000Z",
+            "updated_at": "2024-05-09T07:34:44.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
+        },
+        {
+            "id": 13,
+            "productDetails": [
+                {
+                    "productAmount": "55541.01",
+                    "quantity": "2",
+                    "productTotal": "111082.02",
+                    "discountAmount": "1507.81",
+                    "discountedTotal": "109574.21",
+                    "productDetails": [
+                        {
+                            "productId": 221,
+                            "SKU": "GPND23024701_GERD23024703",
+                            "variantId": null,
+                            "isParent": null,
+                            "title": "Gold Pendant Set",
+                            "displayTitle": "Gold Pendant Set",
+                            "shortDesc": null,
+                            "longDesc": null,
+                            "url": "gold-pendant-set",
+                            "tags": [
+                                "Jewellery",
+                                "gold",
+                                "gold pendant",
+                                "gold set",
+                                "pendant set"
+                            ],
+                            "collectionName": null,
+                            "shopFor": [
+                                "Women"
+                            ],
+                            "occasion": "Casual Wear",
+                            "theme": "Wedding",
+                            "length": null,
+                            "breadth": null,
+                            "height": null,
+                            "weightRange": "5-10 gms",
+                            "addDate": "2024-04-12",
+                            "lastModificationDate": null,
+                            "created_at": "2024-04-12T09:50:24.000000Z",
+                            "updated_at": "2024-05-03T06:14:42.000000Z",
+                            "sizeId": null,
+                            "productSize": null,
+                            "productQty": 10,
+                            "attributeId": 208,
+                            "preSalesProductQueries": null,
+                            "isReplaceable": 0,
+                            "isReturnable": 0,
+                            "isInternationalShippingAvailable": 0,
+                            "customizationAvailability": 0,
+                            "fastDelivery": 1,
+                            "tryAtHome": 0,
+                            "isActive": 1,
+                            "grossWeight": null,
+                            "netWeight": null,
+                            "productAttributes": {
+                                "goldDetails": [
+                                    {
+                                        "goldCertifiedBy": "BIS HallMarked",
+                                        "goldSetting": null
+                                    }
+                                ],
+                                "gemstoneDetails": null,
+                                "diamondDetails": null,
+                                "silverDetails": [
+                                    {
+                                        "poojaArticle": null,
+                                        "utensils": null,
+                                        "silverWeight": null
+                                    }
+                                ]
+                            },
+                            "discountId": 87,
+                            "discountCategory": "Making Charges",
+                            "discountActive": 1,
+                            "typeOfDiscount": "Percentage",
+                            "discountValue": "15.00",
+                            "discountAmount": "1837.41",
+                            "discountPrice": "56852.89",
+                            "offerStartDate": "2024-04-01",
+                            "offerEndDate": "2024-04-30",
+                            "mediaId": 116,
+                            "imageDetails": [
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915431_GPND23024701_GERD23024703_1.jpg",
+                                    "order": 0,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_2.jpg",
+                                    "order": 1,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_3.jpg",
+                                    "order": 2,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_4.jpg",
+                                    "order": 3,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_6.jpg",
+                                    "order": 4,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_7.jpg",
+                                    "order": 5,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_5.jpg",
+                                    "order": 6,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_8.jpg",
+                                    "order": 7,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915430_GPND23024701_GERD23024703_9.jpg",
+                                    "order": 8,
+                                    "alt_text": null
+                                },
+                                {
+                                    "image_path": "https://wamanharipethe.s3.amazonaws.com/products/images/221/1712915424_GPND23024701_GERD23024703_10.jpg",
+                                    "order": 9,
+                                    "alt_text": null
+                                }
+                            ],
+                            "videoDetails": [
+                                {
+                                    "video_path": "https://wamanharipethe.s3.amazonaws.com/products/videos/221/GPND23024701_GERD23024703+(1).mp4",
+                                    "order": 0,
+                                    "alt_text": null
+                                }
+                            ],
+                            "materialId": 203,
+                            "metalType": "Gold",
+                            "metalPurity": "22KT",
+                            "metalWeight": "5.9800",
+                            "metalRate": "40831.4400",
+                            "makingType": "percentage",
+                            "makingChargesPerGrams": "30.0000",
+                            "makingCharges": "12249.4300",
+                            "gst": "1709.4300",
+                            "additionalCost": "200.0000",
+                            "productPrice": "58690.3000",
+                            "stoneDetails": [
+                                {
+                                    "stoneCost": "3700",
+                                    "stoneType": null,
+                                    "stoneColor": null,
+                                    "stoneWeight": null
+                                }
+                            ],
+                            "diamondDetails": null
+                        }
+                    ]
+                },
+                {
+                    "productAmount": "36259.89",
+                    "quantity": "1",
+                    "productTotal": "36259.89",
+                    "discountAmount": "492.19",
+                    "discountedTotal": "35767.70",
+                    "productDetails": []
+                }
+            ],
+            "customerId": 20,
+            "employeeId": null,
+            "billingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "shippingAddressId": [
+                {
+                    "address_id": 50,
+                    "customer_id": 20,
+                    "address_type": "home",
+                    "full_address": "l.g 105,sunder baug,indira nagar",
+                    "country": "IN",
+                    "state": "MH",
+                    "city": "Mumbai",
+                    "landmark": null,
+                    "pincode": 400069,
+                    "created_at": "2024-04-15T06:11:33.000000Z",
+                    "updated_at": "2024-05-08T09:57:34.000000Z"
+                }
+            ],
+            "couponId": null,
+            "orderNo": "9a8e4705-0568-49eb-b8c7-c0a46e29cc50",
+            "productTotal": "147341.00",
+            "discountedTotal": "145341.00",
+            "balanceAmount": "145341.00",
+            "paymentStatus": "Not Paid",
+            "orderStatus": "1",
+            "remarks": null,
+            "created_at": "2024-05-10T05:56:14.000000Z",
+            "updated_at": "2024-05-10T05:56:14.000000Z",
+            "payments": [],
+            "order_list": {
+                "id": 1,
+                "name": "Order Placed",
+                "created_at": "2024-04-30T15:10:55.000000Z",
+                "updated_at": "2024-04-30T15:10:55.000000Z"
+            }
         }
-      ],
-      "couponId": 11,
-      "orderNo": "WHP661e707bc2d3b",
-      "productTotal": "147341.00",
-      "discountedTotal": "145341.00",
-      "balanceAmount": "145341.00",
-      "paymentStatus": "Partially Paid",
-      "orderStatus": "Order Received",
-      "remarks": "[{\"username\":\"Admin\",\"text\":\"Order created\",\"date\":\"4/16/2024\",\"time\":\"6:05:06 PM\"}]",
-      "created_at": "2024-04-16T12:35:07.000000Z",
-      "updated_at": "2024-04-16T12:35:07.000000Z",
-      "payments": []
-    }
-  ]
+    ]
 }

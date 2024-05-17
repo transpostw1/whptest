@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import CartItem from './CartItem';
-import { fetchCartItemsFromServer } from "@/utils/cartUtils";
-import { useCart } from "@/context/CartContext";
+import React from "react";
+import CartItem from "./CartItem";
+
 
 interface CartItemsProps {
   cartItems: any[];
@@ -9,18 +8,12 @@ interface CartItemsProps {
   removeFromCart: (productId: number, quantity: number) => void;
 }
 
-const CartItems: React.FC<CartItemsProps> = ({ cartItems, handleQuantityChange, removeFromCart }) => {
-  const { setCartItems, setStoredCartItems } = useCart();
+const CartItems: React.FC<CartItemsProps> = ({
+  cartItems,
+  handleQuantityChange,
+  removeFromCart,
+}) => {
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      const fetchedCartItems = await fetchCartItemsFromServer();
-      setCartItems(fetchedCartItems);
-      setStoredCartItems(fetchedCartItems);
-    };
-
-    fetchCartItems();
-  }, [setCartItems, setStoredCartItems]);
 
   return (
     <div>

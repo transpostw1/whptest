@@ -33,9 +33,9 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full ${
+      className={`fixed top-0 left-0 w-full h-full no-scrollbar ${
         isModalOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      } transition-all duration-400 ease-in-out bg-black bg-opacity-60 z-[1000]`}
+      } transition-all duration-400 ease-in-out bg-black bg-opacity-60 z-[1000] overflow-y-auto`}
       onClick={closeModal}
     >
       <div
@@ -227,20 +227,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
         
         </div>
-        <div className="continue-browsing mt-8">
-          <div className="heading5">Continue Your Browsing</div>
-          <div className="browsing-items grid grid-cols-2 gap-4 mt-4">
-            {/* Render your browsing categories here */}
-          </div>
-        </div>
-        <div className="list-recent mt-8">
-          <div className="heading6">Recently viewed products</div>
-          <div className="list-product pb-5 hide-product-sold grid xl:grid-cols-4 sm:grid-cols-2 gap-7 mt-4">
-            {productData.slice(0, 4).map((product) => (
-              <Product key={product.id} data={product} type="grid" />
-            ))}
-          </div>
-        </div>
+       
       </div>
     </div>
   );

@@ -166,7 +166,7 @@ const addUserDetails = async (details: UserDetails) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error adding user details:", error);
+    console.error("Error adding user details.:", error);
     throw error;
   }
 };

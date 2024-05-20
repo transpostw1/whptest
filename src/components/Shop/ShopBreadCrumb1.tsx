@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState, useEffect, use } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import Product from "../Product/Productgraphql";
+import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
 import ReactPaginate from "react-paginate";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
+import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
+import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
 import { useCategory } from "@/context/CategoryContex";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const ShopBreadCrumb1 = () => {
-  const { category, setCustomcategory } = useCategory();
   const [sortOption, setSortOption] = useState<boolean>(false);
+  const {category,setCustomcategory}=useCategory()
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [mobileFilter, setMobileFilter] = useState<boolean>(false);
@@ -23,7 +26,7 @@ const ShopBreadCrumb1 = () => {
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [pageNumber, setPageNumber] = useState<number>(0);
-  const productsPerPage = 15;
+  const productsPerPage = 9;
   const pagesVisited = pageNumber * productsPerPage;
   const param = useSearchParams();
   const name = param.get("url");
@@ -64,116 +67,16 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     const fetchData = async () => {
       setCustomcategory(localStorage.getItem("category"));
-
       try {
         setIsLoading(true);
-        const client = new ApolloClient({
-          uri: "http://localhost:4000/graphql",
-          cache: new InMemoryCache(),
-        });
-
-        const query = gql`
-          query {
-            products(category: "${category}") {
-              productId
-              SKU
-              variantId
-              isParent
-              title
-              displayTitle
-              shortDesc
-              longDesc
-              url
-              tags
-              collectionName
-              shopFor
-              occasion
-              theme
-              length
-              breadth
-              height
-              weightRange
-              addDate
-              lastModificationDate
-              productSize
-              productQty
-              attributeId
-              preSalesProductQueries
-              isReplaceable
-              isReturnable
-              isInternationalShippingAvailable
-              customizationAvailability
-              fastDelivery
-              tryAtHome
-              isActive
-              grossWeight
-              netWeight
-              discountId
-              discountCategory
-              discountActive
-              typeOfDiscount
-              discountValue
-              discountAmount
-              discountPrice
-              offerStartDate
-              offerEndDate
-              mediaId
-              metalType
-              metalPurity
-              metalWeight
-              metalRate
-              makingType
-              makingChargesPerGrams
-              makingCharges
-              gst
-              additionalCost
-              productPrice
-              rating
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                gemstoneDetails
-                diamondDetails
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-              }
-              stoneDetails
-              diamondDetails
-            }
-          }
-        `;
-        console.log(query);
-
-        const { data } = await client.query({ query });
-        console.log('product image details:');
-        console.log(data.products[0].imageDetails); 
-
-        if (data && data.products) {
-          setData(data.products);
-          setFilteredData(data.products);
-          setIsLoading(false);
-        } else {
-          console.error("Error: No products data received");
-        }
-      } catch (error) {
-        console.log("Error fetching data:", error);
+        const response = await axios.get(`${baseUrl}/jewellery/${category}`);
+        setData(response.data);
+        setFilteredData(response.data);
+        setIsLoading(false);
+      }catch(error){
+        console.log("Error Occurred",error)
       }
-    };
+    }
     fetchData();
   }, [category, setCustomcategory]);
 
@@ -190,9 +93,9 @@ const ShopBreadCrumb1 = () => {
       sortedData.sort(
         (a, b) => parseInt(a.discountPrice) - parseInt(b.discountPrice)
       );
-    } else if (selectedSortOption === "Newest First") {
+    } else if (selectedSortOption == "Newest First") {
       sortedData.sort(
-        (a, b) => new Date(b.addDate).getTime() - new Date(a.addDate).getTime()
+        (a, b) => new Date(a.addDate).getTime() - new Date(b.addDate).getTime()
       );
     }
 
@@ -203,7 +106,7 @@ const ShopBreadCrumb1 = () => {
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
-        <MobileMainCategorySwiper />
+        <MobileMainCategorySwiper/>
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
           <FilterSidebar
             data={data}
@@ -214,9 +117,9 @@ const ShopBreadCrumb1 = () => {
             handleOptionSelect={handleOptionSelect}
           />
 
-          <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 no-scrollbar">
+          <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
             <div className="">
-              <p className="text-4xl font-bold uppercase">{category}</p>
+              <p className="text-4xl font-bold uppercase">{name}</p>
             </div>
             <div className="flex justify-between mt-5">
               <div className="lg:w-[70%] sm:w-[100%]">
@@ -224,7 +127,7 @@ const ShopBreadCrumb1 = () => {
                 transform an outfit, framing the face with style and grace.
                 <div className="flex flex-wrap lg:hidden sm:block md:hidden">
                   {Object.entries(selectedOptions).flatMap(
-                    ([category, options]) =>
+                    ([category, options ]) =>
                       options.map((option: string, index: number) => (
                         <div
                           key={`${category}-${index}`}
@@ -268,24 +171,16 @@ const ShopBreadCrumb1 = () => {
               </div>
             </div>
 
-            {isLoading ? (
+            {isLoading === true ? (
               <ProductSkeleton />
-            ) : filteredData.length > 0 ? (
+            ) : (
               <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
                 {filteredData
                   .slice(pagesVisited, pagesVisited + productsPerPage)
-                  .map((item: any) => {
-                    //console.log('item',item);
-                    return (
-                      <div key={item.productId}>
-                        {/* <span>{item.title}</span> */}
-                        <Product data={item} />
-                      </div>
-                    );
-                  })}
+                  .map((item: any) => (
+                    <Product key={item.productId} data={item} />
+                  ))}
               </div>
-            ) : (
-              <p>No products found.</p>
             )}
           </div>
         </div>

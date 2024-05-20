@@ -11,13 +11,9 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 
-interface Props {
-  data: ProductType[];
-  start: number;
-  limit: number;
-}
 
-const ProductSlider: React.FC<Props> = ({ start, limit }) => {
+
+const ProductSlider= () => {
   const swiperRef = useRef<any>();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);

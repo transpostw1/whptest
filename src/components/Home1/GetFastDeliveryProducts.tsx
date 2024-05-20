@@ -9,13 +9,9 @@ import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
-interface Props {
-  data: ProductType[];
-  start: number;
-  limit: number;
-}
 
-const GetFastDeliveryProducts: React.FC<Props> = ({ start, limit }) => {
+
+const GetFastDeliveryProducts = () => {
   const swiperRef = useRef<any>();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);

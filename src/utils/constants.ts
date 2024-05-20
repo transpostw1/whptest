@@ -19,6 +19,7 @@ export const addwishlist = "/addOrUpdateProductWishlist";
 export const removewishlist = "/removeProductWishlist";
 export const getwishlisted = "/wishlist";
 export const order = "/orders";
+export const category ="/getAllParentCategories"
 export const getOrders = "/getOrders";
 export const contactForm = "/queries/store";
 export const getAllBanners = "/getAllBanners";

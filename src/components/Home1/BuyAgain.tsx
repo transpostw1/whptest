@@ -10,13 +10,8 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-interface Props {
-  data: ProductType[];
-  start: number;
-  limit: number;
-}
 
-const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
+const ProductSlider = () => {
   const [products, setProducts] = useState<any>([]);
   const swiperRef = useRef<any>();
   useEffect(() => {
@@ -73,7 +68,7 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
                 },
               }}
             >
-              {filteredProducts.slice(start, limit).map((prd:any, index:any) => (
+              {filteredProducts.map((prd:any, index:any) => (
                 <SwiperSlide key={index}>
                   <DummyProduct data={prd}/>
                 </SwiperSlide>

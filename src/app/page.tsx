@@ -23,23 +23,21 @@ import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
   const { products } = useProductContext();
-  const logged= localStorage.getItem("isLoggedIn");
+  const logged = localStorage.getItem("isLoggedIn");
 
   return (
     <>
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
-        {/* <Explore /> */}
+        <Explore />
         {/* <Collection /> */}
-        <ProductSlider data={products} start={0} limit={6} />
-        {logged === "true" && (
-          <BuyAgain data={products} start={0} limit={6} />
-        )}
+        <ProductSlider />
+        {logged === "true" && <BuyAgain />}
         <WhpTv products={products} />
         <RoseGold />
         <Category />
-        <GetFastDeliveryProducts data={products} start={7} limit={14} />
+        <GetFastDeliveryProducts />
         <WhatWeOffer />
         <ShopGender />
         <PreciousGems />

@@ -242,7 +242,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "gemstones" },
+                            query: { url: "10kto20k" },
                           }}
                           onClick={() => setCustomcategory("10kto20k")}
                         >
@@ -253,9 +253,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "gemstones" },
+                            query: { url: "20kto30k" },
                           }}
-                          onClick={() => setCustomcategory("10kto20k")}
+                          onClick={() => setCustomcategory("20kto30k")}
                         >
                           20k to 30k
                         </Link>
@@ -264,9 +264,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "gemstones" },
+                            query: { url: "30kandAbove" },
                           }}
-                          onClick={() => setCustomcategory("10kto20k")}
+                          onClick={() => setCustomcategory("30kandabove")}
                         >
                           30k and Above
                         </Link>

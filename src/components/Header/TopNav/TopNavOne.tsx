@@ -7,61 +7,40 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 
 interface Props {
-  props: string;
   textColor: string;
 }
 
 const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
     <>
-      <div
-        className={`banner-top style-four w-full  bg-rose-950 py-2 `}
-      >
-        <div className="container flex items-center justify-center ">
-          <div className="sm:w-2/3 w-full h-full">
+      <div className={`banner-top style-four w-full  bg-rose-950 h-[25px]`}>
+        <div className="container flex items-center justify-center align-middle">
+          <div className=" w-full h-full">
             <Swiper
               spaceBetween={0}
               slidesPerView={1}
-              loop={true}
-              modules={[Navigation, Autoplay]}
-              className="h-full relative flex items-center justify-center bg"
-              autoplay={{
-                delay: 3000,
-              }}
+              modules={[Navigation]}
+              className="h-[50%] relative flex items-center justify-center bg"
             >
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase text-white ${textColor}`}
                 >
-                  Get 10% off on selected items
+                 Welcome to WHP Jewellers
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase text-white ${textColor}`}
                 >
-                  Free shipping on all orders over $50
+                 Something Special For Everyone
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
+                  className={`text-button-uppercase text-white ${textColor}`}
                 >
-                  10% off on all summer essentials!
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
-                >
-                  Get summer-ready: 10% off swim suits
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase px-8 text-center ${textColor}`}
-                >
-                  10% off on all product on shop
+                  10% off on all products
                 </div>
               </SwiperSlide>
             </Swiper>

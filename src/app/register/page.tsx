@@ -1,11 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
-import Footer from "@/components/Footer/Footer";
-import NavTwo from "@/components/Header/TopNav/NavTwo";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import OtpVerification from "../OtpVerification";
@@ -34,7 +29,6 @@ const Register = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
        setSubmitted(true);
       alert(JSON.stringify(values, null, 2));
     },
@@ -52,7 +46,6 @@ const Register = () => {
       <div id="header" className="relative w-full">
         <NavHoverMenu props="bg-white" />
       </div> */}
-      <Breadcrumb heading="Create An Account" subHeading="Create An Account" />
       <div className="register-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col">
@@ -170,7 +163,6 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

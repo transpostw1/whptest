@@ -8,13 +8,30 @@
 .header-menu {
     position: sticky;
     z-index: 50;
-    transition: all ease 0.5s;
+    // transition: all ease 0.5s;
 
     &.fixed {
         background-color: var(--white);
-        box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
         top: 0;
-        animation: animateHeader ease 0.5s;
+        // animation: animateHeader ease 0.5s;
+
+        &.style-watch {
+            background-color: var(--green);
+        }
+    }
+}
+
+/* menu header */
+.header-menu-navHoverMenu {
+    position: sticky;
+    z-index: 49;
+    // transition: all ease 0.5s;
+
+    &.fixed {
+        background-color: var(--white);
+        // box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
+        top: 4rem;
+        // animation: animateHeader ease 0.5s;
 
         &.style-watch {
             background-color: var(--green);
@@ -131,7 +148,7 @@
 
         >a::before,
         >.link::before {
-            bottom: 24px;
+            bottom: 20px;
             height: 2px;
         }
 

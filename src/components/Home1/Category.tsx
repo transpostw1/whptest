@@ -1,10 +1,15 @@
-import React from 'react'
-import Image from 'next/image';
- 
-
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Category = () => {
-  let categories = [
+  let categories: {
+    id: number;
+    type: string;
+    description: string;
+    image: JSX.Element;
+    href: string; // Ensure href is of type Url
+  }[] = [
     {
       id: 1,
       type: "PENDANTS",
@@ -18,6 +23,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=pendant",
     },
     {
       id: 2,
@@ -32,6 +38,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=earrings",
     },
     {
       id: 3,
@@ -46,6 +53,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=rings",
     },
     {
       id: 4,
@@ -60,12 +68,13 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=chains",
     },
     {
       id: 5,
       type: "BRACELET & BANGLES",
       description:
-        "Stunning bangles & vracelets, where every piece is a harmony of style.",
+        "Stunning bangles & bracelets, where every piece is a harmony of style.",
       image: (
         <Image
           src={"/images/category/Bracelet.jpg"}
@@ -74,6 +83,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=bracelets",
     },
     {
       id: 6,
@@ -88,6 +98,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=mangulsutra",
     },
     {
       id: 7,
@@ -102,6 +113,7 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=necklace",
     },
     {
       id: 8,
@@ -116,14 +128,15 @@ const Category = () => {
           height={400}
         />
       ),
+      href: "/products?url=silver",
     },
   ];
 
   return (
     <>
-      <div className="w-full px-8 my-16  text-rose-950">
+      <div className="w-full px-8 my-16 font-[500]  text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="lg:text-4xl text-2xl mt-3">SHOP BY CATEGORY</h1>
+          <h1 className="lg:text-3xl text-2xl mt-3">SHOP BY CATEGORY</h1>
           <p className="">
             Effortlessly find your perfect piece by exploring our jewellery
             categories. <br />
@@ -135,14 +148,21 @@ const Category = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col relative items-start justify-between  "
+              className="flex flex-col relative items-start justify-between "
             >
-              <div className="divvv u-hover--sparkle cursor-pointer "> {category.image}</div>
+              <Link href={category.href}>
+                <div className="effect14 cursor-pointer">
+                  {" "}
+                  {category.image} <a href="#">{category.type}</a>
+                </div>
+              </Link>
 
-              <div >
+              <div>
                 <h1 className="text-xl font-semibold">{category.type}</h1>
                 <p className="text-sm font-medium">{category.description}</p>
-                <h3 className="text-red-600 underline font-bold cursor-pointer">VIEW ALL</h3>
+                <h3 className="text-red-600 underline font-bold cursor-pointer">
+                  VIEW ALL
+                </h3>
               </div>
             </div>
           ))}
@@ -150,6 +170,6 @@ const Category = () => {
       </div>
     </>
   );
-}
+};
 
-export default Category
+export default Category;

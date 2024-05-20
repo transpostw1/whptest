@@ -1,32 +1,12 @@
-import React from "react";
-import TopNavOne from "@/components/Header/TopNav/TopNavOne";
-// import MenuOne from "@/components/Header/Menu/MenuOne";
-// import SliderOne from "@/components/Slider/SliderOne";
-// import WhatNewOne from "@/components/Home1/WhatNewOne";
-// import productData from "@/data/Product.json";
-import Collection from "@/components/Home1/Collection";
+"use client";
+import React, { useEffect } from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
-
-
-
-// import Banner from "@/components/Home1/Banner";
-// import Benefit from "@/components/Home1/Benefit";
-// import testimonialData from "@/data/Testimonial.json";
-// import Testimonial from "@/components/Home1/Testimonial";
-// import Instagram from "@/components/Home1/Instagram";
-// import Brand from "@/components/Home1/Brand";
-
-
-
-import Footer from "@/components/Footer/Footer";
-
-
-
-import NavTwo from "@/components/Header/TopNav/NavTwo";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
 import Explore from "@/components/Home1/Explore";
+import BuyAgain from "@/components/Home1/BuyAgain";
 import Category from "@/components/Home1/Category";
+import RoseGold from "@/components/Home1/RoseGold";
 import GoldScheme from "@/components/Home1/GoldScheme";
 import ShopGender from "@/components/Home1/ShopGender";
 import Appointment from "@/components/Home1/Appointment";
@@ -34,34 +14,44 @@ import Gifts from "@/components/Home1/Gifts";
 import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
+import WhpTv from "@/components/Home1/WhpTv";
 import WhpApp from "@/components/Home1/WhpApp";
-import productData from "@/data/Products.json";
-
-
-
+import { useProductContext } from "@/context/ProductContext";
+import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
+import WhatWeOffer from "@/components/Home1/WhatWeOffer";
+import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
+  const { products } = useProductContext();
+  const logged= localStorage.getItem("isLoggedIn");
+
   return (
     <>
-      {/* <MainCarousel /> */}
-      <Explore />
-      {/* <Collection /> */}
-      <ProductSlider data={productData} start={0} limit={6} />
-      <Category />
-      <GoldScheme />
-      <ShopGender />
-      <PreciousGems />
-      <Appointment />
-      <Gifts />
-      <SpecialOccasion />
-      <Reviews />
-      <WhpApp/>
-      {/* <Banner />
-      <Benefit props="md:py-20 py-10" /> */}
-      {/* <Testimonial data={testimonialData} limit={6} /> */}
-      {/* <Instagram />
-      <Brand /> */}
-      <Footer />
+      <div className="overflow-x-hidden">
+        <MobileMainCategorySwiper />
+        <MainCarousel />
+        {/* <Explore /> */}
+        {/* <Collection /> */}
+        <ProductSlider data={products} start={0} limit={6} />
+        {logged === "true" && (
+          <BuyAgain data={products} start={0} limit={6} />
+        )}
+        <WhpTv products={products} />
+        <RoseGold />
+        <Category />
+        <GetFastDeliveryProducts data={products} start={7} limit={14} />
+        <WhatWeOffer />
+        <ShopGender />
+        <PreciousGems />
+        <Appointment />
+        <Gifts />
+        <GoldScheme />
+        <SpecialOccasion />
+        <Reviews />
+        {/* <WhpApp /> */}
+      </div>
+      <WhpApp />
+      <StickyNav />
     </>
   );
 }

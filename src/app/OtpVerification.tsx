@@ -4,7 +4,7 @@ import {
   signInWithCredential,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";
 import OTPInput from "react-otp-input";
 import { BsFillShieldLockFill } from "react-icons/bs";
@@ -16,10 +16,11 @@ import { useUser } from "@/context/UserContext";
 import Cookies from "js-cookie";
 
 interface OtpVerificationProps {
-  formikValues: any; // Define the type of formikValues prop
-  onSubmit: () => void;
+  phoneNumber: string;
+  formikValues: any;
+  onSubmit: (values: any) => void;
   isRegisterPage: boolean;
-  errorMessage: string | null; // Add errorMessage prop
+  errorMessage: string | any;
 }
 
 // class Token {
@@ -51,7 +52,6 @@ const OtpVerification = ({
   };
 
   const onSendOtp = async () => {
-    console.log(formikValues.phoneNumber);
     if (!formikValues.phoneNumber) {
       console.error("Invalid phone number");
       return;
@@ -83,13 +83,10 @@ const OtpVerification = ({
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
       console.log("Successfully signed in with OTP");
-      const token = auth?.currentUser?.accessToken;
+      const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-      console.log(auth.currentUser, "435435");
-      console.log(credential, "CREDDD");
 
       let endpoint = action === "login" ? login : signup;
-      console.log(endpoint, "dfgdgdfg");
       const response = await axios.post(
         endpoint,
         {
@@ -97,21 +94,27 @@ const OtpVerification = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokenn}`,
           },
         }
       );
-      logIn();
-      console.log(response,"LOGIN RESPPP")
-         const localToken = response.data.token;
-         Cookies.set("localtoken", localToken);
-         console.log("local______", localToken);
-      router.push("/");
+      // logIn();
+      console.log("LOGIN RESPPP", response.data.user);
+      const localToken = response.data.token;
+      Cookies.set("localtoken", localToken);
+      console.log("intial token", Cookies.get("localtoken"));
+      // router.push("/");
+      if (action === "signup") {
+        router.push("/login");
+      } else {
+        logIn();
+        router.push("/");
+      }
     } catch (error: any) {
       console.error("Error signing in with OTP:", error);
       setErrorMessage(error.response?.data?.message);
       if (error.response) {
-        console.error("Backend error data:", error.response.data);
+        console.error("Backend error data will show:", error.response.data);
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
         setErrorMessage(error.response?.data?.error);
@@ -127,11 +130,17 @@ const OtpVerification = ({
     setUpRecaptcha();
   }, []);
 
+  const handleCombinedClick2 = (e: any) => {
+    if (e.key === "Enter") {
+      handleCombinedClick();
+    }
+  };
   const handleCombinedClick = () => {
-    onVerify("login");
     if (isRegisterPage) {
       onVerify("signup");
       onSubmit(formikValues);
+    } else {
+      onVerify("login");
     }
   };
   const handleLoginSubmit = () => {
@@ -141,40 +150,63 @@ const OtpVerification = ({
     }
     onSendOtp();
   };
+
   return (
     <div className="otpVerification">
       {isOtpSent ? (
-        <div className="bg-gray-100">
-          <h1 className="font-bold">Enter Verification Code</h1>
-          <OTPInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            renderSeparator={<span>-</span>}
-            renderInput={(props) => <input {...props} />}
-          />
+        <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+          <h1 className="text-center text-xl font-bold mb-4">
+            Enter Verification Code
+          </h1>
+          <div
+            className="flex justify-center items-center mb-6"
+            onKeyDown={handleCombinedClick2}
+          >
+            <OTPInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              renderSeparator={<span className="mx-2">-</span>}
+              renderInput={(props) => <input {...props} className="otpInput" />}
+            />
+          </div>
           <button
-            className="p-2 bg-pink-500 rounded-2xl font-medium"
+            className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
             onClick={handleCombinedClick}
           >
             Verify
           </button>
           {errorMessage && (
-            <h1 className="text-red-500 font-medium">{errorMessage}</h1>
+            <p className="text-center text-red-500 mt-3">{errorMessage}</p>
           )}
         </div>
       ) : (
-        <div>
+        <div className="text-center">
           <button
-            className="bg-pink-500 p-3 rounded-2xl text-white font-medium flex flex-col items-center"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              console.log("target key", event.key);
+              if (event.key === "Enter") {
+                event.preventDefault();
+                handleLoginSubmit();
+              }
+            }}
+            className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
             onClick={handleLoginSubmit}
           >
-            Send OTP
-            {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+            {loading ? (
+              <>
+                <span>Sending OTP</span>
+                <CgSpinner size={20} className="ml-2 animate-spin" />
+              </>
+            ) : (
+              <span>Send OTP</span>
+            )}
           </button>
-          {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
-      )}{" "}
+      )}
       <div id="recaptcha-container"></div>
     </div>
   );

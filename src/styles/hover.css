@@ -384,7 +384,6 @@
 }
 /********************** Effect 11 *************************/
 .effect11 {
-  float: left;
   display: inline-block;
   width: 100%;
   max-width: 300px;
@@ -403,7 +402,7 @@
   color: #fff;
   width: 100%;
   text-align: center;
-  font-size: 20px;
+  font-size: 28px;
   height: 0px;
   position: absolute;
   transition: 0.5s ease all;
@@ -421,12 +420,12 @@
   opacity: 1;
   bottom: 3px;
   transform: scale(1);
-  text-shadow: -0 -1px 1px #000000, 0 -1px 1px #000000, -0 1px 1px #000000,
+  /* text-shadow: -0 -1px 1px #000000, 0 -1px 1px #000000, -0 1px 1px #000000,
     0 1px 1px #000000, -1px -0 1px #000000, 1px -0 1px #000000,
     -1px 0 1px #000000, 1px 0 1px #000000, -1px -1px 1px #000000,
     1px -1px 1px #000000, -1px 1px 1px #000000, 1px 1px 1px #000000,
     -1px -1px 1px #000000, 1px -1px 1px #000000, -1px 1px 1px #000000,
-    1px 1px 1px #000000;
+    1px 1px 1px #000000; */
 }
 .effect11:hover img {
   transform: scale(1.5);
@@ -481,4 +480,58 @@
 .effect12:hover img {
   transform: scale(1.5);
   transform: rotate(0deg);
+}
+.profile-sidebar{
+  background-color:white !important;
+  color: #e26178 !important;
+  border: solid 1px #e26178 !important;
+}
+
+/********************** Effect 14 *************************/
+.effect14 {
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+  margin-right: 1.5%;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.effect14 img {
+  transform: scale(1);
+  max-width: 100%;
+  transition: 0.5s ease all;
+}
+.effect14 a {
+  text-decoration: none;
+  color: #f03b5c;
+  width: 100%;
+  text-align: center;
+  font-size: 28px;
+  height: 0px;
+  position: absolute;
+  transition: 0.5s ease all;
+  visibility: hidden;
+  opacity: 0;
+  bottom: 150px;
+  transform: scale(0.3);
+}
+.effect14:hover a {
+  background: rgba(0, 0, 0, 0);
+  visibility: visible;
+  left: 0;
+  height: 0%;
+  padding: 50.1% 0;
+  opacity: 1;
+  bottom: 3px;
+  transform: scale(1);
+  /* text-shadow: -0 -1px 1px #000000, 0 -1px 1px #000000, -0 1px 1px #000000,
+    0 1px 1px #000000, -1px -0 1px #000000, 1px -0 1px #000000,
+    -1px 0 1px #000000, 1px 0 1px #000000, -1px -1px 1px #000000,
+    1px -1px 1px #000000, -1px 1px 1px #000000, 1px 1px 1px #000000,
+    -1px -1px 1px #000000, 1px -1px 1px #000000, -1px 1px 1px #000000,
+    1px 1px 1px #000000; */
+}
+.effect14:hover img {
+  transform: scale(1.5);
 }

@@ -81,7 +81,7 @@ const DiamondCard: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center", accentColor: "##E26178" }}>
               <input
                 type="range"
                 min={1000}
@@ -131,6 +131,9 @@ const DiamondCard: React.FC = () => {
                 ₹{redemptionAmount.toLocaleString("en-IN")}
               </h1>
             </div>
+          </div>
+          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">
+            Enroll Now
           </div>
         </div>
       </div>

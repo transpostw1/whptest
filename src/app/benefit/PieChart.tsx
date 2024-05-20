@@ -20,8 +20,8 @@ const PieChart: React.FC<PieChartProps> = ({
     datasets: [
       {
         data: [totalAmount, remainingAmount],
-        backgroundColor: ["#28a745", "#002d62"],
-        hoverBackgroundColor: ["#3F9142", "#003d7d"],
+        backgroundColor: ["#4DB4A1", "#E26178"],
+        hoverBackgroundColor: ["#265A50", "#b44d60"],
         hoverOffset: 6,
       },
     ],

@@ -158,6 +158,7 @@ const addUserDetails = async (details: UserDetails) => {
   Object.keys(details).forEach((key) => {
     const typedKey = key as UserDetailsKeys; 
     formData.append(typedKey, details[typedKey] as any);
+    
   });
 
   try {

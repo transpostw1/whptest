@@ -108,7 +108,7 @@ interface UserDetails {
   alternatePhone: string;
   gender: string;
   dateOfBirth: string;
-  profilePicture: File;
+  profilePicture: File|null;
 }
 
 type UserDetailsKeys = keyof UserDetails;
@@ -162,9 +162,7 @@ const addUserDetails = async (details: UserDetails) => {
   });
 
   try {
-    const response = await instance.post(updateProfile, formData,{
-      
-    });
+    const response = await instance.post(updateProfile, formData);
     return response.data;
   } catch (error) {
     console.error("Error adding user details.:", error);

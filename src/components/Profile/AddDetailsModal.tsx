@@ -10,13 +10,15 @@ interface ModalProps {
 }
 
 interface FormValues {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
-  alternatePhone: string;
+  altPhone: string;
   gender: string;
-  dateOfBirth: string;
+  dobDay: string;
+  dobMonth: string;
+  dobYear: string;
   profilePicture: File | null;
 }
 
@@ -24,17 +26,20 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
   const { addUserDetails } = useUser();
+  
 
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string().required("First name is required"),
-    lastname: Yup.string().required("Last name is required"),
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    phone: Yup.string(),
-    alternatePhone: Yup.string().required("Alternate phone number is required"),
+    phone: Yup.string().required("Phone number is required"),
+    altPhone: Yup.string().required("Alternate phone number is required"),
     gender: Yup.string().required("Gender is required"),
-    dateOfBirth: Yup.string().required("Date of birth is required"),
+    dobDay: Yup.string().required("Day is required"),
+    dobMonth: Yup.string().required("Month is required"),
+    dobYear: Yup.string().required("Year is required"),
     profilePicture: Yup.mixed().required("Profile picture is required"),
   });
 
@@ -42,10 +47,19 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     setIsLoading(true);
     setFormError("");
 
+    const formattedValues = {
+      firstname: values.firstName,
+      lastname: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      alternatePhone: values.altPhone,
+      gender: values.gender,
+      dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+      profile_picture: values.profilePicture,
+    };
+
     try {
-      await addUserDetails(
-        values as Omit<FormValues, "profilePicture"> & { profilePicture: File }
-      );
+      await addUserDetails(formattedValues);
       onClose();
       formik.resetForm();
     } catch (error) {
@@ -59,13 +73,15 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
       phone: "",
-      alternatePhone: "",
+      altPhone: "",
       gender: "",
-      dateOfBirth: "",
+      dobDay: "",
+      dobMonth: "",
+      dobYear: "",
       profilePicture: null,
     },
     validationSchema,
@@ -124,52 +140,50 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="mb-4">
               <div className="relative">
                 <input
-                  id="firstname"
-                  // name="firstname"
+                  id="firstName"
                   type="text"
-                  {...formik.getFieldProps("firstname")}
+                  {...formik.getFieldProps("firstName")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.firstname
+                    formik.errors.firstName
                       ? "border-red-500"
                       : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="firstname"
+                  htmlFor="firstName"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   First Name
                 </label>
               </div>
-              {formik.errors.firstname && (
+              {formik.errors.firstName && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.firstname}
+                  {formik.errors.firstName}
                 </div>
               )}
             </div>
             <div className="mb-4">
               <div className="relative">
                 <input
-                  id="lastname"
-                  // name="lastname"
+                  id="lastName"
                   type="text"
-                  {...formik.getFieldProps("lastname")}
+                  {...formik.getFieldProps("lastName")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.lastname
+                    formik.errors.lastName
                       ? "border-red-500"
                       : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="firstname"
+                  htmlFor="lastName"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   Last Name
                 </label>
               </div>
-              {formik.errors.firstname && (
+              {formik.errors.lastName && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.firstname}
+                  {formik.errors.lastName}
                 </div>
               )}
             </div>
@@ -177,7 +191,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <div className="relative">
                 <input
                   id="email"
-                  // name="firstname"
                   type="text"
                   {...formik.getFieldProps("email")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
@@ -199,7 +212,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <div className="relative">
                 <input
                   id="phone"
-                  // name="firstname"
                   type="text"
                   {...formik.getFieldProps("phone")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
@@ -207,7 +219,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="firstname"
+                  htmlFor="phone"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   Phone
@@ -220,26 +232,25 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="mb-4">
               <div className="relative">
                 <input
-                  id="alternatePhone"
-                  // name="firstname"
+                  id="altPhone"
                   type="text"
-                  {...formik.getFieldProps("alternatePhone")}
+                  {...formik.getFieldProps("altPhone")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.alternatePhone
+                    formik.errors.altPhone
                       ? "border-red-500"
                       : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="alternatePhone"
+                  htmlFor="altPhone"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
-                  Alternate phone
+                  Alternate Phone
                 </label>
               </div>
-              {formik.errors.alternatePhone && (
+              {formik.errors.altPhone && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.alternatePhone}
+                  {formik.errors.altPhone}
                 </div>
               )}
             </div>
@@ -247,16 +258,15 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <div className="relative">
                 <select
                   id="gender"
-                  // name="gender"
                   {...formik.getFieldProps("gender")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.gender ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="" label="Select gender" />
+                  <option value="male" label="Male" />
+                  <option value="female" label="Female" />
+                  <option value="other" label="Other" />
                 </select>
                 <label
                   htmlFor="gender"
@@ -269,117 +279,82 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="text-red-500 mt-1">{formik.errors.gender}</div>
               )}
             </div>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="mb-4">
-              <div className="relative flex">
-                <div className="mr-2">
-                  <select
-                    id="dateOfBirth"
-                    // name="dobDay"
-                    {...formik.getFieldProps("dateOfBirth")}
-                    className={`block px-2.5 pb-2.5 pt-4 w-16 text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.dateOfBirth
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                  >
-                    <option value="">Day</option>
-                    {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                      <option key={day} value={day}>
-                        {day}
-                      </option>
-                    ))}
-                  </select>
-                  <label
-                    htmlFor="dateOfBirth"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Day
-                  </label>
-                </div>
-                <div className="mr-2">
-                  <select
-                    id="dobMonth"
-                    // name="dobMonth"
-                    {...formik.getFieldProps("dobMonth")}
-                    className={`block px-2.5 pb-2.5 pt-4 w-24 text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.dateOfBirth
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                  >
-                    <option value="">Month</option>
-                    {[
-                      "January",
-                      "February",
-                      "March",
-                      "April",
-                      "May",
-                      "June",
-                      "July",
-                      "August",
-                      "September",
-                      "October",
-                      "November",
-                      "December",
-                    ].map((month, index) => (
-                      <option key={month} value={index + 1}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <label
-                    htmlFor="dobMonth"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Month
-                  </label>
-                </div>
-                <div>
-                  <select
-                    id="dobYear"
-                    // name="dobYear"
-                    {...formik.getFieldProps("dobYear")}
-                    className={`block px-2.5 pb-2.5 pt-4 w-24 text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.dobYear
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                  >
-                    <option value="">Year</option>
-                    {Array.from(
-                      { length: 100 },
-                      (_, i) => new Date().getFullYear() - i
-                    ).map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                  <label
-                    htmlFor="dobYear"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Year
-                  </label>
-                </div>
+              <div className="relative">
+                <input
+                  id="dobDay"
+                  type="text"
+                  {...formik.getFieldProps("dobDay")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.dobDay ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="dobDay"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  Day
+                </label>
               </div>
-              {/* {(formik.errors.dobDay ||
-                formik.errors.dobMonth ||
-                formik.errors.dobYear) && (
+              {formik.errors.dobDay && (
+                <div className="text-red-500 mt-1">{formik.errors.dobDay}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="dobMonth"
+                  type="text"
+                  {...formik.getFieldProps("dobMonth")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.dobMonth
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="dobMonth"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  Month
+                </label>
+              </div>
+              {formik.errors.dobMonth && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.dobDay ||
-                    formik.errors.dobMonth ||
-                    formik.errors.dobYear}
+                  {formik.errors.dobMonth}
                 </div>
-              )} */}
+              )}
+            </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="dobYear"
+                  type="text"
+                  {...formik.getFieldProps("dobYear")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.dobYear ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="dobYear"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  Year
+                </label>
+              </div>
+              {formik.errors.dobYear && (
+                <div className="text-red-500 mt-1">{formik.errors.dobYear}</div>
+              )}
             </div>
           </div>
           <button
             type="submit"
-            className={`my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500 ${
+            disabled={isLoading}
+            className={`bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            disabled={isLoading}
           >
             {isLoading ? "Submitting..." : "Submit"}
           </button>

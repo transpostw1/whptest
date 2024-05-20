@@ -18,7 +18,7 @@ import { useCategory } from "@/context/CategoryContex";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
-  const {category,setCustomcategory}=useCategory()
+  const { category, setCustomcategory } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [mobileFilter, setMobileFilter] = useState<boolean>(false);
@@ -63,22 +63,40 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
-
   useEffect(() => {
     const fetchData = async () => {
-      setCustomcategory(localStorage.getItem("category"));
+      if (typeof window !== "undefined") {
+        // Check if window is defined
+        setCustomcategory(localStorage.getItem("category"));
+      }
       try {
         setIsLoading(true);
         const response = await axios.get(`${baseUrl}/jewellery/${category}`);
         setData(response.data);
         setFilteredData(response.data);
         setIsLoading(false);
-      }catch(error){
-        console.log("Error Occurred",error)
+      } catch (error) {
+        console.log("Error Occurred", error);
       }
-    }
+    };
     fetchData();
   }, [category, setCustomcategory]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setCustomcategory(localStorage.getItem("category"));
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await axios.get(`${baseUrl}/jewellery/${category}`);
+  //       setData(response.data);
+  //       setFilteredData(response.data);
+  //       setIsLoading(false);
+  //     }catch(error){
+  //       console.log("Error Occurred",error)
+  //     }
+  //   }
+  //   fetchData();
+  // }, [category, setCustomcategory]);
 
   useEffect(() => {
     let sortedData = [...filteredData];
@@ -106,7 +124,7 @@ const ShopBreadCrumb1 = () => {
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
-        <MobileMainCategorySwiper/>
+        <MobileMainCategorySwiper />
         <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
           <FilterSidebar
             data={data}
@@ -127,7 +145,7 @@ const ShopBreadCrumb1 = () => {
                 transform an outfit, framing the face with style and grace.
                 <div className="flex flex-wrap lg:hidden sm:block md:hidden">
                   {Object.entries(selectedOptions).flatMap(
-                    ([category, options ]) =>
+                    ([category, options]) =>
                       options.map((option: string, index: number) => (
                         <div
                           key={`${category}-${index}`}

@@ -3,15 +3,18 @@ import { ProductData,ProductType } from '@/type/ProductType';
 
 const useRecentlyViewedProducts = () => {
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState<ProductType[]>([]);
-
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem('recentlyViewedProducts') || '[]');
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const storedProducts = JSON.parse(
+      localStorage.getItem("recentlyViewedProducts") || "[]"
+    );
     setRecentlyViewedProducts(storedProducts);
-  }, []);
-
+  }
+}, []);
   const saveToRecentlyViewed = (product: ProductData | null) => {
-    if (product) {
-      const recentlyViewedProducts = JSON.parse(localStorage.getItem('recentlyViewedProducts') || '[]');
+ if (typeof window !== 'undefined') {
+        if (product) {
+            const recentlyViewedProducts = JSON.parse(localStorage.getItem('recentlyViewedProducts') || '[]');
   
       // Check if the product already exists in the local storage
       const existingProduct = recentlyViewedProducts.find(p => p?.productId === product?.productDetails?.productId);  
@@ -39,5 +42,6 @@ const useRecentlyViewedProducts = () => {
 
   return { recentlyViewedProducts, saveToRecentlyViewed, removeFromRecentlyViewed };
 };
+}
 
 export default useRecentlyViewedProducts;

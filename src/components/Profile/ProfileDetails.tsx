@@ -23,12 +23,14 @@ const ProfileDetails = () => {
     }
   }, [isLoggedIn, router]);
   
-  const handleLogOut = () => {
+const handleLogOut = () => {
+  if (typeof window !== "undefined") {
     Cookies.remove("localtoken");
     localStorage.clear();
     logOut();
     router.push("/");
-  };
+  }
+};
   const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);

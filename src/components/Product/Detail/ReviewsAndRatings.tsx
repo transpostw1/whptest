@@ -8,7 +8,7 @@ import StarRating from "@/components/Other/StarRating";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { baseUrl, storeReviews } from "@/utils/constants";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 import FlashAlert from "@/components/Other/FlashAlert";
 interface Props {
   product: ProductData;
@@ -18,7 +18,10 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [review, setReview] = useState<string>("");
   const [activeTab, setActiveTab] = useState("tab1");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const loggedIn = localStorage.getItem("isLoggedIn");
+  let loggedIn = null;
+  if (typeof window != undefined) {
+    loggedIn = localStorage.getItem("isLoggedIn");
+  }
   // Function to handle file selection
   const handleImageChange = (event: any) => {
     const imageFiles = event.target.files;
@@ -41,29 +44,28 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleReveiwChange = (e: any) => {
     setReview(e.target.value);
   };
-  const handleReviews = (e:any) => {
-    e?.preventDefault()
-    try{
+  const handleReviews = (e: any) => {
+    e?.preventDefault();
+    try {
       const cookieToken = Cookies.get("localtoken");
-    const response = axios.post(
-      `${baseUrl}${storeReviews}`,
-      {
-        productId: product.productDetails.productId,
-        rating: 4.5,
-        review: review,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
+      const response = axios.post(
+        `${baseUrl}${storeReviews}`,
+        {
+          productId: product.productDetails.productId,
+          rating: 4.5,
+          review: review,
         },
-      }
-    );
-    }catch(error){
-      console.log("Error Ocuuredd",error)
-    }finally{
-      setReview("")
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log("Error Ocuuredd", error);
+    } finally {
+      setReview("");
     }
-    
   };
   console.log("dadadadadaa", loggedIn);
   return (

@@ -24,7 +24,8 @@ const useRecentlyViewedProducts = () => {
           recentlyViewedProducts.pop();
         }
   
-        localStorage.setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts));
+        // localStorage.setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts));
+        {typeof window !== 'undefined' && localStorage.setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts))}
       }
     }
   };
@@ -33,6 +34,7 @@ const useRecentlyViewedProducts = () => {
     const updatedProducts = recentlyViewedProducts.filter(product => product.productId !== productId);
     setRecentlyViewedProducts(updatedProducts);
     localStorage.setItem('recentlyViewedProducts', JSON.stringify(updatedProducts));
+    
   };
 
   return { recentlyViewedProducts, saveToRecentlyViewed, removeFromRecentlyViewed };

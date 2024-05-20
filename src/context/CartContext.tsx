@@ -100,7 +100,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const saveCartItemsToStorage = (cartItems: CartItem[]) => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (typeof window != undefined) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {

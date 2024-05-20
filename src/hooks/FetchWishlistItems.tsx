@@ -12,9 +12,12 @@ export const useFetchWishlistItems = () => {
       try {
         setIsLoading(true);
         const wishlistData = await getWishlist();
-        const localWishlistItems = JSON.parse(
+        let localWishlistItems=null
+        if(typeof window!=='undefined'){
+          localWishlistItems = JSON.parse(
           localStorage.getItem("wishlistItems") || "[]"
         );
+        }
         const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
         const uniqueWishlistItems = mergedWishlistItems.filter(
           (item, index, self) =>

@@ -76,15 +76,3 @@ const BenefitCalculator = () => {
 };
 
 export default BenefitCalculator;
-
-
-
-// "use client";
-// import React, { useState } from "react";
-
-
-// const BenefitCalculator: React.FC = () => {
-//  div
-// };
-
-// export default BenefitCalculator;

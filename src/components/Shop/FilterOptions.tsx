@@ -12,7 +12,7 @@ const Filter = [
   },
   {
     title: "Karat",
-    options: ["14k", "22k", "24k"],
+    options: ["14k", "18K","22k","23K","24k"],
   },
   {
     title: "Weight",
@@ -22,25 +22,23 @@ const Filter = [
     title: "Gender",
     options: ["Men", "Women", "Kids"],
   },
-  { title: "Type", options: [] },
-  {
-    title: "Style",
-    options: [],
-  },
+  { title: "Metal", options: ["Rose Gold","White Gold","Yellow Gold","Diamond","Sliver"] },
   {
     title: "Occasion",
     options: [
+      "Birth",
+      "Casual Wear",
+      "Daily Indian",
+      "Engagement",
+      "Festive",
       "Everyday",
       "Work Wear",
-      "Wedding",
+      "Wedding Wear",
       "Desk to Dinner",
       "Evening",
       "Party Wear",
     ],
   },
-  { title: "Colours", options: [] },
-  { title: "Delivery", options: ["Fast Delivery", "Cash On Delivery", "EMI"] },
-  { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
 ];
 interface Props{
   filterDropDown:string;

@@ -344,12 +344,12 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("earrings")}
+                  onClick={() => setCustomcategory("earring")}
                 >
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "earrings" },
+                      query: { url: "earring" },
                     }}
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >

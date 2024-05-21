@@ -11,6 +11,7 @@ interface Props {
   setMobileFilter: (arg: boolean) => void;
   selectedOptions: any;
   handleOptionSelect: (arg: string, arg2: string) => void;
+  productsListRef: React.RefObject<HTMLDivElement>;
 }
 const FilterSidebar: React.FC<Props> = ({
   data,
@@ -19,16 +20,48 @@ const FilterSidebar: React.FC<Props> = ({
   setMobileFilter,
   selectedOptions,
   handleOptionSelect,
+  productsListRef,
 }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("Price");
   const [fixedHeader, setFixedHeader] = useState<boolean>(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const [lastScrollPosition, setLastScrollPosition] = useState<any>(0);
+  const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
   const divRef = useRef<any>(null);
 
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sidebarElement = sidebarRef.current;
+      const productsListElement = productsListRef.current;
+  
+      if (sidebarElement && productsListElement) {
+        const sidebarTop = sidebarElement.offsetTop;
+        const sidebarBottom = sidebarElement.offsetTop + sidebarElement.offsetHeight;
+        const productsListBottom = productsListElement.offsetTop + productsListElement.offsetHeight;
+        const windowHeight = window.innerHeight + window.pageYOffset;
+  
+        const isAboveProductsList = windowHeight > sidebarTop;
+        const isAtProductsListBottom = sidebarBottom >= productsListBottom && windowHeight >= productsListBottom; // Check for end of products
+        const isSidebarInViewport = isAboveProductsList && !isAtProductsListBottom;
+  
+
+
+        setIsSidebarFixed(isSidebarInViewport);
+      }
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+  
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [productsListRef]);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -73,9 +106,15 @@ const FilterSidebar: React.FC<Props> = ({
                 product.metalPurity.includes(option.slice(0, -1))
               );
             case "Weight":
-              return selectedValues.includes(product.weightRange);
+              return selectedValues.some((option: string) =>
+                product.weightRange.includes(option.slice(0, -1))
+              );
             case "Gender":
               return selectedValues.includes(product.shopFor[0]);
+            case "Metal":
+              return selectedValues.some((option: string) =>
+                product.tags.includes(option.slice(0, -1))
+              );
             case "Occasion":
               return selectedValues.includes(product.occasion);
             default:
@@ -104,12 +143,18 @@ const FilterSidebar: React.FC<Props> = ({
     <>
       <div
         className={`sidebar lg:w-[300px] md:w-1/3 w-full md:pr-12 lg:block hidden md:block`}
-        ref={divRef}
+        ref={sidebarRef}
       >
         <div
           className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-            fixedHeader ? "fixed top-[121px] w-[250px]" : "relative"
+            isSidebarFixed ? "fixed top-[161px] w-[250px]" : "relative"
           }`}
+          style={{
+            position: isSidebarFixed ? "fixed" : "relative",
+            top: isSidebarFixed ? "161px" : "auto",
+            width: isSidebarFixed ? "250px" : "auto",
+          }}
+  
         >
           <div className="heading6 border-b-2">FILTER BY</div>
           <div className="mt-5">

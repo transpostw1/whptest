@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import AddDetailsModal from "./AddDetailsModal";
+import { useUser } from "@/context/UserContext";
+import Image from "next/image";
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -17,12 +19,23 @@ const ProfileSidebar: React.FC<Props> = ({
 
  const openModal = () => setModalOpen(true);
  const closeModal = () => setModalOpen(false);
+const { userDetails } = useUser();
 
   return (
     <div>
       <div className="hidden sm:block  p-8 w-80 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          D
+          {userDetails?.customer.profile_picture ? (
+            <Image
+              src={userDetails.customer.profile_picture}
+              className="rounded-full h-full w-full"
+              alt="Profile Picture"
+              width={90}
+              height={100}
+            />
+          ) : (
+            <Icon.UserCircle size={50} />
+          )}
         </div>
         <div>
           <p className="text-xl font-semibold mt-2">Add Details</p>

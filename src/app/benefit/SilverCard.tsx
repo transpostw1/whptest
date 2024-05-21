@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
+import instance from "@/utils/axios";
+
 
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -47,6 +49,24 @@ const SilverCard: React.FC = () => {
         setMonthlyDeposit(newValue);
         setError(null);
       }
+    }
+  };
+
+
+  const handleEnroll = async () => {
+    try {
+      const response = await instance.post(
+        "https://your-api-endpoint.com/enroll",
+        {
+          schemetype: "Silver",
+          monthlydeposit: monthlyDeposit,
+        }
+      );
+
+      console.log("Enrollment successful", response.data);
+    } catch (error) {
+      console.error("Error during enrollment", error);
+      
     }
   };
 
@@ -104,13 +124,13 @@ const SilverCard: React.FC = () => {
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
-              <h1 className="text-slate-500">(Period of 11 months)</h1>
+              {/* <h1 className="text-slate-500">(Period of 11 months)</h1> */}
             </div>
             <div>
               <h1 className="line-through">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
-              <h1> ₹{redemptionAmount.toLocaleString("en-IN")}</h1>
+              {/* <h1> ₹{redemptionAmount.toLocaleString("en-IN")}</h1> */}
             </div>
           </div>
           <div className="flex justify-between">
@@ -131,7 +151,10 @@ const SilverCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">
+          <div
+            className="bg-[#E26178] text-center p-1 rounded-lg w-full"
+            onClick={handleEnroll}
+          >
             Enroll Now
           </div>
         </div>

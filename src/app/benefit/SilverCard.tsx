@@ -154,14 +154,7 @@ const SilverCard: React.FC = () => {
               </h1>
             </div>
           </div>
-<<<<<<< HEAD
           <div className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full">
-=======
-          <div
-            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
-            onClick={handleEnroll}
-          >
->>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e
             Enroll Now
           </div>
         </div>

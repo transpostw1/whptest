@@ -129,7 +129,7 @@ const GoldCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">Enroll Now</div>
+          <div className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full">Enroll Now</div>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import Cookie from "js-cookie";
 import { baseUrl, getOrders } from "@/utils/constants";
 import MobileGms from "@/components/Profile/MobileGms";
 import ProfileWishList from "@/components/Profile/ProfileWishList";
+import { useUser } from "@/context/UserContext";
 
 interface OrdersResponse {
   customerOrders: any;
@@ -30,7 +31,10 @@ const ProfilePage = () => {
   };
   const handleComponent=(component:string)=>{
     setComponent(component)
+    
   }
+  const { userDetails, isLoggedIn, getUser } = useUser();
+  
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
 
@@ -45,6 +49,11 @@ const ProfilePage = () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
+    useEffect(() => {
+      if (isLoggedIn) {
+        getUser();
+      }
+    }, [isLoggedIn, getUser]);
   const handleOrders = async () => {
     try {
       const cookieToken = Cookie.get("localtoken");

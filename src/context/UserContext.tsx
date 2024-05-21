@@ -147,7 +147,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userState, dispatch] = useReducer(userReducer, initialState);
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
    const router = useRouter();
-   const userToken = Cookies.get("localtoken");
+   const cookieToken = Cookies.get("localtoken");
 
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
@@ -165,6 +165,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           Authorization: `Bearer ${cookieToken}`,
         },
       });
+      console.log(response.data)
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);

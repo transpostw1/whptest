@@ -10,6 +10,7 @@ import axios from "axios";
 const Explore = () => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -24,7 +25,8 @@ const Explore = () => {
     };
     fetchSubBanners();
   }, []);
-  console.log("SubBanners",data.Component_Two);
+
+  console.log("SubBanners",data);
   if (loading) {
     return (
       <div className="flex">

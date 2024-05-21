@@ -79,12 +79,14 @@
 
 "use client";
 
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer,useState } from "react";
 import axios from "axios";
 import { baseUrl, updateProfile } from "@/utils/constants";
 import { auth } from "@/app/config";
 import instance from "@/utils/axios";
+import { CustomerDetails } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -98,8 +100,9 @@ interface UserContextProps {
   logIn: () => void;
   logOut: () => void;
   addUserDetails: (details: UserDetails) => Promise<void>;
+  userDetails: UserDetails | null;
+  getUser: () => Promise<void>;
 }
-
 interface UserDetails {
   firstname: string;
   lastname: string;
@@ -142,7 +145,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
+    const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
    const router = useRouter();
+   const userToken = Cookies.get("localtoken");
 
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
@@ -152,23 +157,38 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     router.push("/");
     dispatch({ type: "LOG_OUT" });
   };
-const addUserDetails = async (details: UserDetails) => {
-  const formData = new FormData();
 
-  Object.keys(details).forEach((key) => {
-    const typedKey = key as UserDetailsKeys; 
-    formData.append(typedKey, details[typedKey] as any);
-    
-  });
+  const getUser = async () => {
+    try {
+      const response = await instance.get(`${baseUrl}${CustomerDetails}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-  try {
-    const response = await instance.post(updateProfile, formData);
-    return response.data;
-  } catch (error) {
-    console.error("Error adding user details.:", error);
-    throw error;
-  }
-};
+ const addUserDetails = async (details: UserDetails) => {
+   const formData = new FormData();
+
+   Object.keys(details).forEach((key) => {
+     const typedKey = key as UserDetailsKeys;
+     formData.append(typedKey, details[typedKey] as any);
+   });
+
+   try {
+     const response = await instance.post(updateProfile, formData);
+     await getUser(); 
+     return response.data;
+   } catch (error) {
+     console.error("Error adding user details:", error);
+     throw error;
+   }
+ };
+
 
 
   return (
@@ -179,6 +199,8 @@ const addUserDetails = async (details: UserDetails) => {
         logIn,
         logOut,
         addUserDetails,
+        userDetails,
+        getUser,
       }}
     >
       {children}

@@ -204,13 +204,14 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            // className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            className="button-main"
             onClick={handleLoginSubmit}
           >
             {loading ? (
               <>
                 <span>Sending OTP</span>
-                <CgSpinner size={20} className="ml-2 animate-spin" />
+                <CgSpinner size={20} className="ml-10 animate-spin" />
               </>
             ) : (
               <span>Send OTP</span>

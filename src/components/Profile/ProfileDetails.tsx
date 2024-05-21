@@ -9,13 +9,15 @@ import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 
+
+
 const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
-  const { logOut, isLoggedIn } = useUser();
+  const { logOut, isLoggedIn,userDetails } = useUser();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -104,9 +106,7 @@ const handleLogOut = () => {
         </div>
       </div>
       <div className="flex justify-end">
-       
-          <p className="font-bold">Wallet Balance:500</p>
-      
+        <p className="font-bold">Wallet Balance:{userDetails?.customer.wallet_amount}</p>
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
@@ -117,7 +117,7 @@ const handleLogOut = () => {
             >
               First name
             </label>
-          Dummy1
+            {userDetails?.customer?.firstname}
           </div>
           <div>
             <label
@@ -126,7 +126,7 @@ const handleLogOut = () => {
             >
               Last name
             </label>
-           Dummy2
+            {userDetails?.customer?.lastname}
           </div>
           <div>
             <label
@@ -135,7 +135,7 @@ const handleLogOut = () => {
             >
               Phone number
             </label>
-        2344241342
+            {userDetails?.customer?.mobile_no}
           </div>
           <div>
             <label
@@ -144,7 +144,7 @@ const handleLogOut = () => {
             >
               Email address
             </label>
-             Email@gmail.com
+            {userDetails?.customer?.email}
           </div>
         </div>
       </form>

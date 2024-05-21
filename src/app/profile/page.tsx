@@ -22,19 +22,26 @@ interface OrdersResponse {
 const ProfilePage = () => {
   const [componentToRender, setComponentToRender] =
     useState<string>("personalInfo");
-    const [component, setComponent] =
-    useState<string>("");
+  const [component, setComponent] = useState<string>("");
   const [ordersData, setOrdersData] = useState<any>();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const handleComponentToRender = (component: string) => {
     setComponentToRender(component);
   };
+<<<<<<< HEAD
   const handleComponent=(component:string)=>{
     setComponent(component)
     
   }
   const { userDetails, isLoggedIn, getUser } = useUser();
   
+=======
+  const handleComponent = (component: string) => {
+    setComponent(component);
+  };
+  const {  isLoggedIn, getUser } = useUser();
+
+>>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
 
@@ -49,11 +56,19 @@ const ProfilePage = () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
+<<<<<<< HEAD
     useEffect(() => {
       if (isLoggedIn) {
         getUser();
       }
     }, [isLoggedIn, getUser]);
+=======
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser();
+    }
+  }, []);
+>>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e
   const handleOrders = async () => {
     try {
       const cookieToken = Cookie.get("localtoken");
@@ -71,7 +86,7 @@ const ProfilePage = () => {
   if (isMobile) {
     return (
       <div>
-        <StickyNav/>
+        <StickyNav />
         {component === "" && (
           <MobileProfileSideBar
             handleComponent={handleComponent}
@@ -79,9 +94,13 @@ const ProfilePage = () => {
             handleOrder={handleOrders}
           />
         )}
-        {component === "personalInfo" && <MobilePersonalInformation handleComponent={handleComponent}/>}
-        {component==="orders"&&<MobileOrders orders={ordersData} handleComponent={handleComponent}/>}
-        {component==="gms"&&<MobileGms handleComponent={handleComponent}/>}
+        {component === "personalInfo" && (
+          <MobilePersonalInformation handleComponent={handleComponent} />
+        )}
+        {component === "orders" && (
+          <MobileOrders orders={ordersData} handleComponent={handleComponent} />
+        )}
+        {component === "gms" && <MobileGms handleComponent={handleComponent} />}
       </div>
     );
   }
@@ -100,7 +119,7 @@ const ProfilePage = () => {
           {componentToRender === "orders" && (
             <ProfileOrders orders={ordersData} />
           )}
-          {componentToRender==="whislist"&&(<ProfileWishList/>)}
+          {componentToRender === "whislist" && <ProfileWishList />}
           {componentToRender === "gms" && <ProfileGMS />}
         </div>
       </div>

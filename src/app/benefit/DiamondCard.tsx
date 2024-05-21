@@ -105,13 +105,13 @@ const DiamondCard: React.FC = () => {
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
-              <h1 className="text-slate-500">(Period of 11 months)</h1>
+              {/* <h1 className="text-slate-500">(Period of 11 months)</h1> */}
             </div>
             <div>
               <h1 className="line-through">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
-              <h1>₹{redemptionAmount.toLocaleString("en-IN")}</h1>
+              {/* <h1>₹{redemptionAmount.toLocaleString("en-IN")}</h1> */}
             </div>
           </div>
           <div className="flex justify-between">

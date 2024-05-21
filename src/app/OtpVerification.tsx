@@ -14,6 +14,7 @@ import axios from "../utils/axios";
 import { signup, login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import Cookies from "js-cookie";
+import Preloader from "@/components/Other/Preloader";
 
 interface OtpVerificationProps {
   phoneNumber: string;
@@ -38,6 +39,7 @@ const OtpVerification = ({
   const [verificationId, setVerificationId] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verifying,setVerifying]= useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { logIn, userState } = useUser();
 
@@ -80,6 +82,7 @@ const OtpVerification = ({
       return;
     }
     try {
+      setVerifying(true);
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
       console.log("Successfully signed in with OTP");
@@ -111,6 +114,7 @@ const OtpVerification = ({
         router.push("/");
       }
     } catch (error: any) {
+       setVerifying(false);
       console.error("Error signing in with OTP:", error);
       setErrorMessage(error.response?.data?.message);
       if (error.response) {
@@ -174,7 +178,16 @@ const OtpVerification = ({
             className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
             onClick={handleCombinedClick}
           >
-            Verify
+            {verifying ? (
+              <>
+                <Preloader />
+                Verifying OTP...
+                {/* <span>Verifying OTP</span>
+                <CgSpinner size={20} className="animate-spin"/> */}
+              </>
+            ) : (
+              <span>Verify</span>
+            )}
           </button>
           {errorMessage && (
             <p className="text-center text-red-500 mt-3">{errorMessage}</p>

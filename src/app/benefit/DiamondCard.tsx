@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
-import diamondbg from "/images/bg/diamondbg.jpg";
+import instance from "@/utils/axios";
+import { baseUrl, gms } from "@/utils/constants";
+import Cookies from "js-cookie";
 
 const DiamondCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -8,6 +10,7 @@ const DiamondCard: React.FC = () => {
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit;
+      const cookieToken = Cookies.get("localtoken");
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -51,8 +54,27 @@ const DiamondCard: React.FC = () => {
     }
   };
 
+
+      const handleEnroll = async () => {
+        try {
+          const response = await instance.post(`${baseUrl}${gms}`, {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+            },
+            schemeType: "Diamond",
+            // amount: monthlyDeposit,
+            amount: "2000",
+          });
+
+          console.log("Enrollment successful", response.data);
+        } catch (error) {
+          console.error("Error during enrollment", error);
+        }
+      };
+
+
   return (
-    <div className="bg-[#cbebf2] h-full rounded-xl p-4 md:p-0">
+    <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
         Diamond
       </h3>
@@ -101,11 +123,10 @@ const DiamondCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start gap-8 mt-7 w-full md:w-96 font-medium mr-0 md:mr-24">
+        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-52 font-medium ">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
-              {/* <h1 className="text-slate-500">(Period of 11 months)</h1> */}
             </div>
             <div>
               <h1 className="line-through">
@@ -132,7 +153,10 @@ const DiamondCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">
+          <div
+            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
+            onClick={handleEnroll}
+          >
             Enroll Now
           </div>
         </div>

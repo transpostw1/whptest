@@ -1,56 +1,9 @@
-// .card-stack .card {
-//   width: 1000px;
-//   height: 600px;
-//   background-color: #ddd;
-//   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.4);
-//   border-radius: 10px 10px 0px 0px;
-//   display: inline-block;
-//   position: absolute;
-//   transform-origin: 0% 50%;
-//   transition: all 1s ease;
-//   text-align: right;
-//   // padding: 5px;
-// }
-// .card-stack .card h4 {
-//   color: #2e1c1d;
-//   font-size: 16px;
-//   font-weight: normal;
-// }
 
-// .card-stack {
-//   display: inline-block;
-//   position: relative;
-//   left: 12%;
-//   transform: translateX(-100px);
-// }
-
-// .card1 {
-//   z-index: 1000;
-//   left: 0;
-// }
-
-// .card2 {
-//   z-index: 800;
-//   left: 100px;
-// }
-
-// .card3 {
-//   z-index: 600;
-//   left: 200px;
-// }
-
-
-// @keyframes remove {
-//   0% { transform: translateX(0px); opacity: 1; }
-//   50% { transform: translateX(-80px); opacity: 0; }
-//   51% { transform: translateX(10px) scale(0.97); opacity: 0; }
-//   100% { transform: translateX(0px) scale(0.97); opacity: 1; }
-// }
 
 .card-stack {
   display: inline-block;
   position: relative;
-  left: 48%;
+  left:40%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 1000px;
@@ -85,13 +38,13 @@
 
 .card2 {
   z-index: 800;
-  left: 50px;
+  left: 120px;
   // top: 20px;
 }
 
 .card3 {
   z-index: 600;
-  left: 90px;
+  left: 220px;
   // top: 40px;
 }
 
@@ -103,39 +56,62 @@
 }
 
 @media (max-width: 1200px) {
+  
+.card-stack {
+  display: inline-block;
+  position: relative;
+  left:40%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
   .card2 {
-    left: 15px;
+    left: 95px;
     // top: 15px;
   }
   .card3 {
-    left: 30px;
+    left: 190px;
     // top: 30px;
   }
 }
 
 @media (max-width: 992px) {
+  .card-stack {
+  display: inline-block;
+  position: relative;
+  left:40%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
   .card2 {
-    left: 10px;
+    left: 110px;
     // top: 10px;
   }
   .card3 {
-    left: 20px;
+    left: 170px;
     // top: 20px;
   }
 }
 
 @media (max-width: 768px) {
+  .card-stack {
+    z-index: 1000;
+  }
   .card2 {
-    left: 15px;
+    left: 55px;
     // top: 5px;
   }
   .card3 {
-    left: 35px;
+    left: 95px;
     // top: 10px;
   }
 }
 
 @media (max-width: 576px) {
+  
   .card1, .card2, .card3 {
     position: relative;
     left: 0;

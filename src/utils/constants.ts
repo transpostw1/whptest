@@ -15,6 +15,7 @@ export const addAddress = "/customer/address";
 export const coupon = "/coupon";
 export const getAddress = "/customer/getAddresses";
 export const updateProfile = "/customer/details";
+export const CustomerDetails = "/customer/getCustomer"
 export const addwishlist = "/addOrUpdateProductWishlist";
 export const removewishlist = "/removeProductWishlist";
 export const getwishlisted = "/wishlist";

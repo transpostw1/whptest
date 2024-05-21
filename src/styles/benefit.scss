@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3bf3bbfde458234286b8769278c59f50d642bf92
 .card-stack {
   display: inline-block;
   position: relative;
-  left: 48%;
+  left:40%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 1000px;
@@ -36,13 +41,13 @@
 
 .card2 {
   z-index: 800;
-  left: 50px;
+  left: 120px;
   // top: 20px;
 }
 
 .card3 {
   z-index: 600;
-  left: 90px;
+  left: 220px;
   // top: 40px;
 }
 
@@ -54,39 +59,62 @@
 }
 
 @media (max-width: 1200px) {
+  
+.card-stack {
+  display: inline-block;
+  position: relative;
+  left:40%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
   .card2 {
-    left: 15px;
+    left: 95px;
     // top: 15px;
   }
   .card3 {
-    left: 30px;
+    left: 190px;
     // top: 30px;
   }
 }
 
 @media (max-width: 992px) {
+  .card-stack {
+  display: inline-block;
+  position: relative;
+  left:40%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
   .card2 {
-    left: 10px;
+    left: 110px;
     // top: 10px;
   }
   .card3 {
-    left: 20px;
+    left: 170px;
     // top: 20px;
   }
 }
 
 @media (max-width: 768px) {
+  .card-stack {
+    z-index: 1000;
+  }
   .card2 {
-    left: 15px;
+    left: 55px;
     // top: 5px;
   }
   .card3 {
-    left: 35px;
+    left: 95px;
     // top: 10px;
   }
 }
 
 @media (max-width: 576px) {
+  
   .card1, .card2, .card3 {
     position: relative;
     left: 0;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
 import instance from "@/utils/axios";
-
+import { baseUrl, gms } from "@/utils/constants";
+import Cookies from "js-cookie";
 
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -9,6 +10,7 @@ const SilverCard: React.FC = () => {
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+    const cookieToken = Cookies.get("localtoken");
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -55,13 +57,14 @@ const SilverCard: React.FC = () => {
 
   const handleEnroll = async () => {
     try {
-      const response = await instance.post(
-        "https://your-api-endpoint.com/enroll",
-        {
-          schemetype: "Silver",
-          monthlydeposit: monthlyDeposit,
-        }
-      );
+      const response = await instance.post(`${baseUrl}${gms}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+        schemeType: "Silver",
+        // amount: monthlyDeposit,
+        amount: "2000",
+      });
 
       console.log("Enrollment successful", response.data);
     } catch (error) {
@@ -71,7 +74,7 @@ const SilverCard: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#d0d0d0] h-full rounded-xl p-4 md:p-0">
+    <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
         Silver
       </h3>
@@ -120,7 +123,7 @@ const SilverCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start gap-8 mt-7 w-full md:w-96 font-medium mr-0 md:mr-24">
+        <div className="flex flex-col justify-end gap-8 mt-7 w-full md:w-96 font-medium mr-0 ">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
@@ -155,7 +158,7 @@ const SilverCard: React.FC = () => {
           <div className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full">
 =======
           <div
-            className="bg-[#E26178] text-center p-1 rounded-lg w-full"
+            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
             onClick={handleEnroll}
           >
 >>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e

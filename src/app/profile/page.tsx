@@ -28,20 +28,11 @@ const ProfilePage = () => {
   const handleComponentToRender = (component: string) => {
     setComponentToRender(component);
   };
-<<<<<<< HEAD
-  const handleComponent=(component:string)=>{
-    setComponent(component)
-    
-  }
-  const { userDetails, isLoggedIn, getUser } = useUser();
-  
-=======
   const handleComponent = (component: string) => {
     setComponent(component);
   };
   const {  isLoggedIn, getUser } = useUser();
 
->>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
 
@@ -56,19 +47,11 @@ const ProfilePage = () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
-<<<<<<< HEAD
-    useEffect(() => {
-      if (isLoggedIn) {
-        getUser();
-      }
-    }, [isLoggedIn, getUser]);
-=======
   useEffect(() => {
     if (isLoggedIn) {
       getUser();
     }
   }, []);
->>>>>>> 00e61b5eb725178d1efb2d16b9a3e632613a990e
   const handleOrders = async () => {
     try {
       const cookieToken = Cookie.get("localtoken");

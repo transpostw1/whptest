@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Product";
 import "rc-slider/assets/index.css";
@@ -26,7 +26,7 @@ const ShopBreadCrumb1 = () => {
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [pageNumber, setPageNumber] = useState<number>(0);
-  const productsPerPage = 9;
+  const productsPerPage = 15;
   const pagesVisited = pageNumber * productsPerPage;
   const param = useSearchParams();
   const name = param.get("url");
@@ -82,6 +82,8 @@ const ShopBreadCrumb1 = () => {
     fetchData();
   }, [category, setCustomcategory]);
 
+  const productsListRef = useRef<HTMLDivElement>(null);
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     setCustomcategory(localStorage.getItem("category"));
@@ -133,6 +135,7 @@ const ShopBreadCrumb1 = () => {
             setMobileFilter={setMobileFilter}
             selectedOptions={selectedOptions}
             handleOptionSelect={handleOptionSelect}
+            productsListRef={productsListRef}
           />
 
           <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
@@ -192,7 +195,10 @@ const ShopBreadCrumb1 = () => {
             {isLoading === true ? (
               <ProductSkeleton />
             ) : (
-              <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5">
+              <div
+                className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5"
+                ref={productsListRef}
+              >
                 {filteredData
                   .slice(pagesVisited, pagesVisited + productsPerPage)
                   .map((item: any) => (

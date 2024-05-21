@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const BenefitCalculator = () => {
   const [sliderValue, setSliderValue] = useState(1000);
 
-  const handleChange = (event) => {
+  const handleChange = (event:any) => {
     setSliderValue(parseInt(event.target.value));
   };
 

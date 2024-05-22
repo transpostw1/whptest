@@ -17,6 +17,7 @@ const ProductSlider = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const swiperRef = useRef<any>();
+  
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);

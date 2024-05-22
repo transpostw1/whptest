@@ -8,12 +8,12 @@ import DummyProduct from "../Other/DummyProduct";
 import Product from "../Product/Product";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 
-
-
-const ProductSlider= () => {
+const ProductSlider = () => {
   const swiperRef = useRef<any>();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,39 +50,55 @@ const ProductSlider= () => {
               </button>
             </div>
           </div>
-
-          <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
-            <Swiper
-              spaceBetween={12}
-              slidesPerView={1.5}
-              onSwiper={(swiper) => {
-                swiperRef.current = swiper;
-              }}
-              loop={true}
-              modules={[Navigation, Autoplay]}
-              breakpoints={{
-                576: {
-                  slidesPerView: 1.5,
-                  spaceBetween: 12,
-                },
-                768: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,
-                },
-                1200: {
-                  slidesPerView: 4,
-                  spaceBetween: 30,
-                },
-              }}
-            >
-              {Array.isArray(data) &&
-                data.map((prd: any, index: any) => (
-                  <SwiperSlide key={index}>
-                    <DummyProduct data={prd} />
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-          </div>
+          {loading ? (
+            <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7">
+              <div className="mr-2">
+                <Skeleton height={300} width={200} />
+              </div>
+              <div className="mr-2">
+                <Skeleton height={300} width={200} />
+              </div>
+              <div className="mr-2">
+                <Skeleton height={300} width={200} />
+              </div>
+              <div className="mr-2">
+                <Skeleton height={300} width={200} />
+              </div>
+            </div>
+          ) : (
+            <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+              <Swiper
+                spaceBetween={12}
+                slidesPerView={1.5}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                }}
+                loop={true}
+                modules={[Navigation, Autoplay]}
+                breakpoints={{
+                  576: {
+                    slidesPerView: 1.5,
+                    spaceBetween: 12,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                  1200: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                  },
+                }}
+              >
+                {Array.isArray(data) &&
+                  data.map((prd: any, index: any) => (
+                    <SwiperSlide key={index}>
+                      <DummyProduct data={prd} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            </div>
+          )}
         </div>
       </div>
     </>

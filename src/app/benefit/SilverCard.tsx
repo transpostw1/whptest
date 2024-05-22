@@ -81,7 +81,7 @@ const SilverCard: React.FC = () => {
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR SILVER
       </h1>
-      <div className="flex flex-col md:flex-row justify-between items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-between items-start mx-4">
         <div className="flex flex-col justify-between mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount

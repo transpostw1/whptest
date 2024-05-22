@@ -10,7 +10,7 @@ const DiamondCard: React.FC = () => {
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit;
-      const cookieToken = Cookies.get("localtoken");
+  const cookieToken = Cookies.get("localtoken");
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -54,25 +54,26 @@ const DiamondCard: React.FC = () => {
     }
   };
 
+const handleEnroll = async () => {
+  try {
+    const response = await instance.post(
+      `${baseUrl}${gms}`,
+      {
+        schemeType: "Diamond",
+        amount: monthlyDeposit, 
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
 
-      const handleEnroll = async () => {
-        try {
-          const response = await instance.post(`${baseUrl}${gms}`, {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
-            schemeType: "Diamond",
-            // amount: monthlyDeposit,
-            amount: "2000",
-          });
-
-          console.log("Enrollment successful", response.data);
-        } catch (error) {
-          console.error("Error during enrollment", error);
-        }
-      };
-
-
+    console.log("Enrollment successful", response.data);
+  } catch (error) {
+    console.error("Error during enrollment", error);
+  }
+};
   return (
     <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
@@ -81,7 +82,7 @@ const DiamondCard: React.FC = () => {
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR DIAMOND
       </h1>
-      <div className="flex flex-col md:flex-row justify-between items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-between items-start mx-4">
         <div className="flex flex-col justify-between mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount

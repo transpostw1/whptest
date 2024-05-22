@@ -27,18 +27,18 @@ const Explore = () => {
   }, []);
 
   console.log("SubBanners",data);
-  if (loading) {
-    return (
-      <div className="flex">
-        <div>
-          <Skeleton height={300} />
-        </div>
-        <div>
-          <Skeleton height={300} />
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex">
+  //       <div>
+  //         <Skeleton height={300} />
+  //       </div>
+  //       <div>
+  //         <Skeleton height={300} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">

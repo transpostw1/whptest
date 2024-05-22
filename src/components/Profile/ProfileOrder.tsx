@@ -19,6 +19,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const [message, setMessage] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
   const [singleOrder, setSingleOrder] = useState<any>([]);
+  
   const handleLogOut = () => {
     logOut();
     router.push("/");

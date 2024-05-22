@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
 import instance from "@/utils/axios";
+import axios from "axios";
 import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
 
@@ -54,22 +55,26 @@ const GoldCard: React.FC = () => {
     }
   };
 
-  const handleEnroll = async () => {
-    try {
-      const response = await instance.post(`${baseUrl}${gms}`, {
+const handleEnroll = async () => {
+  try {
+    const response = await instance.post(
+      `${baseUrl}${gms}`,
+      {
+        schemeType: "gold",
+        amount: monthlyDeposit,
+      },
+      {
         headers: {
           Authorization: `Bearer ${cookieToken}`,
         },
-        schemeType: "Gold",
-        amount: monthlyDeposit,
-      });
+      }
+    );
 
-      console.log("Enrollment successful", response.data);
-    } catch (error) {
-      console.error("Error during enrollment", error);
-    }
-  };
-
+    console.log("Enrollment successful", response.data);
+  } catch (error) {
+    console.error("Error during enrollment", error);
+  }
+};
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>

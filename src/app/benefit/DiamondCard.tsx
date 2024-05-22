@@ -59,7 +59,7 @@ const handleEnroll = async () => {
     const response = await instance.post(
       `${baseUrl}${gms}`,
       {
-        schemeType: "Diamond",
+        schemeType: "diamond",
         amount: monthlyDeposit, 
       },
       {

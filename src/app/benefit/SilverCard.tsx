@@ -55,23 +55,26 @@ const SilverCard: React.FC = () => {
   };
 
 
-  const handleEnroll = async () => {
-    try {
-      const response = await instance.post(`${baseUrl}${gms}`, {
+const handleEnroll = async () => {
+  try {
+    const response = await instance.post(
+      `${baseUrl}${gms}`,
+      {
+        schemeType: "silver",
+        amount: monthlyDeposit,
+      },
+      {
         headers: {
           Authorization: `Bearer ${cookieToken}`,
         },
-        schemeType: "Silver",
-        // amount: monthlyDeposit,
-        amount: "2000",
-      });
+      }
+    );
 
-      console.log("Enrollment successful", response.data);
-    } catch (error) {
-      console.error("Error during enrollment", error);
-      
-    }
-  };
+    console.log("Enrollment successful", response.data);
+  } catch (error) {
+    console.error("Error during enrollment", error);
+  }
+};
 
   return (
     <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">

@@ -247,6 +247,7 @@ const Checkout: React.FC = () => {
     setFlashMessage("Your order has been placed successfully!");
     setFlashType("success");
     setFlashKey((prevKey) => prevKey + 1);
+    
   };
 
   const validateDeliveryDetails = () => {
@@ -407,7 +408,7 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <div className="cart-block flex-wrap">
+      <div className="cart-block flex-wrap mb-8">
         <div className="content-main flex flex-col justify-between lg:px-14 px-5">
           <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
             <div className="flex gap-3">

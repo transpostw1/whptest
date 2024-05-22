@@ -7,6 +7,7 @@ import { Address } from "@/type/AddressType";
 import ReactLoading from "react-loading";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
+import {useRouter} from "next/navigation"
 
 interface PaymentProps {
   orderPlaced: boolean;
@@ -39,6 +40,7 @@ const Payment: React.FC<PaymentProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const cookieToken = Cookie.get("localtoken");
+  const router=useRouter()
 
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -71,13 +73,13 @@ const Payment: React.FC<PaymentProps> = ({
         order_id: order_id,
         handler: async function (response: any) {
           try {
+            setLoading(true)
             // Prepare the data to be sent to the API
             const {
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature,
             } = response;
-            console.log(razorpay_payment_id);
             const orderData = {
               paymentDetails: {
                 paymentId: razorpay_payment_id,
@@ -125,12 +127,10 @@ const Payment: React.FC<PaymentProps> = ({
                 discountedTotal: (totalCart - totalDiscount).toString(),
                 shippingCharges: "10",
               },
-
-              // Add other necessary data for productDetails, etc.
             };
 
             console.log(orderData, "orderData");
-            // Make the API call
+           
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -147,6 +147,9 @@ const Payment: React.FC<PaymentProps> = ({
             onOrderComplete(setCartItems);
           } catch (error) {
             console.error("Error placing order:", error);
+          }finally{
+            setLoading(false)
+            router.push("/profile")
           }
         },
         prefill: {

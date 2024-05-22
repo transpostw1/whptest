@@ -17,7 +17,7 @@ const ProductSlider = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const swiperRef = useRef<any>();
-  
+
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
@@ -31,7 +31,9 @@ const ProductSlider = () => {
     };
     fetchProduct();
   }, []);
+
   const filteredProducts = products;
+  
   return (
     <>
       {products.length > 0 && (

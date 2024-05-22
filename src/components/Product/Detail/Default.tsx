@@ -166,7 +166,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                         ))}
                   </Slider>
                 </>
-                <div className="absolute top-[40px] -right-[10px] cursor-pointer">
+                <div className="absolute top-[40px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}

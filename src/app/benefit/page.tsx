@@ -31,7 +31,7 @@ const Benefit = () => {
   };
 
   return (
-    <div className="h-[550px] px-40 md:px-10">
+    <div className=" lg:h-[550px] h-[1000px] px-40 md:px-10">
       <div className="card-stack">
         {cardArray.map((card, index) => (
           <div

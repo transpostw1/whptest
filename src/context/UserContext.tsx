@@ -1,90 +1,13 @@
-// "use client";
-
-// import React, { createContext, useContext, useEffect, useReducer } from "react";
-// import { auth } from "@/app/config";
-// import { WindowsLogo } from "@phosphor-icons/react";
-
-// interface UserState {
-//   isLoggedIn: boolean;
-// }
-
-// type UserAction = { type: "LOG_IN" } | { type: "LOG_OUT" };
-
-// interface UserContextProps {
-//   userState: UserState;
-//   isLoggedIn: boolean;
-//   logIn: () => void;
-//   logOut: () => void;
-// }
-
-// const initialState: UserState = {
-//   isLoggedIn: typeof window !== 'undefined' && localStorage.getItem("isLoggedIn") === "true",
-// };
-
-// const UserContext = createContext<UserContextProps | undefined>(undefined);
-
-// const userReducer = (state: UserState, action: UserAction): UserState => {
-//   const userDetails = auth.currentUser;
-//   const user = userDetails?.uid;
-
-//   switch (action.type) {
-//     case "LOG_IN":
-//       if (typeof window !== 'undefined') {
-//         localStorage.setItem("isLoggedIn", "true");
-//       }
-//       return {
-//         isLoggedIn: true,
-//       };
-//     case "LOG_OUT":
-//       if (typeof window !== 'undefined') {
-//         localStorage.setItem("isLoggedIn", "false");
-//       }
-//       return {
-//         isLoggedIn: false,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-//   children,
-// }) => {
-//   const [userState, dispatch] = useReducer(userReducer, initialState);
-
-//   const logIn = () => {
-//     dispatch({ type: "LOG_IN" });
-//   };
-
-//   const logOut = () => {
-//     dispatch({ type: "LOG_OUT" });
-//   };
-
-//   return (
-//     <UserContext.Provider value={{ userState,isLoggedIn: userState.isLoggedIn, logIn, logOut}}>
-//       {children}
-//     </UserContext.Provider>
-//   );
-// };
-
-// export const useUser = () => {
-//   const context = useContext(UserContext);
-//   if (!context) {
-//     throw new Error("useUser must be used within a UserProvider");
-//   }
-//   return context;
-// };
-
-
-
 "use client";
 
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
 import axios from "axios";
 import { baseUrl, updateProfile } from "@/utils/constants";
 import { auth } from "@/app/config";
 import instance from "@/utils/axios";
+import { customerDetails } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -98,8 +21,9 @@ interface UserContextProps {
   logIn: () => void;
   logOut: () => void;
   addUserDetails: (details: UserDetails) => Promise<void>;
+  userDetails: UserDetails | null;
+  getUser: () => Promise<void>;
 }
-
 interface UserDetails {
   firstname: string;
   lastname: string;
@@ -108,7 +32,7 @@ interface UserDetails {
   alternatePhone: string;
   gender: string;
   dateOfBirth: string;
-  profilePicture: File|null;
+  profilePicture: File | null;
 }
 
 type UserDetailsKeys = keyof UserDetails;
@@ -142,7 +66,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
-   const router = useRouter();
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const router = useRouter();
+  const cookieToken = Cookies.get("localtoken");
 
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
@@ -152,24 +78,45 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     router.push("/");
     dispatch({ type: "LOG_OUT" });
   };
-const addUserDetails = async (details: UserDetails) => {
-  const formData = new FormData();
 
-  Object.keys(details).forEach((key) => {
-    const typedKey = key as UserDetailsKeys; 
-    formData.append(typedKey, details[typedKey] as any);
-    
-  });
+  const getUser = async () => {
+    try {
+      const response = await instance.get(`${baseUrl}${customerDetails}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-  try {
-    const response = await instance.post(updateProfile, formData);
-    return response.data;
-  } catch (error) {
-    console.error("Error adding user details.:", error);
-    throw error;
-  }
-};
+  const addUserDetails = async (details: UserDetails) => {
+    const formData = new FormData();
 
+    Object.keys(details).forEach((key) => {
+      const typedKey = key as UserDetailsKeys;
+      formData.append(typedKey, details[typedKey] as any);
+    });
+
+    try {
+      const response = await instance.post(
+        `${baseUrl}${updateProfile}`,formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      await getUser();
+      return response.data;
+    } catch (error) {
+      console.error("Error adding user details:", error);
+      throw error;
+    }
+  };
 
   return (
     <UserContext.Provider
@@ -179,6 +126,8 @@ const addUserDetails = async (details: UserDetails) => {
         logIn,
         logOut,
         addUserDetails,
+        userDetails,
+        getUser,
       }}
     >
       {children}

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
+import instance from "@/utils/axios";
+import { baseUrl, gms } from "@/utils/constants";
+import Cookies from "js-cookie";
 
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -7,6 +10,7 @@ const SilverCard: React.FC = () => {
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+    const cookieToken = Cookies.get("localtoken");
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -50,15 +54,37 @@ const SilverCard: React.FC = () => {
     }
   };
 
+
+const handleEnroll = async () => {
+  try {
+    const response = await instance.post(
+      `${baseUrl}${gms}`,
+      {
+        schemeType: "silver",
+        amount: monthlyDeposit,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
+
+    console.log("Enrollment successful", response.data);
+  } catch (error) {
+    console.error("Error during enrollment", error);
+  }
+};
+
   return (
-    <div className="bg-[#d0d0d0] h-full rounded-xl p-4 md:p-0">
+    <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
         Silver
       </h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR SILVER
       </h1>
-      <div className="flex flex-col md:flex-row justify-between items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-between items-start mx-4">
         <div className="flex flex-col justify-between mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount
@@ -100,17 +126,17 @@ const SilverCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start gap-8 mt-7 w-full md:w-96 font-medium mr-0 md:mr-24">
+        <div className="flex flex-col justify-end gap-8 mt-7 w-full md:w-96 font-medium mr-0 ">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
-              <h1 className="text-slate-500">(Period of 11 months)</h1>
+              {/* <h1 className="text-slate-500">(Period of 11 months)</h1> */}
             </div>
             <div>
               <h1 className="line-through">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
-              <h1> ₹{redemptionAmount.toLocaleString("en-IN")}</h1>
+              {/* <h1> ₹{redemptionAmount.toLocaleString("en-IN")}</h1> */}
             </div>
           </div>
           <div className="flex justify-between">
@@ -131,7 +157,10 @@ const SilverCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">
+          <div
+            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
+            onClick={handleEnroll}
+          >
             Enroll Now
           </div>
         </div>

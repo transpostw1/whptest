@@ -28,7 +28,6 @@ const FilterSidebar: React.FC<Props> = ({
   const [lastScrollPosition, setLastScrollPosition] = useState<any>(0);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
-  const divRef = useRef<any>(null);
 
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
@@ -126,19 +125,6 @@ const FilterSidebar: React.FC<Props> = ({
     onFilterChange(filteredArray);
   }, [selectedOptions, data]);
   
-  useEffect(() => {
-    const handleScroll = () => {
-      const { bottom } = divRef.current.getBoundingClientRect();
-    };
-
-    // Attach scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  const stickyRef = useStickyBox({ offsetTop: 20, offsetBottom: 20 });
-
   return (
     <>
       <div

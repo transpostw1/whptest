@@ -51,10 +51,10 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       {singleOrder[0]?.productDetails.map((items: any, index: any) => (
         <div
           key={index}
-          className="flex justify-between p-4 border border-black"
+          className="flex justify-between p-4 border items-center border-black"
         >
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex" key={index}>
+            <div className="flex items-center" key={index}>
               <div className="mr-3">
                 <Image
                   src={product?.imageDetails[0].image_path}
@@ -146,7 +146,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           <p className="px-2">
             Payment Method: {singleOrder[0]?.payments[0]?.paymentMethod}
           </p>
-          <p className="px-2">
+          <p className="px-2 break-words">
             Transaction No.: {singleOrder[0]?.payments[0]?.transactionNo}
           </p>
           <p className="px-2">

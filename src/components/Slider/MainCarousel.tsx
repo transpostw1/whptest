@@ -16,7 +16,7 @@ const MainCarousel = () => {
   const [isLoading, setIsLoading] = useState<boolean>();
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const mediaQuery = window.matchMedia("(max-width: 1000px)");
     const handleChange = (e: any) => {
       setIsMobile(e.matches);
     };
@@ -91,7 +91,7 @@ const MainCarousel = () => {
               {allBanners &&
                 allBanners.map((banner: any) => (
                   <SwiperSlide key={banner.id}>
-                    <div className="   w-full">
+                    <div className="w-full">
                       <Image
                         src={banner.mobileFile}
                         alt="Mobile Banners"

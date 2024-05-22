@@ -33,6 +33,7 @@ interface UserDetails {
   gender: string;
   dateOfBirth: string;
   profilePicture: File | null;
+  // customer:string;
 }
 
 type UserDetailsKeys = keyof UserDetails;

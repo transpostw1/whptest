@@ -13,6 +13,7 @@ import Cookie from "js-cookie";
 import { baseUrl, getOrders } from "@/utils/constants";
 import MobileGms from "@/components/Profile/MobileGms";
 import ProfileWishList from "@/components/Profile/ProfileWishList";
+import { useUser } from "@/context/UserContext";
 
 interface OrdersResponse {
   customerOrders: any;
@@ -21,16 +22,17 @@ interface OrdersResponse {
 const ProfilePage = () => {
   const [componentToRender, setComponentToRender] =
     useState<string>("personalInfo");
-    const [component, setComponent] =
-    useState<string>("");
+  const [component, setComponent] = useState<string>("");
   const [ordersData, setOrdersData] = useState<any>();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const handleComponentToRender = (component: string) => {
     setComponentToRender(component);
   };
-  const handleComponent=(component:string)=>{
-    setComponent(component)
-  }
+  const handleComponent = (component: string) => {
+    setComponent(component);
+  };
+  const {  isLoggedIn, getUser } = useUser();
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
 
@@ -44,6 +46,11 @@ const ProfilePage = () => {
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
+  }, []);
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser();
+    }
   }, []);
   const handleOrders = async () => {
     try {
@@ -62,7 +69,7 @@ const ProfilePage = () => {
   if (isMobile) {
     return (
       <div>
-        <StickyNav/>
+        <StickyNav />
         {component === "" && (
           <MobileProfileSideBar
             handleComponent={handleComponent}
@@ -70,9 +77,13 @@ const ProfilePage = () => {
             handleOrder={handleOrders}
           />
         )}
-        {component === "personalInfo" && <MobilePersonalInformation handleComponent={handleComponent}/>}
-        {component==="orders"&&<MobileOrders orders={ordersData} handleComponent={handleComponent}/>}
-        {component==="gms"&&<MobileGms handleComponent={handleComponent}/>}
+        {component === "personalInfo" && (
+          <MobilePersonalInformation handleComponent={handleComponent} />
+        )}
+        {component === "orders" && (
+          <MobileOrders orders={ordersData} handleComponent={handleComponent} />
+        )}
+        {component === "gms" && <MobileGms handleComponent={handleComponent} />}
       </div>
     );
   }
@@ -91,7 +102,7 @@ const ProfilePage = () => {
           {componentToRender === "orders" && (
             <ProfileOrders orders={ordersData} />
           )}
-          {componentToRender==="whislist"&&(<ProfileWishList/>)}
+          {componentToRender === "whislist" && <ProfileWishList />}
           {componentToRender === "gms" && <ProfileGMS />}
         </div>
       </div>

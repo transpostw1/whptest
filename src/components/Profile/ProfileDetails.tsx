@@ -9,13 +9,15 @@ import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 
+
+
 const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
-  const { logOut, isLoggedIn } = useUser();
+  const { logOut, isLoggedIn,userDetails } = useUser();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -104,72 +106,45 @@ const handleLogOut = () => {
         </div>
       </div>
       <div className="flex justify-end">
-       
-          <p className="font-bold">Wallet Balance:500</p>
-      
+        <p className="font-bold">Wallet Balance:{userDetails?.customer.wallet_amount}</p>
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
           <div>
             <label
               htmlFor="first_name"
-              className="block text-md font-normal text-black"
+              className="block text-md font-medium text-black"
             >
               First name
             </label>
-            <input
-              type="text"
-              id="first_name"
-              className="bg-gray-50  text-black text-md focus:ring-blue-500 block w-full p-2.5 "
-              placeholder="John"
-              required
-            />
+            {userDetails?.customer?.firstname}
           </div>
           <div>
             <label
               htmlFor="last_name"
-              className="block text-md font-normal text-black"
+              className="block text-md font-medium text-black"
             >
               Last name
             </label>
-            <input
-              type="text"
-              id="last_name"
-              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
-              placeholder="Doe"
-              required
-            />
+            {userDetails?.customer?.lastname}
           </div>
           <div>
             <label
               htmlFor="phone"
-              className="block text-md font-normal text-black"
+              className="block text-md font-medium text-black"
             >
               Phone number
             </label>
-            <input
-              type="tel"
-              id="phone"
-              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
-              placeholder="123-45-678"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-              required
-            />
+            {userDetails?.customer?.mobile_no}
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-md font-normal text-black"
+              className="block text-md font-medium text-black"
             >
               Email address
             </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 text-black text-md focus:ring-blue-500 block w-full p-2.5 "
-              placeholder="john@whp.com"
-              required
-            />
+            {userDetails?.customer?.email}
           </div>
         </div>
       </form>

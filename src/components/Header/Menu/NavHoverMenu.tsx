@@ -18,7 +18,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
-  const { setCustomcategory } = useCategory();
+  const { category,setCustomcategory } = useCategory();
 
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -93,9 +93,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 <li className="h-full relative">
                   <Link
                     href=""
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
-                      pathname.includes("/products") ? "active" : ""
-                    }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 `}
                   >
                     All Jewellery
                     <Image
@@ -334,7 +332,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                   </div>
                 </li>
-                
+
                 <li className="h-full">
                   <Link
                     href="#!"
@@ -352,7 +350,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "earring" },
                     }}
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      category==="earring" ? "active" : ""
+                    }`}
                   >
                     Earrings
                   </Link>
@@ -367,7 +367,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "pendants" },
                     }}
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      category==="pendant" ? "active" : ""
+                    }`}
                   >
                     Pendants
                   </Link>
@@ -381,7 +383,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "bangle" },
                     }}
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      category==="bangle" ? "active" : ""
+                    }`}
                   >
                     Bangles
                   </Link>
@@ -395,7 +399,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "Bracelet" },
                     }}
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      category==="Bracelet" ? "active" : ""
+                    }`}
                   >
                     Bracelet
                   </Link>
@@ -409,7 +415,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "necklace" },
                     }}
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      category==="necklace" ? "active" : ""
+                    }`}
                   >
                     Necklace
                   </Link>
@@ -436,7 +444,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li className="h-full">
                   <Link
-                    href="#!"
+                    href="/benefit"
                     className="text-button-uppercase duration-300 h-full flex items-center justify-center"
                   >
                     Gold Services

@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
+import instance from "@/utils/axios";
+import { baseUrl, gms } from "@/utils/constants";
+import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -7,6 +12,9 @@ const GoldCard: React.FC = () => {
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
+  const cookieToken = Cookies.get("localtoken");
+  const { isLoggedIn } = useUser();
+  const router = useRouter();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -50,14 +58,39 @@ const GoldCard: React.FC = () => {
     }
   };
 
+  const handleEnroll = async () => {
+    if (!isLoggedIn) {
+      alert("Please Login to Enroll");
+      router.push("/login");
+      return;
+    }
+    try {
+      const response = await instance.post(
+        `${baseUrl}${gms}`,
+        {
+          schemeType: "gold",
+          amount: monthlyDeposit,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
+
+      console.log("Enrollment successful", response.data);
+    } catch (error) {
+      console.error("Error during enrollment", error);
+    }
+  };
   return (
-    <div className="bg-[#e4cf87] h-full rounded-xl p-4 md:p-0">
+    <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
       </h1>
-      <div className="flex flex-col md:flex-row justify-between items-start mx-4">
-        <div className="flex flex-col justify-between mt-7 w-full md:w-auto">
+      <div className="flex flex-col lg:flex-row justify-center gap-3 items-start mx-4">
+        <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount
           </h1>
@@ -98,17 +131,15 @@ const GoldCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start gap-8 mt-7 w-full md:w-96 font-medium mr-0 md:mr-24">
+        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-full font-medium ">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
-              <h1 className="text-slate-500">(Period of 11 months)</h1>
             </div>
             <div>
-              <h1 className="line-through">
+              <h1 className="">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
-              <h1> ₹{redemptionAmount.toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -129,7 +160,12 @@ const GoldCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center p-1 rounded-lg w-full">Enroll Now</div>
+          <div
+            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
+            onClick={handleEnroll}
+          >
+            Enroll Now
+          </div>
         </div>
       </div>
     </div>

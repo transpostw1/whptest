@@ -48,11 +48,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     setFormError("");
 
     const formattedValues = {
-      firstname: values.firstName,
-      lastname: values.lastName,
+      firstName: values.firstName,
+      lastName: values.lastName,
       email: values.email,
       phone: values.phone,
-      alternatePhone: values.altPhone,
+      altPhone: values.altPhone,
       gender: values.gender,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
       profile_picture: values.profilePicture,
@@ -91,7 +91,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 w-full overflow-y-auto">
       <div className="bg-white p-4 sm:p-8 flex flex-col justify-between z-50 rounded-xl max-w-full sm:max-w-lg mx-4 max-h-[80vh] overflow-y-auto no-scrollbar">
         <button onClick={onClose} className="self-end">
           <Icon.X size={25} />

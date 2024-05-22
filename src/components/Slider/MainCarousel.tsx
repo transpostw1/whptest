@@ -44,13 +44,13 @@ const MainCarousel = () => {
 
     fetchAddresses();
   }, []);
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <Skeleton height={300} />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div>
+        <Skeleton height={50} />
+      </div>
+    );
+  }
   return (
     <>
       <div className="slider-block bg-linear w-full relative">
@@ -91,7 +91,7 @@ const MainCarousel = () => {
               {allBanners &&
                 allBanners.map((banner: any) => (
                   <SwiperSlide key={banner.id}>
-                    <div className="slider-item w-full">
+                    <div className="   w-full">
                       <Image
                         src={banner.mobileFile}
                         alt="Mobile Banners"

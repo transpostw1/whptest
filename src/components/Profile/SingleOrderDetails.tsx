@@ -48,13 +48,27 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
         </div>
       </div>
+      <div className="flex justify-between p-4 border border-gray font-semibold items-center rounded-t-md">
+        <div className="w-96">
+          <p> Product Details</p>
+        </div>
+        <div>
+          <p>Product Price</p>
+        </div>
+        <div>
+          <p>Product Quantity</p>
+        </div>
+        <div>
+          <p>Total Price</p>
+        </div>
+      </div>
       {singleOrder[0]?.productDetails.map((items: any, index: any) => (
         <div
           key={index}
-          className="flex justify-between p-4 border items-center border-black"
+          className="flex justify-between p-4 border border-gray items-center"
         >
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex items-center" key={index}>
+            <div className="flex w-96" key={index}>
               <div className="mr-3">
                 <Image
                   src={product?.imageDetails[0].image_path}
@@ -63,8 +77,8 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                   height={85}
                 />
               </div>
-              <div>
-                <p className="text-xl font-semibold">{product?.displayTitle}</p>
+              <div className="flex justify-center flex-col content-start ">
+                <p className=" font-semibold">{product?.displayTitle}</p>
                 <p>
                   {product?.metalType}-{product?.metalWeight}
                 </p>
@@ -72,7 +86,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </div>
           ))}
           <p>
-            <div className="font-semibold">
+            <div className="">
               ₹
               {Intl.NumberFormat("en-IN", {
                 minimumFractionDigits: 2,
@@ -94,14 +108,14 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
-      <div className="flex justify-end border-black border border-b-0 border-t-0 pr-14">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
         Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
-      <div className="flex justify-end border-black border border-b-0 border-t-0 pr-14">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
         Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
-      <div className="flex justify-end border-black border">
-        Total Amount:
+      <div className="flex justify-end border-gray border rounded-b-md p-2">
+        <p>Total Amount: </p>
         <span className="font-semibold text-md">
           ₹
           {Intl.NumberFormat("en-IN", {
@@ -110,11 +124,11 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         </span>
       </div>
       <div className="flex">
-        <div className="border border-black w-[33%] mb-2 mt-4 ">
-          <p className=" border-black border-b p-2 font-semibold">
+        <div className="border border-gray w-[33%] mb-2 mt-4 rounded-md ">
+          <p className=" border-gray border-b p-2 font-semibold">
             Billing Address
           </p>
-          <p className="w-full border-black border-b p-2">
+          <p className="w-full border-gray border-b p-2">
             {singleOrder[0]?.billingAddressId[0]?.full_address},
             {singleOrder[0]?.billingAddressId[0]?.landmark},
             {singleOrder[0]?.billingAddressId[0]?.pincode},
@@ -124,7 +138,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               Address Type:{singleOrder[0]?.billingAddressId[0]?.address_type}
             </p>
           </p>
-          <p className="border-black border-b p-2 font-semibold">
+          <p className="border-gray border-b p-2 font-semibold">
             Shipping Address
           </p>
           <p className="p-2">
@@ -138,8 +152,8 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </p>
           </p>
         </div>
-        <div className="border border-black w-[33%] mb-2 mt-4 ml-2">
-          <p className=" border-black border-b font-semibold p-2 mb-2">
+        <div className="border border-gray w-[33%] mb-2 mt-4 ml-2 rounded-md">
+          <p className=" border-gray border-b font-semibold p-2 mb-2">
             Payment Details
           </p>
           <p className="px-2">Order Date:{singleOrder[0]?.payments[0]?.date}</p>
@@ -162,15 +176,15 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </span>
           </p>
         </div>
-        <div className="border border-black w-[33%] mb-2 mt-4 ml-2">
-          <p className=" border-black border-b font-semibold p-2 mb-2">
+        <div className="border border-gray w-[33%] mb-2 mt-4 ml-2 rounded-md">
+          <p className=" border-gray border-b font-semibold p-2 mb-2">
             Order Tracking
           </p>
         </div>
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
-      singleOrder[0]?.orderStatus === "5" ? null : (
+        singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
             Order Cancel

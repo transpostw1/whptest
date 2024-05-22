@@ -52,7 +52,7 @@ const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, h
   return (
     <>
       {Filter.map((item:Filter, index:number) => (
-        <div key={index} className={`item cursor-pointer`} onClick={() => handleFilterDropdown(item.title)}>
+        <div key={index} className={`item cursor-pointer overflow-auto no-scrollbar`} onClick={() => handleFilterDropdown(item.title)}>
           <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
             <p className="text-lg font-semibold">{item.title}</p>
 

@@ -44,13 +44,13 @@ const MainCarousel = () => {
 
     fetchAddresses();
   }, []);
-  if (isLoading) {
-    return (
-      <div>
-        <Skeleton height={300} />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <Skeleton height={300} />
+  //     </div>
+  //   );
+  // }
   return (
     <>
       <div className="slider-block bg-linear w-full relative">

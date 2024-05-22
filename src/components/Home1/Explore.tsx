@@ -43,7 +43,7 @@ const Explore = () => {
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
         {data &&
-          data?.Component_Two?.map((item: any) => (
+          data?.map((item: any) => (
             <div key={item.id}>
               <Link
                 href={"/products"}

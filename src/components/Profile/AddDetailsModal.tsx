@@ -25,11 +25,10 @@ interface FormValues {
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const { addUserDetails } = useUser();
-  
+  const { addUserDetails, userDetails } = useUser();
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First name is required"),
+    // firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -60,8 +59,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
     try {
       await addUserDetails(formattedValues);
-      onClose();
-      formik.resetForm();
+      handleClose();
     } catch (error) {
       setFormError(
         "An error occurred while submitting the form. Please try again later."
@@ -71,17 +69,20 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const dob = userDetails?.customer?.dob; // Assuming dob is "1998-10-18"
+  const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      altPhone: "",
-      gender: "",
-      dobDay: "",
-      dobMonth: "",
-      dobYear: "",
+      firstName: userDetails?.customer?.firstname,
+      lastName: userDetails?.customer?.lastname,
+      email: userDetails?.customer?.email,
+      phone: userDetails?.customer?.mobile_no,
+      altPhone: userDetails?.customer?.altPhone,
+      gender: userDetails?.customer?.gender,
+      dobDay,
+      dobMonth,
+      dobYear,
       profilePicture: null,
     },
     validationSchema,
@@ -90,10 +91,15 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  const handleClose = () => {
+    onClose();
+    formik.resetForm();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 w-full overflow-y-auto">
       <div className="bg-white p-4 sm:p-8 flex flex-col justify-between z-50 rounded-xl max-w-full sm:max-w-lg mx-4 max-h-[80vh] overflow-y-auto no-scrollbar">
-        <button onClick={onClose} className="self-end">
+        <button onClick={handleClose} className="self-end">
           <Icon.X size={25} />
         </button>
         <form onSubmit={formik.handleSubmit}>
@@ -143,6 +149,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="firstName"
                   type="text"
                   {...formik.getFieldProps("firstName")}
+                  value={formik.values.firstName}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.firstName
                       ? "border-red-500"
@@ -150,7 +157,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="firstName"
+                  htmlFor="lastName"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   First Name
@@ -168,6 +175,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="lastName"
                   type="text"
                   {...formik.getFieldProps("lastName")}
+                  value={formik.values.lastName}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.lastName
                       ? "border-red-500"
@@ -193,6 +201,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="email"
                   type="text"
                   {...formik.getFieldProps("email")}
+                  value={formik.values.email}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.email ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -214,6 +223,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="phone"
                   type="text"
                   {...formik.getFieldProps("phone")}
+                  value={formik.values.phone}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.phone ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}

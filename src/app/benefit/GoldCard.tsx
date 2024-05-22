@@ -5,10 +5,13 @@ import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
@@ -60,11 +63,12 @@ const GoldCard: React.FC = () => {
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
-      alert("Please Login to Enroll");
       router.push("/login");
       return;
     }
+
     try {
+      setLoading(true);
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -81,9 +85,18 @@ const GoldCard: React.FC = () => {
       console.log("Enrollment successful", response.data);
     } catch (error) {
       console.error("Error during enrollment", error);
+    } finally {
+      setLoading(false);
     }
   };
-  return (
+
+  return loading ? (
+    <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-10">
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
+    </div>
+  ) : (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
@@ -137,9 +150,7 @@ const GoldCard: React.FC = () => {
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="">
-                ₹{totalAmount.toLocaleString("en-IN")}
-              </h1>
+              <h1 className="">₹{totalAmount.toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -164,7 +175,7 @@ const GoldCard: React.FC = () => {
             className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
             onClick={handleEnroll}
           >
-            Enroll Now
+            {loading ? "Enrolling..." : "Enroll Now"}
           </div>
         </div>
       </div>

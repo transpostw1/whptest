@@ -60,7 +60,7 @@ const DiamondCard: React.FC = () => {
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
-      alert("Please Login to Enroll");
+      // alert("Please Login to Enroll");
       router.push("/login");
       return;
     }

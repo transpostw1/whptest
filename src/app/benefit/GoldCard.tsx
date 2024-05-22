@@ -3,6 +3,8 @@ import PieChart from "./PieChart";
 import instance from "@/utils/axios";
 import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -11,6 +13,8 @@ const GoldCard: React.FC = () => {
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
   const cookieToken = Cookies.get("localtoken");
+  const { isLoggedIn } = useUser();
+  const router = useRouter();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -55,28 +59,37 @@ const GoldCard: React.FC = () => {
   };
 
   const handleEnroll = async () => {
+    if (!isLoggedIn) {
+      alert("Please Login to Enroll");
+      router.push("/login");
+      return;
+    }
     try {
-      const response = await instance.post(`${baseUrl}${gms}`, {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
+      const response = await instance.post(
+        `${baseUrl}${gms}`,
+        {
+          schemeType: "gold",
+          amount: monthlyDeposit,
         },
-        schemeType: "Gold",
-        amount: monthlyDeposit,
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
 
       console.log("Enrollment successful", response.data);
     } catch (error) {
       console.error("Error during enrollment", error);
     }
   };
-
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
       </h1>
-      <div className="flex flex-col lg:flex-row justify-between gap-3 items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-center gap-3 items-start mx-4">
         <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount
@@ -124,7 +137,7 @@ const GoldCard: React.FC = () => {
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="line-through">
+              <h1 className="">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
             </div>

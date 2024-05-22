@@ -3,6 +3,8 @@ import PieChart from "./PieChart";
 import instance from "@/utils/axios";
 import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const DiamondCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -11,6 +13,8 @@ const DiamondCard: React.FC = () => {
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit;
   const cookieToken = Cookies.get("localtoken");
+  const { isLoggedIn } = useUser();
+  const router = useRouter();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -54,26 +58,32 @@ const DiamondCard: React.FC = () => {
     }
   };
 
-const handleEnroll = async () => {
-  try {
-    const response = await instance.post(
-      `${baseUrl}${gms}`,
-      {
-        schemeType: "Diamond",
-        amount: monthlyDeposit, 
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      }
-    );
+  const handleEnroll = async () => {
+    if (!isLoggedIn) {
+      alert("Please Login to Enroll");
+      router.push("/login");
+      return;
+    }
 
-    console.log("Enrollment successful", response.data);
-  } catch (error) {
-    console.error("Error during enrollment", error);
-  }
-};
+    try {
+      const response = await instance.post(
+        `${baseUrl}${gms}`,
+        {
+          schemeType: "diamond",
+          amount: monthlyDeposit,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
+
+      console.log("Enrollment successful", response.data);
+    } catch (error) {
+      console.error("Error during enrollment", error);
+    }
+  };
   return (
     <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
@@ -82,8 +92,8 @@ const handleEnroll = async () => {
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR DIAMOND
       </h1>
-      <div className="flex flex-col lg:flex-row justify-between items-start mx-4">
-        <div className="flex flex-col justify-between mt-7 w-full md:w-auto">
+      <div className="flex flex-col lg:flex-row justify-center gap-3 items-start mx-4">
+        <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
           <h1 className="font-medium">
             Slide or enter monthly Installment amount
           </h1>
@@ -104,7 +114,7 @@ const handleEnroll = async () => {
                 </div>
               </div>
             </div>
-            <div style={{ textAlign: "center", accentColor: "##E26178" }}>
+            <div style={{ textAlign: "center" }}>
               <input
                 type="range"
                 min={1000}
@@ -124,29 +134,28 @@ const handleEnroll = async () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-52 font-medium ">
+        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-full font-medium ">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="line-through">
+              <h1 className="">
                 ₹{totalAmount.toLocaleString("en-IN")}
               </h1>
-              {/* <h1>₹{redemptionAmount.toLocaleString("en-IN")}</h1> */}
             </div>
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>100% Discount on 11th installment</h1>
+              <h1>50% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{monthlyDeposit.toLocaleString("en-IN")}</h1>
+              <h1>₹{(monthlyDeposit * 0.5).toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">
             <div className="text-start w-full md:w-52">
-              <h1>Buy any diamond worth: (after 11th month)</h1>
+              <h1>Buy any gold worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="text-3xl text-[#E26178]">

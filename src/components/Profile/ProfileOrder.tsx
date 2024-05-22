@@ -22,7 +22,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     logOut();
     router.push("/");
   };
-  useEffect(() => setSingleOrder(orders), [orders]);
 
   const handleOrderDetails = (id: any) => {
     setSingleOrder(() => {
@@ -30,6 +29,8 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       return matchingOrder ? [matchingOrder] : [];
     });
   };
+
+  useEffect(() => setSingleOrder(orders), [handleOrderDetails]);
   const handleOrderCancel = async (id: any) => {
     try {
       setLoading(true);
@@ -84,77 +85,78 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
-      {singleOrder == null && (
-        <div className="mt-10">
-          {Array.isArray(orders) &&
-            orders.map((item: any) => (
-              <div
-                key={item.id}
-                className="border border-gray-200  border-b-0 mb-4 cursor-pointer"
-                onClick={() => handleOrderDetails(item.id)}
-              >
-                <div className="flex p-2 border-b-2 justify-between">
-                  <div className="flex">
-                    <p>Order ID:{item.orderNo}</p>
-                    <p className="bg-[#e26178] rounded-full text-transparent w-2 h-2 ml-2 mt-2">
-                      1
-                    </p>
-                    <p className="ml-2">
-                      Order Date -{" "}
-                      {new Date(item.created_at).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                  <div className="text-green-600 font-bold">
-                    {item?.order_list?.name}
-                  </div>
-                </div>
-                {item.productDetails.map((items: any, index: any) => (
-                  <div
-                    key={index}
-                    className="flex justify-between border-b-2 p-4"
-                  >
-                    {items.productDetails.map((product: any, index: any) => (
-                      <div className="flex" key={index}>
-                        <div className="mr-3">
-                          <Image
-                            src={product?.imageDetails[0]?.image_path}
-                            alt={"image"}
-                            width={85}
-                            height={85}
-                          />
-                        </div>
-
-                        <div>
-                          <p className="text-xl font-semibold">
-                            {product?.displayTitle}
-                          </p>
-                          <p>
-                            {product?.metalType}-{product?.metalWeight}
-                          </p>
-                          <p>Quantity:{items.quantity}</p>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="font-semibold">
-                      ₹
-                      {Intl.NumberFormat("en-IN", {
-                        minimumFractionDigits: 2,
-                      }).format(Math.round(parseInt(items?.discountedTotal)))}
+      {singleOrder == null ||
+        (Array.isArray(singleOrder) && singleOrder.length > 1 && (
+          <div className="mt-10">
+            {Array.isArray(orders) &&
+              orders.map((item: any) => (
+                <div
+                  key={item.id}
+                  className="border border-gray-200  border-b-0 mb-4 cursor-pointer"
+                  onClick={() => handleOrderDetails(item.id)}
+                >
+                  <div className="flex p-2 border-b-2 justify-between">
+                    <div className="flex">
+                      <p>Order ID:{item.orderNo}</p>
+                      <p className="bg-[#e26178] rounded-full text-transparent w-2 h-2 ml-2 mt-2">
+                        1
+                      </p>
+                      <p className="ml-2">
+                        Order Date -{" "}
+                        {new Date(item.created_at).toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                    <div className="text-green-600 font-bold">
+                      {item?.order_list?.name}
                     </div>
                   </div>
-                ))}
-              </div>
-            ))}
-        </div>
-      )}
+                  {item.productDetails.map((items: any, index: any) => (
+                    <div
+                      key={index}
+                      className="flex justify-between border-b-2 p-4"
+                    >
+                      {items.productDetails.map((product: any, index: any) => (
+                        <div className="flex" key={index}>
+                          <div className="mr-3">
+                            <Image
+                              src={product?.imageDetails[0]?.image_path}
+                              alt={"image"}
+                              width={85}
+                              height={85}
+                            />
+                          </div>
 
-      {singleOrder != null && (
+                          <div>
+                            <p className="text-xl font-semibold">
+                              {product?.displayTitle}
+                            </p>
+                            <p>
+                              {product?.metalType}-{product?.metalWeight}
+                            </p>
+                            <p>Quantity:{items.quantity}</p>
+                          </div>
+                        </div>
+                      ))}
+
+                      <div className="font-semibold">
+                        ₹
+                        {Intl.NumberFormat("en-IN", {
+                          minimumFractionDigits: 2,
+                        }).format(Math.round(parseInt(items?.discountedTotal)))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+          </div>
+        ))}
+
+      {Array.isArray(singleOrder) && singleOrder.length == 1 && (
         <div>
           {singleOrder[0]?.productDetails.map((items: any, index: any) => (
             <div key={index} className="flex justify-between p-4">
@@ -190,13 +192,15 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
             </div>
           ))}
           <p className="mt-3">
-            Billing Address:{singleOrder[0]?.billingAddressId[0]?.full_address},
+            Billing Address:
+            {singleOrder[0]?.billingAddressId[0]?.full_address},
             {singleOrder[0]?.billingAddressId[0]?.landmark},{" "}
             {singleOrder[0]?.billingAddressId[0]?.pincode},
             {singleOrder[0]?.billingAddressId[0]?.city}
           </p>
           <p className="mt-3">
-            Shippin Address:{singleOrder[0]?.shippingAddressId[0].full_address},
+            Shippin Address:
+            {singleOrder[0]?.shippingAddressId[0].full_address},
             {singleOrder[0]?.shippingAddressId[0]?.landmardk},
             {singleOrder[0]?.shippingAddressId[0]?.pincode},
             {singleOrder[0]?.shippingAddressId[0]?.city}

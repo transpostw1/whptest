@@ -106,7 +106,7 @@ const handleLogOut = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">Wallet Balance:{userDetails?.customer.wallet_amount}</p>
+        <p className="font-bold">Wallet Balance:{userDetails?.customer?.wallet_amount}</p>
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">

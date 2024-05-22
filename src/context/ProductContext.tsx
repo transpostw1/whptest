@@ -7,21 +7,17 @@ import React, {
   useContext,
   ReactNode,
 } from "react";
-import { baseUrl, category } from "@/utils/constants";
+import { baseUrl, category,getProducts } from "@/utils/constants";
 import instance from "@/utils/axios";
 import axios from "axios";
-interface ProductType {
-  title: any;
-  // Define the properties of your product
-}
 
 interface ProductContextType {
-  products: ProductType[];
+  parentCategory: any;
   fetchData: () => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType>({
-  products: [],
+  parentCategory: [],
   fetchData: async () => {},
 });
 
@@ -30,21 +26,21 @@ export const useProductContext = () => useContext(ProductContext);
 export const ProductProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [products, setProducts] = useState<ProductType[]>([]);
+  const [parentCategory, setProducts] = useState<any>([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${baseUrl}${category}`);
+      const response = await axios.get(`${baseUrl}${getProducts}`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
     }finally{
-      console.log("category",products)
+      console.log("category",parentCategory)
     }
   };
 
   return (
-    <ProductContext.Provider value={{ products, fetchData }}>
+    <ProductContext.Provider value={{ parentCategory, fetchData }}>
       {children}
     </ProductContext.Provider>
   );

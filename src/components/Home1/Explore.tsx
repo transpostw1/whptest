@@ -25,8 +25,6 @@ const Explore = () => {
     };
     fetchSubBanners();
   }, []);
-
-  console.log("SubBanners",data);
   // if (loading) {
   //   return (
   //     <div className="flex">

@@ -1,16 +1,45 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
+import FlashAlert from "../Other/FlashAlert";
+import Cookie from "js-cookie";
+import { baseUrl } from "@/utils/constants";
 
 interface Props {
   singleOrder: any;
 }
 
 const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<any>();
+
+  const handleOrderCancel = async (id: any) => {
+    try {
+      setLoading(true);
+      const cookieToken = Cookie.get("localtoken");
+      const response = await axios.post(
+        `${baseUrl}/${id}/cancel`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${cookieToken}` },
+        }
+      );
+      setMessage(response.data.message);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <div>
-          <p>Order No.:{singleOrder[0].orderNo}</p>
+          <p>
+            Order No.:{" "}
+            <span className="font-bold text-lg">{singleOrder[0].orderNo}</span>
+          </p>
         </div>
         <div className="flex">
           <p className="mr-1">Tracking Status:</p>
@@ -65,8 +94,23 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
+      <div className="flex justify-end border-black border border-b-0 border-t-0 pr-14">
+        Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
+      </div>
+      <div className="flex justify-end border-black border border-b-0 border-t-0 pr-14">
+        Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
+      </div>
+      <div className="flex justify-end border-black border">
+        Total Amount:
+        <span className="font-semibold text-md">
+          ₹
+          {Intl.NumberFormat("en-IN", {
+            minimumFractionDigits: 2,
+          }).format(Math.round(singleOrder[0]?.productTotal))}
+        </span>
+      </div>
       <div className="flex">
-        <div className="border border-black w-[30%] mb-2 mt-4 ">
+        <div className="border border-black w-[33%] mb-2 mt-4 ">
           <p className=" border-black border-b p-2 font-semibold">
             Billing Address
           </p>
@@ -94,7 +138,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </p>
           </p>
         </div>
-        <div className="border border-black w-[30%] mb-2 mt-4 ml-2">
+        <div className="border border-black w-[33%] mb-2 mt-4 ml-2">
           <p className=" border-black border-b font-semibold p-2 mb-2">
             Payment Details
           </p>
@@ -111,18 +155,29 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               minimumFractionDigits: 2,
             }).format(Math.round(singleOrder[0]?.payments[0]?.amount))}
           </p>
+          <p className="px-2">
+            Payment Status:{" "}
+            <span className="font-bold text-md">
+              {singleOrder[0]?.paymentStatus}
+            </span>
+          </p>
+        </div>
+        <div className="border border-black w-[33%] mb-2 mt-4 ml-2">
+          <p className=" border-black border-b font-semibold p-2 mb-2">
+            Order Tracking
+          </p>
         </div>
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
       singleOrder[0]?.orderStatus === "5" ? null : (
-        <div>
+        <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
             Order Cancel
           </button>
         </div>
       )}
-      {/* {message && <FlashAlert message={message} type={"success"} />} */}
+      {message && <FlashAlert message={message} type={"success"} />}
     </div>
   );
 };

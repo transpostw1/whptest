@@ -63,7 +63,9 @@ const GoldCard: React.FC = () => {
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
+      setLoading(true);
       router.push("/login");
+      // setLoading(false);
       return;
     }
 
@@ -90,14 +92,13 @@ const GoldCard: React.FC = () => {
     }
   };
 
-  return loading ? (
-    <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-10">
-      <div className="loading-container flex justify-center items-center h-full">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
-      </div>
-    </div>
-  ) : (
-    <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
+  return (
+    <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
+      {loading && (
+        <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
+          <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
+        </div>
+      )}
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
@@ -144,7 +145,7 @@ const GoldCard: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-full font-medium ">
+        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-full font-medium">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>

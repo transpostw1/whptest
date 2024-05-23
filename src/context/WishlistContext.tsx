@@ -197,7 +197,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   productPrice: product.productPrice,
                   discountPrice: product.discountPrice,
                   discountValue: product.discountValue,
-                  image_path: product.imageDetails[0].image_path,
+                  image_path: product.image_path,
                   url: product.url,
                 },
               ];

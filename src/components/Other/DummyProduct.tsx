@@ -1,38 +1,97 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
+import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
 interface ProductProps {
   data: any;
 }
 
+interface ProductForWishlistLoggedIn {
+  productId: number;
+}
+
+interface ProductForWishlistLoggedOut {
+  productId: number;
+  title: string;
+  productPrice: string;
+  discountPrice: string;
+  discountValue: string;
+  image_path: string;
+  url: string;
+}
+
 const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
-
-  const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
+  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
+    useWishlist();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isLoggedIn } = useUser();
 
   const router = useRouter();
 
-//   const sortedImages = data?.imageDetails?.sort(
-//     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-//   );
+  useEffect(() => {
+    const isInWishlist = wishlistItems.some(
+      (item) => item.productId === data.productId
+    );
+    setIsProductInWishlist(isInWishlist);
+  }, [wishlistItems, data.productId]);
 
-//   const selected = sortedImages?.[0];
-//   if (!selected || !selected.image_path) {
-//     return null; // or render a default image or fallback UI
-//   }
-//   const sortedVideos = data?.videoDetails?.sort(
-//     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-//   );
-//   const selectedVideo = sortedVideos?.[0];
+ const HandleaddToWishlist = () => {
+   try {
+     console.log("Adding to wishlist, product data:", data);
+     if (data && data.productId) {
+       if (isLoggedIn) {
+         const productToAdd: ProductForWishlistLoggedIn = {
+           productId: data.productId,
+         };
+         addToWishlist(productToAdd);
+         setIsProductInWishlist(true);
+       } else {
+         const productToAdd: ProductForWishlistLoggedOut = {
+           productId: data.productId,
+           title: data.title,
+           productPrice: data.productPrice,
+           discountPrice: data.discountPrice,
+           discountValue: data.discountValue,
+           imageDetails: data.image_path,
+           url: data.url,
+         };
+         addToWishlist(productToAdd);
+         setIsProductInWishlist(true);
+       }
+     } else {
+       console.error("Invalid product data:", data);
+     }
+   } catch (error) {
+     console.error("Error adding product to wishlist:", error);
+   }
+ };
+
+    const HandleremoveFromWishlist = () => {
+      removeFromWishlist(data.productId);
+      setIsProductInWishlist(false);
+    };
+
+
+  //   const sortedImages = data?.imageDetails?.sort(
+  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
+  //   );
+
+  //   const selected = sortedImages?.[0];
+  //   if (!selected || !selected.image_path) {
+  //     return null; // or render a default image or fallback UI
+  //   }
+  //   const sortedVideos = data?.videoDetails?.sort(
+  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
+  //   );
+  //   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = () => {
     router.push(`/products/${data?.url}`);
@@ -95,28 +154,39 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 )}
               </div>
             ) : ( */}
-              <>
-                <Image
-                  onClick={() => handleDetailProduct()}
-                  className="w-[95%] duration-700 hover:scale-110  m-auto"
-                  src={data.image_path}
-                  width={400}
-                  height={400}
-                  alt="This image is temporarry"
-                />
+            <>
+              <Image
+                onClick={() => handleDetailProduct()}
+                className="w-[95%] duration-700 hover:scale-110  m-auto"
+                src={data.image_path}
+                width={400}
+                height={400}
+                alt="This image is temporarry"
+              />
 
-                <div className="relative">
+              {/* <div className="relative">
                   <div className="absolute bottom-0 right-0 z-0 hover:z-50">
                     <Icon.Heart size={25} weight="light" />
                   </div>
-                </div>
-              </>
-            
+                </div> */}
+              {isProductInWishlist ? (
+                <Icon.Heart
+                  size={32}
+                  color="#fa0000"
+                  weight="fill"
+                  onClick={() => HandleremoveFromWishlist()}
+                />
+              ) : (
+                <Icon.Heart
+                  size={32}
+                  weight="thin"
+                  color="#e26178"
+                  onClick={() => HandleaddToWishlist()}
+                />
+              )}
+            </>
           </div>
-          <div
-            className=" mt-4 lg:mb-7"
-            onClick={() => handleDetailProduct()}
-          >
+          <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}

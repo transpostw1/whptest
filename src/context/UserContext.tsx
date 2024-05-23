@@ -33,7 +33,7 @@ interface UserDetails {
   gender: string;
   dateOfBirth: string;
   profilePicture: File | null;
-  // customer:string;
+  customer:any;
 }
 
 type UserDetailsKeys = keyof UserDetails;
@@ -71,8 +71,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const cookieToken = Cookies.get("localtoken");
 
-  const logIn = () => {
+  const logIn = async () => {
     dispatch({ type: "LOG_IN" });
+    await getUser();
   };
 
   const logOut = () => {

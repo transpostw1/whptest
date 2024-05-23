@@ -32,7 +32,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { wishlistItemsCount, wishlistItems } = useWishlist();
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
-  const { userState } = useUser();
+  const { userState,userDetails,getUser } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -54,6 +54,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+    
+  useEffect(() => {
+    if (isLoggedIn && !userDetails) {
+      getUser();
+    }
+  }, [isLoggedIn, userDetails, getUser]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -300,8 +306,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleProfilePage}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="red" />
-                            <h4 className="text-sm">Profile</h4>
+                            <Icon.User size={28} color="black" />
+                            <h4 className="text-sm">
+                             {userDetails?.customer?.firstname}
+                            </h4>
                           </div>
                         </>
                       ) : (
@@ -311,7 +319,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />
-                            <h4 className="text-sm">User</h4>
+                            <h4 className="text-sm">Login</h4>
                           </div>
                           <div
                             className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10

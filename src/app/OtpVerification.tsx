@@ -3,6 +3,7 @@ import {
   RecaptchaVerifier,
   signInWithCredential,
   signInWithPhoneNumber,
+  FirebaseError,
 } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";
@@ -101,35 +102,31 @@ const OtpVerification = ({
           },
         }
       );
-      // logIn();
+      logIn(); ////
       console.log("LOGIN RESPPP", response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));
-      // router.push("/");
-      if (action === "signup") {
-        router.push("/login");
-      } else {
-        logIn();
-        router.push("/");
-      }
+      router.push("/");
     } catch (error: any) {
-       setVerifying(false);
+      setVerifying(false);
       console.error("Error signing in with OTP:", error);
-      setErrorMessage(error.response?.data?.message);
-      if (error.response) {
-        console.error("Backend error data will show:", error.response.data);
-        console.error("Backend error status:", error.response.status);
-        console.error("Backend error headers:", error.response.headers);
-        setErrorMessage(error.response?.data?.error);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
+      if (error.code === "auth/invalid-verification-code") {
+        setErrorMessage("Invalid OTP. Please try again.");
       } else {
-        console.error("Request setup error:", error.message);
+        setErrorMessage(error.response?.data?.message || error.message);
+        if (error.response) {
+          console.error("Backend error data will show:", error.response.data);
+          console.error("Backend error status:", error.response.status);
+          console.error("Backend error headers:", error.response.headers);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Request setup error:", error.message);
+        }
       }
     }
   };
-
   useEffect(() => {
     setUpRecaptcha();
   }, []);

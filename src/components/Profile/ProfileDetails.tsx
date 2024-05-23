@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-
+ 
 
 
 const ProfileDetails = () => {

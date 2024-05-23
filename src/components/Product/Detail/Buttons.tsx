@@ -106,7 +106,7 @@ const HandleremoveFromWishlist = () => {
   return (
     <div className="flex sm:justify-around mt-[25px] ">
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] max-sm:py-[15px] max-sm:px[18px] text-center"
         onClick={() => handleBuyNow(product)}
       >
         <Link

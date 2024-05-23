@@ -202,7 +202,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
         {hover && (
-          <div className="w-full flex justify-center ">
+          <div className="w-full flex justify-center max-sm:flex-col ">
             <button
               className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
               onClick={() => console.log("tryAtHome")}

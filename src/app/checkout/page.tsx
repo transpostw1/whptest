@@ -247,7 +247,6 @@ const Checkout: React.FC = () => {
     setFlashMessage("Your order has been placed successfully!");
     setFlashType("success");
     setFlashKey((prevKey) => prevKey + 1);
-    
   };
 
   const validateDeliveryDetails = () => {
@@ -506,31 +505,42 @@ const Checkout: React.FC = () => {
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="flex justify-between border border-gray-400 p-3">
-                    <div className="flex items-center gap-2 font-medium">
-                      <Image
-                        src={"/images/icons/coupon.png"}
-                        alt={"coupons"}
-                        height={25}
-                        width={25}
-                      />
-                      <h3>Coupons Available</h3>
-                    </div>
-                    <h3 className="text-red-600 underline cursor-pointer">
-                      View
-                    </h3>
-                    <input
-                      className="border border-black"
-                      type="text"
-                      onChange={(e) => setCouponCode(e.target.value)}
-                    />
-                    <button
-                      className="bg-black text-white"
-                      onClick={handleCouponCheck}
-                    >
-                      check
-                    </button>
+                    {couponsModal ? (
+                      <>
+                        <div className="flex items-center gap-2 font-medium">
+                          <Image
+                            src={"/images/icons/coupon.png"}
+                            alt={"coupons"}
+                            height={25}
+                            width={25}
+                          />
+                          <h3>Coupons Code</h3>
+                        </div>
+                        <h3
+                          className="text-red-600 underline cursor-pointer"
+                          onClick={() => handleCouponsModal()}
+                        >
+                          Check
+                        </h3>
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          className="border border-black"
+                          type="text"
+                          
+                          onChange={(e) => setCouponCode(e.target.value)}
+                        />
+                        <button
+                          className="bg-black text-white"
+                          onClick={handleCouponCheck}
+                        >
+                          check
+                        </button>
+                      </>
+                    )}
                   </div>
-                  {couponsModal && <CouponsModal />}
+                  {/* {couponsModal && <CouponsModal />} */}
                   <div className="flex justify-between border border-gray-400 p-3 mt-3">
                     <div className="flex gap-2 items-center font-medium">
                       <Gift style={{ color: "red", fontSize: "24px" }} />

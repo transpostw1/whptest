@@ -66,7 +66,9 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   return (
     <>
       <div
-        className="product-item grid-type hover:border hover:p-2 hover:shadow-md hover:rounded-lg"
+        className={`product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg ${
+          hover ? "z-40" : ""
+        }`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
@@ -80,7 +82,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="w-[95%] object-cover relative duration-700 product-img"
+                      className="object-cover relative duration-700 product-img"
                       onClick={() => handleDetailProduct()}
                     >
                       <video loop autoPlay muted>
@@ -200,7 +202,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
         {hover && (
-          <div className="w-full">
+          <div className="w-full flex justify-center max-sm:flex-col ">
             <button
               className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
               onClick={() => console.log("tryAtHome")}

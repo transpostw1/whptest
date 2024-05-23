@@ -18,8 +18,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
-  const { category,setCustomcategory } = useCategory();
-
+  const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
@@ -63,7 +62,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   }, []);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const mediaQuery = window.matchMedia("(max-width: 1022px)");
     const handleChange = (e: any) => {
       setIsMobile(e.matches);
     };
@@ -109,7 +108,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       <p className="font-bold text-black">Explore Categories</p>
 
                       {data &&
-                        data.map((item, index) => (
+                        data.map((item: any, index: any) => (
                           <React.Fragment key={item.id}>
                             <li className="leading-[0px]">
                               <Link
@@ -351,7 +350,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "earring" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="earring" ? "active" : ""
+                      category === "earring" ? "active" : ""
                     }`}
                   >
                     Earrings
@@ -368,7 +367,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "pendants" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="pendant" ? "active" : ""
+                      category === "pendant" ? "active" : ""
                     }`}
                   >
                     Pendants
@@ -384,7 +383,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "bangle" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="bangle" ? "active" : ""
+                      category === "bangle" ? "active" : ""
                     }`}
                   >
                     Bangles
@@ -400,7 +399,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="Bracelet" ? "active" : ""
+                      category === "Bracelet" ? "active" : ""
                     }`}
                   >
                     Bracelet
@@ -416,7 +415,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "necklace" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="necklace" ? "active" : ""
+                      category === "necklace" ? "active" : ""
                     }`}
                   >
                     Necklace

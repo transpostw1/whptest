@@ -140,7 +140,7 @@ const ShopBreadCrumb1 = () => {
 
           <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3">
             <div className="">
-              <p className="text-4xl font-bold uppercase">{name}</p>
+              <p className="text-4xl font-bold uppercase">{category}</p>
             </div>
             <div className="flex justify-between mt-5">
               <div className="lg:w-[70%] sm:w-[100%]">

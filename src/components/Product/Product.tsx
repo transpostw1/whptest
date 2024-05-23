@@ -67,7 +67,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     <>
       <div
         className={`product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg ${
-          hover ? "z-40" : ""
+          hover ? "z-[1]" : ""
         }`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}

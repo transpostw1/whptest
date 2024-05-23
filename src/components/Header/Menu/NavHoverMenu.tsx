@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { usePathname } from "next/navigation";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
@@ -15,9 +16,9 @@ interface Props {
 }
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
-  const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const { categories } = useAllCategoryContext();
   const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -38,28 +39,6 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollPosition]);
-
-  async function getData() {
-    const res = await fetch(`${baseUrl}/getAllParentCategories`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
-  }
-
-  async function getAllCategories() {
-    try {
-      const category = await getData();
-      if (category) {
-        setData(category);
-      }
-    } catch (error) {
-      console.error("Error getting categories:", error);
-    }
-  }
-  useEffect(() => {
-    getAllCategories();
-  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1022px)");
@@ -107,8 +86,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     <ul>
                       <p className="font-bold text-black">Explore Categories</p>
 
-                      {data &&
-                        data.map((item: any, index: any) => (
+                      {categories &&
+                        categories.map((item: any, index: any) => (
                           <React.Fragment key={item.id}>
                             <li className="leading-[0px]">
                               <Link

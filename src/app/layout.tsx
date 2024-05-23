@@ -17,6 +17,9 @@ const instrument = Montserrat({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "WHP Web",
   description: "WHP Jewellers app",
+  icons: {
+    icon: "/images/Bracelet.jpg",
+  },
 };
 
 export default function RootLayout({

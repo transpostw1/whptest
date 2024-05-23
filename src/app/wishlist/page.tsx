@@ -53,6 +53,8 @@ const Wishlist = () => {
         <div className="list-product-block relative">
           {isLoading ? (
             <Loader /> // Render loader if wishlist is loading
+          ) : wishlistItems.length < 1 ? (
+            <div className="text-center my-10">No products in wishlist</div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (

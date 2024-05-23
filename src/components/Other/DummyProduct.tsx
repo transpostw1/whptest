@@ -48,6 +48,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
      console.log("Adding to wishlist, product data:", data);
      if (data && data.productId) {
        if (isLoggedIn) {
+        console.log("In")
          const productToAdd: ProductForWishlistLoggedIn = {
            productId: data.productId,
          };
@@ -60,7 +61,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
            productPrice: data.productPrice,
            discountPrice: data.discountPrice,
            discountValue: data.discountValue,
-           imageDetails: data.image_path,
+           image_path: data.image_path,
            url: data.url,
          };
          addToWishlist(productToAdd);

@@ -217,13 +217,14 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="text-red-500 mt-1">{formik.errors.email}</div>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 select-none ">
               <div className="relative">
                 <input
                   id="phone"
                   type="text"
                   {...formik.getFieldProps("phone")}
                   value={formik.values.phone}
+                  readOnly
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.phone ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}

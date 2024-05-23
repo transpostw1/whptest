@@ -28,9 +28,7 @@ interface WishlistItem {
 
 interface WishlistContextProps {
   wishlistItems: WishlistItem[];
-  addToWishlist: (
-    productType:  ProductType
-  ) => Promise<void>;
+  addToWishlist: (productType: ProductType) => Promise<void>;
   removeFromWishlist: (productId: number) => Promise<void>;
   getWishlist: () => Promise<WishlistItem[]>;
   wishlistItemsCount: number;
@@ -91,18 +89,17 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn, cookieToken]);
 
-    const normalizeImagePath = (
-      imagePath: string | string[] | undefined
-    ): string => {
-      if (!imagePath) {
-        return "";
-      }
-      if (Array.isArray(imagePath)) {
-        return imagePath.length > 0 ? imagePath[0] : "";
-      }
-      return imagePath;
-    };
-
+  const normalizeImagePath = (
+    imagePath: string | string[] | undefined
+  ): string => {
+    if (!imagePath) {
+      return "";
+    }
+    if (Array.isArray(imagePath)) {
+      return imagePath.length > 0 ? imagePath[0] : "";
+    }
+    return imagePath;
+  };
 
   const addToWishlist = async (
     product:
@@ -113,14 +110,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!product || !("productId" in product)) {
       throw new Error("Invalid product data");
     }
-     if ("image_path" in product) {
-       product.image_path = normalizeImagePath(product.image_path);
-     }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {
-          // Get the existing wishlist items from localStorage
-
           let localWishlistItems = null;
           if (typeof window !== "undefined") {
             localWishlistItems = JSON.parse(
@@ -197,7 +189,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   productPrice: product.productPrice,
                   discountPrice: product.discountPrice,
                   discountValue: product.discountValue,
-                  image_path: product.image_path,
+                  // image_path: product.imageDetails[0].image_path,
+                  image_path: normalizeImagePath(product.image_path),
                   url: product.url,
                 },
               ];

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { baseUrl, contactForm } from "@/utils/constants";
 import axios from "axios";
 
-interface Props{
-  closeModal:()=>void;
+interface Props {
+  closeModal: () => void;
 }
-const BookExchangeModal:React.FC<Props>=({closeModal})=> {
+const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,7 +18,7 @@ const BookExchangeModal:React.FC<Props>=({closeModal})=> {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleOnClose = (e:any) => {
+  const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       closeModal();
     }
@@ -46,8 +46,12 @@ const BookExchangeModal:React.FC<Props>=({closeModal})=> {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-10 bg-blur- z-50 flex justify-center items-center" id="container" onClick={handleOnClose}>
-      <div className="max-w-md w-[25%] bg-white p-6 rounded-md shadow-md">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-10 bg-blur- z-50 flex justify-center items-center"
+      id="container"
+      onClick={handleOnClose}
+    >
+      <div className="max-w-md w-[25%] max-sm:w-[7x0%] bg-white p-6 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Contact Form
         </h2>
@@ -143,6 +147,6 @@ const BookExchangeModal:React.FC<Props>=({closeModal})=> {
       </div>
     </div>
   );
-}
+};
 
 export default BookExchangeModal;

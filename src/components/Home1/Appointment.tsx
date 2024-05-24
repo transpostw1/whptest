@@ -1,6 +1,14 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 const Appointment = () => {
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
   return (
     <>
       <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1   text-rose-950">
@@ -27,14 +35,18 @@ const Appointment = () => {
                 evolving style.
               </p>
             </div>
-            <a href="/product-page">
-              <button
-                type="button"
-                className="text-white bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
-              >
-                Book Appointment
-              </button>
-            </a>
+
+            <button
+              type="button"
+              className="text-white bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
+              onClick={() => setAppointmentModal(true)}
+            >
+              Book Appointment
+            </button>
+
+            {appointmentModal && (
+              <BookExchangeModal closeModal={handleOnClose} />
+            )}
           </div>
         </div>
         <div className="justify-center items-center  flex">

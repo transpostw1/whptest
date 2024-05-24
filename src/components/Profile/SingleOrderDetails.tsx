@@ -12,8 +12,8 @@ interface Props {
 
 const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<any>();
-  const [type, setType] = useState<String>("");
+  const [message, setMessage] = useState<string>();
+  const [type, setType] = useState<any>("");
 
   const handleOrderCancel = async (id: any) => {
     try {
@@ -28,10 +28,10 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       );
       setMessage(response.data.message);
       setType("success");
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error fetching orders:", error);
       setMessage(error.response.data.message);
-      setType("failure");
+      setType("error");
     } finally {
       setLoading(false);
     }

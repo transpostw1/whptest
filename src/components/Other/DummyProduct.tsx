@@ -48,7 +48,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
      console.log("Adding to wishlist, product data:", data);
      if (data && data.productId) {
        if (isLoggedIn) {
-        console.log("In")
          const productToAdd: ProductForWishlistLoggedIn = {
            productId: data.productId,
          };
@@ -79,20 +78,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
       removeFromWishlist(data.productId);
       setIsProductInWishlist(false);
     };
-
-
-  //   const sortedImages = data?.imageDetails?.sort(
-  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  //   );
-
-  //   const selected = sortedImages?.[0];
-  //   if (!selected || !selected.image_path) {
-  //     return null; // or render a default image or fallback UI
-  //   }
-  //   const sortedVideos = data?.videoDetails?.sort(
-  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  //   );
-  //   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = () => {
     router.push(`/products/${data?.url}`);
@@ -158,7 +143,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             <>
               <Image
                 onClick={() => handleDetailProduct()}
-                className="w-[95%] duration-700 hover:scale-110  m-auto"
+                className="w-[95%] duration-700  m-auto"
                 src={data.image_path}
                 width={400}
                 height={400}

@@ -46,7 +46,7 @@ const WhpApp = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4" ref={divRef}>
+      <div className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4 mb-4" ref={divRef}>
         <div className="lg:w-[50%] sm:w-[100%] md:w-[50%]">
           {width < 180 ? (
             <p className="text-center text-2xl font-semibold">
@@ -57,7 +57,7 @@ const WhpApp = () => {
               Download the Waman Hari Pethe App
             </p>
           )}
-          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start">
+          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start max-md:text-center">
             Now you can explore the timeless glamour of Waman Hari Pethe
             whenever you want! Shining new app, made just for you! It's Free,
             Easy & Smart.

@@ -110,7 +110,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -142,7 +142,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 />
 
                 <div className="relative">
-                  <div className="absolute bottom-0 right-0 z-0 hover:z-50">
+                  <div className="absolute bottom-10 right-0 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
                         size={25}

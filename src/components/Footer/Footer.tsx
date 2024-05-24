@@ -55,13 +55,24 @@ const Footer = () => {
                     </form>
                   </div>
                   <div className="list-social flex items-center gap-6 mt-4">
-                    <Link href={"https://www.facebook.com/"} target="_blank">
+                    <Link
+                      href={"https://www.facebook.com/whpjewellers.india/"}
+                      target="_blank"
+                    >
                       <div className="icon-facebook text-2xl text-black"></div>
                     </Link>
-                    <Link href={"https://www.instagram.com/"} target="_blank">
+                    <Link
+                      href={"https://www.instagram.com/whpjewellers/?hl=en"}
+                      target="_blank"
+                    >
                       <div className="icon-instagram text-2xl text-black"></div>
                     </Link>
-                    <Link href={"https://www.youtube.com/"} target="_blank">
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
                       <div className="icon-youtube text-2xl text-black"></div>
                     </Link>
                   </div>

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
-
+import { useCategory } from "@/context/CategoryContex";
+import Link from "next/link";
 // const dummyData = [
 //   {
 //     image: (
@@ -100,6 +101,7 @@ import { useAllCategoryContext } from "@/context/AllCategoryContext";
 const MobileMainCategorySwiper = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { categories } = useAllCategoryContext();
+  const { setCustomcategory } = useCategory();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
@@ -132,16 +134,27 @@ const MobileMainCategorySwiper = () => {
       >
         {categories.map((data, index) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col justify-center items-center">
-              <div>
-                <Image
-                  src={data.menuImg}
-                  alt={"pendant"}
-                  width={65}
-                  height={65}
-                />
-              </div>
-              <p className="text-center">{data.name}</p>
+            <div
+              className="flex flex-col justify-center items-center"
+              onClick={() => setCustomcategory(data.url)}
+            >
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { url: data.url },
+                }}
+              >
+                <div className=" border rounded-full shadow-sm">
+                  <Image
+                    src={data.menuImg}
+                    alt={"pendant"}
+                    width={65}
+                    className="rounded-full"
+                    height={65}
+                  />
+                </div>
+              </Link>
+              <p className="text-center text-[10px]">{data.name}</p>
             </div>
           </SwiperSlide>
         ))}

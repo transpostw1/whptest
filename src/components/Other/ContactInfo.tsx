@@ -37,29 +37,24 @@ const ContactInfo = () => {
       <div className="flex mt-4">
         <div className="mr-3">
           <Link href={"https://www.facebook.com/whpjewellers.india/"}>
-            
-          <Icon.FacebookLogo size={34} weight="light" color="#e26178"/>
+            <Icon.FacebookLogo size={34} weight="light" color="#e26178" />
           </Link>
         </div>
         <div className="mr-3">
           <Link
             href={"https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"}
           >
-            
-          <Icon.YoutubeLogo size={34} weight="light" color="#e26178"/>
-            
+            <Icon.YoutubeLogo size={34} weight="light" color="#e26178" />
           </Link>
         </div>
         <div className="mr-3">
           <Link href={"https://www.instagram.com/whpjewellers/?hl=en"}>
-            
-          <Icon.InstagramLogo size={32} weight="light" color="#e26178"/>
+            <Icon.InstagramLogo size={32} weight="light" color="#e26178" />
           </Link>
         </div>
         <div className="mr-3">
           <Link href={"https://www.instagram.com/whpjewellers/?hl=en"}>
-            
-          <Icon.WhatsappLogo size={34} weight="light" color="#e26178"/>
+            <Icon.WhatsappLogo size={34} weight="light" color="#e26178" />
           </Link>
         </div>
       </div>

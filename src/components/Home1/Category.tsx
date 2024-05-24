@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
+import { useCategory } from "@/context/CategoryContex";
 
 const Category = () => {
   const router = useRouter();
   const { categories } = useAllCategoryContext();
+  const { setCustomcategory } = useCategory();
+
   // let categories: {
   //   id: number;
   //   type: string;
@@ -154,7 +157,10 @@ const Category = () => {
               key={category.id}
               className="flex flex-col relative items-start justify-between "
             >
-              <Link href={category.url}>
+              <Link
+                href={`/products?url=${category.url}`}
+                onClick={() => setCustomcategory(category.url)}
+              >
                 <div className="effect14 cursor-pointer">
                   <Image
                     src={category.parentImg}
@@ -170,7 +176,10 @@ const Category = () => {
                 {/* <p className="text-sm font-medium">{category.description}</p> */}
                 <h3
                   className="text-red-600 underline font-bold cursor-pointer"
-                  onClick={() => router.push(`/products?url=${category.url}`)}
+                  onClick={() => {
+                    router.push(`/products?url=${category.url}`);
+                    setCustomcategory(category.url);
+                  }}
                 >
                   VIEW ALL
                 </h3>

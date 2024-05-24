@@ -386,7 +386,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "Bracelet" ? "active" : ""
+                      category === "bracelet" ? "active" : ""
                     }`}
                   >
                     Bracelet

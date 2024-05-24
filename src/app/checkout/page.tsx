@@ -102,9 +102,6 @@ const Checkout: React.FC = () => {
       quantity: item.quantity,
     }));
     setCartProductIds(products);
-  };
-
-  useEffect(() => {
     const fetchCouponData = async () => {
       setLoading(true);
       const cookieToken = Cookies.get("localtoken");
@@ -128,9 +125,36 @@ const Checkout: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchCouponData();
-  }, [cartProductIds]);
+  };
+
+  // useEffect(() => {
+  //   const fetchCouponData = async () => {
+  //     setLoading(true);
+  //     const cookieToken = Cookies.get("localtoken");
+  //     try {
+  //       const response = await axios.post<{ data: any }>(
+  //         `${baseUrl}${coupon}`,
+  //         {
+  //           products: cartProductIds,
+  //           coupon: couponCode,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${cookieToken}`,
+  //           },
+  //         }
+  //       );
+  //       setDataAfterCouponCode(response.data);
+  //     } catch (error) {
+  //       console.log("Error occurred", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCouponData();
+  // }, [couponCode]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -210,7 +234,6 @@ const Checkout: React.FC = () => {
   //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
-    console.log("function is runnign");
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
@@ -528,7 +551,6 @@ const Checkout: React.FC = () => {
                         <input
                           className="border border-black"
                           type="text"
-                          
                           onChange={(e) => setCouponCode(e.target.value)}
                         />
                         <button

@@ -10,6 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl, getAllBanners } from "@/utils/constants";
 import axios from "axios";
+import Link from "next/link";
 
 const MainCarousel = () => {
   const [allBanners, setAllBanners] = useState<any[]>([]);
@@ -47,7 +48,7 @@ const MainCarousel = () => {
   if (isLoading) {
     return (
       <div>
-        <Skeleton height={50} />
+        <Skeleton height={200} />
       </div>
     );
   }
@@ -67,14 +68,16 @@ const MainCarousel = () => {
               {allBanners &&
                 allBanners.map((banner: any) => (
                   <SwiperSlide key={banner.id}>
-                    <div className="slider-item w-full">
-                      <Image
-                        src={banner.desktopFile}
-                        alt="Hero Image"
-                        width={1920}
-                        height={1080}
-                      />
-                    </div>
+                    <Link href={`/products?url=${banner.url}`} >
+                      <div className="slider-item w-full">
+                        <Image
+                          src={banner.desktopFile}
+                          alt="Hero Image"
+                          width={1920}
+                          height={1080}
+                        />
+                      </div>
+                    </Link>
                   </SwiperSlide>
                 ))}
             </Swiper>

@@ -112,7 +112,7 @@ const OtpVerification = ({
       setVerifying(false);
       console.error("Error signing in with OTP:", error);
       if (error.code === "auth/invalid-verification-code") {
-        // setErrorMessage("Invalid OTP. Please try again.");
+        setErrorMessage("Invalid OTP. Please try again.");
       } else if (error.response) {
       const errorMsg = typeof error.response.data === 'string' 
                         ? error.response.data.error

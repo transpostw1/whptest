@@ -43,7 +43,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
-
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (divRef.current && !divRef.current.contains(event.target as Node)) {

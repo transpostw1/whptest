@@ -27,7 +27,6 @@ const Wishlist = () => {
   const router = useRouter();
 
   
-  // Create a Set to store unique product IDs
   const uniqueProductIds = new Set<number>();
 
   
@@ -52,7 +51,9 @@ const Wishlist = () => {
       <div className="container">
         <div className="list-product-block relative">
           {isLoading ? (
-            <Loader /> // Render loader if wishlist is loading
+            <Loader /> 
+          ) : wishlistItems.length < 1 ? (
+            <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (

@@ -8,11 +8,8 @@ import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
-import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import Accordian from "./Accordian";
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
@@ -20,6 +17,9 @@ import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
 import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl } from "@/utils/constants";
 import axios from "axios";
@@ -295,7 +295,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <CheckPincode />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
 
-          <div className="mt-4 border border-[#f7f7f7] w-[445px] p-2 text-center">
+          <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
             <span className="underline text-[#e26178] cursor-pointer ">
               Schedule free trial
             </span>

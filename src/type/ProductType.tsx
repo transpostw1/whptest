@@ -202,3 +202,18 @@ export interface ProductData {
   productDetails: ProductDetails;
   variants: Variant[];
 }
+
+
+export interface ProductForWishlistLoggedIn {
+  productId: number;
+}
+
+export interface ProductForWishlistLoggedOut {
+  productId: number;
+  title: string;
+  productPrice: string;
+  discountPrice: string;
+  discountValue: string;
+  image_path: string;
+  url: string;
+}

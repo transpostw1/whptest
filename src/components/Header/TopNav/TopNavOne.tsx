@@ -15,7 +15,7 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
     <>
       <div className={`banner-top style-four w-full  bg-rose-950 h-[25px]`}>
         <div className="container flex items-center justify-center align-middle">
-          <div className=" w-full h-full">
+          <div className="w-full h-full">
             <Swiper
               spaceBetween={0}
               slidesPerView={1}

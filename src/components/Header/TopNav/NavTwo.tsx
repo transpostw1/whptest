@@ -481,7 +481,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       setCustomcategory("14kt");
                     }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "14kt" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         14 Karat
                       </p>

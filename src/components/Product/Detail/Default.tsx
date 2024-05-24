@@ -121,7 +121,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={500} width={500} />
           ) : (
-            <div className="bg-[#fffff]">
+            <div className="">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails

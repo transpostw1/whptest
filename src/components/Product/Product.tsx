@@ -73,7 +73,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
+          <div className="product-thumb bg-[f7f7f7] relative overflow-hidden">
             {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
@@ -142,7 +142,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 />
 
                 <div className="relative">
-                  <div className="absolute bottom-10 right-0 z-0 hover:z-50">
+                  <div className="absolute bottom-0 right-0 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
                         size={25}

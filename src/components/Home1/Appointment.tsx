@@ -37,21 +37,22 @@ const Appointment = () => {
             </a>
           </div>
         </div>
-        <div className="justify-center items-center bg-red-700 flex">
-        
+        <div className="justify-center items-center  flex">
           <Image
-          className="max-w-[50%] h-auto"
+            className="max-w-[50%] h-auto"
             src={"/images/other/image135.png"}
             alt=""
             width={1000}
             height={699}
+            style={{ width: "auto", height: "auto" }}
           />
           <Image
-          className="max-w-[50%] h-auto"
+            className="max-w-[50%] h-auto"
             src={"/images/other/image1366.png"}
             alt=""
             width={1000}
             height={699}
+            style={{ width: "auto", height: "auto" }}
           />
         </div>
       </div>

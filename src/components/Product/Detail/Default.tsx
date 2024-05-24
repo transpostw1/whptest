@@ -119,7 +119,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
-            <Skeleton height={500} width={700} />
+            <Skeleton height={500} width={500} />
           ) : (
             <div className="bg-[#fffff]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>

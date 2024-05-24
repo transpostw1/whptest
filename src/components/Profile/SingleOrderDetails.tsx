@@ -13,6 +13,7 @@ interface Props {
 const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>();
+  const [type, setType] = useState<String>("");
 
   const handleOrderCancel = async (id: any) => {
     try {
@@ -26,12 +27,22 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         }
       );
       setMessage(response.data.message);
+      setType("success");
     } catch (error) {
       console.error("Error fetching orders:", error);
+      setMessage(error.response.data.message);
+      setType("failure");
     } finally {
       setLoading(false);
     }
   };
+  if (loading) {
+    return (
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
+    );
+  }
   return (
     <div>
       <div className="flex justify-between mb-3">
@@ -184,14 +195,14 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
-        singleOrder[0]?.orderStatus === "5" ? null : (
+      singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
             Order Cancel
           </button>
         </div>
       )}
-      {message && <FlashAlert message={message} type={"success"} />}
+      {message && <FlashAlert message={message} type={type} />}
     </div>
   );
 };

@@ -1,20 +1,20 @@
-"use client"
-import React,{useState} from "react";
+"use client";
+import React, { useState } from "react";
 
-interface Props{
-  closeModal:()=>void
+interface Props {
+  closeModal: () => void;
 }
-const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
+const GiftWrapModal: React.FC<Props> = ({ closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     wrapOption: "",
   });
 
-  const hanldeClose=(e:any)=>{
+  const hanldeClose = (e: any) => {
     if (e.target.id === "container") {
       closeModal();
     }
-  }
+  };
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,16 +24,20 @@ const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
 
     // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", wrapOption: ""});
+      setFormData({ name: "", wrapOption: "" });
     }, 2000);
   };
   return (
-    <div className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center" id="container" onClick={hanldeClose}>
-      <div className="bg-white w-[25%] p-4">
-      <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
+    <div
+      className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center"
+      id="container"
+      onClick={hanldeClose}
+    >
+      <div className="bg-white w-[25%] max-sm:w-[50%] p-4">
+        <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Your Gift Message
         </h2>
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -51,22 +55,26 @@ const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
               required
             />
           </div>
-          <div className="mb-4">
-            
-            <input
-              type="checkbox"
-              id="name"
-              name="name"
-              value={formData.name}
-              checked={true}
-              onChange={handleChange}
-              required
-            /><label
-            htmlFor="name"
-            className="text-sm font-medium text-gray-700 mr-4"
-          >
-           Want Your Gift to Wrapped?
-          </label>
+          <div className="mb-4 flex">
+            <div className="flex  items-center">
+              <input
+                type="checkbox"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="mr-3"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-700 "
+              >
+                Want Your Gift to Wrapped?
+              </label>
+            </div>
           </div>
 
           <button

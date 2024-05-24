@@ -33,7 +33,7 @@ const ProductSlider = () => {
   }, []);
 
   const filteredProducts = products;
-  
+
   return (
     <>
       {products.length > 0 && (
@@ -55,20 +55,41 @@ const ProductSlider = () => {
               </div>
             )}
             {loading ? (
-              <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7">
-                <div className="mr-2">
+              <Swiper
+                spaceBetween={12}
+                slidesPerView={1.5}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                }}
+                loop={true}
+                className="flex"
+                modules={[Navigation, Autoplay]}
+                zoom
+                breakpoints={{
+                  576: {
+                    slidesPerView: 1.5,
+                    spaceBetween: 12,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                  1200: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                  },
+                }}
+              >
+                <SwiperSlide className="mr-4 ">
                   <Skeleton height={300} width={200} />
-                </div>
-                <div className="mr-2">
+                </SwiperSlide>
+                <SwiperSlide className="mr-4 ">
                   <Skeleton height={300} width={200} />
-                </div>
-                <div className="mr-2">
+                </SwiperSlide>
+                <SwiperSlide className="mr-4">
                   <Skeleton height={300} width={200} />
-                </div>
-                <div className="mr-2">
-                  <Skeleton height={300} width={200} />
-                </div>
-              </div>
+                </SwiperSlide>
+              </Swiper>
             ) : (
               <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
                 <Swiper

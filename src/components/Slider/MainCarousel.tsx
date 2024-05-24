@@ -82,7 +82,7 @@ const MainCarousel = () => {
                           src={banner.desktopFile}
                           alt="Hero Image"
                           width={1920}
-                          height={10}
+                          height={100}
                         />
                       </div>
                     </Link>
@@ -114,7 +114,7 @@ const MainCarousel = () => {
                           src={banner.mobileFile}
                           alt="Mobile Banners"
                           width={1920}
-                          height={10}
+                          height={100}
                           layout="responsive"
                           priority
                         />

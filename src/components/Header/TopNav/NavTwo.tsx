@@ -582,7 +582,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <ul>
                           {categories &&
                             categories.map((item: any, index: any) => (
-                              <div key={item.id} onClick={handleMenuMobile}>
+                              <div
+                                key={item.id}
+                                onClick={() => {
+                                  handleMenuMobile(),
+                                    setCustomcategory(item.url);
+                                }}
+                              >
                                 <li className="leading-[0px]">
                                   <Link
                                     href={{

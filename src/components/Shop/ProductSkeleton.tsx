@@ -4,7 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const ProductSkeleton = () => {
   return (
-    <div className="list-product hide-product-sold grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
+    <div className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7">
       <div className="">
         <Skeleton height={300} />
         <Skeleton count={3} />

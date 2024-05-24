@@ -81,11 +81,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.removeItem("redirectPath");
   };
 
+// const logOut = () => {
+//   window.location.href = "/";
+//   dispatch({ type: "LOG_OUT" });
+// };
+
+
 const logOut = () => {
+  localStorage.removeItem("isLoggedIn"); // Clear isLoggedIn from localStorage
   window.location.href = "/";
   dispatch({ type: "LOG_OUT" });
 };
-
 
   const getUser = async () => {
     try {

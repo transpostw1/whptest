@@ -81,18 +81,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.removeItem("redirectPath");
   };
 
-  // const logOut = () => {
-  //   router.push("/");
-  //   dispatch({ type: "LOG_OUT" });
-  // };
+const logOut = () => {
+  window.location.href = "/";
+  dispatch({ type: "LOG_OUT" });
+};
 
-  const logOut = () => {
-    router.push("/", undefined, { shallow: false }).then(() => {
-      // Optionally, you can add any additional logic here after the page reload
-      window.scrollTo(0, 0); // Scroll to the top of the page
-    });
-    dispatch({ type: "LOG_OUT" });
-  };
 
   const getUser = async () => {
     try {

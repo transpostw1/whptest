@@ -19,7 +19,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   let loggedIn = null;
-  if (typeof window != undefined) {
+  if (typeof window != "undefined") {
     loggedIn = localStorage.getItem("isLoggedIn");
   }
   // Function to handle file selection

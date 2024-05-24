@@ -1,46 +1,36 @@
 "use client";
 
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import Loader from "./loading";
 
-
 const Wishlist = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
-
-
-
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
 
-    
     return () => clearTimeout(timeout);
   }, []);
   const router = useRouter();
 
-  
   const uniqueProductIds = new Set<number>();
 
-  
-
-  
   const filteredWishlistItems = wishlistItems.filter((product) => {
     if (uniqueProductIds.has(product.productId)) {
       return false;
     } else {
       uniqueProductIds.add(product.productId);
-      return true; 
+      return true;
     }
   });
-  
 
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
@@ -51,7 +41,7 @@ const Wishlist = () => {
       <div className="container">
         <div className="list-product-block relative">
           {isLoading ? (
-            <Loader /> 
+            <Loader />
           ) : wishlistItems.length < 1 ? (
             <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (

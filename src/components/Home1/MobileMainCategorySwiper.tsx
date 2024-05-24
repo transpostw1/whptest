@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
 
 const dummyData = [
   {
@@ -91,18 +92,15 @@ const dummyData = [
   },
   {
     image: (
-      <Image
-        src={"/dummy/Gifts.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
+      <Image src={"/dummy/Gifts.png"} alt={"pendant"} width={65} height={65} />
     ),
     title: "Gold Service",
   },
 ];
 const MobileMainCategorySwiper = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const { categories } = useAllCategoryContext();
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
     const handleChange = (e: any) => {
@@ -132,11 +130,18 @@ const MobileMainCategorySwiper = () => {
           },
         }}
       >
-        {dummyData.map((data, index) => (
+        {categories.map((data, index) => (
           <SwiperSlide key={index}>
             <div className="flex flex-col justify-center items-center">
-              <div>{data.image}</div>
-              <p className="text-center">{data.title}</p>
+              <div>
+                <Image
+                  src={data.menuImg}
+                  alt={"pendant"}
+                  width={65}
+                  height={65}
+                />
+              </div>
+              <p className="text-center">{data.name}</p>
             </div>
           </SwiperSlide>
         ))}

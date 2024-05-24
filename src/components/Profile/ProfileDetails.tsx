@@ -28,7 +28,6 @@ const ProfileDetails = () => {
 const handleLogOut = () => {
   if (typeof window !== "undefined") {
     Cookies.remove("localtoken");
-    localStorage.clear();
     logOut();
     router.push("/");
   }

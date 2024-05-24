@@ -112,10 +112,12 @@ const OtpVerification = ({
       setVerifying(false);
       console.error("Error signing in with OTP:", error);
       if (error.code === "auth/invalid-verification-code") {
-        setErrorMessage("Invalid OTP. Please try again.");
-      } else {
-        setErrorMessage(error.response?.data?.message || error.message);
-        if (error.response) {
+        // setErrorMessage("Invalid OTP. Please try again.");
+      } else if (error.response) {
+      const errorMsg = typeof error.response.data === 'string' 
+                        ? error.response.data.error
+                        : JSON.stringify(error.response.data.error);
+      setErrorMessage(errorMsg);
           console.error("Backend error data will show:", error.response.data);
           console.error("Backend error status:", error.response.status);
           console.error("Backend error headers:", error.response.headers);
@@ -124,7 +126,7 @@ const OtpVerification = ({
         } else {
           console.error("Request setup error:", error.message);
         }
-      }
+      // }
     }
   };
   useEffect(() => {

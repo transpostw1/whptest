@@ -17,6 +17,7 @@ import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useWishlist } from "@/context/WishlistContext";
+import ProtectedRoute from "@/app/ProtectedRoute";
 
 interface Props {
   props: string;
@@ -41,6 +42,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {

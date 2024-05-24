@@ -74,10 +74,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const logIn = async () => {
     dispatch({ type: "LOG_IN" });
     await getUser();
+
+      const redirectPath = localStorage.getItem("redirectPath") || "/";
+      router.push(redirectPath);
+      localStorage.removeItem("redirectPath");
   };
 
+  // const logOut = () => {
+  //   router.push("/");
+  //   dispatch({ type: "LOG_OUT" });
+  // };
+
   const logOut = () => {
-    router.push("/");
+    router.push("/", undefined, { shallow: false }).then(() => {
+      // Optionally, you can add any additional logic here after the page reload
+      window.scrollTo(0, 0); // Scroll to the top of the page
+    });
     dispatch({ type: "LOG_OUT" });
   };
 
@@ -88,7 +100,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           Authorization: `Bearer ${cookieToken}`,
         },
       });
-      console.log(response.data);
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);

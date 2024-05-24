@@ -90,6 +90,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
+      {Array.isArray(singleOrder)&&singleOrder.length==0&&(<div>No Order Found</div>)}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">
           {Array.isArray(orders) &&

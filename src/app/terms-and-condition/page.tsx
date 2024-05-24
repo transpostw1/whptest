@@ -12,7 +12,7 @@ const page = () => {
           style={{ width: "100%", height: "90%" }}
         />
       </div>
-      <div className="px-14 mb-2 mt-4">
+      <div className="px-14 mb-2 mt-4 max-sm:px-4">
         <p className="text-[#e26178] text-3xl text-center">
           TERMS & CONDITIONS
         </p>

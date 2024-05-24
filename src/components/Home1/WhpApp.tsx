@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const WhpApp = () => {
@@ -46,7 +46,10 @@ const WhpApp = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4 mb-4" ref={divRef}>
+      <div
+        className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4"
+        ref={divRef}
+      >
         <div className="lg:w-[50%] sm:w-[100%] md:w-[50%]">
           {width < 180 ? (
             <p className="text-center text-2xl font-semibold">

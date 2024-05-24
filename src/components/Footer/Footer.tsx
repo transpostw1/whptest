@@ -16,7 +16,7 @@ const Footer = () => {
     <>
       <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-gray-50">
-          <div className="container">
+          <div className="container py-4">
             <div className="flex flex-wrap gap-3 items-center justify-between">
               <div className="flex items-center gap-3 ">
                 <Image
@@ -28,7 +28,7 @@ const Footer = () => {
                 />
                 <h1 className="text-rose-400 text-3xl ">whpjewellers</h1>
               </div>
-              <div className="w-96 font-medium">
+              <div className="w-96 font-medium ">
                 <h3>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.

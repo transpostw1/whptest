@@ -56,6 +56,7 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case "LOG_OUT":
       if (typeof window !== "undefined") {
         localStorage.setItem("isLoggedIn", "false");
+        
       }
       return { isLoggedIn: false };
     default:

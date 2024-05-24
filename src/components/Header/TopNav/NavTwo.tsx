@@ -147,17 +147,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             <div className="left-content flex items-center ">
               <Link href={"/"}>
                 <Image
-                  src={"/images/other/Logo.png"}
-                  width={60}
-                  height={60}
+                  src={"/images/other/main_logo.png"}
+                  width={40}
+                  height={40}
                   alt="80x80"
-                  className=" object-cover"
+                  className=" object-cover mr-2"
                 />
               </Link>
               <div className="md:hidden lg:block max-sm:hidden">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/whpnameLogo.png"}
+                    src={"/images/other/whp_name_logo.png"}
                     width={170}
                     height={80}
                     alt="80x80"

@@ -154,7 +154,7 @@ const HandleremoveFromWishlist = () => {
       </div>
 
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] max-sm:w-[35%] h-[58px]  text-center mr-[10px] cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] max-sm:w-[35%] h-[58px] text-center mr-[10px] cursor-pointer"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">

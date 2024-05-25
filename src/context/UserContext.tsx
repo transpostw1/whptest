@@ -88,7 +88,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
 const logOut = () => {
-  localStorage.removeItem("isLoggedIn"); // Clear isLoggedIn from localStorage
+  // localStorage.removeItem("isLoggedIn");
+    localStorage.clear();
   window.location.href = "/";
   dispatch({ type: "LOG_OUT" });
 };

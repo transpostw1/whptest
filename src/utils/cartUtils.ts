@@ -36,7 +36,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         };
       });
   
-      // localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
+      localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
       {
         typeof window !== "undefined" &&
           localStorage.setItem(

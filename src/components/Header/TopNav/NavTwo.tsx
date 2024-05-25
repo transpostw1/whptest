@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useModalCartContext } from "@/context/ModalCartContext";
@@ -29,6 +29,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const { categories } = useAllCategoryContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<CategoryType[] | null>(null);
+  const [redirectPath, setRedirectPath] = useState("");
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -45,6 +47,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+   const pathname = usePathname(); 
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -89,6 +92,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const handleInputClick = () => {
     console.log("clicked");
     setIsModalOpen(true);
+  };
+
+  const handleLoginDrop = () => {
+      localStorage.setItem("redirectPath", pathname);
+   handleLoginPopup()
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -297,7 +305,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       ) : (
                         <>
                           <div
-                            onClick={handleLoginPopup}
+                            onClick={handleLoginDrop}
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />

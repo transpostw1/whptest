@@ -164,7 +164,7 @@ const DiamondCard: React.FC = () => {
             </div>
           </div>
           <div
-            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
+            className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full cursor-pointer"
             onClick={handleEnroll}
           >
             Enroll Now

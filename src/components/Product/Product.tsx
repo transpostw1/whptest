@@ -73,7 +73,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-[f7f7f7] relative overflow-hidden">
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
             {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"

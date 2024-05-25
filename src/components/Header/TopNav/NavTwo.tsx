@@ -154,17 +154,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             <div className="left-content flex items-center ">
               <Link href={"/"}>
                 <Image
-                  src={"/images/other/Logo.png"}
-                  width={60}
-                  height={60}
+                  src={"/images/other/main_logo.png"}
+                  width={40}
+                  height={40}
                   alt="80x80"
-                  className=" object-cover"
+                  className=" object-cover mr-2"
                 />
               </Link>
               <div className="md:hidden lg:block max-sm:hidden">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/whpnameLogo.png"}
+                    src={"/images/other/whp_name_logo.png"}
                     width={170}
                     height={80}
                     alt="80x80"
@@ -464,9 +464,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <ul>
                   <li
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(1)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(1);
+                      setCustomcategory("newArrival");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "newArrival" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         New Arrivals
                       </p>
@@ -474,9 +483,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 2 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(2)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(2);
+                      setCustomcategory("14kt");
+                    }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "14kt" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         14 Karat
                       </p>
@@ -484,9 +502,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 3 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(3)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(3);
+                      setCustomcategory("ring");
+                    }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "ring" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Rings
                       </p>
@@ -494,9 +521,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 4 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(4)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(4);
+                      setCustomcategory("earring");
+                    }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "earring" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Earrings
                       </p>
@@ -504,9 +540,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 5 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(5)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(5);
+                      setCustomcategory("pendant");
+                    }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "pendant" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Pendants
                       </p>
@@ -514,9 +559,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 6 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(6)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(6);
+                      setCustomcategory("chain");
+                    }}
                   >
-                    <Link href="/products" onClick={handleMenuMobile}>
+                    <Link
+                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Chains
                       </p>
@@ -544,8 +595,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <ul>
                           {categories &&
                             categories.map((item: any, index: any) => (
-                              <div key={item.id} onClick={handleMenuMobile}>
-                                <li className="leading-[0px]" >
+                              <div
+                                key={item.id}
+                                onClick={() => {
+                                  handleMenuMobile(),
+                                    setCustomcategory(item.url);
+                                }}
+                              >
+                                <li className="leading-[0px]">
                                   <Link
                                     href={{
                                       pathname: "/products",
@@ -573,9 +630,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(8)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(8);
+                      setCustomcategory("men");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{ pathname: "/products", query: { url: "men" } }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Men's Jewellery
                       </p>

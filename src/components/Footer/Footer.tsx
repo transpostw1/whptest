@@ -19,14 +19,26 @@ const Footer = () => {
           <div className="container py-4">
             <div className="flex flex-wrap gap-3 items-center justify-between">
               <div className="flex items-center gap-3 ">
-                <Image
-                  src={"/images/other/logo2.png"}
-                  width={40}
-                  height={40}
-                  alt="80x80"
-                  className=" object-fill"
-                />
-                <h1 className="text-rose-400 text-3xl ">whpjewellers</h1>
+                <Link href={"/"}>
+                  <Image
+                    src={"/images/other/main_logo.png"}
+                    width={40}
+                    height={40}
+                    alt="80x80"
+                    className=" object-cover"
+                  />
+                </Link>
+                <div>
+                  <Link href={"/"}>
+                    <Image
+                      src={"/images/other/whp_name_logo.png"}
+                      width={170}
+                      height={80}
+                      alt="80x80"
+                      className=" object-cover"
+                    />
+                  </Link>
+                </div>
               </div>
               <div className="w-96 font-medium ">
                 <h3>

@@ -89,6 +89,9 @@ const ProductSlider = () => {
                 <SwiperSlide className="mr-4">
                   <Skeleton height={300} width={200} />
                 </SwiperSlide>
+                <SwiperSlide className="mr-4">
+                  <Skeleton height={300} width={200} />
+                </SwiperSlide>
               </Swiper>
             ) : (
               <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">

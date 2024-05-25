@@ -51,7 +51,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
       id="container"
       onClick={handleOnClose}
     >
-      <div className="max-w-md w-[25%] max-sm:w-[7x0%] bg-white p-6 rounded-md shadow-md">
+      <div className="max-w-md w-[65%] max-sm:w-[70%] bg-white p-6 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Contact Form
         </h2>

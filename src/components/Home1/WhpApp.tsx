@@ -60,7 +60,7 @@ const WhpApp = () => {
               Download the Waman Hari Pethe App
             </p>
           )}
-          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start max-md:text-center">
+          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start max-md:text-center max-sm:px-3">
             Now you can explore the timeless glamour of Waman Hari Pethe
             whenever you want! Shining new app, made just for you! It's Free,
             Easy & Smart.

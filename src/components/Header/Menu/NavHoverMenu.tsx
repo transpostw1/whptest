@@ -4,7 +4,7 @@ import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
@@ -17,6 +17,7 @@ interface Props {
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const searchParmas = useSearchParams();
   const pathname = usePathname();
   const { categories } = useAllCategoryContext();
   const { category, setCustomcategory } = useCategory();
@@ -321,7 +322,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "newArrival" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "newArrival" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "newArrival"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     New Arrival
@@ -337,7 +341,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "earring" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "earring" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "earring"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Earrings
@@ -354,7 +361,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "pendants" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "pendant" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "pendant"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Pendants
@@ -370,7 +380,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "bangle" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "bangle" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "bangle"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Bangles
@@ -386,7 +399,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "bracelet" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "bracelet"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Bracelet
@@ -402,7 +418,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "necklace" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category === "necklace" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "necklace"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Necklace

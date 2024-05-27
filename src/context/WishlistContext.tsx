@@ -107,9 +107,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       | ProductForWishlistLoggedIn
       | ProductForWishlistLoggedOut
   ) => {
-    if (!product || !("productId" in product)) {
-      throw new Error("Invalid product data");
-    }
+    // if (!product || !("productId" in product)) {
+    //   throw new Error("Invalid product data");
+    // }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {

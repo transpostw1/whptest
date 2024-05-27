@@ -48,10 +48,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
      console.log("Adding to wishlist, product data:", data);
      if (data && data.productId) {
        if (isLoggedIn) {
-        console.log("In")
+       
          const productToAdd: ProductForWishlistLoggedIn = {
            productId: data.productId,
          };
+          console.log("In", data.productId, productToAdd);
          addToWishlist(productToAdd);
          setIsProductInWishlist(true);
        } else {

@@ -10,6 +10,7 @@ import axios from "axios";
 const Explore = () => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -24,24 +25,25 @@ const Explore = () => {
     };
     fetchSubBanners();
   }, []);
-  console.log("SubBanners",data.Component_Two);
-  if (loading) {
-    return (
-      <div className="flex">
-        <div>
-          <Skeleton height={300} />
-        </div>
-        <div>
-          <Skeleton height={300} />
-        </div>
-      </div>
-    );
-  }
+
+  console.log("SubBanners",data);
+  // if (loading) {
+  //   return (
+  //     <div className="flex">
+  //       <div>
+  //         <Skeleton height={300} />
+  //       </div>
+  //       <div>
+  //         <Skeleton height={300} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
         {data &&
-          data?.Component_Two?.map((item: any) => (
+          data?.map((item: any) => (
             <div key={item.id}>
               <Link
                 href={"/products"}

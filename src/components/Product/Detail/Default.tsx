@@ -40,8 +40,8 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { recentlyViewedProducts, saveToRecentlyViewed } =
-    useRecentlyViewedProducts();
+  // const { recentlyViewedProducts, saveToRecentlyViewed } =
+  //   useRecentlyViewedProducts();
 
   const settingsMain = {
     dots: false,
@@ -95,11 +95,11 @@ const Default: React.FC<Props> = ({ productId }) => {
     asNavFor: nav1,
   };
 
-  useEffect(() => {
-    if (data) {
-      saveToRecentlyViewed(data);
-    }
-  }, [data, saveToRecentlyViewed]);
+  // useEffect(() => {
+  //   if (data) {
+  //     saveToRecentlyViewed(data);
+  //   }
+  // }, [data, saveToRecentlyViewed]);
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
@@ -166,7 +166,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                         ))}
                   </Slider>
                 </>
-                <div className="absolute top-[40px] -right-[10px] cursor-pointer">
+                <div className="absolute top-[40px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}

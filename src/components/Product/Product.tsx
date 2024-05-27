@@ -200,15 +200,15 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
         {hover && (
-          <div>
+          <div className="w-full">
             <button
-              className="px-3 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d]"
+              className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
               onClick={() => console.log("tryAtHome")}
             >
               Try At Home
             </button>
             <button
-              className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d]"
+              className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
               onClick={() => console.log("view Similar")}
             >
               View Similar

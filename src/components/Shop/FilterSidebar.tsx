@@ -29,7 +29,6 @@ const FilterSidebar: React.FC<Props> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
-  const divRef = useRef<any>(null);
 
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);

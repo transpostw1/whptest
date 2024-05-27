@@ -26,9 +26,9 @@ const Footer = () => {
                   alt="80x80"
                   className=" object-fill"
                 />
-                <h1 className="text-rose-400 text-2xl ">whpJewellers</h1>
+                <h1 className="text-rose-400 text-3xl ">whpjewellers</h1>
               </div>
-              <div className="w-96">
+              <div className="w-96 font-medium">
                 <h3>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
@@ -68,7 +68,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full">
+              <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
                 <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">Infomation</div>

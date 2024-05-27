@@ -53,16 +53,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  useEffect(() => {
-    const cartItemsFromStorage = localStorage.getItem("cartItems");
-    if (cartItemsFromStorage) {
-      setCartItems(JSON.parse(cartItemsFromStorage));
-    } else if (isLoggedIn) {
-      fetchCartItemsFromServer().then((cartItems: any) => {
-        setCartItems(cartItems);
-      });
-    }
-  }, [isLoggedIn]);
+ useEffect(() => {
+   if (typeof window !== "undefined") {
+     const cartItemsFromStorage = localStorage.getItem("cartItems");
+     if (cartItemsFromStorage) {
+       setCartItems(JSON.parse(cartItemsFromStorage));
+     } else if (isLoggedIn) {
+       fetchCartItemsFromServer().then((cartItems: any) => {
+         setCartItems(cartItems);
+       });
+     }
+   }
+ }, [isLoggedIn]);
 
   const addToCart = (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };
@@ -100,7 +102,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const saveCartItemsToStorage = (cartItems: CartItem[]) => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (typeof window != undefined) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
@@ -5,17 +7,19 @@ import "rc-slider/assets/index.css";
 import ReactPaginate from "react-paginate";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
+import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
+import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
 import { useCategory } from "@/context/CategoryContex";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const ShopBreadCrumb1 = () => {
-  const { category, setCustomcategory } = useCategory();
   const [sortOption, setSortOption] = useState<boolean>(false);
+  const { category, setCustomcategory } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [mobileFilter, setMobileFilter] = useState<boolean>(false);
@@ -63,7 +67,6 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
-
   useEffect(() => {
     setCustomcategory(localStorage.getItem("category"));
     console.log("category:", category);
@@ -218,7 +221,7 @@ const ShopBreadCrumb1 = () => {
           console.error("Error: No products data received");
         }
       } catch (error) {
-        console.log("Error fetching data:", error);
+        console.log("Error Occurred", error);
       }
     };
 
@@ -230,6 +233,24 @@ const ShopBreadCrumb1 = () => {
   useEffect(()=>{
     console.log("fetched Products",filteredProducts)
   },[filteredProducts])
+
+  const productsListRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setCustomcategory(localStorage.getItem("category"));
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await axios.get(`${baseUrl}/jewellery/${category}`);
+  //       setData(response.data);
+  //       setFilteredData(response.data);
+  //       setIsLoading(false);
+  //     }catch(error){
+  //       console.log("Error Occurred",error)
+  //     }
+  //   }
+  //   fetchData();
+  // }, [category, setCustomcategory]);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -301,7 +322,7 @@ const ShopBreadCrumb1 = () => {
     applyFilters();
   }, [data, selectedOptions]); 
 
-  const productsListRef = useRef<HTMLDivElement>(null);
+
 
   return (
     <div className="shop-product breadcrumb1">

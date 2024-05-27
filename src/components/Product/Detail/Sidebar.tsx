@@ -14,7 +14,7 @@ import SwiperCore from "swiper/core";
 import { useCart } from "@/context/CartContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
+
 
 import { useRouter } from "next/navigation";
 
@@ -34,7 +34,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
   const { addToCart, updateCart, cartState } = useCart();
   const { openModalCart } = useModalCartContext();
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
-  const { openModalWishlist } = useModalWishlistContext();
+
   const { addToCompare, removeFromCompare, compareState } = useCompare();
 
   const productMain = data.find(

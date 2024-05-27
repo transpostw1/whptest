@@ -29,7 +29,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-const { wishlistItemsCount,wishlistItems } = useWishlist();
+  const { wishlistItemsCount, wishlistItems } = useWishlist();
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
   const { userState } = useUser();
@@ -357,9 +357,11 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                           <Icon.Heart size={28} color="black" />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
-                        <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                          {wishlistItems.length}
-                        </span>
+                        {wishlistItems.length > 0 && (
+                          <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                            {wishlistItems.length}
+                          </span>
+                        )}
                       </div>
                     </Link>
                   </div>
@@ -377,10 +379,11 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                         />
                         <h4 className="text-sm">Cart</h4>
                       </div>
-
-                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                        {cartLength}
-                      </span>
+                      {cartLength > 0 && (
+                        <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {cartLength}
+                        </span>
+                      )}
                     </div>
                   </Link>
                   <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
@@ -391,9 +394,9 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                       className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
                     >
                       <option value="INR">&#8377; INR</option>
-                      <option value="USD">&#36; USD</option>
+                      {/* <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>
-                      <option value="GBP">&#163; GBP</option>
+                      <option value="GBP">&#163; GBP</option> */}
                     </select>
                     <Image
                       className="cursor-pointer"
@@ -427,22 +430,22 @@ const { wishlistItemsCount,wishlistItems } = useWishlist();
                 <div className="ml-3 relative">
                   <Icon.Heart size={25} />
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                          {wishlistItems.length}
-                        </span>
+                    {wishlistItems.length}
+                  </span>
                 </div>
                 <Link href={"/checkout"}>
-                <div className="ml-3 relative">
-                  <Image
-                    src={"/images/icons/cart.svg"}
-                    alt="Cart"
-                    width={30}
-                    height={30}
+                  <div className="ml-3 relative">
+                    <Image
+                      src={"/images/icons/cart.svg"}
+                      alt="Cart"
+                      width={30}
+                      height={30}
                     />
                     <span className="quantity cart-quantity absolute -right-0 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                        {cartLength}
-                      </span>
-                </div>
-                    </Link>
+                      {cartLength}
+                    </span>
+                  </div>
+                </Link>
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">

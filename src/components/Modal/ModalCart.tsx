@@ -23,12 +23,13 @@ const ModalCart = ({
 //   const { products, fetchData } = useProductContext();
 //   console.log(products, "yesss i keep rendering ");
 
-//   useEffect(() => {
-//     if (!dataFetched) {
-//       fetchData();
-//       setDataFetched(true);
-//     }
-//   }, []);
+
+  useEffect(() => {
+    if (!dataFetched) {
+      fetchData();
+      setDataFetched(true);
+    }
+  }, []);
 
 //   const [activeTab, setActiveTab] = useState<string | undefined>("");
 //   const { isModalOpen, closeModalCart } = useModalCartContext();

@@ -7,9 +7,9 @@ import React, {
   useContext,
   ReactNode,
 } from "react";
-import { getProducts } from "@/utils/constants";
+import { baseUrl, category } from "@/utils/constants";
 import instance from "@/utils/axios";
-
+import axios from "axios";
 interface ProductType {
   title: any;
   // Define the properties of your product
@@ -18,7 +18,6 @@ interface ProductType {
 interface ProductContextType {
   products: ProductType[];
   fetchData: () => Promise<void>;
-  
 }
 
 const ProductContext = createContext<ProductContextType>({
@@ -35,10 +34,12 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchData = async () => {
     try {
-      const response = await instance.get(getProducts);
+      const response = await axios.get(`${baseUrl}${category}`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
+    }finally{
+      console.log("category",products)
     }
   };
 

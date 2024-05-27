@@ -41,132 +41,152 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [wishlistItemsCount, setWishlistItemsCount] = useState(0);
 
-useEffect(() => {
-  const uniqueWishlistItems = wishlistItems.filter(
-    (item, index, self) =>
-      index === self.findIndex((t) => t.productId === item.productId)
-  );
-  setWishlistItemsCount(uniqueWishlistItems.length);
-}, [wishlistItems]);
+  useEffect(() => {
+    const uniqueWishlistItems = wishlistItems.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.productId === item.productId)
+    );
+    setWishlistItemsCount(uniqueWishlistItems.length);
+  }, [wishlistItems]);
 
-useEffect(() => {
+  useEffect(() => {
     const userToken = Cookies.get("localtoken");
     if (userToken) {
       setIsLoggedIn(true);
       setCookieToken(userToken);
     }
-}, []);
+  }, []);
 
-useEffect(() => {
-  const fetchWishlistItems = async () => {
+  useEffect(() => {
+      if (typeof window !== "undefined") {
+    const fetchWishlistItems = async () => {
+      try {
+        const wishlistData = await getWishlist();
+        const localWishlistItems = JSON.parse(
+          localStorage.getItem("wishlistItems") || "[]"
+        );
+
+        const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
+
+        // Filter out any duplicates from the merged wishlist
+        const uniqueWishlistItems = mergedWishlistItems.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.productId === item.productId)
+        );
+
+        setWishlistItems(uniqueWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist from server:", error);
+      }
+    };
+
+    fetchWishlistItems();
+  }
+  }, [isLoggedIn, cookieToken]);
+
+  const addToWishlist = async (product: ProductType) => {
     try {
-      const wishlistData = await getWishlist();
-      const localWishlistItems = JSON.parse(
-        localStorage.getItem("wishlistItems") || "[]"
-      );
+      if (typeof window !== "undefined") {
+      if (isLoggedIn) {
+        // Get the existing wishlist items from localStorage
 
-      
-      const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
+        let localWishlistItems = null;
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
+          );
+        }
+        // const localWishlistItems = JSON.parse(
+        //   localStorage.getItem("wishlistItems") || "[]"
+        // );
 
-      // Filter out any duplicates from the merged wishlist
-      const uniqueWishlistItems = mergedWishlistItems.filter(
-        (item, index, self) =>
-          index === self.findIndex((t) => t.productId === item.productId)
-      );
+        // Add the local wishlist items to the database if they are not already present
+        const dbWishlistItems = await getWishlist();
+        const localItemsToAdd = localWishlistItems.filter(
+          (item: WishlistItem) =>
+            !dbWishlistItems.some(
+              (dbItem) => dbItem.productId === item.productId
+            )
+        );
 
-      setWishlistItems(uniqueWishlistItems);
-    } catch (error) {
-      console.error("Error fetching wishlist from server:", error);
-    }
-  };
+        const promises = localItemsToAdd.map((item: any) =>
+          instance.get(`${baseUrl}${addwishlist}`, {
+            params: { productId: item.productId },
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+            },
+          })
+        );
 
-  fetchWishlistItems();
-}, [isLoggedIn, cookieToken]);
-
-const addToWishlist = async (product: ProductType) => {
-  try {
-    if (isLoggedIn) {
-      // Get the existing wishlist items from localStorage
-      const localWishlistItems = JSON.parse(
-        localStorage.getItem("wishlistItems") || "[]"
-      );
-
-      // Add the local wishlist items to the database if they are not already present
-      const dbWishlistItems = await getWishlist();
-      const localItemsToAdd = localWishlistItems.filter(
-        (item: WishlistItem) =>
-          !dbWishlistItems.some((dbItem) => dbItem.productId === item.productId)
-      );
-
-      const promises = localItemsToAdd.map((item:any) =>
-        instance.get(`${baseUrl}${addwishlist}`, {
-          params: { productId: item.productId },
+        await Promise.all(promises);
+        await instance.get(`${baseUrl}${addwishlist}`, {
+          params: { productId: product.productId },
           headers: {
             Authorization: `Bearer ${cookieToken}`,
           },
-        })
-      );
+        });
 
-      await Promise.all(promises);
-      await instance.get(`${baseUrl}${addwishlist}`, {
-        params: { productId: product.productId },
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      });
+        const updatedDbWishlist = await getWishlist();
 
-      const updatedDbWishlist = await getWishlist();
+        const mergedWishlist = [
+          ...updatedDbWishlist,
+          ...localWishlistItems.filter(
+            (item: any) =>
+              !updatedDbWishlist.some(
+                (dbItem) => dbItem.productId === item.productId
+              )
+          ),
+        ];
+        setWishlistItems(mergedWishlist);
+        {
+          typeof window !== "undefined" &&
+            localStorage.setItem(
+              "wishlistItems",
+              JSON.stringify(mergedWishlist)
+            );
+        }
+      } else {
+        {
+          let localWishlistItems = null;
+          if (typeof window !== "undefined") {
+            localWishlistItems = JSON.parse(
+              localStorage.getItem("wishlistItems") || "[]"
+            );
+          }
+          const isProductInLocalStorage = localWishlistItems.some(
+            (item: any) => item.productId === product.productId
+          );
 
-      
-      const mergedWishlist = [
-        ...updatedDbWishlist,
-        ...localWishlistItems.filter(
-          (item:any) =>
-            !updatedDbWishlist.some(
-              (dbItem) => dbItem.productId === item.productId
-            )
-        ),
-      ];
-      setWishlistItems(mergedWishlist);
-      localStorage.setItem("wishlistItems", JSON.stringify(mergedWishlist));
-    } else {
-   {
-       const localWishlistItems = JSON.parse(
-         localStorage.getItem("wishlistItems") || "[]"
-       );
-       const isProductInLocalStorage = localWishlistItems.some(
-         (item: any) => item.productId === product.productId
-       );
+          if (!isProductInLocalStorage) {
+            const updatedWishlistItems = [
+              ...localWishlistItems,
+              {
+                productId: product.productId,
+                title: product.title,
+                productPrice: product.productPrice,
+                discountPrice: product.discountPrice,
+                discountValue: product.discountValue,
+                image_path: product.imageDetails[0].image_path,
+                url: product.url,
+              },
+            ];
 
-       if (!isProductInLocalStorage) {
-         const updatedWishlistItems = [
-           ...localWishlistItems,
-           {
-             productId: product.productId,
-             title: product.title,
-             productPrice: product.productPrice,
-             discountPrice: product.discountPrice,
-             discountValue: product.discountValue,
-             image_path: product.imageDetails[0].image_path,
-             url: product.url,
-           },
-         ];
+            localStorage.setItem(
+              "wishlistItems",
+              JSON.stringify(updatedWishlistItems)
+            );
 
-         localStorage.setItem(
-           "wishlistItems",
-           JSON.stringify(updatedWishlistItems)
-         );
-
-         setWishlistItems(updatedWishlistItems);
-       }
-     }
+            setWishlistItems(updatedWishlistItems);
+          }
+        }
+      }
     }
-  } catch (error) {
-    console.error("Error adding product to wishlist:", error);
-  }
-};
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
+  };
 
-const removeFromWishlist = async (productId: number) => {
+  const removeFromWishlist = async (productId: number) => {
     try {
       if (isLoggedIn) {
         await instance.get(`${baseUrl}${removewishlist}`, {
@@ -180,17 +200,24 @@ const removeFromWishlist = async (productId: number) => {
       const updatedWishlistItems = wishlistItems.filter(
         (item) => item.productId !== productId
       );
-      localStorage.setItem(
-        "wishlistItems",
-        JSON.stringify(updatedWishlistItems)
-      );
+      {
+        typeof window !== "undefined" &&
+          localStorage.setItem(
+            "wishlistItems",
+            JSON.stringify(updatedWishlistItems)
+          );
+      }
+      // localStorage.setItem(
+      //   "wishlistItems",
+      //   JSON.stringify(updatedWishlistItems)
+      // );
       setWishlistItems(updatedWishlistItems);
     } catch (error) {
       console.error("Error removing product from wishlist:", error);
     }
-};
+  };
 
-const getWishlist = async (): Promise<WishlistItem[]> => {
+  const getWishlist = async (): Promise<WishlistItem[]> => {
     try {
       if (isLoggedIn) {
         const response = await instance.get(`${baseUrl}${getwishlisted}`, {
@@ -200,16 +227,22 @@ const getWishlist = async (): Promise<WishlistItem[]> => {
         });
         return response.data;
       } else {
-        const localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
+        let localWishlistItems = null;
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
+          );
+        }
+        // const localWishlistItems = JSON.parse(
+        //   localStorage.getItem("wishlistItems") || "[]"
+        // );
         return localWishlistItems;
       }
     } catch (error) {
       console.error("Error fetching wishlist items:", error);
       return [];
     }
-};
+  };
 
   const value: WishlistContextProps = {
     wishlistItems,

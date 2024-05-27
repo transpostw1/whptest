@@ -30,7 +30,7 @@ const Register = () => {
     }),
     onSubmit: (values) => {
        setSubmitted(true);
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
     },
   });
   const handlePhoneChange = (value: string) => {

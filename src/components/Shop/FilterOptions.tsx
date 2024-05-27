@@ -1,66 +1,54 @@
 // FilterOptions.tsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
-interface Filter {
-  title: string | any;
-  options: string[];
+interface Filter{
+  title:string|any;
+  options:string[]
+}
+const Filter = [
+  {
+    title: "Price",
+    options: ["Less than 10K", "10k to 20K", "20k to 30k", "30k and Above"],
+  },
+  {
+    title: "Karat",
+    options: ["14k", "18K","22k","23K","24k"],
+  },
+  {
+    title: "Weight",
+    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+  },
+  {
+    title: "Gender",
+    options: ["Men", "Women", "Kids"],
+  },
+  { title: "Metal", options: ["Rose Gold","White Gold","Yellow Gold","Diamond","Sliver"] },
+  {
+    title: "Occasion",
+    options: [
+      "Birth",
+      "Casual Wear",
+      "Daily Indian",
+      "Engagement",
+      "Festive",
+      "Everyday",
+      "Work Wear",
+      "Wedding Wear",
+      "Desk to Dinner",
+      "Evening",
+      "Party Wear",
+    ],
+  },
+];
+interface Props{
+  filterDropDown:string;
+  handleFilterDropdown:(arg:string)=>void;
+  handleOptionSelect:(option:string,category:string)=>void;
+  selectedOptions:string[]
 }
 
-interface Props {
-  filterDropDown: string;
-  handleFilterDropdown: (arg: string) => void;
-  handleOptionSelect: (option: string, category: string) => void;
-  selectedOptions: any;
-}
-
-const FilterOptions: React.FC<Props> = ({
-  filterDropDown,
-  handleFilterDropdown,
-  handleOptionSelect,
-  selectedOptions,
-}) => {
-  const Filter: Filter[] = [
-    {
-      title: "Price",
-      options: ["Less than 10K", "10k to 20K", "20k to 30k", "30k and Above"],
-    },
-    {
-      title: "Karat",
-      options: ["14KT", "22KT", "24KT"],
-    },
-    {
-      title: "Weight",
-      options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
-    },
-    {
-      title: "Gender",
-      options: ["Men", "Women", "Kids"],
-    },
-    { title: "Type", options: [] },
-    {
-      title: "Style",
-      options: [],
-    },
-    {
-      title: "Occasion",
-      options: [
-        "Everyday",
-        "Work Wear",
-        "Wedding",
-        "Desk to Dinner",
-        "Evening",
-        "Party Wear",
-      ],
-    },
-    { title: "Colours", options: [] },
-    {
-      title: "Delivery",
-      options: ["Fast Delivery", "Cash On Delivery", "EMI"],
-    },
-    { title: "Categories", options: ["Gold Earrings", "Diamond Earrings"] },
-  ];
-
+const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, handleOptionSelect ,selectedOptions}) => {
+  
   return (
     <>
       {Filter.map((item: Filter, index: number) => (

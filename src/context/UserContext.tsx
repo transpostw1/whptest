@@ -1,8 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
+import axios from "axios";
+import { baseUrl, updateProfile } from "@/utils/constants";
 import { auth } from "@/app/config";
-import { WindowsLogo } from "@phosphor-icons/react";
+import instance from "@/utils/axios";
+import { customerDetails } from "@/utils/constants";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -15,33 +20,44 @@ interface UserContextProps {
   isLoggedIn: boolean;
   logIn: () => void;
   logOut: () => void;
+  addUserDetails: (details: UserDetails) => Promise<void>;
+  userDetails: UserDetails | null;
+  getUser: () => Promise<void>;
+}
+interface UserDetails {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  alternatePhone: string;
+  gender: string;
+  dateOfBirth: string;
+  profilePicture: File | null;
+  // customer:string;
 }
 
+type UserDetailsKeys = keyof UserDetails;
+
 const initialState: UserState = {
-  isLoggedIn: typeof window !== 'undefined' && localStorage.getItem("isLoggedIn") === "true",
+  isLoggedIn:
+    typeof window !== "undefined" &&
+    localStorage.getItem("isLoggedIn") === "true",
 };
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 const userReducer = (state: UserState, action: UserAction): UserState => {
-  const userDetails = auth.currentUser;
-  const user = userDetails?.uid;
-
   switch (action.type) {
     case "LOG_IN":
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         localStorage.setItem("isLoggedIn", "true");
       }
-      return {
-        isLoggedIn: true,
-      };
+      return { isLoggedIn: true };
     case "LOG_OUT":
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         localStorage.setItem("isLoggedIn", "false");
       }
-      return {
-        isLoggedIn: false,
-      };
+      return { isLoggedIn: false };
     default:
       return state;
   }
@@ -51,17 +67,70 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const router = useRouter();
+  const cookieToken = Cookies.get("localtoken");
 
   const logIn = () => {
     dispatch({ type: "LOG_IN" });
   };
 
   const logOut = () => {
+    router.push("/");
     dispatch({ type: "LOG_OUT" });
   };
 
+  const getUser = async () => {
+    try {
+      const response = await instance.get(`${baseUrl}${customerDetails}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const addUserDetails = async (details: UserDetails) => {
+    const formData = new FormData();
+
+    Object.keys(details).forEach((key) => {
+      const typedKey = key as UserDetailsKeys;
+      formData.append(typedKey, details[typedKey] as any);
+    });
+
+    try {
+      const response = await instance.post(
+        `${baseUrl}${updateProfile}`,formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      await getUser();
+      return response.data;
+    } catch (error) {
+      console.error("Error adding user details:", error);
+      throw error;
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ userState,isLoggedIn: userState.isLoggedIn, logIn, logOut}}>
+    <UserContext.Provider
+      value={{
+        userState,
+        isLoggedIn: userState.isLoggedIn,
+        logIn,
+        logOut,
+        addUserDetails,
+        userDetails,
+        getUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

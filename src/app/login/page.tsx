@@ -17,7 +17,7 @@ const Login = () => {
     initialValues: {
       phoneNumber: "",
     },
-    validationSchema: validationSchema, // Pass the validation schema
+    validationSchema: validationSchema, 
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
         setSubmitting(false);

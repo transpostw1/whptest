@@ -97,6 +97,14 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
+  const handleCouponModalClose = () => {
+    setCouponsModal(false);
+  };
+  const handleCouponCode = (value: string) => {
+    console.log("value", value);
+    setCouponCode(value);
+  };
+
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
       productId: item.productId,
@@ -527,107 +535,111 @@ const Checkout: React.FC = () => {
                   />
                 )}
 
-                {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
-              </div>
-              <div className="w-full lg:w-3/4 mt-5">
-                {selectedComponent === "CartItems" && (
-                  <div>
-                    <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
-                    <div className="flex justify-between border border-gray-400 p-3">
-                      {couponsModal ? (
-                        <>
-                          <div className="flex items-center gap-2 font-medium">
-                            <Image
-                              src={"/images/icons/coupon.png"}
-                              alt={"coupons"}
-                              height={25}
-                              width={25}
-                            />
-                            <h3>Coupons Code</h3>
-                          </div>
-                          <h3
-                            className="text-red-600 underline cursor-pointer"
-                            onClick={() => handleCouponsModal()}
-                          >
-                            Check
-                          </h3>
-                        </>
-                      ) : (
-                        <>
-                          <input
-                            className="border border-black"
-                            type="text"
-                            onChange={(e) => setCouponCode(e.target.value)}
-                          />
-                          <button
-                            className="bg-black text-white"
-                            onClick={handleCouponCheck}
-                          >
-                            check
-                          </button>
-                        </>
-                      )}
-                    </div>
-                    {/* {couponsModal && <CouponsModal />} */}
-                    <div className="flex justify-between border border-gray-400 p-3 mt-3">
-                      <div className="flex gap-2 items-center font-medium">
-                        <Gift style={{ color: "red", fontSize: "24px" }} />
-                        <h3>Gift Message</h3>
+              {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
+            </div>
+            <div className="w-full lg:w-3/4 mt-5">
+              {selectedComponent === "CartItems" && (
+                <div>
+                  <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
+                  <div className="flex justify-between border border-gray-400 p-3">
+                    <>
+                      <div className="flex items-center gap-2 font-medium">
+                        <Image
+                          src={"/images/icons/coupon.png"}
+                          alt={"coupons"}
+                          height={25}
+                          width={25}
+                        />
+                        <h3>Coupons Code</h3>
                       </div>
                       <h3
                         className="text-red-600 underline cursor-pointer"
-                        onClick={() => handleGiftWrapModal()}
+                        onClick={() => handleCouponsModal()}
                       >
-                        Add
+                        Check
                       </h3>
-                      {showModal && (
-                        <GiftWrapModal closeModal={handleCloseModal} />
-                      )}
+                    </>
+
+                    {/* <>
+                      <input
+                        className="border border-black"
+                        type="text"
+                        onChange={(e) => setCouponCode(e.target.value)}
+                      />
+                      <button
+                        className="bg-black text-white"
+                        onClick={handleCouponCheck}
+                      >
+                        check
+                      </button>
+                    </> */}
+                  </div>
+                  {couponsModal && (
+                    <CouponsModal
+                      handleCouponCheck={handleCouponCheck}
+                      onClose={handleCouponModalClose}
+                      couponCode={handleCouponCode}
+                    />
+                  )}
+                  <div className="flex justify-between border border-gray-400 p-3 mt-3">
+                    <div className="flex gap-2 items-center font-medium">
+                      <Gift style={{ color: "red", fontSize: "24px" }} />
+                      <h3>Gift Message</h3>
                     </div>
-                    <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
-                    {loading ? (
-                      <Skeleton height={150} />
-                    ) : (
-                      <div className="bg-gray-100 p-2 mt-2">
-                        <div className="">
-                          <div className="flex justify-between font-medium">
-                            <h3>Subtotal</h3>
-                            <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN", {
-                                minimumFractionDigits: 2,
-                              }).format(Math.round(parseInt(formattedPrice)))}
-                            </h3>
-                          </div>
-                          <div className="flex justify-between font-medium">
-                            <h3>Discount</h3>
-                            <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN", {
-                                minimumFractionDigits: 2,
-                              }).format(Math.round(parseInt(totalDiscount)))}
-                            </h3>
-                          </div>
-                          <div className="flex justify-between font-medium">
-                            <h3>Shipping Charges</h3>
-                            <h3>₹0</h3>
-                          </div>
-                          <div className="flex justify-between font-bold">
-                            <h3 className="text-gray-800">Total Price</h3>
-                            <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN", {
-                                minimumFractionDigits: 2,
-                              }).format(
-                                Math.round(parseInt(totalPrice.toString()))
-                              )}
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
+                    <h3
+                      className="text-red-600 underline cursor-pointer"
+                      onClick={() => handleGiftWrapModal()}
+                    >
+                      Add
+                    </h3>
+                    {showModal && (
+                      <GiftWrapModal closeModal={handleCloseModal} />
                     )}
                   </div>
-                )}
+                  <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
+                  {loading ? (
+                    <Skeleton height={150} />
+                  ) : (
+                    <div className="bg-gray-100 p-2 mt-2">
+                      <div className="">
+                        <div className="flex justify-between font-medium">
+                          <h3>Subtotal</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(formattedPrice)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Discount</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(totalDiscount)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Shipping Charges</h3>
+                          <h3>₹0</h3>
+                        </div>
+                        <div className="flex justify-between font-bold">
+                          <h3 className="text-gray-800">Total Price</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(
+                              Math.round(parseInt(totalPrice.toString()))
+                            )}
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
                 {(selectedComponent === "DeliveryDetails" ||
                   selectedComponent === "Payment") && (

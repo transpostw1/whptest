@@ -121,7 +121,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
-            <div className="">
+            <div className="bg-[#f7f7f7]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails
@@ -131,9 +131,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     .map((image: any, index: any) => (
                       <div key={index} className="">
                         <InnerImageZoom
-                          src={  data.productDetails.imageDetails[
-                            Math.floor(data.productDetails.imageDetails.length / 2)
-                          ].image_path}
+                          src={image.image_path}
                           zoomScale={1.5}
                           zoomType="click"
                           hideCloseButton={true}

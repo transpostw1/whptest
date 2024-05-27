@@ -129,12 +129,13 @@ const Default: React.FC<Props> = ({ productId }) => {
                       (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
                     )
                     .map((image: any, index: any) => (
-                      <div key={index} className="">
+                      <div key={index}>
                         <InnerImageZoom
                           src={image.image_path}
                           zoomScale={1.5}
                           zoomType="click"
                           hideCloseButton={true}
+                          className="d-flex-important justify-center"
                         />
                       </div>
                     ))}
@@ -160,7 +161,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                               alt={data?.productDetails?.title}
                               width={100}
                               height={100}
-                              className="cursor-pointer border"
+                              className="cursor-pointer border "
                             />
                           </div>
                         ))}
@@ -223,8 +224,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
                     3
                   </div>
-                    <StarRating stars={data?.productDetails?.rating} />
-                  
+                  <StarRating stars={data?.productDetails?.rating} />
+
                 </div>
               )}
             </>

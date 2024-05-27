@@ -28,7 +28,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const { addToWishlist, removeFromWishlist, wishlistState } = useWishlist();
 
   const router = useRouter();
-  console.log('single product images', data.imageDetails);
+  // console.log('single product images', data.imageDetails);
   // const sortedImages = data?.imageDetails?.sort(
   //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
   // );

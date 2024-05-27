@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false); // New state variable
+  const pathname = usePathname();
 
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
@@ -35,23 +37,23 @@ const StickyNav = () => {
   }
   return (
     <>
-    <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
-      <div className="flex justify-evenly items-center">
-        <Link href={"/"}>
-          <div
-            className={`${
-              clicked === 1 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(1)}
-          >
-            <Icon.HouseLine size={25} />
-            <p>Home</p>
-          </div>
-        </Link>
-        <Link href={"/"}>
+      <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
+        <div className="flex justify-evenly items-center">
+          <Link href={"/"}>
             <div
               className={`${
-                clicked === 2 ? "text-[#e26178]" : ""
+                pathname.includes("/") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(1)}
+            >
+              <Icon.HouseLine size={25} />
+              <p>Home</p>
+            </div>
+          </Link>
+          <Link href={"/"}>
+            <div
+              className={`${
+                pathname.includes("/search-result") ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
@@ -59,42 +61,42 @@ const StickyNav = () => {
               <p>Search</p>
             </div>
           </Link>
-        <Link href={"/offers"}>
-          <div
-            className={`${
-              clicked === 3 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(3)}
-          >
-            <Icon.Percent size={25} />
-            <p>Offers</p>
-          </div>
-        </Link>
-        <Link href={"/profile"}>
-          <div
-            className={`${
-              clicked === 4 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(4)}
-          >
-            <Icon.User size={25} />
-            <p>Profile</p>
-          </div>
-        </Link>
-        <Link href={"/checkout"}>
-          <div
-            className={`${
-              clicked === 5 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(5)}
-          >
-            <Icon.ShoppingCart size={25} />
-            <p>Cart</p>
-          </div>
-        </Link>
+          <Link href={"/offers"}>
+            <div
+              className={`${
+                pathname.includes("offers") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(3)}
+            >
+              <Icon.Percent size={25} />
+              <p>Offers</p>
+            </div>
+          </Link>
+          <Link href={"/profile"}>
+            <div
+              className={`${
+                pathname.includes("profile") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(4)}
+            >
+              <Icon.User size={25} />
+              <p>Profile</p>
+            </div>
+          </Link>
+          <Link href={"/checkout"}>
+            <div
+              className={`${
+                pathname.includes("checkout") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(5)}
+            >
+              <Icon.ShoppingCart size={25} />
+              <p>Cart</p>
+            </div>
+          </Link>
+        </div>
       </div>
-    </div>
-    {isSearchModalOpen && (
+      {isSearchModalOpen && (
         <ModalSearch
           searchKeyword=""
           setSearchKeyword={() => {}}

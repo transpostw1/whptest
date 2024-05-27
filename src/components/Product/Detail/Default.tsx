@@ -13,15 +13,15 @@ import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
-import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
-import Buttons from "./Buttons";
-import Skeleton from "react-loading-skeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl } from "@/utils/constants";
+import Buttons from "./Buttons";
+import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
@@ -80,12 +80,15 @@ const Default: React.FC<Props> = ({ productId }) => {
       setLoading(false);
     }
   };
+
   const slidesToShow = Math.min(
     3,
     data?.productDetails?.imageDetails?.length || 0
   );
+  
   let sliderRef = useRef<any>();
   const settingsThumbnails = {
+    className: "center",
     dots: false,
     infinite: true,
     speed: 500,
@@ -223,8 +226,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
                     3
                   </div>
-                    <StarRating stars={data?.productDetails?.rating} />
-                  
+                  <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
             </>
@@ -274,7 +276,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               left!
             </p>
           )}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
                 10% off on HDFC Bank Credit Card. Use{" "}
@@ -291,7 +293,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               </li>
             </ul>
-          </div>
+          </div> */}
           <CheckPincode />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
 

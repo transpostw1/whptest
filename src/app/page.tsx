@@ -52,7 +52,7 @@ export default function Home() {
         <Reviews />
         {/* <WhpApp /> */}
       </div>
-      <WhpApp />
+      {/* <WhpApp /> */}
       <StickyNav />
     </>
   );

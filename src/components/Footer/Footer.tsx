@@ -56,8 +56,8 @@ const Footer = () => {
                   <div className="input-block w-full h-[52px] mt-2 relative">
                     <form className="w-full h-full" action="post">
                       <input
-                        type="email"
-                        placeholder="Enter your e-mail"
+                        type="number"
+                        placeholder="Enter phone number"
                         className="caption1 w-full h-full pl-4 pr-14 border border-line"
                         required
                       />
@@ -129,7 +129,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/about-waman-hari-pethe-jewellers"}
+                      href={"/about-whpjewellers"}
                     >
                       About-Us
                     </Link>

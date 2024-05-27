@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 const DiamondCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
+  const [backendError, setBackendError] = useState<string | null>(null);
+  const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit;
@@ -60,16 +63,18 @@ const DiamondCard: React.FC = () => {
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
-      // alert("Please Login to Enroll");
+      setLoading(true);
       router.push("/login");
       return;
     }
 
     try {
+      setLoading(true);
+      setBackendError(null); // Clear any previous backend errors
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
-          schemeType: "diamond",
+          schemeType: "gold",
           amount: monthlyDeposit,
         },
         {
@@ -80,8 +85,12 @@ const DiamondCard: React.FC = () => {
       );
 
       console.log("Enrollment successful", response.data);
+      setBackendMessage(response.data.message); // Set the success message
     } catch (error) {
       console.error("Error during enrollment", error);
+      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -161,11 +170,19 @@ const DiamondCard: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div
-            className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full cursor-pointer"
-            onClick={handleEnroll}
-          >
-            Enroll Now
+          <div>
+            <div
+              className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full cursor-pointer"
+              onClick={handleEnroll}
+            >
+              {loading ? "Enrolling..." : "Enroll Now"}
+            </div>
+            {backendMessage && (
+              <p className="text-green-500 mt-2">{backendMessage}</p>
+            )}
+            {backendError && (
+              <p className="text-red-500 mt-2">{backendError}</p>
+            )}
           </div>
         </div>
       </div>

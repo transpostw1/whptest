@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState ,MutableRefObject} from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -30,6 +30,10 @@ import StarRating from "@/components/Other/StarRating";
 
 interface Props {
   productId: string | number | null;
+}
+interface Ref extends MutableRefObject<any>{
+  slickNext?:()=>void;
+  slickPrev?:()=>void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -85,8 +89,9 @@ const Default: React.FC<Props> = ({ productId }) => {
     3,
     data?.productDetails?.imageDetails?.length || 0
   );
-  
-  let sliderRef = useRef<any>();
+
+  let sliderRef = useRef<Ref>();
+
   const settingsThumbnails = {
     className: "center",
     dots: false,
@@ -146,7 +151,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <>
                   <Slider
                     {...settingsThumbnails}
-                    ref={(slider) => {
+                    ref={(slider:any) => {
                       sliderRef = slider;
                     }}
                   >

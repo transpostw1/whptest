@@ -1,11 +1,12 @@
-"use client"
+"use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const ContactInfo = () => {
-
   return (
-    <div className="absolute top-[100px] w-[343px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
+    <div className="absolute top-[100px] w-[300px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
       <p className="text-xl font-semibold">Get in Touch with us</p>
       <p className="mt-3">
         Connect with us and we will assist you with all your needs
@@ -35,28 +36,26 @@ const ContactInfo = () => {
       </div>
       <div className="flex mt-4">
         <div className="mr-3">
-          <Image
-            src="/images/icons/faceBook.png"
-            alt=""
-            width={40}
-            height={40}
-          />
+          <Link href={"https://www.facebook.com/whpjewellers.india/"}>
+            <Icon.FacebookLogo size={34} weight="light" color="#e26178" />
+          </Link>
         </div>
         <div className="mr-3">
-          <Image
-            src="/images/icons/youtube.png"
-            alt=""
-            width={40}
-            height={40}
-          />
+          <Link
+            href={"https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"}
+          >
+            <Icon.YoutubeLogo size={34} weight="light" color="#e26178" />
+          </Link>
         </div>
         <div className="mr-3">
-          <Image
-            src="/images/icons/Instagram.png"
-            alt=""
-            width={40}
-            height={40}
-          />
+          <Link href={"https://www.instagram.com/whpjewellers/?hl=en"}>
+            <Icon.InstagramLogo size={32} weight="light" color="#e26178" />
+          </Link>
+        </div>
+        <div className="mr-3">
+          <Link href={"https://www.instagram.com/whpjewellers/?hl=en"}>
+            <Icon.WhatsappLogo size={34} weight="light" color="#e26178" />
+          </Link>
         </div>
       </div>
     </div>

@@ -43,57 +43,42 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
- const HandleaddToWishlist = () => {
-   try {
-     console.log("Adding to wishlist, product data:", data);
-     if (data && data.productId) {
-       if (isLoggedIn) {
-       
-         const productToAdd: ProductForWishlistLoggedIn = {
-           productId: data.productId,
-         };
+  const HandleaddToWishlist = () => {
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
           console.log("In", data.productId, productToAdd);
-         addToWishlist(productToAdd);
-         setIsProductInWishlist(true);
-       } else {
-         const productToAdd: ProductForWishlistLoggedOut = {
-           productId: data.productId,
-           title: data.title,
-           productPrice: data.productPrice,
-           discountPrice: data.discountPrice,
-           discountValue: data.discountValue,
-           image_path: data.image_path,
-           url: data.url,
-         };
-         addToWishlist(productToAdd);
-         setIsProductInWishlist(true);
-       }
-     } else {
-       console.error("Invalid product data:", data);
-     }
-   } catch (error) {
-     console.error("Error adding product to wishlist:", error);
-   }
- };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
+  };
 
-    const HandleremoveFromWishlist = () => {
-      removeFromWishlist(data.productId);
-      setIsProductInWishlist(false);
-    };
-
-
-  //   const sortedImages = data?.imageDetails?.sort(
-  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  //   );
-
-  //   const selected = sortedImages?.[0];
-  //   if (!selected || !selected.image_path) {
-  //     return null; // or render a default image or fallback UI
-  //   }
-  //   const sortedVideos = data?.videoDetails?.sort(
-  //     (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  //   );
-  //   const selectedVideo = sortedVideos?.[0];
+  const HandleremoveFromWishlist = () => {
+    removeFromWishlist(data.productId);
+    setIsProductInWishlist(false);
+  };
 
   const handleDetailProduct = () => {
     router.push(`/products/${data?.url}`);
@@ -159,7 +144,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             <>
               <Image
                 onClick={() => handleDetailProduct()}
-                className="w-[95%] duration-700 hover:scale-110  m-auto"
+                className="w-[95%] duration-700  m-auto"
                 src={data.image_path}
                 width={400}
                 height={400}

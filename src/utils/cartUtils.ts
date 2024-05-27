@@ -2,12 +2,29 @@ import axios from "axios";
 import { baseUrl, getCartItems } from "./constants";
 import Cookies from "js-cookie";
 
+// interface CartItem {
+//   productId: number;
+//   quantity: number;
+//   name: string;
+//   price: number;
+//   image: string;
+// }
+
 interface CartItem {
+  productDetails: {
+    displayTitle: string;
+    discountPrice: any;
+    imageDetails: any;
+  };
+  gst?: any;
+  displayTitle?: string;
+  discountPrice?: any;
+  imageDetails?: any;
   productId: number;
-  quantity: number;
-  name: string;
-  price: number;
-  image: string;
+  quantity?: number;
+  name?: string;
+  price?: number;
+  image?: string;
 }
 
 export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {

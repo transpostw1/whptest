@@ -81,11 +81,11 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     let filteredArray = data.slice();
     Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
-      if (selectedValues.length > 0) {
+      if ((selectedValues as any).length > 0) {
         filteredArray = filteredArray.filter((product) => {
           switch (category) {
             case "Price":
-              return selectedValues.some((option: string) => {
+              return (selectedValues as any).some((option: string) => {
                 const price = parseInt(product?.discountPrice);
                 switch (option) {
                   case "Less than 10K":
@@ -101,21 +101,23 @@ const FilterSidebar: React.FC<Props> = ({
                 }
               });
             case "Karat":
-              return selectedValues.some((option: string) =>
+              return (selectedValues as any).some((option: string) =>
                 product.metalPurity.includes(option.slice(0, -1))
               );
             case "Weight":
-              return selectedValues.some((option: string) =>
+              return (selectedValues as any).some((option: string) =>
                 product.weightRange.includes(option.slice(0, -1))
               );
             case "Gender":
-              return selectedValues.includes(product.shopFor[0]);
+              return (selectedValues as any).includes(product.shopFor[0]);
             case "Metal":
-              return selectedValues.some((option: string) =>
-                product.tags.includes(option.slice(0, -1))
+              return (selectedValues as any).some((option: string) =>
+                product.metalType.includes(option.slice(0, -1))
               );
             case "Occasion":
-              return selectedValues.includes(product.occasion);
+              return (selectedValues as any).some((option: string) =>
+                product?.occasion.includes(option.slice(0, -1))
+              );;
             default:
               return true;
           }
@@ -133,7 +135,7 @@ const FilterSidebar: React.FC<Props> = ({
       >
         <div
           className={`filter-type pb-8 border-line h-[450px] no-scrollbar overflow-y-auto ${
-            isSidebarFixed ? "fixed top-[145px] w-[250px]" : "relative"
+            isSidebarFixed ? "fixed w-[250px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",

@@ -2,107 +2,107 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-const dummyData = [
-  {
-    image: (
-      <Image
-        src={"/dummy/newArrivals.png"}
-        alt={"newArrivals"}
-        width={65}
-        height={65}
-        className=""
-      />
-    ),
-    title: "New Arrivals",
-  },
-  {
-    image: (
-      <Image src={"/dummy/14KT.png"} alt={"14KT"} width={65} height={65} />
-    ),
-    title: "14 Karat",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/earring.png"}
-        alt={"earring"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "Earring",
-  },
-  {
-    image: (
-      <Image src={"/dummy/ring.png"} alt={"ring"} width={65} height={65} />
-    ),
-    title: "Ring",
-  },
-  {
-    image: (
-      <Image src={"/dummy/Chains.png"} alt={"chains"} width={65} height={65} />
-    ),
-    title: "Chain",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/pendant.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "Pendants",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/allJewellery.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "All Jewellery",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/allJewellery.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "Men's Jewellery",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/gold_service.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "Gifts",
-  },
-  {
-    image: (
-      <Image
-        src={"/dummy/Gifts.png"}
-        alt={"pendant"}
-        width={65}
-        height={65}
-      />
-    ),
-    title: "Gold Service",
-  },
-];
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
+import { useCategory } from "@/context/CategoryContex";
+import Link from "next/link";
+// const dummyData = [
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/newArrivals.png"}
+//         alt={"newArrivals"}
+//         width={65}
+//         height={65}
+//         className=""
+//       />
+//     ),
+//     title: "New Arrivals",
+//   },
+//   {
+//     image: (
+//       <Image src={"/dummy/14KT.png"} alt={"14KT"} width={65} height={65} />
+//     ),
+//     title: "14 Karat",
+//   },
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/earring.png"}
+//         alt={"earring"}
+//         width={65}
+//         height={65}
+//       />
+//     ),
+//     title: "Earring",
+//   },
+//   {
+//     image: (
+//       <Image src={"/dummy/ring.png"} alt={"ring"} width={65} height={65} />
+//     ),
+//     title: "Ring",
+//   },
+//   {
+//     image: (
+//       <Image src={"/dummy/Chains.png"} alt={"chains"} width={65} height={65} />
+//     ),
+//     title: "Chain",
+//   },
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/pendant.png"}
+//         alt={"pendant"}
+//         width={65}
+//         height={65}
+//       />
+//     ),
+//     title: "Pendants",
+//   },
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/allJewellery.png"}
+//         alt={"pendant"}
+//         width={65}
+//         height={65}
+//       />
+//     ),
+//     title: "All Jewellery",
+//   },
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/allJewellery.png"}
+//         alt={"pendant"}
+//         width={65}
+//         height={65}
+//       />
+//     ),
+//     title: "Men's Jewellery",
+//   },
+//   {
+//     image: (
+//       <Image
+//         src={"/dummy/gold_service.png"}
+//         alt={"pendant"}
+//         width={65}
+//         height={65}
+//       />
+//     ),
+//     title: "Gifts",
+//   },
+//   {
+//     image: (
+//       <Image src={"/dummy/Gifts.png"} alt={"pendant"} width={65} height={65} />
+//     ),
+//     title: "Gold Service",
+//   },
+// ];
 const MobileMainCategorySwiper = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const { categories } = useAllCategoryContext();
+  const { setCustomcategory } = useCategory();
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
     const handleChange = (e: any) => {
@@ -132,11 +132,29 @@ const MobileMainCategorySwiper = () => {
           },
         }}
       >
-        {dummyData.map((data, index) => (
+        {categories.map((data, index) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col justify-center items-center">
-              <div>{data.image}</div>
-              <p className="text-center">{data.title}</p>
+            <div
+              className="flex flex-col justify-center items-center"
+              onClick={() => setCustomcategory(data.url)}
+            >
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { url: data.url },
+                }}
+              >
+                <div className=" border rounded-full shadow-sm">
+                  <Image
+                    src={data.menuImg}
+                    alt={"pendant"}
+                    width={65}
+                    className="rounded-full"
+                    height={65}
+                  />
+                </div>
+              </Link>
+              <p className="text-center text-[10px]">{data.name}</p>
             </div>
           </SwiperSlide>
         ))}

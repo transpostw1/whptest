@@ -14,8 +14,10 @@ import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
+import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import ProtectedRoute from "@/app/ProtectedRoute";
 
@@ -25,9 +27,8 @@ interface Props {
 
 const NavTwo: React.FC<Props> = ({ props }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
+  const { categories } = useAllCategoryContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<CategoryType[] | null>(null);
-  const [redirectPath, setRedirectPath] = useState("");
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -40,6 +41,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const { category, setCustomcategory } = useCategory();
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -111,27 +113,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
   };
-  async function getData() {
-    const res = await fetch(`${baseUrl}/getAllParentCategories`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
-  }
 
-  async function getAllCategories() {
-    try {
-      const category = await getData();
-      if (category) {
-        setData(category);
-      }
-    } catch (error) {
-      console.error("Error getting categories:", error);
-    }
-  }
-  useEffect(() => {
-    getAllCategories();
-  }, []);
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -163,7 +145,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const cartLength: number = cartItems ? cartItems.length : 0;
 
   const handleContactPopup = () => {
-    setContactPopUp(true);
+    setContactPopUp(!contactPopUp);
   };
   return (
     <div ref={contactRef}>
@@ -178,17 +160,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             <div className="left-content flex items-center ">
               <Link href={"/"}>
                 <Image
-                  src={"/images/other/Logo.png"}
-                  width={60}
-                  height={60}
+                  src={"/images/other/main_logo.png"}
+                  width={40}
+                  height={40}
                   alt="80x80"
-                  className=" object-cover"
+                  className=" object-cover mr-2"
                 />
               </Link>
               <div className="md:hidden lg:block max-sm:hidden">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/whpnameLogo.png"}
+                    src={"/images/other/whp_name_logo.png"}
                     width={170}
                     height={80}
                     alt="80x80"
@@ -204,21 +186,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"contactIcon"}
                   width={25}
                   height={25}
-                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
-              <div className="ml-4">
+              <div className="ml-4" onClick={handleContactPopup}>
                 <Image
                   src={"/images/icons/contact.svg"}
                   alt={"contactIcon"}
                   width={25}
                   height={25}
-                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
-              <div className="ml-4 text-black">
+              {contactPopUp ? <ContactInfo /> : null}
+              {/* <div className="ml-4 text-black">
                 <Icon.MapPin size={25} />
-              </div>
+              </div> */}
               <div className="ml-4 text-black">
                 <Icon.Heart size={25} />
               </div>
@@ -228,7 +209,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   alt={"hamBurgerIcon"}
                   width={25}
                   height={25}
-                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             </div>
@@ -490,9 +470,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <ul>
                   <li
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(1)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(1);
+                      setCustomcategory("newArrival");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "newArrival" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         New Arrivals
                       </p>
@@ -500,9 +489,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 2 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(2)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(2);
+                      setCustomcategory("14kt");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "14kt" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         14 Karat
                       </p>
@@ -510,9 +508,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 3 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(3)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(3);
+                      setCustomcategory("ring");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "ring" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Rings
                       </p>
@@ -520,9 +527,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 4 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(4)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(4);
+                      setCustomcategory("earring");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "earring" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Earrings
                       </p>
@@ -530,9 +546,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 5 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(5)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(5);
+                      setCustomcategory("pendant");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: "pendant" },
+                      }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Pendants
                       </p>
@@ -540,9 +565,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 6 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(6)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(6);
+                      setCustomcategory("chain");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Chains
                       </p>
@@ -568,9 +599,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
                       <div className="list-nav-item w-full h-full grid grid-cols-2 pt-2 pb-6">
                         <ul>
-                          {data &&
-                            data.map((item, index) => (
-                              <React.Fragment key={item.id}>
+                          {categories &&
+                            categories.map((item: any, index: any) => (
+                              <div
+                                key={item.id}
+                                onClick={() => {
+                                  handleMenuMobile(),
+                                    setCustomcategory(item.url);
+                                }}
+                              >
                                 <li className="leading-[0px]">
                                   <Link
                                     href={{
@@ -591,7 +628,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                     </div>
                                   </Link>
                                 </li>
-                              </React.Fragment>
+                              </div>
                             ))}
                         </ul>
                       </div>
@@ -599,9 +636,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(8)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(8);
+                      setCustomcategory("men");
+                    }}
                   >
-                    <Link href="/products">
+                    <Link
+                      href={{ pathname: "/products", query: { url: "men" } }}
+                      onClick={handleMenuMobile}
+                    >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
                         Men's Jewellery
                       </p>

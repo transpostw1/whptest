@@ -73,7 +73,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
             {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
@@ -110,7 +110,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -194,11 +194,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            {data?.discountPrice && (
+            {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">
                 {data && data?.discountValue}%OFF
               </p>
-            )}
+            )} */}
           </div>
         </div>
         {hover && (

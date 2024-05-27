@@ -358,7 +358,7 @@ const GoldCard: React.FC = () => {
               <h1>Buy any gold worth: (after 11th month)</h1>
             </div>
             <div>
-              <h1 className="text-3xl text-[#E26178]">
+              <h1 className="md:text-3xl text-sm text-[#E26178]">
                 ₹{redemptionAmount.toLocaleString("en-IN")}
               </h1>
             </div>

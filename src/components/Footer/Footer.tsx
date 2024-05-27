@@ -16,19 +16,31 @@ const Footer = () => {
     <>
       <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-gray-50">
-          <div className="container">
+          <div className="container py-4">
             <div className="flex flex-wrap gap-3 items-center justify-between">
               <div className="flex items-center gap-3 ">
-                <Image
-                  src={"/images/other/logo2.png"}
-                  width={40}
-                  height={40}
-                  alt="80x80"
-                  className=" object-fill"
-                />
-                <h1 className="text-rose-400 text-3xl ">whpjewellers</h1>
+                <Link href={"/"}>
+                  <Image
+                    src={"/images/other/main_logo.png"}
+                    width={40}
+                    height={40}
+                    alt="80x80"
+                    className=" object-cover"
+                  />
+                </Link>
+                <div>
+                  <Link href={"/"}>
+                    <Image
+                      src={"/images/other/whp_name_logo.png"}
+                      width={170}
+                      height={80}
+                      alt="80x80"
+                      className=" object-cover"
+                    />
+                  </Link>
+                </div>
               </div>
-              <div className="w-96 font-medium">
+              <div className="w-96 font-medium ">
                 <h3>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
@@ -55,13 +67,24 @@ const Footer = () => {
                     </form>
                   </div>
                   <div className="list-social flex items-center gap-6 mt-4">
-                    <Link href={"https://www.facebook.com/"} target="_blank">
+                    <Link
+                      href={"https://www.facebook.com/whpjewellers.india/"}
+                      target="_blank"
+                    >
                       <div className="icon-facebook text-2xl text-black"></div>
                     </Link>
-                    <Link href={"https://www.instagram.com/"} target="_blank">
+                    <Link
+                      href={"https://www.instagram.com/whpjewellers/?hl=en"}
+                      target="_blank"
+                    >
                       <div className="icon-instagram text-2xl text-black"></div>
                     </Link>
-                    <Link href={"https://www.youtube.com/"} target="_blank">
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
                       <div className="icon-youtube text-2xl text-black"></div>
                     </Link>
                   </div>
@@ -71,9 +94,17 @@ const Footer = () => {
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
                 <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
                   <div className="item flex flex-col basis-1/3 ">
-                    <div className="text-button-uppercase pb-3">Infomation</div>
+                    <div className="text-button-uppercase pb-3">
+                      Information
+                    </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
+                      href={"/contact"}
+                    >
+                      Stores
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2 "
                       href={"/contact"}
                     >
                       Contact us

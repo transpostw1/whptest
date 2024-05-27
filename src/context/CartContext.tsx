@@ -73,6 +73,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       if (isLoggedIn) {
         const cartItemsFromServer = await fetchCartItemsFromServer();
         setCartItems(cartItemsFromServer);
+        console.log(cartItems)
       } else if (typeof window !== "undefined") {
         const cartItemsFromStorage = localStorage.getItem("cartItems");
         if (cartItemsFromStorage) {

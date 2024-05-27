@@ -61,7 +61,7 @@ const PieChart: React.FC<PieChartProps> = ({
   };
 
   return (
-    <div className="relative w-64 h-64 ">
+    <div className="relative w-64 h-64 md:mb-8 ">
       <Pie data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );

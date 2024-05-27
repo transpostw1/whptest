@@ -158,7 +158,7 @@ const OtpVerification = ({
     <div className="otpVerification">
       {isOtpSent ? (
         <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h1 className="text-center text-xl font-bold mb-4">
+          <h1 className="text-center text-xl font-normal mb-2">
             Enter Verification Code
           </h1>
           <div
@@ -174,13 +174,13 @@ const OtpVerification = ({
             />
           </div>
           <button
-            className="w-full bg-pink-500 text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
+            className="w-full bg-[#E26178] text-white py-2 rounded-lg font-medium hover:bg-[#a53b4f] transition duration-300"
             onClick={handleCombinedClick}
           >
             {verifying ? (
               <>
                 <Preloader />
-                Verifying OTP...
+                {/* Verifying OTP... */}
                 {/* <span>Verifying OTP</span>
                 <CgSpinner size={20} className="animate-spin"/> */}
               </>
@@ -203,17 +203,21 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            // className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
-            className="button-main"
+            className="bg-[#E26178] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            // className="button-main"
             onClick={handleLoginSubmit}
           >
             {loading ? (
               <>
-                <span>Sending OTP</span>
-                <CgSpinner size={20} className="ml-10 animate-spin" />
+                <div className="flex ">
+                  {/* <span>Sending OTP</span> */}
+                  <CgSpinner size={20} className="animate-spin" />
+                </div>
               </>
             ) : (
-              <span>Send OTP</span>
+              <div className="flex justify-center">
+                <span>Send OTP</span>
+              </div>
             )}
           </button>
 

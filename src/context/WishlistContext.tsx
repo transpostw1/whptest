@@ -63,7 +63,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    // if (typeof window !== "undefined") {
       const fetchWishlistItems = async () => {
         try {
           const wishlistData = await getWishlist();
@@ -86,7 +86,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       };
 
       fetchWishlistItems();
-    }
+    // }
   }, [isLoggedIn, cookieToken]);
 
   const normalizeImagePath = (

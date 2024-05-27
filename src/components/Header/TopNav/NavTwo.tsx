@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import useMenuMobile from "@/store/useMenuMobile";
@@ -15,7 +14,6 @@ import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
-import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
@@ -32,8 +30,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { wishlistItemsCount, wishlistItems } = useWishlist();
-  const { openModalCart } = useModalCartContext();
+  const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
   const { userState, userDetails, getUser } = useUser();
   const isLoggedIn = userState.isLoggedIn;

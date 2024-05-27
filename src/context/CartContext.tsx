@@ -53,18 +53,38 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
- useEffect(() => {
-   if (typeof window !== "undefined") {
-     const cartItemsFromStorage = localStorage.getItem("cartItems");
-     if (cartItemsFromStorage) {
-       setCartItems(JSON.parse(cartItemsFromStorage));
-     } else if (isLoggedIn) {
-       fetchCartItemsFromServer().then((cartItems: any) => {
-         setCartItems(cartItems);
-       });
-     }
-   }
- }, [isLoggedIn]);
+//  useEffect(() => {
+//    console.log("INNN");
+//    if (typeof window !== "undefined") {
+//      const cartItemsFromStorage = localStorage.getItem("cartItems");
+//      if (cartItemsFromStorage) {
+//        setCartItems(JSON.parse(cartItemsFromStorage));
+//      }
+//    } else if (isLoggedIn) {
+//        fetchCartItemsFromServer().then((cartItems: any) => {
+//          setCartItems(cartItems);
+//        });
+//      }
+
+//  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (isLoggedIn) {
+        const cartItemsFromServer = await fetchCartItemsFromServer();
+        setCartItems(cartItemsFromServer);
+        console.log(cartItems)
+      } else if (typeof window !== "undefined") {
+        const cartItemsFromStorage = localStorage.getItem("cartItems");
+        if (cartItemsFromStorage) {
+          setCartItems(JSON.parse(cartItemsFromStorage));
+        }
+      }
+    };
+    fetchCartItems();
+  }, [isLoggedIn]);
+
+
 
   const addToCart = (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };

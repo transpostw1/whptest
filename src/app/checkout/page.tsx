@@ -443,7 +443,7 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <ProtectedRoute>
+      {/* <ProtectedRoute> */}
         <div className="cart-block flex-wrap mb-8">
           <div className="content-main flex flex-col justify-between lg:px-14 px-5">
             <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
@@ -538,6 +538,44 @@ const Checkout: React.FC = () => {
                     setCartItems={setCartItems}
                   />
                 )}
+            <div className="flex flex-col md:flex-row lg:flex-row justify-between">
+              <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
+                <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
+                {selectedComponent === "CartItems" && (
+                  <CartItems
+                    cartItems={mappedCartItems}
+                    handleQuantityChange={handleQuantityChange}
+                    removeFromCart={removeFromCart}
+                  />
+                )}
+                {selectedComponent === "DeliveryDetails" && (
+                  <DeliveryDetails
+                    onShippingAddressSelected={onShippingAddressSelected}
+                    onBillingAddressSelected={onBillingAddressSelected}
+                    useSameAsBillingAddress={useSameAsBillingAddress}
+                    setUseSameAsBillingAddress={setUseSameAsBillingAddress}
+                    selectedShippingAddress={selectedShippingAddress}
+                    setSelectedShippingAddress={setSelectedShippingAddress}
+                    selectedBillingAddress={selectedBillingAddress}
+                    setSelectedBillingAddress={setSelectedBillingAddress}
+                  />
+                )}
+                {selectedComponent === "Payment" && (
+                  <Payment
+                    orderPlaced={isOrderPlaced}
+                    selectedPaymentMethod={selectedPaymentMethod}
+                    handlePaymentMethodChange={handlePaymentMethodChange}
+                    totalCart={totalCart}
+                    onOrderComplete={handleOrderComplete}
+                    selectedShippingAddress={selectedShippingAddress}
+                    selectedBillingAddress={selectedBillingAddress}
+                    placeOrder={handleProceed}
+                    mappedCartItems={mappedCartItems}
+                    couponCode={couponCode}
+                    totalDiscount={totalDiscount}
+                    setCartItems={setCartItems}
+                  />
+                )}
 
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
@@ -589,6 +627,61 @@ const Checkout: React.FC = () => {
                     <div className="flex gap-2 items-center font-medium">
                       <Gift style={{ color: "red", fontSize: "24px" }} />
                       <h3>Gift Message</h3>
+                    </div>
+                    <h3
+                      className="text-red-600 underline cursor-pointer"
+                      onClick={() => handleGiftWrapModal()}
+                    >
+                      Add
+                    </h3>
+                    {showModal && (
+                      <GiftWrapModal closeModal={handleCloseModal} />
+                    )}
+                  </div>
+                  <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
+                  {loading ? (
+                    <Skeleton height={150} />
+                  ) : (
+                    <div className="bg-gray-100 p-2 mt-2">
+                      <div className="">
+                        <div className="flex justify-between font-medium">
+                          <h3>Subtotal</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(formattedPrice)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Discount</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(totalDiscount)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Shipping Charges</h3>
+                          <h3>₹0</h3>
+                        </div>
+                        <div className="flex justify-between font-bold">
+                          <h3 className="text-gray-800">Total Price</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(
+                              Math.round(parseInt(totalPrice.toString()))
+                            )}
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
                     </div>
                     <h3
                       className="text-red-600 underline cursor-pointer"

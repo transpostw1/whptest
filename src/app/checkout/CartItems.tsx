@@ -13,6 +13,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   handleQuantityChange,
   removeFromCart,
 }) => {
+  
 
 
   return (

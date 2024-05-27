@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
-import { useModalWishlistContext } from "@/context/ModalWishlistContext";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -17,6 +16,7 @@ import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
+import { useWishlist } from "@/context/WishlistContext";
 
 interface Props {
   props: string;
@@ -29,7 +29,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { openModalWishlist } = useModalWishlistContext();
+const { wishlistItemsCount,wishlistItems } = useWishlist();
   const { openModalCart } = useModalCartContext();
   const { cartItems } = useCart();
   const { userState } = useUser();
@@ -339,17 +339,34 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    onClick={openModalWishlist}
+                    // onClick={openModalWishlist}
                   >
-                    <div className="flex flex-col items-center">
-                      <Icon.Heart size={28} color="black" />
-                      <h4 className="text-sm">Wishlist</h4>
-                    </div>
+                    <Link href={"/wishlist"}>
+                      {/* <div>
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        
+                      </div> */}
+                      <div
+                        className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                        // onClick={openModalWishlist}
+                      >
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {wishlistItems.length}
+                        </span>
+                      </div>
+                    </Link>
                   </div>
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      onClick={openModalCart}
+                      // onClick={openModalCart}
                     >
                       <div className="flex flex-col items-center">
                         <Image
@@ -361,7 +378,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <h4 className="text-sm">Cart</h4>
                       </div>
 
-                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
+                      <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                         {cartLength}
                       </span>
                     </div>
@@ -407,17 +424,25 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="">
                   <p className="text-xl font-semibold">Login</p>
                 </div>
-                <div className="ml-3">
+                <div className="ml-3 relative">
                   <Icon.Heart size={25} />
+                  <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                          {wishlistItems.length}
+                        </span>
                 </div>
-                <div className="ml-3">
+                <Link href={"/checkout"}>
+                <div className="ml-3 relative">
                   <Image
                     src={"/images/icons/cart.svg"}
                     alt="Cart"
                     width={30}
                     height={30}
-                  />
+                    />
+                    <span className="quantity cart-quantity absolute -right-0 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        {cartLength}
+                      </span>
                 </div>
+                    </Link>
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">

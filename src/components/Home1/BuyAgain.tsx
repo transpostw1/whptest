@@ -31,7 +31,6 @@ const ProductSlider: React.FC<Props> = ({ data, start, limit }) => {
         fetchProduct();
     }, []);
     const filteredProducts = products;
-  console.log("getPRoductdsa", products);
   return (
     <>
       <div className="tab-features-block pt-10">

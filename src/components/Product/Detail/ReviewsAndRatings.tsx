@@ -4,14 +4,21 @@ import Image from "next/image";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { FaStar } from "react-icons/fa6";
-
+import StarRating from "@/components/Other/StarRating";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { baseUrl, storeReviews } from "@/utils/constants";
+import Cookies from "js-cookie"
+import FlashAlert from "@/components/Other/FlashAlert";
 interface Props {
   product: ProductData;
 }
 const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
+  const router = useRouter();
+  const [review, setReview] = useState<string>("");
   const [activeTab, setActiveTab] = useState("tab1");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-
+  const loggedIn = localStorage.getItem("isLoggedIn");
   // Function to handle file selection
   const handleImageChange = (event: any) => {
     const imageFiles = event.target.files;
@@ -25,9 +32,40 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       ]);
     }
   };
+  const handleLogIn = () => {
+    router.push("/login");
+  };
   const removeImage = (index: number) => {
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
+  const handleReveiwChange = (e: any) => {
+    setReview(e.target.value);
+  };
+  const handleReviews = (e:any) => {
+    e?.preventDefault()
+    try{
+      const cookieToken = Cookies.get("localtoken");
+    const response = axios.post(
+      `${baseUrl}${storeReviews}`,
+      {
+        productId: product.productDetails.productId,
+        rating: 4.5,
+        review: review,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
+    }catch(error){
+      console.log("Error Ocuuredd",error)
+    }finally{
+      setReview("")
+    }
+    
+  };
+  console.log("dadadadadaa", loggedIn);
   return (
     <div className="mt-7 mb-7">
       <div className="flex bg-[#E1DCDD29] p-2 mx-4 mb-3">
@@ -51,49 +89,42 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       <div>
         {activeTab === "tab1" && (
           <div className="flex flex-wrap justify-between mx-4">
-            <div className="w-[40%] h-[55%] rounded-3xl bg-[#faf9f9] p-6">
-              <div className="flex">
-                <div className="m-2">
-                  <Image
-                    className="rounded-full"
-                    src="/images/icons/propic.jpg"
-                    alt="profile_picture"
-                    height={75}
-                    width={75}
-                  />
+            <div className="lg:w-[40%] max-sm:w-[100%] max-md:w-[60%] h-[55%] ">
+              {product?.productDetails?.review?.map((item: any) => (
+                <div
+                  className="mt-4 rounded-3xl bg-[#faf9f9] p-6"
+                  key={item.id}
+                >
+                  <div className="flex">
+                    <div className="m-2">
+                      <Image
+                        className="rounded-full"
+                        src={item.customer?.profile_picture}
+                        alt="profile_picture"
+                        height={75}
+                        width={75}
+                      />
+                    </div>
+                    <div className="ml-2">
+                      <p className="">{item?.customer?.fullname}</p>
+                      <StarRating stars={item.rate} />
+                      <p>{item.review}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-2">
-                  <p className="">Joseph Gomes</p>
-                  <span className="flex">
-                    <FaStar size={20} className="text-[#f4ed25]" />
-                    <FaStar size={20} className="text-[#f4ed25]" />
-                    <FaStar size={20} className="text-[#f4ed25]" />
-                    <FaStar size={20} className="text-[#f4ed25]" />
-                    <FaStar size={20} className="text-[#f4ed25]" />
-                  </span>
-                </div>
-              </div>
-              <div>
-                <p>
-                  WHP is a great shop for jewellery purchases not only is this
-                  shop located at prime destination but it also has a large
-                  premise making it easy for the customers to move across the
-                  various options of jewellery.
-                </p>
-              </div>
-              <div className="flex mt-5"></div>
+              ))}
             </div>
-            <div>
-              <div className="flex justify-around">
-                <div className="mr-[100px]">
+            <div className="mt-4 lg:w-[35%] max-sm:w-[100%]">
+              <div className="flex justify-between">
+                <div className="">
                   <p>Write a Review</p>
                 </div>
                 <div className="flex">
-                  <Icon.Star className="border-[#E1DCDD29]" />
-                  <Icon.Star className="border-[#E1DCDD29]" />
-                  <Icon.Star className="border-[#E1DCDD29]" />
-                  <Icon.Star className="border-[#E1DCDD29]" />
-                  <Icon.Star className="border-[#E1DCDD29]" />
+                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
+                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
+                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
+                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
+                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
                 </div>
               </div>
               <div>
@@ -105,9 +136,10 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     name="name"
                     className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm bg-[#E1DCDD29] h-[150px] rounded-md"
                     required
+                    onChange={(e) => handleReveiwChange(e)}
                   />
                 </div>
-                <div className="relative mt-3">
+                {/* <div className="relative mt-3">
                   <input
                     placeholder="Upload Images"
                     type="file"
@@ -116,7 +148,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm bg-[#E1DCDD29] rounded-md"
                     required
                   />
-                </div>
+                </div> */}
                 <div className="flex flex-wrap">
                   {selectedImages.map((image, index) => (
                     <div key={index} className="relative mr-4 mb-4">
@@ -136,12 +168,23 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     </div>
                   ))}
                 </div>
-                <button
-                  type="submit"
-                  className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Submit
-                </button>
+                {loggedIn === "true" ? (
+                  <button
+                    type="submit"
+                    onClick={(e) => handleReviews(e)}
+                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Submit
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    onClick={() => handleLogIn()}
+                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Please LogIn
+                  </button>
+                )}
               </div>
             </div>
           </div>

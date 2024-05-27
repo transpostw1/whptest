@@ -1,17 +1,43 @@
 "use client"; // Add this line
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   product: ProductData;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
-  const { cartItems, addToCart, removeFromCart, updateCartQuantity } =
-    useCart();
+  const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const { wishlistItems, addToWishlist, removeFromWishlist,getWishlist } = useWishlist();
+  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const[isLoading,setIsLoading]=useState<boolean>(false)
+
+
+useEffect(() => {
+  const fetchWishlist = async () => {
+    try {
+      setIsLoading(true)
+      await getWishlist();
+      // Check if the current product is in the fetched wishlist items
+      const isInWishlist = wishlistItems.some(
+        (item) => item.productId === product.productDetails.productId
+      );
+      setIsProductInWishlist(isInWishlist);
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    } finally{
+      setIsLoading(false);
+    }
+  };
+
+  fetchWishlist();
+}, []);
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
@@ -37,6 +63,16 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
+const HandleaddToWishlist = () => {
+  addToWishlist(product?.productDetails?.productId);
+  setIsProductInWishlist(true);
+};
+
+const HandleremoveFromWishlist = () => {
+   removeFromWishlist(product.productDetails.productId);
+  setIsProductInWishlist(false);
+};
+
   const handleBuyNow = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails?.productId
@@ -60,7 +96,13 @@ const Buttons: React.FC<Props> = ({ product }) => {
       );
     }
   };
-
+  if(isLoading){
+    return (
+      <div>
+        <Skeleton height={70} />
+      </div>
+    );
+  }
   return (
     <div className="flex sm:justify-around mt-[25px] ">
       <div
@@ -90,8 +132,22 @@ const Buttons: React.FC<Props> = ({ product }) => {
           </span>
         </div>
       </div>
-      <div className="flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
-        <Icon.Heart size={27} weight="thin" />
+      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
+        {isProductInWishlist ? (
+          <Icon.Heart
+            size={32}
+            color="#fa0000"
+            weight="fill"
+            onClick={() => HandleremoveFromWishlist()}
+          />
+        ) : (
+          <Icon.Heart
+            size={32}
+            weight="thin"
+            color="#e26178"
+            onClick={() => HandleaddToWishlist()}
+          />
+        )}
       </div>
     </div>
   );

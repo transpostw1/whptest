@@ -1,10 +1,13 @@
-"use client"
-import React from 'react'
-
-const loading = () => {
+import React from "react";
+import Image from "next/image";
+const Loading = () => {
   return (
-    <div className='fixed inset-0 z-50 flex bg-black bg-opacity-50 h-full text-white'><video src='loader.gif'/></div>
-  )
-}
+    <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-10">
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
+    </div>
+  );
+};
 
-export default loading
+export default Loading;

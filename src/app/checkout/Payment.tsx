@@ -6,24 +6,25 @@ import axios from "axios";
 import { Address } from "@/type/AddressType";
 import ReactLoading from "react-loading";
 import Cookie from "js-cookie";
-
+import { baseUrl } from "@/utils/constants";
 
 interface PaymentProps {
+  orderPlaced: boolean;
   selectedPaymentMethod: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
-  onOrderComplete: () => void;
+  onOrderComplete: (items: any) => void;
   selectedShippingAddress: Address | null;
   selectedBillingAddress: Address | null;
-  handleProceed: () => void; 
+  handleProceed: () => void;
   mappedCartItems: any[];
   couponCode: string;
   totalDiscount: number; // Add the totalDiscount prop
   setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
-
 }
 
 const Payment: React.FC<PaymentProps> = ({
+  orderPlaced,
   selectedPaymentMethod,
   handlePaymentMethodChange,
   totalCart,
@@ -35,8 +36,6 @@ const Payment: React.FC<PaymentProps> = ({
   couponCode,
   totalDiscount,
   setCartItems,
-  
-
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const cookieToken = Cookie.get("localtoken");
@@ -62,7 +61,7 @@ const Payment: React.FC<PaymentProps> = ({
       const response = await axios.post(orderUrl, { amount: totalCart * 100 });
       console.log(response);
       const { amount, id: order_id, currency } = response.data;
-  
+
       const options = {
         key: "rzp_test_QZVTreX3fAEZto",
         amount: amount.toString(),
@@ -73,7 +72,11 @@ const Payment: React.FC<PaymentProps> = ({
         handler: async function (response: any) {
           try {
             // Prepare the data to be sent to the API
-            const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+            const {
+              razorpay_payment_id,
+              razorpay_order_id,
+              razorpay_signature,
+            } = response;
             console.log(razorpay_payment_id);
             const orderData = {
               paymentDetails: {
@@ -82,69 +85,68 @@ const Payment: React.FC<PaymentProps> = ({
                 signature: razorpay_signature,
               },
               shippingAddress: selectedShippingAddress
-                ? [
-                    {
-                      addressId: selectedShippingAddress.addressId || null,
-                      addressType: selectedShippingAddress.addressType,
-                      fullAddress: selectedShippingAddress.fullAddress,
-                      country: selectedShippingAddress.country,
-                      state: selectedShippingAddress.state,
-                      city: selectedShippingAddress.city,
-                      landmark: selectedShippingAddress.landmark,
-                      pincode: selectedShippingAddress.pincode,
-                    },
-                  ]
-                : [],
+                ? {
+                    addressId: selectedShippingAddress.address_id || null,
+                    addressType: selectedShippingAddress.address_type,
+                    fullAddress: selectedShippingAddress.full_address,
+                    country: selectedShippingAddress.country,
+                    state: selectedShippingAddress.state,
+                    city: selectedShippingAddress.city,
+                    landmark: selectedShippingAddress.landmark,
+                    pincode: selectedShippingAddress.pincode.toString(),
+                  }
+                : {},
               billingAddress: selectedBillingAddress
-                ? [
-                    {
-                      addressId: selectedBillingAddress.addressId || null,
-                      addressType: selectedBillingAddress.addressType,
-                      fullAddress: selectedBillingAddress.fullAddress,
-                      country: selectedBillingAddress.country,
-                      state: selectedBillingAddress.state,
-                      city: selectedBillingAddress.city,
-                      landmark: selectedBillingAddress.landmark,
-                      pincode: selectedBillingAddress.pincode,
-                    },
-                  ]
-                : [],
-                productDetails: {
-              products: mappedCartItems.map((item) => ({
-                productId: item.productId.toString(),
-                productAmount: item.price,
-                quantity: item.quantity.toString(),
-                productTotal: (item.price * item.quantity).toString(),
-                discountAmount: "0", // Replace with the actual discount amount if available
-                discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
-              })),
-              coupons: [
-                {
+                ? {
+                    addressId: selectedBillingAddress.address_id || null,
+                    addressType: selectedBillingAddress.address_type,
+                    fullAddress: selectedBillingAddress.full_address,
+                    country: selectedBillingAddress.country,
+                    state: selectedBillingAddress.state,
+                    city: selectedBillingAddress.city,
+                    landmark: selectedBillingAddress.landmark,
+                    pincode: selectedBillingAddress.pincode.toString(),
+                  }
+                : {},
+              productDetails: {
+                products: mappedCartItems.map((item) => ({
+                  productId: item.productId.toString(),
+                  productAmount: item.price,
+                  quantity: item.quantity.toString(),
+                  productTotal: (item.price * item.quantity).toString(),
+                  discountAmount: "0", // Replace with the actual discount amount if available
+                  discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
+                })),
+                coupons: {
                   couponCode: couponCode, // Replace with the actual coupon code if available
                   discountPrice: totalDiscount, // Replace with the actual discount price if available
                 },
-              ],
-              productTotal: totalCart.toString(),
-              discountedTotal: (totalCart - totalDiscount).toString(),
-            },
-          
+                productTotal: totalCart.toString(),
+                discountedTotal: (totalCart - totalDiscount).toString(),
+                shippingCharges: "10",
+              },
+
               // Add other necessary data for productDetails, etc.
             };
-  
+
+            console.log(orderData, "orderData");
             // Make the API call
-            const apiResponse = await axios.post('http://164.92.120.19/api/orders', orderData,{
-              headers: {
-                Authorization: `Bearer ${cookieToken}`,
-              },
-            });
+            const apiResponse = await axios.post(
+              `${baseUrl}/orders`,
+              orderData,
+              {
+                headers: {
+                  Authorization: `Bearer ${cookieToken}`,
+                },
+              }
+            );
             console.log(apiResponse.data);
             // Handle the response as needed
-  
+
             // Call the onOrderComplete function after the API call is successful
             onOrderComplete(setCartItems);
           } catch (error) {
-            console.error('Error placing order:', error);
-            // Handle the error as needed
+            console.error("Error placing order:", error);
           }
         },
         prefill: {
@@ -159,7 +161,7 @@ const Payment: React.FC<PaymentProps> = ({
           color: "#fb7185",
         },
       };
-  
+
       const rzp1 = new (window as any).Razorpay(options);
       rzp1.open();
     } catch (error) {
@@ -192,8 +194,15 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading)
     return (
-      <div className="fixed inset-0 z-50 flex bg-white bg-opacity-50 h-full text-black text-5xl items-center justify-center">
-        <ReactLoading type="spin" color="#000" height={50} width={50} />
+      <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
+        <div className="loading-container flex justify-center items-center h-full">
+          <Image
+            src="/dummy/loader.gif"
+            alt={"loader"}
+            height={50}
+            width={50}
+          />
+        </div>
       </div>
     );
   return (

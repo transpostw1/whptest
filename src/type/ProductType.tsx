@@ -29,6 +29,7 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  rating: number;
   gst: any;
   makingCharges: any;
   id: any | null | undefined;
@@ -91,6 +92,7 @@ export interface ProductType {
   productPrice: string;
   stoneDetails: any; // Specify type if available
   diamondDetails: any; // Specify type if available
+  
 }
 interface ProductDetails {
   productId: number;
@@ -182,6 +184,8 @@ interface ProductDetails {
     created_at: string;
     updated_at: string;
   }[];
+  review:any;
+  rating:any;
 }
 
 interface VariantOption {

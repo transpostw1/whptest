@@ -31,7 +31,6 @@ const SimilarProducts: React.FC<Props> = ({ productId, start, limit }) => {
     fetchProduct();
   }, [productId]);
   const filteredProducts = products;
-  console.log("getPRoductdsa", products);
   return (
     <>
       <div className="tab-features-block pt-10">

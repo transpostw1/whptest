@@ -4,6 +4,7 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -36,10 +37,9 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
+  const { totalDiscount, updateDiscount } = useCouponContext();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { totalDiscount, setTotalDiscount } = useCouponContext();
   const [couponCode, setCouponCode] = useState<string>("");
-  
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
@@ -57,11 +57,11 @@ const Checkout: React.FC = () => {
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const [selectedShippingAddress, setSelectedShippingAddress] =
     useState<Address | null>(null);
   const [selectedBillingAddress, setSelectedBillingAddress] =
     useState<Address | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -103,7 +103,7 @@ const Checkout: React.FC = () => {
     }));
     setCartProductIds(products);
   };
-  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchCouponData = async () => {
       setLoading(true);
@@ -125,24 +125,25 @@ const Checkout: React.FC = () => {
       } catch (error) {
         console.log("Error occurred", error);
       } finally {
-        setLoading(false); // Set loading state to false after data fetching is complete
+        setLoading(false);
       }
     };
 
     fetchCouponData();
   }, [cartProductIds]);
 
-  let totalCartDiscount: number = 0;
+  useEffect(() => {
+    let totalCartDiscount: number = 0;
+    Array.isArray(dataAfterCouponCode.discountedProducts) &&
+      dataAfterCouponCode.discountedProducts.map((element: any) => {
+        const discount = parseInt(element.discountedValue);
+        if (!isNaN(discount)) {
+          totalCartDiscount += discount;
+        }
+      });
+    updateDiscount(totalCartDiscount);
+  }, [dataAfterCouponCode]);
 
-  Array.isArray(dataAfterCouponCode.discountedProducts) &&
-    dataAfterCouponCode.discountedProducts.map((element: any) => {
-      const discount = parseInt(element.discountedValue);
-      if (!isNaN(discount)) {
-        totalCartDiscount += discount;
-      }
-    });
-
-  setTotalDiscount(totalCartDiscount);
   useEffect(() => {
     if (buyNow) {
       setShowAllItems(false);
@@ -173,41 +174,43 @@ const Checkout: React.FC = () => {
           ? item.productDetails.imageDetails[0].image_path
           : "",
     }));
-
   // const mappedCartItems = showAllItems
   //   ? cartItems
   //       .filter(
   //         (item) =>
-  //           item.productId &&
-  //           item.quantity &&
-  //           item.displayTitle &&
-  //           item.discountPrice &&
-  //           item.imageDetails
+  //           item?.productId &&
+  //           item?.quantity &&
+  //           item?.productDetails?.displayTitle &&
+  //           item?.productDetails?.discountPrice &&
+  //           item?.productDetails?.imageDetails
   //       )
   //       .map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.quantity,
-  //         name: item.displayTitle,
-  //         price: item.discountPrice,
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
   //         image:
-  //           item.imageDetails && item.imageDetails.length > 0
-  //             ? item.imageDetails[0].image_path
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
   //             : "",
   //       }))
   //   : cartItems
   //       .filter((item) => item.productId === parseInt(buyNow as string))
   //       .map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.quantity,
-  //         name: item.displayTitle,
-  //         price: item.discountPrice,
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
   //         image:
-  //           item.imageDetails && item.imageDetails.length > 0
-  //             ? item.imageDetails[0].image_path
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
   //             : "",
   //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
+    console.log("function is runnign");
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
@@ -231,8 +234,9 @@ const Checkout: React.FC = () => {
   });
   let formattedPrice: string = totalCart.toString();
 
-
-  const handleOrderComplete = (setCartItems: React.Dispatch<React.SetStateAction<any[]>>) => {
+  const handleOrderComplete = (
+    setCartItems: React.Dispatch<React.SetStateAction<any[]>>
+  ) => {
     setIsOrderPlaced(true);
     // Reset the cart and other states
     setCartItems([]);
@@ -352,9 +356,9 @@ const Checkout: React.FC = () => {
 
     switch (selectedStep) {
       case 0:
-        return "Proceed to Delivery Details";
+        return "Address";
       case 1:
-        return "Proceed to Payment";
+        return "Payment";
       case 2:
         return "Place Order";
       default:
@@ -375,7 +379,7 @@ const Checkout: React.FC = () => {
     },
     {
       icon: (
-        <AddressBook
+        <Icon.MapPin
           className={`text-2xl text-black ${
             selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
           }`}
@@ -394,6 +398,7 @@ const Checkout: React.FC = () => {
       label: "Payment",
     },
   ];
+
   const handleGiftWrapModal = () => {
     setShowModal(true);
   };
@@ -402,10 +407,9 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <StickyNav />
       <div className="cart-block flex-wrap">
-        <div className="content-main flex flex-col justify-between px-14">
-          <div className="flex w-full justify-between items-center">
+        <div className="content-main flex flex-col justify-between lg:px-14 px-5">
+          <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
             <div className="flex gap-3">
               {isOrderPlaced ? (
                 <div className="flex">
@@ -423,10 +427,10 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-wrap mt-2 items-center">
+                <div className="flex mt-2 items-center sm:mr-1 lg:mr-3 p-2 w-full">
                   {steps.map((step, index) => (
                     <div
-                      className="flex items-center w-40"
+                      className="flex items-center lg:w-40 max-sm:w-25 max-md:w-25"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -439,21 +443,21 @@ const Checkout: React.FC = () => {
                       >
                         {step.icon}
                       </div>
-                      <h2 className="p-2 rounded-full cursor-pointer">
+                      <h2 className="rounded-full cursor-pointer">
                         {step.label}
                       </h2>
                       {index < steps.length - 1 && (
-                        <ArrowRight
-                          style={{ marginLeft: "10px", marginRight: "10px" }}
-                        />
+                        <Icon.CaretRight className="sm:mr-0 sm:ml-0 lg:mr-[10px] lg:ml-[10px]" />
                       )}
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            <h2>(Review of {cartItems.length} Items)</h2>
           </div>
+          {!isOrderPlaced ? (
+            <h2>(Review of {cartItems.length} Items)</h2>
+          ) : null}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
@@ -479,6 +483,7 @@ const Checkout: React.FC = () => {
               )}
               {selectedComponent === "Payment" && (
                 <Payment
+                  orderPlaced={isOrderPlaced}
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
@@ -501,8 +506,13 @@ const Checkout: React.FC = () => {
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="flex justify-between border border-gray-400 p-3">
                     <div className="flex items-center gap-2 font-medium">
-                      <Gift style={{ color: "red", fontSize: "24px" }} />
-                      <h3>Available Coupons</h3>
+                      <Image
+                        src={"/images/icons/coupon.png"}
+                        alt={"coupons"}
+                        height={25}
+                        width={25}
+                      />
+                      <h3>Coupons Available</h3>
                     </div>
                     <h3 className="text-red-600 underline cursor-pointer">
                       View
@@ -535,10 +545,11 @@ const Checkout: React.FC = () => {
                       <GiftWrapModal closeModal={handleCloseModal} />
                     )}
                   </div>
+                  <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
                   ) : (
-                    <div className="bg-gray-100 p-2 mt-3">
+                    <div className="bg-gray-100 p-2 mt-2">
                       <div className="">
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
@@ -593,6 +604,7 @@ const Checkout: React.FC = () => {
 
               {selectedStep !== 2 && (
                 <ProceedButton
+                  totalPrice={totalPrice}
                   isMobile={isMobile}
                   proceedButtonTitle={proceedButtonTitle()}
                   handleProceed={handleProceed}
@@ -603,6 +615,29 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {isMobile && (
+        <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
+          <div>
+            <p className="font-bold text-[20px]">
+              ₹
+              {Intl.NumberFormat("en-IN", {
+                minimumFractionDigits: 2,
+              }).format(Math.round(parseInt(totalPrice.toString())))}
+            </p>
+            <p className="text-[#e26178]">View Order Summary</p>
+          </div>
+          <div
+            className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleProceed(useSameAsBillingAddress)}
+          >
+            <button className="">{proceedButtonTitle()}</button>
+            <span>
+              <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
+            </span>
+          </div>
+        </div>
+      )}
     </>
   );
 };

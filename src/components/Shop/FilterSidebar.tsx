@@ -116,7 +116,7 @@ const FilterSidebar: React.FC<Props> = ({
               );
             case "Occasion":
               return (selectedValues as any).some((option: string) =>
-                product?.occasion.includes(option.slice(0, -1))
+                product.occasion.includes(option.slice(0, -1))
               );;
             default:
               return true;
@@ -134,12 +134,12 @@ const FilterSidebar: React.FC<Props> = ({
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[450px] no-scrollbar overflow-y-auto ${
+          className={`filter-type pb-8 border-line h-[450px] md:h-[350px] no-scrollbar overflow-y-auto ${
             isSidebarFixed ? "fixed w-[250px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
-            top: isSidebarFixed ? "161px" : "auto",
+            top: isSidebarFixed ? "185px" : "auto",
             width: isSidebarFixed ? "250px" : "auto",
           }}
   
@@ -180,9 +180,9 @@ const FilterSidebar: React.FC<Props> = ({
       </div>
       {mobileFilter && (
         <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
-          <div className="mt-36 p-4">
+          <div className="mt-20 p-4">
             <Icon.X size={25} onClick={() => setMobileFilter(false)} />
-            <div className="h-[650px] overflow-y-auto no-scrollbar">
+            <div className="h-[350px] overflow-y-auto no-scrollbar">
               <div className="mt-5">
                 <p className="heading7">Filter</p>
               </div>

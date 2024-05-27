@@ -127,8 +127,12 @@ const Checkout: React.FC = () => {
           }
         );
         setDataAfterCouponCode(response.data);
-      } catch (error) {
+        setFlashMessage("Coupon Successfully applied");
+        setFlashType("success");
+      } catch (error:any) {
         console.log("Error occurred", error);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -660,7 +664,9 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-
+      {couponCode && (
+        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+      )}
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

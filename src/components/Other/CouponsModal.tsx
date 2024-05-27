@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React ,{FormEvent}from "react";
 
 interface Props {
   handleCouponCheck: () => void;
@@ -11,9 +11,16 @@ const CouponsModal: React.FC<Props> = ({
   onClose,
   couponCode,
 }) => {
+  
+  const handleFormSumbit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleCouponCheck();
+    onClose();
+  };
   const handleCouponChange = (e: any) => {
     couponCode(e.target.value);
   };
+  
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       onClose();
@@ -27,7 +34,7 @@ const CouponsModal: React.FC<Props> = ({
     >
       <div className="loading-container flex justify-center items-center h-full">
         <div className="bg-white p-2">
-          <form>
+          <form onSubmit={handleFormSumbit}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-[#e26178]">
                 Enter Coupon Code:
@@ -41,10 +48,6 @@ const CouponsModal: React.FC<Props> = ({
             </div>
             <button
               className="px-3 py-2 bg-[#e26178] text-white rounded-2xl flex justify-center w-full"
-              onClick={() => {
-                handleCouponCheck();
-                handleOnClose;
-              }}
             >
               Check
             </button>

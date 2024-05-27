@@ -9,9 +9,9 @@ import { useRouter } from "next/navigation";
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [backendError, setBackendError] = useState<string | null>(null);
-    const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
+  const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
@@ -61,39 +61,38 @@ const SilverCard: React.FC = () => {
     }
   };
 
+  const handleEnroll = async () => {
+    if (!isLoggedIn) {
+      setLoading(true);
+      router.push("/login");
+      return;
+    }
 
-const handleEnroll = async () => {
-  if (!isLoggedIn) {
-    setLoading(true);
-    router.push("/login");
-    return;
-  }
-
-  try {
-    setLoading(true);
-    setBackendError(null); // Clear any previous backend errors
-    const response = await instance.post(
-      `${baseUrl}${gms}`,
-      {
-        schemeType: "gold",
-        amount: monthlyDeposit,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
+    try {
+      setLoading(true);
+      setBackendError(null); // Clear any previous backend errors
+      const response = await instance.post(
+        `${baseUrl}${gms}`,
+        {
+          schemeType: "gold",
+          amount: monthlyDeposit,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
 
-    console.log("Enrollment successful", response.data);
-    setBackendMessage(response.data.message); // Set the success message
-  } catch (error) {
-    console.error("Error during enrollment", error);
-    setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
-  } finally {
-    setLoading(false);
-  }
-};
+      console.log("Enrollment successful", response.data);
+      setBackendMessage(response.data.message); // Set the success message
+    } catch (error) {
+      console.error("Error during enrollment", error);
+      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">

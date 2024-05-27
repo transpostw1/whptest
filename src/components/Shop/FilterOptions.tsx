@@ -22,7 +22,7 @@ const Filter = [
     title: "Gender",
     options: ["Men", "Women", "Kids"],
   },
-  { title: "Metal", options: ["Rose Gold","White Gold","Yellow Gold","Diamond","Sliver"] },
+  { title: "Metal", options: ["Rose Gold","White Gold","Gold","Diamond","Sliver"] },
   {
     title: "Occasion",
     options: [
@@ -33,7 +33,7 @@ const Filter = [
       "Festive",
       "Everyday",
       "Work Wear",
-      "Wedding Wear",
+      "Wedding",
       "Desk to Dinner",
       "Evening",
       "Party Wear",

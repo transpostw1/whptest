@@ -45,7 +45,7 @@ export interface ProductType {
   tags: string[];
   collectionName: string | null;
   shopFor: string[];
-  occasion: string | null;
+  occasion: string;
   theme: string | null;
   length: any; // Specify type if available
   breadth: any; // Specify type if available

@@ -194,11 +194,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            {data?.discountPrice && (
+            {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">
                 {data && data?.discountValue}%OFF
               </p>
-            )}
+            )} */}
           </div>
         </div>
         {hover && (

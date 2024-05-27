@@ -1,13 +1,58 @@
-import React from 'react'
+"use client";
+import React from "react";
 
-const CouponsModal = () => {
-  return (
-    <div className='fixed inset-0 z-50 bg-black'>
-        <div className='text-white'>
-            CouponsModal
-        </div>
-    </div>
-  )
+interface Props {
+  handleCouponCheck: () => void;
+  onClose: () => void;
+  couponCode: (e: any) => void;
 }
+const CouponsModal: React.FC<Props> = ({
+  handleCouponCheck,
+  onClose,
+  couponCode,
+}) => {
+  const handleCouponChange = (e: any) => {
+    couponCode(e.target.value);
+  };
+  const handleOnClose = (e: any) => {
+    if (e.target.id === "container") {
+      onClose();
+    }
+  };
+  return (
+    <div
+      id="container"
+      className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50"
+      onClick={handleOnClose}
+    >
+      <div className="loading-container flex justify-center items-center h-full">
+        <div className="bg-white p-2">
+          <form>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-[#e26178]">
+                Enter Coupon Code:
+              </label>
+              <input
+                type="text"
+                onChange={(e) => handleCouponChange(e)}
+                className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <button
+              className="px-3 py-2 bg-[#e26178] text-white rounded-2xl flex justify-center w-full"
+              onClick={() => {
+                handleCouponCheck();
+                handleOnClose;
+              }}
+            >
+              Check
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default CouponsModal
+export default CouponsModal;

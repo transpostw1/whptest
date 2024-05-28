@@ -173,7 +173,7 @@ const SilverCard: React.FC = () => {
           </div>
           <div>
             <div
-              className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full cursor-pointer"
+              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center  p-1 rounded-lg w-full cursor-pointer"
               onClick={handleEnroll}
             >
               {loading ? "Enrolling..." : "Enroll Now"}

@@ -72,6 +72,15 @@ const Wishlist = () => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    })
+      .format(value)
+      .replace("₹", "₹ ");
+  };
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -104,10 +113,10 @@ const Wishlist = () => {
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            ₹{product.discountPrice}
+                            {formatCurrency(product.discountPrice)}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
-                            ₹{product.productPrice}
+                            {formatCurrency(product.productPrice)}
                           </span>
                         </p>
                       </div>
@@ -120,8 +129,7 @@ const Wishlist = () => {
                         href={{
                           pathname: "/checkout",
                           query: {
-                            buyNow:
-                              product.productId.toString(),
+                            buyNow: product.productId.toString(),
                           },
                         }}
                       >

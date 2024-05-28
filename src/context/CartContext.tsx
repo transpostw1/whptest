@@ -53,36 +53,37 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-//  useEffect(() => {
-//    console.log("INNN");
-//    if (typeof window !== "undefined") {
-//      const cartItemsFromStorage = localStorage.getItem("cartItems");
-//      if (cartItemsFromStorage) {
-//        setCartItems(JSON.parse(cartItemsFromStorage));
-//      }
-//    } else if (isLoggedIn) {
-//        fetchCartItemsFromServer().then((cartItems: any) => {
-//          setCartItems(cartItems);
-//        });
-//      }
+ useEffect(() => {
+   console.log("INNN");
+  //  if (typeof window !== "undefined") {
+     const cartItemsFromStorage = localStorage.getItem("cartItems");
+     if (cartItemsFromStorage) {
+       setCartItems(JSON.parse(cartItemsFromStorage));
+     }
+  //  } 
+   else if (isLoggedIn) {
+       fetchCartItemsFromServer().then((cartItems: any) => {
+         setCartItems(cartItems);
+       });
+     }
 
-//  }, [isLoggedIn]);
+ }, [isLoggedIn]);
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (isLoggedIn) {
-        const cartItemsFromServer = await fetchCartItemsFromServer();
-        setCartItems(cartItemsFromServer);
-        console.log(cartItems)
-      } else if (typeof window !== "undefined") {
-        const cartItemsFromStorage = localStorage.getItem("cartItems");
-        if (cartItemsFromStorage) {
-          setCartItems(JSON.parse(cartItemsFromStorage));
-        }
-      }
-    };
-    fetchCartItems();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   const fetchCartItems = async () => {
+  //     if (isLoggedIn) {
+  //       const cartItemsFromServer = await fetchCartItemsFromServer();
+  //       setCartItems(cartItemsFromServer);
+  //       console.log(cartItems)
+  //     } else if (typeof window !== "undefined") {
+  //       const cartItemsFromStorage = localStorage.getItem("cartItems");
+  //       if (cartItemsFromStorage) {
+  //         setCartItems(JSON.parse(cartItemsFromStorage));
+  //       }
+  //     }
+  //   };
+  //   fetchCartItems();
+  // }, [isLoggedIn]);
 
 
 

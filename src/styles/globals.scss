@@ -227,7 +227,7 @@ textarea:focus {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--white);
-  background-color: var(--pink);
+  background-color: #E26178;
   padding: 16px 40px;
   border-radius: 12px;
   display: inline-block;
@@ -235,7 +235,7 @@ textarea:focus {
   transition: all ease 0.4s;
 
   &:hover {
-    background-color: var(--pink);
+    background-color:  #a5364b;
     color: var(--black);
 
     svg {

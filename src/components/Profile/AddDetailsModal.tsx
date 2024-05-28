@@ -29,17 +29,16 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const validationSchema = Yup.object().shape({
     // firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string().required("Last name is required"),
+    lastName: Yup.string(),
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    phone: Yup.string().required("Phone number is required"),
-    altPhone: Yup.string().required("Alternate phone number is required"),
-    gender: Yup.string().required("Gender is required"),
-    dobDay: Yup.string().required("Day is required"),
-    dobMonth: Yup.string().required("Month is required"),
-    dobYear: Yup.string().required("Year is required"),
-    profilePicture: Yup.mixed().required("Profile picture is required"),
+      .email("Invalid email address"),
+    phone: Yup.string(),
+    altPhone: Yup.string(),
+    gender: Yup.string(),
+    dobDay: Yup.string(),
+    dobMonth: Yup.string(),
+    dobYear: Yup.string(),
+    profilePicture: Yup.mixed(),
   });
 
   const handleSubmit = async (values: FormValues) => {

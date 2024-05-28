@@ -17,7 +17,7 @@ const Login = () => {
     initialValues: {
       phoneNumber: "",
     },
-    validationSchema: validationSchema, // Pass the validation schema
+    validationSchema: validationSchema, 
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
         setSubmitting(false);
@@ -41,7 +41,7 @@ const Login = () => {
             <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <form onSubmit={formik.handleSubmit}>
                 <div className="phone">
-                  <h1 className="font-medium text-center">
+                  <h1 className="font-semibold text-center">
                     ENTER PHONE NUMBER TO LOGIN
                   </h1>
                   <PhoneInput

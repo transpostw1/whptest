@@ -136,11 +136,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   Profile Picture
                 </label>
               </div>
-              {formik.errors.profilePicture && (
-                <div className="text-red-500 mt-1">
-                  {formik.errors.profilePicture}
-                </div>
-              )}
             </div>
             <div className="mb-4">
               <div className="relative">

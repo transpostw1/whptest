@@ -95,7 +95,7 @@ const WhatWeOffer = () => {
                     <span className="pt-2 me-2 text-[#E26178] underline cursor-pointer text-sm">
                       Next
                     </span>
-                    <span>
+                    <span className="flex items-center">
                       <Image
                         src={"/images/icons/rightarrow.svg"}
                         alt="Right Arrow"

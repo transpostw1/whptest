@@ -49,8 +49,14 @@ const StickyNav = () => {
         <div className="flex justify-evenly items-center">
           <Link href={"/"}>
             <div
-              className={`${pathname.includes("/") ? "text-[#e26178]" : ""
-                } flex flex-col items-center`}
+              className={`${
+                pathname.includes("") &&
+                !pathname.includes("profile") &&
+                !pathname.includes("offers") &&
+                !pathname.includes("checkout")
+                  ? "text-[#e26178]"
+                  : ""
+              } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >
               <Icon.HouseLine size={25} />

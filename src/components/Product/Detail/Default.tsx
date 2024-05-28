@@ -54,6 +54,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
+    
   };
 
   async function getData() {
@@ -93,7 +94,8 @@ const Default: React.FC<Props> = ({ productId }) => {
   let sliderRef = useRef<Ref>();
 
   const settingsThumbnails = {
-    className: "center",
+    className:"center",
+    centerMode:true,
     dots: false,
     infinite: true,
     speed: 500,

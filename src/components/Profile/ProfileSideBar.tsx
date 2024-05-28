@@ -8,22 +8,22 @@ import Image from "next/image";
 interface Props {
   handleComponent: (args: string) => void;
   componentName: string;
-  handleOrder:()=>void;
+  handleOrder: () => void;
 }
 const ProfileSidebar: React.FC<Props> = ({
   handleComponent,
   componentName,
   handleOrder,
 }) => {
- const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
- const openModal = () => setModalOpen(true);
- const closeModal = () => setModalOpen(false);
-const { userDetails } = useUser();
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+  const { userDetails } = useUser();
 
   return (
     <div>
-      <div className="hidden sm:block  p-8 w-80 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
+      <div className="hidden max-md:w-64 sm:block  p-8 w-80 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
           {userDetails?.customer.profile_picture ? (
             <Image
@@ -59,7 +59,7 @@ const { userDetails } = useUser();
             <span className="mr-1">
               <Icon.UserCircle size={22} />
             </span>
-            Personal Information
+            <p>Personal Information</p>
           </div>
           <div onClick={() => handleOrder()}>
             <div

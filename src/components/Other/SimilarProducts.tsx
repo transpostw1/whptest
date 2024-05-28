@@ -20,7 +20,6 @@ interface Props {
 const SimilarProducts: React.FC<Props> = ({ productId, start, limit }) => {
   const [products, setProducts] = useState<any>([]);
   const swiperRef = useRef<any>();
-  console.log("productId", productId);
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await axios.get(

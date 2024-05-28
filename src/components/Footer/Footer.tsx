@@ -72,16 +72,13 @@ const Footer = () => {
                       target="_blank"
                     >
                       {" "}
-                      <Icon.FacebookLogo
-                        size={34}
-                        weight="light"
-                      />
+                      <Icon.FacebookLogo size={34} weight="light" />
                     </Link>
                     <Link
                       href={"https://www.instagram.com/whpjewellers/?hl=en"}
                       target="_blank"
                     >
-                      <Icon.InstagramLogo size={32} weight="light"/>
+                      <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
                     <Link
                       href={
@@ -89,7 +86,7 @@ const Footer = () => {
                       }
                       target="_blank"
                     >
-                      <Icon.YoutubeLogo size={34} weight="light"/>
+                      <Icon.YoutubeLogo size={34} weight="light" />
                     </Link>
                   </div>
                 </div>
@@ -103,7 +100,7 @@ const Footer = () => {
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"/contact"}
+                      href={"/stores"}
                     >
                       Stores
                     </Link>
@@ -115,13 +112,17 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/career"}
+                      href={"#!"}
+                      onClick={() => setAppointmentModal(true)}
                     >
                       Career
                     </Link>
+                    {appointmentModal && (
+                      <BookExchangeModal closeModal={handleOnClose} />
+                    )}
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/my-account"}
+                      href={"/profile"}
                     >
                       My Account
                     </Link>
@@ -219,16 +220,22 @@ const Footer = () => {
                 <div className="item flex flex-col md:ml-14 lg:ml-14">
                   <div className="text-button-uppercase pb-3">Contact</div>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit"
-                    href={"#!"}
+                    href="tel:+91 1800-222-225"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    1800-222-225
+                    <div className="mt-1 flex">
+                      <span>1800-222-225</span>
+                    </div>
                   </Link>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit pt-2"
-                    href={"#!"}
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    care@whpjewellers.in
+                    <div className="mt-1 flex">
+                      <span>care@whpjewellers.in</span>
+                    </div>
                   </Link>
                 </div>
               </div>

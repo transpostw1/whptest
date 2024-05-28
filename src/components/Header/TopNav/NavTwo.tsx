@@ -24,7 +24,7 @@ interface Props {
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState<any>("");
   const { categories } = useAllCategoryContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<CategoryType[] | null>(null);
@@ -131,7 +131,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const handleSearch = (value: string) => {
-    router.push(`/products?query=${value}`);
+    router.push(`/products?url=${value}`);
     setSearchKeyword("");
     setIsModalOpen(false);
   };
@@ -637,7 +637,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
                     onClick={() => {
                       handleOpenSubNavMobile(8);
-                      setCustomcategory("men");
+                      setCustomcategory("_men");
                     }}
                   >
                     <Link

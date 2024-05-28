@@ -96,12 +96,23 @@ const Default: React.FC<Props> = ({ productId }) => {
   const settingsThumbnails = {
     className:"center",
     centerMode:true,
+    arrows:false,
     dots: false,
     infinite: true,
     speed: 500,
+    centerPadding: "10px",
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     focusOnSelect: true,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust this breakpoint as needed
+        settings: {
+          slidesToShow: Math.min(3, data?.productDetails?.imageDetails?.length || 0),
+          centerPadding: "5px",
+        },
+      },
+    ],
     asNavFor: nav1,
   };
 
@@ -170,19 +181,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                               alt={data?.productDetails?.title}
                               width={100}
                               height={100}
-                              className="cursor-pointer border"
+                              className="cursor-pointer mx-3"
                             />
                           </div>
                         ))}
                   </Slider>
                 </>
-                <div className="absolute top-[40px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
+                <div className="absolute top-[25px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}
                   />
                 </div>
-                <div className="absolute top-[40px] -left-[50px] cursor-pointer">
+                <div className="absolute top-[25px] -left-[50px] cursor-pointer">
                   <Icon.CaretLeft
                     onClick={() => sliderRef.slickPrev()}
                     size={25}

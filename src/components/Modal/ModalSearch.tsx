@@ -126,7 +126,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
                 handleSearch("Bangles");
-                setCustomcategory("bangles");
+                setCustomcategory("bangle");
               }}
             >
               <div className="flex items-center">
@@ -151,17 +151,17 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Gold Chains");
-                setCustomcategory("gold_chains");
+                handleSearch("Chain");
+                setCustomcategory("chain");
               }}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
-                <span className="ml-2">Gold Chains</span>
+                <span className="ml-2">Chains</span>
               </div>
             </div>
 
-            <div
+            {/* <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {handleSearch("Solitaire"); setCustomcategory("solitare")}}
             >
@@ -169,7 +169,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
                 <IoIosTrendingUp />
                 <span className="ml-2">Solitaire</span>
               </div>
-            </div>
+            </div> */}
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
@@ -193,11 +193,11 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() =>{ handleSearch("Gold Bars");setCustomcategory("gold_bars")}}
+              onClick={() =>{ handleSearch("Gold Coin");setCustomcategory("gold_coin")}}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
-                <span className="ml-2">Gold Bars</span>
+                <span className="ml-2">Gold Coin</span>
               </div>
             </div>
           </div>

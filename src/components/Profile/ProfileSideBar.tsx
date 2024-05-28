@@ -23,7 +23,7 @@ const ProfileSidebar: React.FC<Props> = ({
 
   return (
     <div>
-      <div className="hidden max-md:w-64 sm:block  p-8 max-lg:w-80 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
+      <div className="my-div hidden sm:block  p-6 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
           {userDetails?.customer.profile_picture ? (
             <Image

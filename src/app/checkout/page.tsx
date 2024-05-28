@@ -602,11 +602,11 @@ const Checkout: React.FC = () => {
                       />
                     )}
                   </div>
-                  {GiftWrapformData && (
+                  {/* {GiftWrapformData && (
                     <div className="bg-[#f7f7f7] p-2 text-wrap mt-2">
                       <div>{GiftWrapformData.name}</div>
                     </div>
-                  )}
+                  )} */}
                   <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
@@ -633,7 +633,12 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Shipping Charges</h3>
-                          <h3>₹0</h3>
+                          <h3>₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(
+                              Math.round(0)
+                            )}</h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>

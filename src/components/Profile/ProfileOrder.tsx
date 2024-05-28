@@ -65,7 +65,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       </div>
     );
   return (
-    <div className="p-[60px]">
+    <div className="p-[60px] md:p-[40px]">
       <div className="flex justify-between ">
         <div className="flex">
           {Array.isArray(singleOrder) && singleOrder.length == 1 && (

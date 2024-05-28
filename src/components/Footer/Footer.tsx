@@ -4,10 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import { useUser } from "@/context/UserContext";
+import { useCategory } from "@/context/CategoryContex";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-
+  const { setCustomcategory } = useCategory();
+  const { isLoggedIn } = useUser();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
@@ -88,6 +91,14 @@ const Footer = () => {
                     >
                       <Icon.YoutubeLogo size={34} weight="light" />
                     </Link>
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
+                      <Icon.WhatsappLogo size={34} weight="light" />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -104,12 +115,12 @@ const Footer = () => {
                     >
                       Stores
                     </Link>
-                    <Link
+                    {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2 "
                       href={"/contact"}
                     >
                       Contact us
-                    </Link>
+                    </Link> */}
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
@@ -120,15 +131,25 @@ const Footer = () => {
                     {appointmentModal && (
                       <BookExchangeModal closeModal={handleOnClose} />
                     )}
+                    {isLoggedIn ? (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/profile"}
+                      >
+                        My Account
+                      </Link>
+                    ) : (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/login"}
+                      >
+                        My Account
+                      </Link>
+                    )}
+
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"/profile"}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/order-returns"}
                     >
                       Order & Returns
                     </Link>
@@ -149,31 +170,39 @@ const Footer = () => {
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      onClick={() => setCustomcategory("chain")}
                     >
                       Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "bangle" } }}
+                      onClick={() => setCustomcategory("bangle")}
                     >
                       Bangles
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "ring" } }}
+                      onClick={() => setCustomcategory("ring")}
                     >
                       Rings
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "necklace" },
+                      }}
+                      onClick={() => setCustomcategory("necklace")}
                     >
                       Necklaces
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/blog"}
+                      href={{ pathname: "/products", query: { url: "stone" } }}
+                      onClick={() => setCustomcategory("stone")}
                     >
                       Stones
                     </Link>

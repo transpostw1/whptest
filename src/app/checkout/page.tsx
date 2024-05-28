@@ -52,6 +52,10 @@ const Checkout: React.FC = () => {
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
   const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
+  const [GiftWrapformData, setGiftWrapformData] = useState({
+    name: "",
+    wrapOption: false, // Change wrapOption to be a boolean
+  });
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
@@ -80,7 +84,9 @@ const Checkout: React.FC = () => {
     // Add this function
     setBillingAddressSelected(true);
   };
-
+  const handleGiftWrapFormData = (giftmessage: any, wrapvalue: any) => {
+    setGiftWrapformData({ name: giftmessage, wrapOption: wrapvalue });
+  };
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -129,7 +135,7 @@ const Checkout: React.FC = () => {
         setDataAfterCouponCode(response.data);
         setFlashMessage("Coupon Successfully applied");
         setFlashType("success");
-      } catch (error:any) {
+      } catch (error: any) {
         console.log("Error occurred", error);
         setFlashMessage(error.response.data.message);
         setFlashType("error");
@@ -383,7 +389,6 @@ const Checkout: React.FC = () => {
       placeOrder();
     }
   };
-
   const proceedButtonTitle = () => {
     if (!isLoggedIn) {
       return "Please Login to Proceed";
@@ -591,9 +596,17 @@ const Checkout: React.FC = () => {
                       Add
                     </h3>
                     {showModal && (
-                      <GiftWrapModal closeModal={handleCloseModal} />
+                      <GiftWrapModal
+                        closeModal={handleCloseModal}
+                        handleGiftWrapData={handleGiftWrapFormData}
+                      />
                     )}
                   </div>
+                  {GiftWrapformData && (
+                    <div className="bg-[#f7f7f7] p-2 text-wrap mt-2">
+                      <div>{GiftWrapformData.name}</div>
+                    </div>
+                  )}
                   <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />

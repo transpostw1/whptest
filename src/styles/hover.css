@@ -14,6 +14,26 @@
   display: inline-block;
   /* margin-right: 1.5%; */
 }
+.center .slick-slide {
+  opacity: 0.5; /* Make non-center items less prominent */
+  transition: opacity 0.5s ease;
+}
+
+.center .slick-center .slick-slide {
+  opacity: 1; /* Center items fully opaque */
+}
+
+.center .slick-list {
+  padding: 0 50px; /* Adjust padding to your needs */
+  overflow: hidden;
+}
+
+/* Additional styling to make sure it looks centered */
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .effect1:before {
   content: "";
   /* left: 50%; */

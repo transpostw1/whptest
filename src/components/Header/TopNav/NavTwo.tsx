@@ -199,7 +199,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search w-72 relative max-lg:hidden">
+            <div className="form-search w-64 relative max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -233,7 +233,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             )}
 
             <div className="ps-3 right-content flex items-center  max-md:hidden ">
-              <div className="right flex gap-12 relative z-[1] ">
+              <div className="right flex gap-7 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div className="flex flex-col items-center">

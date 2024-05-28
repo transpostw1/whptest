@@ -62,7 +62,6 @@ const OtpVerification = ({
     if (!window.recaptchaVerifier) {
       setUpRecaptcha();
     }
-
     try {
       setLoading(true);
       const result = await signInWithPhoneNumber(
@@ -170,7 +169,9 @@ const OtpVerification = ({
               onChange={setOtp}
               numInputs={6}
               renderSeparator={<span className="mx-2">-</span>}
-              renderInput={(props) => <input {...props} className="otpInput" />}
+              renderInput={(props) => (
+                <input {...props} placeholder="0" className="otpInput" />
+              )}
             />
           </div>
           <button

@@ -33,7 +33,7 @@ interface UserDetails {
   gender: string;
   dateOfBirth: string;
   profilePicture: File | null;
-  customer:any;
+  customer: any;
 }
 
 type UserDetailsKeys = keyof UserDetails;
@@ -56,7 +56,6 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case "LOG_OUT":
       if (typeof window !== "undefined") {
         localStorage.setItem("isLoggedIn", "false");
-        
       }
       return { isLoggedIn: false };
     default:
@@ -76,23 +75,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "LOG_IN" });
     await getUser();
 
-      const redirectPath = localStorage.getItem("redirectPath") || "/";
-      router.push(redirectPath);
-      localStorage.removeItem("redirectPath");
+    const redirectPath = localStorage.getItem("redirectPath") || "/";
+    router.push(redirectPath);
+    localStorage.removeItem("redirectPath");
   };
 
-// const logOut = () => {
-//   window.location.href = "/";
-//   dispatch({ type: "LOG_OUT" });
-// };
+  // const logOut = () => {
+  //   window.location.href = "/";
+  //   dispatch({ type: "LOG_OUT" });
+  // };
 
-
-const logOut = () => {
-  // localStorage.removeItem("isLoggedIn");
+  const logOut = () => {
+    // localStorage.removeItem("isLoggedIn");
     localStorage.clear();
-  window.location.href = "/";
-  dispatch({ type: "LOG_OUT" });
-};
+    window.location.href = "/";
+    dispatch({ type: "LOG_OUT" });
+  };
 
   const getUser = async () => {
     try {

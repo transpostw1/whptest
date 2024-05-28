@@ -89,20 +89,32 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useCouponContext } from "@/context/CouponContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 
 interface CartItemProps {
-  product: {
-    productId: number;
-    quantity: number;
-    name: string;
-    price: number;
-    image: string;
-  };
+    product: {
+      productId: number;
+      quantity: number;
+      name: string;
+      price: number;
+      image: string;
+    };
 }
+
+ interface ProductForWishlistLoggedOut {
+   productId: number;
+   title: string;
+   productPrice: string;
+   discountPrice: string;
+   discountValue: string;
+   image_path: string;
+   url: string;
+ }
+
+
 interface ProductForWishlistLoggedIn {
   productId: number;
 }
-
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart } = useCart();
@@ -132,12 +144,21 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   const handleAddToWishlist = () => {
     if (isLoggedIn) {
-          const productToAdd: ProductForWishlistLoggedIn = {
-            productId: product.productId,
-          };
+      const productToAdd: ProductForWishlistLoggedIn = {
+        productId: product.productId,
+      };
       addToWishlist(productToAdd);
-    }else{
-
+    } else {
+      const productToAdd: ProductForWishlistLoggedOut = {
+        productId: product.productId,
+        title: product.name,
+        productPrice: product.productPrice,
+        discountPrice: product.discountPrice,
+        discountValue: product.discountValue,
+        image_path: product.image,
+        url: product.url,
+      };
+      addToWishlist(productToAdd);
     }
 
     removeFromCart(product.productId);

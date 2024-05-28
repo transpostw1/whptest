@@ -98,7 +98,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
       >
         <div className="product-main cursor-pointer block">
           <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
-            {data?.videoDetails != null && data?.videoDetails.length !==0 ? (
+            {data?.videoDetails.length !==0 ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
                 onMouseLeave={() => setShowVideo(false)}
@@ -173,13 +173,13 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <>
                 <Image
                   onClick={() => handleDetailProduct()}
-                  className="w-[95%] duration-700 hover:scale-110  m-auto"
+                  className="duration-700 hover:scale-110  m-auto"
                   src={selected.image_path}
                   width={400}
                   height={400}
                   alt="This image is temporarry"
                 />
-                {hover && (
+                {/* {hover && (
                   <div className="w-full relative">
                     <button
                       className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -194,7 +194,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       View Similar
                     </button>
                   </div>
-                )}
+                )} */}
                 <div className="relative">
                   <div className="absolute top-1 right-1 z-0 hover:z-50">
                     {isProductInWishlist ? (

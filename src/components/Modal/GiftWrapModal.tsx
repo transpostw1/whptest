@@ -3,9 +3,10 @@ import React, { useState } from "react";
 
 interface Props {
   closeModal: () => void;
+  handleGiftWrapData: (message: any, value: any) => void;
 }
 
-const GiftWrapModal: React.FC<Props> = ({ closeModal }) => {
+const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
   const [formData, setFormData] = useState({
     name: "",
     wrapOption: false, // Change wrapOption to be a boolean
@@ -28,11 +29,11 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal }) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Submit form logic (here you would typically make an API call or send the data to a server)
-
+    closeModal();
+    handleGiftWrapData(formData.name, formData.wrapOption);
     // Reset form after 2 seconds
     setTimeout(() => {
       setFormData({ name: "", wrapOption: false });
-      console.log("formData", formData);
     }, 2000);
   };
 

@@ -14,6 +14,52 @@
   display: inline-block;
   /* margin-right: 1.5%; */
 }
+/* Custom styles for the slick slider */
+
+/* Base styling for the slick slide */
+.center .slick-slide {
+  opacity: 0.5;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Highlight the center slide */
+.center .slick-center {
+  opacity: 1;
+}
+
+/* Ensure proper padding and overflow handling */
+.center .slick-list {
+  padding-left: 2rem; /* Adjust as needed */
+  padding-right: 2rem; /* Adjust as needed */
+  overflow: hidden;
+}
+
+/* Flex styling to ensure centering */
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the individual slide container */
+.thumbnail-slide {
+  padding: 0.5rem; /* Adjust padding as needed */
+}
+
+/* Style for the images inside the slides */
+.thumbnail-image {
+  max-width: 100%;
+}
+
+.my-div {
+  width: 20rem !important;
+}
+
+@media (min-width: 768px) {
+  .my-div {
+    width: 17rem !important;
+  }
+}
 .effect1:before {
   content: "";
   /* left: 50%; */
@@ -481,8 +527,8 @@
   transform: scale(1.5);
   transform: rotate(0deg);
 }
-.profile-sidebar{
-  background-color:white !important;
+.profile-sidebar {
+  background-color: white !important;
   color: #e26178 !important;
   border: solid 1px #e26178 !important;
 }
@@ -564,7 +610,7 @@
 }
 
 .product-card .product-info h3 {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 18px;
   font-weight: 500;
   color: #333;
@@ -572,7 +618,7 @@
 }
 
 .product-card .product-info .price {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: #555;

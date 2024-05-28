@@ -71,13 +71,17 @@ const Footer = () => {
                       href={"https://www.facebook.com/whpjewellers.india/"}
                       target="_blank"
                     >
-                      <div className="icon-facebook text-2xl text-black"></div>
+                      {" "}
+                      <Icon.FacebookLogo
+                        size={34}
+                        weight="light"
+                      />
                     </Link>
                     <Link
                       href={"https://www.instagram.com/whpjewellers/?hl=en"}
                       target="_blank"
                     >
-                      <div className="icon-instagram text-2xl text-black"></div>
+                      <Icon.InstagramLogo size={32} weight="light"/>
                     </Link>
                     <Link
                       href={
@@ -85,7 +89,7 @@ const Footer = () => {
                       }
                       target="_blank"
                     >
-                      <div className="icon-youtube text-2xl text-black"></div>
+                      <Icon.YoutubeLogo size={34} weight="light"/>
                     </Link>
                   </div>
                 </div>

@@ -121,9 +121,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "men" },
+                            query: { url: "_men" },
                           }}
-                          onClick={() => setCustomcategory("men")}
+                          onClick={() => setCustomcategory("_men")}
                         >
                           Men
                         </Link>
@@ -208,9 +208,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "lessthan10K" },
+                            query: { url: "less_than_10K" },
                           }}
-                          onClick={() => setCustomcategory("lessthan10k")}
+                          onClick={() => setCustomcategory("less_than_10k")}
                         >
                           less than 10k
                         </Link>
@@ -219,9 +219,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "10kto20k" },
+                            query: { url: "10k_to_20k" },
                           }}
-                          onClick={() => setCustomcategory("10kto20k")}
+                          onClick={() => setCustomcategory("10k_to_20k")}
                         >
                           10k to 20k
                         </Link>
@@ -230,9 +230,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "20kto30k" },
+                            query: { url: "20k_to_30k" },
                           }}
-                          onClick={() => setCustomcategory("20kto30k")}
+                          onClick={() => setCustomcategory("20k_to_30k")}
                         >
                           20k to 30k
                         </Link>
@@ -241,9 +241,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "30kandAbove" },
+                            query: { url: "30k_and_Above" },
                           }}
-                          onClick={() => setCustomcategory("30kandabove")}
+                          onClick={() => setCustomcategory("30k_and_above")}
                         >
                           30k and Above
                         </Link>
@@ -314,16 +314,16 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
 
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("newArrival")}
+                  onClick={() => setCustomcategory("new_Arrival")}
                 >
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "newArrival" },
+                      query: { url: "new_Arrival" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "newArrival"
+                      searchParmas.get("url") === "new_Arrival"
                         ? "active"
                         : ""
                     }`}

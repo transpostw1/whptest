@@ -39,7 +39,7 @@ const Explore = () => {
           data?.map((item: any) => (
             <div key={item.id}>
               <Link
-                href={"/products"}
+                href={item.url}
                 className="banner-item relative block overflow-hidden duration-500"
               >
                 <div className="banner-img">

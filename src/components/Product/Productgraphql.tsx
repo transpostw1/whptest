@@ -92,13 +92,13 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   return (
     <>
       <div
-        className="product-item grid-type hover:border hover:p-2 hover:shadow-md hover:rounded-lg"
+        className="product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
           <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
-            {data?.videoDetails != null ? (
+            {data?.videoDetails != null && data?.videoDetails.length !==0 ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
                 onMouseLeave={() => setShowVideo(false)}
@@ -106,7 +106,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="w-[95%] object-cover relative duration-700 product-img"
+                      className="object-cover relative duration-700 product-img"
                       onClick={() => handleDetailProduct()}
                     >
                       <video loop autoPlay muted>
@@ -127,14 +127,29 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       height={400}
                       alt="This image is temporarry"
                     />
-
+                    {hover && (
+                      <div className="w-full relative">
+                        <button
+                          className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                          onClick={() => console.log("tryAtHome")}
+                        >
+                          Try At Home
+                        </button>
+                        <button
+                          className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                          onClick={() => console.log("view Similar")}
+                        >
+                          View Similar
+                        </button>
+                      </div>
+                    )}
                     <div
-                      className="z-0 absolute flex justify-between bottom-0 hover:z-50 "
+                      className="z-0 absolute flex justify-between top-1 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                    <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -164,9 +179,24 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   height={400}
                   alt="This image is temporarry"
                 />
-
+                {hover && (
+                  <div className="w-full relative">
+                    <button
+                      className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                      onClick={() => console.log("tryAtHome")}
+                    >
+                      Try At Home
+                    </button>
+                    <button
+                      className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                      onClick={() => console.log("view Similar")}
+                    >
+                      View Similar
+                    </button>
+                  </div>
+                )}
                 <div className="relative">
-                  <div className="absolute bottom-0 right-0 z-0 hover:z-50">
+                  <div className="absolute top-1 right-1 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
                         size={25}
@@ -225,7 +255,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
-        {hover && (
+        {/* {hover && (
           <div className="w-full">
             <button
               className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -240,7 +270,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               View Similar
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

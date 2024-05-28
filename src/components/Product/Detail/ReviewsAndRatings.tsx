@@ -67,7 +67,6 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       setReview("");
     }
   };
-  console.log("dadadadadaa", loggedIn);
   return (
     <div className="mt-7 mb-7">
       <div className="flex bg-[#E1DCDD29] p-2 mx-4 mb-3">

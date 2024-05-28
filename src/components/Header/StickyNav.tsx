@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 
+
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
@@ -32,6 +33,7 @@ const StickyNav = () => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
+
   if (!isMobile) {
     return null;
   }
@@ -42,7 +44,12 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                pathname.includes("/") ? "text-[#e26178]" : ""
+                pathname.includes("") &&
+                !pathname.includes("profile") &&
+                !pathname.includes("offers") &&
+                !pathname.includes("checkout")
+                  ? "text-[#e26178]"
+                  : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >

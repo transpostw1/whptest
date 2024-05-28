@@ -176,8 +176,8 @@ const ShopBreadCrumb1 = () => {
           }
         `;
 
-        const filterOptions = {};
-        const priceRangeMapping = {
+        const filterOptions:any = {};
+        const priceRangeMapping:any = {
           "Less than 10K": { min: 0, max: 10000, key: "lt10k" },
           "10k to 20K": { min: 10000, max: 20000, key: "10kto20k" },
           "20k to 30k": { min: 20000, max: 30000, key: "20kto30k" },
@@ -188,7 +188,7 @@ const ShopBreadCrumb1 = () => {
         }
 
         if (selectedOptions.Price && selectedOptions.Price.length > 0) {
-          filterOptions.priceFilter = selectedOptions.Price.map((range) => {
+          filterOptions.priceFilter = selectedOptions.Price.map((range:any) => {
             const { min, max } = priceRangeMapping[range];
             return { min, max };
           });
@@ -288,7 +288,7 @@ const ShopBreadCrumb1 = () => {
 
       // Apply type filter
       if (selectedOptions.Type && selectedOptions.Type.length > 0) {
-        filtered = filtered.filter((product:any) =>``
+        filtered = filtered.filter((product:any) =>
           selectedOptions.Type.includes(product.type)
         );
       }

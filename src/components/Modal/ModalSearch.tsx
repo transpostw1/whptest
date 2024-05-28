@@ -11,7 +11,7 @@ import { IoIosTrendingUp, IoMdArrowBack } from "react-icons/io";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 
 interface ModalSearchProps {
-  searchKeyword: string;
+  searchKeyword?: string;
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
   handleSearch: (value: string) => void;
   closeModal: () => void;
@@ -27,7 +27,9 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
   isModalOpen,
 }) => {
   const { category, setCustomcategory } = useCategory();
-  const handleKeywordSearch = (value: string) => {
+
+
+  const handleKeywordSearch = (value: any) => {
     handleSearch(value);
     closeModal();
   };
@@ -81,7 +83,10 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
           <div className="collection-items flex flex-wrap gap-3 mt-4">
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => handleSearch("rings")}
+              onClick={() => {
+                handleSearch("rings");
+                setCustomcategory("rings");
+              }}
             >
               <div className="flex items-center">
                 {" "}
@@ -158,7 +163,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => handleSearch("Solitaire")}
+              onClick={() => {handleSearch("Solitaire"); setCustomcategory("solitare")}}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -168,7 +173,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => handleSearch("Necklace")}
+              onClick={() => {handleSearch("Necklace");setCustomcategory("necklace")}}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -178,7 +183,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => handleSearch("Silver")}
+              onClick={() => {handleSearch("Silver");setCustomcategory("sliver")}}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -188,7 +193,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => handleSearch("Gold Bars")}
+              onClick={() =>{ handleSearch("Gold Bars");setCustomcategory("gold_bars")}}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -210,7 +215,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
           <div className="heading5 mt-8">Top Collections</div>
           <div className="list-keyword grid grid-cols-3 gap-6 mt-4">
-            <div className="item flex flex-col items-center cursor-pointer"  >
+            <div className="item flex flex-col items-center cursor-pointer">
               <Image
                 src="/images/trendingcollections/forher.png"
                 alt="For Her"

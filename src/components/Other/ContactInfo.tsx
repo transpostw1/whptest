@@ -31,7 +31,7 @@ const ContactInfo = () => {
         </div>
       </Link>
       <Link
-        href="mailto:care@whpjewellers.in"
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
         target="_blank"
         rel="noopener noreferrer"
       >

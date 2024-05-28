@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState ,MutableRefObject} from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -13,15 +13,15 @@ import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
-import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
-import Buttons from "./Buttons";
-import Skeleton from "react-loading-skeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl } from "@/utils/constants";
+import Buttons from "./Buttons";
+import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
@@ -30,6 +30,10 @@ import StarRating from "@/components/Other/StarRating";
 
 interface Props {
   productId: string | number | null;
+}
+interface Ref extends MutableRefObject<any>{
+  slickNext?:()=>void;
+  slickPrev?:()=>void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -80,12 +84,16 @@ const Default: React.FC<Props> = ({ productId }) => {
       setLoading(false);
     }
   };
+
   const slidesToShow = Math.min(
     3,
     data?.productDetails?.imageDetails?.length || 0
   );
-  let sliderRef = useRef<any>();
+
+  let sliderRef = useRef<Ref>();
+
   const settingsThumbnails = {
+    className: "center",
     dots: false,
     infinite: true,
     speed: 500,
@@ -144,7 +152,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <>
                   <Slider
                     {...settingsThumbnails}
-                    ref={(slider) => {
+                    ref={(slider:any) => {
                       sliderRef = slider;
                     }}
                   >
@@ -225,7 +233,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                     3
                   </div>
                   <StarRating stars={data?.productDetails?.rating} />
-
                 </div>
               )}
             </>
@@ -275,7 +282,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               left!
             </p>
           )}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
                 10% off on HDFC Bank Credit Card. Use{" "}
@@ -292,7 +299,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               </li>
             </ul>
-          </div>
+          </div> */}
           <CheckPincode />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
 

@@ -56,8 +56,8 @@ const Footer = () => {
                   <div className="input-block w-full h-[52px] mt-2 relative">
                     <form className="w-full h-full" action="post">
                       <input
-                        type="email"
-                        placeholder="Enter your e-mail"
+                        type="number"
+                        placeholder="Enter phone number"
                         className="caption1 w-full h-full pl-4 pr-14 border border-line"
                         required
                       />
@@ -71,13 +71,17 @@ const Footer = () => {
                       href={"https://www.facebook.com/whpjewellers.india/"}
                       target="_blank"
                     >
-                      <div className="icon-facebook text-2xl text-black"></div>
+                      {" "}
+                      <Icon.FacebookLogo
+                        size={34}
+                        weight="light"
+                      />
                     </Link>
                     <Link
                       href={"https://www.instagram.com/whpjewellers/?hl=en"}
                       target="_blank"
                     >
-                      <div className="icon-instagram text-2xl text-black"></div>
+                      <Icon.InstagramLogo size={32} weight="light"/>
                     </Link>
                     <Link
                       href={
@@ -85,7 +89,7 @@ const Footer = () => {
                       }
                       target="_blank"
                     >
-                      <div className="icon-youtube text-2xl text-black"></div>
+                      <Icon.YoutubeLogo size={34} weight="light"/>
                     </Link>
                   </div>
                 </div>
@@ -129,7 +133,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/about-waman-hari-pethe-jewellers"}
+                      href={"/about-whpjewellers"}
                     >
                       About-Us
                     </Link>

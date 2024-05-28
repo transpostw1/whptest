@@ -44,11 +44,11 @@ const WhatWeOffer = () => {
               OFFERINGS
             </p>
             <div className="w-full text-center font-bold text-xl mt-4">
-              What we Offer
+              What We Offer
             </div>
             <div className="m-auto text-center w-[80%] mb-5 mt-3">
               Discover our offerings. Our commitment to quality, elegance, and
-              personalised service ensures an exceptional experience."
+              personalised service ensures an exceptional experience.
             </div>
           </div>
         )}
@@ -66,7 +66,7 @@ const WhatWeOffer = () => {
             {width > 160 && (
               <div>
                 <p className="lg:text-[3rem] text-[2rem] font-semibold pb-5">
-                  What we Offer
+                  What We Offer
                 </p>
                 <p className="text-sm md:text-base">
                   Discover our offerings. Our commitment to quality, elegance,
@@ -76,7 +76,7 @@ const WhatWeOffer = () => {
             )}
             <div className="mt-auto flex-end order-1">
               <div className="flex justify-between max-sm:text-center">
-                <div>
+                <div className="py-4">
                   <Image
                     src={"/images/icons/star.svg"}
                     alt="Star"
@@ -84,15 +84,15 @@ const WhatWeOffer = () => {
                     height={40}
                     className={`${width < 140 && "m-auto"}`}
                   />
-                  <p className="font-semibold text-lg md:text-xl py-3">
+                  <p className="font-semibold text-lg md:text-xl pt-3 pb-2">
                     12000 + UNIQUE DESIGNS
                   </p>
                   <p className="text-sm md:text-base">
                     Elevate your style with our distinctive jewellery designs,
                     where creativity and craftsmanship unite.
                   </p>
-                  <a className="pt-3 inline-flex items-center">
-                    <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
+                  <a className="inline-flex items-center">
+                    <span className="pt-2 me-2 text-[#E26178] underline cursor-pointer text-sm">
                       Next
                     </span>
                     <span>

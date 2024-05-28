@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
 
@@ -11,6 +12,7 @@ const StickyNav = () => {
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
   const { isLoggedIn, userDetails, getUser } = useUser();
+  const pathname = usePathname();
 
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
@@ -47,9 +49,8 @@ const StickyNav = () => {
         <div className="flex justify-evenly items-center">
           <Link href={"/"}>
             <div
-              className={`${
-                clicked === 1 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("/") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >
               <Icon.HouseLine size={25} />
@@ -58,9 +59,8 @@ const StickyNav = () => {
           </Link>
           <Link href={"/"}>
             <div
-              className={`${
-                clicked === 2 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("/search-result") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
               <Icon.MagnifyingGlass size={25} />
@@ -69,20 +69,18 @@ const StickyNav = () => {
           </Link>
           <Link href={"/offers"}>
             <div
-              className={`${
-                clicked === 3 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("offers") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
               <Icon.Percent size={25} />
               <p>Offers</p>
             </div>
           </Link>
-          <Link href={isLoggedIn ? "/profile" : "/login"}>
+          <Link href={"/profile"}>
             <div
-              className={`${
-                clicked === 4 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("profile") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(4)}
             >
               <Icon.User size={25} />
@@ -95,9 +93,8 @@ const StickyNav = () => {
           </Link>
           <Link href={"/checkout"}>
             <div
-              className={`${
-                clicked === 5 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("checkout") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(5)}
             >
               <Icon.ShoppingCart size={25} />
@@ -109,8 +106,8 @@ const StickyNav = () => {
       {isSearchModalOpen && (
         <ModalSearch
           searchKeyword=""
-          setSearchKeyword={() => {}}
-          handleSearch={() => {}}
+          setSearchKeyword={() => { }}
+          handleSearch={() => { }}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
           handleModalToggle={toggleSearchModal}

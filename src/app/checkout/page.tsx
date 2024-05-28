@@ -467,8 +467,9 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
-                          }`}
+                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
+                          selectedStep >= index ? "bg-rose-400" : "bg-white"
+                        }`}
                       >
                         {step.icon}
                       </div>

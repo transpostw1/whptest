@@ -1,20 +1,22 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import FilterOptions from "./FilterOptions"; // Replace with your hook path
+import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
-import StickyBox, { useStickyBox } from "react-sticky-box";
+
 interface Props {
-  data: ProductType[];
-  onFilterChange: (arg: ProductType[]) => void;
+  filteredProducts: ProductType[];
+  onFilterChange: (options: any) => void;
   mobileFilter: boolean;
   setMobileFilter: (arg: boolean) => void;
   selectedOptions: any;
   handleOptionSelect: (arg: string, arg2: string) => void;
   productsListRef: React.RefObject<HTMLDivElement>;
+  category: string;
 }
+
 const FilterSidebar: React.FC<Props> = ({
-  data,
+  filteredProducts,
   onFilterChange,
   mobileFilter,
   setMobileFilter,
@@ -23,9 +25,7 @@ const FilterSidebar: React.FC<Props> = ({
   productsListRef,
 }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("Price");
-  const [fixedHeader, setFixedHeader] = useState<boolean>(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [lastScrollPosition, setLastScrollPosition] = useState<any>(0);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
 
@@ -37,95 +37,85 @@ const FilterSidebar: React.FC<Props> = ({
     const handleScroll = () => {
       const sidebarElement = sidebarRef.current;
       const productsListElement = productsListRef.current;
-  
+
       if (sidebarElement && productsListElement) {
         const sidebarTop = sidebarElement.offsetTop;
-        const sidebarBottom = sidebarElement.offsetTop + sidebarElement.offsetHeight;
-        const productsListBottom = productsListElement.offsetTop + productsListElement.offsetHeight;
+        const sidebarBottom =
+          sidebarElement.offsetTop + sidebarElement.offsetHeight;
+        const productsListBottom =
+          productsListElement.offsetTop + productsListElement.offsetHeight;
         const windowHeight = window.innerHeight + window.pageYOffset;
-  
-        const isAboveProductsList = windowHeight > sidebarTop;
-        const isAtProductsListBottom = sidebarBottom >= productsListBottom && windowHeight >= productsListBottom; // Check for end of products
-        const isSidebarInViewport = isAboveProductsList && !isAtProductsListBottom;
-  
 
+        const isAboveProductsList = windowHeight > sidebarTop;
+        const isAtProductsListBottom =
+          sidebarBottom >= productsListBottom &&
+          windowHeight >= productsListBottom; // Check for end of products
+        const isSidebarInViewport = isAboveProductsList && !isAtProductsListBottom;
 
         setIsSidebarFixed(isSidebarInViewport);
       }
     };
-  
+
     window.addEventListener("scroll", handleScroll);
-  
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [productsListRef]);
 
+
+
+  // useEffect(() => {
+  //   let filteredArray = data.slice();
+  //   Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
+  //     if ((selectedValues as any).length > 0) {
+  //       filteredArray = filteredArray.filter((product) => {
+  //         switch (category) {
+  //           case "Price":
+  //             return (selectedValues as any).some((option: string) => {
+  //               const price = parseInt(product?.discountPrice);
+  //               switch (option) {
+  //                 case "Less than 10K":
+  //                   return price < 10000;
+  //                 case "10k to 20K":
+  //                   return price >= 10000 && price < 20000;
+  //                 case "20k to 30k":
+  //                   return price >= 20000 && price < 30000;
+  //                 case "30k and Above":
+  //                   return price >= 30000;
+  //                 default:
+  //                   return false;
+  //               }
+  //             });
+  //           case "Karat":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.metalPurity.includes(option.slice(0, -1))
+  //             );
+  //           case "Weight":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.weightRange.includes(option.slice(0, -1))
+  //             );
+  //           case "Gender":
+  //             return (selectedValues as any).includes(product.shopFor[0]);
+  //           case "Metal":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.metalType.includes(option.slice(0, -1))
+  //             );
+  //           case "Occasion":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.occasion.includes(option.slice(0, -1))
+  //             );;
+  //           default:
+  //             return true;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   onFilterChange(filteredArray);
+  // }, [selectedOptions]);
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setFixedHeader(
-        (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-          scrollPosition > lastScrollPosition
-      );
-      setLastScrollPosition(scrollPosition);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollPosition]);
-
-  useEffect(() => {
-    let filteredArray = data.slice();
-    Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
-      if ((selectedValues as any).length > 0) {
-        filteredArray = filteredArray.filter((product) => {
-          switch (category) {
-            case "Price":
-              return (selectedValues as any).some((option: string) => {
-                const price = parseInt(product?.discountPrice);
-                switch (option) {
-                  case "Less than 10K":
-                    return price < 10000;
-                  case "10k to 20K":
-                    return price >= 10000 && price < 20000;
-                  case "20k to 30k":
-                    return price >= 20000 && price < 30000;
-                  case "30k and Above":
-                    return price >= 30000;
-                  default:
-                    return false;
-                }
-              });
-            case "Karat":
-              return (selectedValues as any).some((option: string) =>
-                product.metalPurity.includes(option.slice(0, -1))
-              );
-            case "Weight":
-              return (selectedValues as any).some((option: string) =>
-                product.weightRange.includes(option.slice(0, -1))
-              );
-            case "Gender":
-              return (selectedValues as any).includes(product.shopFor[0]);
-            case "Metal":
-              return (selectedValues as any).some((option: string) =>
-                product.metalType.includes(option.slice(0, -1))
-              );
-            case "Occasion":
-              return (selectedValues as any).some((option: string) =>
-                product.occasion.includes(option.slice(0, -1))
-              );;
-            default:
-              return true;
-          }
-        });
-      }
-    });
-    onFilterChange(filteredArray);
-  }, [selectedOptions, data]);
+    onFilterChange(selectedOptions);
+  }, [selectedOptions, onFilterChange]);
   
   return (
     <>
@@ -142,7 +132,6 @@ const FilterSidebar: React.FC<Props> = ({
             top: isSidebarFixed ? "185px" : "auto",
             width: isSidebarFixed ? "250px" : "auto",
           }}
-  
         >
           <div className="heading6 border-b-2">FILTER BY</div>
           <div className="mt-5">

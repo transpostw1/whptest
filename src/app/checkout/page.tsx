@@ -200,7 +200,10 @@ const Checkout: React.FC = () => {
       productId: item?.productId,
       quantity: item?.quantity,
       name: item?.productDetails?.displayTitle,
+      productPrice: item?.productDetails?.productPrice,
+      discountValue: item?.productDetails?.discountValue,
       price: item?.productDetails?.discountPrice,
+      url:item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0

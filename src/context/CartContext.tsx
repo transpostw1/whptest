@@ -14,6 +14,9 @@ interface CartItem {
     displayTitle: string;
     discountPrice: any;
     imageDetails: any;
+    productPrice: string;
+    discountValue: string;
+    url: string;
   };
   gst?: any;
   displayTitle?: string;

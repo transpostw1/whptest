@@ -68,7 +68,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const dob = userDetails?.customer?.dob; // Assuming dob is "1998-10-18"
+  const dob = userDetails?.customer?.dob; 
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
   const formik = useFormik({

@@ -41,6 +41,7 @@ const OtpVerification = ({
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verifying,setVerifying]= useState(false)
+  const [firebaseError, setFirebaseError] = useState(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { logIn, userState } = useUser();
 
@@ -64,6 +65,7 @@ const OtpVerification = ({
     }
     try {
       setLoading(true);
+      setFirebaseError(null);
       const result = await signInWithPhoneNumber(
         auth,
         "+" + formikValues.phoneNumber,
@@ -71,9 +73,18 @@ const OtpVerification = ({
       );
       setVerificationId(result.verificationId);
       setIsOtpSent(true); // Update state to indicate OTP has been sent
+      setErrorMessage(null)
       console.log("OTP sent successfully");
     } catch (error) {
       console.error("Error sending OTP:", error);
+      setLoading(false)
+       if (error.message.includes("reCAPTCHA has already been rendered")) {
+      window.location.href = location.pathname;
+       } else {
+           setErrorMessage("Invalid Number or Try again");
+       }
+   
+      //  setFirebaseError(error.message);
     }
   };
   const onVerify = async (action: string) => {
@@ -212,7 +223,8 @@ const OtpVerification = ({
               <>
                 <div className="flex ">
                   {/* <span>Sending OTP</span> */}
-                  <CgSpinner size={20} className="animate-spin" />
+                  {/* <CgSpinner size={20} className="animate-spin" /> */}
+                  <Preloader />
                 </div>
               </>
             ) : (
@@ -222,6 +234,7 @@ const OtpVerification = ({
             )}
           </button>
 
+          {/* {firebaseError && <p className="text-red-500 w-64 ">{firebaseError}</p>} */}
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
       )}

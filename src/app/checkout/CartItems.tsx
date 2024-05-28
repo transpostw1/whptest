@@ -14,7 +14,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   removeFromCart,
 }) => {
   
-
+console.log(cartItems,"sfdsfsf")
 
   return (
     <div>

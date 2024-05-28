@@ -92,24 +92,20 @@ import { useWishlist } from "@/context/WishlistContext";
 import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 
 interface CartItemProps {
-    product: {
-      productId: number;
-      quantity: number;
-      name: string;
-      price: number;
-      image: string;
-    };
+  product: {
+    productId: number;
+    quantity: number;
+    productPrice: string;
+    discountPrice: any|string;
+    discountValue: string;
+    name: string;
+    price: number;
+    image: string;
+    url:string;
+  };
 }
 
- interface ProductForWishlistLoggedOut {
-   productId: number;
-   title: string;
-   productPrice: string;
-   discountPrice: string;
-   discountValue: string;
-   image_path: string;
-   url: string;
- }
+
 
 
 interface ProductForWishlistLoggedIn {
@@ -153,7 +149,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productId: product.productId,
         title: product.name,
         productPrice: product.productPrice,
-        discountPrice: product.discountPrice,
+        discountPrice: product.price,
         discountValue: product.discountValue,
         image_path: product.image,
         url: product.url,

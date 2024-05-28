@@ -288,7 +288,7 @@ const ShopBreadCrumb1 = () => {
 
       // Apply type filter
       if (selectedOptions.Type && selectedOptions.Type.length > 0) {
-        filtered = filtered.filter((product:any) =>``
+        filtered = filtered.filter((product:any) =>
           selectedOptions.Type.includes(product.type)
         );
       }

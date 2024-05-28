@@ -602,11 +602,11 @@ const Checkout: React.FC = () => {
                       />
                     )}
                   </div>
-                  {/* {GiftWrapformData && (
+                  {GiftWrapformData && (
                     <div className="bg-[#f7f7f7] p-2 text-wrap mt-2">
                       <div>{GiftWrapformData.name}</div>
                     </div>
-                  )} */}
+                  )}
                   <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />

@@ -72,14 +72,9 @@ const Wishlist = () => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-    })
-      .format(value)
-      .replace("₹", "₹ ");
-  };
+
+
+
 
   return (
     <div className="shop-product breadcrumb1">
@@ -113,10 +108,16 @@ const Wishlist = () => {
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            {formatCurrency(product.discountPrice)}
+                            ₹{" "}
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(parseFloat(product.discountPrice ?? 0))
+                            )}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
-                            {formatCurrency(product.productPrice)}
+                            ₹{" "}
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(parseFloat(product.productPrice ?? 0))
+                            )}
                           </span>
                         </p>
                       </div>

@@ -2,6 +2,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from "react";
 import instance from "@/utils/axios";
+import { useUser } from "./UserContext";
 import {
   baseUrl,
   addwishlist,
@@ -42,9 +43,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [wishlistItemsCount, setWishlistItemsCount] = useState(0);
+  const { isLoggedIn } = useUser();
 
   useEffect(() => {
     const uniqueWishlistItems = wishlistItems.filter(
@@ -55,37 +57,38 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [wishlistItems]);
 
   useEffect(() => {
-    const userToken = Cookies.get("localtoken");
-    if (userToken) {
-      setIsLoggedIn(true);
-      setCookieToken(userToken);
+    if (isLoggedIn) {
+      const userToken = Cookies.get("localtoken");
+      if (userToken) {
+        setCookieToken(userToken);
+      }
     }
   }, []);
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
-      const fetchWishlistItems = async () => {
-        try {
-          const wishlistData = await getWishlist();
-          const localWishlistItems = JSON.parse(
-            localStorage.getItem("wishlistItems") || "[]"
-          );
+    const fetchWishlistItems = async () => {
+      try {
+        const wishlistData = await getWishlist();
+        const localWishlistItems = JSON.parse(
+          localStorage.getItem("wishlistItems") || "[]"
+        );
 
-          const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
+        const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
 
-          // Filter out any duplicates from the merged wishlist
-          const uniqueWishlistItems = mergedWishlistItems.filter(
-            (item, index, self) =>
-              index === self.findIndex((t) => t.productId === item.productId)
-          );
+        // Filter out any duplicates from the merged wishlist
+        const uniqueWishlistItems = mergedWishlistItems.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.productId === item.productId)
+        );
 
-          setWishlistItems(uniqueWishlistItems);
-        } catch (error) {
-          console.error("Error fetching wishlist from server:", error);
-        }
-      };
+        setWishlistItems(uniqueWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist from server:", error);
+      }
+    };
 
-      fetchWishlistItems();
+    fetchWishlistItems();
     // }
   }, [isLoggedIn, cookieToken]);
 

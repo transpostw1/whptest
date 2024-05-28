@@ -1,5 +1,6 @@
 import React from "react";
 import CartItem from "./CartItem";
+import { useCart } from "@/context/CartContext";
 
 
 interface CartItemsProps {
@@ -9,10 +10,11 @@ interface CartItemsProps {
 }
 
 const CartItems: React.FC<CartItemsProps> = ({
-  cartItems,
+  // cartItems,
   handleQuantityChange,
   removeFromCart,
 }) => {
+  const{cartItems}=useCart()
   
 console.log(cartItems,"sfdsfsf")
 

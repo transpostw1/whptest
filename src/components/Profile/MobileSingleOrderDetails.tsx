@@ -1,18 +1,15 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import axios from "axios";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
-
+import axios from "axios";
 interface Props {
   singleOrder: any;
 }
-
-const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
+const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>();
+  const [message, setMessage] = useState<any>();
   const [type, setType] = useState<any>("");
 
   const handleOrderCancel = async (id: any) => {
@@ -36,13 +33,6 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       setLoading(false);
     }
   };
-  if (loading) {
-    return (
-      <div className="loading-container flex justify-center items-center h-full">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
-      </div>
-    );
-  }
   return (
     <div>
       <div className="flex justify-between mb-3">
@@ -88,23 +78,10 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                   height={85}
                 />
               </div>
-              <div className="flex justify-center flex-col content-start ">
-                <p className=" font-semibold">{product?.displayTitle}</p>
-                <p>
-                  {product?.metalType}-{product?.metalWeight}
-                </p>
-              </div>
+
+              <p className=" font-semibold">{product?.displayTitle}</p>
             </div>
           ))}
-          <p>
-            <div className="">
-              ₹
-              {Intl.NumberFormat("en-IN", {
-                minimumFractionDigits: 2,
-              }).format(Math.round(parseInt(items?.discountedTotal)))}
-            </div>
-          </p>
-          <p>{items?.quantity}</p>
 
           <div className="font-semibold">
             ₹
@@ -116,7 +93,6 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               )
             )}
           </div>
-          {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
       <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
@@ -134,7 +110,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           }).format(Math.round(singleOrder[0]?.productTotal))}
         </span>
       </div>
-      <div className="grid grid-cols-3 max-md:grid-cols-2">
+      <div>
         <div className="border border-gray mb-2 mt-4 rounded-md ">
           <p className=" border-gray border-b p-2 font-semibold">
             Billing Address
@@ -207,4 +183,4 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   );
 };
 
-export default SingleOrderDetails;
+export default MobileSingleOrderDetails;

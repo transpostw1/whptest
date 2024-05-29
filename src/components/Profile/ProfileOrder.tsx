@@ -52,7 +52,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       setLoading(false);
     }
   };
-  console.log("SingleOrders", singleOrder);
 
   const handleBack = () => {
     setSingleOrder(orders);

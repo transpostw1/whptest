@@ -96,7 +96,7 @@ const Footer = () => {
                   </div>
                   <div className="input-block h-[52px] mt-2 relative">
                     <form
-                      className=""
+                      className="relative"
                       action="post"
                       onSubmit={handleSubmit}
                     >

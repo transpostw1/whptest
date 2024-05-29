@@ -588,29 +588,31 @@ const Checkout: React.FC = () => {
                       couponCode={handleCouponCode}
                     />
                   )}
-                  <div className="flex justify-between border border-gray-400 p-3 mt-3">
-                    <div className="flex gap-2 items-center font-medium">
-                      <Gift style={{ color: "red", fontSize: "24px" }} />
-                      <h3>Gift Message</h3>
+                  <div className="border border-gray-400 mt-3">
+                    <div className="flex justify-between p-3 ">
+                      <div className="flex gap-2 items-center font-medium">
+                        <Gift style={{ color: "red", fontSize: "24px" }} />
+                        <h3>Gift Message</h3>
+                      </div>
+                      <h3
+                        className="text-red-600 underline cursor-pointer"
+                        onClick={() => handleGiftWrapModal()}
+                      >
+                        Add
+                      </h3>
+                      {showModal && (
+                        <GiftWrapModal
+                          closeModal={handleCloseModal}
+                          handleGiftWrapData={handleGiftWrapFormData}
+                        />
+                      )}
                     </div>
-                    <h3
-                      className="text-red-600 underline cursor-pointer"
-                      onClick={() => handleGiftWrapModal()}
-                    >
-                      Add
-                    </h3>
-                    {showModal && (
-                      <GiftWrapModal
-                        closeModal={handleCloseModal}
-                        handleGiftWrapData={handleGiftWrapFormData}
-                      />
+                    {GiftWrapformData.name.length!==0 && (
+                      <div className="p-2 text-wrap mt-2">
+                        <div>{GiftWrapformData.name}</div>
+                      </div>
                     )}
                   </div>
-                  {GiftWrapformData && (
-                    <div className="bg-[#f7f7f7] p-2 text-wrap mt-2">
-                      <div>{GiftWrapformData.name}</div>
-                    </div>
-                  )}
                   <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
@@ -637,12 +639,12 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Shipping Charges</h3>
-                          <h3>₹
+                          <h3>
+                            ₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
-                            }).format(
-                              Math.round(0)
-                            )}</h3>
+                            }).format(Math.round(0))}
+                          </h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>

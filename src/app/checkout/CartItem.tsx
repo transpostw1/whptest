@@ -219,21 +219,21 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           />
           <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto relative">
             <div className="mb-4">
-              <h2 className="text-xl font-bold">Remove Item</h2>
-              <p>Do you want to add this item to your wishlist?</p>
+              <h2 className="text-xl font-bold">Remove Item?</h2>
+              {/* <p>Do you want to add this item to your wishlist?</p> */}
             </div>
             <div className="flex justify-center">
               <button
-                className="px-4 py-4 mr-2 text-white bg-red-500 rounded-full hover:bg-red-600"
+                className="px-4 py-4 mr-2 text-black border border-[#E26178] rounded-full hover:bg-red-600 hover:text-white"
                 onClick={handleJustRemove}
               >
-                No
+                Remove Item
               </button>
               <button
-                className="px-4 py-4 text-white bg-green-500 rounded-full hover:bg-green-600"
+                className="px-4 py-4 text-black border border-[#E26178] rounded-full hover:bg-[#E26178] hover:text-white"
                 onClick={handleAddToWishlist}
               >
-                Yes
+                Add To Wishlist
               </button>
             </div>
           </div>

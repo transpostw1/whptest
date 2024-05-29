@@ -5,12 +5,14 @@ import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import FlashAlert from "@/components/Other/FlashAlert";
 
 const DiamondCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [loading, setLoading] = useState<boolean>(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
@@ -178,7 +180,10 @@ const DiamondCard: React.FC = () => {
               {loading ? "Enrolling..." : "Enroll Now"}
             </div>
             {backendMessage && (
-              <p className="text-green-500 mt-2">{backendMessage}</p>
+              <div>
+                <FlashAlert message={backendMessage} type={flashType} />
+                <p className="text-green-500 mt-2">{backendMessage}</p>
+              </div>
             )}
             {backendError && (
               <p className="text-red-500 mt-2">{backendError}</p>

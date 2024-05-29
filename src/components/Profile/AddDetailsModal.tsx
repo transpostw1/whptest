@@ -27,19 +27,18 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [formError, setFormError] = useState("");
   const { addUserDetails, userDetails } = useUser();
 
-  const validationSchema = Yup.object().shape({
-    // firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string(),
-    email: Yup.string()
-      .email("Invalid email address"),
-    phone: Yup.string(),
-    altPhone: Yup.string(),
-    gender: Yup.string(),
-    dobDay: Yup.string(),
-    dobMonth: Yup.string(),
-    dobYear: Yup.string(),
-    profilePicture: Yup.mixed(),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   // firstName: Yup.string().required("First name is required"),
+  //   lastName: Yup.string(),
+  //   email: Yup.string().email("Invalid email address"),
+  //   phone: Yup.string(),
+  //   altPhone: Yup.string(),
+  //   gender: Yup.string(),
+  //   dobDay: Yup.string(),
+  //   dobMonth: Yup.string(),
+  //   dobYear: Yup.string(),
+  //   profilePicture: Yup.mixed(),
+  // });
 
   const handleSubmit = async (values: FormValues) => {
     setIsLoading(true);
@@ -53,8 +52,12 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       altPhone: values.altPhone,
       gender: values.gender,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      profile_picture: values.profilePicture,
+      ...(values.profilePicture && { profile_picture: values.profilePicture }),
     };
+    //     values.profilePicture !== null
+    //       ? values.profilePicture
+    //       : userDetails?.customer?.profile_picture,
+    // };
 
     try {
       await addUserDetails(formattedValues);
@@ -68,7 +71,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const dob = userDetails?.customer?.dob; 
+  const dob = userDetails?.customer?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
   const formik = useFormik({
@@ -84,7 +87,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       dobYear,
       profilePicture: null,
     },
-    validationSchema,
+    // validationSchema,
     onSubmit: handleSubmit,
   });
 
@@ -103,7 +106,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </button>
         <form onSubmit={formik.handleSubmit}>
           <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
-          {formError && <div className="text-red-500 mb-4">{formError}</div>}
+          {/* {formError && <div className="text-red-500 mb-4">{formError}</div>} */}
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="mb-4">
               <div className="relative">
@@ -115,19 +118,17 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     if (
                       event.currentTarget.files &&
-                      event.currentTarget.files[0]
+                      event.currentTarget.files.length > 0
                     ) {
                       formik.setFieldValue(
                         "profilePicture",
                         event.currentTarget.files[0]
                       );
+                    } else {
+                      formik.setFieldValue("profilePicture", null); // Set to null if no file is selected
                     }
                   }}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.profilePicture
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none border-gray-300 focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
                   htmlFor="profilePicture"

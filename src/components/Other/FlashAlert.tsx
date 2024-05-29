@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { FaInfoCircle, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 interface FlashAlertProps {
-  message: string;
+  message: string|any;
   duration?: number; // Duration in milliseconds (optional, default is 3000ms)
+  type: "success" | "error" | "info";
 }
 
 const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'}> = ({ message, type }) => {
@@ -33,7 +34,7 @@ const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'
       };
       return (
         <div
-          className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded-md transition-opacity z-[100] ${
+          className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded-md transition-opacity z-[10000] ${
             show ? 'opacity-100' : 'opacity-0'
           }`}
         >

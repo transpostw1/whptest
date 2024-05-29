@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-
+ 
 
 
 const ProfileDetails = () => {
@@ -28,7 +28,6 @@ const ProfileDetails = () => {
 const handleLogOut = () => {
   if (typeof window !== "undefined") {
     Cookies.remove("localtoken");
-    localStorage.clear();
     logOut();
     router.push("/");
   }

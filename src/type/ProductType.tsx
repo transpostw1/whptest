@@ -212,7 +212,7 @@ export interface ProductForWishlistLoggedOut {
   productId: number;
   title: string;
   productPrice: string;
-  discountPrice: string;
+  discountPrice: string|number;
   discountValue: string;
   image_path: string;
   url: string;

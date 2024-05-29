@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 const SilverCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
+  const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
@@ -60,15 +63,18 @@ const SilverCard: React.FC = () => {
 
   const handleEnroll = async () => {
     if (!isLoggedIn) {
-      // alert("Please Login to Enroll");
+      setLoading(true);
       router.push("/login");
       return;
     }
+
     try {
+      setLoading(true);
+      setBackendError(null); // Clear any previous backend errors
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
-          schemeType: "silver",
+          schemeType: "gold",
           amount: monthlyDeposit,
         },
         {
@@ -79,14 +85,20 @@ const SilverCard: React.FC = () => {
       );
 
       console.log("Enrollment successful", response.data);
+      setBackendMessage(response.data.message); // Set the success message
     } catch (error) {
       console.error("Error during enrollment", error);
+      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">
-      <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Silver</h3>
+      <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
+        Silver
+      </h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR SILVER
       </h1>
@@ -138,9 +150,7 @@ const SilverCard: React.FC = () => {
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="">
-                ₹{totalAmount.toLocaleString("en-IN")}
-              </h1>
+              <h1 className="">₹{totalAmount.toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -156,13 +166,24 @@ const SilverCard: React.FC = () => {
               <h1>Buy any gold worth: (after 11th month)</h1>
             </div>
             <div>
-              <h1 className="text-3xl text-[#E26178]">
+              <h1 className="md:text-3xl text-sm text-[#E26178]">
                 ₹{redemptionAmount.toLocaleString("en-IN")}
               </h1>
             </div>
           </div>
-          <div className="bg-[#E26178] text-center text-white p-1 rounded-lg w-full">
-            Enroll Now
+          <div>
+            <div
+              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center  p-1 rounded-lg w-full cursor-pointer mb-5"
+              onClick={handleEnroll}
+            >
+              {loading ? "Enrolling..." : "Enroll Now"}
+            </div>
+            {backendMessage && (
+              <p className="text-green-500 mt-2">{backendMessage}</p>
+            )}
+            {backendError && (
+              <p className="text-red-500 mt-2">{backendError}</p>
+            )}
           </div>
         </div>
       </div>

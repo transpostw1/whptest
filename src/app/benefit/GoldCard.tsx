@@ -6,12 +6,15 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
+import FlashAlert from "@/components/Other/FlashAlert";
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
+  const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error">("success");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
@@ -65,12 +68,12 @@ const GoldCard: React.FC = () => {
     if (!isLoggedIn) {
       setLoading(true);
       router.push("/login");
-      // setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
+      setBackendError(null); // Clear any previous backend errors
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -85,8 +88,10 @@ const GoldCard: React.FC = () => {
       );
 
       console.log("Enrollment successful", response.data);
+      setBackendMessage(response.data.message); // Set the success message
     } catch (error) {
       console.error("Error during enrollment", error);
+      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
     } finally {
       setLoading(false);
     }
@@ -167,16 +172,29 @@ const GoldCard: React.FC = () => {
               <h1>Buy any gold worth: (after 11th month)</h1>
             </div>
             <div>
-              <h1 className="text-3xl text-[#E26178]">
+              <h1 className="md:text-3xl text-sm text-[#E26178]">
                 ₹{redemptionAmount.toLocaleString("en-IN")}
               </h1>
             </div>
           </div>
-          <div
-            className="bg-[#E26178] text-center p-1 rounded-lg w-full cursor-pointer"
-            onClick={handleEnroll}
-          >
-            {loading ? "Enrolling..." : "Enroll Now"}
+          <div>
+            <div
+              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
+              onClick={handleEnroll}
+            >
+              {loading ? "Enrolling..." : "Enroll Now"}
+            </div>
+
+            {backendMessage && (
+              <div>
+                <FlashAlert message={backendMessage} type={flashType} />
+                <p className="text-green-500 mt-2">{backendMessage}</p>
+              </div>
+            )}
+
+            {backendError && (
+              <p className="text-red-500 mt-2">{backendError}</p>
+            )}
           </div>
         </div>
       </div>

@@ -2,9 +2,11 @@ import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 
 interface Props {
-  handleComponent: (args: string) => void;
+  handleComponent: (args: string) => void; 
   componentName: string;
   handleOrder: () => void;
 }
@@ -15,7 +17,7 @@ const MobileProfileSideBar: React.FC<Props> = ({
   handleOrder,
 }) => {
   const router = useRouter();
-  const { logOut } = useUser();
+  const { logOut,userDetails } = useUser();
   const handleLogOut = () => {
     logOut();
     router.push("/");
@@ -24,10 +26,23 @@ const MobileProfileSideBar: React.FC<Props> = ({
     <div className="p-3 flex flex-col justify-center">
       <div className="flex flex-col justify-center w-full items-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          D
+          {userDetails?.customer.profile_picture ? (
+            <Image
+              src={userDetails.customer.profile_picture}
+              className="rounded-full h-full w-full"
+              alt="Profile Picture"
+              width={90}
+              height={100}
+            />
+          ) : (
+            <Icon.UserCircle size={50} />
+          )}
         </div>
         <div>
-          <p className="text-xl font-semibold mt-2">Disha Jain</p>
+          <p className="text-xl font-semibold mt-2">
+            {" "}
+            {userDetails?.customer?.firstname} {userDetails?.customer?.lastname}
+          </p>
           <span className="flex text-[#e26178] mt-2">
             Edit Profile
             <span className="mt-1">

@@ -27,6 +27,9 @@ export default function RootLayout({
   return (
     <GlobalProvider>
       <html lang="en">
+        <head>
+          <link rel="icon" href="/images/Bracelet.jpg" />
+        </head>
         <body className={instrument.className}>
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

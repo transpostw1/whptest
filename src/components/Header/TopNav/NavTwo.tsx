@@ -3,10 +3,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import useLoginPopup from "@/store/useLoginPopup";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import useMenuMobile from "@/store/useMenuMobile";
@@ -15,10 +14,10 @@ import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
-import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
+import ProtectedRoute from "@/app/ProtectedRoute";
 
 interface Props {
   props: string;
@@ -31,10 +30,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const { wishlistItemsCount, wishlistItems } = useWishlist();
-  const { openModalCart } = useModalCartContext();
+  const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState } = useUser();
+  const { userState, userDetails, getUser } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -44,6 +42,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+   const pathname = usePathname(); 
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -57,6 +56,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn && !userDetails) {
+      getUser();
+    }
+  }, [isLoggedIn, userDetails, getUser]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -82,6 +87,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const handleInputClick = () => {
     console.log("clicked");
     setIsModalOpen(true);
+  };
+
+  const handleLoginDrop = () => {
+      localStorage.setItem("redirectPath", pathname);
+   handleLoginPopup()
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -247,10 +257,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    {/* <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
-                    </div> */}
+                    </div>
                     <div className="flex flex-col items-center">
                       <Image
                         src={"/images/icons/blog.svg"}
@@ -281,18 +291,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleProfilePage}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="#e26178" />
-                            <h4 className="text-sm">Profile</h4>
+                            <Icon.User size={28} color="black" />
+                            <h4 className="text-sm">
+                              {userDetails?.customer?.firstname}
+                            </h4>
                           </div>
                         </>
                       ) : (
                         <>
                           <div
-                            onClick={handleLoginPopup}
+                            onClick={handleLoginDrop}
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />
-                            <h4 className="text-sm">User</h4>
+                            <h4 className="text-sm">Login</h4>
                           </div>
                           <div
                             className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10
@@ -405,11 +417,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                <Link href={"/login"}>
-                  <div className="">
-                    <p className="text-xl font-semibold">Login</p>
-                  </div>
-                </Link>
+                <div className="">
+                  <p className="text-xl font-semibold">Login</p>
+                </div>
                 <div className="ml-3 relative">
                   <Icon.Heart size={25} />
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">

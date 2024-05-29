@@ -3,6 +3,7 @@ import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
+
 interface PieChartProps {
   totalAmount: number;
   redemptionAmount: number;
@@ -60,7 +61,7 @@ const PieChart: React.FC<PieChartProps> = ({
   };
 
   return (
-    <div className="relative w-64 h-64 ">
+    <div className="relative w-64 h-64 md:mb-8 ">
       <Pie data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );

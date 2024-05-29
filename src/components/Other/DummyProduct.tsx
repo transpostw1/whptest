@@ -43,41 +43,42 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
- const HandleaddToWishlist = () => {
-   try {
-     console.log("Adding to wishlist, product data:", data);
-     if (data && data.productId) {
-       if (isLoggedIn) {
-         const productToAdd: ProductForWishlistLoggedIn = {
-           productId: data.productId,
-         };
-         addToWishlist(productToAdd);
-         setIsProductInWishlist(true);
-       } else {
-         const productToAdd: ProductForWishlistLoggedOut = {
-           productId: data.productId,
-           title: data.title,
-           productPrice: data.productPrice,
-           discountPrice: data.discountPrice,
-           discountValue: data.discountValue,
-           image_path: data.image_path,
-           url: data.url,
-         };
-         addToWishlist(productToAdd);
-         setIsProductInWishlist(true);
-       }
-     } else {
-       console.error("Invalid product data:", data);
-     }
-   } catch (error) {
-     console.error("Error adding product to wishlist:", error);
-   }
- };
+  const HandleaddToWishlist = () => {
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
+          console.log("In", data.productId, productToAdd);
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
+  };
 
-    const HandleremoveFromWishlist = () => {
-      removeFromWishlist(data.productId);
-      setIsProductInWishlist(false);
-    };
+  const HandleremoveFromWishlist = () => {
+    removeFromWishlist(data.productId);
+    setIsProductInWishlist(false);
+  };
 
   const handleDetailProduct = () => {
     router.push(`/products/${data?.url}`);

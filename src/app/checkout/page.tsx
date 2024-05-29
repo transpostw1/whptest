@@ -34,6 +34,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
 import GiftWrapModal from "@/components/Modal/GiftWrapModal";
+import ProtectedRoute from "../ProtectedRoute";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
@@ -196,60 +197,63 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  // const mappedCartItems = cartItems
-  //   .filter(
-  //     (item) =>
-  //       item?.productId &&
-  //       item?.quantity &&
-  //       item?.productDetails?.displayTitle &&
-  //       item?.productDetails?.discountPrice &&
-  //       item?.productDetails?.imageDetails
-  //   )
-  //   .map((item) => ({
-  //     productId: item?.productId,
-  //     quantity: item?.quantity,
-  //     name: item?.productDetails?.displayTitle,
-  //     price: item?.productDetails?.discountPrice,
-  //     image:
-  //       item?.productDetails?.imageDetails &&
-  //       item?.productDetails?.imageDetails.length > 0
-  //         ? item.productDetails.imageDetails[0].image_path
-  //         : "",
-  //   }));
-  const mappedCartItems = showAllItems
-    ? cartItems
-        .filter(
-          (item) =>
-            item?.productId &&
-            item?.quantity &&
-            item?.productDetails?.displayTitle &&
-            item?.productDetails?.discountPrice &&
-            item?.productDetails?.imageDetails
-        )
-        .map((item) => ({
-          productId: item?.productId,
-          quantity: item?.quantity,
-          name: item?.productDetails?.displayTitle,
-          price: item?.productDetails?.discountPrice,
-          image:
-            item?.productDetails?.imageDetails &&
-            item?.productDetails?.imageDetails.length > 0
-              ? item.productDetails.imageDetails[0].image_path
-              : "",
-        }))
-    : cartItems
-        .filter((item) => item.productId === parseInt(buyNow as string))
-        .map((item) => ({
-          productId: item?.productId,
-          quantity: item?.quantity,
-          name: item?.productDetails?.displayTitle,
-          price: item?.productDetails?.discountPrice,
-          image:
-            item?.productDetails?.imageDetails &&
-            item?.productDetails?.imageDetails.length > 0
-              ? item.productDetails.imageDetails[0].image_path
-              : "",
-        }));
+  const mappedCartItems = cartItems
+    .filter(
+      (item) =>
+        item?.productId &&
+        item?.quantity &&
+        item?.productDetails?.displayTitle &&
+        item?.productDetails?.discountPrice &&
+        item?.productDetails?.imageDetails
+    )
+    .map((item) => ({
+      productId: item?.productId,
+      quantity: item?.quantity,
+      name: item?.productDetails?.displayTitle,
+      productPrice: item?.productDetails?.productPrice,
+      discountValue: item?.productDetails?.discountValue,
+      price: item?.productDetails?.discountPrice,
+      url:item?.productDetails?.url,
+      image:
+        item?.productDetails?.imageDetails &&
+        item?.productDetails?.imageDetails.length > 0
+          ? item.productDetails.imageDetails[0].image_path
+          : "",
+    }));
+  // const mappedCartItems = showAllItems
+  //   ? cartItems
+  //       .filter(
+  //         (item) =>
+  //           item?.productId &&
+  //           item?.quantity &&
+  //           item?.productDetails?.displayTitle &&
+  //           item?.productDetails?.discountPrice &&
+  //           item?.productDetails?.imageDetails
+  //       )
+  //       .map((item) => ({
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
+  //         image:
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
+  //             : "",
+  //       }))
+  //   : cartItems
+  //       .filter((item) => item.productId === parseInt(buyNow as string))
+  //       .map((item) => ({
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
+  //         image:
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
+  //             : "",
+  //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -447,103 +451,101 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <div className="cart-block flex-wrap mb-8">
-        <div className="content-main flex flex-col justify-between lg:px-14 px-5">
-          <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
-            <div className="flex gap-3">
-              {isOrderPlaced ? (
-                <div className="flex">
-                  <Image
-                    src="/images/collection/check.png"
-                    alt="check"
-                    width={100}
-                    height={10}
-                  />
-                  <div className="flex flex-col items-start justify-center py-3 ">
-                    <h1 className="text-3xl text-red-700 font-semibold">
-                      Order Placed!!
-                    </h1>
-                    <h1>ID-#32432</h1>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex mt-2 items-center sm:mr-1 lg:mr-3 p-2 w-full">
-                  {steps.map((step, index) => (
-                    <div
-                      className="flex items-center lg:w-40 max-sm:w-25 max-md:w-25"
-                      key={index}
-                      onClick={() =>
-                        handleStepClick(index, useSameAsBillingAddress)
-                      }
-                    >
-                      <div
-                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
-                          selectedStep >= index ? "bg-rose-400" : "bg-white"
-                        }`}
-                      >
-                        {step.icon}
-                      </div>
-                      <h2 className="rounded-full cursor-pointer">
-                        {step.label}
-                      </h2>
-                      {index < steps.length - 1 && (
-                        <Icon.CaretRight className="sm:mr-0 sm:ml-0 lg:mr-[10px] lg:ml-[10px]" />
-                      )}
+      {/* <ProtectedRoute> */}
+        <div className="cart-block flex-wrap mb-8">
+          <div className="content-main flex flex-col justify-between lg:px-14 px-5">
+            <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
+              <div className="flex gap-3">
+                {isOrderPlaced ? (
+                  <div className="flex">
+                    <Image
+                      src="/images/collection/check.png"
+                      alt="check"
+                      width={100}
+                      height={10}
+                    />
+                    <div className="flex flex-col items-start justify-center py-3 ">
+                      <h1 className="text-3xl text-red-700 font-semibold">
+                        Order Placed!!
+                      </h1>
+                      <h1>ID-#32432</h1>
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div className="flex mt-2 items-center sm:mr-1 lg:mr-3 p-2 w-full">
+                    {steps.map((step, index) => (
+                      <div
+                        className="flex items-center lg:w-40 max-sm:w-25 max-md:w-25"
+                        key={index}
+                        onClick={() =>
+                          handleStepClick(index, useSameAsBillingAddress)
+                        }
+                      >
+                        <div
+                          className={`p-2 rounded-full border border-gray-300 ${
+                            selectedStep >= index ? "bg-rose-400" : "bg-white"
+                          }`}
+                        >
+                          {step.icon}
+                        </div>
+                        <h2 className="rounded-full cursor-pointer">
+                          {step.label}
+                        </h2>
+                        {index < steps.length - 1 && (
+                          <Icon.CaretRight className="sm:mr-0 sm:ml-0 lg:mr-[10px] lg:ml-[10px]" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          {!isOrderPlaced ? (
-            <h2>(Review of {cartItems.length} Items)</h2>
-          ) : null}
-          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-          <div className="flex flex-col md:flex-row lg:flex-row justify-between">
-            <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
-              <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
-              {selectedComponent === "CartItems" && (
-                <>
-                <CartItems
-                  cartItems={mappedCartItems}
-                  handleQuantityChange={handleQuantityChange}
-                  removeFromCart={removeFromCart}
-                />
-               
-              <button onClick={toggleShowAllItems}>
-                {showAllItems ? "-Hide" : "+Show"} Cart Items
-              </button>
-            
-                </>
-              )}
-              {selectedComponent === "DeliveryDetails" && (
-                <DeliveryDetails
-                  onShippingAddressSelected={onShippingAddressSelected}
-                  onBillingAddressSelected={onBillingAddressSelected}
-                  useSameAsBillingAddress={useSameAsBillingAddress}
-                  setUseSameAsBillingAddress={setUseSameAsBillingAddress}
-                  selectedShippingAddress={selectedShippingAddress}
-                  setSelectedShippingAddress={setSelectedShippingAddress}
-                  selectedBillingAddress={selectedBillingAddress}
-                  setSelectedBillingAddress={setSelectedBillingAddress}
-                />
-              )}
-              {selectedComponent === "Payment" && (
-                <Payment
-                  orderPlaced={isOrderPlaced}
-                  selectedPaymentMethod={selectedPaymentMethod}
-                  handlePaymentMethodChange={handlePaymentMethodChange}
-                  totalCart={totalCart}
-                  onOrderComplete={handleOrderComplete}
-                  selectedShippingAddress={selectedShippingAddress}
-                  selectedBillingAddress={selectedBillingAddress}
-                  placeOrder={handleProceed}
-                  mappedCartItems={mappedCartItems}
-                  couponCode={couponCode}
-                  totalDiscount={totalDiscount}
-                  setCartItems={setCartItems}
-                />
-              )}
+            {!isOrderPlaced ? (
+              <h2>(Review of {cartItems.length} Items)</h2>
+            ) : null}
+            <FlashAlert
+              key={flashKey}
+              message={flashMessage}
+              type={flashType}
+            />
+            <div className="flex flex-col md:flex-row lg:flex-row justify-between">
+              <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
+                <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
+                {selectedComponent === "CartItems" && (
+                  <CartItems
+                    cartItems={mappedCartItems}
+                    handleQuantityChange={handleQuantityChange}
+                    removeFromCart={removeFromCart}
+                  />
+                )}
+                {selectedComponent === "DeliveryDetails" && (
+                  <DeliveryDetails
+                    onShippingAddressSelected={onShippingAddressSelected}
+                    onBillingAddressSelected={onBillingAddressSelected}
+                    useSameAsBillingAddress={useSameAsBillingAddress}
+                    setUseSameAsBillingAddress={setUseSameAsBillingAddress}
+                    selectedShippingAddress={selectedShippingAddress}
+                    setSelectedShippingAddress={setSelectedShippingAddress}
+                    selectedBillingAddress={selectedBillingAddress}
+                    setSelectedBillingAddress={setSelectedBillingAddress}
+                  />
+                )}
+                {selectedComponent === "Payment" && (
+                  <Payment
+                    orderPlaced={isOrderPlaced}
+                    selectedPaymentMethod={selectedPaymentMethod}
+                    handlePaymentMethodChange={handlePaymentMethodChange}
+                    totalCart={totalCart}
+                    onOrderComplete={handleOrderComplete}
+                    selectedShippingAddress={selectedShippingAddress}
+                    selectedBillingAddress={selectedBillingAddress}
+                    placeOrder={handleProceed}
+                    mappedCartItems={mappedCartItems}
+                    couponCode={couponCode}
+                    totalDiscount={totalDiscount}
+                    setCartItems={setCartItems}
+                  />
+                )}
 
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
@@ -666,34 +668,35 @@ const Checkout: React.FC = () => {
                 </div>
               )}
 
-              {(selectedComponent === "DeliveryDetails" ||
-                selectedComponent === "Payment") && (
-                <div>
-                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary
-                    totalDiscount={totalDiscount}
-                    totalCart={totalCart}
-                    cartItems={mappedCartItems}
-                  />
-                </div>
-              )}
+                {(selectedComponent === "DeliveryDetails" ||
+                  selectedComponent === "Payment") && (
+                  <div>
+                    <h1 className="my-5 text-2xl text-rose-600">
+                      ORDER SUMMARY
+                    </h1>
+                    <OrderSummary
+                      totalDiscount={totalDiscount}
+                      totalCart={totalCart}
+                      cartItems={mappedCartItems}
+                    />
+                  </div>
+                )}
 
-              {selectedStep !== 2 && (
-                <ProceedButton
-                  totalPrice={totalPrice}
-                  isMobile={isMobile}
-                  proceedButtonTitle={proceedButtonTitle()}
-                  handleProceed={handleProceed}
-                  useSameAsBillingAddress={useSameAsBillingAddress}
-                />
-              )}
+                {selectedStep !== 2 && (
+                  <ProceedButton
+                    totalPrice={totalPrice}
+                    isMobile={isMobile}
+                    proceedButtonTitle={proceedButtonTitle()}
+                    handleProceed={handleProceed}
+                    useSameAsBillingAddress={useSameAsBillingAddress}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {couponCode && (
-        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-      )}
+      {/* </ProtectedRoute> */}
+
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

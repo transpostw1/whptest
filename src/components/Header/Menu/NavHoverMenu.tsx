@@ -4,7 +4,8 @@ import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
@@ -15,11 +16,11 @@ interface Props {
 }
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
-  const [data, setData] = useState<CategoryType[] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const searchParmas = useSearchParams();
   const pathname = usePathname();
-  const { category,setCustomcategory } = useCategory();
-
+  const { categories } = useAllCategoryContext();
+  const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
@@ -40,30 +41,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     };
   }, [lastScrollPosition]);
 
-  async function getData() {
-    const res = await fetch(`${baseUrl}/getAllParentCategories`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
-  }
-
-  async function getAllCategories() {
-    try {
-      const category = await getData();
-      if (category) {
-        setData(category);
-      }
-    } catch (error) {
-      console.error("Error getting categories:", error);
-    }
-  }
   useEffect(() => {
-    getAllCategories();
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const mediaQuery = window.matchMedia("(max-width: 1022px)");
     const handleChange = (e: any) => {
       setIsMobile(e.matches);
     };
@@ -108,8 +87,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     <ul>
                       <p className="font-bold text-black">Explore Categories</p>
 
-                      {data &&
-                        data.map((item, index) => (
+                      {categories &&
+                        categories.map((item: any, index: any) => (
                           <React.Fragment key={item.id}>
                             <li className="leading-[0px]">
                               <Link
@@ -142,9 +121,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "men" },
+                            query: { url: "_men" },
                           }}
-                          onClick={() => setCustomcategory("men")}
+                          onClick={() => setCustomcategory("_men")}
                         >
                           Men
                         </Link>
@@ -229,9 +208,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "lessthan10K" },
+                            query: { url: "less_than_10K" },
                           }}
-                          onClick={() => setCustomcategory("lessthan10k")}
+                          onClick={() => setCustomcategory("less_than_10k")}
                         >
                           less than 10k
                         </Link>
@@ -240,9 +219,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "10kto20k" },
+                            query: { url: "10k_to_20k" },
                           }}
-                          onClick={() => setCustomcategory("10kto20k")}
+                          onClick={() => setCustomcategory("10k_to_20k")}
                         >
                           10k to 20k
                         </Link>
@@ -251,9 +230,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "20kto30k" },
+                            query: { url: "20k_to_30k" },
                           }}
-                          onClick={() => setCustomcategory("20kto30k")}
+                          onClick={() => setCustomcategory("20k_to_30k")}
                         >
                           20k to 30k
                         </Link>
@@ -262,9 +241,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "30kandAbove" },
+                            query: { url: "30k_and_Above" },
                           }}
-                          onClick={() => setCustomcategory("30kandabove")}
+                          onClick={() => setCustomcategory("30k_and_above")}
                         >
                           30k and Above
                         </Link>
@@ -333,12 +312,23 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   </div>
                 </li>
 
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("new_Arrival")}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "new_Arrival" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "new_Arrival"
+                        ? "active"
+                        : ""
+                    }`}
                   >
-                    New Arrivals
+                    New Arrival
                   </Link>
                 </li>
                 <li
@@ -351,7 +341,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "earring" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="earring" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "earring"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Earrings
@@ -368,7 +361,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "pendants" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="pendant" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "pendant"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Pendants
@@ -384,7 +380,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "bangle" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="bangle" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "bangle"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Bangles
@@ -400,7 +399,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="Bracelet" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "bracelet"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Bracelet
@@ -416,7 +418,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       query: { url: "necklace" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
-                      category==="necklace" ? "active" : ""
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "necklace"
+                        ? "active"
+                        : ""
                     }`}
                   >
                     Necklace

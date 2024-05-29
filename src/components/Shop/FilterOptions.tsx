@@ -1,9 +1,9 @@
 // FilterOptions.tsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-interface Filter{
-  title:string|any;
-  options:string[]
+interface Filter {
+  title: string | any;
+  options: string[];
 }
 const Filter = [
   {
@@ -12,7 +12,7 @@ const Filter = [
   },
   {
     title: "Karat",
-    options: ["14k", "18K","22k","23K","24k"],
+    options: ["14k", "18K", "22k", "23K", "24k"],
   },
   {
     title: "Weight",
@@ -22,7 +22,10 @@ const Filter = [
     title: "Gender",
     options: ["Men", "Women", "Kids"],
   },
-  { title: "Metal", options: ["Rose Gold","White Gold","Yellow Gold","Diamond","Sliver"] },
+  {
+    title: "Metal",
+    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Sliver"],
+  },
   {
     title: "Occasion",
     options: [
@@ -33,22 +36,26 @@ const Filter = [
       "Festive",
       "Everyday",
       "Work Wear",
-      "Wedding Wear",
+      "Wedding",
       "Desk to Dinner",
       "Evening",
       "Party Wear",
     ],
   },
 ];
-interface Props{
-  filterDropDown:string;
-  handleFilterDropdown:(arg:string)=>void;
-  handleOptionSelect:(option:string,category:string)=>void;
-  selectedOptions:string[]
+interface Props {
+  filterDropDown: string;
+  handleFilterDropdown: (arg: string) => void;
+  handleOptionSelect: (option: string, category: string) => void;
+  selectedOptions: string[];
 }
 
-const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, handleOptionSelect ,selectedOptions}) => {
-  
+const FilterOptions: React.FC<Props> = ({
+  filterDropDown,
+  handleFilterDropdown,
+  handleOptionSelect,
+  selectedOptions,
+}) => {
   return (
     <>
       {Filter.map((item: Filter, index: number) => (

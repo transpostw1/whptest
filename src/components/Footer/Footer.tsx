@@ -4,10 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import { useUser } from "@/context/UserContext";
+import { useCategory } from "@/context/CategoryContex";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-
+  const { setCustomcategory } = useCategory();
+  const { isLoggedIn } = useUser();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
@@ -16,19 +19,31 @@ const Footer = () => {
     <>
       <div id="footer" className="footer  text-rose-950">
         <div className="footer-main bg-gray-50">
-          <div className="container">
+          <div className="container py-4">
             <div className="flex flex-wrap gap-3 items-center justify-between">
               <div className="flex items-center gap-3 ">
-                <Image
-                  src={"/images/other/logo2.png"}
-                  width={40}
-                  height={40}
-                  alt="80x80"
-                  className=" object-fill"
-                />
-                <h1 className="text-rose-400 text-3xl ">whpjewellers</h1>
+                <Link href={"/"}>
+                  <Image
+                    src={"/images/other/main_logo.png"}
+                    width={40}
+                    height={40}
+                    alt="80x80"
+                    className=" object-cover"
+                  />
+                </Link>
+                <div>
+                  <Link href={"/"}>
+                    <Image
+                      src={"/images/other/whp_name_logo.png"}
+                      width={170}
+                      height={80}
+                      alt="80x80"
+                      className=" object-cover"
+                    />
+                  </Link>
+                </div>
               </div>
-              <div className="w-96 font-medium">
+              <div className="w-96 font-medium ">
                 <h3>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
@@ -44,8 +59,8 @@ const Footer = () => {
                   <div className="input-block w-full h-[52px] mt-2 relative">
                     <form className="w-full h-full" action="post">
                       <input
-                        type="email"
-                        placeholder="Enter your e-mail"
+                        type="number"
+                        placeholder="Enter phone number"
                         className="caption1 w-full h-full pl-4 pr-14 border border-line"
                         required
                       />
@@ -55,14 +70,34 @@ const Footer = () => {
                     </form>
                   </div>
                   <div className="list-social flex items-center gap-6 mt-4">
-                    <Link href={"https://www.facebook.com/"} target="_blank">
-                      <div className="icon-facebook text-2xl text-black"></div>
+                    <Link
+                      href={"https://www.facebook.com/whpjewellers.india/"}
+                      target="_blank"
+                    >
+                      {" "}
+                      <Icon.FacebookLogo size={34} weight="light" />
                     </Link>
-                    <Link href={"https://www.instagram.com/"} target="_blank">
-                      <div className="icon-instagram text-2xl text-black"></div>
+                    <Link
+                      href={"https://www.instagram.com/whpjewellers/?hl=en"}
+                      target="_blank"
+                    >
+                      <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
-                    <Link href={"https://www.youtube.com/"} target="_blank">
-                      <div className="icon-youtube text-2xl text-black"></div>
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
+                      <Icon.YoutubeLogo size={34} weight="light" />
+                    </Link>
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
+                      <Icon.WhatsappLogo size={34} weight="light" />
                     </Link>
                   </div>
                 </div>
@@ -71,34 +106,56 @@ const Footer = () => {
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
                 <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
                   <div className="item flex flex-col basis-1/3 ">
-                    <div className="text-button-uppercase pb-3">Infomation</div>
+                    <div className="text-button-uppercase pb-3">
+                      Information
+                    </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
+                      href={"/stores"}
+                    >
+                      Stores
+                    </Link>
+                    {/* <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2 "
                       href={"/contact"}
                     >
                       Contact us
-                    </Link>
+                    </Link> */}
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/career"}
+                      href={"#!"}
+                      onClick={() => setAppointmentModal(true)}
                     >
                       Career
                     </Link>
+                    {appointmentModal && (
+                      <BookExchangeModal closeModal={handleOnClose} />
+                    )}
+                    {isLoggedIn ? (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/profile"}
+                      >
+                        My Account
+                      </Link>
+                    ) : (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/login"}
+                      >
+                        My Account
+                      </Link>
+                    )}
+
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/my-account"}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/order-returns"}
+                      href={"/profile"}
                     >
                       Order & Returns
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/about-waman-hari-pethe-jewellers"}
+                      href={"/about-whpjewellers"}
                     >
                       About-Us
                     </Link>
@@ -113,31 +170,39 @@ const Footer = () => {
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      onClick={() => setCustomcategory("chain")}
                     >
                       Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "bangle" } }}
+                      onClick={() => setCustomcategory("bangle")}
                     >
                       Bangles
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "ring" } }}
+                      onClick={() => setCustomcategory("ring")}
                     >
                       Rings
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "necklace" },
+                      }}
+                      onClick={() => setCustomcategory("necklace")}
                     >
                       Necklaces
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/blog"}
+                      href={{ pathname: "/products", query: { url: "stone" } }}
+                      onClick={() => setCustomcategory("stone")}
                     >
                       Stones
                     </Link>
@@ -184,16 +249,22 @@ const Footer = () => {
                 <div className="item flex flex-col md:ml-14 lg:ml-14">
                   <div className="text-button-uppercase pb-3">Contact</div>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit"
-                    href={"#!"}
+                    href="tel:+91 1800-222-225"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    1800-222-225
+                    <div className="mt-1 flex">
+                      <span>1800-222-225</span>
+                    </div>
                   </Link>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit pt-2"
-                    href={"#!"}
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    care@whpjewellers.in
+                    <div className="mt-1 flex">
+                      <span>care@whpjewellers.in</span>
+                    </div>
                   </Link>
                 </div>
               </div>

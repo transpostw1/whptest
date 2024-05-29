@@ -87,6 +87,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           Authorization: `Bearer ${cookieToken}`,
         },
       });
+      console.log(response.data);
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -103,13 +104,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
     try {
       const response = await instance.post(
-        `${baseUrl}${updateProfile}`,formData,
+        `${baseUrl}${updateProfile}`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       await getUser();
       return response.data;

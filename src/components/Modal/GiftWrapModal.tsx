@@ -1,39 +1,53 @@
-"use client"
-import React,{useState} from "react";
+"use client";
+import React, { useState } from "react";
 
-interface Props{
-  closeModal:()=>void
+interface Props {
+  closeModal: () => void;
+  handleGiftWrapData: (message: any, value: any) => void;
 }
-const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
+
+const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
   const [formData, setFormData] = useState({
     name: "",
-    wrapOption: "",
+    wrapOption: false, // Change wrapOption to be a boolean
   });
 
-  const hanldeClose=(e:any)=>{
+  const handleClose = (e: any) => {
     if (e.target.id === "container") {
       closeModal();
     }
-  }
-  const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Submit form logic (here you would typically make an API call or send the data to a server)
-
+    closeModal();
+    handleGiftWrapData(formData.name, formData.wrapOption);
     // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", wrapOption: ""});
+      setFormData({ name: "", wrapOption: false });
     }, 2000);
   };
+
   return (
-    <div className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center" id="container" onClick={hanldeClose}>
-      <div className="bg-white w-[25%] p-4">
-      <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
+    <div
+      className="fixed inset-0 bg-black bg-blur-sm bg-opacity-15 z-50 flex justify-center items-center"
+      id="container"
+      onClick={handleClose}
+    >
+      <div className="bg-white w-[25%] max-sm:w-[70%] p-4">
+        <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           Your Gift Message
         </h2>
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -51,22 +65,25 @@ const GiftWrapModal:React.FC<Props> = ({closeModal}) => {
               required
             />
           </div>
-          <div className="mb-4">
-            
-            <input
-              type="checkbox"
-              id="name"
-              name="name"
-              value={formData.name}
-              checked={true}
-              onChange={handleChange}
-              required
-            /><label
-            htmlFor="name"
-            className="text-sm font-medium text-gray-700 mr-4"
-          >
-           Want Your Gift to Wrapped?
-          </label>
+          <div className="mb-4 flex">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="wrapOption"
+                name="wrapOption"
+                checked={formData.wrapOption}
+                onChange={handleChange}
+                className="mr-3"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="wrapOption"
+                className="text-sm font-medium text-gray-700"
+              >
+                Want Your Gift to be Wrapped?
+              </label>
+            </div>
           </div>
 
           <button

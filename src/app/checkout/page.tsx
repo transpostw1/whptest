@@ -52,6 +52,10 @@ const Checkout: React.FC = () => {
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
   const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
+  const [GiftWrapformData, setGiftWrapformData] = useState({
+    name: "",
+    wrapOption: false, // Change wrapOption to be a boolean
+  });
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
@@ -80,7 +84,9 @@ const Checkout: React.FC = () => {
     // Add this function
     setBillingAddressSelected(true);
   };
-
+  const handleGiftWrapFormData = (giftmessage: any, wrapvalue: any) => {
+    setGiftWrapformData({ name: giftmessage, wrapOption: wrapvalue });
+  };
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -96,15 +102,20 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
+  const handleCouponModalClose = () => {
+    setCouponsModal(false);
+  };
+  const handleCouponCode = (value: string) => {
+    console.log("value", value);
+    setCouponCode(value);
+  };
+
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
     }));
     setCartProductIds(products);
-  };
-
-  useEffect(() => {
     const fetchCouponData = async () => {
       setLoading(true);
       const cookieToken = Cookies.get("localtoken");
@@ -122,15 +133,46 @@ const Checkout: React.FC = () => {
           }
         );
         setDataAfterCouponCode(response.data);
-      } catch (error) {
+        setFlashMessage("Coupon Successfully applied");
+        setFlashType("success");
+      } catch (error: any) {
         console.log("Error occurred", error);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
       } finally {
         setLoading(false);
       }
     };
-
     fetchCouponData();
-  }, [cartProductIds]);
+  };
+
+  // useEffect(() => {
+  //   const fetchCouponData = async () => {
+  //     setLoading(true);
+  //     const cookieToken = Cookies.get("localtoken");
+  //     try {
+  //       const response = await axios.post<{ data: any }>(
+  //         `${baseUrl}${coupon}`,
+  //         {
+  //           products: cartProductIds,
+  //           coupon: couponCode,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${cookieToken}`,
+  //           },
+  //         }
+  //       );
+  //       setDataAfterCouponCode(response.data);
+  //     } catch (error) {
+  //       console.log("Error occurred", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCouponData();
+  // }, [couponCode]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -210,7 +252,6 @@ const Checkout: React.FC = () => {
         }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
-    console.log("function is runnign");
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
@@ -348,7 +389,6 @@ const Checkout: React.FC = () => {
       placeOrder();
     }
   };
-
   const proceedButtonTitle = () => {
     if (!isLoggedIn) {
       return "Please Login to Proceed";
@@ -407,7 +447,7 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
-      <div className="cart-block flex-wrap">
+      <div className="cart-block flex-wrap mb-8">
         <div className="content-main flex flex-col justify-between lg:px-14 px-5">
           <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
             <div className="flex gap-3">
@@ -437,7 +477,7 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${
+                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >
@@ -512,44 +552,68 @@ const Checkout: React.FC = () => {
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="flex justify-between border border-gray-400 p-3">
-                    <div className="flex items-center gap-2 font-medium">
-                      <Image
-                        src={"/images/icons/coupon.png"}
-                        alt={"coupons"}
-                        height={25}
-                        width={25}
+                    <>
+                      <div className="flex items-center gap-2 font-medium">
+                        <Image
+                          src={"/images/icons/coupon.png"}
+                          alt={"coupons"}
+                          height={25}
+                          width={25}
+                        />
+                        <h3>Coupons Code</h3>
+                      </div>
+                      <h3
+                        className="text-red-600 underline cursor-pointer"
+                        onClick={() => handleCouponsModal()}
+                      >
+                        Check
+                      </h3>
+                    </>
+
+                    {/* <>
+                      <input
+                        className="border border-black"
+                        type="text"
+                        onChange={(e) => setCouponCode(e.target.value)}
                       />
-                      <h3>Coupons Available</h3>
-                    </div>
-                    <h3 className="text-red-600 underline cursor-pointer">
-                      View
-                    </h3>
-                    <input
-                      className="border border-black"
-                      type="text"
-                      onChange={(e) => setCouponCode(e.target.value)}
-                    />
-                    <button
-                      className="bg-black text-white"
-                      onClick={handleCouponCheck}
-                    >
-                      check
-                    </button>
+                      <button
+                        className="bg-black text-white"
+                        onClick={handleCouponCheck}
+                      >
+                        check
+                      </button>
+                    </> */}
                   </div>
-                  {couponsModal && <CouponsModal />}
-                  <div className="flex justify-between border border-gray-400 p-3 mt-3">
-                    <div className="flex gap-2 items-center font-medium">
-                      <Gift style={{ color: "red", fontSize: "24px" }} />
-                      <h3>Gift Message</h3>
+                  {couponsModal && (
+                    <CouponsModal
+                      handleCouponCheck={handleCouponCheck}
+                      onClose={handleCouponModalClose}
+                      couponCode={handleCouponCode}
+                    />
+                  )}
+                  <div className="border border-gray-400 mt-3">
+                    <div className="flex justify-between p-3 ">
+                      <div className="flex gap-2 items-center font-medium">
+                        <Gift style={{ color: "red", fontSize: "24px" }} />
+                        <h3>Gift Message</h3>
+                      </div>
+                      <h3
+                        className="text-red-600 underline cursor-pointer"
+                        onClick={() => handleGiftWrapModal()}
+                      >
+                        Add
+                      </h3>
+                      {showModal && (
+                        <GiftWrapModal
+                          closeModal={handleCloseModal}
+                          handleGiftWrapData={handleGiftWrapFormData}
+                        />
+                      )}
                     </div>
-                    <h3
-                      className="text-red-600 underline cursor-pointer"
-                      onClick={() => handleGiftWrapModal()}
-                    >
-                      Add
-                    </h3>
-                    {showModal && (
-                      <GiftWrapModal closeModal={handleCloseModal} />
+                    {GiftWrapformData.name.length!==0 && (
+                      <div className="p-2 text-wrap mt-2">
+                        <div>{GiftWrapformData.name}</div>
+                      </div>
                     )}
                   </div>
                   <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
@@ -578,7 +642,12 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Shipping Charges</h3>
-                          <h3>₹0</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(0))}
+                          </h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
@@ -622,7 +691,9 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-
+      {couponCode && (
+        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+      )}
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

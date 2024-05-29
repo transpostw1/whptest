@@ -23,6 +23,7 @@ import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
   const { products } = useProductContext();
+ 
   let logged = null;
   if (typeof window != "undefined") {
     logged = localStorage.getItem("isLoggedIn");
@@ -51,7 +52,7 @@ export default function Home() {
         <Reviews />
         {/* <WhpApp /> */}
       </div>
-      <WhpApp />
+      {/* <WhpApp /> */}
       <StickyNav />
     </>
   );

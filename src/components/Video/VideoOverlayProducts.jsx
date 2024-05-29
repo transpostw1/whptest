@@ -14,8 +14,8 @@ const VideoOverlayProducts = ({ products }) => {
       className="absolute bottom-0 w-full flex overflow-x-auto p-4"
       style={{ zIndex: 2 }}
     >
-      {products.map((product, index) => (
-        <Link href={`/product/default?id=${product.productId}`} key={index}>
+      {Array.isArray(products)&&products.map((product, index) => (
+        <Link href={`/product/default?id=${product.url}`} key={index}>
         <motion.div
           className="flex min-w-[350px] max-w-[550px] bg-white p-4 m-2 rounded-lg shadow-lg"
           style={{

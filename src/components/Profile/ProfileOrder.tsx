@@ -19,7 +19,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const [message, setMessage] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
   const [singleOrder, setSingleOrder] = useState<any>([]);
-  
+
   const handleLogOut = () => {
     logOut();
     router.push("/");
@@ -65,7 +65,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       </div>
     );
   return (
-    <div className="p-[60px]">
+    <div className="p-[60px] md:p-[40px]">
       <div className="flex justify-between ">
         <div className="flex">
           {Array.isArray(singleOrder) && singleOrder.length == 1 && (
@@ -90,6 +90,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
+      {Array.isArray(singleOrder)&&singleOrder.length==0&&(<div>No Order Found</div>)}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">
           {Array.isArray(orders) &&
@@ -161,64 +162,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       )}
 
       {Array.isArray(singleOrder) && singleOrder.length == 1 && (
-        // <div>
-        //   {singleOrder[0]?.productDetails.map((items: any, index: any) => (
-        //     <div key={index} className="flex justify-between p-4">
-        //       {items.productDetails.map((product: any, index: any) => (
-        //         <div className="flex" key={index}>
-        //           <div className="mr-3">
-        //             <Image
-        //               src={product?.imageDetails[0].image_path}
-        //               alt={"image"}
-        //               width={85}
-        //               height={85}
-        //             />
-        //           </div>
-        //           <div>
-        //             <p className="text-xl font-semibold">
-        //               {product?.displayTitle}
-        //             </p>
-        //             <p>
-        //               {product?.metalType}-{product?.metalWeight}
-        //             </p>
-        //             <p>Quantity:{items?.quantity}</p>
-        //           </div>
-        //         </div>
-        //       ))}
-
-        //       <div className="font-semibold">
-        //         ₹
-        //         {Intl.NumberFormat("en-IN", {
-        //           minimumFractionDigits: 2,
-        //         }).format(Math.round(parseInt(items?.discountedTotal)))}
-        //       </div>
-        //       {items?.isReturnable && <button>Return Here</button>}
-        //     </div>
-        //   ))}
-        //   <p className="mt-3">
-        //     Billing Address:
-        //     {singleOrder[0]?.billingAddressId[0]?.full_address},
-        //     {singleOrder[0]?.billingAddressId[0]?.landmark},{" "}
-        //     {singleOrder[0]?.billingAddressId[0]?.pincode},
-        //     {singleOrder[0]?.billingAddressId[0]?.city}
-        //   </p>
-        //   <p className="mt-3">
-        //     Shippin Address:
-        //     {singleOrder[0]?.shippingAddressId[0].full_address},
-        //     {singleOrder[0]?.shippingAddressId[0]?.landmardk},
-        //     {singleOrder[0]?.shippingAddressId[0]?.pincode},
-        //     {singleOrder[0]?.shippingAddressId[0]?.city}
-        //   </p>
-        //   {singleOrder[0]?.orderStatus === "4" ||
-        //   singleOrder[0]?.orderStatus === "5" ? null : (
-        //     <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
-        //       <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
-        //         Order Cancel
-        //       </button>
-        //     </div>
-        //   )}
-        //   {message && <FlashAlert message={message} type={"success"} />}
-        // </div>
         <SingleOrderDetails singleOrder={singleOrder}/>
       )}
     </div>

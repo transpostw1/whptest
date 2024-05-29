@@ -8,15 +8,31 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useUser } from "@/context/UserContext";
 
 interface Props {
-  product: ProductData;
+  product: ProductType;
+}
+
+interface ProductForWishlistLoggedIn {
+  productId: number;
+}
+
+interface ProductForWishlistLoggedOut {
+  productId: number;
+  title: string;
+  productPrice: string;
+  discountPrice: string;
+  discountValue: string;
+  image_path: string;
+  url: string;
 }
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const { wishlistItems, addToWishlist, removeFromWishlist,getWishlist } = useWishlist();
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const[isLoading,setIsLoading]=useState<boolean>(false)
+  const {  isLoggedIn } = useUser();
 
 
 useEffect(() => {
@@ -64,10 +80,28 @@ useEffect(() => {
   };
 
 const HandleaddToWishlist = () => {
-  addToWishlist(product?.productDetails?.productId);
-  setIsProductInWishlist(true);
-};
+  if (isLoggedIn) {
+    const productToAdd: ProductForWishlistLoggedIn = {
+      productId: product.productDetails.productId,
+    };
+    addToWishlist(productToAdd);
+    setIsProductInWishlist(true);
+  } else {
+    const productToAdd: ProductForWishlistLoggedOut = {
+      productId: product.productDetails.productId,
+      title: product.productDetails.title,
+      productPrice: product.productDetails.productPrice,
+      discountPrice: product.productDetails.discountPrice,
+      discountValue: product.productDetails.discountValue,
+      imageDetails: product.productDetails.imageDetails,
+      url: product.productDetails.url,
 
+    };
+
+    addToWishlist(productToAdd);
+    setIsProductInWishlist(true);
+  }
+};
 const HandleremoveFromWishlist = () => {
    removeFromWishlist(product.productDetails.productId);
   setIsProductInWishlist(false);
@@ -104,9 +138,9 @@ const HandleremoveFromWishlist = () => {
     );
   }
   return (
-    <div className="flex sm:justify-around mt-[25px] ">
+    <div className="flex max-sm:justify-around justify-between mt-[25px] ">
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white sm:w-[35%] h-[58px] mr-[10px] py-[18px] px-[32px] text-center"
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] mr-[10px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
         onClick={() => handleBuyNow(product)}
       >
         <Link
@@ -120,11 +154,11 @@ const HandleremoveFromWishlist = () => {
       </div>
 
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178] w-[35%] h-[58px]  text-center mr-[10px] cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center mr-[10px] cursor-pointer"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">
-          <span className="flex justify-center py-[14px]">
+          <span className="flex justify-center py-[14px] max-sm:py-[10px]">
             <span>Add to Cart</span>
             <span className="mt-1">
               <Icon.ShoppingCart />
@@ -132,7 +166,7 @@ const HandleremoveFromWishlist = () => {
           </span>
         </div>
       </div>
-      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
+      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
         {isProductInWishlist ? (
           <Icon.Heart
             size={32}

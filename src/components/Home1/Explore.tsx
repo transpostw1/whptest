@@ -25,20 +25,13 @@ const Explore = () => {
     };
     fetchSubBanners();
   }, []);
-
-  console.log("SubBanners",data);
-  // if (loading) {
-  //   return (
-  //     <div className="flex">
-  //       <div>
-  //         <Skeleton height={300} />
-  //       </div>
-  //       <div>
-  //         <Skeleton height={300} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div>
+        <Skeleton height={300} />
+      </div>
+    );
+  }
   return (
     <>
       <div className="banner-block style-one grid sm:grid-cols-2">
@@ -46,7 +39,7 @@ const Explore = () => {
           data?.map((item: any) => (
             <div key={item.id}>
               <Link
-                href={"/products"}
+                href={item.url}
                 className="banner-item relative block overflow-hidden duration-500"
               >
                 <div className="banner-img">

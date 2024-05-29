@@ -66,12 +66,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   return (
     <>
       <div
-        className="product-item grid-type hover:border hover:p-2 hover:shadow-md hover:rounded-lg"
+        className={`product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg ${
+          hover ? "z-[1]" : ""
+        }`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
             {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
@@ -80,7 +82,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="w-[95%] object-cover relative duration-700 product-img"
+                      className="object-cover relative duration-700 product-img"
                       onClick={() => handleDetailProduct()}
                     >
                       <video loop autoPlay muted>
@@ -108,7 +110,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -192,15 +194,15 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            {data?.discountPrice && (
+            {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">
                 {data && data?.discountValue}%OFF
               </p>
-            )}
+            )} */}
           </div>
         </div>
         {hover && (
-          <div className="w-full">
+          <div className="w-full flex justify-center max-sm:flex-col ">
             <button
               className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
               onClick={() => console.log("tryAtHome")}

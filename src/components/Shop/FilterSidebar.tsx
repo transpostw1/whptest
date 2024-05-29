@@ -23,7 +23,6 @@ const FilterSidebar: React.FC<Props> = ({
   selectedOptions,
   handleOptionSelect,
   productsListRef,
-  category,
 }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("Price");
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -64,10 +63,60 @@ const FilterSidebar: React.FC<Props> = ({
     };
   }, [productsListRef]);
 
+
+
+  // useEffect(() => {
+  //   let filteredArray = data.slice();
+  //   Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
+  //     if ((selectedValues as any).length > 0) {
+  //       filteredArray = filteredArray.filter((product) => {
+  //         switch (category) {
+  //           case "Price":
+  //             return (selectedValues as any).some((option: string) => {
+  //               const price = parseInt(product?.discountPrice);
+  //               switch (option) {
+  //                 case "Less than 10K":
+  //                   return price < 10000;
+  //                 case "10k to 20K":
+  //                   return price >= 10000 && price < 20000;
+  //                 case "20k to 30k":
+  //                   return price >= 20000 && price < 30000;
+  //                 case "30k and Above":
+  //                   return price >= 30000;
+  //                 default:
+  //                   return false;
+  //               }
+  //             });
+  //           case "Karat":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.metalPurity.includes(option.slice(0, -1))
+  //             );
+  //           case "Weight":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.weightRange.includes(option.slice(0, -1))
+  //             );
+  //           case "Gender":
+  //             return (selectedValues as any).includes(product.shopFor[0]);
+  //           case "Metal":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.metalType.includes(option.slice(0, -1))
+  //             );
+  //           case "Occasion":
+  //             return (selectedValues as any).some((option: string) =>
+  //               product.occasion.includes(option.slice(0, -1))
+  //             );;
+  //           default:
+  //             return true;
+  //         }
+  //       });
+  //     }
+  //   });
+  //   onFilterChange(filteredArray);
+  // }, [selectedOptions]);
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-
+  
   return (
     <>
       <div
@@ -75,12 +124,12 @@ const FilterSidebar: React.FC<Props> = ({
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto ${
-            isSidebarFixed ? "fixed top-[161px] w-[250px]" : "relative"
+          className={`filter-type pb-8 border-line h-[450px] md:h-[350px] no-scrollbar overflow-y-auto ${
+            isSidebarFixed ? "fixed w-[250px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
-            top: isSidebarFixed ? "161px" : "auto",
+            top: isSidebarFixed ? "185px" : "auto",
             width: isSidebarFixed ? "250px" : "auto",
           }}
         >
@@ -120,9 +169,9 @@ const FilterSidebar: React.FC<Props> = ({
       </div>
       {mobileFilter && (
         <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
-          <div className="mt-36 p-4">
+          <div className="mt-20 p-4">
             <Icon.X size={25} onClick={() => setMobileFilter(false)} />
-            <div className="h-[650px] overflow-y-auto no-scrollbar">
+            <div className="h-[350px] overflow-y-auto no-scrollbar">
               <div className="mt-5">
                 <p className="heading7">Filter</p>
               </div>

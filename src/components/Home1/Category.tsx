@@ -1,136 +1,143 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
+import { useCategory } from "@/context/CategoryContex";
 
 const Category = () => {
-  let categories: {
-    id: number;
-    type: string;
-    description: string;
-    image: JSX.Element;
-    href: string; // Ensure href is of type Url
-  }[] = [
-    {
-      id: 1,
-      type: "PENDANTS",
-      description:
-        "More than an accessory , they're a expressions of personal style.",
-      image: (
-        <Image
-          src={"/images/category/PendantCategory.jpg"}
-          alt="Pendant"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=pendant",
-    },
-    {
-      id: 2,
-      type: "EARRINGS",
-      description:
-        "Frame the face and illuminates your style, with elegance and personality",
-      image: (
-        <Image
-          src={"/images/category/earringsjpg.jpg"}
-          alt="Earrings"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=earrings",
-    },
-    {
-      id: 3,
-      type: "RINGS",
-      description:
-        "Timeless symbols of commitment individuality emotions, and style.",
-      image: (
-        <Image
-          src={"/images/category/RingsCategory.jpg"}
-          alt="Rings"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=rings",
-    },
-    {
-      id: 4,
-      type: "CHAINS",
-      description:
-        "Each chain link tells a story of elegance and sophistication.",
-      image: (
-        <Image
-          src={"/images/category/Bracelet.jpg"}
-          alt="Chains"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=chains",
-    },
-    {
-      id: 5,
-      type: "BRACELET & BANGLES",
-      description:
-        "Stunning bangles & bracelets, where every piece is a harmony of style.",
-      image: (
-        <Image
-          src={"/images/category/Bracelet.jpg"}
-          alt="Bracelets"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=bracelets",
-    },
-    {
-      id: 6,
-      type: "MANGALSUTRA",
-      description:
-        "Symbolise eternal love with our intricatelly designed Mangalsutras",
-      image: (
-        <Image
-          src={"/images/category/Mangalsutra.jpg"}
-          alt="Mangalsutra"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=mangulsutra",
-    },
-    {
-      id: 7,
-      type: "NECKLACE",
-      description:
-        "Exquisite necklaces each piece crafted to adorn and captivate.",
-      image: (
-        <Image
-          src={"/images/category/necklace.jpg"}
-          alt="Necklace"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=necklace",
-    },
-    {
-      id: 8,
-      type: "SILVER JEWELLERY",
-      description:
-        "Explore enduring craftsmanship in silver articles,coins,bars.",
-      image: (
-        <Image
-          src={"/images/category/Silver.jpg"}
-          alt="Silver"
-          width={400}
-          height={400}
-        />
-      ),
-      href: "/products?url=silver",
-    },
-  ];
+  const router = useRouter();
+  const { categories } = useAllCategoryContext();
+  const { setCustomcategory } = useCategory();
+
+  // let categories: {
+  //   id: number;
+  //   type: string;
+  //   description: string;
+  //   image: JSX.Element;
+  //   href: string; // Ensure href is of type Url
+  // }[] = [
+  //   {
+  //     id: 1,
+  //     type: "PENDANTS",
+  //     description:
+  //       "More than an accessory , they're a expressions of personal style.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/PendantCategory.jpg"}
+  //         alt="Pendant"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=pendant",
+  //   },
+  //   {
+  //     id: 2,
+  //     type: "EARRINGS",
+  //     description:
+  //       "Frame the face and illuminates your style, with elegance and personality",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/earringsjpg.jpg"}
+  //         alt="Earrings"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=earrings",
+  //   },
+  //   {
+  //     id: 3,
+  //     type: "RINGS",
+  //     description:
+  //       "Timeless symbols of commitment individuality emotions, and style.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/RingsCategory.jpg"}
+  //         alt="Rings"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=rings",
+  //   },
+  //   {
+  //     id: 4,
+  //     type: "CHAINS",
+  //     description:
+  //       "Each chain link tells a story of elegance and sophistication.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/Bracelet.jpg"}
+  //         alt="Chains"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=chains",
+  //   },
+  //   {
+  //     id: 5,
+  //     type: "BRACELET & BANGLES",
+  //     description:
+  //       "Stunning bangles & bracelets, where every piece is a harmony of style.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/Bracelet.jpg"}
+  //         alt="Bracelets"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=bracelets",
+  //   },
+  //   {
+  //     id: 6,
+  //     type: "MANGALSUTRA",
+  //     description:
+  //       "Symbolise eternal love with our intricatelly designed Mangalsutras",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/Mangalsutra.jpg"}
+  //         alt="Mangalsutra"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=mangulsutra",
+  //   },
+  //   {
+  //     id: 7,
+  //     type: "NECKLACE",
+  //     description:
+  //       "Exquisite necklaces each piece crafted to adorn and captivate.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/necklace.jpg"}
+  //         alt="Necklace"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=necklace",
+  //   },
+  //   {
+  //     id: 8,
+  //     type: "SILVER JEWELLERY",
+  //     description:
+  //       "Explore enduring craftsmanship in silver articles,coins,bars.",
+  //     image: (
+  //       <Image
+  //         src={"/images/category/Silver.jpg"}
+  //         alt="Silver"
+  //         width={400}
+  //         height={400}
+  //       />
+  //     ),
+  //     href: "/products?url=silver",
+  //   },
+  // ];
 
   return (
     <>
@@ -150,17 +157,30 @@ const Category = () => {
               key={category.id}
               className="flex flex-col relative items-start justify-between "
             >
-              <Link href={category.href}>
+              <Link
+                href={`/products?url=${category.url}`}
+                onClick={() => setCustomcategory(category.url)}
+              >
                 <div className="effect14 cursor-pointer">
-                  {" "}
-                  {category.image} <a href="#">{category.type}</a>
+                  <Image
+                    src={category.parentImg}
+                    alt={category.url}
+                    width={400}
+                    height={400}
+                  />
                 </div>
               </Link>
 
               <div>
-                <h1 className="text-xl font-semibold">{category.type}</h1>
-                <p className="text-sm font-medium">{category.description}</p>
-                <h3 className="text-red-600 underline font-bold cursor-pointer">
+                <h1 className="text-xl font-semibold">{category.name}</h1>
+                {/* <p className="text-sm font-medium">{category.description}</p> */}
+                <h3
+                  className="text-red-600 underline font-bold cursor-pointer"
+                  onClick={() => {
+                    router.push(`/products?url=${category.url}`);
+                    setCustomcategory(category.url);
+                  }}
+                >
                   VIEW ALL
                 </h3>
               </div>

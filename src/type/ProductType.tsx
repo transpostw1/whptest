@@ -45,7 +45,7 @@ export interface ProductType {
   tags: string[];
   collectionName: string | null;
   shopFor: string[];
-  occasion: string | null;
+  occasion: string;
   theme: string | null;
   length: any; // Specify type if available
   breadth: any; // Specify type if available
@@ -201,4 +201,19 @@ interface Variant {
 export interface ProductData {
   productDetails: ProductDetails;
   variants: Variant[];
+}
+
+
+export interface ProductForWishlistLoggedIn {
+  productId: number;
+}
+
+export interface ProductForWishlistLoggedOut {
+  productId: number;
+  title: string;
+  productPrice: string;
+  discountPrice: string;
+  discountValue: string;
+  image_path: string;
+  url: string;
 }

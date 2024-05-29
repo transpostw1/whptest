@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType } from "@/type/ProductType";
+import { ProductType, ImageDetails } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -12,12 +12,13 @@ import StarRating from "../Other/StarRating";
 interface ProductProps {
   data: ProductType;
 }
-interface ImageDetailWithTypename extends ImageDetail {
+interface ImageDetailWithTypename extends ImageDetails {
   __typename: string;
 }
 
-interface VideoDetailWithTypename extends VideoDetail {
+interface VideoDetailWithTypename {
   __typename: string;
+  order: any;
 }
 
 const Product: React.FC<ProductProps> = ({ data }) => {
@@ -36,10 +37,15 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-
   const sortedImages = data?.imageDetails
-    ?.filter((item): item is ImageDetailWithTypename => item !== null && item !== undefined)
-    ?.sort((a: ImageDetailWithTypename, b: ImageDetailWithTypename) => parseInt(a.order) - parseInt(b.order));
+    ?.filter(
+      (item): item is ImageDetailWithTypename =>
+        item !== null && item !== undefined
+    )
+    ?.sort(
+      (a: ImageDetailWithTypename, b: ImageDetailWithTypename) =>
+        parseInt(a.order) - parseInt(b.order)
+    );
 
   // const sortedImages = data?.imageDetails?.sort(
   //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
@@ -51,8 +57,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }
 
   const sortedVideos = data?.videoDetails
-    ?.filter((item): item is VideoDetailWithTypename => item !== null && item !== undefined)
-    ?.sort((a: VideoDetailWithTypename, b: VideoDetailWithTypename) => parseInt(a.order) - parseInt(b.order));
+    ?.filter(
+      (item: any): item is VideoDetailWithTypename =>
+        item !== null && item !== undefined
+    )
+    ?.sort(
+      (a: VideoDetailWithTypename, b: VideoDetailWithTypename) =>
+        parseInt(a.order) - parseInt(b.order)
+    );
   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = () => {
@@ -80,13 +92,13 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   return (
     <>
       <div
-        className="product-item grid-type hover:border hover:p-2 hover:shadow-md hover:rounded-lg"
+        className="product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
-            {data?.videoDetails != null ? (
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
+            {data?.videoDetails.length !==0 ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
                 onMouseLeave={() => setShowVideo(false)}
@@ -94,7 +106,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="w-[95%] object-cover relative duration-700 product-img"
+                      className="object-cover relative duration-700 product-img"
                       onClick={() => handleDetailProduct()}
                     >
                       <video loop autoPlay muted>
@@ -115,14 +127,29 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       height={400}
                       alt="This image is temporarry"
                     />
-
+                    {hover && (
+                      <div className="w-full relative">
+                        <button
+                          className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                          onClick={() => console.log("tryAtHome")}
+                        >
+                          Try At Home
+                        </button>
+                        <button
+                          className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                          onClick={() => console.log("view Similar")}
+                        >
+                          View Similar
+                        </button>
+                      </div>
+                    )}
                     <div
-                      className="z-0 absolute flex justify-between bottom-0 hover:z-50 "
+                      className="z-0 absolute flex justify-between top-1 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
                     >
                       <Icon.Play size={25} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 ">
+                    <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -146,15 +173,30 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <>
                 <Image
                   onClick={() => handleDetailProduct()}
-                  className="w-[95%] duration-700 hover:scale-110  m-auto"
+                  className="duration-700 hover:scale-110  m-auto"
                   src={selected.image_path}
                   width={400}
                   height={400}
                   alt="This image is temporarry"
                 />
-
+                {/* {hover && (
+                  <div className="w-full relative">
+                    <button
+                      className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                      onClick={() => console.log("tryAtHome")}
+                    >
+                      Try At Home
+                    </button>
+                    <button
+                      className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                      onClick={() => console.log("view Similar")}
+                    >
+                      View Similar
+                    </button>
+                  </div>
+                )} */}
                 <div className="relative">
-                  <div className="absolute bottom-0 right-0 z-0 hover:z-50">
+                  <div className="absolute top-1 right-1 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
                         size={25}
@@ -206,14 +248,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            {data?.discountPrice && (
+            {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">
                 {data && data?.discountValue}%OFF
               </p>
-            )}
+            )} */}
           </div>
         </div>
-        {hover && (
+        {/* {hover && (
           <div className="w-full">
             <button
               className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -228,7 +270,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               View Similar
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

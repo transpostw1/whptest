@@ -1,6 +1,7 @@
 // FilterOptions.tsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+
 interface Filter {
   title: string | any;
   options: string[];
@@ -45,6 +46,7 @@ const Filter = [
 ];
 interface Props {
   filterDropDown: string;
+  handleMobileFilter: () => void;
   handleFilterDropdown: (arg: string) => void;
   handleOptionSelect: (option: string, category: string) => void;
   selectedOptions: string[];
@@ -52,6 +54,7 @@ interface Props {
 
 const FilterOptions: React.FC<Props> = ({
   filterDropDown,
+  handleMobileFilter,
   handleFilterDropdown,
   handleOptionSelect,
   selectedOptions,
@@ -74,7 +77,7 @@ const FilterOptions: React.FC<Props> = ({
           {filterDropDown === item.title ? (
             <div>
               {item.options.map((option: string) => (
-                <div key={option}>
+                <div key={option} onClick={() => handleMobileFilter()}>
                   <input
                     type="checkbox"
                     id={option}

@@ -419,9 +419,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                <div className="">
-                  <p className="text-xl font-semibold">Login</p>
-                </div>
+                {isLoggedIn ===false? (
+                  <Link href={"/login"} onClick={handleMenuMobile}>
+                    <div className="">
+                      <p className="text-xl font-semibold">LogIn</p>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href={"/profile"} onClick={handleMenuMobile}>
+                    <div className="">
+                      <p className="text-xl font-semibold">LogOut</p>
+                    </div>
+                  </Link>
+                )}
+
                 <div className="ml-3 relative">
                   <Icon.Heart size={25} />
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">

@@ -66,7 +66,7 @@ const Benefit: React.FC = () => {
 
   return (
     <>
-      <div className="hidden md:block lg:h-[600px] md:h-[900px] px-40 md:px-10">
+      <div className="hidden lg:block lg:h-[600px] md:h-[900px] px-40 md:px-10">
         <div className="card-stack">
           {cardArray.map((card, index) => (
             <div

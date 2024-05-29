@@ -84,7 +84,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
 
     try {
       setLoading(true);
-      setBackendError(null); // Clear any previous backend errors
+      setBackendError(null); 
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -99,10 +99,10 @@ const SilverCard: React.FC<SilverCardProps> = ({
       );
 
       console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message); // Set the success message
+      setBackendMessage(response.data.message); 
     } catch (error) {
       console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+      setBackendError("Failed to enroll. Please try again later."); 
     } finally {
       setLoading(false);
     }
@@ -121,7 +121,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR SILVER
       </h1>
-      <div className="flex flex-col lg:flex-row justify-evenly gap-3 items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-evenly gap-3 items-center mx-4">
         <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
           <div className="flex justify-center items-center mt-12">
             <PieChart

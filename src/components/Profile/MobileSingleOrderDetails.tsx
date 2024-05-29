@@ -35,34 +35,17 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   };
   return (
     <div>
-      <div className="flex justify-between mb-3">
-        <div>
-          <p>
-            Order No.:{" "}
-            <span className="font-bold text-lg">{singleOrder[0].orderNo}</span>
-          </p>
-        </div>
-        <div className="flex">
-          <p className="mr-1">Tracking Status:</p>
-          <p className="text-green-600 font-bold text-lg">
-            {singleOrder[0]?.order_list.name}
-          </p>
-        </div>
+      <p className="mt-4">
+        Order No.:{" "}
+        <span className="font-bold text-lg">{singleOrder[0].orderNo}</span>
+      </p>
+      <div className="flex">
+        <p className="mr-1">Tracking Status:</p>
+        <p className="text-green-600 font-bold text-lg">
+          {singleOrder[0]?.order_list.name}
+        </p>
       </div>
-      {/* <div className="flex justify-between p-4 border border-gray font-semibold items-center rounded-t-md">
-        <div className="">
-          <p> Product Details</p>
-        </div>
-        <div>
-          <p>Product Price</p>
-        </div>
-        <div>
-          <p>Product Quantity</p>
-        </div>
-        <div>
-          <p>Total Price</p>
-        </div>
-      </div> */}
+
       {singleOrder[0]?.productDetails.map((items: any, index: any) => (
         <div
           key={index}
@@ -95,10 +78,10 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </div>
         </div>
       ))}
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 ">
         Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 ">
         Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
       <div className="flex justify-end border-gray border rounded-b-md p-2">

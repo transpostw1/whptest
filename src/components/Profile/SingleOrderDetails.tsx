@@ -59,20 +59,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
         </div>
       </div>
-      {/* <div className="flex justify-between p-4 border border-gray font-semibold items-center rounded-t-md">
-        <div className="">
-          <p> Product Details</p>
-        </div>
-        <div>
-          <p>Product Price</p>
-        </div>
-        <div>
-          <p>Product Quantity</p>
-        </div>
-        <div>
-          <p>Total Price</p>
-        </div>
-      </div> */}
+      
       {singleOrder[0]?.productDetails.map((items: any, index: any) => (
         <div
           key={index}
@@ -97,12 +84,12 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </div>
           ))}
           <p>
-            <div className="">
+            
               ₹
               {Intl.NumberFormat("en-IN", {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(items?.discountedTotal)))}
-            </div>
+            
           </p>
           <p>{items?.quantity}</p>
 
@@ -134,7 +121,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           }).format(Math.round(singleOrder[0]?.productTotal))}
         </span>
       </div>
-      <div className="grid grid-cols-3 max-md:grid-cols-2">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2">
         <div className="border border-gray mb-2 mt-4 rounded-md ">
           <p className=" border-gray border-b p-2 font-semibold">
             Billing Address

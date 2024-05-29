@@ -53,9 +53,9 @@ const FilterSidebar: React.FC<Props> = ({
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
         const isAtTop = window.pageYOffset <= sidebarTop;
+        console.log("Window page Y offset",window.pageYOffset)
 
         setIsSidebarFixed(isSidebarInViewport && !isAtTop);
-        console.log("Is Sidebar Fixed", isSidebarFixed);
       }
     };
 

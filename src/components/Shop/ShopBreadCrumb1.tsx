@@ -16,6 +16,10 @@ import { baseUrl } from "@/utils/constants";
 import WhpApp from "../Home1/WhpApp";
 import { useCategory } from "@/context/CategoryContex";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import Banner from './Banner';
+import Calculator from './Calculator';
+import Filter from './Filter';
+
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -397,73 +401,91 @@ const ShopBreadCrumb1 = () => {
               </div>
             </div>
 
-            {isLoading ? (
-              <ProductSkeleton />
-            ) : filteredProducts.length > 0 ? (
-              <div
-                className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5"
-                ref={productsListRef}
-              >
-                {filteredProducts
-                  .slice(pagesVisited, pagesVisited + productsPerPage)
-                  .map((item: any) => {
-                    return (
-                      <div key={item.productId}>
-                        <Product data={item} />
-                      </div>
-                    );
-                  })}
-              </div>
-            ) : (
-              <div className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]">
-                {/* <p>No products found.</p> */}
+        {isLoading ? (
+  <ProductSkeleton />
+) : filteredProducts.length > 0 ? (
+  <div
+    className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5"
+    ref={productsListRef}
+  >
+    {filteredProducts
+      .slice(pagesVisited, pagesVisited + productsPerPage)
+      .map((item: any, index: number) => {
+        const isMultipleOfThree = (index + 1) % 3 === 0;
 
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                  Oops! No products found.
-                </h2>
-                <p className="text-lg text-gray-600 mb-6">
-                  We couldn't find any products matching your current filters.
-                </p>
-                <div className="suggestions mb-8">
-                  {/* <h3 class="text-xl font-semibold text-gray-800 mb-4">Try exploring further:</h3>
-                  <ul class="space-y-2">
-                    <li class="text-base text-gray-600">Adjust your filters to broaden your search</li>
-                    <li class="text-base text-gray-600">Check out our popular categories</li>
-                    <li class="text-base text-gray-600">Browse our latest arrivals</li>
-                    <li class="text-base text-gray-600">Explore our bestsellers</li>
-                  </ul> */}
-                </div>
-                <div className="cta-buttons flex justify-center space-x-4">
-                  <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
-                    Clear Filters
-                  </button>
-                  <button className="btn-explore bg-[#e26178] text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-300 ">
-                    Explore More
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex justify-center">
-          {pageCount > 1 && (
-            <div className="list-pagination flex items-center md:mt-10 mt-7 mb-4">
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel="..."
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={2}
-                pageCount={pageCount}
-                onPageChange={changePage}
-                containerClassName={"pagination"}
-                activeClassName={"active"}
-              />
+        return (
+          <React.Fragment key={item.productId}>
+            <div>
+              <Product data={item} />
             </div>
-          )}
-        </div>
-        {/* <WhpApp /> */}
+            {isMultipleOfThree && (
+              <>
+                {(index + 1) % 9 === 0 && (
+                  <div className="custom-component col-span-2 lg:col-span-2 md:col-span-2">
+                    <Filter />
+                  </div>
+                )}
+                {(index + 1) % 6 === 0 && (
+                  <div className="custom-component col-span-2 lg:col-span-2 md:col-span-2">
+                    <Calculator />
+                  </div>
+                )}
+                {(index + 1) % 12 === 0 && (
+                  <div className="custom-component col-span-2 lg:col-span-2 md:col-span-2">
+                    <Banner />
+                  </div>
+                )}
+                {(index + 1) % 15 === 0 && (
+                  <div className="custom-component col-span-2 lg:col-span-2 md:col-span-2">
+                    <Filter />
+                  </div>
+                )}
+              </>
+            )}
+          </React.Fragment>
+        );
+      })}
+  </div>
+) : (
+  <div className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]">
+    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+      Oops! No products found.
+    </h2>
+    <p className="text-lg text-gray-600 mb-6">
+      We couldn't find any products matching your current filters.
+    </p>
+    <div className="suggestions mb-8"></div>
+    <div className="cta-buttons flex justify-center space-x-4">
+      <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+        Clear Filters
+      </button>
+      <button className="btn-explore bg-[#e26178] text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-300">
+        Explore More
+      </button>
+    </div>
+  </div>
+)}
       </div>
+    </div>
+    <div className="flex justify-center">
+      {pageCount > 1 && (
+        <div className="list-pagination flex items-center md:mt-10 mt-7 mb-4">
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel="..."
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={2}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
+        </div>
+      )}
+    </div>
+    <WhpApp />
+  </div>
 
       <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden sm:block md:hidden h-[52px] ">
         <div className="flex justify-center align-middle mt-4 text-white">

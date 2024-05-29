@@ -32,6 +32,7 @@ console.log(cartItems,"sfdsfsf")
               handleQuantityChange={handleQuantityChange}
               removeFromCart={removeFromCart}
             />
+            
           ))
         )}
       </div>

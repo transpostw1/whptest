@@ -40,25 +40,25 @@ const ProfileGMS = () => {
     );
   }
   return (
-    <div className="max-md:px-[60px] py-[30px]">
+    <div className="px-[60px] py-[30px]">
       <div className="text-xl font-bold">Profile GMS</div>
       <div>
         {data &&
           data.map((gms: any, index: any) => (
             <div key={index} className="border mb-3">
-              <div className="flex justify-between border-b">
+              <div className="flex justify-between border-b px-2">
                 <div>Date: {gms.enrollDate}</div>
                 <div>{gms.schemeType}</div>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between px-2">
                 <div>Monthly Investment: {gms.monthlyAmount} </div>
                 <div>Balance Amount: {gms.balanceAmount}</div>
               </div>
-              <p>Payment Status Tracking</p>
-              <button className="px-4 py-2 bg-[#e26178] text-white my-2">
+              <p className="px-2">Payment Status Tracking</p>
+              <button className="px-4 py-2 bg-[#e26178] text-white my-2 mr-2">
                 Pay Now
               </button>
-              <div className="flex mb-2">
+              <div className="flex mb-2 px-2">
                 {Array.from({ length: 12 }).map((_, index) => (
                   <div key={index}>
                     {/* Render your content here */}

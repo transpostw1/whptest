@@ -611,7 +611,7 @@ const Checkout: React.FC = () => {
                         />
                       )}
                     </div>
-                    {GiftWrapformData.name.length!==0 && (
+                    {GiftWrapformData.name.length !== 0 && (
                       <div className="p-2 text-wrap mt-2">
                         <div>{GiftWrapformData.name}</div>
                       </div>
@@ -694,8 +694,10 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* </ProtectedRoute> */}
-
+      {console.log("couponCode", flashMessage)}
+      {couponCode && (
+        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+      )}
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

@@ -5,6 +5,7 @@ import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import FlashAlert from "@/components/Other/FlashAlert";
 
 interface DiamondCardProps {
@@ -123,12 +124,20 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       </h1>
       <div className="flex flex-col lg:flex-row justify-evenly gap-3 items-center mx-4">
         <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
-          <div className="flex justify-center items-center mt-12">
+          <div className="flex justify-center items-center mt-2">
             <PieChart
               totalAmount={totalAmount}
               redemptionAmount={redemptionAmount}
               monthlyDeposit={monthlyDeposit}
             />
+          </div>
+          <div>
+            <Link
+              className=" text-black underline text-center rounded-xl w-full cursor-pointer "
+              href={"/terms-and-condition"}
+            >
+              Read terms and conditions
+            </Link>
           </div>
         </div>
         <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">

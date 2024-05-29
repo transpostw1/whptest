@@ -187,13 +187,25 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
+
+  const filteredCartItems = cartItems.filter(
+    (item) =>
+      item?.productId&&
+      item?.quantity&&
+      item?.name &&
+      item?.price &&
+      item?.image
+  );
+
+  console.log("Filtered Cart Items:", filteredCartItems);
+
   const mappedCartItems = cartItems
     .filter(
       (item) =>
-        item?.productId &&
-        item?.quantity &&
-        item?.productDetails?.displayTitle &&
-        item?.productDetails?.discountPrice &&
+        item?.productId ||
+        item?.quantity ||
+        item?.productDetails?.displayTitle ||
+        item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
     .map((item) => ({
@@ -256,7 +268,8 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
+  console.log(cartItems,"CARTTTTT")
+  console.log(mappedCartItems,"pppppppppppppppppppppppppppppppppppppppppp")
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 

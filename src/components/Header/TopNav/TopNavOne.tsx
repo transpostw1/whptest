@@ -19,7 +19,11 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
             <Swiper
               spaceBetween={0}
               slidesPerView={1}
-              modules={[Navigation]}
+              modules={[Autoplay,Navigation]}
+              autoplay={{
+                delay: 3000, 
+                disableOnInteraction: false, 
+              }}
               className="h-[50%] relative flex items-center justify-center bg"
             >
               <SwiperSlide>

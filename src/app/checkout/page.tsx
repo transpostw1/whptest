@@ -603,7 +603,7 @@ const Checkout: React.FC = () => {
                         />
                       )}
                     </div>
-                    {GiftWrapformData.name.length!==0 && (
+                    {GiftWrapformData.name.length !== 0 && (
                       <div className="p-2 text-wrap mt-2">
                         <div>{GiftWrapformData.name}</div>
                       </div>
@@ -684,6 +684,7 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+      {console.log("couponCode", flashMessage)}
       {couponCode && (
         <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
       )}

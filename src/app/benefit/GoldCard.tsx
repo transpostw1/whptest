@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import FlashAlert from "@/components/Other/FlashAlert";
 
 const GoldCard: React.FC = () => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
@@ -13,6 +14,7 @@ const GoldCard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [backendError, setBackendError] = useState<string | null>(null);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error">("success");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
@@ -62,38 +64,38 @@ const GoldCard: React.FC = () => {
     }
   };
 
-const handleEnroll = async () => {
-  if (!isLoggedIn) {
-    setLoading(true);
-    router.push("/login");
-    return;
-  }
+  const handleEnroll = async () => {
+    if (!isLoggedIn) {
+      setLoading(true);
+      router.push("/login");
+      return;
+    }
 
-  try {
-    setLoading(true);
-    setBackendError(null); // Clear any previous backend errors
-    const response = await instance.post(
-      `${baseUrl}${gms}`,
-      {
-        schemeType: "gold",
-        amount: monthlyDeposit,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
+    try {
+      setLoading(true);
+      setBackendError(null); // Clear any previous backend errors
+      const response = await instance.post(
+        `${baseUrl}${gms}`,
+        {
+          schemeType: "gold",
+          amount: monthlyDeposit,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
 
-    console.log("Enrollment successful", response.data);
-    setBackendMessage(response.data.message); // Set the success message
-  } catch (error) {
-    console.error("Error during enrollment", error);
-    setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
-  } finally {
-    setLoading(false);
-  }
-};
+      console.log("Enrollment successful", response.data);
+      setBackendMessage(response.data.message); // Set the success message
+    } catch (error) {
+      console.error("Error during enrollment", error);
+      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
@@ -177,14 +179,19 @@ const handleEnroll = async () => {
           </div>
           <div>
             <div
-              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center  p-1 rounded-lg w-full cursor-pointer mb-5"
+              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
               onClick={handleEnroll}
             >
               {loading ? "Enrolling..." : "Enroll Now"}
             </div>
+
             {backendMessage && (
-              <p className="text-green-500 mt-2">{backendMessage}</p>
+              <div>
+                <FlashAlert message={backendMessage} type={flashType} />
+                <p className="text-green-500 mt-2">{backendMessage}</p>
+              </div>
             )}
+
             {backendError && (
               <p className="text-red-500 mt-2">{backendError}</p>
             )}

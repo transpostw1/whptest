@@ -59,9 +59,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isLoggedIn) {
       const userToken = Cookies.get("localtoken");
-      if (userToken) {
+      // if (userToken) {
         setCookieToken(userToken);
-      }
+      // }
     }
   }, []);
 

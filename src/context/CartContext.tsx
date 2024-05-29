@@ -108,9 +108,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       (item) => item.productId !== productId
     );
     setCartItems(updatedCartItems);
-
     saveCartItemsToStorage(updatedCartItems);
-
     if (isLoggedIn) {
       syncCartWithServer(updatedCartItems);
     }
@@ -140,7 +138,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
-        quantity: item.quantity,
+        quantity: item.quantity||"0",
       }));
       await instance.post(
         `${baseUrl}/cart/sync`,

@@ -28,7 +28,6 @@ const FilterSidebar: React.FC<Props> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
-
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
   };
@@ -50,7 +49,8 @@ const FilterSidebar: React.FC<Props> = ({
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
           windowHeight >= productsListBottom; // Check for end of products
-        const isSidebarInViewport = isAboveProductsList && !isAtProductsListBottom;
+        const isSidebarInViewport =
+          isAboveProductsList && !isAtProductsListBottom;
 
         setIsSidebarFixed(isSidebarInViewport);
       }
@@ -63,7 +63,9 @@ const FilterSidebar: React.FC<Props> = ({
     };
   }, [productsListRef]);
 
-
+  const handleMobileFilter = () => {
+    setMobileFilter(false);
+  };
 
   // useEffect(() => {
   //   let filteredArray = data.slice();
@@ -116,7 +118,7 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-  
+
   return (
     <>
       <div
@@ -159,6 +161,7 @@ const FilterSidebar: React.FC<Props> = ({
 
           <div className="list-type mt-4">
             <FilterOptions
+              handleMobileFilter={handleMobileFilter}
               filterDropDown={filterDropDown}
               handleFilterDropdown={handleFilterDropdown}
               handleOptionSelect={handleOptionSelect}
@@ -177,6 +180,7 @@ const FilterSidebar: React.FC<Props> = ({
               </div>
               <div className="list-type mt-4">
                 <FilterOptions
+                  handleMobileFilter={handleMobileFilter}
                   filterDropDown={filterDropDown}
                   handleFilterDropdown={handleFilterDropdown}
                   handleOptionSelect={handleOptionSelect}

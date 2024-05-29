@@ -154,60 +154,60 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  const mappedCartItems = cartItems
-    .filter(
-      (item) =>
-        item?.productId &&
-        item?.quantity &&
-        item?.productDetails?.displayTitle &&
-        item?.productDetails?.discountPrice &&
-        item?.productDetails?.imageDetails
-    )
-    .map((item) => ({
-      productId: item?.productId,
-      quantity: item?.quantity,
-      name: item?.productDetails?.displayTitle,
-      price: item?.productDetails?.discountPrice,
-      image:
-        item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
-          ? item.productDetails.imageDetails[0].image_path
-          : "",
-    }));
-  // const mappedCartItems = showAllItems
-  //   ? cartItems
-  //       .filter(
-  //         (item) =>
-  //           item?.productId &&
-  //           item?.quantity &&
-  //           item?.productDetails?.displayTitle &&
-  //           item?.productDetails?.discountPrice &&
-  //           item?.productDetails?.imageDetails
-  //       )
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }))
-  //   : cartItems
-  //       .filter((item) => item.productId === parseInt(buyNow as string))
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }));
+  // const mappedCartItems = cartItems
+  //   .filter(
+  //     (item) =>
+  //       item?.productId &&
+  //       item?.quantity &&
+  //       item?.productDetails?.displayTitle &&
+  //       item?.productDetails?.discountPrice &&
+  //       item?.productDetails?.imageDetails
+  //   )
+  //   .map((item) => ({
+  //     productId: item?.productId,
+  //     quantity: item?.quantity,
+  //     name: item?.productDetails?.displayTitle,
+  //     price: item?.productDetails?.discountPrice,
+  //     image:
+  //       item?.productDetails?.imageDetails &&
+  //       item?.productDetails?.imageDetails.length > 0
+  //         ? item.productDetails.imageDetails[0].image_path
+  //         : "",
+  //   }));
+  const mappedCartItems = showAllItems
+    ? cartItems
+        .filter(
+          (item) =>
+            item?.productId &&
+            item?.quantity &&
+            item?.productDetails?.displayTitle &&
+            item?.productDetails?.discountPrice &&
+            item?.productDetails?.imageDetails
+        )
+        .map((item) => ({
+          productId: item?.productId,
+          quantity: item?.quantity,
+          name: item?.productDetails?.displayTitle,
+          price: item?.productDetails?.discountPrice,
+          image:
+            item?.productDetails?.imageDetails &&
+            item?.productDetails?.imageDetails.length > 0
+              ? item.productDetails.imageDetails[0].image_path
+              : "",
+        }))
+    : cartItems
+        .filter((item) => item.productId === parseInt(buyNow as string))
+        .map((item) => ({
+          productId: item?.productId,
+          quantity: item?.quantity,
+          name: item?.productDetails?.displayTitle,
+          price: item?.productDetails?.discountPrice,
+          image:
+            item?.productDetails?.imageDetails &&
+            item?.productDetails?.imageDetails.length > 0
+              ? item.productDetails.imageDetails[0].image_path
+              : "",
+        }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     console.log("function is runnign");
@@ -463,11 +463,18 @@ const Checkout: React.FC = () => {
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
               <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
               {selectedComponent === "CartItems" && (
+                <>
                 <CartItems
                   cartItems={mappedCartItems}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
                 />
+               
+              <button onClick={toggleShowAllItems}>
+                {showAllItems ? "-Hide" : "+Show"} Cart Items
+              </button>
+            
+                </>
               )}
               {selectedComponent === "DeliveryDetails" && (
                 <DeliveryDetails

@@ -138,8 +138,6 @@ const Checkout: React.FC = () => {
         setFlashType("success");
       } catch (error: any) {
         console.log("Error occurred", error);
-        setFlashMessage(error.response.data.message);
-        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -414,9 +412,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -424,9 +421,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -434,9 +430,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -668,8 +663,8 @@ const Checkout: React.FC = () => {
                 </div>
               )}
 
-                {(selectedComponent === "DeliveryDetails" ||
-                  selectedComponent === "Payment") && (
+              {(selectedComponent === "DeliveryDetails" ||
+                selectedComponent === "Payment") && (
                   <div>
                     <h1 className="my-5 text-2xl text-rose-600">
                       ORDER SUMMARY

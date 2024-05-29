@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
 
-
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
@@ -111,8 +110,8 @@ const StickyNav = () => {
       {isSearchModalOpen && (
         <ModalSearch
           searchKeyword=""
-          setSearchKeyword={() => {}}
-          handleSearch={() => {}}
+          setSearchKeyword={() => { }}
+          handleSearch={() => { }}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
           handleModalToggle={toggleSearchModal}

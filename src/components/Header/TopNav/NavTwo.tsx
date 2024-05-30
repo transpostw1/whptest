@@ -4,7 +4,9 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { PiNotebookDuotone } from "react-icons/pi";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import { BiSolidOffer } from "react-icons/bi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useCart } from "@/context/CartContext";
@@ -236,14 +238,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <div className="right flex gap-7 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center ">
                       <Link href={"/offers"}>
-                        <Image
-                          src={"/images/icons/offer.svg"}
-                          alt="Offer"
-                          width={30}
-                          height={30}
-                        />
+                        <BiSolidOffer size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
@@ -252,24 +249,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Stores</h4>
                     </div> */}
                     <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/blog.svg"}
-                        alt="Blog"
-                        width={30}
-                        height={30}
-                      />
+                      <PiNotebookDuotone size={30} />
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div
-                      className="flex flex-col items-center"
+                      className={`flex flex-col items-center`}
                       onClick={handleContactPopup}
                     >
-                      <Image
-                        src={"/images/icons/contact.svg"}
-                        alt="Contact"
-                        width={30}
-                        height={30}
-                      />
+                      <Icon.Headset size={30} />
                       <h4 className="text-sm">Contact</h4>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -405,12 +392,19 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                {isLoggedIn ===false? (
-                  <Link href={"/login"} onClick={handleMenuMobile}>
-                    <div className="">
-                      <p className="text-xl font-semibold">LogIn</p>
-                    </div>
-                  </Link>
+                {isLoggedIn === false ? (
+                  <>
+                    <Link href={"/login"} onClick={handleMenuMobile}>
+                      <div className="ml-3">
+                        <p className="text-xl font-semibold ml-3">LogIn</p>
+                      </div>
+                    </Link>
+                    <Link href={"/register"} onClick={handleMenuMobile}>
+                      <div className="ml-3">
+                        <p className="text-xl font-semibold">SignIn</p>
+                      </div>
+                    </Link>
+                  </>
                 ) : (
                   <Link href={"/profile"} onClick={handleMenuMobile}>
                     <div className="">
@@ -419,12 +413,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </Link>
                 )}
 
-                <div className="ml-3 relative">
+                {/* <div className="ml-3 relative">
                   <Icon.Heart size={25} />
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                     {wishlistItems.length}
                   </span>
-                </div>
+                </div> */}
                 <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image
@@ -663,16 +657,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 9 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(9)}
                   >
-                    <p
-                      className={`text-xl font-semibold flex items-center  mt-5`}
-                    >
-                      Gold Services
-                      <Icon.CaretRight size={20} weight="fill" />
-                    </p>
+                    <Link href={"/benefit"}>
+                      <p
+                        className={`text-xl font-semibold flex items-center  mt-5`}
+                      >
+                        Gold Services
+                        {/* <Icon.CaretRight size={20} weight="fill" /> */}
+                      </p>
+                    </Link>
                   </li>
                 </ul>
               </div>
-              <div className="flex mt-2 bg-[#fdf4f6] p-2">
+              {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
                 <div>
                   <p className="text-lg font-semibold">Download the WHP App</p>
                   <Image
@@ -696,7 +692,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={164}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

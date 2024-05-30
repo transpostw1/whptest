@@ -67,6 +67,7 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
+
   useEffect(() => {
     setCustomcategory(localStorage.getItem("category"));
     console.log("category:", category);
@@ -175,7 +176,7 @@ const ShopBreadCrumb1 = () => {
             }
           }
         `;
-
+        
         const filterOptions:any = {};
         const priceRangeMapping:any = {
           "Less than 10K": { min: 0, max: 10000, key: "lt10k" },
@@ -226,9 +227,9 @@ const ShopBreadCrumb1 = () => {
     fetchData();
   }, [category, selectedOptions]);
 
-  useEffect(() => {
-    console.log("fetched Products", filteredProducts);
-  }, [filteredProducts]);
+  // useEffect(() => {
+  //   console.log("fetched Products", filteredProducts);
+  // }, [filteredProducts]);
 
   const productsListRef = useRef<HTMLDivElement>(null);
 

@@ -120,6 +120,7 @@ const AddAddressMobile: React.FC<Props> = ({
           </div>
         </Sheet.Header>
         <Sheet.Content>
+          <Sheet.Scroller>
           <div className="p-4">
             {formError && <div className="text-red-500 mb-4">{formError}</div>}
             <form onSubmit={formik.handleSubmit}>
@@ -366,6 +367,7 @@ const AddAddressMobile: React.FC<Props> = ({
               </button>
             </form>
           </div>
+          </Sheet.Scroller>
         </Sheet.Content>
       </Sheet.Container>
     </Sheet>

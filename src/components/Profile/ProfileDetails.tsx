@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
+import FlashAlert from "../Other/FlashAlert";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -14,6 +15,8 @@ const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [message, setMessage] = useState<any>("");
+  const [type, setType] = useState<any>("");
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
@@ -45,7 +48,7 @@ const ProfileDetails = () => {
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post<{ data: any }>(
+      const response = await axios.post(
         `${baseUrl}/customer/address/remove`,
         { address_id: id },
         {
@@ -54,6 +57,8 @@ const ProfileDetails = () => {
           },
         }
       );
+      setMessage(response.data.message);
+      setType("success");
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {
@@ -153,7 +158,7 @@ const ProfileDetails = () => {
           </div>
         </div>
       </form>
-      <div className="flex justify-between">
+      <div className="flex justify-between px-[15px]">
         <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
         <h2
           className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
@@ -196,6 +201,7 @@ const ProfileDetails = () => {
           }}
         />
       )}
+      {message && <FlashAlert message={message} type={type} />}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

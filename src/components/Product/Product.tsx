@@ -74,7 +74,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
       >
         <div className="product-main cursor-pointer block">
           <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
-            {data?.videoDetails!==null ? (
+            {data?.videoDetails !== null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
                 onMouseLeave={() => setShowVideo(false)}
@@ -112,7 +112,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     </div>
                     <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
-                      {isProductInWishlist ? (
+                       {isProductInWishlist ? (
                         <Icon.Heart
                           size={25}
                           color="#fa0000"
@@ -127,6 +127,22 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                         />
                       )}
                     </div>
+                    {hover && (
+                      <div className="w-full flex justify-center max-sm:flex-col ">
+                        <button
+                          className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                          onClick={() => console.log("tryAtHome")}
+                        >
+                          Try At Home
+                        </button>
+                        <button
+                          className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                          onClick={() => console.log("view Similar")}
+                        >
+                          View Similar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -140,9 +156,8 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   height={400}
                   alt="This image is temporarry"
                 />
-
                 <div className="relative">
-                  <div className="absolute bottom-0 right-0 z-0 hover:z-50">
+                  <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
                         size={25}
@@ -159,10 +174,26 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     )}
                   </div>
                 </div>
+                {hover && (
+                  <div className="w-full flex justify-center max-sm:flex-col ">
+                    <button
+                      className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
+                      onClick={() => console.log("tryAtHome")}
+                    >
+                      Try At Home
+                    </button>
+                    <button
+                      className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
+                      onClick={() => console.log("view Similar")}
+                    >
+                      View Similar
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>
-          <div className=" mt-4 lg:mb-4" onClick={() => handleDetailProduct()}>
+          <div className=" mt-4 lg:mb-2" onClick={() => handleDetailProduct()}>
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
@@ -174,7 +205,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
             </div> */}
-            <StarRating stars={data.rating} />
+             <StarRating stars={data.rating} />
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               {data?.discountPrice && (
@@ -201,26 +232,10 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
-        {hover && (
-          <div className="w-full flex justify-center max-sm:flex-col ">
-            <button
-              className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-              onClick={() => console.log("tryAtHome")}
-            >
-              Try At Home
-            </button>
-            <button
-              className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-              onClick={() => console.log("view Similar")}
-            >
-              View Similar
-            </button>
-          </div>
-        )}
-      </div>
+      </div> 
+      <div>NULL</div>
     </>
   );
-  // );
 };
 
 export default Product;

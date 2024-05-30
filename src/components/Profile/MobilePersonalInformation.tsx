@@ -6,6 +6,7 @@ import { Address } from "@/type/AddressType";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
+import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import EditAddressModal from "./EditAddressModal";
@@ -28,10 +29,11 @@ interface FormValues {
   profilePicture: File | null;
 }
 
-const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
+const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -110,6 +112,9 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowAddressModal(false);
   };
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
@@ -475,7 +480,15 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
           </button>
         </div>
       </form>
-      <h2 className="text-xl font-semibold mb-2 mt-4 p-2">My Addresses</h2>
+      <div className="flex justify-between">
+        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2
+          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          onClick={() => setShowAddressModal(true)}
+        >
+          Add Address
+        </h2>
+      </div>
       <div className="flex flex-wrap p-4">
         {allAddress &&
           allAddress.map((address: any) => (
@@ -501,6 +514,16 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
             </div>
           ))}
       </div>
+      {showAddressModal && (
+        <AddAddressMobile
+          isOpen={false}
+          onClose={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (address: Address): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

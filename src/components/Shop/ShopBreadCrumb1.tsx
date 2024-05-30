@@ -415,7 +415,7 @@ const ShopBreadCrumb1 = () => {
                   })}
               </div>
             ) : (
-              <div className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]">
+              <div className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]" ref={productsListRef}>
                 {/* <p>No products found.</p> */}
 
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">

@@ -154,7 +154,7 @@ const Footer = () => {
               </div>
 
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
+                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Information

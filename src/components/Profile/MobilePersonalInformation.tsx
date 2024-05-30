@@ -6,16 +6,18 @@ import { Address } from "@/type/AddressType";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
+import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 
-interface Props{
-    handleComponent:(args:string)=>void;
+interface Props {
+  handleComponent: (args: string) => void;
 }
-const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
+const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
   const { logOut, isLoggedIn } = useUser();
@@ -26,11 +28,13 @@ const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
       router.replace("/");
     }
   }, [isLoggedIn, router]);
-  
 
   const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowAddressModal(false);
   };
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
@@ -79,9 +83,9 @@ const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
   const closeEditModal = () => {
     setShowModal(false);
   };
-  const handleBackButton=(args:string)=>{
+  const handleBackButton = (args: string) => {
     handleComponent(args);
-  }
+  };
   if (isLoading) {
     return (
       <div className="loading-container flex justify-center items-center h-full">
@@ -92,12 +96,13 @@ const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
   return (
     <div className="">
       <div className="flex">
-        <div onClick={()=>handleBackButton("")} className="mt-2"><Icon.CaretLeft size={25}/></div>
+        <div onClick={() => handleBackButton("")} className="mt-2">
+          <Icon.CaretLeft size={25} />
+        </div>
         <div>
           <p className="font-bold text-xl">Personal Information</p>
           <p className="text-[#cfcdcd]">Manage your profile</p>
         </div>
-        
       </div>
       <div className="flex justify-between p-4">
         <div className="relative w-[80px] h-[80px] mt-4">
@@ -177,7 +182,15 @@ const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
           </div>
         </div>
       </form>
-      <h2 className="text-xl font-semibold mb-2 mt-4 p-2">My Addresses</h2>
+      <div className="flex justify-between">
+        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2
+          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          onClick={() => setShowAddressModal(true)}
+        >
+          Add Address
+        </h2>
+      </div>
       <div className="flex flex-wrap p-4">
         {allAddress &&
           allAddress.map((address: any) => (
@@ -203,6 +216,16 @@ const MobilePersonalInformation:React.FC<Props>= ({handleComponent}) => {
             </div>
           ))}
       </div>
+      {showAddressModal && (
+        <AddAddressMobile
+          isOpen={false}
+          onClose={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (address: Address): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

@@ -10,30 +10,32 @@ import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 
-
 const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showAddressModal,setShowAddressModal]=useState<boolean>(false);
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
-  const { logOut, isLoggedIn,userDetails } = useUser();
+  const { logOut, isLoggedIn, userDetails } = useUser();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
       router.replace("/");
     }
   }, [isLoggedIn, router]);
-  
-const handleLogOut = () => {
-  if (typeof window !== "undefined") {
-    Cookies.remove("localtoken");
-    localStorage.clear();
-    logOut();
-    router.push("/");
-  }
-};
+
+  const handleLogOut = () => {
+    if (typeof window !== "undefined") {
+      Cookies.remove("localtoken");
+      localStorage.clear();
+      logOut();
+      router.push("/");
+    }
+  };
+  const closeModal = () => {
+    setShowAddressModal(false);
+  };
   const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);
@@ -107,7 +109,9 @@ const handleLogOut = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">Wallet Balance:{userDetails?.customer?.wallet_amount}</p>
+        <p className="font-bold">
+          Wallet Balance:{userDetails?.customer?.wallet_amount}
+        </p>
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
@@ -150,9 +154,13 @@ const handleLogOut = () => {
         </div>
       </form>
       <div className="flex justify-between">
-
-      <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
-      <h2 className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer" onClick={()=>setShowAddressModal(true)}>Add Address</h2>
+        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2
+          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          onClick={() => setShowAddressModal(true)}
+        >
+          Add Address
+        </h2>
       </div>
       <div className="flex flex-wrap">
         {allAddress &&
@@ -179,11 +187,15 @@ const handleLogOut = () => {
             </div>
           ))}
       </div>
-      {showAddressModal&&<AddAddressModal closeModal={function (): void {
-        throw new Error("Function not implemented.");
-      } } isForBillingAddress={false} onAddressAdded={function (isBillingAddress: boolean): void {
-        throw new Error("Function not implemented.");
-      } }/>}
+      {showAddressModal && (
+        <AddAddressModal
+          closeModal={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (isBillingAddress: boolean): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

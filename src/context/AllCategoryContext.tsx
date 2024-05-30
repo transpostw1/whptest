@@ -41,6 +41,7 @@ const AllCategoryProvider = ({ children }: { children: ReactNode }) => {
 
     fetchCategories();
   }, []);
+  console.log("All catgeory", categories);
 
   return (
     <AllCategoryContext.Provider value={{ categories }}>

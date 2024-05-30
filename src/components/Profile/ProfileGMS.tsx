@@ -59,7 +59,7 @@ const ProfileGMS = () => {
                 Pay Now
               </button>
               <div className="flex mb-2 px-2">
-                {Array.from({ length: 12 }).map((_, index) => (
+                {Array.from({ length: 11 }).map((_, index) => (
                   <div key={index}>
                     {/* Render your content here */}
                     <p className="text-transparent bg-[#929191] mr-3 h-[10px] w-[20px]">

@@ -11,7 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 
 interface Props {
-  product: ProductType;
+  product: ProductType|ProductDetails;
 }
 
 interface ProductForWishlistLoggedIn {
@@ -54,6 +54,7 @@ useEffect(() => {
 
   fetchWishlist();
 }, []);
+
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(

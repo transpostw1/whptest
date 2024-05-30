@@ -52,7 +52,6 @@ export const fetchCartItemsFromServer = async (): Promise<CartItems[]> => {
           image: imagePath,
         };
       });
-      console.log(cartItemsData,"UTTTTTTT")
   
       localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
       {

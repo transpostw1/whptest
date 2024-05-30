@@ -190,29 +190,27 @@ const Checkout: React.FC = () => {
 
 
 
-  const mappedCartItems = cartItems
-    .filter(
-      (item) =>
-        item?.productId ||
-        item?.quantity ||
-        item?.name ||
-        item?.productDetails?.discountPrice ||
-        item?.productDetails?.imageDetails
-    )
-    .map((item) => ({
-      productId: item?.productId,
-      quantity: item?.quantity,
-      name: item?.name,
-      productPrice: item?.productDetails?.productPrice,
-      discountValue: item?.productDetails?.discountValue,
-      price: item?.productDetails?.discountPrice,
-      url:item?.productDetails?.url,
-      image:
-        item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
-          ? item.productDetails.imageDetails[0].image_path
-          : "",
-    }));
+const mappedCartItems = cartItems
+  .filter(
+    (item) =>
+      item?.productId &&
+      item?.quantity &&
+      item?.productDetails?.displayTitle &&
+      item?.productDetails?.discountPrice &&
+      item?.productDetails?.imageDetails
+  )
+  .map((item) => ({
+    productId: item?.productId,
+    quantity: item?.quantity,
+    name: item?.productDetails?.displayTitle,
+    price: item?.productDetails?.discountPrice,
+    image:
+      item?.productDetails?.imageDetails &&
+      item?.productDetails?.imageDetails.length > 0
+        ? item.productDetails.imageDetails[0].image_path
+        : "",
+  }));
+  console.log(mappedCartItems,"hh")
   // const mappedCartItems = showAllItems
   //   ? cartItems
   //       .filter(
@@ -504,7 +502,7 @@ const Checkout: React.FC = () => {
                 <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
                 {selectedComponent === "CartItems" && (
                   <CartItems
-                    cartItems={cartItems}
+                    cartItems={mappedCartItems}
                     handleQuantityChange={handleQuantityChange}
                     removeFromCart={removeFromCart}
                   />

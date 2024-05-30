@@ -93,15 +93,31 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchCartItems();
   }, [isLoggedIn]);
 
-  const addToCart = (item: CartItem, quantity: number) => {
-    const newItem = { ...item, quantity };
-    setCartItems((prevCartItems) => [...prevCartItems, newItem]);
-    saveCartItemsToStorage([...cartItems, newItem]);
+  
+  // const addToCart = (item: CartItem, quantity: number) => {
+  //   const newItem = { ...item, quantity };
+  //   setCartItems((prevCartItems) => [...prevCartItems, newItem]);
+  //   saveCartItemsToStorage([...cartItems, newItem]);
 
-    if (isLoggedIn) {
-      syncCartWithServer([...cartItems, newItem]);
-    }
-  };
+  //   if (isLoggedIn) {
+  //     syncCartWithServer([...cartItems, newItem]);
+  //   }
+  // };
+
+
+
+    const addToCart = async (productId: number, quantity: number) => {
+      const newItem = { productId, quantity };
+      const updatedCartItems = [...cartItems, newItem];
+      setCartItems(updatedCartItems);
+      saveCartItemsToStorage(updatedCartItems);
+      if (isLoggedIn) {
+        await syncCartWithServer(updatedCartItems);
+        const cartItemsFromServer = await fetchCartItemsFromServer();
+        setCartItems(cartItemsFromServer);
+      }
+    };
+
 
   const removeFromCart = (productId: number) => {
     const updatedCartItems = cartItems.filter(

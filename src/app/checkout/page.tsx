@@ -188,30 +188,21 @@ const Checkout: React.FC = () => {
   };
 
 
-  const filteredCartItems = cartItems.filter(
-    (item) =>
-      item?.productId&&
-      item?.quantity&&
-      item?.name &&
-      item?.price &&
-      item?.image
-  );
 
-  console.log("Filtered Cart Items:", filteredCartItems);
 
   const mappedCartItems = cartItems
     .filter(
       (item) =>
         item?.productId ||
         item?.quantity ||
-        item?.productDetails?.displayTitle ||
+        item?.name ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
     .map((item) => ({
       productId: item?.productId,
       quantity: item?.quantity,
-      name: item?.productDetails?.displayTitle,
+      name: item?.name,
       productPrice: item?.productDetails?.productPrice,
       discountValue: item?.productDetails?.discountValue,
       price: item?.productDetails?.discountPrice,
@@ -268,14 +259,12 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-  console.log(cartItems,"CARTTTTT")
-  console.log(mappedCartItems,"pppppppppppppppppppppppppppppppppppppppppp")
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  mappedCartItems.forEach((item) => {
-    const price = parseInt(item.price);
+  cartItems.forEach((item) => {
+    const price = parseInt(item.price?.toString());
     if (!isNaN(price) && typeof item.quantity === "number") {
       totalCart += price * item.quantity;
     }
@@ -286,12 +275,10 @@ const Checkout: React.FC = () => {
     setCartItems: React.Dispatch<React.SetStateAction<any[]>>
   ) => {
     setIsOrderPlaced(true);
-    // Reset the cart and other states
     setCartItems([]);
     setSelectedShippingAddress(null);
     setSelectedBillingAddress(null);
     setSelectedPaymentMethod("");
-    // Show a success message or perform any other actions
     setFlashMessage("Your order has been placed successfully!");
     setFlashType("success");
     setFlashKey((prevKey) => prevKey + 1);
@@ -517,7 +504,7 @@ const Checkout: React.FC = () => {
                 <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
                 {selectedComponent === "CartItems" && (
                   <CartItems
-                    cartItems={mappedCartItems}
+                    cartItems={cartItems}
                     handleQuantityChange={handleQuantityChange}
                     removeFromCart={removeFromCart}
                   />
@@ -666,7 +653,7 @@ const Checkout: React.FC = () => {
                     <OrderSummary
                       totalDiscount={totalDiscount}
                       totalCart={totalCart}
-                      cartItems={mappedCartItems}
+                      cartItems={cartItems}
                     />
                   </div>
                 )}

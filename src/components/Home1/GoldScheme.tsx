@@ -62,7 +62,7 @@ const GoldScheme = () => {
                 <button
                   // href="#"
                   onClick={() => handleNavigation("/benefit")}
-                  className="text-red underline"
+                  className="text-red text-start underline"
                 >
                   Benefit Calculator
                 </button>

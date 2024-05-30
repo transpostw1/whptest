@@ -10,11 +10,11 @@ interface CartItemsProps {
 }
 
 const CartItems: React.FC<CartItemsProps> = ({
-  // cartItems,
+  cartItems,
   handleQuantityChange,
   removeFromCart,
 }) => {
-  const{cartItems}=useCart()
+  // const{cartItems}=useCart()
   
 console.log(cartItems,"sfdsfsf")
 

@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 //   image: string;
 // }
 
-interface CartItem {
+interface CartItems {
   productDetails: {
     displayTitle: string;
     discountPrice: any;
@@ -27,7 +27,7 @@ interface CartItem {
   image?: string;
 }
 
-export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
+export const fetchCartItemsFromServer = async (): Promise<CartItems[]> => {
     try {
       const userToken = Cookies.get("localtoken");
       if (!userToken) {
@@ -52,6 +52,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
           image: imagePath,
         };
       });
+      console.log(cartItemsData,"UTTTTTTT")
   
       localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
       {

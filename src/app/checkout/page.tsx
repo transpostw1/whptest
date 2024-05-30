@@ -195,6 +195,9 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
+
+
+
   // const mappedCartItems = cartItems
   //   .filter(
   //     (item) =>
@@ -261,13 +264,12 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  mappedCartItems.forEach((item) => {
-    const price = parseInt(item.price);
+  cartItems.forEach((item) => {
+    const price = parseInt(item.price?.toString());
     if (!isNaN(price) && typeof item.quantity === "number") {
       totalCart += price * item.quantity;
     }
@@ -278,12 +280,10 @@ const Checkout: React.FC = () => {
     setCartItems: React.Dispatch<React.SetStateAction<any[]>>
   ) => {
     setIsOrderPlaced(true);
-    // Reset the cart and other states
     setCartItems([]);
     setSelectedShippingAddress(null);
     setSelectedBillingAddress(null);
     setSelectedPaymentMethod("");
-    // Show a success message or perform any other actions
     setFlashMessage("Your order has been placed successfully!");
     setFlashType("success");
     setFlashKey((prevKey) => prevKey + 1);
@@ -676,7 +676,7 @@ const Checkout: React.FC = () => {
                     <OrderSummary
                       totalDiscount={totalDiscount}
                       totalCart={totalCart}
-                      cartItems={mappedCartItems}
+                      cartItems={cartItems}
                     />
                   </div>
                 )}

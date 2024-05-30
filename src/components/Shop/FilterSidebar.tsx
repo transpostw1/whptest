@@ -39,20 +39,23 @@ const FilterSidebar: React.FC<Props> = ({
 
       if (sidebarElement && productsListElement) {
         const sidebarTop = sidebarElement.offsetTop;
+
         const sidebarBottom =
           sidebarElement.offsetTop + sidebarElement.offsetHeight;
         const productsListBottom =
           productsListElement.offsetTop + productsListElement.offsetHeight;
         const windowHeight = window.innerHeight + window.pageYOffset;
-
         const isAboveProductsList = windowHeight > sidebarTop;
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
           windowHeight >= productsListBottom; // Check for end of products
+
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
+        const isAtTop = window.pageYOffset <= sidebarTop;
+        console.log("Window page Y offset",window.pageYOffset)
 
-        setIsSidebarFixed(isSidebarInViewport);
+        setIsSidebarFixed(isSidebarInViewport && !isAtTop);
       }
     };
 
@@ -126,12 +129,12 @@ const FilterSidebar: React.FC<Props> = ({
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[450px] md:h-[350px] no-scrollbar overflow-y-auto ${
+          className={`filter-type pb-8 border-line h-[450px] md:h-[380px] no-scrollbar overflow-y-auto ${
             isSidebarFixed ? "fixed w-[250px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
-            top: isSidebarFixed ? "185px" : "auto",
+            top: isSidebarFixed ? "120px" : "auto",
             width: isSidebarFixed ? "250px" : "auto",
           }}
         >

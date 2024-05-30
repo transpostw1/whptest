@@ -695,7 +695,7 @@ const Checkout: React.FC = () => {
         </div>
       </div>
       {console.log("couponCode", flashMessage)}
-      {couponCode && (
+      {couponCode && flashMessage.length!==0 &&  (
         <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
       )}
       {isMobile && (

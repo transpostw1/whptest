@@ -8,13 +8,14 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-
+import AddAddressModal from "@/app/checkout/AddAddressModal";
 
 
 const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAddressModal,setShowAddressModal]=useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
   const { logOut, isLoggedIn,userDetails } = useUser();
@@ -148,7 +149,11 @@ const handleLogOut = () => {
           </div>
         </div>
       </form>
+      <div className="flex justify-between">
+
       <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+      <h2 className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer" onClick={()=>setShowAddressModal(true)}>Add Address</h2>
+      </div>
       <div className="flex flex-wrap">
         {allAddress &&
           allAddress.map((address: any) => (
@@ -174,6 +179,11 @@ const handleLogOut = () => {
             </div>
           ))}
       </div>
+      {showAddressModal&&<AddAddressModal closeModal={function (): void {
+        throw new Error("Function not implemented.");
+      } } isForBillingAddress={false} onAddressAdded={function (isBillingAddress: boolean): void {
+        throw new Error("Function not implemented.");
+      } }/>}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

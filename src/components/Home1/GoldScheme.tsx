@@ -53,16 +53,19 @@ const GoldScheme = () => {
                 height={100}
                 className="w-full sm:w-1/2"
               />
-              <div className="flex flex-col justify-between">
-                <h1 className="text-xl font-semibold">GOLD ACCOUNT</h1>
-                <p className="text-sm">
-                  Open a WHP Gold Scheme account with an amount as low as ₹2000.
-                  Make regular installments and get discounts.
-                </p>
+              <div className="flex flex-col justify-between gap-3">
+                <div>
+                  <h1 className="text-xl font-semibold">GOLD ACCOUNT</h1>
+                  <p className="text-sm font-medium">
+                    Open a WHP Gold Scheme account with an amount as low as
+                    ₹2000. Make regular installments and get discounts.
+                  </p>
+                </div>
+
                 <button
                   // href="#"
                   onClick={() => handleNavigation("/benefit")}
-                  className="text-red text-start underline"
+                  className="text-red text-start font-semibold underline"
                 >
                   Benefit Calculator
                 </button>

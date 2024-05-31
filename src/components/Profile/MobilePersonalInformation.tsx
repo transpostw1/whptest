@@ -8,8 +8,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 import AddAddressMobile from "@/app/checkout/AddAddressMobile";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";

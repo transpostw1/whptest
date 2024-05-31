@@ -17,6 +17,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   // const{cartItems}=useCart()
   
 console.log(cartItems,"sfdsfsf")
+const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
 
   return (
     <div>
@@ -25,7 +26,7 @@ console.log(cartItems,"sfdsfsf")
         {cartItems?.length < 1 ? (
           <p className="text-button pt-3">No products in your cart</p>
         ) : (
-          cartItems?.map((product) => (
+          filteredCartItems?.map((product) => (
             <CartItem
               key={product?.productId}
               product={product}

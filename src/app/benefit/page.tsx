@@ -10,7 +10,7 @@ const Benefit: React.FC = () => {
   const [cardArray, setCardArray] = useState<number[]>([1, 2, 3]);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
-  const [flashType, setFlashType] = useState<"success" | "error" | "info">("info");
+  const [flashType, setFlashType] = useState<"success" | "error" | "info">("success");
 
   const nextCard = (index: number): void => {
     setCardArray((prevArray) => {

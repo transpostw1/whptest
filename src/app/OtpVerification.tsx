@@ -186,7 +186,7 @@ const OtpVerification = ({
             />
           </div>
           <button
-            className="w-full bg-[#e26178] text-white py-2 rounded-lg font-medium hover:bg-pink-600 transition duration-300"
+            className="w-full bg-[#E26178] text-white py-2 rounded-lg font-medium hover:bg-[#a53b4f] transition duration-300"
             onClick={handleCombinedClick}
           >
             {verifying ? (

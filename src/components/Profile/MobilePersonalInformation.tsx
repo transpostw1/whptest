@@ -6,8 +6,8 @@ import { Address } from "@/type/AddressType";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+
+import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
@@ -15,20 +15,6 @@ import FlashAlert from "../Other/FlashAlert";
 interface Props {
   handleComponent: (args: string) => void;
 }
-
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  altPhone: string;
-  gender: string;
-  dobDay: string;
-  dobMonth: string;
-  dobYear: string;
-  profilePicture: File | null;
-}
-
 const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,9 +25,6 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [formError, setFormError] = useState("");
-  const { logOut, isLoggedIn, userDetails,addUserDetails } = useUser();
 
   const validationSchema = Yup.object().shape({
     // firstName: Yup.string().required("First name is required"),

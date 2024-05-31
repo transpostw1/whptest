@@ -212,7 +212,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       ).then(async (response) => {
       const cartItemsFromServer = await fetchCartItemsFromServer();
-      setCartItems(cartItemsFromServer);
+      // setCartItems(cartItemsFromServer);
     });
     } catch (error) {
       console.error("Error syncing cart with server:", error);

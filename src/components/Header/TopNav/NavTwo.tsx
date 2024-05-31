@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { BiSolidOffer } from "react-icons/bi";
+import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -35,7 +36,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { cartItems } = useCart();
   const { userState, userDetails, getUser } = useUser();
   const isLoggedIn = userState.isLoggedIn;
-  const pathname = usePathname();
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const [fixedHeader, setFixedHeader] = useState(false);
@@ -425,7 +425,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                     {wishlistItems.length}
                   </span>
-                </div>
+                </div> 
                 <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image

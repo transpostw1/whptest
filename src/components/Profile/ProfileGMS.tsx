@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { baseUrl } from "@/utils/constants";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import Cookie from "js-cookie";
 
 const ProfileGMS = () => {
@@ -41,7 +42,12 @@ const ProfileGMS = () => {
   }
   return (
     <div className="px-[60px] py-[30px]">
-      <div className="text-xl font-bold">Profile GMS</div>
+      <div className="flex justify-between mb-3">
+        <div className="text-xl font-bold">Profile GMS</div>
+        <div className="text-xl font-bold underline text-[#e26178]">
+          <Link href={"/benefit"}>Know More</Link>
+        </div>
+      </div>
       <div>
         {data &&
           data.map((gms: any, index: any) => (
@@ -69,13 +75,16 @@ const ProfileGMS = () => {
                 ))}
               </div>
 
-              <div className="flex justify-between items-center border-t" onClick={()=>handleToggle(index)}>
+              <div
+                className="flex justify-between items-center border-t"
+                onClick={() => handleToggle(index)}
+              >
                 <div>Payment History</div>
                 <div>
                   <Icon.CaretDown />
                 </div>
               </div>
-              {showAccordian===index&&(<div>Payment History</div>)}
+              {showAccordian === index && <div>Payment History</div>}
             </div>
           ))}
       </div>

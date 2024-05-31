@@ -9,7 +9,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-import AddAddressModal from "@/app/checkout/AddAddressModal";
+ 
+
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -27,18 +28,14 @@ const ProfileDetails = () => {
       router.replace("/");
     }
   }, [isLoggedIn, router]);
-
-  const handleLogOut = () => {
-    if (typeof window !== "undefined") {
-      Cookies.remove("localtoken");
-      localStorage.clear();
-      logOut();
-      router.push("/");
-    }
-  };
-  const closeModal = () => {
-    setShowAddressModal(false);
-  };
+  
+const handleLogOut = () => {
+  if (typeof window !== "undefined") {
+    Cookies.remove("localtoken");
+    logOut();
+    router.push("/");
+  }
+};
   const handleEditAddress = async (id: any) => {
     setId(id);
     setShowModal(true);

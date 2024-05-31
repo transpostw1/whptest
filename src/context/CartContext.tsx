@@ -14,6 +14,9 @@ interface CartItem {
     displayTitle: string;
     discountPrice: any;
     imageDetails: any;
+    productPrice: string;
+    discountValue: string;
+    url: string;
   };
   gst?: any;
   displayTitle?: string;
@@ -39,53 +42,137 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
+  const { isLoggedIn } = useUser();
   const router = useRouter();
   const { logOut } = useUser();
 
   useEffect(() => {
-    const userToken = Cookies.get("localtoken");
-    if (userToken) {
-      setIsLoggedIn(true);
-      setCookieToken(userToken);
+    if (isLoggedIn) {
+      const userToken = Cookies.get("localtoken");
+      if (userToken) {
+        // setIsLoggedIn(true);
+        setCookieToken(userToken);
+      }
     }
   }, []);
 
- useEffect(() => {
-   if (typeof window !== "undefined") {
-     const cartItemsFromStorage = localStorage.getItem("cartItems");
-     if (cartItemsFromStorage) {
-       setCartItems(JSON.parse(cartItemsFromStorage));
-     } else if (isLoggedIn) {
-       fetchCartItemsFromServer().then((cartItems: any) => {
-         setCartItems(cartItems);
-       });
-     }
-   }
- }, [isLoggedIn]);
+  // useEffect(() => {
+  //   console.log("INNN");
+  //   //  if (typeof window !== "undefined") {
+  //   const cartItemsFromStorage = localStorage.getItem("cartItems");
+  //   if (cartItemsFromStorage) {
+  //     setCartItems(JSON.parse(cartItemsFromStorage));
+  //     console.log(cartItems, "CART");
+  //   }
+  //   //  }
+  //   else if (isLoggedIn) {
+  //     console.log("loggedcart");
+  //     fetchCartItemsFromServer().then((cartItems: any) => {
+  //       setCartItems(cartItems);
+  //       console.log(cartItems);
+  //     });
+  //   }
+  // }, [isLoggedIn]);
 
-  const addToCart = (item: CartItem, quantity: number) => {
+
+  
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (isLoggedIn) {
+        const cartItemsFromServer = await fetchCartItemsFromServer();
+        setCartItems(cartItemsFromServer);
+        console.log(cartItems);
+      } else if (typeof window !== "undefined") {
+        const cartItemsFromStorage = localStorage.getItem("cartItems");
+        if (cartItemsFromStorage) {
+          setCartItems(JSON.parse(cartItemsFromStorage));
+        }
+      }
+    };
+    fetchCartItems();
+  }, [isLoggedIn]);
+
+
+  const addToCart = async (item: CartItem, quantity: number) => {
     const newItem = { ...item, quantity };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
       syncCartWithServer([...cartItems, newItem]);
+      // const cartItemsFromServer = await fetchCartItemsFromServer();
+      // setCartItems(cartItemsFromServer)
     }
   };
 
-  const removeFromCart = (productId: number) => {
+  // const removeFromCart = async (productId: number, newQuantity: number) => {
+  //   const updatedCartItems = cartItems.filter(
+  //     (item) => item.productId !== productId
+  //   );
+  //   setCartItems(updatedCartItems);
+  //   saveCartItemsToStorage(updatedCartItems);
+  //   if (isLoggedIn) {
+  //     try {
+  //       const cartData = cartItems.map((item) => ({
+  //         productId: item.productId,
+  //         quantity: item.productId !== productId ? 0 : item.quantity || 0,
+  //       }));
+  //       await instance.post(
+  //         `${baseUrl}/cart/sync`,
+  //         { cart: cartData },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${cookieToken}`,
+  //           },
+  //         }
+  //       );
+  //     } catch (error) {
+  //       console.error("Error syncing cart with server:", error);
+  //     }
+  //   }
+  // };
+
+
+  const removeFromCart = async (productId: number) => {
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId
     );
     setCartItems(updatedCartItems);
-
     saveCartItemsToStorage(updatedCartItems);
 
     if (isLoggedIn) {
-      syncCartWithServer(updatedCartItems);
+      try {
+        const cartData = cartItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.productId === productId ? 0 : item.quantity || 0,
+        }));
+        const response = await instance.post(
+          `${baseUrl}/cart/sync`,
+          { cart: cartData },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+            },
+          }
+        );
+        const updatedCartFromServer = response.data.updatedCart || [];
+        if (
+          updatedCartFromServer.length === 1 &&
+          updatedCartFromServer[0].productId === productId
+        ) {
+          // If the server returned only the removed item, fetch the updated cart from the server
+          const cartItemsFromServer = await fetchCartItemsFromServer();
+          setCartItems(cartItemsFromServer);
+        } else {
+          
+          // setCartItems(updatedCartFromServer);
+        }
+      } catch (error) {
+        console.error("Error syncing cart with server:", error);
+      }
     }
   };
 
@@ -113,7 +200,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
-        quantity: item.quantity,
+        quantity: item.quantity || "0",
       }));
       await instance.post(
         `${baseUrl}/cart/sync`,
@@ -123,11 +210,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             Authorization: `Bearer ${cookieToken}`,
           },
         }
-      );
+      ).then(async (response) => {
+      const cartItemsFromServer = await fetchCartItemsFromServer();
+      setCartItems(cartItemsFromServer);
+    });
     } catch (error) {
       console.error("Error syncing cart with server:", error);
-      logOut();
-      router.push("/login");
+      // logOut();
+      // router.push("/login");
     }
   };
 

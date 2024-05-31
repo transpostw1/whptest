@@ -47,6 +47,8 @@ const ProfilePage = () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
+
+  
   useEffect(() => {
     if (isLoggedIn) {
       getUser();

@@ -7,13 +7,14 @@ import {useUser} from "@/context/UserContext"
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 
+import { useUser } from "@/context/UserContext";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const {isLoggedIn}=useUser()
   const [clicked, setClicked] = useState<number>(1);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false); // New state variable
-  const pathname = usePathname();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
+  const { isLoggedIn, userDetails, getUser } = useUser();
 
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
@@ -35,10 +36,15 @@ const StickyNav = () => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
-
+  useEffect(() => {
+    if (isLoggedIn && !userDetails) {
+      getUser();
+    }
+  }, [isLoggedIn, userDetails, getUser]);
   if (!isMobile) {
     return null;
   }
+
   return (
     <>
       <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
@@ -46,12 +52,7 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                pathname.includes("") &&
-                !pathname.includes("profile") &&
-                !pathname.includes("offers") &&
-                !pathname.includes("checkout")
-                  ? "text-[#e26178]"
-                  : ""
+                clicked === 1 ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >
@@ -73,7 +74,7 @@ const StickyNav = () => {
           <Link href={"/offers"}>
             <div
               className={`${
-                pathname.includes("offers") ? "text-[#e26178]" : ""
+                clicked === 3 ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
@@ -81,21 +82,25 @@ const StickyNav = () => {
               <p>Offers</p>
             </div>
           </Link>
-          <Link href={`${isLoggedIn?"/profile":"/register"}`}>
+          <Link href={isLoggedIn ? "/profile" : "/login"}>
             <div
               className={`${
-                pathname.includes("profile") ? "text-[#e26178]" : ""
+                clicked === 4 ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(4)}
             >
               <Icon.User size={25} />
-              <p>Profile</p>
+              {isLoggedIn ? (
+                <h4 className="text-sm">{userDetails?.customer?.firstname}</h4>
+              ) : (
+                <p>Login</p>
+              )}
             </div>
           </Link>
           <Link href={"/checkout"}>
             <div
               className={`${
-                pathname.includes("checkout") ? "text-[#e26178]" : ""
+                clicked === 5 ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(5)}
             >

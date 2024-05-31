@@ -2,15 +2,32 @@ import axios from "axios";
 import { baseUrl, getCartItems } from "./constants";
 import Cookies from "js-cookie";
 
-interface CartItem {
+// interface CartItem {
+//   productId: number;
+//   quantity: number;
+//   name: string;
+//   price: number;
+//   image: string;
+// }
+
+interface CartItems {
+  productDetails: {
+    displayTitle: string;
+    discountPrice: any;
+    imageDetails: any;
+  };
+  gst?: any;
+  displayTitle?: string;
+  discountPrice?: any;
+  imageDetails?: any;
   productId: number;
-  quantity: number;
-  name: string;
-  price: number;
-  image: string;
+  quantity?: number;
+  name?: string;
+  price?: number;
+  image?: string;
 }
 
-export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
+export const fetchCartItemsFromServer = async (): Promise<CartItems[]> => {
     try {
       const userToken = Cookies.get("localtoken");
       if (!userToken) {
@@ -36,7 +53,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         };
       });
   
-      // localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
+      localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
       {
         typeof window !== "undefined" &&
           localStorage.setItem(

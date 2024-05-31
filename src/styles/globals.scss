@@ -228,6 +228,7 @@ textarea:focus {
   text-transform: uppercase;
   color: var(--white);
   background-color: #e26178;
+  background-color: #E26178;
   padding: 16px 40px;
   border-radius: 12px;
   display: inline-block;
@@ -237,6 +238,8 @@ textarea:focus {
   &:hover {
     background-color: #e73e51;
     color: var(--white);
+    background-color:  #a5364b;
+    color: var(--black);
 
     svg {
       path {

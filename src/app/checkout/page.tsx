@@ -187,14 +187,12 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  
-
   const mappedCartItems = cartItems
     .filter(
       (item) =>
         item?.productId ||
         item?.quantity ||
-        item?.productDetails?.title||
+        item?.productDetails?.title ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
@@ -211,10 +209,7 @@ const Checkout: React.FC = () => {
     }));
   console.log(mappedCartItems, "hh");
 
-const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-
-
-
+  const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
   // const mappedCartItems = showAllItems
   //   ? cartItems
@@ -274,18 +269,37 @@ const MainCart = isLoggedIn ? cartItems : mappedCartItems;
   });
   let formattedPrice: string = totalCart.toString();
 
-  const handleOrderComplete = (
-    setCartItems: React.Dispatch<React.SetStateAction<any[]>>
-  ) => {
-    setIsOrderPlaced(true);
-    setCartItems([]);
-    setSelectedShippingAddress(null);
-    setSelectedBillingAddress(null);
-    setSelectedPaymentMethod("");
-    setFlashMessage("Your order has been placed successfully!");
-    setFlashType("success");
-    setFlashKey((prevKey) => prevKey + 1);
-  };
+  // const handleOrderComplete = (
+  //   setCartItems: React.Dispatch<React.SetStateAction<any[]>>
+  // ) => {
+  //   setIsOrderPlaced(true);
+  //   setCartItems([]);
+  //   setSelectedShippingAddress(null);
+  //   setSelectedBillingAddress(null);
+  //   setSelectedPaymentMethod("");
+  //   setFlashMessage("Your order has been placed successfully!");
+  //   setFlashType("success");
+  //   setFlashKey((prevKey) => prevKey + 1);
+  // };
+
+const handleOrderComplete = (
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>,
+  removeFromCart: (productId: number) => void
+) => {
+  // Remove each item from the cart
+  MainCart.forEach((item) => {
+    removeFromCart(item.productId);
+  });
+
+  setIsOrderPlaced(true);
+  setCartItems([]);
+  setSelectedShippingAddress(null);
+  setSelectedBillingAddress(null);
+  setSelectedPaymentMethod("");
+  setFlashMessage("Your order has been placed successfully!");
+  setFlashType("success");
+  setFlashKey((prevKey) => prevKey + 1);
+};
 
   const validateDeliveryDetails = () => {
     if (!shippingAddressSelected) {
@@ -524,11 +538,14 @@ const MainCart = isLoggedIn ? cartItems : mappedCartItems;
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  onOrderComplete={handleOrderComplete}
+                  // onOrderComplete={handleOrderComplete}
+                  onOrderComplete={(setCartItems) =>
+                    handleOrderComplete(setCartItems, removeFromCart)
+                  }
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
-                  mappedCartItems={mappedCartItems}
+                  mappedCartItems={MainCart}
                   couponCode={couponCode}
                   totalDiscount={totalDiscount}
                   setCartItems={setCartItems}

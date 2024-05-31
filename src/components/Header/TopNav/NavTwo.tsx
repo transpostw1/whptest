@@ -44,7 +44,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-   const pathname = usePathname(); 
+  //  const pathname = usePathname(); 
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -245,7 +245,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                     >
                       <Link href={"/offers"}>
-                        <PiPercentLight size={30} />
+                        {/* <PiPercentLight size={30} /> */}
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>

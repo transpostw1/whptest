@@ -7,11 +7,8 @@ import {useUser} from "@/context/UserContext"
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 
-import { useUser } from "@/context/UserContext";
-
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const {isLoggedIn}=useUser()
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
   const { isLoggedIn, userDetails, getUser } = useUser();

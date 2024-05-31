@@ -4,13 +4,54 @@ import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import { useUser } from "@/context/UserContext";
+import { useCategory } from "@/context/CategoryContex";
+import { useFormik } from "formik";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import OtpVerification from "@/app/OtpVerification";
+import * as Yup from "yup";
+import FlashAlert from "@/components/Other/FlashAlert";
+import axios from "axios";
+import { baseUrl } from "@/utils/constants";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState<any>(null);
+  const { setCustomcategory } = useCategory();
+  const { isLoggedIn } = useUser();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
+  const handleChange = (event: any) => {
+    const { value } = event.target;
+    // Optional: Add phone number validation logic here
+    setPhoneNumber(value);
+  };
+
+  const handleSubmit = async () => {
+    event?.preventDefault();
+    const response = await axios.post(`${baseUrl}/subscribe`, {
+      phone: "+" + phoneNumber,
+    });
+    setMessage(response.data.message);
+  };
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string().required("Phone number is required"),
+  });
+  const formik = useFormik({
+    initialValues: {
+      phoneNumber: "",
+    },
+    validationSchema: validationSchema, // Pass the validation schema
+    onSubmit: (values, { setSubmitting }) => {
+      setTimeout(() => {
+        handleSubmit();
+        setSubmitting(false);
+      }, 400);
+    },
+  });
 
   return (
     <>
@@ -48,20 +89,32 @@ const Footer = () => {
               </div>
             </div>
             <div className="content-footer py-[60px] flex justify-between flex-wrap gap-y-8">
-              <div className="company-infor basis-1/4 max-lg:basis-full pr-7">
-                <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
+              <div className="company-infor basis-1/4 max-lg:basis-full">
+                <div className="newsletter basis-1/3 max-md:basis-full max-md:pl-0">
                   <div className="caption1  font-bold">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block w-full h-[52px] mt-2 relative">
-                    <form className="w-full h-full" action="post">
-                      <input
-                        type="email"
-                        placeholder="Enter your e-mail"
-                        className="caption1 w-full h-full pl-4 pr-14 border border-line"
-                        required
-                      />
-                      <button className="w-[44px] h-[44px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1">
+                  <div className="input-block h-[52px] mt-2 relative">
+                    <form
+                      className="relative"
+                      action="post"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="caption1 bg-white">
+                        <PhoneInput
+                          country={"in"}
+                          value={formik.values.phoneNumber}
+                          onChange={(value) => {
+                            setPhoneNumber(value);
+                            formik.handleChange("phoneNumber")(value);
+                          }}
+                        />
+                      </div>
+
+                      <button
+                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1"
+                        type="submit"
+                      >
                         <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>
@@ -71,13 +124,14 @@ const Footer = () => {
                       href={"https://www.facebook.com/whpjewellers.india/"}
                       target="_blank"
                     >
-                      <div className="icon-facebook text-2xl text-black"></div>
+                      {" "}
+                      <Icon.FacebookLogo size={34} weight="light" />
                     </Link>
                     <Link
                       href={"https://www.instagram.com/whpjewellers/?hl=en"}
                       target="_blank"
                     >
-                      <div className="icon-instagram text-2xl text-black"></div>
+                      <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
                     <Link
                       href={
@@ -85,51 +139,73 @@ const Footer = () => {
                       }
                       target="_blank"
                     >
-                      <div className="icon-youtube text-2xl text-black"></div>
+                      <Icon.YoutubeLogo size={34} weight="light" />
+                    </Link>
+                    <Link
+                      href={
+                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                      }
+                      target="_blank"
+                    >
+                      <Icon.WhatsappLogo size={34} weight="light" />
                     </Link>
                   </div>
                 </div>
               </div>
 
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
+                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Information
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"/contact"}
+                      href={"/stores"}
                     >
                       Stores
                     </Link>
-                    <Link
+                    {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2 "
                       href={"/contact"}
                     >
                       Contact us
-                    </Link>
+                    </Link> */}
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/career"}
+                      href={"#!"}
+                      onClick={() => setAppointmentModal(true)}
                     >
                       Career
                     </Link>
+                    {appointmentModal && (
+                      <BookExchangeModal closeModal={handleOnClose} />
+                    )}
+                    {isLoggedIn ? (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/profile"}
+                      >
+                        My Account
+                      </Link>
+                    ) : (
+                      <Link
+                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        href={"/login"}
+                      >
+                        My Account
+                      </Link>
+                    )}
+
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/my-account"}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/order-returns"}
+                      href={"/profile"}
                     >
                       Order & Returns
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/about-waman-hari-pethe-jewellers"}
+                      href={"/about-whpjewellers"}
                     >
                       About-Us
                     </Link>
@@ -144,31 +220,39 @@ const Footer = () => {
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      onClick={() => setCustomcategory("chain")}
                     >
                       Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "bangle" } }}
+                      onClick={() => setCustomcategory("bangle")}
                     >
                       Bangles
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{ pathname: "/products", query: { url: "ring" } }}
+                      onClick={() => setCustomcategory("ring")}
                     >
                       Rings
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "necklace" },
+                      }}
+                      onClick={() => setCustomcategory("necklace")}
                     >
                       Necklaces
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/blog"}
+                      href={{ pathname: "/products", query: { url: "stone" } }}
+                      onClick={() => setCustomcategory("stone")}
                     >
                       Stones
                     </Link>
@@ -215,16 +299,22 @@ const Footer = () => {
                 <div className="item flex flex-col md:ml-14 lg:ml-14">
                   <div className="text-button-uppercase pb-3">Contact</div>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit"
-                    href={"#!"}
+                    href="tel:+91 1800-222-225"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    1800-222-225
+                    <div className="mt-1 flex">
+                      <span>1800-222-225</span>
+                    </div>
                   </Link>
                   <Link
-                    className="caption1 has-line-before duration-300 w-fit pt-2"
-                    href={"#!"}
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    care@whpjewellers.in
+                    <div className="mt-1 flex">
+                      <span>care@whpjewellers.in</span>
+                    </div>
                   </Link>
                 </div>
               </div>
@@ -240,6 +330,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {message && <FlashAlert message={message} type={"success"} />}
     </>
   );
 };

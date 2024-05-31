@@ -141,7 +141,7 @@ const HandleremoveFromWishlist = () => {
   return (
     <div className="flex max-sm:justify-around justify-between mt-[25px] ">
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] mr-[10px] py-[18px] px-[32px] max-sm:py-[10px] max-sm:px[15px] text-center"
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] mr-[10px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
         onClick={() => handleBuyNow(product)}
       >
         <Link
@@ -155,7 +155,7 @@ const HandleremoveFromWishlist = () => {
       </div>
 
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] text-center mr-[10px] cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center mr-[10px] cursor-pointer"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">
@@ -167,7 +167,7 @@ const HandleremoveFromWishlist = () => {
           </span>
         </div>
       </div>
-      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] items-center cursor-pointer">
+      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
         {isProductInWishlist ? (
           <Icon.Heart
             size={32}

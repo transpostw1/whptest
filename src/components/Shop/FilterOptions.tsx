@@ -1,9 +1,10 @@
-// FilterOptions.jsx
+// FilterOptions.tsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-interface Filter{
-  title:string|any;
-  options:string[]
+
+interface Filter {
+  title: string | any;
+  options: string[];
 }
 const Filter = [
   {
@@ -12,7 +13,7 @@ const Filter = [
   },
   {
     title: "Karat",
-    options: ["14k", "18K","22k","23K","24k"],
+    options: ["14k", "18K", "22k", "23K", "24k"],
   },
   {
     title: "Weight",
@@ -22,7 +23,10 @@ const Filter = [
     title: "Gender",
     options: ["Men", "Women", "Kids"],
   },
-  { title: "Metal", options: ["Rose Gold","White Gold","Gold","Diamond","Sliver"] },
+  {
+    title: "Metal",
+    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Sliver"],
+  },
   {
     title: "Occasion",
     options: [
@@ -40,20 +44,30 @@ const Filter = [
     ],
   },
 ];
-interface Props{
-  filterDropDown:string;
-  handleFilterDropdown:(arg:string)=>void;
-  handleOptionSelect:(option:string,category:string)=>void;
-  selectedOptions:string[]
+interface Props {
+  filterDropDown: string;
+  handleMobileFilter: () => void;
+  handleFilterDropdown: (arg: string) => void;
+  handleOptionSelect: (option: string, category: string) => void;
+  selectedOptions: string[];
 }
 
-const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, handleOptionSelect ,selectedOptions}) => {
-  
+const FilterOptions: React.FC<Props> = ({
+  filterDropDown,
+  handleMobileFilter,
+  handleFilterDropdown,
+  handleOptionSelect,
+  selectedOptions,
+}) => {
   return (
     <>
-      {Filter.map((item:Filter, index:number) => (
-        <div key={index} className={`item cursor-pointer overflow-auto no-scrollbar`} onClick={() => handleFilterDropdown(item.title)}>
-          <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
+      {Filter.map((item: Filter, index: number) => (
+        <div
+          key={index}
+          className={`item cursor-pointer`}
+          onClick={() => handleFilterDropdown(item.title)}
+        >
+          <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black capitalize">
             <p className="text-lg font-semibold">{item.title}</p>
 
             <p className="mt-1">
@@ -62,8 +76,8 @@ const FilterOptions:React.FC<Props> = ({ filterDropDown, handleFilterDropdown, h
           </div>
           {filterDropDown === item.title ? (
             <div>
-              {item.options.map((option:string) => (
-                <div key={option}>
+              {item.options.map((option: string) => (
+                <div key={option} onClick={() => handleMobileFilter()}>
                   <input
                     type="checkbox"
                     id={option}

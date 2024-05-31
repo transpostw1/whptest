@@ -10,6 +10,7 @@ import { CategoryType } from "@/type/CategoryType";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 
 interface Props {
   props: string;
@@ -66,6 +67,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
         } w-full md:h-[60px] h-[40px] ${props}`}
       >
         <div className="container mx-auto h-full">
+          <MobileMainCategorySwiper />
           <div className="header-main flex items-center justify-evenly w-full h-full">
             <div className="menu-main h-full xl:w-full flex items-center w-full max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
               <ul className="flex items-center justify-evenly h-full w-full text-rose-950">
@@ -121,9 +123,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "men" },
+                            query: { url: "_men" },
                           }}
-                          onClick={() => setCustomcategory("men")}
+                          onClick={() => setCustomcategory("_men")}
                         >
                           Men
                         </Link>
@@ -208,9 +210,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "lessthan10K" },
+                            query: { url: "less_than_10K" },
                           }}
-                          onClick={() => setCustomcategory("lessthan10k")}
+                          onClick={() => setCustomcategory("less_than_10k")}
                         >
                           less than 10k
                         </Link>
@@ -219,9 +221,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "10kto20k" },
+                            query: { url: "10k_to_20k" },
                           }}
-                          onClick={() => setCustomcategory("10kto20k")}
+                          onClick={() => setCustomcategory("10k_to_20k")}
                         >
                           10k to 20k
                         </Link>
@@ -230,9 +232,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "20kto30k" },
+                            query: { url: "20k_to_30k" },
                           }}
-                          onClick={() => setCustomcategory("20kto30k")}
+                          onClick={() => setCustomcategory("20k_to_30k")}
                         >
                           20k to 30k
                         </Link>
@@ -241,9 +243,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "30kandAbove" },
+                            query: { url: "30k_and_Above" },
                           }}
-                          onClick={() => setCustomcategory("30kandabove")}
+                          onClick={() => setCustomcategory("30k_and_above")}
                         >
                           30k and Above
                         </Link>
@@ -314,16 +316,16 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
 
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("newArrival")}
+                  onClick={() => setCustomcategory("new_Arrival")}
                 >
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "newArrival" },
+                      query: { url: "new_Arrival" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "newArrival"
+                      searchParmas.get("url") === "new_Arrival"
                         ? "active"
                         : ""
                     }`}

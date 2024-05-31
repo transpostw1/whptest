@@ -6,34 +6,47 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const ContactInfo = () => {
   return (
-    <div className="absolute top-[100px] w-[300px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
+    <div className="absolute top-[100px] w-[250px] left-[100px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
       <p className="text-xl font-semibold">Get in Touch with us</p>
       <p className="mt-3">
         Connect with us and we will assist you with all your needs
       </p>
       <p className="font-semibold mt-5">Contact us on :(10:30AM -7:30PM)</p>
-      <div className="mt-1 flex">
-        <span className="mr-2">
-          <Image
-            src="/images/icons/phone.png"
-            alt="phone_image"
-            width={22}
-            height={22}
-          />
-        </span>
-        <span>1800-222-225</span>
-      </div>
-      <div className="mt-1 flex">
-        <span className="mr-2">
-          <Image
-            src="/images/icons/Email.png"
-            alt="Email_image"
-            width={22}
-            height={22}
-          />
-        </span>
-        <span>care@whpjewellers.in</span>
-      </div>
+
+      <Link
+        href="tel:+91 1800-222-225"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="mt-1 flex">
+          <span className="mr-2">
+            <Image
+              src="/images/icons/phone.png"
+              alt="phone_image"
+              width={22}
+              height={22}
+            />
+          </span>
+          <span>1800-222-225</span>
+        </div>
+      </Link>
+      <Link
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="mt-1 flex">
+          <span className="mr-2">
+            <Image
+              src="/images/icons/Email.png"
+              alt="Email_image"
+              width={22}
+              height={22}
+            />
+          </span>
+          <span>care@whpjewellers.in</span>
+        </div>
+      </Link>
       <div className="flex mt-4">
         <div className="mr-3">
           <Link href={"https://www.facebook.com/whpjewellers.india/"}>

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState ,MutableRefObject} from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -13,15 +13,15 @@ import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
-import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import CheckPincode from "./CheckPincode";
-import Buttons from "./Buttons";
-import Skeleton from "react-loading-skeleton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl } from "@/utils/constants";
+import Buttons from "./Buttons";
+import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
@@ -30,6 +30,10 @@ import StarRating from "@/components/Other/StarRating";
 
 interface Props {
   productId: string | number | null;
+}
+interface Ref extends MutableRefObject<any>{
+  slickNext?:()=>void;
+  slickPrev?:()=>void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -50,6 +54,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
+    
   };
 
   async function getData() {
@@ -80,18 +85,34 @@ const Default: React.FC<Props> = ({ productId }) => {
       setLoading(false);
     }
   };
+
   const slidesToShow = Math.min(
     3,
     data?.productDetails?.imageDetails?.length || 0
   );
-  let sliderRef = useRef<any>();
+
+  let sliderRef = useRef<Ref>();
+
   const settingsThumbnails = {
+    className:"center",
+    centerMode:true,
+    arrows:false,
     dots: false,
     infinite: true,
     speed: 500,
+    centerPadding: "10px",
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     focusOnSelect: true,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust this breakpoint as needed
+        settings: {
+          slidesToShow: Math.min(3, data?.productDetails?.imageDetails?.length || 0),
+          centerPadding: "5px",
+        },
+      },
+    ],
     asNavFor: nav1,
   };
 
@@ -143,7 +164,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <>
                   <Slider
                     {...settingsThumbnails}
-                    ref={(slider) => {
+                    ref={(slider:any) => {
                       sliderRef = slider;
                     }}
                   >
@@ -160,19 +181,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                               alt={data?.productDetails?.title}
                               width={100}
                               height={100}
-                              className="cursor-pointer border"
+                              className="cursor-pointer mx-3"
                             />
                           </div>
                         ))}
                   </Slider>
                 </>
-                <div className="absolute top-[40px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
+                <div className="absolute top-[25px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}
                   />
                 </div>
-                <div className="absolute top-[40px] -left-[50px] cursor-pointer">
+                <div className="absolute top-[25px] -left-[50px] cursor-pointer">
                   <Icon.CaretLeft
                     onClick={() => sliderRef.slickPrev()}
                     size={25}
@@ -223,8 +244,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
                     3
                   </div>
-                    <StarRating stars={data?.productDetails?.rating} />
-                  
+                  <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
             </>
@@ -274,7 +294,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               left!
             </p>
           )}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
                 10% off on HDFC Bank Credit Card. Use{" "}
@@ -291,7 +311,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               </li>
             </ul>
-          </div>
+          </div> */}
           <CheckPincode />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
 

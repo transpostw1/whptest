@@ -16,6 +16,7 @@ import {
   ProductForWishlistLoggedIn,
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
+import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
   productId: number;
@@ -47,6 +48,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [wishlistItemsCount, setWishlistItemsCount] = useState(0);
   const { isLoggedIn } = useUser();
+  const [flashMessage, setFlashMessage] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error" | "info">(
+    "info"
+  );
 
   useEffect(() => {
     const uniqueWishlistItems = wishlistItems.filter(
@@ -60,7 +65,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     if (isLoggedIn) {
       const userToken = Cookies.get("localtoken");
       // if (userToken) {
-        setCookieToken(userToken);
+      setCookieToken(userToken);
       // }
     }
   }, []);
@@ -210,6 +215,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } catch (error) {
       console.error("Error adding product to wishlist:", error);
+      setFlashMessage("Failed to add product to wishlist.");
+      setFlashType("error");
     }
   };
 
@@ -282,6 +289,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <WishlistContext.Provider value={value}>
       {children}
+      {/* <FlashAlert message={flashMessage} type={flashType} /> */}
     </WishlistContext.Provider>
   );
 };

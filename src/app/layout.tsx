@@ -5,6 +5,7 @@ import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
@@ -17,9 +18,6 @@ const instrument = Montserrat({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "WHP Web",
   description: "WHP Jewellers app",
-  icons: {
-    icon: "/images/Bracelet.jpg",
-  },
 };
 
 export default function RootLayout({
@@ -38,6 +36,7 @@ export default function RootLayout({
           <NavTwo props="style-three bg-white" />
           <div id="header" className="w-full ">
             <NavHoverMenu props="bg-white" />
+            
           </div>
           {children}
           <Footer />

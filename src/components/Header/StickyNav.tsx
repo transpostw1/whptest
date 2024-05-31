@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
 
@@ -11,7 +12,7 @@ const StickyNav = () => {
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
   const { isLoggedIn, userDetails, getUser } = useUser();
-
+  const pathname = usePathname();
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
   };
@@ -59,7 +60,7 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                clicked === 2 ? "text-[#e26178]" : ""
+                pathname.includes("/search-result") ? "text-[#e26178]" : ""
               } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
@@ -108,12 +109,8 @@ const StickyNav = () => {
       </div>
       {isSearchModalOpen && (
         <ModalSearch
-          searchKeyword=""
-          setSearchKeyword={() => {}}
-          handleSearch={() => {}}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
-          handleModalToggle={toggleSearchModal}
         />
       )}
     </>

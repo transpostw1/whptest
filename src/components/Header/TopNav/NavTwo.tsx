@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import { BiSolidOffer } from "react-icons/bi";
+import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -24,7 +26,7 @@ interface Props {
 }
 
 const NavTwo: React.FC<Props> = ({ props }) => {
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState<any>("");
   const { categories } = useAllCategoryContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
@@ -129,7 +131,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const handleSearch = (value: string) => {
-    router.push(`/products?query=${value}`);
+    router.push(`/products?url=${value}`);
     setSearchKeyword("");
     setIsModalOpen(false);
   };
@@ -209,12 +211,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search w-72 relative max-lg:hidden">
+            <div className="form-search w-64 relative max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => {
-                  handleSearch(searchKeyword);
+                  setIsModalOpen(true);
                 }}
               />
 
@@ -223,37 +225,27 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 placeholder="What are you looking for?"
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
-                onChange={handleInputChange}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && handleSearch(searchKeyword)
-                }
+                onClick={() => setIsModalOpen(true)}
               />
             </div>
             {isModalOpen && (
               <ModalSearch
-                searchKeyword={searchKeyword}
-                setSearchKeyword={setSearchKeyword}
-                handleSearch={handleSearch}
                 closeModal={() => setIsModalOpen(false)}
                 isModalOpen={isModalOpen}
-                handleModalToggle={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
               />
             )}
 
             <div className="ps-3 right-content flex items-center  max-md:hidden ">
-              <div className="right flex gap-12 relative z-[1] ">
+              <div className="right flex gap-7 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
-                    <div className="flex flex-col items-center">
+                    <div
+                      className={`flex flex-col items-center ${
+                        pathname.includes("/offer") ? "text-[#e26178]" : ""
+                      }`}
+                    >
                       <Link href={"/offers"}>
-                        <Image
-                          src={"/images/icons/offer.svg"}
-                          alt="Offer"
-                          width={30}
-                          height={30}
-                        />
+                        <PiPercentLight size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
@@ -271,15 +263,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div
-                      className="flex flex-col items-center"
+                      className={`flex flex-col items-center ${
+                        contactPopUp ? "text-[#e26178]" : ""
+                      }`}
                       onClick={handleContactPopup}
                     >
-                      <Image
-                        src={"/images/icons/contact.svg"}
-                        alt="Contact"
-                        width={30}
-                        height={30}
-                      />
+                      <Icon.Headset size={30} />
                       <h4 className="text-sm">Contact</h4>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -346,8 +335,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                         // onClick={openModalWishlist}
                       >
-                        <div className="flex flex-col items-center">
-                          <Icon.Heart size={28} color="black" />
+                        <div
+                          className={`flex flex-col items-center ${
+                            pathname.includes("/whislist")
+                              ? "text-[#e26178]"
+                              : ""
+                          }`}
+                        >
+                          <Icon.Heart size={28} />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
                         {wishlistItems.length > 0 && (
@@ -363,13 +358,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                       // onClick={openModalCart}
                     >
-                      <div className="flex flex-col items-center">
-                        <Image
+                      <div
+                        className={`flex flex-col items-center ${
+                          pathname.includes("/checkout") ? "text-[#e26178]" : ""
+                        }`}
+                      >
+                        {/* <Image
                           src={"/images/icons/cart.svg"}
                           alt="Cart"
                           width={30}
                           height={30}
-                        />
+                        /> */}
+                        <Icon.ShoppingCart size={30} />
                         <h4 className="text-sm">Cart</h4>
                       </div>
                       {cartLength > 0 && (
@@ -425,7 +425,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                     {wishlistItems.length}
                   </span>
-                </div>
+                </div> 
                 <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image
@@ -635,7 +635,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
                     onClick={() => {
                       handleOpenSubNavMobile(8);
-                      setCustomcategory("men");
+                      setCustomcategory("_men");
                     }}
                   >
                     <Link
@@ -664,16 +664,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     className={`${openSubNavMobile === 9 ? "open" : ""}`}
                     onClick={() => handleOpenSubNavMobile(9)}
                   >
-                    <p
-                      className={`text-xl font-semibold flex items-center  mt-5`}
-                    >
-                      Gold Services
-                      <Icon.CaretRight size={20} weight="fill" />
-                    </p>
+                    <Link href={"/benefit"}>
+                      <p
+                        className={`text-xl font-semibold flex items-center  mt-5`}
+                      >
+                        Gold Services
+                        {/* <Icon.CaretRight size={20} weight="fill" /> */}
+                      </p>
+                    </Link>
                   </li>
                 </ul>
               </div>
-              <div className="flex mt-2 bg-[#fdf4f6] p-2">
+              {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
                 <div>
                   <p className="text-lg font-semibold">Download the WHP App</p>
                   <Image
@@ -697,7 +699,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={164}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

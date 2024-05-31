@@ -195,63 +195,69 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
+  
+
+  const mappedCartItems = cartItems
+    .filter(
+      (item) =>
+        item?.productId &&
+        item?.quantity &&
+        item.productId.productDetails?.displayTitle &&
+        item.productId.productDetails?.discountPrice &&
+        item.productId.productDetails?.imageDetails
+    )
+    .map((item) => ({
+      productId: item?.productId,
+      quantity: item?.quantity,
+      name: item.productId.productDetails?.displayTitle,
+      price: item.productId.productDetails?.discountPrice,
+      image:
+        item?.productId.productDetails?.imageDetails &&
+        item?.productId.productDetails?.imageDetails.length > 0
+          ? item.productId.productDetails.imageDetails[0].image_path
+          : "",
+    }));
+  console.log(mappedCartItems, "hh");
+
+const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
 
 
-  // const mappedCartItems = cartItems
-  //   .filter(
-  //     (item) =>
-  //       item?.productId &&
-  //       item?.quantity &&
-  //       item?.productDetails?.displayTitle &&
-  //       item?.productDetails?.discountPrice &&
-  //       item?.productDetails?.imageDetails
-  //   )
-  //   .map((item) => ({
-  //     productId: item?.productId,
-  //     quantity: item?.quantity,
-  //     name: item?.productDetails?.displayTitle,
-  //     price: item?.productDetails?.discountPrice,
-  //     image:
-  //       item?.productDetails?.imageDetails &&
-  //       item?.productDetails?.imageDetails.length > 0
-  //         ? item.productDetails.imageDetails[0].image_path
-  //         : "",
-  //   }));
-  const mappedCartItems = showAllItems
-    ? cartItems
-        .filter(
-          (item) =>
-            item?.productId &&
-            item?.quantity &&
-            item?.productDetails?.displayTitle &&
-            item?.productDetails?.discountPrice &&
-            item?.productDetails?.imageDetails
-        )
-        .map((item) => ({
-          productId: item?.productId,
-          quantity: item?.quantity,
-          name: item?.productDetails?.displayTitle,
-          price: item?.productDetails?.discountPrice,
-          image:
-            item?.productDetails?.imageDetails &&
-            item?.productDetails?.imageDetails.length > 0
-              ? item.productDetails.imageDetails[0].image_path
-              : "",
-        }))
-    : cartItems
-        .filter((item) => item.productId === parseInt(buyNow as string))
-        .map((item) => ({
-          productId: item?.productId,
-          quantity: item?.quantity,
-          name: item?.productDetails?.displayTitle,
-          price: item?.productDetails?.discountPrice,
-          image:
-            item?.productDetails?.imageDetails &&
-            item?.productDetails?.imageDetails.length > 0
-              ? item.productDetails.imageDetails[0].image_path
-              : "",
-        }));
+
+  // const mappedCartItems = showAllItems
+  //   ? cartItems
+  //       .filter(
+  //         (item) =>
+  //           item?.productId &&
+  //           item?.quantity &&
+  //           item?.productDetails?.displayTitle &&
+  //           item?.productDetails?.discountPrice &&
+  //           item?.productDetails?.imageDetails
+  //       )
+  //       .map((item) => ({
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
+  //         image:
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
+  //             : "",
+  //       }))
+  //   : cartItems
+  //       .filter((item) => item.productId === parseInt(buyNow as string))
+  //       .map((item) => ({
+  //         productId: item?.productId,
+  //         quantity: item?.quantity,
+  //         name: item?.productDetails?.displayTitle,
+  //         price: item?.productDetails?.discountPrice,
+  //         image:
+  //           item?.productDetails?.imageDetails &&
+  //           item?.productDetails?.imageDetails.length > 0
+  //             ? item.productDetails.imageDetails[0].image_path
+  //             : "",
+  //       }));
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -268,7 +274,7 @@ const Checkout: React.FC = () => {
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  cartItems.forEach((item) => {
+  MainCart.forEach((item) => {
     const price = parseInt(item.price?.toString());
     if (!isNaN(price) && typeof item.quantity === "number") {
       totalCart += price * item.quantity;
@@ -297,13 +303,11 @@ const Checkout: React.FC = () => {
       setFlashKey((prevKey) => prevKey + 1);
       return false;
     } else if (!useSameAsBillingAddress && !selectedBillingAddress) {
-      // Display error message using FlashAlert
       setFlashMessage("Please select a billing address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
       return false;
     } else if (useSameAsBillingAddress && !selectedShippingAddress) {
-      // Display error message using FlashAlert
       setFlashMessage("Please select a shipping address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
@@ -474,7 +478,7 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
+                        className={`p-2 rounded-full border border-gray-300 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >
@@ -495,27 +499,16 @@ const Checkout: React.FC = () => {
           {!isOrderPlaced ? (
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null}
-          <FlashAlert
-            key={flashKey}
-            message={flashMessage}
-            type={flashType}
-          />
+          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
           <div className="flex flex-col md:flex-row lg:flex-row justify-between">
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
               <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
               {selectedComponent === "CartItems" && (
-                <>
                 <CartItems
-                  cartItems={mappedCartItems}
+                  cartItems={MainCart}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
                 />
-               
-              <button onClick={toggleShowAllItems}>
-                {showAllItems ? "-Hide" : "+Show"} Cart Items
-              </button>
-            
-                </>
               )}
               {selectedComponent === "DeliveryDetails" && (
                 <DeliveryDetails
@@ -669,17 +662,15 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                  <div>
-                    <h1 className="my-5 text-2xl text-rose-600">
-                      ORDER SUMMARY
-                    </h1>
-                    <OrderSummary
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={cartItems}
-                    />
-                  </div>
-                )}
+                <div>
+                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                  <OrderSummary
+                    totalDiscount={totalDiscount}
+                    totalCart={totalCart}
+                    cartItems={MainCart}
+                  />
+                </div>
+              )}
 
               {selectedStep !== 2 && (
                 <ProceedButton
@@ -694,10 +685,8 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-      {console.log("couponCode", flashMessage)}
-      {couponCode && flashMessage.length!==0 &&  (
-        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-      )}
+      {/* </ProtectedRoute> */}
+
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

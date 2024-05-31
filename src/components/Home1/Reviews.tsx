@@ -104,12 +104,12 @@ const Reviews: React.FC = () => {
                 />
               </div>
             ))}
-            <a
+            {/* <a
               className="flex items-center justify-center w-20 h-20 text-xs font-medium text-white bg-gray-700 border-2 border-gray-300 rounded-full hover:bg-gray-600"
               href="#"
             >
               +99
-            </a>
+            </a> */}
           </div>
           <div className="flex items-center gap-8 cursor-pointer">
             <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />

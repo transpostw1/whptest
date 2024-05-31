@@ -36,7 +36,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [message, setMessage] = useState<any>("");
-  const { logOut, isLoggedIn, userDetails } = useUser();
   const [type, setType] = useState<any>("");
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();

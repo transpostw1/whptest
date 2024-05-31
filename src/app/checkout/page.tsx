@@ -192,21 +192,21 @@ const Checkout: React.FC = () => {
   const mappedCartItems = cartItems
     .filter(
       (item) =>
-        item?.productId &&
-        item?.quantity &&
-        item.productId.productDetails?.displayTitle &&
-        item.productId.productDetails?.discountPrice &&
-        item.productId.productDetails?.imageDetails
+        item?.productId ||
+        item?.quantity ||
+        item?.productDetails?.title||
+        item?.productDetails?.discountPrice ||
+        item?.productDetails?.imageDetails
     )
     .map((item) => ({
       productId: item?.productId,
       quantity: item?.quantity,
-      name: item.productId.productDetails?.displayTitle,
-      price: item.productId.productDetails?.discountPrice,
+      name: item?.productDetails?.title,
+      price: item?.productDetails?.discountPrice,
       image:
-        item?.productId.productDetails?.imageDetails &&
-        item?.productId.productDetails?.imageDetails.length > 0
-          ? item.productId.productDetails.imageDetails[0].image_path
+        item?.productDetails?.imageDetails &&
+        item?.productDetails?.imageDetails.length > 0
+          ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
   console.log(mappedCartItems, "hh");

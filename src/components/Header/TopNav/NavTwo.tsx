@@ -21,6 +21,7 @@ import { CategoryType } from "@/type/CategoryType";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
+import { usePathname } from "next/navigation";
 
 interface Props {
   props: string;
@@ -38,6 +39,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { cartItems } = useCart();
   const { userState } = useUser();
   const isLoggedIn = userState.isLoggedIn;
+  const pathname = usePathname();
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const [fixedHeader, setFixedHeader] = useState(false);
@@ -238,7 +240,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <div className="right flex gap-7 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
-                    <div className="flex flex-col items-center ">
+                    <div
+                      className={`flex flex-col items-center ${
+                        pathname.includes("/offer") ? "text-[#e26178]" : ""
+                      }`}
+                    >
                       <Link href={"/offers"}>
                         <BiSolidOffer size={30} />
                       </Link>
@@ -248,12 +254,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
                     </div> */}
-                    <div className="flex flex-col items-center">
+                    <div
+                      className={`flex flex-col items-center ${
+                        pathname.includes("/blog") ? "text-[#e26178]" : ""
+                      }`}
+                    >
                       <PiNotebookDuotone size={30} />
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div
-                      className={`flex flex-col items-center`}
+                      className={`flex flex-col items-center ${
+                        contactPopUp ? "text-[#e26178]" : ""
+                      }`}
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
@@ -321,7 +333,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                         // onClick={openModalWishlist}
                       >
-                        <div className="flex flex-col items-center">
+                        <div
+                          className={`flex flex-col items-center ${
+                            pathname.includes("/whislist") ? "text-[#e26178]" : ""
+                          }`}
+                        >
                           <Icon.Heart size={28} color="black" />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>

@@ -107,12 +107,8 @@ const StickyNav = () => {
       </div>
       {isSearchModalOpen && (
         <ModalSearch
-          searchKeyword=""
-          setSearchKeyword={() => {}}
-          handleSearch={() => {}}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
-          handleModalToggle={toggleSearchModal}
         />
       )}
     </>

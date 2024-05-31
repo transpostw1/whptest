@@ -209,7 +209,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => {
-                  handleSearch(searchKeyword);
+                  setIsModalOpen(true);
                 }}
               />
 
@@ -218,22 +218,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 placeholder="What are you looking for?"
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
-                onChange={handleInputChange}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && handleSearch(searchKeyword)
-                }
+                onClick={() => setIsModalOpen(true)}
               />
             </div>
             {isModalOpen && (
               <ModalSearch
-                searchKeyword={searchKeyword}
-                setSearchKeyword={setSearchKeyword}
-                handleSearch={handleSearch}
                 closeModal={() => setIsModalOpen(false)}
                 isModalOpen={isModalOpen}
-                handleModalToggle={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
               />
             )}
 
@@ -357,11 +348,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                       // onClick={openModalCart}
                     >
-                      <div className={`flex flex-col items-center ${
-                            pathname.includes("/checkout")
-                              ? "text-[#e26178]"
-                              : ""
-                          }`}>
+                      <div
+                        className={`flex flex-col items-center ${
+                          pathname.includes("/checkout") ? "text-[#e26178]" : ""
+                        }`}
+                      >
                         {/* <Image
                           src={"/images/icons/cart.svg"}
                           alt="Cart"

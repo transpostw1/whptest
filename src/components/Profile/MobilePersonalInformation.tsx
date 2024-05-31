@@ -202,7 +202,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       <div className="flex flex-wrap p-4">
         {allAddress &&
           allAddress.map((address: any) => (
-            <div key={address.address_id} className="relative">
+            <div key={address.address_id} className="relative w-full">
               <div className=" bg-white p-4  mt-3 w-full h-[130px] mr-2 border">
                 <p>{address.full_address},</p>
                 <p>

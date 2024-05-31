@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import {useUser} from "@/context/UserContext"
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const {isLoggedIn}=useUser()
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false); // New state variable
   const pathname = usePathname();
@@ -79,7 +81,7 @@ const StickyNav = () => {
               <p>Offers</p>
             </div>
           </Link>
-          <Link href={"/profile"}>
+          <Link href={`${isLoggedIn?"/profile":"/register"}`}>
             <div
               className={`${
                 pathname.includes("profile") ? "text-[#e26178]" : ""

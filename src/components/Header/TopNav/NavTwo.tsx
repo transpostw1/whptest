@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { PiPercentLight } from "react-icons/pi";
 import { PiNotebookDuotone } from "react-icons/pi";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { BiSolidOffer } from "react-icons/bi";
@@ -246,7 +247,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                     >
                       <Link href={"/offers"}>
-                        <BiSolidOffer size={30} />
+                        <PiPercentLight size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
@@ -335,10 +336,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       >
                         <div
                           className={`flex flex-col items-center ${
-                            pathname.includes("/whislist") ? "text-[#e26178]" : ""
+                            pathname.includes("/whislist")
+                              ? "text-[#e26178]"
+                              : ""
                           }`}
                         >
-                          <Icon.Heart size={28} color="black" />
+                          <Icon.Heart size={28} />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
                         {wishlistItems.length > 0 && (
@@ -354,13 +357,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
                       // onClick={openModalCart}
                     >
-                      <div className="flex flex-col items-center">
-                        <Image
+                      <div className={`flex flex-col items-center ${
+                            pathname.includes("/checkout")
+                              ? "text-[#e26178]"
+                              : ""
+                          }`}>
+                        {/* <Image
                           src={"/images/icons/cart.svg"}
                           alt="Cart"
                           width={30}
                           height={30}
-                        />
+                        /> */}
+                        <Icon.ShoppingCart size={30} />
                         <h4 className="text-sm">Cart</h4>
                       </div>
                       {cartLength > 0 && (

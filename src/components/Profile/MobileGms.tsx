@@ -5,7 +5,7 @@ import Image from "next/image";
 import { baseUrl } from "@/utils/constants";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Cookie from "js-cookie";
-
+import Link from "next/link";
 interface Props {
   handleComponent: (args: string) => void;
 }
@@ -48,11 +48,16 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
   }
   return (
     <div>
-      <div className="flex">
+      <div className="flex mb-4">
         <div onClick={() => handleBackButton("")} className="mt-2">
           <Icon.CaretLeft size={15} />
         </div>
-        <div className="text-[20px] font-bold">Your Gms</div>
+        <div className="flex justify-between w-full">
+          <div className="text-[20px] font-bold">Your Gms</div>
+          <div className="text-[20px] font-bold text-[#e26178] underline">
+            <Link href={"/benefit"}>Know More</Link>
+          </div>
+        </div>
       </div>
       <div className="px-3">
         {data &&
@@ -67,7 +72,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
                 <div>Balance Amount: {gms.balanceAmount}</div>
               </div>
               <p className="px-2">Payment Status Tracking</p>
-              
+
               <div className="flex mb-2 px-2 my-2">
                 {Array.from({ length: 12 }).map((_, index) => (
                   <div key={index}>

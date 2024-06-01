@@ -8,7 +8,6 @@ import { PiPercentLight } from "react-icons/pi";
 import { PiNotebookDuotone } from "react-icons/pi";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { BiSolidOffer } from "react-icons/bi";
-import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -21,7 +20,6 @@ import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
-import { usePathname } from "next/navigation";
 import ProtectedRoute from "@/app/ProtectedRoute";
 
 interface Props {
@@ -442,7 +440,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </Link>
                 )}
 
-                {/* <div className="ml-3 relative">
+                 <div className="ml-3 relative">
                   <Icon.Heart size={25} />
                   <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                     {wishlistItems.length}
@@ -691,11 +689,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className={`text-xl font-semibold flex items-center  mt-5`}
                       >
                         Gold Services
-                        {/* <Icon.CaretRight size={20} weight="fill" /> */}
+                        <Icon.CaretRight size={20} weight="fill" /> 
                       </p>
                     </Link>
                   </li>
-                </ul>
+                 </ul>
               </div>
               {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
                 <div>

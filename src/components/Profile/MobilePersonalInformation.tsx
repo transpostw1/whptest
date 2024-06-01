@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import * as Yup from "yup"
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import {useFormik} from "formik";
@@ -8,11 +10,11 @@ import { Address } from "@/type/AddressType";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
-
 import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
+
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -269,9 +271,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 First Name
               </label>
             </div>
-            {formik.errors.firstName && (
-              <div className="text-red-500 mt-1">{formik.errors.firstName}</div>
-            )}
           </div>
           <div className="">
             <div className="relative">
@@ -291,9 +290,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 Last Name
               </label>
             </div>
-            {formik.errors.lastName && (
-              <div className="text-red-500 mt-1">{formik.errors.lastName}</div>
-            )}
           </div>
           <div className="">
             <div className="relative">
@@ -302,9 +298,7 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 type="text"
                 {...formik.getFieldProps("email")}
                 value={formik.values.email}
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                  formik.errors.email ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
               />
               <label
                 htmlFor="email"
@@ -313,9 +307,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 Email
               </label>
             </div>
-            {formik.errors.email && (
-              <div className="text-red-500 mt-1">{formik.errors.email}</div>
-            )}
           </div>
           <div className="select-none ">
             <div className="relative">
@@ -336,9 +327,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 Phone
               </label>
             </div>
-            {formik.errors.phone && (
-              <div className="text-red-500 mt-1">{formik.errors.phone}</div>
-            )}
           </div>
           <div className="">
             <div className="relative">
@@ -382,9 +370,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                 Gender
               </label>
             </div>
-            {formik.errors.gender && (
-              <div className="text-red-500 mt-1">{formik.errors.gender}</div>
-            )}
           </div>
           <div className="">
             <div className="relative">
@@ -449,11 +434,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                   Month
                 </label>
               </div>
-              {formik.errors.dobMonth && (
-                <div className="text-red-500 mt-1">
-                  {formik.errors.dobMonth}
-                </div>
-              )}
             </div>
             <div className="mb-4">
               <div className="relative">
@@ -472,9 +452,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                   Year
                 </label>
               </div>
-              {formik.errors.dobYear && (
-                <div className="text-red-500 mt-1">{formik.errors.dobYear}</div>
-              )}
             </div>
           </div>
           <button

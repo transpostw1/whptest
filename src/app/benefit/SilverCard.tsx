@@ -197,12 +197,22 @@ const SilverCard: React.FC<SilverCardProps> = ({
               </h1>
             </div>
           </div>
-          <div>
-            <div
-              className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
-              onClick={handleEnroll}
-            >
-              {loading ? "Enrolling..." : "Enroll Now"}
+          <div className="mb-3">
+            <div>
+              <div
+                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
+                onClick={handleEnroll}
+              >
+                {loading ? "Enrolling..." : "Enroll Now"}
+              </div>
+            </div>
+            <div>
+              <Link
+                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                href={"/terms-and-condition"}
+              >
+                T&C apply*
+              </Link>
             </div>
           </div>
         </div>

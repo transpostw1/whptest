@@ -59,6 +59,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+
   // useEffect(() => {
   //   console.log("INNN");
   //   //  if (typeof window !== "undefined") {
@@ -202,6 +203,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || "0",
       }));
+      console.log(cookieToken,"TTTTTTTTTTTTTTTTTTTTTTTTT")
       await instance.post(
         `${baseUrl}/cart/sync`,
         { cart: cartData },

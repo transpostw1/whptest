@@ -16,6 +16,7 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
+import BookExchangeModal from "@/components/Other/BookExchangeModal"
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
@@ -23,7 +24,6 @@ import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import { usePathname } from "next/navigation";
-
 interface Props {
   props: string;
 }
@@ -49,6 +49,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -447,7 +452,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={()=>setAppointmentModal(true)}>
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -460,6 +465,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
+                {appointmentModal&&(<BookExchangeModal closeModal={handleOnClose}/>)}
               </div>
               <div className="list-nav mt-6">
                 <ul>

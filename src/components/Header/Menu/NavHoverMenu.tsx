@@ -7,6 +7,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
+import {useRouter} from "next/navigation";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
@@ -20,6 +21,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [isMobile, setIsMobile] = useState(false);
   const searchParmas = useSearchParams();
   const pathname = usePathname();
+  const router =useRouter();
   const { categories } = useAllCategoryContext();
   const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
@@ -56,6 +58,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
+  const handleUrl=(value:any)=>{
+    router.push(`/products/?gender=${value}`)
+  }
   if (isMobile) {
     return null;
   }
@@ -136,7 +141,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname: "/products",
                             query: { url: "women" },
                           }}
-                          onClick={() => setCustomcategory("women")}
+                          onClick={() => handleUrl("women")}
                         >
                           Women
                         </Link>

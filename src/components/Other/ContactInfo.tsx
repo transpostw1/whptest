@@ -6,7 +6,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const ContactInfo = () => {
   return (
-    <div className="absolute top-[100px] w-[250px] left-[100px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
+    <div className="absolute top-[100px] w-[250px] left-[70px] p-7 rounded-xl bg-surface box-shadow-small bg-white">``
       <p className="text-xl font-semibold">Get in Touch with us</p>
       <p className="mt-3">
         Connect with us and we will assist you with all your needs
@@ -47,7 +47,7 @@ const ContactInfo = () => {
           <span>care@whpjewellers.in</span>
         </div>
       </Link>
-      <div className="flex mt-4">
+      <div className="flex mt-4 items-center">
         <div className="mr-3">
           <Link href={"https://www.facebook.com/whpjewellers.india/"}>
             <Icon.FacebookLogo size={34} weight="light" color="#e26178" />

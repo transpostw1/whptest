@@ -15,13 +15,13 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
+import BookExchangeModal from "@/components/Other/BookExchangeModal"
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import ProtectedRoute from "@/app/ProtectedRoute";
-
 interface Props {
   props: string;
 }
@@ -47,7 +47,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-   const pathname = usePathname(); 
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -323,28 +327,24 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
-                      {/* <div>
-                        <div className="flex flex-col items-center">
-                          <Icon.Heart size={28} color="black" />
-                          <h4 className="text-sm">Wishlist</h4>
-                        </div>
-                        
-                      </div> */}
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                        // onClick={openModalWishlist}
                       >
                         <div
                           className={`flex flex-col items-center ${
-                            pathname.includes("/whislist")
+                            pathname.includes("/wishlist")
                               ? "text-[#e26178]"
                               : ""
                           }`}
                         >
-                          <Icon.Heart size={28} />
+                          <Icon.Heart
+                            size={28}
+                            color={`${
+                              pathname.includes("/wishlist") ? "#e26178" : ""
+                            }`}
+                          />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
                         {wishlistItems.length > 0 && (
@@ -365,12 +365,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           pathname.includes("/checkout") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        {/* <Image
-                          src={"/images/icons/cart.svg"}
-                          alt="Cart"
-                          width={30}
-                          height={30}
-                        /> */}
                         <Icon.ShoppingCart size={30} />
                         <h4 className="text-sm">Cart</h4>
                       </div>
@@ -411,7 +405,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         <TopNavOne textColor="text-white" />
         <div className="menu-container bg-white h-full">
           <div className="container h-full">
-            <div className="menu-main h-full overflow-hidden">
+            <div className="menu-main h-full overflow-y-auto">
               <div className="heading py-2 relative flex items-center justify-end">
                 <div
                   className="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center"
@@ -469,7 +463,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={()=>setAppointmentModal(true)}>
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -482,6 +476,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
+                {appointmentModal&&(<BookExchangeModal closeModal={handleOnClose}/>)}
               </div>
               <div className="list-nav mt-6">
                 <ul>

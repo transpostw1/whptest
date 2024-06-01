@@ -253,17 +253,32 @@ textarea:focus {
   }
 }
 
+.custom-phone-input {
+  border: none;
+  border-radius: 4px;
+  width: 30%;
+}
+
+.custom-phone-input input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.custom-phone-input .flag-dropdown {
+  border: none;
+}
 
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @media (max-width: 1023.99px) {

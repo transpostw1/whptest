@@ -7,13 +7,13 @@ import Cookies from 'js-cookie';
 import { baseUrl, addAddress } from '@/utils/constants';
 
 interface Props {
-  id:any;
   closeModal: () => void;
+  singleAddress:any;
 //   isForBillingAddress: boolean;
 //   onAddressAdded: (isBillingAddress: boolean) => void;
 }
 
-const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
+const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -35,7 +35,7 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
     try {
       const cookieToken = Cookies.get('localtoken');
       const response = await axios.post<{ data: any }>(
-        `${baseUrl}/customer/address/${id}`,
+        `${baseUrl}/customer/address/${singleAddress.address_id}`,
         {
           pincode: values.pincode,
           full_address: values.full_address,
@@ -64,17 +64,16 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
       window.location.reload();
     }
   };
-  console.log("Address Id",id)
   const formik = useFormik({
     initialValues: {
-      pincode: '',
-      full_address: '',
+      pincode: singleAddress.pincode,
+      full_address: singleAddress.full_address,
       area: '',
-      country: '',
-      state: '',
-      city: '',
-      landmark: '',
-      address_type: '',
+      country: singleAddress.country,
+      state: singleAddress.state,
+      city: singleAddress.city,
+      landmark: singleAddress.landmark,
+      address_type: singleAddress.address_type,
     },
     validationSchema,
     onSubmit: handleSubmit,
@@ -109,9 +108,9 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                 Pincode
               </label>
             </div>
-            {formik.errors.pincode && (
+            {/* {formik.errors.pincode && (
               <div className="text-red-500 mt-1">{formik.errors.pincode}</div>
-            )}
+            )} */}
           </div>
 
           <div className="mb-4">
@@ -132,9 +131,9 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                 Full Address
               </label>
             </div>
-            {formik.errors.full_address && (
+            {/* {formik.errors.full_address && (
               <div className="text-red-500 mt-1">{formik.errors.full_address}</div>
-            )}
+            )} */}
           </div>
 
           <div className="mb-4">
@@ -177,9 +176,9 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                   Country
                 </label>
               </div>
-              {formik.errors.country && (
+              {/* {formik.errors.country && (
                 <div className="text-red-500 mt-1">{formik.errors.country}</div>
-              )}
+              )} */}
             </div>
 
             <div>
@@ -200,7 +199,7 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                   State
                 </label>
               </div>
-              {formik.errors.state && <div className="text-red-500 mt-1">{formik.errors.state}</div>}
+              {/* {formik.errors.state && <div className="text-red-500 mt-1">{formik.errors.state}</div>} */}
             </div>
 
             <div>
@@ -221,7 +220,7 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                   City
                 </label>
               </div>
-              {formik.errors.city && <div className="text-red-500 mt-1">{formik.errors.city}</div>}
+              {/* {formik.errors.city && <div className="text-red-500 mt-1">{formik.errors.city}</div>} */}
             </div>
           </div>
 
@@ -243,9 +242,9 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                 Landmark (optional)
               </label>
             </div>
-            {formik.errors.landmark && (
+            {/* {formik.errors.landmark && (
               <div className="text-red-500 mt-1">{formik.errors.landmark}</div>
-            )}
+            )} */}
           </div>
 
           <div className="mb-4">
@@ -296,9 +295,9 @@ const EditAddressModal: React.FC<Props> = ({id, closeModal }) => {
                 </label>
               </div>
             </div>
-            {formik.errors.address_type && (
+            {/* {formik.errors.address_type && (
               <div className="text-red-500 mt-1">{formik.errors.address_type}</div>
-            )}
+            )} */}
           </div>
 
           <button

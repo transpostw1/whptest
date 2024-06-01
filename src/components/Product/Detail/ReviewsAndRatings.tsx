@@ -17,6 +17,10 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const router = useRouter();
   const [review, setReview] = useState<string>("");
   const [activeTab, setActiveTab] = useState("tab1");
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [message, setMessage] = useState<any>("");
+  const [type, setType] = useState<any>("");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   let loggedIn = null;
   if (typeof window != undefined) {
@@ -35,24 +39,28 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       ]);
     }
   };
+
   const handleLogIn = () => {
     router.push("/login");
   };
+
   const removeImage = (index: number) => {
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
+
   const handleReveiwChange = (e: any) => {
     setReview(e.target.value);
   };
+
   const handleReviews = (e: any) => {
     e?.preventDefault();
     try {
       const cookieToken = Cookies.get("localtoken");
-      const response = axios.post(
+      const response:any = axios.post(
         `${baseUrl}${storeReviews}`,
         {
           productId: product.productDetails.productId,
-          rating: 4.5,
+          rating: rating,
           review: review,
         },
         {
@@ -61,12 +69,34 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
           },
         }
       );
-    } catch (error) {
+      setMessage(response.data.message);
+      setType("success");
+      setReview("");
+      setRating(0);
+    } catch (error: any) {
+      setMessage(error.data.message);
+      setType("error");
       console.log("Error Ocuuredd", error);
     } finally {
       setReview("");
     }
   };
+
+  const handleClick = (ratingValue: number) => {
+    setRating(ratingValue);
+    // if (onRate) {
+    //   onRate(ratingValue);
+    // }
+  };
+
+  const handleMouseEnter = (ratingValue: number) => {
+    setHoverRating(ratingValue);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverRating(0);
+  };
+
   return (
     <div className="mt-7 mb-7">
       <div className="flex bg-[#E1DCDD29] p-2 mx-4 mb-3">
@@ -120,12 +150,32 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                 <div className="">
                   <p>Write a Review</p>
                 </div>
-                <div className="flex">
-                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
-                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
-                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
-                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
-                  <Icon.Star className="border-[#E1DCDD29]" size={20} />
+                <div style={{ display: "flex" }}>
+                  {Array.from({ length: 5 }, (_, index) => {
+                    const starValue = index + 1;
+                    return (
+                      <svg
+                        key={index}
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill={
+                          starValue <= (hoverRating || rating) ? "gold" : "gray"
+                        }
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="star"
+                        onClick={() => handleClick(starValue)}
+                        onMouseEnter={() => handleMouseEnter(starValue)}
+                        onMouseLeave={handleMouseLeave}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <polygon points="12 2 15 8 21 8 16 12 18 18 12 14 6 18 8 12 3 8 9 8 12 2" />
+                      </svg>
+                    );
+                  })}
                 </div>
               </div>
               <div>
@@ -191,6 +241,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
           </div>
         )}
         {activeTab === "tab2" && <div>this is second tab</div>}
+        {message && <FlashAlert message={message} type={type} />}
       </div>
     </div>
   );

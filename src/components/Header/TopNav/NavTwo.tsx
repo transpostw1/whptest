@@ -253,7 +253,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                     >
                       <Link href={"/offers"}>
-                        <PiPercentLight size={30} />
+                        {/* <PiPercentLight size={30} /> */}
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>

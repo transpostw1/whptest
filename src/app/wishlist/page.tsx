@@ -37,44 +37,41 @@ const Wishlist = () => {
     }
   });
 
-    const handleBuyNow = (productItem: ProductData) => {
-      const productAlreadyExists = cartItems.find(
-        (item) => item.productId === productItem.productDetails?.productId
-      );
-      const currentQuantity = productAlreadyExists?.quantity ?? 0;
-      const updatedQuantity = currentQuantity + 1;
+  const handleBuyNow = (productItem: ProductData) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === productItem.productDetails?.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
 
-      if (productAlreadyExists) {
-        updateCartQuantity(
-          productItem.productDetails?.productId,
-          updatedQuantity
-        );
-      } else {
-        addToCart(
-          {
-            ...productItem,
-            quantity: 1,
-            productId: productItem.productDetails.productId,
-          },
-          1
-        );
-      }
-    };
-    if (isLoading) {
-      return (
-        <div>
-          <Skeleton height={70} />
-        </div>
+    if (productAlreadyExists) {
+      updateCartQuantity(
+        productItem.productDetails?.productId,
+        updatedQuantity
+      );
+    } else {
+      addToCart(
+        {
+          ...productItem,
+          quantity: 1,
+          productId: productItem.productDetails.productId,
+        },
+        1
       );
     }
+  };
+
+  if (isLoading) {
+    return (
+      <div>
+        <Skeleton height={70} />
+      </div>
+    );
+  }
 
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
-
-
-
-
 
   return (
     <div className="shop-product breadcrumb1">
@@ -85,12 +82,12 @@ const Wishlist = () => {
           ) : wishlistItems.length < 1 ? (
             <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
+            <div className="list-product grid grid-cols-1 md:grid-cols-3 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative">
-                  <div className="product-card p-4">
+                  <div className="product-card p-4 w-72 h-96">
                     <div
-                      className="product-image"
+                      className="product-image w-full h-2/3"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
                       <Image
@@ -98,7 +95,7 @@ const Wishlist = () => {
                         alt={product.title}
                         width={300}
                         height={300}
-                        className="rounded-md"
+                        className="w-full h-full object-cover rounded-md"
                       />
                     </div>
                     <div className="product-details mt-4">
@@ -123,7 +120,7 @@ const Wishlist = () => {
                       </div>
                     </div>
                     <div
-                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white"
+                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white mt-4"
                       onClick={() => handleBuyNow(product)}
                     >
                       <Link

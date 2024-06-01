@@ -2,6 +2,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from "react";
 import instance from "@/utils/axios";
+import axios from "axios";
 import { useUser } from "./UserContext";
 import {
   baseUrl,
@@ -64,15 +65,18 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isLoggedIn) {
       const userToken = Cookies.get("localtoken");
-      // if (userToken) {
-      setCookieToken(userToken);
-      // }
+      if (userToken) {
+        // setIsLoggedIn(true);
+        setCookieToken(userToken);
+      }
     }
-  }, []);
+  }, [isLoggedIn]);
+
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
     const fetchWishlistItems = async () => {
+        if (!cookieToken && isLoggedIn) return;
       try {
         const wishlistData = await getWishlist();
         const localWishlistItems = JSON.parse(
@@ -254,7 +258,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const getWishlist = async (): Promise<WishlistItem[]> => {
     try {
       if (isLoggedIn) {
-        const response = await instance.get(`${baseUrl}${getwishlisted}`, {
+        console.log(cookieToken,"wishlistToken")
+        const response = await axios.get(`${baseUrl}${getwishlisted}`, {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
           },

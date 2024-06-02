@@ -57,7 +57,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         setCookieToken(userToken);
       }
     }
-  }, []);
+  }, [isLoggedIn]);
 
 
   // useEffect(() => {
@@ -203,7 +203,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || "0",
       }));
-      console.log(cookieToken,"TTTTTTTTTTTTTTTTTTTTTTTTT")
       await instance.post(
         `${baseUrl}/cart/sync`,
         { cart: cartData },
@@ -214,7 +213,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       ).then(async (response) => {
       const cartItemsFromServer = await fetchCartItemsFromServer();
-      // setCartItems(cartItemsFromServer);
+      setCartItems(cartItemsFromServer);
     });
     } catch (error) {
       console.error("Error syncing cart with server:", error);

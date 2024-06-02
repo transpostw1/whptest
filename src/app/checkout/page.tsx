@@ -219,7 +219,7 @@ const Checkout: React.FC = () => {
     }));
   console.log(mappedCartItems, "hh");
 
-  const MainCart = isLoggedIn ? mappedCartItems : mappedCartItems;
+  const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
   // const mappedCartItems = showAllItems
   //   ? cartItems

@@ -6,16 +6,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
+import { useCart } from "@/context/CartContext";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
   const { isLoggedIn, userDetails, getUser } = useUser();
+  const { cartItems } = useCart();
   const pathname = usePathname();
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
   };
+
+
+    const cartLength: number = cartItems ? cartItems.length : 0;
+
+
 
   const handleOptionClicked = (option: number) => {
     setClicked(option);
@@ -114,6 +121,11 @@ const StickyNav = () => {
               onClick={() => handleOptionClicked(5)}
             >
               <Icon.ShoppingCart size={25} />
+               {cartLength > 0 && (
+              <span className="quantity cart-quantity absolute right-6 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+            {cartLength}
+              </span>
+               )}
               <p>Cart</p>
             </div>
           </Link>

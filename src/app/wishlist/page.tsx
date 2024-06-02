@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -60,7 +62,6 @@ const Wishlist = () => {
       );
     }
   };
-
   if (isLoading) {
     return (
       <div>
@@ -73,6 +74,15 @@ const Wishlist = () => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    })
+      .format(value)
+      .replace("₹", "₹ ");
+  };
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -82,12 +92,12 @@ const Wishlist = () => {
           ) : wishlistItems.length < 1 ? (
             <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
-            <div className="list-product grid grid-cols-1 md:grid-cols-3 gap-4 my-10">
+            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative">
-                  <div className="product-card p-4 w-72 h-96">
+                  <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
-                      className="product-image w-full h-2/3"
+                      className="product-image"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
                       <Image
@@ -95,7 +105,7 @@ const Wishlist = () => {
                         alt={product.title}
                         width={300}
                         height={300}
-                        className="w-full h-full object-cover rounded-md"
+                        className="rounded-md"
                       />
                     </div>
                     <div className="product-details mt-4">
@@ -105,22 +115,16 @@ const Wishlist = () => {
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            ₹{" "}
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseFloat(product.discountPrice ?? 0))
-                            )}
+                            {formatCurrency(product.discountPrice)}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
-                            ₹{" "}
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseFloat(product.productPrice ?? 0))
-                            )}
+                            {formatCurrency(product.productPrice)}
                           </span>
                         </p>
                       </div>
                     </div>
                     <div
-                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white mt-4"
+                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white"
                       onClick={() => handleBuyNow(product)}
                     >
                       <Link

@@ -207,9 +207,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               {/* <div className="ml-4 text-black">
                 <Icon.MapPin size={25} />
               </div> */}
-              {/* <div className="ml-4 text-black">
-                <Icon.Heart size={25} />
-              </div> */}
+              <Link href={"/wishlist"}>
+                <div className="ml-4 text-black">
+                  <Icon.Heart size={25} />
+                  {wishlistItems.length > 0 && (
+                    <span className="quantity cart-quantity absolute right-14 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                      {wishlistItems.length}
+                    </span>
+                  )}
+                </div>
+              </Link>
+
               <div className="ml-4" onClick={handleMenuMobile}>
                 <Image
                   src={"/images/icons/hamBurgerIcon.png"}
@@ -453,7 +461,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {cartLength}
                     </span>
                   </div>
-                </Link>
+                </Link> */}
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">

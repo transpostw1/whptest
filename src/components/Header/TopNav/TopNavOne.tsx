@@ -15,25 +15,29 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
     <>
       <div className={`banner-top style-four w-full  bg-rose-950 h-[25px]`}>
         <div className="container flex items-center justify-center align-middle">
-          <div className="w-full h-full">
+          <div className=" flex justify-center w-full h-full">
             <Swiper
               spaceBetween={0}
               slidesPerView={1}
-              modules={[Navigation]}
+              modules={[Autoplay,Navigation]}
+              autoplay={{
+                delay: 3000, 
+                disableOnInteraction: false, 
+              }}
               className="h-[50%] relative flex items-center justify-center bg"
             >
               <SwiperSlide>
                 <div
                   className={`text-button-uppercase text-white ${textColor}`}
                 >
-                 Welcome to WHP Jewellers
+                  Welcome to WHP Jewellers
                 </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div
                   className={`text-button-uppercase text-white ${textColor}`}
                 >
-                 Something Special For Everyone
+                  Something Special For Everyone
                 </div>
               </SwiperSlide>
               <SwiperSlide>

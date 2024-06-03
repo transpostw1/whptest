@@ -5,16 +5,27 @@ import { baseUrl, gms } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import FlashAlert from "@/components/Other/FlashAlert";
 
-const GoldCard: React.FC = () => {
+interface GoldCardProps {
+  setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
+  setFlashType: React.Dispatch<
+    React.SetStateAction<"success" | "error" | "info">
+  >;
+}
+
+const GoldCard: React.FC<GoldCardProps> = ({
+  setBackendMessage,
+  setBackendError,
+  setFlashType,
+}) => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
+  const [inputValue, setInputValue] = useState<string>("2000");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [backendError, setBackendError] = useState<string | null>(null);
-  const [backendMessage, setBackendMessage] = useState<string | null>(null);
-  const [flashType, setFlashType] = useState<"success" | "error">("success");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
@@ -44,27 +55,51 @@ const GoldCard: React.FC = () => {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value, 10);
-    if (isNaN(value)) {
-      setMonthlyDeposit(2000);
-      setError("Invalid input. Setting to default.");
-    } else {
-      const newValue = Math.floor(value / 1000) * 1000;
-      if (newValue < 2000) {
-        setMonthlyDeposit(2000);
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value =  parseInt(event.target.value, 10);
+  //   if (isNaN(value)) {
+  //     setMonthlyDeposit(2000);
+  //     setError("Invalid input. Setting to default.");
+  //   } else {
+  //     const newValue = Math.floor(value / 1000) * 1000;
+  //     if (newValue < 2000) {
+  //       setMonthlyDeposit(2000);
+  //       setError("Minimum deposit is 2000");
+  //     } else if (newValue > 50000) {
+  //       setMonthlyDeposit(50000);
+  //       setError("Maximum deposit is 50000");
+  //     } else {
+  //       setMonthlyDeposit(newValue);
+  //       setError(null);
+  //     }
+  //   }
+  // };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setInputValue(value);
+
+      const parsedValue = parseInt(value, 10);
+      if (isNaN(parsedValue)) {
+        setError("Invalid input. Please enter a number.");
+      } else if (parsedValue < 2000) {
         setError("Minimum deposit is 2000");
-      } else if (newValue > 50000) {
-        setMonthlyDeposit(50000);
+      } else if (parsedValue > 50000) {
         setError("Maximum deposit is 50000");
+      } else if (parsedValue % 1000 !== 0) {
+        setError("Amount must be a multiple of 1000");
       } else {
-        setMonthlyDeposit(newValue);
+        setMonthlyDeposit(parsedValue);
         setError(null);
       }
-    }
-  };
+    };
+
 
   const handleEnroll = async () => {
+      if (error) {
+        setBackendError("Please correct the input errors before enrolling.");
+        return;
+      }
     if (!isLoggedIn) {
       setLoading(true);
       router.push("/login");
@@ -73,7 +108,7 @@ const GoldCard: React.FC = () => {
 
     try {
       setLoading(true);
-      setBackendError(null); // Clear any previous backend errors
+      setBackendError(null); 
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -88,10 +123,10 @@ const GoldCard: React.FC = () => {
       );
 
       console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message); // Set the success message
+      setBackendMessage(response.data.message); 
     } catch (error) {
       console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later."); // Set the backend error message
+      setBackendError("Failed to enroll. Please try again later."); 
     } finally {
       setLoading(false);
     }
@@ -99,35 +134,50 @@ const GoldCard: React.FC = () => {
 
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
-      {loading && (
+      {/* {loading && (
         <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
           <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
         </div>
-      )}
+      )} */}
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
       </h1>
-      <div className="flex flex-col lg:flex-row justify-center gap-3 items-start mx-4">
+      <div className="flex flex-col lg:flex-row justify-evenly gap-3 items-center mx-4">
         <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
+          <div className="flex justify-center items-center mt-2">
+            <PieChart
+              totalAmount={totalAmount}
+              redemptionAmount={redemptionAmount}
+              monthlyDeposit={monthlyDeposit}
+            />
+          </div>
+          <div>
+            <Link
+              className=" text-black underline text-center rounded-xl w-full cursor-pointer "
+              href={"/terms-and-condition"}
+            >
+              Read terms and conditions
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">
           <h1 className="font-medium">
-            Slide or enter monthly Installment amount
+            Slide or enter monthly installment amount
           </h1>
           <div className="mb-5 md:mb-0 text-center">
             <div className="flex items-center justify-center rounded p-2 border border-gray-700 bg-white mb-2 h-10">
-              <div className="flex items-center justify-between w-full">
-                <div>
-                  <span className="text-2xl md:text-3xl">₹</span>
-                  <input
-                    type="number"
-                    className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
-                    value={monthlyDeposit}
-                    onChange={handleChange}
-                    min="2000"
-                    max="50000"
-                    step="1000"
-                  />
-                </div>
+              <div className="flex items-center justify-start w-full">
+                <span className="text-2xl md:text-3xl">₹</span>
+                <input
+                  type="number"
+                  className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
+                  value={monthlyDeposit}
+                  onChange={handleChange}
+                  min="2000"
+                  max="50000"
+                  step="1000"
+                />
               </div>
             </div>
             <div style={{ textAlign: "center" }}>
@@ -141,16 +191,7 @@ const GoldCard: React.FC = () => {
               />
             </div>
             {error && <p className="text-red-500">{error}</p>}
-            <div className="flex justify-center items-center mt-12">
-              <PieChart
-                totalAmount={totalAmount}
-                redemptionAmount={redemptionAmount}
-                monthlyDeposit={monthlyDeposit}
-              />
-            </div>
           </div>
-        </div>
-        <div className="flex flex-col justify-between px-4 md:gap-8 gap-4 mt-7 md:w-96 w-full font-medium">
           <div className="flex justify-between">
             <div className="text-start">
               <h1>Your total payment</h1>
@@ -179,22 +220,11 @@ const GoldCard: React.FC = () => {
           </div>
           <div>
             <div
-              className="bg-gradient-to-r to-[#815fc8] via-[#fa4ea7] from-[#E26178] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
+              className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
               onClick={handleEnroll}
             >
               {loading ? "Enrolling..." : "Enroll Now"}
             </div>
-
-            {backendMessage && (
-              <div>
-                <FlashAlert message={backendMessage} type={flashType} />
-                <p className="text-green-500 mt-2">{backendMessage}</p>
-              </div>
-            )}
-
-            {backendError && (
-              <p className="text-red-500 mt-2">{backendError}</p>
-            )}
           </div>
         </div>
       </div>

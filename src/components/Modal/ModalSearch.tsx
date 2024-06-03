@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import productData from "@/data/Product.json";
@@ -11,28 +11,34 @@ import { IoIosTrendingUp, IoMdArrowBack } from "react-icons/io";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 
 interface ModalSearchProps {
-  searchKeyword?: string;
-  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: (value: string) => void;
+  // searchKeyword?: string;
+  // setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
+  // handleSearch: (value: string) => void;
   closeModal: () => void;
   isModalOpen: boolean;
-  handleModalToggle: () => void;
+  // handleModalToggle: () => void;
 }
 
 const ModalSearch: React.FC<ModalSearchProps> = ({
-  searchKeyword,
-  setSearchKeyword,
-  handleSearch,
+  // searchKeyword,
+  // setSearchKeyword,
+  // handleSearch,
   closeModal,
   isModalOpen,
 }) => {
   const { category, setCustomcategory } = useCategory();
+  const [keywords, setKeyWords] = useState("");
+  const router = useRouter();
 
-
-  const handleKeywordSearch = (value: any) => {
-    handleSearch(value);
+  const handleSearch = (value: string) => {
+    router.push(`/products?url=${value}`);
+    setCustomcategory(value);
     closeModal();
   };
+  // const handleKeywordSearch = (value: any) => {
+  //   handleSearch(value);
+  //   closeModal();
+  // };
   //   const { recentlyViewedProducts } = useRecentlyViewedProducts();
 
   return (
@@ -57,22 +63,18 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
           {/* Search bar */}
           <div className="form-search relative flex-1">
-            <Icon.MagnifyingGlass
-              className="absolute heading5 right-6 top-1/2 -translate-y-1/2 cursor-pointer"
-              onClick={() => handleKeywordSearch(searchKeyword)}
-            />
+            <Icon.MagnifyingGlass className="absolute heading5 right-6 top-1/2 -translate-y-1/2 cursor-pointer" />
             <input
               type="text"
               placeholder="Searching..."
               className="text-button-lg h-14 border-b border-line w-full pl-6 pr-12 focus:outline-none"
-              value={searchKeyword}
+              value={keywords}
               onChange={(e) => {
-                setSearchKeyword(e.target.value);
-                setCustomcategory(e.target.value);
+                setKeyWords(e.target.value);
               }}
-              onKeyDown={(e) =>
-                e.key === "Enter" && handleKeywordSearch(searchKeyword)
-              }
+              onKeyDown={(e: any) => {
+                e.key === "Enter" && handleSearch(e.target.value);
+              }}
               autoFocus
             />
           </div>
@@ -84,23 +86,21 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("rings");
-                setCustomcategory("rings");
+                handleSearch("ring");
               }}
             >
               <div className="flex items-center">
                 {" "}
                 {/* Add this container */}
                 <IoIosTrendingUp />
-                <span className="ml-2">Rings</span>{" "}
+                <span className="ml-2">Rings</span>
                 {/* Adjust margin as needed */}
               </div>
             </div>
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Mangalsutra");
-                setCustomcategory("mangalsutra");
+                handleSearch("mangalsutra");
               }}
             >
               <div className="flex items-center">
@@ -112,8 +112,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Pendants");
-                setCustomcategory("pendant");
+                handleSearch("pendants");
               }}
             >
               <div className="flex items-center">
@@ -125,8 +124,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Bangles");
-                setCustomcategory("bangle");
+                handleSearch("bangle");
               }}
             >
               <div className="flex items-center">
@@ -138,8 +136,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Earrings");
-                setCustomcategory("earring");
+                handleSearch("earrings");
               }}
             >
               <div className="flex items-center">
@@ -151,8 +148,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("Chain");
-                setCustomcategory("chain");
+                handleSearch("chains");
               }}
             >
               <div className="flex items-center">
@@ -173,7 +169,9 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => {handleSearch("Necklace");setCustomcategory("necklace")}}
+              onClick={() => {
+                handleSearch("necklace");
+              }}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -183,7 +181,9 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() => {handleSearch("Silver");setCustomcategory("sliver")}}
+              onClick={() => {
+                handleSearch("silver");
+              }}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />
@@ -193,7 +193,9 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
 
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
-              onClick={() =>{ handleSearch("Gold Coin");setCustomcategory("gold_coin")}}
+              onClick={() => {
+                handleSearch("gold_coin");
+              }}
             >
               <div className="flex items-center">
                 <IoIosTrendingUp />

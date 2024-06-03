@@ -118,6 +118,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
+  
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {

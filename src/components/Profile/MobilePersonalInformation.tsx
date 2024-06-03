@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
+import FlashAlert from "../Other/FlashAlert";
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -32,6 +33,10 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [message, setMessage] = useState<any>("");
+  const { logOut, isLoggedIn, userDetails } = useUser();
+  const [type, setType] = useState<any>("");
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -111,12 +116,15 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     setId(id);
     setShowModal(true);
   };
+  const closeModal = () => {
+    setShowAddressModal(false);
+  };
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post<{ data: any }>(
+      const response = await axios.post(
         `${baseUrl}/customer/address/remove`,
         { address_id: id },
         {
@@ -125,8 +133,12 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
           },
         }
       );
-    } catch (error) {
+      setMessage(response.data.message);
+      setType("success");
+    } catch (error: any) {
       console.error("Error fetching addresses:", error);
+      setMessage(error.data.error);
+      setType("error");
     } finally {
       setIsLoading(false);
     }
@@ -475,16 +487,25 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
           </button>
         </div>
       </form>
-      <h2 className="text-xl font-semibold mb-2 mt-4 p-2">My Addresses</h2>
+      <div className="flex justify-between px-[17px]">
+        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2
+          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          onClick={() => setShowAddressModal(true)}
+        >
+          Add Address
+        </h2>
+      </div>
       <div className="flex flex-wrap p-4">
         {allAddress &&
           allAddress.map((address: any) => (
-            <div key={address.address_id} className="relative">
+            <div key={address.address_id} className="relative w-full">
               <div className=" bg-white p-4  mt-3 w-full h-[130px] mr-2 border">
+                <p>{address.full_address},</p>
                 <p>
-                  {address.full_address}, {address.city}, {address.pincode},{" "}
-                  {address.address_type}
+                  {address.city}, {address.pincode}
                 </p>
+                <p>Address Type:{address.address_type}</p>
               </div>
               <button className="absolute -top-2 bg-[#e26178] rounded-full right-0 p-2 text-sm text-white">
                 <Icon.PencilSimple
@@ -501,6 +522,17 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
             </div>
           ))}
       </div>
+      {showAddressModal && (
+        <AddAddressMobile
+          isOpen={showAddressModal}
+          onClose={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (address: Address): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
+      {message && <FlashAlert message={message} type={type} />}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

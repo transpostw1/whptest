@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
+import FlashAlert from "../Other/FlashAlert";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -15,9 +16,12 @@ const ProfileDetails = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [message, setMessage] = useState<any>("");
+  const [type, setType] = useState<any>("");
+  const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
-  const { logOut, isLoggedIn,userDetails } = useUser();
+  const { logOut, isLoggedIn, userDetails } = useUser();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -41,7 +45,7 @@ const handleLogOut = () => {
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post<{ data: any }>(
+      const response = await axios.post(
         `${baseUrl}/customer/address/remove`,
         { address_id: id },
         {
@@ -50,6 +54,8 @@ const handleLogOut = () => {
           },
         }
       );
+      setMessage(response.data.message);
+      setType("success");
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {
@@ -105,7 +111,9 @@ const handleLogOut = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">Wallet Balance:{userDetails?.customer?.wallet_amount}</p>
+        <p className="font-bold">
+          Wallet Balance:{userDetails?.customer?.wallet_amount}
+        </p>
       </div>
       <form>
         <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
@@ -147,7 +155,15 @@ const handleLogOut = () => {
           </div>
         </div>
       </form>
-      <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+      <div className="flex justify-between px-[15px]">
+        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2
+          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          onClick={() => setShowAddressModal(true)}
+        >
+          Add Address
+        </h2>
+      </div>
       <div className="flex flex-wrap">
         {allAddress &&
           allAddress.map((address: any) => (
@@ -173,6 +189,16 @@ const handleLogOut = () => {
             </div>
           ))}
       </div>
+      {showAddressModal && (
+        <AddAddressModal
+          closeModal={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (isBillingAddress: boolean): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
+      {message && <FlashAlert message={message} type={type} />}
       {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );

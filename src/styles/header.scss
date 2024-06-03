@@ -373,7 +373,7 @@
 
 // Banner top
 .banner-top {
-    // overflow: hidden;
+    overflow: hidden;
     max-width: 100%;
     width: 100%;
 
@@ -384,7 +384,7 @@
 @media (min-width: 1024px) {
     .slider-block.style-nine {
         .slider-main {
-            width: calc(100% - 212px);
+            width: calc(100%);
         }
     }
 }

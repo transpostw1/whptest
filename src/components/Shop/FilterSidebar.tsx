@@ -28,7 +28,6 @@ const FilterSidebar: React.FC<Props> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
-
   const handleFilterDropdown = (item: string) => {
     setFilterDropDown(item);
   };
@@ -40,19 +39,22 @@ const FilterSidebar: React.FC<Props> = ({
 
       if (sidebarElement && productsListElement) {
         const sidebarTop = sidebarElement.offsetTop;
+
         const sidebarBottom =
           sidebarElement.offsetTop + sidebarElement.offsetHeight;
         const productsListBottom =
           productsListElement.offsetTop + productsListElement.offsetHeight;
         const windowHeight = window.innerHeight + window.pageYOffset;
-
         const isAboveProductsList = windowHeight > sidebarTop;
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
           windowHeight >= productsListBottom; // Check for end of products
-        const isSidebarInViewport = isAboveProductsList && !isAtProductsListBottom;
 
-        setIsSidebarFixed(isSidebarInViewport);
+        const isSidebarInViewport =
+          isAboveProductsList && !isAtProductsListBottom;
+        const isAtTop = window.pageYOffset <= sidebarTop;
+
+        setIsSidebarFixed(isSidebarInViewport && !isAtTop);
       }
     };
 
@@ -63,7 +65,9 @@ const FilterSidebar: React.FC<Props> = ({
     };
   }, [productsListRef]);
 
-
+  const handleMobileFilter = () => {
+    setMobileFilter(false);
+  };
 
   // useEffect(() => {
   //   let filteredArray = data.slice();
@@ -116,20 +120,20 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-  
+
   return (
     <>
       <div
-        className={`sidebar lg:w-[300px] md:w-1/3 w-full md:pr-12 lg:block hidden md:block`}
+        className={`sidebar lg:w-[300px] md:w-1/3 w-full lg:block hidden md:block`}
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[450px] md:h-[350px] no-scrollbar overflow-y-auto ${
+          className={`filter-type pb-8 border-line h-[450px] md:h-[380px] no-scrollbar overflow-y-auto ${
             isSidebarFixed ? "fixed w-[250px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
-            top: isSidebarFixed ? "185px" : "auto",
+            top: isSidebarFixed ? "120px" : "auto",
             width: isSidebarFixed ? "250px" : "auto",
           }}
         >
@@ -159,6 +163,7 @@ const FilterSidebar: React.FC<Props> = ({
 
           <div className="list-type mt-4">
             <FilterOptions
+              handleMobileFilter={handleMobileFilter}
               filterDropDown={filterDropDown}
               handleFilterDropdown={handleFilterDropdown}
               handleOptionSelect={handleOptionSelect}
@@ -177,6 +182,7 @@ const FilterSidebar: React.FC<Props> = ({
               </div>
               <div className="list-type mt-4">
                 <FilterOptions
+                  handleMobileFilter={handleMobileFilter}
                   filterDropDown={filterDropDown}
                   handleFilterDropdown={handleFilterDropdown}
                   handleOptionSelect={handleOptionSelect}

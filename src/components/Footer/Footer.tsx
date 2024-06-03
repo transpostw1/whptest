@@ -6,14 +6,52 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import { useUser } from "@/context/UserContext";
 import { useCategory } from "@/context/CategoryContex";
+import { useFormik } from "formik";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import OtpVerification from "@/app/OtpVerification";
+import * as Yup from "yup";
+import FlashAlert from "@/components/Other/FlashAlert";
+import axios from "axios";
+import { baseUrl } from "@/utils/constants";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState<any>(null);
   const { setCustomcategory } = useCategory();
   const { isLoggedIn } = useUser();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
+  const handleChange = (event: any) => {
+    const { value } = event.target;
+    // Optional: Add phone number validation logic here
+    setPhoneNumber(value);
+  };
+
+  const handleSubmit = async () => {
+    event?.preventDefault();
+    const response = await axios.post(`${baseUrl}/subscribe`, {
+      phone: "+" + phoneNumber,
+    });
+    setMessage(response.data.message);
+  };
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string().required("Phone number is required"),
+  });
+  const formik = useFormik({
+    initialValues: {
+      phoneNumber: "",
+    },
+    validationSchema: validationSchema, // Pass the validation schema
+    onSubmit: (values, { setSubmitting }) => {
+      setTimeout(() => {
+        handleSubmit();
+        setSubmitting(false);
+      }, 400);
+    },
+  });
 
   return (
     <>
@@ -51,20 +89,32 @@ const Footer = () => {
               </div>
             </div>
             <div className="content-footer py-[60px] flex justify-between flex-wrap gap-y-8">
-              <div className="company-infor basis-1/4 max-lg:basis-full pr-7">
-                <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
+              <div className="company-infor basis-1/4 max-lg:basis-full">
+                <div className="newsletter basis-1/3 max-md:basis-full max-md:pl-0">
                   <div className="caption1  font-bold">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block w-full h-[52px] mt-2 relative">
-                    <form className="w-full h-full" action="post">
-                      <input
-                        type="number"
-                        placeholder="Enter phone number"
-                        className="caption1 w-full h-full pl-4 pr-14 border border-line"
-                        required
-                      />
-                      <button className="w-[44px] h-[44px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1">
+                  <div className="input-block h-[52px] mt-2 relative">
+                    <form
+                      className="relative"
+                      action="post"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="caption1 bg-white">
+                        <PhoneInput
+                          country={"in"}
+                          value={formik.values.phoneNumber}
+                          onChange={(value) => {
+                            setPhoneNumber(value);
+                            formik.handleChange("phoneNumber")(value);
+                          }}
+                        />
+                      </div>
+
+                      <button
+                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1"
+                        type="submit"
+                      >
                         <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>
@@ -104,7 +154,7 @@ const Footer = () => {
               </div>
 
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
+                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Information
@@ -280,6 +330,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {message && <FlashAlert message={message} type={"success"} />}
     </>
   );
 };

@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter,usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { BiSolidOffer } from "react-icons/bi";
 import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
@@ -19,7 +18,6 @@ import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
-import ProtectedRoute from "@/app/ProtectedRoute";
 
 interface Props {
   props: string;

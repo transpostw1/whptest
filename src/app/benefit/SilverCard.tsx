@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface SilverCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -30,6 +31,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -79,6 +81,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
     }
     if (!isLoggedIn) {
       setLoading(true);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }

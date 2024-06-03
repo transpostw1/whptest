@@ -46,6 +46,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
 
   const pathname = usePathname();
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
+
   console.log("appointement", appointmentModal);
 
   useEffect(() => {

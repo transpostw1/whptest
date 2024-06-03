@@ -56,17 +56,6 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                clicked === 1 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
-              onClick={() => handleOptionClicked(1)}
-            >
-              <Icon.HouseLine size={25} />
-              <p>Home</p>
-            </div>
-          </Link>
-          <Link href={"/"}>
-            <div
-              className={`${
                 pathname.includes("") &&
                 !pathname.includes("profile") &&
                 !pathname.includes("offers") &&

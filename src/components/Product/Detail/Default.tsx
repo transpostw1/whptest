@@ -150,12 +150,13 @@ const Default: React.FC<Props> = ({ productId }) => {
                       (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
                     )
                     .map((image: any, index: any) => (
-                      <div key={index} className="">
+                      <div key={index}>
                         <InnerImageZoom
                           src={image.image_path}
                           zoomScale={1.5}
                           zoomType="click"
                           hideCloseButton={true}
+                          className="d-flex-important justify-center"
                         />
                       </div>
                     ))}
@@ -182,6 +183,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                               width={100}
                               height={100}
                               className="cursor-pointer mx-3"
+                              className="cursor-pointer border "
                             />
                           </div>
                         ))}

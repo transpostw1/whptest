@@ -3,11 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter,usePathname } from "next/navigation";
-import { PiPercentLight } from "react-icons/pi";
-import { PiNotebookDuotone } from "react-icons/pi";
+import { useRouter, usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { BiSolidOffer } from "react-icons/bi";
 import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
@@ -16,13 +13,12 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
-import BookExchangeModal from "@/components/Other/BookExchangeModal"
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
-import ProtectedRoute from "@/app/ProtectedRoute";
+
 interface Props {
   props: string;
 }
@@ -31,8 +27,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [searchKeyword, setSearchKeyword] = useState<any>("");
   const { categories } = useAllCategoryContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<CategoryType[] | null>(null);
-  const [redirectPath, setRedirectPath] = useState("");
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
@@ -48,12 +42,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-  const pathname = usePathname(); 
-
-  const handleOnClose = () => {
-    setAppointmentModal(false);
-  };
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -101,8 +90,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
 
   const handleLoginDrop = () => {
-      localStorage.setItem("redirectPath", pathname);
-   handleLoginPopup()
+    localStorage.setItem("redirectPath", pathname);
+    handleLoginPopup()
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +116,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       const scrollPosition = window.scrollY;
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-          scrollPosition > lastScrollPosition
+        scrollPosition > lastScrollPosition
       );
       setLastScrollPosition(scrollPosition);
     };
@@ -158,9 +147,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
-          fixedHeader ? " fixed" : "relative"
-        } text-rose-950 ${props}`}
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${fixedHeader ? " fixed" : "relative"
+          } text-rose-950 ${props}`}
         ref={divRef}
       >
         <div className="container mx-auto h-full py-2 ">
@@ -257,31 +245,30 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div
-                      className={`flex flex-col items-center ${
-                        pathname.includes("/offer") ? "text-[#e26178]" : ""
-                      }`}
+                      className={`flex flex-col items-center ${pathname.includes("/offer") ? "text-[#e26178]" : ""
+                        }`}
                     >
                       <Link href={"/offers"}>
-                        {/* <PiPercentLight size={30} /> */}
+                        <PiPercentLight size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    {/* <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
-                    </div> */}
-                    <div
-                      className={`flex flex-col items-center ${
-                        pathname.includes("/blog") ? "text-[#e26178]" : ""
-                      }`}
-                    >
-                      <PiNotebookDuotone size={30} />
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <Image
+                        src={"/images/icons/blog.svg"}
+                        alt="Blog"
+                        width={30}
+                        height={30}
+                      />
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div
-                      className={`flex flex-col items-center ${
-                        contactPopUp ? "text-[#e26178]" : ""
-                      }`}
+                      className={`flex flex-col items-center ${contactPopUp ? "text-[#e26178]" : ""
+                        }`}
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
@@ -337,24 +324,27 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
+                  // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
+                      {/* <div>
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        
+                      </div> */}
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                      // onClick={openModalWishlist}
                       >
                         <div
-                          className={`flex flex-col items-center ${
-                            pathname.includes("/wishlist")
+                          className={`flex flex-col items-center ${pathname.includes("/wishlist")
                               ? "text-[#e26178]"
                               : ""
-                          }`}
-                        >
-                          <Icon.Heart
-                            size={28}
-                            color={`${
-                              pathname.includes("/wishlist") ? "#e26178" : ""
                             }`}
-                          />
+                        >
+                          <Icon.Heart size={28} />
                           <h4 className="text-sm">Wishlist</h4>
                         </div>
                         {wishlistItems.length > 0 && (
@@ -368,13 +358,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      // onClick={openModalCart}
+                    // onClick={openModalCart}
                     >
                       <div
-                        className={`flex flex-col items-center ${
-                          pathname.includes("/checkout") ? "text-[#e26178]" : ""
-                        }`}
+                        className={`flex flex-col items-center ${pathname.includes("/checkout") ? "text-[#e26178]" : ""
+                          }`}
                       >
+                        {/* <Image
+                          src={"/images/icons/cart.svg"}
+                          alt="Cart"
+                          width={30}
+                          height={30}
+                        /> */}
                         <Icon.ShoppingCart size={30} />
                         <h4 className="text-sm">Cart</h4>
                       </div>
@@ -415,7 +410,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         <TopNavOne textColor="text-white" />
         <div className="menu-container bg-white h-full">
           <div className="container h-full">
-            <div className="menu-main h-full overflow-y-auto">
+            <div className="menu-main h-full overflow-hidden">
               <div className="heading py-2 relative flex items-center justify-end">
                 <div
                   className="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center"
@@ -423,34 +418,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                {isLoggedIn === false ? (
-                  <>
-                    <Link href={"/login"} onClick={handleMenuMobile}>
-                      <div className="ml-3">
-                        <p className="text-xl font-semibold ml-3">LogIn</p>
-                      </div>
-                    </Link>
-                    <Link href={"/register"} onClick={handleMenuMobile}>
-                      <div className="ml-3">
-                        <p className="text-xl font-semibold">SignIn</p>
-                      </div>
-                    </Link>
-                  </>
-                ) : (
-                  <Link href={"/profile"} onClick={handleMenuMobile}>
-                    <div className="">
-                      <p className="text-xl font-semibold">LogOut</p>
-                    </div>
-                  </Link>
-                )}
-
-                 <div className="ml-3 relative">
-                  <Icon.Heart size={25} />
-                  <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                    {wishlistItems.length}
-                  </span>
-                </div> 
-                <Link href={"/checkout"}>
+                <div className="">
+                  <p className="text-xl font-semibold">Login</p>
+                </div>
+                {/* <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image
                       src={"/images/icons/cart.svg"}
@@ -473,7 +444,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={()=>setAppointmentModal(true)}>
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -486,7 +457,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
-                {appointmentModal&&(<BookExchangeModal closeModal={handleOnClose}/>)}
               </div>
               <div className="list-nav mt-6">
                 <ul>
@@ -694,11 +664,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className={`text-xl font-semibold flex items-center  mt-5`}
                       >
                         Gold Services
-                        <Icon.CaretRight size={20} weight="fill" /> 
+                        {/* <Icon.CaretRight size={20} weight="fill" /> */}
                       </p>
                     </Link>
                   </li>
-                 </ul>
+                </ul>
               </div>
               {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
                 <div>

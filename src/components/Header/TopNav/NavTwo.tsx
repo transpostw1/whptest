@@ -16,7 +16,7 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
-import BookExchangeModal from "@/components/Other/BookExchangeModal"
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
@@ -54,6 +54,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
+  console.log("appointement", appointmentModal);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -314,13 +315,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       )}
                     </div>
                   </div>
-                  <div
-                    className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                  >
+                  <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer">
                     <Link href={"/wishlist"}>
-                      <div
-                        className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      >
+                      <div className="max-md:hidden cart-icon flex items-center relative cursor-pointer">
                         <div
                           className={`flex flex-col items-center ${
                             pathname.includes("/wishlist")
@@ -452,7 +449,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={()=>setAppointmentModal(true)}>
+                <div
+                  className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]"
+                  onClick={() => setAppointmentModal(true)}
+                >
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -465,7 +465,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
-                {appointmentModal&&(<BookExchangeModal closeModal={handleOnClose}/>)}
+                {appointmentModal && (
+                  <BookExchangeModal closeModal={handleOnClose} />
+                )}
               </div>
               <div className="list-nav mt-6">
                 <ul>

@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react";
 import { useWishlist } from "@/context/WishlistContext";
+import { useUser } from "@/context/UserContext";
+import Cookies from "js-cookie";
 
 export const useFetchWishlistItems = () => {
   const [fetchedWishlistItems, setFetchedWishlistItems] = useState<WishlistItem[]>([]);
+  const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const { getWishlist, isLoggedIn, cookieToken } = useWishlist();
+  const {isLoggedIn}=useUser()
+
+  const { getWishlist} = useWishlist();
+
+
+
+   useEffect(() => {
+     if (isLoggedIn) {
+       const userToken = Cookies.get("localtoken");
+       if (userToken) {
+         // setIsLoggedIn(true);
+         setCookieToken(userToken);
+       }
+     }
+   }, []);
+
+   console.log
 
   useEffect(() => {
     const fetchWishlistItems = async () => {

@@ -2,6 +2,8 @@
 
 import React, { createContext, useState, useEffect, useContext } from "react";
 import instance from "@/utils/axios";
+import axios from "axios";
+import { useUser } from "./UserContext";
 import {
   baseUrl,
   addwishlist,
@@ -15,6 +17,7 @@ import {
   ProductForWishlistLoggedIn,
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
+import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
   productId: number;
@@ -42,9 +45,14 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [wishlistItemsCount, setWishlistItemsCount] = useState(0);
+  const { isLoggedIn } = useUser();
+  const [flashMessage, setFlashMessage] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error" | "info">(
+    "info"
+  );
 
   useEffect(() => {
     const uniqueWishlistItems = wishlistItems.filter(
@@ -55,38 +63,42 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [wishlistItems]);
 
   useEffect(() => {
-    const userToken = Cookies.get("localtoken");
-    if (userToken) {
-      setIsLoggedIn(true);
-      setCookieToken(userToken);
+    if (isLoggedIn) {
+      const userToken = Cookies.get("localtoken");
+      if (userToken) {
+        // setIsLoggedIn(true);
+        setCookieToken(userToken);
+      }
     }
-  }, []);
+  }, [isLoggedIn]);
+
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const fetchWishlistItems = async () => {
-        try {
-          const wishlistData = await getWishlist();
-          const localWishlistItems = JSON.parse(
-            localStorage.getItem("wishlistItems") || "[]"
-          );
+    // if (typeof window !== "undefined") {
+    const fetchWishlistItems = async () => {
+        if (!cookieToken && isLoggedIn) return;
+      try {
+        const wishlistData = await getWishlist();
+        const localWishlistItems = JSON.parse(
+          localStorage.getItem("wishlistItems") || "[]"
+        );
 
-          const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
+        const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
 
-          // Filter out any duplicates from the merged wishlist
-          const uniqueWishlistItems = mergedWishlistItems.filter(
-            (item, index, self) =>
-              index === self.findIndex((t) => t.productId === item.productId)
-          );
+        // Filter out any duplicates from the merged wishlist
+        const uniqueWishlistItems = mergedWishlistItems.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.productId === item.productId)
+        );
 
-          setWishlistItems(uniqueWishlistItems);
-        } catch (error) {
-          console.error("Error fetching wishlist from server:", error);
-        }
-      };
+        setWishlistItems(uniqueWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist from server:", error);
+      }
+    };
 
-      fetchWishlistItems();
-    }
+    fetchWishlistItems();
+    // }
   }, [isLoggedIn, cookieToken]);
 
   const normalizeImagePath = (
@@ -107,9 +119,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       | ProductForWishlistLoggedIn
       | ProductForWishlistLoggedOut
   ) => {
-    if (!product || !("productId" in product)) {
-      throw new Error("Invalid product data");
-    }
+    // if (!product || !("productId" in product)) {
+    //   throw new Error("Invalid product data");
+    // }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {
@@ -207,6 +219,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } catch (error) {
       console.error("Error adding product to wishlist:", error);
+      setFlashMessage("Failed to add product to wishlist.");
+      setFlashType("error");
     }
   };
 
@@ -244,7 +258,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const getWishlist = async (): Promise<WishlistItem[]> => {
     try {
       if (isLoggedIn) {
-        const response = await instance.get(`${baseUrl}${getwishlisted}`, {
+        console.log(cookieToken,"wishlistToken")
+        const response = await axios.get(`${baseUrl}${getwishlisted}`, {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
           },
@@ -279,6 +294,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <WishlistContext.Provider value={value}>
       {children}
+      {/* <FlashAlert message={flashMessage} type={flashType} /> */}
     </WishlistContext.Provider>
   );
 };

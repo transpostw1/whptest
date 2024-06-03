@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-import AddAddressModal from "@/app/checkout/AddAddressModal";
+ import AddAddressModal from "@/app/checkout/AddAddressModal";
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -32,8 +32,7 @@ const ProfileDetails = () => {
   const handleLogOut = () => {
     if (typeof window !== "undefined") {
       Cookies.remove("localtoken");
-      localStorage.clear();
-      logOut();
+        logOut();
       router.push("/");
     }
   };

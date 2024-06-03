@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { baseUrl } from '@/utils/constants';
 import { FaCheckCircle, FaEdit, FaTimes } from 'react-icons/fa';
 import Preloader from '@/components/Other/Preloader';
+import Loading from '../benefit/loding';
 import {Address} from "@/type/AddressType" 
 
 
@@ -78,7 +79,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
     <div>
       <h2 className="mb-4 text-xl">Shipping Address</h2>
       {isLoading ? (
-        <Preloader />
+        <Loading />
       ) : addresses.length === 0 ? (
         <p>No shipping addresses found.</p>
       ) : (

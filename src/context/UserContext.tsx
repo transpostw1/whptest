@@ -33,7 +33,7 @@ interface UserDetails {
   gender: string;
   dateOfBirth: string;
   profilePicture: File | null;
-  // customer:string;
+  customer: any;
 }
 
 type UserDetailsKeys = keyof UserDetails;
@@ -71,12 +71,24 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const cookieToken = Cookies.get("localtoken");
 
-  const logIn = () => {
+  const logIn = async () => {
     dispatch({ type: "LOG_IN" });
+    await getUser();
+
+    const redirectPath = localStorage.getItem("redirectPath") || "/";
+    router.push(redirectPath);
+    localStorage.removeItem("redirectPath");
   };
 
+  // const logOut = () => {
+  //   window.location.href = "/";
+  //   dispatch({ type: "LOG_OUT" });
+  // };
+
   const logOut = () => {
-    router.push("/");
+    // localStorage.removeItem("isLoggedIn");
+    localStorage.clear();
+    window.location.href = "/";
     dispatch({ type: "LOG_OUT" });
   };
 
@@ -87,7 +99,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           Authorization: `Bearer ${cookieToken}`,
         },
       });
-      console.log(response.data);
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);

@@ -3,6 +3,7 @@ import {
   RecaptchaVerifier,
   signInWithCredential,
   signInWithPhoneNumber,
+  FirebaseError,
 } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";
@@ -40,6 +41,7 @@ const OtpVerification = ({
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verifying,setVerifying]= useState(false)
+  const [firebaseError, setFirebaseError] = useState(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { logIn, userState } = useUser();
 
@@ -61,9 +63,9 @@ const OtpVerification = ({
     if (!window.recaptchaVerifier) {
       setUpRecaptcha();
     }
-
     try {
       setLoading(true);
+      setFirebaseError(null);
       const result = await signInWithPhoneNumber(
         auth,
         "+" + formikValues.phoneNumber,
@@ -71,9 +73,18 @@ const OtpVerification = ({
       );
       setVerificationId(result.verificationId);
       setIsOtpSent(true); // Update state to indicate OTP has been sent
+      setErrorMessage(null)
       console.log("OTP sent successfully");
     } catch (error) {
       console.error("Error sending OTP:", error);
+      setLoading(false)
+       if (error.message.includes("reCAPTCHA has already been rendered")) {
+      window.location.href = location.pathname;
+       } else {
+           setErrorMessage("Invalid Number or Try again");
+       }
+   
+      //  setFirebaseError(error.message);
     }
   };
   const onVerify = async (action: string) => {
@@ -101,35 +112,33 @@ const OtpVerification = ({
           },
         }
       );
-      // logIn();
+      logIn(); ////
       console.log("LOGIN RESPPP", response.data.user);
       const localToken = response.data.token;
       Cookies.set("localtoken", localToken);
       console.log("intial token", Cookies.get("localtoken"));
-      // router.push("/");
-      if (action === "signup") {
-        router.push("/login");
-      } else {
-        logIn();
-        router.push("/");
-      }
+      router.push("/");
     } catch (error: any) {
-       setVerifying(false);
+      setVerifying(false);
       console.error("Error signing in with OTP:", error);
-      setErrorMessage(error.response?.data?.message);
-      if (error.response) {
-        console.error("Backend error data will show:", error.response.data);
-        console.error("Backend error status:", error.response.status);
-        console.error("Backend error headers:", error.response.headers);
-        setErrorMessage(error.response?.data?.error);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Request setup error:", error.message);
-      }
+      if (error.code === "auth/invalid-verification-code") {
+        setErrorMessage("Invalid OTP. Please try again.");
+      } else if (error.response) {
+      const errorMsg = typeof error.response.data === 'string' 
+                        ? error.response.data.error
+                        : JSON.stringify(error.response.data.error);
+      setErrorMessage(errorMsg);
+          console.error("Backend error data will show:", error.response.data);
+          console.error("Backend error status:", error.response.status);
+          console.error("Backend error headers:", error.response.headers);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Request setup error:", error.message);
+        }
+      // }
     }
   };
-
   useEffect(() => {
     setUpRecaptcha();
   }, []);
@@ -159,7 +168,7 @@ const OtpVerification = ({
     <div className="otpVerification">
       {isOtpSent ? (
         <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h1 className="text-center text-xl font-bold mb-4">
+          <h1 className="text-center text-xl font-normal mb-2">
             Enter Verification Code
           </h1>
           <div
@@ -171,7 +180,9 @@ const OtpVerification = ({
               onChange={setOtp}
               numInputs={6}
               renderSeparator={<span className="mx-2">-</span>}
-              renderInput={(props) => <input {...props} className="otpInput" />}
+              renderInput={(props) => (
+                <input {...props} placeholder="0" className="otpInput" />
+              )}
             />
           </div>
           <button
@@ -181,7 +192,7 @@ const OtpVerification = ({
             {verifying ? (
               <>
                 <Preloader />
-                Verifying OTP...
+                {/* Verifying OTP... */}
                 {/* <span>Verifying OTP</span>
                 <CgSpinner size={20} className="animate-spin"/> */}
               </>
@@ -204,20 +215,26 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            // className="bg-pink-500 p-3 rounded-lg text-white font-medium flex items-center justify-center mb-4"
-            className="button-main"
+            className="bg-[#E26178] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            // className="button-main"
             onClick={handleLoginSubmit}
           >
             {loading ? (
               <>
-                <span>Sending OTP</span>
-                <CgSpinner size={20} className="ml-10 animate-spin" />
+                <div className="flex ">
+                  {/* <span>Sending OTP</span> */}
+                  {/* <CgSpinner size={20} className="animate-spin" /> */}
+                  <Preloader />
+                </div>
               </>
             ) : (
-              <span>Send OTP</span>
+              <div className="flex justify-center">
+                <span>Send OTP</span>
+              </div>
             )}
           </button>
 
+          {/* {firebaseError && <p className="text-red-500 w-64 ">{firebaseError}</p>} */}
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
       )}

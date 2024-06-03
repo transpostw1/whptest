@@ -1,12 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ArrowRight } from "@phosphor-icons/react";
 
 const GoldScheme = () => {
+    const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
+      const handleNavigation = (href: string) => {
+        setLoading(true);
+        router.push(href);
+      };
   return (
     <>
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Image
+            src="/dummy/loader.gif"
+            alt="Loading..."
+            height={50}
+            width={50}
+          />
+        </div>
+      )}
       <div className="mt-5 mb-12  text-rose-950">
         <div className="lg:pl-7 grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-6 ">
           <div className="px-2">
@@ -36,15 +53,22 @@ const GoldScheme = () => {
                 height={100}
                 className="w-full sm:w-1/2"
               />
-              <div className="flex flex-col justify-between">
-                <h1 className="text-xl font-semibold">GOLD ACCOUNT</h1>
-                <p className="text-sm">
-                  Open a WHP Gold Scheme account with an amount as low as ₹2000.
-                  Make regular installments and get discounts.
-                </p>
-                <Link href="/benefit" className="text-red underline">
+              <div className="flex flex-col justify-between gap-3">
+                <div>
+                  <h1 className="text-xl font-semibold">GOLD ACCOUNT</h1>
+                  <p className="text-sm font-medium">
+                    Open a WHP Gold Scheme account with an amount as low as
+                    ₹2000. Make regular installments and get discounts.
+                  </p>
+                </div>
+
+                <button
+                  // href="#"
+                  onClick={() => handleNavigation("/benefit")}
+                  className="text-red text-start font-semibold underline"
+                >
                   Benefit Calculator
-                </Link>
+                </button>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-const loading = () => {
+const Loading = () => {
   return (
     <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
       <div className="loading-container flex justify-center items-center h-full">
@@ -11,4 +11,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loading;

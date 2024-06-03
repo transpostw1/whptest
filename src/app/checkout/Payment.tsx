@@ -4,10 +4,11 @@ import Image from "next/image";
 import { CreditCard } from "@phosphor-icons/react";
 import axios from "axios";
 import { Address } from "@/type/AddressType";
+import { useCart } from "@/context/CartContext";
 import ReactLoading from "react-loading";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation";
 
 interface PaymentProps {
   orderPlaced: boolean;
@@ -40,7 +41,8 @@ const Payment: React.FC<PaymentProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const cookieToken = Cookie.get("localtoken");
-  const router=useRouter()
+  const router = useRouter();
+  const { removeFromCart } = useCart();
 
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -73,7 +75,7 @@ const Payment: React.FC<PaymentProps> = ({
         order_id: order_id,
         handler: async function (response: any) {
           try {
-            setLoading(true)
+            setLoading(true);
             // Prepare the data to be sent to the API
             const {
               razorpay_payment_id,
@@ -130,7 +132,7 @@ const Payment: React.FC<PaymentProps> = ({
             };
 
             console.log(orderData, "orderData");
-           
+
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -147,9 +149,9 @@ const Payment: React.FC<PaymentProps> = ({
             onOrderComplete(setCartItems);
           } catch (error) {
             console.error("Error placing order:", error);
-          }finally{
-            setLoading(false)
-            router.push("/profile")
+          } finally {
+            setLoading(false);
+            router.push("/profile");
           }
         },
         prefill: {

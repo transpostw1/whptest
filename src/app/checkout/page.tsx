@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,usePathname } from "next/navigation";
 import StickyNav from "@/components/Header/StickyNav";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
@@ -34,6 +34,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
 import GiftWrapModal from "@/components/Modal/GiftWrapModal";
+import ProtectedRoute from "../ProtectedRoute";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
@@ -71,6 +72,7 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
+  const pathname = usePathname()
 
   const [showAllItems, setShowAllItems] = useState(false);
 
@@ -137,8 +139,6 @@ const Checkout: React.FC = () => {
         setFlashType("success");
       } catch (error: any) {
         console.log("Error occurred", error);
-        setFlashMessage(error.response.data.message);
-        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -199,23 +199,27 @@ const Checkout: React.FC = () => {
   const mappedCartItems = cartItems
     .filter(
       (item) =>
-        item?.productId &&
-        item?.quantity &&
-        item?.productDetails?.displayTitle &&
-        item?.productDetails?.discountPrice &&
+        item?.productId ||
+        item?.quantity ||
+        item?.productDetails?.title ||
+        item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
     .map((item) => ({
       productId: item?.productId,
       quantity: item?.quantity,
-      name: item?.productDetails?.displayTitle,
+      name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
-          ? item.productDetails.imageDetails[0].image_path
+          ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
+  console.log(mappedCartItems, "hh");
+
+  const MainCart = isLoggedIn ? cartItems : mappedCartItems;
+
   // const mappedCartItems = showAllItems
   //   ? cartItems
   //       .filter(
@@ -262,33 +266,49 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
   let discount = searchParams.get("discount");
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  mappedCartItems.forEach((item) => {
-    const price = parseInt(item.price);
+  MainCart.forEach((item) => {
+    const price = parseInt(item.price?.toString());
     if (!isNaN(price) && typeof item.quantity === "number") {
       totalCart += price * item.quantity;
     }
   });
   let formattedPrice: string = totalCart.toString();
 
-  const handleOrderComplete = (
-    setCartItems: React.Dispatch<React.SetStateAction<any[]>>
-  ) => {
-    setIsOrderPlaced(true);
-    // Reset the cart and other states
-    setCartItems([]);
-    setSelectedShippingAddress(null);
-    setSelectedBillingAddress(null);
-    setSelectedPaymentMethod("");
-    // Show a success message or perform any other actions
-    setFlashMessage("Your order has been placed successfully!");
-    setFlashType("success");
-    setFlashKey((prevKey) => prevKey + 1);
-  };
+  // const handleOrderComplete = (
+  //   setCartItems: React.Dispatch<React.SetStateAction<any[]>>
+  // ) => {
+  //   setIsOrderPlaced(true);
+  //   setCartItems([]);
+  //   setSelectedShippingAddress(null);
+  //   setSelectedBillingAddress(null);
+  //   setSelectedPaymentMethod("");
+  //   setFlashMessage("Your order has been placed successfully!");
+  //   setFlashType("success");
+  //   setFlashKey((prevKey) => prevKey + 1);
+  // };
+
+const handleOrderComplete = (
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>,
+  removeFromCart: (productId: number) => void
+) => {
+  // Remove each item from the cart
+  MainCart.forEach((item) => {
+    removeFromCart(item.productId);
+  });
+
+  setIsOrderPlaced(true);
+  setCartItems([]);
+  setSelectedShippingAddress(null);
+  setSelectedBillingAddress(null);
+  setSelectedPaymentMethod("");
+  setFlashMessage("Your order has been placed successfully!");
+  setFlashType("success");
+  setFlashKey((prevKey) => prevKey + 1);
+};
 
   const validateDeliveryDetails = () => {
     if (!shippingAddressSelected) {
@@ -298,13 +318,11 @@ const Checkout: React.FC = () => {
       setFlashKey((prevKey) => prevKey + 1);
       return false;
     } else if (!useSameAsBillingAddress && !selectedBillingAddress) {
-      // Display error message using FlashAlert
       setFlashMessage("Please select a billing address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
       return false;
     } else if (useSameAsBillingAddress && !selectedShippingAddress) {
-      // Display error message using FlashAlert
       setFlashMessage("Please select a shipping address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
@@ -352,6 +370,7 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }
@@ -410,9 +429,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -420,9 +438,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -430,9 +447,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -447,6 +463,7 @@ const Checkout: React.FC = () => {
   };
   return (
     <>
+      {/* <ProtectedRoute> */}
       <div className="cart-block flex-wrap mb-8">
         <div className="content-main flex flex-col justify-between lg:px-14 px-5">
           <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
@@ -477,7 +494,7 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
+                        className={`p-2 rounded-full border border-gray-300 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >
@@ -504,7 +521,7 @@ const Checkout: React.FC = () => {
               <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
               {selectedComponent === "CartItems" && (
                 <CartItems
-                  cartItems={mappedCartItems}
+                  cartItems={MainCart}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
                 />
@@ -527,11 +544,14 @@ const Checkout: React.FC = () => {
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  onOrderComplete={handleOrderComplete}
+                  // onOrderComplete={handleOrderComplete}
+                  onOrderComplete={(setCartItems) =>
+                    handleOrderComplete(setCartItems, removeFromCart)
+                  }
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
-                  mappedCartItems={mappedCartItems}
+                  mappedCartItems={MainCart}
                   couponCode={couponCode}
                   totalDiscount={totalDiscount}
                   setCartItems={setCartItems}
@@ -666,7 +686,7 @@ const Checkout: React.FC = () => {
                   <OrderSummary
                     totalDiscount={totalDiscount}
                     totalCart={totalCart}
-                    cartItems={mappedCartItems}
+                    cartItems={MainCart}
                   />
                 </div>
               )}
@@ -684,10 +704,8 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-      {console.log("couponCode", flashMessage)}
-      {couponCode && flashMessage.length!==0 &&  (
-        <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-      )}
+      {/* </ProtectedRoute> */}
+
       {isMobile && (
         <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
           <div>

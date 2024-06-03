@@ -402,7 +402,7 @@ const ShopBreadCrumb1 = () => {
               <ProductSkeleton />
             ) : filteredProducts.length > 0 ? (
               <div
-                className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[40px] mt-7 mb-5"
+                className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 max-sm:gap-[20px] gap-[40px] mt-7 mb-5"
                 ref={productsListRef}
               >
                 {filteredProducts

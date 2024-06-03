@@ -129,7 +129,7 @@ const FilterSidebar: React.FC<Props> = ({
       >
         <div
           className={`filter-type pb-8 border-line h-[450px] md:h-[380px] no-scrollbar overflow-y-auto ${
-            isSidebarFixed ? "fixed w-[250px]" : "relative"
+            isSidebarFixed ? "fixed w-[300px]" : "relative"
           }`}
           style={{
             position: isSidebarFixed ? "fixed" : "relative",

@@ -215,7 +215,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             </div>
            </div> */}
 
-          <div className="heading5 mt-8">Top Collections</div>
+          {/* <div className="heading5 mt-8">Top Collections</div>
           <div className="list-keyword grid grid-cols-3 gap-6 mt-4">
             <div className="item flex flex-col items-center cursor-pointer">
               <Image
@@ -277,7 +277,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
               />
               <span className="mt-2">Wedding</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

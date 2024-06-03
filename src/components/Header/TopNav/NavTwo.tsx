@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter,usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
@@ -32,7 +32,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState, userDetails, getUser } = useUser();
+  const { userState, userDetails, getUser,logOut } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -42,7 +42,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-   const pathname = usePathname(); 
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -80,29 +80,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
-  const handleModalToggle = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
 
-  const handleInputClick = () => {
-    console.log("clicked");
-    setIsModalOpen(true);
-  };
 
   const handleLoginDrop = () => {
-      localStorage.setItem("redirectPath", pathname);
-   handleLoginPopup()
+    localStorage.setItem("redirectPath", pathname);
+    handleLoginPopup();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchKeyword(value);
-    if (value.trim() !== "") {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
-    }
-  };
+  const handleLogOut = ()=>{
+    logOut()
+    router.push("/")
+  }
+
   const handleProfilePage = () => {
     router.push("/profile");
   };
@@ -127,17 +116,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollPosition]);
-
-  const handleSearch = (value: string) => {
-    router.push(`/products?url=${value}`);
-    setSearchKeyword("");
-    setIsModalOpen(false);
-  };
-
-  const handleSearchInModal = (value: string) => {
-    setSearchKeyword(value);
-    setIsModalOpen(true);
-  };
 
   const cartLength: number = cartItems ? cartItems.length : 0;
 
@@ -379,7 +357,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <h4 className="text-sm">Cart</h4>
                       </div>
                       {cartLength > 0 && (
-                        <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        // <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        <span className="quantity cart-quantity absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                           {cartLength}
                         </span>
                       )}
@@ -423,9 +402,21 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                <div className="">
-                  <p className="text-xl font-semibold">Login</p>
-                </div>
+                {isLoggedIn ? (
+                  <div onClick={handleLogOut}>
+                    <p className="text-lg font-semibold">Logout</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <Link href={"/register"}>
+                      <p className="text-lg font-semibold">Register</p>
+                    </Link>
+                    <div className="mx-4 h-6 border-l border-gray-400"></div>
+                    <Link href={"/login"}>
+                      <p className="text-lg font-semibold">Login</p>
+                    </Link>
+                  </div>
+                )}
                 {/* <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image

@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,usePathname } from "next/navigation";
 import StickyNav from "@/components/Header/StickyNav";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
@@ -72,6 +72,7 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
+  const pathname = usePathname()
 
   const [showAllItems, setShowAllItems] = useState(false);
 
@@ -369,6 +370,7 @@ const handleOrderComplete = (
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }

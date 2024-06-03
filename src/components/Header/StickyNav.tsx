@@ -71,8 +71,9 @@ const StickyNav = () => {
           </Link>
           <Link href={"/"}>
             <div
-              className={`${pathname.includes("/search-result") ? "text-[#e26178]" : ""
-                } flex flex-col items-center`}
+              className={`${
+                pathname.includes("/search-result") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
               <Icon.MagnifyingGlass size={25} />

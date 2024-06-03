@@ -42,7 +42,7 @@ const ProductSlider = () => {
             {products.length > 0 && (
               <div className="flex justify-between">
                 <div>
-                  <p className="font-bold text-[1.5rem]">Buy Again</p>
+                  <p className="font-semibold text-[1.5rem] uppercase">Buy Again</p>
                 </div>
                 <div className="flex">
                   <button onClick={() => swiperRef.current.slidePrev()}>

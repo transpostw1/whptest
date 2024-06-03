@@ -81,11 +81,11 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 font-medium ">
-                <h3>
+              <div className="w-96 ">
+                <p>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
-                </h3>
+                </p>
               </div>
             </div>
             <div className="content-footer py-[60px] flex flex-wrap gap-y-8">

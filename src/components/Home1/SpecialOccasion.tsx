@@ -18,13 +18,13 @@ const SpecialOccasion = () => {
 
   return (
     <>
-      <div className="collection-block md:pt-20 pt-10">
+      <div className="collection-block md:pt-10 pt-10">
         {/* <div className="container"> */}
         {/* <Fade bottom> */}
         {/* <div className="heading3 text-center">Special Occasion</div> */}
         <div className="flex flex-col justify-between text-red-950 gap-8 px-8">
-          <h1 className="text-5xl">
-            Something special for <br /> Every Occasion
+          <h1 className="lg:text-5xl md:text-3xl text-2xl ">
+            Something special for <br/> Every Occasion
           </h1>
           <p className="font-medium text-gray-700">
             Crafted to add a touch of elegance and charm to every occasion. From

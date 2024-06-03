@@ -44,7 +44,7 @@ export default function Home() {
         <GetFastDeliveryProducts />
         <WhatWeOffer />
         <ShopGender />
-        <PreciousGems />
+        {/* <PreciousGems /> */}
         <Appointment />
         <Gifts />
         <GoldScheme />

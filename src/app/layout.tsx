@@ -29,7 +29,7 @@ export default function RootLayout({
     <GlobalProvider>
       <html lang="en">
         <head>
-          <link rel="icon" href="/images/Bracelet.jpg" />
+          <link rel="icon" href="/images/other/logo2.png" />
         </head>
         <body className={instrument.className}>
           <TopNavOne textColor="text-white" />

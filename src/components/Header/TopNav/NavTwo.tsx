@@ -18,6 +18,7 @@ import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 interface Props {
   props: string;
@@ -32,7 +33,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState, userDetails, getUser,logOut } = useUser();
+  const { userState, userDetails, getUser, logOut } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -94,7 +95,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     handleLoginPopup()
   };
 
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     logOut()
     router.push("/")
   }
@@ -238,10 +239,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    <div className="flex flex-col items-center">
+                    {/* <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
-                    </div>
+                    </div> */}
                     <div className="flex flex-col items-center">
                       <Image
                         src={"/images/icons/blog.svg"}
@@ -309,7 +310,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    // onClick={openModalWishlist}
+                  // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
                       {/* <div>
@@ -321,12 +322,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div> */}
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                        // onClick={openModalWishlist}
+                      // onClick={openModalWishlist}
                       >
                         <div
                           className={`flex flex-col items-center ${pathname.includes("/wishlist")
-                              ? "text-[#e26178]"
-                              : ""
+                            ? "text-[#e26178]"
+                            : ""
                             }`}
                         >
                           <Icon.Heart size={28} />
@@ -409,11 +410,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-lg font-semibold">Logout</p>
                   </div>
                 ) : (
-                  <div className="flex items-center">
+                  <div onClick={handleMenuMobile} className="flex items-center">
                     <Link href={"/register"}>
                       <p className="text-lg font-semibold">Register</p>
                     </Link>
-                    <div className="mx-4 h-6 border-l border-gray-400"></div>
+                    <div onClick={handleMenuMobile} className="mx-4 h-6 border-l border-gray-400"></div>
                     <Link href={"/login"}>
                       <p className="text-lg font-semibold">Login</p>
                     </Link>
@@ -442,7 +443,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={() => setAppointmentModal(true)}>
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -455,6 +456,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
+                {appointmentModal && (<BookExchangeModal closeModal={handleOnClose} />)}
               </div>
               <div className="list-nav mt-6">
                 <ul>

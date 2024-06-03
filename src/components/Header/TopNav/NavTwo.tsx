@@ -8,6 +8,7 @@ import { PiPercentLight } from "react-icons/pi";
 import { PiNotebookDuotone } from "react-icons/pi";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { BiSolidOffer } from "react-icons/bi";
+import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";

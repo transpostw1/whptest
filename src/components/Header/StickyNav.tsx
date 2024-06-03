@@ -97,7 +97,7 @@ const StickyNav = () => {
             >
               <Icon.User size={25} />
               {isLoggedIn ? (
-                <h4 className="text-sm">{userDetails?.customer?.firstname}</h4>
+                <p>{userDetails?.customer?.firstname}</p>
               ) : (
                 <p>Login</p>
               )}

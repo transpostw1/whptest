@@ -237,15 +237,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
                     </div>
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/blog.svg"}
-                        alt="Blog"
-                        width={30}
-                        height={30}
-                      />
-                      <h4 className="text-sm">Blog</h4>
-                    </div>
+                    <Link href={"/blog"}>
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src={"/images/icons/blog.svg"}
+                          alt="Blog"
+                          width={30}
+                          height={30}
+                        />
+                        <h4 className="text-sm">Blog</h4>
+                      </div>
+                    </Link>
                     <div
                       className={`flex flex-col items-center ${
                         contactPopUp ? "text-[#e26178]" : ""

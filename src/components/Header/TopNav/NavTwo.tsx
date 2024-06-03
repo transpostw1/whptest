@@ -13,7 +13,6 @@ import useMenuMobile from "@/store/useMenuMobile";
 import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
 import { baseUrl } from "@/utils/constants";
-import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
@@ -33,7 +32,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState, userDetails, getUser } = useUser();
+  const { userState, userDetails, getUser,logOut } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -88,29 +87,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
-  const handleModalToggle = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
 
-  const handleInputClick = () => {
-    console.log("clicked");
-    setIsModalOpen(true);
-  };
 
   const handleLoginDrop = () => {
     localStorage.setItem("redirectPath", pathname);
     handleLoginPopup()
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchKeyword(value);
-    if (value.trim() !== "") {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
-    }
-  };
+  const handleLogOut = ()=>{
+    logOut()
+    router.push("/")
+  }
+
   const handleProfilePage = () => {
     router.push("/profile");
   };
@@ -135,17 +123,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollPosition]);
-
-  const handleSearch = (value: string) => {
-    router.push(`/products?url=${value}`);
-    setSearchKeyword("");
-    setIsModalOpen(false);
-  };
-
-  const handleSearchInModal = (value: string) => {
-    setSearchKeyword(value);
-    setIsModalOpen(true);
-  };
 
   const cartLength: number = cartItems ? cartItems.length : 0;
 
@@ -330,9 +307,22 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       )}
                     </div>
                   </div>
-                  <div className="max-md:hidden wishlist-icon flex items-center cursor-pointer">
+                  <div
+                    className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
+                    // onClick={openModalWishlist}
+                  >
                     <Link href={"/wishlist"}>
-                      <div className="max-md:hidden cart-icon flex items-center relative cursor-pointer">
+                      {/* <div>
+                        <div className="flex flex-col items-center">
+                          <Icon.Heart size={28} color="black" />
+                          <h4 className="text-sm">Wishlist</h4>
+                        </div>
+                        
+                      </div> */}
+                      <div
+                        className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
+                        // onClick={openModalWishlist}
+                      >
                         <div
                           className={`flex flex-col items-center ${pathname.includes("/wishlist")
                               ? "text-[#e26178]"
@@ -369,7 +359,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <h4 className="text-sm">Cart</h4>
                       </div>
                       {cartLength > 0 && (
-                        <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        // <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        <span className="quantity cart-quantity absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                           {cartLength}
                         </span>
                       )}
@@ -413,9 +404,21 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                <div className="">
-                  <p className="text-xl font-semibold">Login</p>
-                </div>
+                {isLoggedIn ? (
+                  <div onClick={handleLogOut}>
+                    <p className="text-lg font-semibold">Logout</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <Link href={"/register"}>
+                      <p className="text-lg font-semibold">Register</p>
+                    </Link>
+                    <div className="mx-4 h-6 border-l border-gray-400"></div>
+                    <Link href={"/login"}>
+                      <p className="text-lg font-semibold">Login</p>
+                    </Link>
+                  </div>
+                )}
                 {/* <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image
@@ -439,10 +442,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div
-                  className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]"
-                  onClick={() => setAppointmentModal(true)}
-                >
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -455,9 +455,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
-                {appointmentModal && (
-                  <BookExchangeModal closeModal={handleOnClose} />
-                )}
               </div>
               <div className="list-nav mt-6">
                 <ul>

@@ -11,7 +11,7 @@ import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -33,6 +33,9 @@ const ShopBreadCrumb1 = () => {
   const [initialOptions, setInitialOptions] = useState<any>({});
 
   const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const router = useRouter();
+
 
   const changePage = ({ selected }: any) => {
     setPageNumber(selected);
@@ -227,13 +230,23 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Price || []),
       ...(selectedOptions.Price || []),
     ].map((price: string) => {
+      // console.log("price ",price)
+      if(price == "Less than 10K"){
+        const min = parseFloat(1)
+        const max = parseFloat(10000);
+        return { min, max };
+      }else{
+      
       const [minStr, maxStr] = price.split('to');
-      const min = minStr ? parseFloat(minStr.trim()) : null;
+      console.log("MIN",minStr);
+      console.log("Max",maxStr);
+      const min = minStr ? parseFloat(minStr.trim()) : 1;
       const max = maxStr ? parseFloat(maxStr.trim()) : null;
-      return { min, max };
+      return { min, max };}
     });
   
     // Combine gender options
+    // http://localhost:3000/products?url=c-pendant+k-18kt+p-10000to20000+m-gold
     combinedOptions.gender = [
       ...(initialOptions.Gender || []),
       ...(selectedOptions.Gender || []),
@@ -254,6 +267,38 @@ const ShopBreadCrumb1 = () => {
     return combinedOptions;
   };
   
+  const updateURL = (options: any) => {
+    const urlParts: string[] = [];
+  
+    if (options.Category && options.Category.length > 0) {
+      urlParts.push(`c-${options.Category.join(',')}`);
+    }
+  
+    if (options.Karat && options.Karat.length > 0) {
+      urlParts.push(`k-${options.Karat.join(',')}`);
+    }
+  
+    if (options.Price && options.Price.length > 0) {
+      urlParts.push(`p-${options.Price.join('|')}`);
+    }
+  
+    if (options.Metal && options.Metal.length > 0) {
+      urlParts.push(`m-${options.Metal.join(',')}`);
+    }
+  
+    const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
+    router.push(url);
+  };
+
+useEffect(() => {
+  console.log('useEffect - selectedOptions:', selectedOptions);
+
+  const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+  fetchData(combinedOptions);
+  updateURL(selectedOptions);
+}, [initialOptions, selectedOptions]);
+
+
  useEffect(() => {
   const params = new URLSearchParams(searchParams.toString());
   const queryValue = params.get('url') || '';
@@ -272,36 +317,13 @@ const ShopBreadCrumb1 = () => {
       initialOptions.Karat = value.split(',');
     }
     if (key === 'p') {
-      
-      initialOptions.Price = value.split(',');
-    } 
+      initialOptions.Price = value.split('|');
+    }
     if (key === 'm') {
       initialOptions.Metal = value.split(',');
     }
   });
 
-  // console.log('Parsed params:', params);
-  // console.log('Keys in params:', [...params.keys()]);
-  // console.log('Values in params:', [...params.values()]);
-  // console.log('Entries in params:', [...params.entries()]);
-  // if (params.has("c")) {
-  //   console.log('params.has("c"):', params.has("c"));
-  //   const categoryParams = params.get("c");
-  //   console.log('categoryParams:', categoryParams);
-  //   initialOptions.Category = categoryParams?.split(",");
-  // }
-
-  // if (params.has("k")) {
-  //   initialOptions.Karat = params.get("k")?.split(",");
-  // }
-
-  // if (params.has("p")) {
-  //   initialOptions.Price = params.get("p")?.split(",");
-  // }
-
-  // if (params.has("m")) {
-  //   initialOptions.Metal = params.get("m")?.split(",");
-  // }
 
   setSelectedOptions(initialOptions);
   console.log("Initial selectedOptions from URL:", initialOptions);
@@ -325,24 +347,61 @@ useEffect(() => {
   //   fetchData(selectedOptions);
   // }, [selectedOptions]);
 
+  // const handleOptionSelect = (option: string, category: string) => {
+  //   setSelectedOptions((prevSelectedOptions: any) => {
+  //     const updatedOptions = { ...prevSelectedOptions };
+  //     if (updatedOptions[category]) {
+  //       if (updatedOptions[category].includes(option)) {
+  //         updatedOptions[category] = updatedOptions[category].filter(
+  //           (selectedOption: any) => selectedOption !== option
+  //         );
+  //       } else {
+  //         updatedOptions[category].push(option);
+  //       }
+  //     } else {
+  //       updatedOptions[category] = [option];
+  //     }
+  //     console.log('updatedOptions:', updatedOptions);
+
+  //     return updatedOptions;
+  //   });
+  // };
+
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const updatedOptions = { ...prevSelectedOptions };
       if (updatedOptions[category]) {
-        if (updatedOptions[category].includes(option)) {
+        const formattedOption = formatPriceRange(option);
+        if (updatedOptions[category].includes(formattedOption)) {
           updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption: any) => selectedOption !== option
+            (selectedOption: any) => selectedOption !== formattedOption
           );
         } else {
-          updatedOptions[category].push(option);
+          updatedOptions[category].push(formattedOption);
         }
       } else {
-        updatedOptions[category] = [option];
+        updatedOptions[category] = [formatPriceRange(option)];
       }
       console.log('updatedOptions:', updatedOptions);
-
       return updatedOptions;
     });
+  };
+  
+  const formatPriceRange = (price: string) => {
+    if (price === 'Less than 10K') {
+      return '0to10000';
+    } else if (price === '10K to 20K') {
+      return '10000to20000';
+    } else if (price === '20K to 30K') {
+      return '20000to30000';
+    } else if (price === '30K to 40K') {
+      return '30000to40000';
+    } else if (price === '40K to 50K') {
+      return '40000to50000';
+    } else if (price === 'More than 50K') {
+      return '50000toInfinity';
+    }
+    return price;
   };
 
   // useEffect(() => {

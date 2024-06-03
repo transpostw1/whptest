@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import FlashAlert from "@/components/Other/FlashAlert";
+import { usePathname } from "next/navigation";
 
 interface DiamondCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -31,6 +31,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  const pathname = usePathname()
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -80,6 +81,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     }
     if (!isLoggedIn) {
       setLoading(true);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }

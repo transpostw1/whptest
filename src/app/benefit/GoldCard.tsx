@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import FlashAlert from "@/components/Other/FlashAlert";
+import { usePathname } from "next/navigation";
+
 
 interface GoldCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -32,6 +32,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  const pathname = usePathname()
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -102,6 +103,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
       }
     if (!isLoggedIn) {
       setLoading(true);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }

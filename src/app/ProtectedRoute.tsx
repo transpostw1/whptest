@@ -19,7 +19,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }, [isLoggedIn, router]);
 
   if (!isLoggedIn) {
-    return null; // Optionally, render a loading spinner or something
+    return null;
   }
   
 

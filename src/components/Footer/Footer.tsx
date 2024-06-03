@@ -96,11 +96,11 @@ const Footer = () => {
                   </div>
                   <div className="input-block h-[52px] mt-2 relative">
                     <form
-                      className="flex"
+                      className="relative"
                       action="post"
                       onSubmit={handleSubmit}
                     >
-                      <div className="caption1 bg-white">
+                      <div className="caption1">
                         <PhoneInput
                           country={"in"}
                           value={formik.values.phoneNumber}
@@ -113,7 +113,7 @@ const Footer = () => {
                       </div>
 
                       <button
-                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center "
+                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center absolute top-[2px] -right-2"
                         type="submit"
                       >
                         <Icon.ArrowRight size={24} color="#fff" />
@@ -155,8 +155,8 @@ const Footer = () => {
               </div>
 
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex max-md:basis-full">
-                  <div className="item flex flex-col basis-1/4 ">
+                <div className="list-nav flex  justify-between basis-2/3 max-md:basis-full">
+                  <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Information
                     </div>
@@ -217,7 +217,7 @@ const Footer = () => {
                       FAQs
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/4 ">
+                  <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
@@ -258,7 +258,7 @@ const Footer = () => {
                       Stones
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/4 ">
+                  <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Customer Services
                     </div>

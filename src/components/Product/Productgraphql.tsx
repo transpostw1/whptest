@@ -29,7 +29,33 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
+  const [width, setWidth] = useState<number>(25);
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Get the current viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth < 768) {
+        // Small screens
+        setWidth(20);
+      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
+        // Medium screens
+        setWidth(25);
+      } else {
+        // Large screens
+        setWidth(25);
+      }
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
       (item) => item.productId === data.productId
@@ -127,7 +153,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       height={400}
                       alt="This image is temporarry"
                     />
-                    {hover && (
+                    {/* {hover && (
                       <div className="w-full relative">
                         <button
                           className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -142,25 +168,25 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                           View Similar
                         </button>
                       </div>
-                    )}
+                    )} */}
                     <div
                       className="z-0 absolute flex justify-between top-1 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
                     >
-                      <Icon.Play size={25} weight="light" />
+                      <Icon.Play size={width} weight="light" />
                     </div>
                     <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           color="#fa0000"
                           weight="fill"
                           onClick={() => HandleremoveFromWishlist()}
                         />
                       ) : (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           weight="light"
                           onClick={() => HandleaddToWishlist()}
                         />
@@ -179,7 +205,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   height={400}
                   alt="This image is temporarry"
                 />
-                {hover && (
+                {/* {hover && (
                   <div className="w-full absoulte">
                     <button
                       className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-4 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -194,19 +220,19 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       View Similar
                     </button>
                   </div>
-                )}
+                )} */}
                 <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                   {/* <Icon.Heart size={25} weight="light" /> */}
                   {isProductInWishlist ? (
                     <Icon.Heart
-                      size={25}
+                      size={width}
                       color="#fa0000"
                       weight="fill"
                       onClick={() => HandleremoveFromWishlist()}
                     />
                   ) : (
                     <Icon.Heart
-                      size={25}
+                      size={width}
                       weight="light"
                       onClick={() => HandleaddToWishlist()}
                     />

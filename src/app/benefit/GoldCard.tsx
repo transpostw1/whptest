@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import FlashAlert from "@/components/Other/FlashAlert";
+import { usePathname } from "next/navigation";
+
 
 interface GoldCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -32,6 +32,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  const pathname = usePathname()
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -102,6 +103,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
       }
     if (!isLoggedIn) {
       setLoading(true);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }
@@ -151,14 +153,6 @@ const GoldCard: React.FC<GoldCardProps> = ({
               redemptionAmount={redemptionAmount}
               monthlyDeposit={monthlyDeposit}
             />
-          </div>
-          <div>
-            <Link
-              className=" text-black underline text-center rounded-xl w-full cursor-pointer "
-              href={"/terms-and-condition"}
-            >
-              Read terms and conditions
-            </Link>
           </div>
         </div>
         <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">
@@ -218,12 +212,22 @@ const GoldCard: React.FC<GoldCardProps> = ({
               </h1>
             </div>
           </div>
-          <div>
-            <div
-              className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
-              onClick={handleEnroll}
-            >
-              {loading ? "Enrolling..." : "Enroll Now"}
+          <div className="mb-3">
+            <div>
+              <div
+                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
+                onClick={handleEnroll}
+              >
+                {loading ? "Enrolling..." : "Enroll Now"}
+              </div>
+            </div>
+            <div>
+              <Link
+                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                href={"/terms-and-condition"}
+              >
+             T&C apply*
+              </Link>
             </div>
           </div>
         </div>

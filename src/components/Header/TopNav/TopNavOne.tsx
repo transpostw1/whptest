@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,47 +12,47 @@ interface Props {
 
 const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
-    <>
-      <div className={`banner-top style-four w-full  bg-rose-950 h-[25px]`}>
-        <div className="container flex items-center justify-center align-middle">
-          <div className=" flex justify-center w-full h-full">
-            <Swiper
-              spaceBetween={0}
-              slidesPerView={1}
-              modules={[Autoplay,Navigation]}
-              autoplay={{
-                delay: 3000, 
-                disableOnInteraction: false, 
-              }}
-              className="h-[50%] relative flex items-center justify-center bg"
-            >
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase text-white ${textColor}`}
-                >
-                  Welcome to WHP Jewellers
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase text-white ${textColor}`}
-                >
-                  Something Special For Everyone
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div
-                  className={`text-button-uppercase text-white ${textColor}`}
-                >
-                  10% off on all products
-                </div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
+    <div
+      className={`banner-top style-four w-full bg-rose-950 md:h-[25px] h-[32px]`}
+    >
+      <div className="container flex items-center justify-center h-full">
+        <div className="flex justify-center items-center w-full h-full">
+          <Swiper
+            spaceBetween={0}
+            slidesPerView={1}
+            modules={[Autoplay, Navigation]}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            className="h-full w-full"
+          >
+            <SwiperSlide>
+              <div
+                className={`text-button-uppercase text-white ${textColor} flex items-center justify-center h-full`}
+              >
+                Welcome to WHP Jewellers
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div
+                className={`text-button-uppercase text-white ${textColor} flex items-center justify-center h-full`}
+              >
+                Something Special For Everyone
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div
+                className={`text-button-uppercase text-white ${textColor} flex items-center justify-center h-full`}
+              >
+                10% off on all products
+              </div>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default TopNavOne;

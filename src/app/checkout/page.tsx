@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,usePathname } from "next/navigation";
 import StickyNav from "@/components/Header/StickyNav";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
@@ -72,6 +72,7 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
+  const pathname = usePathname()
 
   const [showAllItems, setShowAllItems] = useState(false);
 
@@ -138,8 +139,6 @@ const Checkout: React.FC = () => {
         setFlashType("success");
       } catch (error: any) {
         console.log("Error occurred", error);
-        setFlashMessage(error.response.data.message);
-        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -219,7 +218,7 @@ const Checkout: React.FC = () => {
     }));
   console.log(mappedCartItems, "hh");
 
-  const MainCart = isLoggedIn ? mappedCartItems : mappedCartItems;
+  const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
   // const mappedCartItems = showAllItems
   //   ? cartItems
@@ -371,6 +370,7 @@ const handleOrderComplete = (
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }
@@ -429,9 +429,8 @@ const handleOrderComplete = (
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -439,9 +438,8 @@ const handleOrderComplete = (
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -449,9 +447,8 @@ const handleOrderComplete = (
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -497,7 +494,7 @@ const handleOrderComplete = (
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
+                        className={`p-2 rounded-full border border-gray-300 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >

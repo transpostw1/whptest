@@ -33,6 +33,7 @@ const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
               handleQuantityChange={handleQuantityChange}
               removeFromCart={removeFromCart}
             />
+            
           ))
         )}
       </div>

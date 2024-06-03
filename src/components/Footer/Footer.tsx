@@ -88,7 +88,7 @@ const Footer = () => {
                 </h3>
               </div>
             </div>
-            <div className="content-footer py-[60px] flex justify-between flex-wrap gap-y-8">
+            <div className="content-footer py-[60px] flex flex-wrap gap-y-8">
               <div className="company-infor basis-1/4 max-lg:basis-full">
                 <div className="newsletter basis-1/3 max-md:basis-full max-md:pl-0">
                   <div className="caption1  font-bold">
@@ -96,7 +96,7 @@ const Footer = () => {
                   </div>
                   <div className="input-block h-[52px] mt-2 relative">
                     <form
-                      className="relative"
+                      className="flex"
                       action="post"
                       onSubmit={handleSubmit}
                     >
@@ -108,11 +108,12 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
+                          containerClass="custom-phone-input"
                         />
                       </div>
 
                       <button
-                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center absolute top-1 right-1"
+                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center "
                         type="submit"
                       >
                         <Icon.ArrowRight size={24} color="#fff" />
@@ -128,18 +129,18 @@ const Footer = () => {
                       <Icon.FacebookLogo size={34} weight="light" />
                     </Link>
                     <Link
-                      href={"https://www.instagram.com/whpjewellers/?hl=en"}
-                      target="_blank"
-                    >
-                      <Icon.InstagramLogo size={32} weight="light" />
-                    </Link>
-                    <Link
                       href={
                         "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
                       }
                       target="_blank"
                     >
                       <Icon.YoutubeLogo size={34} weight="light" />
+                    </Link>
+                    <Link
+                      href={"https://www.instagram.com/whpjewellers/?hl=en"}
+                      target="_blank"
+                    >
+                      <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
                     <Link
                       href={
@@ -154,8 +155,8 @@ const Footer = () => {
               </div>
 
               <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex justify-between basis-2/3 max-md:basis-full">
-                  <div className="item flex flex-col basis-1/3 ">
+                <div className="list-nav flex max-md:basis-full">
+                  <div className="item flex flex-col basis-1/4 ">
                     <div className="text-button-uppercase pb-3">
                       Information
                     </div>
@@ -216,7 +217,7 @@ const Footer = () => {
                       FAQs
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/3 ">
+                  <div className="item flex flex-col basis-1/4 ">
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
@@ -257,7 +258,7 @@ const Footer = () => {
                       Stones
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/3 ">
+                  <div className="item flex flex-col basis-1/4 ">
                     <div className="text-button-uppercase pb-3">
                       Customer Services
                     </div>
@@ -267,12 +268,12 @@ const Footer = () => {
                     >
                       Terms & Conditions
                     </Link>
-                    <Link
+                    {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
                     >
                       Shipping
-                    </Link>
+                    </Link> */}
                     <a
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"/terms-and-condition#privacyPolicy"}

@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import FlashAlert from "@/components/Other/FlashAlert";
+import { usePathname } from "next/navigation";
 
 interface DiamondCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -31,6 +31,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  const pathname = usePathname()
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -80,6 +81,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     }
     if (!isLoggedIn) {
       setLoading(true);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }
@@ -197,12 +199,22 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               </h1>
             </div>
           </div>
-          <div>
-            <div
-              className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-5"
-              onClick={handleEnroll}
-            >
-              {loading ? "Enrolling..." : "Enroll Now"}
+          <div className="mb-3">
+            <div>
+              <div
+                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
+                onClick={handleEnroll}
+              >
+                {loading ? "Enrolling..." : "Enroll Now"}
+              </div>
+            </div>
+            <div>
+              <Link
+                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                href={"/terms-and-condition"}
+              >
+                T&C apply*
+              </Link>
             </div>
           </div>
         </div>

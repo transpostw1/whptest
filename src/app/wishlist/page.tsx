@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -37,44 +39,49 @@ const Wishlist = () => {
     }
   });
 
-    const handleBuyNow = (productItem: ProductData) => {
-      const productAlreadyExists = cartItems.find(
-        (item) => item.productId === productItem.productDetails?.productId
-      );
-      const currentQuantity = productAlreadyExists?.quantity ?? 0;
-      const updatedQuantity = currentQuantity + 1;
+  const handleBuyNow = (productItem: ProductData) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === productItem.productDetails?.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
 
-      if (productAlreadyExists) {
-        updateCartQuantity(
-          productItem.productDetails?.productId,
-          updatedQuantity
-        );
-      } else {
-        addToCart(
-          {
-            ...productItem,
-            quantity: 1,
-            productId: productItem.productDetails.productId,
-          },
-          1
-        );
-      }
-    };
-    if (isLoading) {
-      return (
-        <div>
-          <Skeleton height={70} />
-        </div>
+    if (productAlreadyExists) {
+      updateCartQuantity(
+        productItem.productDetails?.productId,
+        updatedQuantity
+      );
+    } else {
+      addToCart(
+        {
+          ...productItem,
+          quantity: 1,
+          productId: productItem.productDetails.productId,
+        },
+        1
       );
     }
+  };
+  if (isLoading) {
+    return (
+      <div>
+        <Skeleton height={70} />
+      </div>
+    );
+  }
 
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-
-
-
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    })
+      .format(value)
+      .replace("₹", "₹ ");
+  };
 
   return (
     <div className="shop-product breadcrumb1">
@@ -88,7 +95,7 @@ const Wishlist = () => {
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative">
-                  <div className="product-card p-4">
+                  <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
                       className="product-image"
                       onClick={() => router.push(`/products/${product.url}`)}
@@ -108,16 +115,10 @@ const Wishlist = () => {
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            ₹{" "}
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseFloat(product.discountPrice ?? 0))
-                            )}
+                            {formatCurrency(product.discountPrice)}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
-                            ₹{" "}
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseFloat(product.productPrice ?? 0))
-                            )}
+                            {formatCurrency(product.productPrice)}
                           </span>
                         </p>
                       </div>

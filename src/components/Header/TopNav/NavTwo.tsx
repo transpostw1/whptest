@@ -3,9 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter,usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { BiSolidOffer } from "react-icons/bi";
 import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
@@ -19,7 +18,7 @@ import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
-import ProtectedRoute from "@/app/ProtectedRoute";
+import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
 interface Props {
   props: string;
@@ -34,7 +33,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState, userDetails, getUser } = useUser();
+  const { userState, userDetails, getUser, logOut } = useUser();
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
@@ -44,7 +43,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-   const pathname = usePathname(); 
+  const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+
+  const pathname = usePathname();
+  const handleOnClose = () => {
+    setAppointmentModal(false);
+  };
+
+  console.log("appointement", appointmentModal);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -82,29 +88,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
-  const handleModalToggle = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
 
-  const handleInputClick = () => {
-    console.log("clicked");
-    setIsModalOpen(true);
-  };
 
   const handleLoginDrop = () => {
-      localStorage.setItem("redirectPath", pathname);
-   handleLoginPopup()
+    localStorage.setItem("redirectPath", pathname);
+    handleLoginPopup()
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchKeyword(value);
-    if (value.trim() !== "") {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
-    }
-  };
+  const handleLogOut = () => {
+    logOut()
+    router.push("/")
+  }
+
   const handleProfilePage = () => {
     router.push("/profile");
   };
@@ -118,7 +113,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       const scrollPosition = window.scrollY;
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-          scrollPosition > lastScrollPosition
+        scrollPosition > lastScrollPosition
       );
       setLastScrollPosition(scrollPosition);
     };
@@ -130,17 +125,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     };
   }, [lastScrollPosition]);
 
-  const handleSearch = (value: string) => {
-    router.push(`/products?url=${value}`);
-    setSearchKeyword("");
-    setIsModalOpen(false);
-  };
-
-  const handleSearchInModal = (value: string) => {
-    setSearchKeyword(value);
-    setIsModalOpen(true);
-  };
-
   const cartLength: number = cartItems ? cartItems.length : 0;
 
   const handleContactPopup = () => {
@@ -149,9 +133,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
-          fixedHeader ? " fixed" : "relative"
-        } text-rose-950 ${props}`}
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${fixedHeader ? " fixed" : "relative"
+          } text-rose-950 ${props}`}
         ref={divRef}
       >
         <div className="container mx-auto h-full py-2 ">
@@ -199,9 +182,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               {/* <div className="ml-4 text-black">
                 <Icon.MapPin size={25} />
               </div> */}
-              <div className="ml-4 text-black">
-                <Icon.Heart size={25} />
-              </div>
+              <Link href={"/wishlist"}>
+                <div className="ml-4 text-black">
+                  <Icon.Heart size={25} />
+                  {wishlistItems.length > 0 && (
+                    <span className="quantity cart-quantity absolute right-14 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                      {wishlistItems.length}
+                    </span>
+                  )}
+                </div>
+              </Link>
+
               <div className="ml-4" onClick={handleMenuMobile}>
                 <Image
                   src={"/images/icons/hamBurgerIcon.png"}
@@ -240,19 +231,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div
-                      className={`flex flex-col items-center ${
-                        pathname.includes("/offer") ? "text-[#e26178]" : ""
-                      }`}
+                      className={`flex flex-col items-center ${pathname.includes("/offer") ? "text-[#e26178]" : ""
+                        }`}
                     >
                       <Link href={"/offers"}>
-                        {/* <PiPercentLight size={30} /> */}
+                        <PiPercentLight size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    <div className="flex flex-col items-center">
+                    {/* <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
-                    </div>
+                    </div> */}
                     <div className="flex flex-col items-center">
                       <Image
                         src={"/images/icons/blog.svg"}
@@ -263,9 +253,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Blog</h4>
                     </div>
                     <div
-                      className={`flex flex-col items-center ${
-                        contactPopUp ? "text-[#e26178]" : ""
-                      }`}
+                      className={`flex flex-col items-center ${contactPopUp ? "text-[#e26178]" : ""
+                        }`}
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
@@ -321,7 +310,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    // onClick={openModalWishlist}
+                  // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
                       {/* <div>
@@ -333,14 +322,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div> */}
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                        // onClick={openModalWishlist}
+                      // onClick={openModalWishlist}
                       >
                         <div
-                          className={`flex flex-col items-center ${
-                            pathname.includes("/whislist")
-                              ? "text-[#e26178]"
-                              : ""
-                          }`}
+                          className={`flex flex-col items-center ${pathname.includes("/wishlist")
+                            ? "text-[#e26178]"
+                            : ""
+                            }`}
                         >
                           <Icon.Heart size={28} />
                           <h4 className="text-sm">Wishlist</h4>
@@ -356,12 +344,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      // onClick={openModalCart}
+                    // onClick={openModalCart}
                     >
                       <div
-                        className={`flex flex-col items-center ${
-                          pathname.includes("/checkout") ? "text-[#e26178]" : ""
-                        }`}
+                        className={`flex flex-col items-center ${pathname.includes("/checkout") ? "text-[#e26178]" : ""
+                          }`}
                       >
                         {/* <Image
                           src={"/images/icons/cart.svg"}
@@ -373,7 +360,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <h4 className="text-sm">Cart</h4>
                       </div>
                       {cartLength > 0 && (
-                        <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        // <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                        <span className="quantity cart-quantity absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                           {cartLength}
                         </span>
                       )}
@@ -417,16 +405,22 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 >
                   <Icon.X size={40} />
                 </div>
-                <div className="">
-                  <p className="text-xl font-semibold">Login</p>
-                </div>
-                <div className="ml-3 relative">
-                  <Icon.Heart size={25} />
-                  <span className="quantity cart-quantity absolute -right-0.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                    {wishlistItems.length}
-                  </span>
-                </div> 
-                <Link href={"/checkout"}>
+                {isLoggedIn ? (
+                  <div onClick={handleLogOut}>
+                    <p className="text-lg font-semibold">Logout</p>
+                  </div>
+                ) : (
+                  <div onClick={handleMenuMobile} className="flex items-center">
+                    <Link href={"/register"}>
+                      <p className="text-lg font-semibold">Register</p>
+                    </Link>
+                    <div onClick={handleMenuMobile} className="mx-4 h-6 border-l border-gray-400"></div>
+                    <Link href={"/login"}>
+                      <p className="text-lg font-semibold">Login</p>
+                    </Link>
+                  </div>
+                )}
+                {/* <Link href={"/checkout"}>
                   <div className="ml-3 relative">
                     <Image
                       src={"/images/icons/cart.svg"}
@@ -438,7 +432,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {cartLength}
                     </span>
                   </div>
-                </Link>
+                </Link> */}
               </div>
               <div className=" flex form-search relative mt-2">
                 <div className="mr-3">
@@ -449,7 +443,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]">
+                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={() => setAppointmentModal(true)}>
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -462,6 +456,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
+                {appointmentModal && (<BookExchangeModal closeModal={handleOnClose} />)}
               </div>
               <div className="list-nav mt-6">
                 <ul>

@@ -6,16 +6,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
+import { useCart } from "@/context/CartContext";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
   const { isLoggedIn, userDetails, getUser } = useUser();
+  const { cartItems } = useCart();
   const pathname = usePathname();
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
   };
+
+
+    const cartLength: number = cartItems ? cartItems.length : 0;
+
+
 
   const handleOptionClicked = (option: number) => {
     setClicked(option);
@@ -49,7 +56,12 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                clicked === 1 ? "text-[#e26178]" : ""
+                pathname.includes("") &&
+                !pathname.includes("profile") &&
+                !pathname.includes("offers") &&
+                !pathname.includes("checkout")
+                  ? "text-[#e26178]"
+                  : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >
@@ -59,9 +71,8 @@ const StickyNav = () => {
           </Link>
           <Link href={"/"}>
             <div
-              className={`${
-                pathname.includes("/search-result") ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("/search-result") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
               <Icon.MagnifyingGlass size={25} />
@@ -70,25 +81,23 @@ const StickyNav = () => {
           </Link>
           <Link href={"/offers"}>
             <div
-              className={`${
-                clicked === 3 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("offers") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
               <Icon.Percent size={25} />
               <p>Offers</p>
             </div>
           </Link>
-          <Link href={isLoggedIn ? "/profile" : "/login"}>
+          <Link href={`${isLoggedIn?"/profile":"/register"}`}>
             <div
-              className={`${
-                clicked === 4 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("profile") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(4)}
             >
               <Icon.User size={25} />
               {isLoggedIn ? (
-                <h4 className="text-sm">{userDetails?.customer?.firstname}</h4>
+                <p>{userDetails?.customer?.firstname}</p>
               ) : (
                 <p>Login</p>
               )}
@@ -96,12 +105,16 @@ const StickyNav = () => {
           </Link>
           <Link href={"/checkout"}>
             <div
-              className={`${
-                clicked === 5 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("checkout") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(5)}
             >
               <Icon.ShoppingCart size={25} />
+               {cartLength > 0 && (
+              <span className="quantity cart-quantity absolute right-6 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+            {cartLength}
+              </span>
+               )}
               <p>Cart</p>
             </div>
           </Link>
@@ -109,6 +122,9 @@ const StickyNav = () => {
       </div>
       {isSearchModalOpen && (
         <ModalSearch
+          searchKeyword=""
+          setSearchKeyword={() => { }}
+          handleSearch={() => { }}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
         />

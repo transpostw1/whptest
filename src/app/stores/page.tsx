@@ -25,8 +25,27 @@ const page = () => {
         </div>
       </div>
       <div className="flex shadow-xl my-4">
-        <div className=" flex flex-col justify-center w-[50%] h-[350px] scrollbar-thin overflow-y-auto p-3">
-          <div className="w-[50%] border mb-4">
+        <div className=" flex flex-col justify-center w-[50%] h-[380px] scrollbar-thin overflow-y-auto p-3">
+          <div className="w-[50%] border mb-4 p-3">
+            <p>Vashi Sector - 17</p>
+            <p>
+              Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
+              Mumbai, Maharashtra 400703
+            </p>
+            <span className="flex">
+              <Icon.PhoneCall />
+              <p>02227668400</p>
+            </span>
+            <span className="flex items-center">
+              <Icon.PhoneCall />
+              <p>Sun - Sat - 10:30 AM tp 8 PM</p>
+            </span>
+            <span className="flex items-center text-[#e26178]">
+              <p>Sun - Sat - 10:30 AM tp 8 PM</p>
+              <Icon.ArrowRight />
+            </span>
+          </div>
+          <div className="w-[50%] border mb-4 p-3">
             <p>Vashi Sector - 17</p>
             <p>
               Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
@@ -41,7 +60,7 @@ const page = () => {
               <p>Sun - Sat - 10:30 AM tp 8 PM</p>
             </span>
           </div>
-          <div className="w-[50%] border mb-4">
+          <div className="w-[50%] border mb-4 p-3">
             <p>Vashi Sector - 17</p>
             <p>
               Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
@@ -56,7 +75,7 @@ const page = () => {
               <p>Sun - Sat - 10:30 AM tp 8 PM</p>
             </span>
           </div>
-          <div className="w-[50%] border mb-4">
+          <div className="w-[50%] border mb-4 p-3">
             <p>Vashi Sector - 17</p>
             <p>
               Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
@@ -71,7 +90,7 @@ const page = () => {
               <p>Sun - Sat - 10:30 AM tp 8 PM</p>
             </span>
           </div>
-          <div className="w-[50%] border mb-4">
+          <div className="w-[50%] border mb-4 p-3">
             <p>Vashi Sector - 17</p>
             <p>
               Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
@@ -86,22 +105,7 @@ const page = () => {
               <p>Sun - Sat - 10:30 AM tp 8 PM</p>
             </span>
           </div>
-          <div className="w-[50%] border mb-4">
-            <p>Vashi Sector - 17</p>
-            <p>
-              Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi
-              Mumbai, Maharashtra 400703
-            </p>
-            <span className="flex">
-              <Icon.PhoneCall />
-              <p>02227668400</p>
-            </span>
-            <span className="flex items-center">
-              <Icon.PhoneCall />
-              <p>Sun - Sat - 10:30 AM tp 8 PM</p>
-            </span>
-          </div>
-          <div className="w-[50%] border mb-4">
+          <div className="w-[50%] border mb-4 p-3">
             <p>Vashi Sector - 17</p>
             <p>
               Big Splash Complex, Vashi-Turbhe Rd, Sector 17, Vashi, Navi

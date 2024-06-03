@@ -9,8 +9,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
- 
-
+ import AddAddressModal from "@/app/checkout/AddAddressModal";
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -21,6 +20,7 @@ const ProfileDetails = () => {
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
+  const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
 
   useEffect(() => {
@@ -28,18 +28,18 @@ const ProfileDetails = () => {
       router.replace("/");
     }
   }, [isLoggedIn, router]);
-  
-const handleLogOut = () => {
-  if (typeof window !== "undefined") {
-    Cookies.remove("localtoken");
-    logOut();
-    router.push("/");
-  }
-};
-  const handleEditAddress = async (id: any) => {
-    setId(id);
-    setShowModal(true);
+
+  const handleLogOut = () => {
+    if (typeof window !== "undefined") {
+      Cookies.remove("localtoken");
+        logOut();
+      router.push("/");
+    }
   };
+  const closeModal = () => {
+    setShowAddressModal(false);
+  };
+
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
@@ -86,6 +86,14 @@ const handleLogOut = () => {
 
     fetchAddresses();
   }, []);
+
+  const handleEditAddress = (addressId: any) => {
+    const addressToEdit =
+      allAddress &&
+      allAddress.find((address) => address.address_id === addressId);
+    setSelectedAddress(addressToEdit);
+    setShowModal(true);
+  };
   const closeEditModal = () => {
     setShowModal(false);
   };
@@ -167,25 +175,34 @@ const handleLogOut = () => {
       <div className="flex flex-wrap">
         {allAddress &&
           allAddress.map((address: any) => (
-            <div key={address.address_id} className="relative">
+            <div key={address.address_id} className="flex">
               <div className=" bg-white p-4 rounded-lg shadow-md mt-6 w-[250px] h-[130px] mr-2">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
-              <button className="absolute -top-2 bg-[#e26178] rounded-full right-0 p-2 text-sm text-white">
-                <Icon.PencilSimple
-                  size={18}
-                  onClick={() => handleEditAddress(address.address_id)}
-                />
-              </button>
-              <button className="absolute top-7 right-0 p-2 text-sm text-black hover:text-red-700">
-                <Icon.X
-                  size={25}
-                  onClick={() => handleRemoveAddress(address.address_id)}
-                />
-              </button>
+              <div>
+                <button className="bg-[#e26178] rounded-full p-2 text-sm text-white">
+                  <Icon.PencilSimple
+                    size={18}
+                    onClick={() => handleEditAddress(address.address_id)}
+                  />
+                </button>
+                <button className="p-2 text-sm text-black hover:text-red-700">
+                  <Icon.X
+                    size={25}
+                    onClick={() => handleRemoveAddress(address.address_id)}
+                  />
+                </button>
+              </div>
+              {showModal &&
+                selectedAddress?.address_id === address.address_id && (
+                  <EditAddressModal
+                    closeModal={closeEditModal}
+                    singleAddress={selectedAddress}
+                  />
+                )}
             </div>
           ))}
       </div>
@@ -199,7 +216,6 @@ const handleLogOut = () => {
         />
       )}
       {message && <FlashAlert message={message} type={type} />}
-      {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );
 };

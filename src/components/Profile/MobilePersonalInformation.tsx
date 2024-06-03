@@ -6,7 +6,7 @@ import { Address } from "@/type/AddressType";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
-
+import * as Yup from "yup"
 import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";

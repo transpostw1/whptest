@@ -44,7 +44,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-  //  const pathname = usePathname(); 
+   const pathname = usePathname(); 
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {

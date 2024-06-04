@@ -7,6 +7,7 @@ import FlashAlert from "../Other/FlashAlert";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
+import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
  

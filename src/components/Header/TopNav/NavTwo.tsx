@@ -233,10 +233,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    <div className="flex flex-col items-center">
+                    {/* <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
-                    </div>
+                    </div> */}
                     <Link href={"/blog"}>
                       <div className="flex flex-col items-center">
                         <Image

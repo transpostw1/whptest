@@ -2,8 +2,7 @@ import React,{useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ArrowRight } from "@phosphor-icons/react";
+
 
 const GoldScheme = () => {
     const router = useRouter();

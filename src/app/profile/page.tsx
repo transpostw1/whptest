@@ -14,6 +14,7 @@ import { baseUrl, getOrders } from "@/utils/constants";
 import MobileGms from "@/components/Profile/MobileGms";
 import ProfileWishList from "@/components/Profile/ProfileWishList";
 import { useUser } from "@/context/UserContext";
+import ProtectedRoute from "../ProtectedRoute";
 
 interface OrdersResponse {
   customerOrders: any;
@@ -70,44 +71,53 @@ const ProfilePage = () => {
   };
   if (isMobile) {
     return (
-      <div>
-        <StickyNav />
-        {component === "" && (
-          <MobileProfileSideBar
-            handleComponent={handleComponent}
-            componentName={component}
-            handleOrder={handleOrders}
-          />
-        )}
-        {component === "personalInfo" && (
-          <MobilePersonalInformation handleComponent={handleComponent} />
-        )}
-        {component === "orders" && (
-          <MobileOrders orders={ordersData} handleComponent={handleComponent} />
-        )}
-        {component === "gms" && <MobileGms handleComponent={handleComponent} />}
-      </div>
+      <ProtectedRoute>
+        <div>
+          <StickyNav />
+          {component === "" && (
+            <MobileProfileSideBar
+              handleComponent={handleComponent}
+              componentName={component}
+              handleOrder={handleOrders}
+            />
+          )}
+          {component === "personalInfo" && (
+            <MobilePersonalInformation handleComponent={handleComponent} />
+          )}
+          {component === "orders" && (
+            <MobileOrders
+              orders={ordersData}
+              handleComponent={handleComponent}
+            />
+          )}
+          {component === "gms" && (
+            <MobileGms handleComponent={handleComponent} />
+          )}
+        </div>
+      </ProtectedRoute>
     );
   }
   return (
     <>
-      <div className="flex">
-        <div className="lg:w-96 md:w-56">
-          <ProfileSidebar
-            handleComponent={handleComponentToRender}
-            componentName={componentToRender}
-            handleOrder={handleOrders}
-          />
+      <ProtectedRoute>
+        <div className="flex">
+          <div className="lg:w-96 md:w-56">
+            <ProfileSidebar
+              handleComponent={handleComponentToRender}
+              componentName={componentToRender}
+              handleOrder={handleOrders}
+            />
+          </div>
+          <div className="w-screen ">
+            {componentToRender === "personalInfo" && <ProfileDetails />}
+            {componentToRender === "orders" && (
+              <ProfileOrders orders={ordersData} />
+            )}
+            {componentToRender === "whislist" && <ProfileWishList />}
+            {componentToRender === "gms" && <ProfileGMS />}
+          </div>
         </div>
-        <div className="w-screen ">
-          {componentToRender === "personalInfo" && <ProfileDetails />}
-          {componentToRender === "orders" && (
-            <ProfileOrders orders={ordersData} />
-          )}
-          {componentToRender === "whislist" && <ProfileWishList />}
-          {componentToRender === "gms" && <ProfileGMS />}
-        </div>
-      </div>
+      </ProtectedRoute>
     </>
   );
 };

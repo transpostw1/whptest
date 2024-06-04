@@ -56,7 +56,12 @@ const StickyNav = () => {
           <Link href={"/"}>
             <div
               className={`${
-                clicked === 1 ? "text-[#e26178]" : ""
+                pathname.includes("") &&
+                !pathname.includes("profile") &&
+                !pathname.includes("offers") &&
+                !pathname.includes("checkout")
+                  ? "text-[#e26178]"
+                  : ""
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(1)}
             >
@@ -66,9 +71,8 @@ const StickyNav = () => {
           </Link>
           <Link href={"/"}>
             <div
-              className={`${
-                pathname.includes("/search-result") ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("/search-result") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={toggleSearchModal} // Open the search modal when clicked
             >
               <Icon.MagnifyingGlass size={25} />
@@ -77,20 +81,18 @@ const StickyNav = () => {
           </Link>
           <Link href={"/offers"}>
             <div
-              className={`${
-                clicked === 3 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("offers") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
               <Icon.Percent size={25} />
               <p>Offers</p>
             </div>
           </Link>
-          <Link href={isLoggedIn ? "/profile" : "/login"}>
+          <Link href={`${isLoggedIn?"/profile":"/register"}`}>
             <div
-              className={`${
-                clicked === 4 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("profile") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(4)}
             >
               <Icon.User size={25} />
@@ -103,9 +105,8 @@ const StickyNav = () => {
           </Link>
           <Link href={"/checkout"}>
             <div
-              className={`${
-                clicked === 5 ? "text-[#e26178]" : ""
-              } flex flex-col items-center`}
+              className={`${pathname.includes("checkout") ? "text-[#e26178]" : ""
+                } flex flex-col items-center`}
               onClick={() => handleOptionClicked(5)}
             >
               <div>

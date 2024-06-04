@@ -139,8 +139,6 @@ const Checkout: React.FC = () => {
         setFlashType("success");
       } catch (error: any) {
         console.log("Error occurred", error);
-        setFlashMessage(error.response.data.message);
-        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -431,9 +429,8 @@ const handleOrderComplete = (
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -441,9 +438,8 @@ const handleOrderComplete = (
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -451,9 +447,8 @@ const handleOrderComplete = (
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -499,7 +494,7 @@ const handleOrderComplete = (
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 mr-1 ${
+                        className={`p-2 rounded-full border border-gray-300 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >

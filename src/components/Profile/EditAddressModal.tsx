@@ -64,16 +64,17 @@ const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
       window.location.reload();
     }
   };
+  console.log("singAddress",singleAddress);
   const formik = useFormik({
     initialValues: {
       pincode: singleAddress.pincode,
-      full_address: singleAddress.full_address,
+      full_address: singleAddress?.full_address,
       area: '',
-      country: singleAddress.country,
-      state: singleAddress.state,
-      city: singleAddress.city,
-      landmark: singleAddress.landmark,
-      address_type: singleAddress.address_type,
+      country: singleAddress?.country,
+      state: singleAddress?.state,
+      city: singleAddress?.city,
+      landmark: singleAddress?.landmark,
+      address_type: singleAddress?.address_type,
     },
     validationSchema,
     onSubmit: handleSubmit,

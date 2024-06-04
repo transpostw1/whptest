@@ -17,16 +17,32 @@ import FlashAlert from "../Other/FlashAlert";
 interface Props {
   handleComponent: (args: string) => void;
 }
-const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
+
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  altPhone: string;
+  gender: string;
+  dobDay: string;
+  dobMonth: string;
+  dobYear: string;
+  profilePicture: File | null;
+}
+
+const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [message, setMessage] = useState<any>("");
-  const { logOut, isLoggedIn, userDetails,addUserDetails } = useUser();
   const [type, setType] = useState<any>("");
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [id, setId] = useState<any>();
   const [allAddress, setallAddress] = useState<Address[]>();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [formError, setFormError] = useState("");
+  const { logOut, isLoggedIn, userDetails,addUserDetails } = useUser();
 
   const validationSchema = Yup.object().shape({
     // firstName: Yup.string().required("First name is required"),

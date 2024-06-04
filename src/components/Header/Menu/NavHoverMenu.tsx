@@ -27,6 +27,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
+
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;

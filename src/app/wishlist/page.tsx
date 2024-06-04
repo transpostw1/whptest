@@ -1,9 +1,7 @@
-
-
 "use client";
-
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import StickyNav from "@/components/Header/StickyNav"
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -74,7 +72,7 @@ const Wishlist = () => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-  const formatCurrency = (value) => {
+  const formatCurrency = (value:any) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
@@ -85,6 +83,7 @@ const Wishlist = () => {
 
   return (
     <div className="shop-product breadcrumb1">
+      <StickyNav/>
       <div className="container">
         <div className="list-product-block relative">
           {isLoading ? (

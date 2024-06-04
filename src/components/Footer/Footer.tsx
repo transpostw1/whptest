@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
+import Extendedfooter from "./Extendedfooter";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
@@ -88,13 +89,13 @@ const Footer = () => {
                 </h3>
               </div>
             </div>
-            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 bg-red-700">
+            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4">
               <div className="company-infor">
                 <div className="newsletter ">
                   <div className="caption1  font-semibold text-center lg:text-start">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block  mt-2 relative">
+                  {/* <div className="input-block  mt-2 relative">
                     <form
                       className="flex justify-center lg:justify-start"
                       action="post"
@@ -117,6 +118,32 @@ const Footer = () => {
                         type="submit"
                       >
                         <Icon.ArrowRight size={24} color="#fff" />
+                      </button>
+                    </form>
+                  </div> */}
+                  <div className="input-block h-[52px] mt-2 relative">
+                    <form
+                      className="flex justify-center lg:justify-start"
+                      action="post"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="caption1">
+                        <PhoneInput
+                          country={"in"}
+                          value={formik.values.phoneNumber}
+                          onChange={(value) => {
+                            setPhoneNumber(value);
+                            formik.handleChange("phoneNumber")(value);
+                          }}
+                          // containerClass="custom-phone-input"
+                        />
+                      </div>
+
+                      <button
+                        className=" flex items-center justify-center relative ms-[-2rem] "
+                        type="submit"
+                      >
+                        <Icon.ArrowRight size={24} color="#e26178" />
                       </button>
                     </form>
                   </div>
@@ -158,18 +185,6 @@ const Footer = () => {
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href={"/stores"}
-                    >
-                      About Us
-                    </Link>
-                    {/* <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2 "
-                      href={"/contact"}
-                    >
-                      Contact us
-                    </Link> */}
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
@@ -215,42 +230,7 @@ const Footer = () => {
                       FAQs
                     </Link>
                   </div>
-                  <div className="item flex flex-col items-center lg:items-start w-full">
-                    <div className="font-semibold ">Customer Services</div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href={"/terms-and-condition"}
-                    >
-                      Terms & Conditions
-                    </Link>
-                    {/* <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
-                    >
-                      Shipping
-                    </Link> */}
-                    <a
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/terms-and-condition#privacyPolicy"}
-                    >
-                      Privacy Policy
-                    </a>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"/terms-and-condition#returnandRefund"}
-                    >
-                      Return & Refund
-                    </Link>
-                    <div
-                      className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
-                      onClick={() => setAppointmentModal(true)}
-                    >
-                      Book,Exchange and BuyBack
-                    </div>
-                    {appointmentModal && (
-                      <BookExchangeModal closeModal={handleOnClose} />
-                    )}
-                  </div>
+
                   <div className="item flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold">Quick Shop</div>
                     <Link
@@ -292,8 +272,65 @@ const Footer = () => {
                       Stones
                     </Link>
                   </div>
+                  <div className="item flex flex-col items-center lg:items-start w-full">
+                    <div className="font-semibold ">Customer Services</div>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit"
+                      href={"/terms-and-condition"}
+                    >
+                      Terms & Conditions
+                    </Link>
+                    {/* <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"#!"}
+                    >
+                      Shipping
+                    </Link> */}
+                    <a
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/terms-and-condition#privacyPolicy"}
+                    >
+                      Privacy Policy
+                    </a>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/terms-and-condition#returnandRefund"}
+                    >
+                      Return & Refund
+                    </Link>
+                    <div
+                      className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
+                      onClick={() => setAppointmentModal(true)}
+                    >
+                      Book,Exchange and BuyBack
+                    </div>
+                    {appointmentModal && (
+                      <BookExchangeModal closeModal={handleOnClose} />
+                    )}
+                  </div>
+                  <div className="item flex flex-col items-center lg:items-start w-full">
+                    <div className="font-semibold ">Contact</div>
+                    <Link
+                      href="tel:+91 1800-222-225"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="mt-1 flex">
+                        <span>1800-222-225</span>
+                      </div>
+                    </Link>
+                    <Link
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="mt-1 flex">
+                        <span>care@whpjewellers.in</span>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-                <div className="item flex flex-col lg:justify-start justify-center lg:items-start items-center mt-5 md:mt-0  ">
+                {/* <div className="item flex flex-col lg:justify-start justify-center lg:items-start items-center mt-5 md:mt-0  ">
                   <div className="font-semibold">Contact</div>
                   <Link
                     href="tel:+91 1800-222-225"
@@ -313,7 +350,7 @@ const Footer = () => {
                       <span>care@whpjewellers.in</span>
                     </div>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="py-3 flex items-center justify-center gap-5 max-lg:justify-center max-lg:flex-col border-t border-line ">
@@ -326,6 +363,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <Extendedfooter/>
       </div>
       {message && <FlashAlert message={message} type={"success"} />}
     </>

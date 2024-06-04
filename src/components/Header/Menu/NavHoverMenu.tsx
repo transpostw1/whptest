@@ -347,7 +347,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "earring" },
+                      query: { url: "c-earring" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -367,7 +367,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "pendants" },
+                      query: { url: "c-pendant" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -386,7 +386,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "bangle" },
+                      query: { url: "c-bangle" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -405,7 +405,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "Bracelet" },
+                      query: { url: "c-Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -424,7 +424,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "necklace" },
+                      query: { url: "c-necklace" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&

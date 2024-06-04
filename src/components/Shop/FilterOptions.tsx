@@ -9,11 +9,11 @@ interface Filter {
 const Filter = [
   {
     title: "Price",
-    options: ["Less than 10K", "10k to 20K", "20k to 30k", "30k and Above"],
+    options: ["Less than 10K", "10Kto20K", "20Kto30K", "30K and Above"],
   },
   {
     title: "Karat",
-    options: ["14k", "18K", "22k", "23K", "24k"],
+    options: ["14KT", "18KT", "22KT", "23KT", "24KT"],
   },
   {
     title: "Weight",

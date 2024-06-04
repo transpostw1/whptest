@@ -59,7 +59,7 @@ const ShopBreadCrumb1 = () => {
       console.log("Received filter options:", combinedOptions);
 
       const client = new ApolloClient({
-        uri: "http://localhost:8080/",
+        uri: "https://seashell-app-kswll.ondigitalocean.app/",
         cache: new InMemoryCache(),
       });
 
@@ -161,187 +161,188 @@ const ShopBreadCrumb1 = () => {
         }
       `;
 
-        // const filterOptions: any = {};
+      // const filterOptions: any = {};
 
-        // if (options.Category && options.Category.length > 0) {
-        //   console.log("Category options:", options.Category);
+      // if (options.Category && options.Category.length > 0) {
+      //   console.log("Category options:", options.Category);
 
-        //   filterOptions.category = options.Category;
-        // }
+      //   filterOptions.category = options.Category;
+      // }
 
-        // if (options.Price && options.Price.length > 0) {
-        //   filterOptions.priceFilter = options.Price.map((price: any) => {
-        //     const [min, max] = price.split('to');
-        //     return { min: parseInt(min), max: parseInt(max) };
-        //   });
-        // }
+      // if (options.Price && options.Price.length > 0) {
+      //   filterOptions.priceFilter = options.Price.map((price: any) => {
+      //     const [min, max] = price.split('to');
+      //     return { min: parseInt(min), max: parseInt(max) };
+      //   });
+      // }
 
-        // if (options.Gender && options.Gender.length > 0) {
-        // filterOptions.gender = options.Gender;
-        // }
+      // if (options.Gender && options.Gender.length > 0) {
+      // filterOptions.gender = options.Gender;
+      // }
 
-        // if (options.Karat && options.Karat.length > 0) {
-        // filterOptions.karat = options.Karat;
-        // }
+      // if (options.Karat && options.Karat.length > 0) {
+      // filterOptions.karat = options.Karat;
+      // }
 
-        // if (options.Metal && options.Metal.length > 0) {
-        // filterOptions.metal = options.Metal;
-        // }
+      // if (options.Metal && options.Metal.length > 0) {
+      // filterOptions.metal = options.Metal;
+      // }
 
-        // console.log("Constructed filterOptions:", filterOptions);
+      // console.log("Constructed filterOptions:", filterOptions);
 
-        // console.log("filterOptions:", filterOptions);
-        const variables = {
-          category: combinedOptions.category.map((category: string) => ({ value: category })),
-          priceFilter: combinedOptions.priceFilter,
-          gender: combinedOptions.gender.map((gender: string) => ({ value: gender })),
-          karat: combinedOptions.karat.map((karat: string) => ({ value: karat })),
-          metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
-        };
+      // console.log("filterOptions:", filterOptions);
+      const variables = {
+        category: combinedOptions.category.map((category: string) => ({ value: category })),
+        priceFilter: combinedOptions.priceFilter,
+        gender: combinedOptions.gender.map((gender: string) => ({ value: gender })),
+        karat: combinedOptions.karat.map((karat: string) => ({ value: karat })),
+        metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
+      };
 
-        const { data } = await client.query({
-          query: GET_PRODUCTS,
-          variables,
-        });
-    
+      const { data } = await client.query({
+        query: GET_PRODUCTS,
+        variables,
+      });
 
-        if (data && data.products) {
+
+      if (data && data.products) {
         setFilteredProducts(data.products);
         setIsLoading(false);
-        } else {
+      } else {
         console.error("Error: No products data received");
-        }
-        } catch (error) {
-        // console.log("Error Occurred", error);
-        }
+      }
+    } catch (error) {
+      // console.log("Error Occurred", error);
+    }
 
   };
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
-  
+
     // Combine category options
     combinedOptions.category = [
       ...(initialOptions.Category || []),
       ...(selectedOptions.Category || []),
     ];
-  
+
     // Combine price options
     combinedOptions.priceFilter = [
       ...(initialOptions.Price || []),
       ...(selectedOptions.Price || []),
     ].map((price: string) => {
       // console.log("price ",price)
-      if(price == "Less than 10K"){
+      if (price == "Less than 10K") {
         const min = parseFloat(1)
         const max = parseFloat(10000);
         return { min, max };
-      }else{
-      
-      const [minStr, maxStr] = price.split('to');
-      console.log("MIN",minStr);
-      console.log("Max",maxStr);
-      const min = minStr ? parseFloat(minStr.trim()) : 1;
-      const max = maxStr ? parseFloat(maxStr.trim()) : null;
-      return { min, max };}
+      } else {
+        const value = formatPriceRange(price);
+        const [minStr, maxStr] = value.split('to');
+        console.log("MIN", minStr);
+        console.log("MAX", maxStr);
+        const min = minStr ? parseFloat(minStr.trim()) : 1;
+        const max = maxStr ? parseFloat(maxStr.trim()) : null;
+        return { min, max };
+      }
     });
-  
+
     // Combine gender options
     // http://localhost:3000/products?url=c-pendant+k-18kt+p-10000to20000+m-gold
     combinedOptions.gender = [
       ...(initialOptions.Gender || []),
       ...(selectedOptions.Gender || []),
     ];
-  
+
     // Combine karat options
     combinedOptions.karat = [
       ...(initialOptions.Karat || []),
       ...(selectedOptions.Karat || []),
     ];
-  
+
     // Combine metal options
     combinedOptions.metal = [
       ...(initialOptions.Metal || []),
       ...(selectedOptions.Metal || []),
     ];
-  
+
     return combinedOptions;
   };
-  
+
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-  
+
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(',')}`);
     }
-  
+
     if (options.Karat && options.Karat.length > 0) {
       urlParts.push(`k-${options.Karat.join(',')}`);
     }
-  
+
     if (options.Price && options.Price.length > 0) {
       urlParts.push(`p-${options.Price.join('|')}`);
     }
-  
+
     if (options.Metal && options.Metal.length > 0) {
       urlParts.push(`m-${options.Metal.join(',')}`);
     }
-  
+
     const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
     router.push(url);
   };
 
-useEffect(() => {
-  console.log('useEffect - selectedOptions:', selectedOptions);
+  useEffect(() => {
+    console.log('useEffect - selectedOptions:', selectedOptions);
 
-  const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-  fetchData(combinedOptions);
-  updateURL(selectedOptions);
-}, [initialOptions, selectedOptions]);
-
-
- useEffect(() => {
-  const params = new URLSearchParams(searchParams.toString());
-  const queryValue = params.get('url') || '';
-
-  const initialOptions: any = {};
-
-  const parts = queryValue.split(' ');
-  parts.forEach(part => {
-    // Split each part by the hyphen to get the key and value
-    const [key, value] = part.split('-');
-
-    if (key === 'c') {
-      initialOptions.Category = value.split(',');
-    } 
-    if (key === 'k') {
-      initialOptions.Karat = value.split(',');
-    }
-    if (key === 'p') {
-      initialOptions.Price = value.split('|');
-    }
-    if (key === 'm') {
-      initialOptions.Metal = value.split(',');
-    }
-  });
+    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+    fetchData(combinedOptions);
+    updateURL(selectedOptions);
+  }, [initialOptions, selectedOptions]);
 
 
-  setSelectedOptions(initialOptions);
-  console.log("Initial selectedOptions from URL:", initialOptions);
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const queryValue = params.get('url') || '';
+
+    const initialOptions: any = {};
+
+    const parts = queryValue.split(' ');
+    parts.forEach(part => {
+      // Split each part by the hyphen to get the key and value
+      const [key, value] = part.split('-');
+
+      if (key === 'c') {
+        initialOptions.Category = value.split(',');
+      }
+      if (key === 'k') {
+        initialOptions.Karat = value.split(',');
+      }
+      if (key === 'p') {
+        initialOptions.Price = value.split('|');
+      }
+      if (key === 'm') {
+        initialOptions.Metal = value.split(',');
+      }
+    });
 
 
-  // fetchData(initialOptions);
-}, [searchParams]);
+    setSelectedOptions(initialOptions);
+    console.log("Initial selectedOptions from URL:", initialOptions);
 
-// useEffect(() => {
-//   if (Object.keys(selectedOptions).length > 0) {
-//     fetchData();
-//   }
-// }, [selectedOptions]);
 
-useEffect(() => {
-  const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-  fetchData(combinedOptions);
-}, [selectedOptions]);
+    // fetchData(initialOptions);
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   if (Object.keys(selectedOptions).length > 0) {
+  //     fetchData();
+  //   }
+  // }, [selectedOptions]);
+
+  useEffect(() => {
+    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+    fetchData(combinedOptions);
+  }, [selectedOptions]);
 
   // useEffect(() => {
   //   fetchData(selectedOptions);
@@ -386,17 +387,17 @@ useEffect(() => {
       return updatedOptions;
     });
   };
-  
+
   const formatPriceRange = (price: string) => {
     if (price === 'Less than 10K') {
       return '0to10000';
-    } else if (price === '10K to 20K') {
+    } else if (price === '10Kto20K') {
       return '10000to20000';
-    } else if (price === '20K to 30K') {
+    } else if (price === '20Kto30K') {
       return '20000to30000';
-    } else if (price === '30K to 40K') {
+    } else if (price === '30Kto40K') {
       return '30000to40000';
-    } else if (price === '40K to 50K') {
+    } else if (price === '40Kto50K') {
       return '40000to50000';
     } else if (price === 'More than 50K') {
       return '50000toInfinity';
@@ -408,9 +409,9 @@ useEffect(() => {
   //   fetchData(selectedOptions);
   // }, [selectedOptions]);
 
-  
 
-  
+
+
 
   useEffect(() => {
     const applyFilters = () => {
@@ -418,6 +419,7 @@ useEffect(() => {
 
       // Apply price filter
       if (selectedOptions.Price && selectedOptions.Price.length > 0) {
+
         const minPrice = parseInt(selectedOptions.Price[0]) || 0;
         const maxPrice =
           parseInt(selectedOptions.Price[selectedOptions.Price.length - 1]) ||

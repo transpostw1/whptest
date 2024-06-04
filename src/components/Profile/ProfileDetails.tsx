@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
- import AddAddressModal from "@/app/checkout/AddAddressModal";
+import AddAddressModal from "@/app/checkout/AddAddressModal";
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -32,7 +32,7 @@ const ProfileDetails = () => {
   const handleLogOut = () => {
     if (typeof window !== "undefined") {
       Cookies.remove("localtoken");
-        logOut();
+      logOut();
       router.push("/");
     }
   };
@@ -87,13 +87,17 @@ const ProfileDetails = () => {
     fetchAddresses();
   }, []);
 
+  console.log(allAddress, "AAAllllADddresss");
   const handleEditAddress = (addressId: any) => {
     const addressToEdit =
       allAddress &&
       allAddress.find((address) => address.address_id === addressId);
+
     setSelectedAddress(addressToEdit);
     setShowModal(true);
+    console.log("EditAddress", selectedAddress);
   };
+
   const closeEditModal = () => {
     setShowModal(false);
   };

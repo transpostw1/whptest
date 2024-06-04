@@ -95,7 +95,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     <>
       <div className="product-item grid-type ">
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
             {/* {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"

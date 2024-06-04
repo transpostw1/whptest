@@ -143,7 +143,7 @@ const Category = () => {
     <>
       <div className="w-full px-8 my-16 font-[500]  text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="lg:text-3xl text-2xl mt-3">SHOP BY CATEGORY</h1>
+          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">SHOP BY CATEGORY</h1>
           <p className="">
             Effortlessly find your perfect piece by exploring our jewellery
             categories. <br />
@@ -172,9 +172,25 @@ const Category = () => {
               </Link>
 
               <div>
-                <h1 className="text-xl font-semibold">{category.name}</h1>
+                <h1 className="text-xl font-semibold uppercase">{category.name}</h1>
+                <a className="inline-flex items-center" onClick={() => {
+                  router.push(`/products?url=${category.url}`);
+                  setCustomcategory(category.url);
+                }}>
+                  <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
+                    View All
+                  </span>
+                  <span className="flex items-center">
+                    <Image
+                      src={"/images/icons/rightarrow.svg"}
+                      alt="Right Arrow"
+                      width={20}
+                      height={20}
+                    />
+                  </span>
+                </a>
                 {/* <p className="text-sm font-medium">{category.description}</p> */}
-                <h3
+                {/* <h3
                   className="text-red-600 underline font-bold cursor-pointer"
                   onClick={() => {
                     router.push(`/products?url=${category.url}`);
@@ -182,7 +198,7 @@ const Category = () => {
                   }}
                 >
                   VIEW ALL
-                </h3>
+                </h3> */}
               </div>
             </div>
           ))}

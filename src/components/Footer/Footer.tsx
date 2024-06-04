@@ -8,7 +8,7 @@ import { useUser } from "@/context/UserContext";
 import { useCategory } from "@/context/CategoryContex";
 import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import 'react-phone-input-2/lib/style.css'
 import OtpVerification from "@/app/OtpVerification";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
@@ -81,11 +81,11 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 font-medium ">
-                <h3>
+              <div className="w-96 ">
+                <p>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
-                </h3>
+                </p>
               </div>
             </div>
             <div className="content-footer py-[60px] flex flex-wrap gap-y-8">
@@ -108,15 +108,15 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
-                          containerClass="custom-phone-input"
+                          // containerClass="custom-phone-input"
                         />
                       </div>
 
                       <button
-                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center absolute top-[2px] -right-2"
+                        className=" flex items-center justify-center relative ms-[-2rem] "
                         type="submit"
                       >
-                        <Icon.ArrowRight size={24} color="#fff" />
+                        <Icon.ArrowRight size={24} color="#e26178" />
                       </button>
                     </form>
                   </div>
@@ -158,7 +158,7 @@ const Footer = () => {
                 <div className="list-nav flex  justify-between basis-2/3 max-md:basis-full">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
-                      Information
+                      Know WHP
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"

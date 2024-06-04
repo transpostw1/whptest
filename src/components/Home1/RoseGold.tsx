@@ -50,7 +50,7 @@ const RoseGold = () => {
   return (
     <div className="flex flex-wrap p-5 bg-[#f7f5f6] mt-5 justify-between">
       <div className="lg:w-[30%] mr-6 md:w-[40%]">
-        <p className="max-sm:text-center md:mb-3">Explore</p>
+        <p className="max-sm:text-center md:mb-3 font-semibold">Explore</p>
         <p className="lg:text-4xl max-sm:text-[1.5rem] max-sm:text-center lg:text-start lg:leading-[50px] sm:leading-4 md:text-[1.5rem] md:mb-3">
           ROSE GOLD RANGE
         </p>

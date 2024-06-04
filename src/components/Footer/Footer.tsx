@@ -55,10 +55,10 @@ const Footer = () => {
 
   return (
     <>
-      <div id="footer" className="footer  text-rose-950">
-        <div className="footer-main bg-gray-50">
+      <div id="footer" className="footer  text-rose-950 ">
+        <div className="footer-main  bg-gray-50">
           <div className="container py-4 ">
-            <div className="flex flex-wrap gap-3 items-center justify-between">
+            <div className="flex  gap-3 items-center justify-between">
               <div className="flex items-center gap-3">
                 <Link href={"/"}>
                   <Image
@@ -88,7 +88,7 @@ const Footer = () => {
                 </h3>
               </div>
             </div>
-            <div className=" py-[60px] flex lg:flex-row flex-col justify-between gap-4">
+            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 bg-red-700">
               <div className="company-infor">
                 <div className="newsletter ">
                   <div className="caption1  font-semibold text-center lg:text-start">

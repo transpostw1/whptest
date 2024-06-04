@@ -73,7 +73,10 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
                 setKeyWords(e.target.value);
               }}
               onKeyDown={(e: any) => {
-                e.key === "Enter" && handleSearch("c-"+e.target.value);
+                if (e.key === "Enter") {
+                  const formattedValue = e.target.value.replace(/ /g, "_");
+                  handleSearch("c-" + formattedValue);
+                }
               }}
               autoFocus
             />

@@ -199,7 +199,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search w-64 relative max-lg:hidden">
+            <div className="form-search w-48 relative max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -207,10 +207,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   setIsModalOpen(true);
                 }}
               />
-
               <input
                 type="text"
-                placeholder="What are you looking for?"
+                placeholder="Search"
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
@@ -286,7 +285,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />
-                            <h4 className="text-sm">Login</h4>
+                            <p className="text-sm">Login</p>
                           </div>
                           <div
                             className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10

@@ -489,7 +489,7 @@ const ShopBreadCrumb1 = () => {
   }, [data, selectedOptions]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/c-/g, " "); // Replace underscores with spaces
+    return str.replace(/c-|_/g, " "); // Replace underscores with spaces
   };
 
   // Modified string

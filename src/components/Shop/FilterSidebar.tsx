@@ -134,7 +134,7 @@ const FilterSidebar: React.FC<Props> = ({
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
             top: isSidebarFixed ? "120px" : "auto",
-            width: isSidebarFixed ? "250px" : "auto",
+            width: isSidebarFixed ? "250px" : "250px",
           }}
         >
           <div className="heading6 border-b-2">FILTER BY</div>

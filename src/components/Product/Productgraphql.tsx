@@ -30,6 +30,21 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const ratings = 3.5;
   const router = useRouter();
   const [width, setWidth] = useState<number>(25);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 800px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -153,22 +168,29 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       height={400}
                       alt="This image is temporarry"
                     />
-                    {/* {hover && (
-                      <div className="w-full relative">
-                        <button
-                          className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-                          onClick={() => console.log("tryAtHome")}
-                        >
-                          Try At Home
-                        </button>
-                        <button
-                          className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-                          onClick={() => console.log("view Similar")}
-                        >
-                          View Similar
-                        </button>
+                    {isMobile && (
+                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 ">
+                        <Icon.Cards
+                          size={width}
+                          weight="light"
+                          color="#e26178"
+                        />
                       </div>
-                    )} */}
+                    )}
+                    {hover && !isMobile && (
+                      <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
+                        <p className="font-semibold">Try At Home</p>
+                      </div>
+                    )}
+                    {hover && !isMobile && (
+                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 bg-white p-1">
+                        <Icon.Cards
+                          size={width}
+                          weight="light"
+                          color="#e26178"
+                        />
+                      </div>
+                    )}
                     <div
                       className="z-0 absolute flex justify-between top-1 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
@@ -205,22 +227,21 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   height={400}
                   alt="This image is temporarry"
                 />
-                {/* {hover && (
-                      <div className="w-full relative">
-                        <button
-                          className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-                          onClick={() => console.log("tryAtHome")}
-                        >
-                          Try At Home
-                        </button>
-                        <button
-                          className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-                          onClick={() => console.log("view Similar")}
-                        >
-                          View Similar
-                        </button>
-                      </div>
-                    )} */}
+                {hover && !isMobile && (
+                  <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
+                    <p className="font-semibold">Try At Home</p>
+                  </div>
+                )}
+                {isMobile && (
+                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50">
+                    <Icon.Cards size={width} weight="light" color="#e26178" />
+                  </div>
+                )}
+                {hover && !isMobile && (
+                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 ">
+                    <Icon.Cards size={width} weight="light" color="#e26178" />
+                  </div>
+                )}
                 <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                   {/* <Icon.Heart size={25} weight="light" /> */}
                   {isProductInWishlist ? (
@@ -280,22 +301,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
-        {/* {hover && (
-          <div className="w-full">
-            <button
-              className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-              onClick={() => console.log("tryAtHome")}
-            >
-              Try At Home
-            </button>
-            <button
-              className="px-3 py-2 bg-[#e26178] text-white rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-              onClick={() => console.log("view Similar")}
-            >
-              View Similar
-            </button>
+        {isMobile && (
+          <div className="border border-[#e26178] rounded-sm text-center mt-2 hover:text-white hover:bg-[#e26178]">
+            <p className="font-semibold">Try At Home</p>
           </div>
-        )} */}
+        )}
       </div>
     </>
   );

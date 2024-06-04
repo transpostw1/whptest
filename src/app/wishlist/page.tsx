@@ -83,7 +83,7 @@ const Wishlist = () => {
 
   return (
     <div className="shop-product breadcrumb1">
-      <StickyNav/>
+      <StickyNav />
       <div className="container">
         <div className="list-product-block relative">
           {isLoading ? (
@@ -123,7 +123,7 @@ const Wishlist = () => {
                       </div>
                     </div>
                     <div
-                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white"
+                      className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                       onClick={() => handleBuyNow(product)}
                     >
                       <Link

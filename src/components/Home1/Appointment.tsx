@@ -35,7 +35,7 @@ const Appointment = () => {
             </div>
             <button
               type="button"
-              className="text-white bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
+              className="text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
               onClick={() => setAppointmentModal(true)}
             >
               Book Appointment

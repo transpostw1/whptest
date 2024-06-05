@@ -9,9 +9,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  product: ProductType|ProductDetails;
+  product: ProductType | ProductDetails;
 }
 
 interface ProductForWishlistLoggedIn {
@@ -29,32 +30,32 @@ interface ProductForWishlistLoggedOut {
 }
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const { wishlistItems, addToWishlist, removeFromWishlist,getWishlist } = useWishlist();
+  const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
+    useWishlist();
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
-  const[isLoading,setIsLoading]=useState<boolean>(false)
-  const {  isLoggedIn } = useUser();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isLoggedIn } = useUser();
+  const router = useRouter();
 
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        setIsLoading(true);
+        await getWishlist();
+        // Check if the current product is in the fetched wishlist items
+        const isInWishlist = wishlistItems.some(
+          (item) => item.productId === product.productDetails.productId
+        );
+        setIsProductInWishlist(isInWishlist);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-useEffect(() => {
-  const fetchWishlist = async () => {
-    try {
-      setIsLoading(true)
-      await getWishlist();
-      // Check if the current product is in the fetched wishlist items
-      const isInWishlist = wishlistItems.some(
-        (item) => item.productId === product.productDetails.productId
-      );
-      setIsProductInWishlist(isInWishlist);
-    } catch (error) {
-      console.error("Error fetching wishlist:", error);
-    } finally{
-      setIsLoading(false);
-    }
-  };
-
-  fetchWishlist();
-}, []);
-
+    fetchWishlist();
+  }, []);
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
@@ -80,58 +81,51 @@ useEffect(() => {
     }
   };
 
-const HandleaddToWishlist = () => {
-  if (isLoggedIn) {
-    const productToAdd: ProductForWishlistLoggedIn = {
-      productId: product.productDetails.productId,
-    };
-    addToWishlist(productToAdd);
-    setIsProductInWishlist(true);
-  } else {
-    const productToAdd: ProductForWishlistLoggedOut = {
-      productId: product.productDetails.productId,
-      title: product.productDetails.title,
-      productPrice: product.productDetails.productPrice,
-      discountPrice: product.productDetails.discountPrice,
-      discountValue: product.productDetails.discountValue,
-      imageDetails: product.productDetails.imageDetails,
-      url: product.productDetails.url,
 
-    };
 
-    addToWishlist(productToAdd);
-    setIsProductInWishlist(true);
-  }
-};
-const HandleremoveFromWishlist = () => {
-   removeFromWishlist(product.productDetails.productId);
-  setIsProductInWishlist(false);
-};
-
-  const handleBuyNow = (productItem: ProductData) => {
-    const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productDetails?.productId
-    );
-    const currentQuantity = productAlreadyExists?.quantity ?? 0;
-    const updatedQuantity = currentQuantity + 1;
-
-    if (productAlreadyExists) {
-      updateCartQuantity(
-        productItem.productDetails?.productId,
-        updatedQuantity
-      );
+  const HandleaddToWishlist = () => {
+    if (isLoggedIn) {
+      const productToAdd: ProductForWishlistLoggedIn = {
+        productId: product.productDetails.productId,
+      };
+      addToWishlist(productToAdd);
+      setIsProductInWishlist(true);
     } else {
-      addToCart(
-        {
-          ...productItem,
-          quantity: 1,
-          productId: productItem.productDetails.productId,
-        },
-        1
-      );
+      const productToAdd: ProductForWishlistLoggedOut = {
+        productId: product.productDetails.productId,
+        title: product.productDetails.title,
+        productPrice: product.productDetails.productPrice,
+        discountPrice: product.productDetails.discountPrice,
+        discountValue: product.productDetails.discountValue,
+        imageDetails: product.productDetails.imageDetails,
+        url: product.productDetails.url,
+      };
+
+      addToWishlist(productToAdd);
+      setIsProductInWishlist(true);
     }
   };
-  if(isLoading){
+
+
+  const HandleremoveFromWishlist = () => {
+    removeFromWishlist(product.productDetails.productId);
+    setIsProductInWishlist(false);
+  };
+
+
+  const handleBuyNow = () => {
+    addToCart(
+      {
+        productDetails: {
+          ...product.productDetails,
+        },
+        productId: product.productDetails.productId,
+      },
+      1
+    );
+    router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
+  };
+  if (isLoading) {
     return (
       <div>
         <Skeleton height={70} />
@@ -142,16 +136,9 @@ const HandleremoveFromWishlist = () => {
     <div className="flex max-sm:justify-around justify-between mt-[25px] ">
       <div
         className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] mr-[10px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
-        onClick={() => handleBuyNow(product)}
+        onClick={handleBuyNow}
       >
-        <Link
-          href={{
-            pathname: "/checkout",
-            query: { buyNow: product.productDetails?.productId.toString() },
-          }}
-        >
-          Buy Now
-        </Link>
+        Buy Now
       </div>
 
       <div

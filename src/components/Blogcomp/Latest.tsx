@@ -38,6 +38,7 @@ const Latest: React.FC<Latest> = ({ blogData }) => {
               />
               <div className="p-6">
                 <h3 className="text-xl font-semibold ">{blog.title}</h3>
+                
                 <p className="text-sm mb-2">{blog.metaTitle}</p>
                 <div className="flex items-center gap-2 ">
                   <span className="inline-block border border-[#e26178] text-[#e26178] text-xs px-2 py-1 rounded-xl">

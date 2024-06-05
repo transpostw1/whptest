@@ -135,6 +135,7 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
+                          inputStyle={{ width: "250px" }}
                           // containerClass="custom-phone-input"
                         />
                       </div>
@@ -181,7 +182,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row w-full justify-center">
+              <div className="flex ps-10 flex-col lg:flex-row w-full justify-center">
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>

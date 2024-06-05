@@ -198,11 +198,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   ₹{formattedOriginalPrice}
                 </div>
               )}
-              {data?.discountPrice && (
+              {/* {data?.discountPrice && (
                 <p className="text-[#c95d71]">
                   {data && data?.discountValue}%OFF
                 </p>
-              )}
+              )} */}
               {data?.discountValue == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}

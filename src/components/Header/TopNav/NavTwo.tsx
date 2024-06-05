@@ -50,7 +50,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     setAppointmentModal(false);
   };
 
-  console.log("appointement", appointmentModal);
+  // console.log("appointement", appointmentModal);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {

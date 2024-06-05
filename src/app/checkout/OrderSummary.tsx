@@ -6,12 +6,16 @@ interface OrderSummaryProps {
   totalDiscount: number;
   totalCart: number;
   cartItems: any[];
+  isBuyNow: boolean;
+
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   totalDiscount,
   totalCart,
   cartItems,
+  isBuyNow,
+
 }) => {
   let totalPrice=totalCart-totalDiscount
   return (

@@ -50,8 +50,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     setAppointmentModal(false);
   };
 
-  console.log("appointement", appointmentModal);
-
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (divRef.current && !divRef.current.contains(event.target as Node)) {
@@ -143,8 +141,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <Link href={"/"}>
                 <Image
                   src={"/images/other/main_logo.png"}
-                  width={40}
-                  height={40}
+                  width={35}
+                  height={32}
                   alt="80x80"
                   className=" object-cover mr-2"
                 />
@@ -240,18 +238,21 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <h4 className="text-sm">Offers</h4>
                     </div>
                     {/* <div className="flex flex-col items-center">
+                    {/* <div className="flex flex-col items-center">
                       <Icon.MapPin size={28} />
                       <h4 className="text-sm">Stores</h4>
                     </div> */}
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/blog.svg"}
-                        alt="Blog"
-                        width={30}
-                        height={30}
-                      />
-                      <h4 className="text-sm">Blog</h4>
-                    </div>
+                    <Link href={"/blog"}>
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src={"/images/icons/blog.svg"}
+                          alt="Blog"
+                          width={30}
+                          height={30}
+                        />
+                        <h4 className="text-sm">Blog</h4>
+                      </div>
+                    </Link>
                     <div
                       className={`flex flex-col items-center ${contactPopUp ? "text-[#e26178]" : ""
                         }`}

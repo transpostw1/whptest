@@ -1,9 +1,7 @@
-
-
 "use client";
-
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import StickyNav from "@/components/Header/StickyNav"
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -74,7 +72,7 @@ const Wishlist = () => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-  const formatCurrency = (value) => {
+  const formatCurrency = (value:any) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
@@ -85,6 +83,7 @@ const Wishlist = () => {
 
   return (
     <div className="shop-product breadcrumb1">
+      <StickyNav />
       <div className="container">
         <div className="list-product-block relative">
           {isLoading ? (
@@ -94,7 +93,7 @@ const Wishlist = () => {
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
                       className="product-image"
@@ -124,7 +123,7 @@ const Wishlist = () => {
                       </div>
                     </div>
                     <div
-                      className="bg-[#E26178] text-center font-semibold text-lg rounded-full text-white"
+                      className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                       onClick={() => handleBuyNow(product)}
                     >
                       <Link

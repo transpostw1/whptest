@@ -64,6 +64,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
       window.location.reload();
     }
   };
+  console.log("singAddress",singleAddress);
   const formik = useFormik({
     initialValues: {
       pincode: singleAddress?.pincode,

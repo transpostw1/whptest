@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ArrowRight } from "@phosphor-icons/react";
+
 
 const GoldScheme = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ const GoldScheme = () => {
             {/* <Link href="/benefit">
               <button
                 type="button"
-                className="text-white bg-gradient-to-br bg-pink-700 hover:bg-pink-600 focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20"
+                className="text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] hover:bg-pink-600 focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20"
               >
                 Know More
               </button>

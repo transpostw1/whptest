@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import * as Yup from "yup"
+import * as Yup from "yup";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
@@ -12,7 +12,6 @@ import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
-
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -31,7 +30,7 @@ interface FormValues {
   profilePicture: File | null;
 }
 
-const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => {
+const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -42,7 +41,8 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedFile, setSelectedFile] = useState(null);
   const [formError, setFormError] = useState("");
-  const { logOut, isLoggedIn, userDetails,addUserDetails } = useUser();
+  const { logOut, isLoggedIn, userDetails, addUserDetails } = useUser();
+  const [selectedAddress, setSelectedAddress] = useState<Address>();
 
   const validationSchema = Yup.object().shape({
     // firstName: Yup.string().required("First name is required"),
@@ -62,12 +62,11 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
   const dob = userDetails?.customer?.dob; // Assuming dob is "1998-10-18"
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-
-  const handleSubmit = async (values: FormValues, { resetForm }) => {
+  const handleSubmit = async (values: FormValues, { resetForm}:any) => {
     setIsLoading(true);
     setFormError("");
 
-    const formattedValues = {
+    const formattedValues:any = {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
@@ -90,22 +89,22 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
     }
   };
 
-    const formik = useFormik({
-      initialValues: {
-        firstName: userDetails?.customer?.firstname,
-        lastName: userDetails?.customer?.lastname,
-        email: userDetails?.customer?.email,
-        phone: userDetails?.customer?.mobile_no,
-        altPhone: userDetails?.customer?.altPhone,
-        gender: userDetails?.customer?.gender,
-        dobDay,
-        dobMonth,
-        dobYear,
-        profilePicture: null,
-      },
-      validationSchema,
-      onSubmit: handleSubmit,
-    });
+  const formik = useFormik({
+    initialValues: {
+      firstName: userDetails?.customer?.firstname,
+      lastName: userDetails?.customer?.lastname,
+      email: userDetails?.customer?.email,
+      phone: userDetails?.customer?.mobile_no,
+      altPhone: userDetails?.customer?.altPhone,
+      gender: userDetails?.customer?.gender,
+      dobDay,
+      dobMonth,
+      dobYear,
+      profilePicture: null,
+    },
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
       console.log("this effecct is running");
@@ -113,8 +112,12 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
     }
   }, [isLoggedIn, router]);
 
-  const handleEditAddress = async (id: any) => {
-    setId(id);
+  const handleEditAddress = (addressId: any) => {
+    const addressToEdit =
+      allAddress &&
+      allAddress.find((address) => address.address_id === addressId);
+
+    setSelectedAddress(addressToEdit);
     setShowModal(true);
   };
   const closeModal = () => {
@@ -495,6 +498,13 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
                   onClick={() => handleRemoveAddress(address.address_id)}
                 />
               </button>
+              {showModal &&
+                selectedAddress?.address_id === address.address_id && (
+                  <EditAddressModal
+                    closeModal={closeEditModal}
+                    singleAddress={selectedAddress}
+                  />
+                )}
             </div>
           ))}
       </div>
@@ -509,7 +519,6 @@ const MobilePersonalInformation:  React.FC<Props>  = ({  handleComponent  }) => 
         />
       )}
       {message && <FlashAlert message={message} type={type} />}
-      {showModal && <EditAddressModal id={id} closeModal={closeEditModal} />}
     </div>
   );
 };

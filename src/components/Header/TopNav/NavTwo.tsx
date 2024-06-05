@@ -86,17 +86,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
-
-
   const handleLoginDrop = () => {
     localStorage.setItem("redirectPath", pathname);
-    handleLoginPopup()
+    handleLoginPopup();
   };
 
   const handleLogOut = () => {
-    logOut()
-    router.push("/")
-  }
+    logOut();
+    router.push("/");
+  };
 
   const handleProfilePage = () => {
     router.push("/profile");
@@ -111,7 +109,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       const scrollPosition = window.scrollY;
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-        scrollPosition > lastScrollPosition
+          scrollPosition > lastScrollPosition
       );
       setLastScrollPosition(scrollPosition);
     };
@@ -131,8 +129,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${fixedHeader ? " fixed" : "relative"
-          } text-rose-950 ${props}`}
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
+          fixedHeader ? " fixed" : "relative"
+        } text-rose-950 ${props}`}
         ref={divRef}
       >
         <div className="container mx-auto h-full py-2 ">
@@ -151,8 +150,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/whp_name_logo.png"}
-                    width={170}
-                    height={80}
+                    width={156}
+                    height={50}
                     alt="80x80"
                     className=" object-cover"
                   />
@@ -200,7 +199,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search w-64 relative max-lg:hidden">
+            <div className="form-search w-48 relative max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -208,10 +207,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   setIsModalOpen(true);
                 }}
               />
-
               <input
                 type="text"
-                placeholder="What are you looking for?"
+                placeholder="Search"
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
@@ -229,33 +227,37 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
                     <div
-                      className={`flex flex-col items-center ${pathname.includes("/offer") ? "text-[#e26178]" : ""
-                        }`}
+                      className={`flex flex-col items-center ${
+                        pathname.includes("/offer") ? "text-[#e26178]" : ""
+                      }`}
                     >
                       <Link href={"/offers"}>
                         <PiPercentLight size={30} />
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    {/* <div className="flex flex-col items-center">
-                    {/* <div className="flex flex-col items-center">
-                      <Icon.MapPin size={28} />
-                      <h4 className="text-sm">Stores</h4>
-                    </div> */}
-                    <Link href={"/blog"}>
-                      <div className="flex flex-col items-center">
-                        <Image
-                          src={"/images/icons/blog.svg"}
-                          alt="Blog"
-                          width={30}
-                          height={30}
-                        />
-                        <h4 className="text-sm">Blog</h4>
-                      </div>
-                    </Link>
                     <div
-                      className={`flex flex-col items-center ${contactPopUp ? "text-[#e26178]" : ""
-                        }`}
+                      className="hidden max-lg:block"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <div className="flex flex-col items-center">
+                        <Icon.MagnifyingGlass size={28} />
+                        <h4 className="text-sm">Search</h4>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <Image
+                        src={"/images/icons/blog.svg"}
+                        alt="Blog"
+                        width={30}
+                        height={30}
+                      />
+                      <h4 className="text-sm">Blog</h4>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center ${
+                        contactPopUp ? "text-[#e26178]" : ""
+                      }`}
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
@@ -283,7 +285,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />
-                            <h4 className="text-sm">Login</h4>
+                            <p className="text-sm">Login</p>
                           </div>
                           <div
                             className={` login-popup absolute bg-white top-[114px] w-[320px] p-7 rounded-xl bg-surface box-shadow-small z-10
@@ -311,7 +313,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                  // onClick={openModalWishlist}
+                    // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
                       {/* <div>
@@ -323,13 +325,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div> */}
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      // onClick={openModalWishlist}
+                        // onClick={openModalWishlist}
                       >
                         <div
-                          className={`flex flex-col items-center ${pathname.includes("/wishlist")
-                            ? "text-[#e26178]"
-                            : ""
-                            }`}
+                          className={`flex flex-col items-center ${
+                            pathname.includes("/wishlist")
+                              ? "text-[#e26178]"
+                              : ""
+                          }`}
                         >
                           <Icon.Heart size={28} />
                           <h4 className="text-sm">Wishlist</h4>
@@ -345,11 +348,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                    // onClick={openModalCart}
+                      // onClick={openModalCart}
                     >
                       <div
-                        className={`flex flex-col items-center ${pathname.includes("/checkout") ? "text-[#e26178]" : ""
-                          }`}
+                        className={`flex flex-col items-center ${
+                          pathname.includes("/checkout") ? "text-[#e26178]" : ""
+                        }`}
                       >
                         {/* <Image
                           src={"/images/icons/cart.svg"}
@@ -415,7 +419,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <Link href={"/register"}>
                       <p className="text-lg font-semibold">Register</p>
                     </Link>
-                    <div onClick={handleMenuMobile} className="mx-4 h-6 border-l border-gray-400"></div>
+                    <div
+                      onClick={handleMenuMobile}
+                      className="mx-4 h-6 border-l border-gray-400"
+                    ></div>
                     <Link href={"/login"}>
                       <p className="text-lg font-semibold">Login</p>
                     </Link>
@@ -444,7 +451,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={60}
                   />
                 </div>
-                <div className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]" onClick={() => setAppointmentModal(true)}>
+                <div
+                  className="flex bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white items-center justify-center w-[190px]"
+                  onClick={() => setAppointmentModal(true)}
+                >
                   <div className="mr-3">
                     <Image
                       src="/images/icons/exchangeGold.png"
@@ -457,7 +467,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-md">Exchange Gold</p>
                   </div>
                 </div>
-                {appointmentModal && (<BookExchangeModal closeModal={handleOnClose} />)}
+                {appointmentModal && (
+                  <BookExchangeModal closeModal={handleOnClose} />
+                )}
               </div>
               <div className="list-nav mt-6">
                 <ul>

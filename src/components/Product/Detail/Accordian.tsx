@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductType, ProductData } from "@/type/ProductType";
 import { TbReplace } from "react-icons/tb";
@@ -10,12 +10,29 @@ import { VscTools } from "react-icons/vsc";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { TbHomeCheck } from "react-icons/tb";
+import MobileSizeGuide from "./MobileSizeGuide";
 
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 540px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
+
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
@@ -171,48 +188,58 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian === 3 ? (
-          <div className="text-center rounded-md w-[80%]">
-            <table className="mt-5 bg-[#f7f7f7]">
-              <tr className="">
-                <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
-                  Size
-                </td>
-                <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
-                  Diameter(inch)
-                </td>
-                <td className="p-4 border-r-2 border-[#F0ECED] border-b-2">
-                  Diameter(cms)
-                </td>
-                <td className="p-4 border-b-2 border-[#F0ECED]">
-                  Circumference(inch)
-                </td>
-              </tr>
-              <tr>
-                <td className="border-r-2 border-[#F0ECED]">2.2</td>
-                <td className="border-r-2 border-[#F0ECED] p-2">2.125</td>
-                <td className="p-2 border-r-2 border-[#F0ECED]">5.4</td>
-                <td className="">6.67</td>
-              </tr>
-              <tr>
-                <td className="p-2 border-r-2 border-[#F0ECED]">2.4</td>
-                <td className="p-2 border-r-2 border-[#F0ECED]">2.25</td>
-                <td className="p-2 border-r-2 border-[#F0ECED]">5.7</td>
-                <td className="p-2">7.06</td>
-              </tr>
-              <tr>
-                <td className="border-r-2 border-[#F0ECED] p-2">2.6</td>
-                <td className="p-2 border-r-2 border-[#F0ECED]">2.375</td>
-                <td className="p-2 border-r-2 border-[#F0ECED]">6</td>
-                <td className=" p-2">7.46</td>
-              </tr>
-              <tr>
-                <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
-                <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
-                <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
-                <td className=" p-2 rounded-b-lg">7.85</td>
-              </tr>
-            </table>
-          </div>
+          <>
+            {isMobile ? (
+              <>
+                <MobileSizeGuide />
+              </>
+            ) : (
+              <div className="text-center rounded-md w-[80%]">
+                <table className="mt-5 bg-[#f7f7f7]">
+                  <tr className="">
+                    <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
+                      Size
+                    </td>
+                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                      Diameter(inch)
+                    </td>
+                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                      Diameter(cms)
+                    </td>
+                    <td className="max-sm:p-4 border-b-2 border-[#F0ECED]">
+                      Circumference(inch)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="border-r-2 border-[#F0ECED]">2.2</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.125</td>
+                    <td className="p-2 border-r-2 border-[#F0ECED]">5.4</td>
+                    <td className="">6.67</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2 border-r-2 border-[#F0ECED]">2.4</td>
+                    <td className="p-2 border-r-2 border-[#F0ECED]">2.25</td>
+                    <td className="max-sm:p-2 border-r-2 border-[#F0ECED]">
+                      5.7
+                    </td>
+                    <td className="p-2">7.06</td>
+                  </tr>
+                  <tr>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.6</td>
+                    <td className="p-2 border-r-2 border-[#F0ECED]">2.375</td>
+                    <td className="p-2 border-r-2 border-[#F0ECED]">6</td>
+                    <td className=" p-2">7.46</td>
+                  </tr>
+                  <tr>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
+                    <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
+                    <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
+                    <td className=" p-2 rounded-b-lg">7.85</td>
+                  </tr>
+                </table>
+              </div>
+            )}
+          </>
         ) : null}
       </div>
       <div className="p-4 border-t-2 border-[#f7f7f7]">

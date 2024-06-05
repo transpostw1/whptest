@@ -87,8 +87,6 @@ const ProfileDetails = () => {
 
     fetchAddresses();
   }, []);
-
-  console.log(allAddress, "AAAllllADddresss");
   const handleEditAddress = (addressId: any) => {
     const addressToEdit =
       allAddress &&

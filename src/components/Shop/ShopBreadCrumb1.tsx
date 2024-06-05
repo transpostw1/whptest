@@ -1,4 +1,4 @@
-"Use Client"
+"Use Client";
 import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
@@ -11,7 +11,7 @@ import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -36,7 +36,6 @@ const ShopBreadCrumb1 = () => {
 
   const router = useRouter();
 
-
   const changePage = ({ selected }: any) => {
     setPageNumber(selected);
   };
@@ -50,14 +49,14 @@ const ShopBreadCrumb1 = () => {
     setIsLoading(false);
     setPageNumber(0);
   };
+  
   const fetchData = async (combinedOptions: any) => {
     console.log("Received filterOptions in fetchData:", combinedOptions);
     console.log("selectedOptions:", combinedOptions);
 
-
     try {
       console.log("Received filter options:", combinedOptions);
-
+      setIsLoading(false);
       const client = new ApolloClient({
         uri: "https://seashell-app-kswll.ondigitalocean.app/",
         cache: new InMemoryCache(),
@@ -192,18 +191,22 @@ const ShopBreadCrumb1 = () => {
 
       // console.log("filterOptions:", filterOptions);
       const variables = {
-        category: combinedOptions.category.map((category: string) => ({ value: category })),
+        category: combinedOptions.category.map((category: string) => ({
+          value: category,
+        })),
         priceFilter: combinedOptions.priceFilter,
-        gender: combinedOptions.gender.map((gender: string) => ({ value: gender })),
+        gender: combinedOptions.gender.map((gender: string) => ({
+          value: gender,
+        })),
         karat: combinedOptions.karat.map((karat: string) => ({ value: karat })),
         metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
+        // weightRange: combinedOptions.weightRange.map((weight: string) => ({ value: weight })),
       };
 
       const { data } = await client.query({
         query: GET_PRODUCTS,
         variables,
       });
-
 
       if (data && data.products) {
         setFilteredProducts(data.products);
@@ -212,9 +215,10 @@ const ShopBreadCrumb1 = () => {
         console.error("Error: No products data received");
       }
     } catch (error) {
-      // console.log("Error Occurred", error);
+      console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+    } finally {
+      setIsLoading(false);
     }
-
   };
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
@@ -232,12 +236,12 @@ const ShopBreadCrumb1 = () => {
     ].map((price: string) => {
       // console.log("price ",price)
       if (price == "Less than 10K") {
-        const min = parseFloat(1)
-        const max = parseFloat(10000);
+        const min = parseFloat("1");
+        const max = parseFloat("10000");
         return { min, max };
       } else {
         const value = formatPriceRange(price);
-        const [minStr, maxStr] = value.split('to');
+        const [minStr, maxStr] = value.split("to");
         console.log("MIN", minStr);
         console.log("MAX", maxStr);
         const min = minStr ? parseFloat(minStr.trim()) : 1;
@@ -270,65 +274,68 @@ const ShopBreadCrumb1 = () => {
 
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-
+    console.log("filterOptions",options);
     if (options.Category && options.Category.length > 0) {
-      urlParts.push(`c-${options.Category.join(',')}`);
+      urlParts.push(`c-${options.Category.join(",")}`);
     }
 
     if (options.Karat && options.Karat.length > 0) {
-      urlParts.push(`k-${options.Karat.join(',')}`);
+      urlParts.push(`k-${options.Karat.join(",")}`);
     }
 
     if (options.Price && options.Price.length > 0) {
-      urlParts.push(`p-${options.Price.join('|')}`);
+      urlParts.push(`p-${options.Price.join("|")}`);
     }
 
     if (options.Metal && options.Metal.length > 0) {
-      urlParts.push(`m-${options.Metal.join(',')}`);
+      urlParts.push(`m-${options.Metal.join(",")}`);
+    }
+    if (options.Weight && options.Weight.length > 0) {
+      urlParts.push(`w-${options.Weight.join(",")}`);
     }
 
-    const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
+    const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
     router.push(url);
   };
 
   useEffect(() => {
-    console.log('useEffect - selectedOptions:', selectedOptions);
+    console.log("useEffect - selectedOptions:", selectedOptions);
 
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
     fetchData(combinedOptions);
     updateURL(selectedOptions);
-  }, [initialOptions, selectedOptions]);
-
+  }, [selectedOptions]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    const queryValue = params.get('url') || '';
+    const queryValue = params.get("url") || "";
 
     const initialOptions: any = {};
 
-    const parts = queryValue.split(' ');
-    parts.forEach(part => {
+    const parts = queryValue.split(" ");
+    parts.forEach((part) => {
       // Split each part by the hyphen to get the key and value
-      const [key, value] = part.split('-');
+      const [key, value] = part.split("-");
 
-      if (key === 'c') {
-        initialOptions.Category = value.split(',');
+      if (key === "c") {
+        initialOptions.Category = value.split(",");
       }
-      if (key === 'k') {
-        initialOptions.Karat = value.split(',');
+      if (key === "k") {
+        initialOptions.Karat = value.split(",");
       }
-      if (key === 'p') {
-        initialOptions.Price = value.split('|');
+      if (key === "p") {
+        initialOptions.Price = value.split("|");
       }
-      if (key === 'm') {
-        initialOptions.Metal = value.split(',');
+      if (key === "m") {
+        initialOptions.Metal = value.split(",");
       }
+      // if (key === "w") {
+      //   initialOptions.Weight = value.split(",");
+      // }
     });
-
 
     setSelectedOptions(initialOptions);
     console.log("Initial selectedOptions from URL:", initialOptions);
-
 
     // fetchData(initialOptions);
   }, [searchParams]);
@@ -383,24 +390,25 @@ const ShopBreadCrumb1 = () => {
       } else {
         updatedOptions[category] = [formatPriceRange(option)];
       }
-      console.log('updatedOptions:', updatedOptions);
+      console.log("updatedOptions:", updatedOptions);
       return updatedOptions;
     });
   };
 
+  console.log("Selected Options",selectedOptions)
   const formatPriceRange = (price: string) => {
-    if (price === 'Less than 10K') {
-      return '0to10000';
-    } else if (price === '10Kto20K') {
-      return '10000to20000';
-    } else if (price === '20Kto30K') {
-      return '20000to30000';
-    } else if (price === '30Kto40K') {
-      return '30000to40000';
-    } else if (price === '40Kto50K') {
-      return '40000to50000';
-    } else if (price === 'More than 50K') {
-      return '50000toInfinity';
+    if (price === "Less than 10K") {
+      return "0to10000";
+    } else if (price === "10Kto20K") {
+      return "10000to20000";
+    } else if (price === "20Kto30K") {
+      return "20000to30000";
+    } else if (price === "30Kto40K") {
+      return "30000to40000";
+    } else if (price === "40Kto50K") {
+      return "40000to50000";
+    } else if (price === "More than 50K") {
+      return "50000toInfinity";
     }
     return price;
   };
@@ -409,24 +417,20 @@ const ShopBreadCrumb1 = () => {
   //   fetchData(selectedOptions);
   // }, [selectedOptions]);
 
-
-
-
-
   useEffect(() => {
     const applyFilters = () => {
       let filtered = data;
 
       // Apply price filter
       if (selectedOptions.Price && selectedOptions.Price.length > 0) {
-
         const minPrice = parseInt(selectedOptions.Price[0]) || 0;
         const maxPrice =
           parseInt(selectedOptions.Price[selectedOptions.Price.length - 1]) ||
           Infinity;
         filtered = filtered.filter(
           (product: any) =>
-            product.discountPrice >= minPrice && product.discountPrice <= maxPrice
+            product.discountPrice >= minPrice &&
+            product.discountPrice <= maxPrice
         );
       }
 
@@ -486,7 +490,7 @@ const ShopBreadCrumb1 = () => {
   }, [data, selectedOptions]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/_/g, " "); // Replace underscores with spaces
+    return str.replace(/c-|_/g, " "); // Replace underscores with spaces
   };
 
   // Modified string
@@ -580,33 +584,41 @@ const ShopBreadCrumb1 = () => {
                   })}
               </div>
             ) : (
-              <div className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]" ref={productsListRef}>
-                {/* <p>No products found.</p> */}
+              <>
+                {!isLoading && (
+                  <div
+                    className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]"
+                    ref={productsListRef}
+                  >
+                    {/* <p>No products found.</p> */}
 
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                  Oops! No products found.
-                </h2>
-                <p className="text-lg text-gray-600 mb-6">
-                  We couldn't find any products matching your current filters.
-                </p>
-                <div className="suggestions mb-8">
-                  {/* <h3 class="text-xl font-semibold text-gray-800 mb-4">Try exploring further:</h3>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                      Oops! No products found.
+                    </h2>
+                    <p className="text-lg text-gray-600 mb-6">
+                      We couldn't find any products matching your current
+                      filters.
+                    </p>
+                    <div className="suggestions mb-8">
+                      {/* <h3 class="text-xl font-semibold text-gray-800 mb-4">Try exploring further:</h3>
                   <ul class="space-y-2">
                     <li class="text-base text-gray-600">Adjust your filters to broaden your search</li>
                     <li class="text-base text-gray-600">Check out our popular categories</li>
                     <li class="text-base text-gray-600">Browse our latest arrivals</li>
                     <li class="text-base text-gray-600">Explore our bestsellers</li>
                   </ul> */}
-                </div>
-                <div className="cta-buttons flex justify-center space-x-4">
-                  <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
-                    Clear Filters
-                  </button>
-                  <button className="btn-explore bg-[#e26178] text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-300 ">
-                    Explore More
-                  </button>
-                </div>
-              </div>
+                    </div>
+                    <div className="cta-buttons flex justify-center space-x-4">
+                      <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+                        Clear Filters
+                      </button>
+                      <button className="btn-explore bg-[#e26178] text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-300 ">
+                        Explore More
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

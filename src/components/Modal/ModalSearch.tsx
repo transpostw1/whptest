@@ -73,7 +73,10 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
                 setKeyWords(e.target.value);
               }}
               onKeyDown={(e: any) => {
-                e.key === "Enter" && handleSearch(e.target.value);
+                if (e.key === "Enter") {
+                  const formattedValue = e.target.value.replace(/ /g, "_");
+                  handleSearch("c-" + formattedValue);
+                }
               }}
               autoFocus
             />
@@ -86,7 +89,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("ring");
+                handleSearch("c-ring");
               }}
             >
               <div className="flex items-center">
@@ -100,7 +103,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("mangalsutra");
+                handleSearch("c-mangalsutra");
               }}
             >
               <div className="flex items-center">
@@ -112,7 +115,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("pendants");
+                handleSearch("c-pendants");
               }}
             >
               <div className="flex items-center">
@@ -124,7 +127,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("bangle");
+                handleSearch("c-bangle");
               }}
             >
               <div className="flex items-center">
@@ -136,7 +139,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("earrings");
+                handleSearch("c-earring");
               }}
             >
               <div className="flex items-center">
@@ -148,7 +151,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("chains");
+                handleSearch("c-chain");
               }}
             >
               <div className="flex items-center">
@@ -170,7 +173,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("necklace");
+                handleSearch("c-necklace");
               }}
             >
               <div className="flex items-center">
@@ -182,7 +185,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("silver");
+                handleSearch("c-silver");
               }}
             >
               <div className="flex items-center">
@@ -194,7 +197,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("gold_coin");
+                handleSearch("c-gold_coin");
               }}
             >
               <div className="flex items-center">

@@ -395,6 +395,7 @@ const ShopBreadCrumb1 = () => {
     });
   };
 
+  console.log("Selected Options",selectedOptions)
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";

@@ -338,8 +338,6 @@ const Default: React.FC<Props> = ({ productId }) => {
         {data && (
           <SimilarProducts
             productId={data?.productDetails?.productId}
-            start={0}
-            limit={4}
           />
         )}
       </div>

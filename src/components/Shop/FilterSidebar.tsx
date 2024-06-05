@@ -5,6 +5,7 @@ import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
 
 interface Props {
+  data:any
   filteredProducts: ProductType[];
   onFilterChange: (options: any) => void;
   mobileFilter: boolean;

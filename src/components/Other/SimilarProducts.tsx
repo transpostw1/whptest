@@ -13,11 +13,9 @@ import Cookies from "js-cookie";
 
 interface Props {
   productId: number;
-  start: number;
-  limit: number;
 }
 
-const SimilarProducts: React.FC<Props> = ({ productId, start, limit }) => {
+const SimilarProducts: React.FC<Props> = ({ productId }) => {
   const [products, setProducts] = useState<any>([]);
   const swiperRef = useRef<any>();
   useEffect(() => {
@@ -79,7 +77,6 @@ const SimilarProducts: React.FC<Props> = ({ productId, start, limit }) => {
               }}
             >
               {filteredProducts
-                .slice(start, limit)
                 .map((prd: any, index: any) => (
                   <SwiperSlide key={index}>
                     <DummyProduct data={prd} />

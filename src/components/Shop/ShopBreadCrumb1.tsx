@@ -49,7 +49,7 @@ const ShopBreadCrumb1 = () => {
     setIsLoading(false);
     setPageNumber(0);
   };
-  
+
   const fetchData = async (combinedOptions: any) => {
     console.log("Received filterOptions in fetchData:", combinedOptions);
     console.log("selectedOptions:", combinedOptions);
@@ -274,7 +274,7 @@ const ShopBreadCrumb1 = () => {
 
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-    console.log("filterOptions",options);
+    console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
     }
@@ -395,7 +395,7 @@ const ShopBreadCrumb1 = () => {
     });
   };
 
-  console.log("Selected Options",selectedOptions)
+  console.log("Selected Options", selectedOptions);
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";
@@ -488,6 +488,36 @@ const ShopBreadCrumb1 = () => {
 
     applyFilters();
   }, [data, selectedOptions]);
+
+  useEffect(() => {
+    if (selectedSortOption === "Price-Low To High") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const priceA: any =
+          a.discountPrice !== undefined ? a.discountPrice : a.productPrice;
+        const priceB: any =
+          b.discountPrice !== undefined ? b.discountPrice : b.productPrice;
+        return priceA - priceB;
+      });
+      setFilteredProducts(sortedProducts);
+    } else if (selectedSortOption === "Price-High To Low") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const priceA: any =
+          a.discountPrice !== undefined ? a.discountPrice : a.productPrice;
+        const priceB: any =
+          b.discountPrice !== undefined ? b.discountPrice : b.productPrice;
+        return priceB - priceA;
+      });
+      setFilteredProducts(sortedProducts);
+    } else if (selectedSortOption === "Newest First") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const product1: any = a.addDate;
+        const product2: any = b.addDate;
+        return product2 - product1;
+      });
+      setFilteredProducts(sortedProducts);
+    }
+    // Add other sorting options here
+  }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
     return str.replace(/c-|_/g, " "); // Replace underscores with spaces

@@ -288,7 +288,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
 
-              {data?.discountValue == null && (
+              {data?.discountPrice == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}
                 </div>

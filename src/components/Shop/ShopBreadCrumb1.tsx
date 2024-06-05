@@ -220,6 +220,7 @@ const ShopBreadCrumb1 = () => {
       setIsLoading(false);
     }
   };
+
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
 
@@ -329,6 +330,9 @@ const ShopBreadCrumb1 = () => {
       if (key === "m") {
         initialOptions.Metal = value.split(",");
       }
+      if(key==="g"){
+        initialOptions.Gender=value.split(",")
+      }
       // if (key === "w") {
       //   initialOptions.Weight = value.split(",");
       // }
@@ -346,10 +350,10 @@ const ShopBreadCrumb1 = () => {
   //   }
   // }, [selectedOptions]);
 
-  useEffect(() => {
-    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    fetchData(combinedOptions);
-  }, [selectedOptions]);
+  // useEffect(() => {
+  //   const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+  //   fetchData(combinedOptions);
+  // }, [selectedOptions]);
 
   // useEffect(() => {
   //   fetchData(selectedOptions);
@@ -396,6 +400,7 @@ const ShopBreadCrumb1 = () => {
   };
 
   console.log("Selected Options", selectedOptions);
+  
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";

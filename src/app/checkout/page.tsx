@@ -246,8 +246,8 @@ const mappedCartItems = showAllItems
   : cartItems
       .filter((item) => item.productId === parseInt(buyNow as string))
       .map((item) => {
-        const mainCartItem = MainCart.find(
-          (mainItem) => mainItem.productId === item.productId
+        const mainCartItem:any = MainCart.find(
+          (mainItem:any) => mainItem.productId === item.productId
         );
         if (mainCartItem) {
           return {
@@ -425,7 +425,7 @@ const handleOrderComplete = (
         setFlashKey((prevKey) => prevKey + 1);
         return;
       }
-      placeOrder();
+      // placeOrder();
     }
   };
   const proceedButtonTitle = () => {

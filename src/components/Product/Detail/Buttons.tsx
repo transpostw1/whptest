@@ -123,10 +123,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
     router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
   };
   
-
-  
-  
-
   if (isLoading) {
     return (
       <div>

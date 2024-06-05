@@ -20,6 +20,7 @@ import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
+
 interface Props {
   props: string;
 }
@@ -44,7 +45,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-
+  
   const pathname = usePathname();
   const handleOnClose = () => {
     setAppointmentModal(false);

@@ -93,7 +93,7 @@ const Wishlist = () => {
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
                       className="product-image"

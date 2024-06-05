@@ -19,7 +19,7 @@ const posts = [
 ];
 const Latest = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="px-4 py-8">
       <h2 className="text-3xl font-medium text-start mb-4">
         Discover Our Latest Posts
       </h2>

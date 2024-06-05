@@ -121,252 +121,266 @@ const AddAddressMobile: React.FC<Props> = ({
         </Sheet.Header>
         <Sheet.Content>
           <Sheet.Scroller>
-          <div className="p-4">
-            {formError && <div className="text-red-500 mb-4">{formError}</div>}
-            <form onSubmit={formik.handleSubmit}>
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="pincode"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.pincode
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("pincode")}
-                  />
-                  <label
-                    htmlFor="pincode"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Pincode
-                  </label>
-                </div>
-                {formik.errors.pincode && (
-                  <div className="text-red-500 mt-1">
-                    {formik.errors.pincode}
-                  </div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="full_address"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.full_address
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("full_address")}
-                  />
-                  <label
-                    htmlFor="full_address"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Full Address
-                  </label>
-                </div>
-                {formik.errors.full_address && (
-                  <div className="text-red-500 mt-1">
-                    {formik.errors.full_address}
-                  </div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="area"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.area ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("area")}
-                  />
-                  <label
-                    htmlFor="area"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Area
-                  </label>
-                </div>
-                {formik.errors.area && (
-                  <div className="text-red-500 mt-1">{formik.errors.area}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="country"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.country
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("country")}
-                  />
-                  <label
-                    htmlFor="country"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Country
-                  </label>
-                </div>
-                {formik.errors.country && (
-                  <div className="text-red-500 mt-1">
-                    {formik.errors.country}
-                  </div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="state"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.state ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("state")}
-                  />
-                  <label
-                    htmlFor="state"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    State
-                  </label>
-                </div>
-                {formik.errors.state && (
-                  <div className="text-red-500 mt-1">{formik.errors.state}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="city"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.city ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("city")}
-                  />
-                  <label
-                    htmlFor="city"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    City
-                  </label>
-                </div>
-                {formik.errors.city && (
-                  <div className="text-red-500 mt-1">{formik.errors.city}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    id="landmark"
-                    className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                      formik.errors.landmark
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                    type="text"
-                    placeholder=" "
-                    {...formik.getFieldProps("landmark")}
-                  />
-                  <label
-                    htmlFor="landmark"
-                    className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                  >
-                    Landmark (optional)
-                  </label>
-                </div>
-                {formik.errors.landmark && (
-                  <div className="text-red-500 mt-1">
-                    {formik.errors.landmark}
-                  </div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="address_type" className="font-medium">
-                  Address Type:
-                </label>
-                <div className="mt-2 flex flex-wrap">
-                  <div className="flex items-center mr-4 mb-2">
+            <div className="p-4">
+              {formError && (
+                <div className="text-red-500 mb-4">{formError}</div>
+              )}
+              <form onSubmit={formik.handleSubmit}>
+                <div className="mb-4">
+                  <div className="relative">
                     <input
-                      type="radio"
-                      id="home"
-                      name="address_type"
-                      value="home"
-                      checked={formik.values.address_type === "home"}
-                      onChange={formik.handleChange}
-                      className="form-radio"
+                      id="pincode"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.pincode
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("pincode")}
                     />
-                    <label htmlFor="home" className="ml-2">
-                      Home
+                    <label
+                      htmlFor="pincode"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Pincode
                     </label>
                   </div>
-                  <div className="flex items-center mr-4 mb-2">
-                    <input
-                      type="radio"
-                      id="work"
-                      name="address_type"
-                      value="work"
-                      checked={formik.values.address_type === "work"}
-                      onChange={formik.handleChange}
-                      className="form-radio"
-                    />
-                    <label htmlFor="work" className="ml-2">
-                      Work
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-2">
-                    <input
-                      type="radio"
-                      id="other"
-                      name="address_type"
-                      value="other"
-                      checked={formik.values.address_type === "other"}
-                      onChange={formik.handleChange}
-                      className="form-radio"
-                    />
-                    <label htmlFor="other" className="ml-2">
-                      Other
-                    </label>
-                  </div>
+                  {formik.errors.pincode && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.pincode}
+                    </div>
+                  )}
                 </div>
-                {formik.errors.address_type && (
-                  <div className="text-red-500 mt-1">
-                    {formik.errors.address_type}
-                  </div>
-                )}
-              </div>
 
-              <button
-                type="submit"
-                className={`my-2 px-4 py-2 text-center w-full inline-block text-white bg-rose-400 border border-transparent rounded-md hover:bg-rose-500 ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                disabled={isLoading}
-              >
-                {isLoading ? "Submitting..." : "Add"}
-              </button>
-            </form>
-          </div>
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="full_address"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.full_address
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("full_address")}
+                    />
+                    <label
+                      htmlFor="full_address"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Full Address
+                    </label>
+                  </div>
+                  {formik.errors.full_address && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.full_address}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="area"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.area
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("area")}
+                    />
+                    <label
+                      htmlFor="area"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Area
+                    </label>
+                  </div>
+                  {formik.errors.area && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.area}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="country"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.country
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("country")}
+                    />
+                    <label
+                      htmlFor="country"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Country
+                    </label>
+                  </div>
+                  {formik.errors.country && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.country}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="state"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.state
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("state")}
+                    />
+                    <label
+                      htmlFor="state"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      State
+                    </label>
+                  </div>
+                  {formik.errors.state && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.state}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="city"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.city
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("city")}
+                    />
+                    <label
+                      htmlFor="city"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      City
+                    </label>
+                  </div>
+                  {formik.errors.city && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.city}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="landmark"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.landmark
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("landmark")}
+                    />
+                    <label
+                      htmlFor="landmark"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Landmark (optional)
+                    </label>
+                  </div>
+                  {formik.errors.landmark && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.landmark}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="address_type" className="font-medium">
+                    Address Type:
+                  </label>
+                  <div className="mt-2 flex flex-wrap">
+                    <div className="flex items-center mr-4 mb-2">
+                      <input
+                        type="radio"
+                        id="home"
+                        name="address_type"
+                        value="home"
+                        checked={formik.values.address_type === "home"}
+                        onChange={formik.handleChange}
+                        className="form-radio"
+                      />
+                      <label htmlFor="home" className="ml-2">
+                        Home
+                      </label>
+                    </div>
+                    <div className="flex items-center mr-4 mb-2">
+                      <input
+                        type="radio"
+                        id="work"
+                        name="address_type"
+                        value="work"
+                        checked={formik.values.address_type === "work"}
+                        onChange={formik.handleChange}
+                        className="form-radio"
+                      />
+                      <label htmlFor="work" className="ml-2">
+                        Work
+                      </label>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <input
+                        type="radio"
+                        id="other"
+                        name="address_type"
+                        value="other"
+                        checked={formik.values.address_type === "other"}
+                        onChange={formik.handleChange}
+                        className="form-radio"
+                      />
+                      <label htmlFor="other" className="ml-2">
+                        Other
+                      </label>
+                    </div>
+                  </div>
+                  {formik.errors.address_type && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.address_type}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className={`my-2 px-4 py-2 text-center w-full inline-block text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] border border-transparent rounded-md hover:bg-rose-500 ${
+                    isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Submitting..." : "Add"}
+                </button>
+              </form>
+            </div>
           </Sheet.Scroller>
         </Sheet.Content>
       </Sheet.Container>

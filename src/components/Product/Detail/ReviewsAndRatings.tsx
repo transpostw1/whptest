@@ -64,12 +64,13 @@ const CustomStar: React.FC<{
       <defs>
         <linearGradient id={`gradient-${index}`}>
           <stop offset={`${getFillPercentage()}%`} stopColor="gold" />
-          <stop offset={`${getFillPercentage()}%`} stopColor="gray" />
+          <stop offset={`${getFillPercentage()}%`} stopColor="white" />
         </linearGradient>
       </defs>
       <polygon
         points="12 2 15 8 21 8 16 12 18 18 12 14 6 18 8 12 3 8 9 8 12 2"
         fill={`url(#gradient-${index})`}
+        stroke="gold"
       />
     </svg>
   );

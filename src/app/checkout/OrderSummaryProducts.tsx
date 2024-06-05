@@ -3,18 +3,24 @@ import Image from "next/image";
 
 interface OrderSummaryProductsProps {
   cartItems: any[];
+  isBuyNow: boolean;
+
 }
 
 const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
   cartItems,
+  isBuyNow,
+
 }) => {
+  const displayedItems = isBuyNow ? cartItems.slice(0, 1) : cartItems;
+
 
   return (
     <div className="list-product-main w-full hidden lg:block mb-2">
-      {cartItems?.length < 1 ? (
+      {displayedItems?.length < 1 ? (
         <p className="text-button">No products in your cart</p>
       ) : (
-        cartItems?.map((product, index) => (
+        displayedItems?.map((product, index) => (
           <div
             className="border border-gray-200 flex w-full items-center mb-2"
             key={index}

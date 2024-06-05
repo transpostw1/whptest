@@ -74,7 +74,9 @@ const Checkout: React.FC = () => {
   const buyNow = searchParams.get("buyNow");
   const pathname = usePathname()
 
-  const [showAllItems, setShowAllItems] = useState(false);
+  const [showAllItems, setShowAllItems] = useState(true);
+
+  
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -196,66 +198,78 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  const mappedCartItems = cartItems
-    .filter(
-      (item) =>
-        item?.productId ||
-        item?.quantity ||
-        item?.productDetails?.title ||
-        item?.productDetails?.discountPrice ||
-        item?.productDetails?.imageDetails
-    )
-    .map((item) => ({
-      productId: item?.productId,
-      quantity: item?.quantity,
-      name: item?.productDetails?.title,
-      price: item?.productDetails?.discountPrice,
-      image:
-        item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
-          ? item?.productDetails.imageDetails[0].image_path
-          : "",
-    }));
-  console.log(mappedCartItems, "hh");
-
+  // const mappedCartItems = cartItems
+  //   .filter(
+  //     (item) =>
+  //       item?.productId ||
+  //       item?.quantity ||
+  //       item?.productDetails?.title ||
+  //       item?.productDetails?.discountPrice ||
+  //       item?.productDetails?.imageDetails
+  //   )
+  //   .map((item) => ({
+  //     productId: item?.productId,
+  //     quantity: item?.quantity,
+  //     name: item?.productDetails?.title,
+  //     price: item?.productDetails?.discountPrice,
+  //     image:
+  //       item?.productDetails?.imageDetails &&
+  //       item?.productDetails?.imageDetails.length > 0
+  //         ? item?.productDetails.imageDetails[0].image_path
+  //         : "",
+  //   }));
+  // console.log(mappedCartItems, "hh");
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
-  // const mappedCartItems = showAllItems
-  //   ? cartItems
-  //       .filter(
-  //         (item) =>
-  //           item?.productId &&
-  //           item?.quantity &&
-  //           item?.productDetails?.displayTitle &&
-  //           item?.productDetails?.discountPrice &&
-  //           item?.productDetails?.imageDetails
-  //       )
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }))
-  //   : cartItems
-  //       .filter((item) => item.productId === parseInt(buyNow as string))
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }));
+console.log("Main Cart", MainCart);
 
-  const handleQuantityChange = (productId: number, newQuantity: number) => {
+const mappedCartItems = showAllItems
+  ? cartItems
+      .filter(
+        (item) =>
+          item.productId &&
+          item.quantity &&
+          item.displayTitle &&
+          item.productPrice &&
+          item.imageDetails
+      )
+      .map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        name: item.displayTitle,
+        price: item.productPrice,
+        image:
+          item.imageDetails && item.imageDetails.length > 0
+            ? item.imageDetails[0].image_path
+            : "",
+      }))
+  : cartItems
+      .filter((item) => item.productId === parseInt(buyNow as string))
+      .map((item) => {
+        const mainCartItem = MainCart.find(
+          (mainItem) => mainItem.productId === item.productId
+        );
+        if (mainCartItem) {
+          return {
+            productId: item.productId,
+            quantity: item.quantity,
+            name: mainCartItem.name,
+            price: mainCartItem.price,
+            image: mainCartItem.image,
+          };
+        }
+        return {
+          productId: item.productId,
+          quantity: item.quantity,
+          name: "",
+          price: 0,
+          image: "",
+        };
+      });
+
+console.log("mappedCartItems", mappedCartItems);
+ 
+const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
 
     if (itemToUpdate) {
@@ -270,13 +284,19 @@ const Checkout: React.FC = () => {
   let ship = searchParams.get("ship");
 
   let totalCart = 0;
-  MainCart.forEach((item) => {
-    const price = parseInt(item.price?.toString());
-    if (!isNaN(price) && typeof item.quantity === "number") {
+
+  const cartToCalculate = showAllItems ? MainCart : mappedCartItems;
+  
+  cartToCalculate.forEach((item) => {
+    const price = parseInt(item.price);
+    if (!isNaN(price) && typeof item.quantity === 'number') {
       totalCart += price * item.quantity;
     }
   });
+
+
   let formattedPrice: string = totalCart.toString();
+  
 
   // const handleOrderComplete = (
   //   setCartItems: React.Dispatch<React.SetStateAction<any[]>>
@@ -520,12 +540,39 @@ const handleOrderComplete = (
             <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
               <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
               {selectedComponent === "CartItems" && (
-                <CartItems
-                  cartItems={MainCart}
-                  handleQuantityChange={handleQuantityChange}
-                  removeFromCart={removeFromCart}
-                />
+                <>
+                  <CartItems
+                    cartItems={
+                      showAllItems || !buyNow
+                        ? cartItems
+                        : cartItems.filter(
+                            (item) => item.productId === parseInt(buyNow as string)
+                          )
+                    }
+                    handleQuantityChange={handleQuantityChange}
+                    removeFromCart={removeFromCart}
+                  />
+                  {buyNow && (
+                    <button onClick={toggleShowAllItems}>
+                      {showAllItems ? "Hide" : "Show"} Cart Items
+                    </button>
+                  )}
+                </>
               )}
+              {/* {selectedComponent === "CartItems" && (
+                  <>
+                    <CartItems
+                      cartItems={mappedCartItems}
+                      handleQuantityChange={handleQuantityChange}
+                      removeFromCart={removeFromCart}
+                    />
+                    
+                      <button onClick={toggleShowAllItems}>
+                        {showAllItems ? "Hide" : "Show"} All Items
+                      </button>
+                    
+                  </>
+                )} */}
               {selectedComponent === "DeliveryDetails" && (
                 <DeliveryDetails
                   onShippingAddressSelected={onShippingAddressSelected}
@@ -686,7 +733,8 @@ const handleOrderComplete = (
                   <OrderSummary
                     totalDiscount={totalDiscount}
                     totalCart={totalCart}
-                    cartItems={MainCart}
+                    cartItems={cartToCalculate}
+                    isBuyNow={!showAllItems}
                   />
                 </div>
               )}

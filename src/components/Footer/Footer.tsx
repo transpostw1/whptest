@@ -8,7 +8,7 @@ import { useUser } from "@/context/UserContext";
 import { useCategory } from "@/context/CategoryContex";
 import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import 'react-phone-input-2/lib/style.css'
 import OtpVerification from "@/app/OtpVerification";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
@@ -82,11 +82,11 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 font-medium ">
-                <h3>
+              <div className="w-96 ">
+                <p>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
-                </h3>
+                </p>
               </div>
             </div>
             <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4">
@@ -109,15 +109,16 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
-                          containerClass="custom-phone-input"
+                          // containerClass="custom-phone-input"
                         />
                       </div>
 
                       <button
+                        className=" flex items-center justify-center relative ms-[-2rem] "
                         className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
                         type="submit"
                       >
-                        <Icon.ArrowRight size={24} color="#fff" />
+                        <Icon.ArrowRight size={24} color="#e26178" />
                       </button>
                     </form>
                   </div> */}

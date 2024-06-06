@@ -91,7 +91,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     data?.productDetails?.imageDetails?.length || 0
   );
 
-  let sliderRef = useRef<Ref>();
+  let sliderRef = useRef<any>();
 
   const settingsThumbnails = {
     className:"center",
@@ -167,6 +167,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     {...settingsThumbnails}
                     ref={(slider:any) => {
                       sliderRef = slider;
+                      setNav2(slider)
                     }}
                   >
                     {data &&
@@ -182,8 +183,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                               alt={data?.productDetails?.title}
                               width={100}
                               height={100}
-                              className="cursor-pointer mx-3"
-                              className="cursor-pointer border "
+                              className="cursor-pointer mx-3 border"
+                              
                             />
                           </div>
                         ))}
@@ -338,8 +339,6 @@ const Default: React.FC<Props> = ({ productId }) => {
         {data && (
           <SimilarProducts
             productId={data?.productDetails?.productId}
-            start={0}
-            limit={4}
           />
         )}
       </div>

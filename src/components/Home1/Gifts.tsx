@@ -98,7 +98,7 @@ const Gifts = () => {
     <>
       <div className="w-full px-8 my-16  text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="lg:text-4xl text-2xl mt-3">GIFTS</h1>
+          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">GIFTS</h1>
           <p>
             Discover the joy of gifting with our curated selection,where every
             piece reflects <br />
@@ -110,13 +110,25 @@ const Gifts = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col gap-2 relative items-center"
+              className="flex flex-col gap-2 relative"
             >
               <div className="effect10 img">
                 {category.image} <a href="#">{category.type}</a>
               </div>
               {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}
-              <h3 className="text-red-700 font-bold underline text-center cursor-pointer">VIEW ALL</h3>
+              <a className="inline-flex" >
+                <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
+                  View All
+                </span>
+                <span className="flex">
+                  <Image
+                    src={"/images/icons/rightarrow.svg"}
+                    alt="Right Arrow"
+                    width={20}
+                    height={20}
+                  />
+                </span>
+              </a>
             </div>
           ))}
         </div>

@@ -27,6 +27,7 @@ interface CartItem {
   name?: string;
   price?: number;
   image?: string;
+  isBuyNow?: boolean;
 }
 
 interface CartContextProps {
@@ -62,11 +63,26 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       if (isLoggedIn) {
         const cartItemsFromServer = await fetchCartItemsFromServer();
         setCartItems(cartItemsFromServer);
-        console.log(cartItems);
       } else if (typeof window !== "undefined") {
         const cartItemsFromStorage = localStorage.getItem("cartItems");
         if (cartItemsFromStorage) {
           setCartItems(JSON.parse(cartItemsFromStorage));
+        } else {
+          const searchParams = new URLSearchParams(window.location.search);
+          const buyNowId = searchParams.get("buyNow");
+          if (buyNowId) {
+
+            const mockCartItem = {
+              productId: parseInt(buyNowId),
+              quantity: 1,
+              productDetails: {
+                displayTitle: "Product Title",
+                discountPrice: 0,
+                imageDetails: [],
+              },
+            };
+            setCartItems([mockCartItem]);
+          }
         }
       }
     };
@@ -74,8 +90,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isLoggedIn]);
 
 
-  const addToCart = async (item: CartItem, quantity: number) => {
-    const newItem = { ...item, quantity };
+  const addToCart = async (item: CartItem, quantity: number, isBuyNow: boolean = false) => {
+    const newItem = { ...item, quantity, isBuyNow };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
 

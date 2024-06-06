@@ -80,8 +80,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
-
-
   const HandleaddToWishlist = () => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
@@ -105,12 +103,10 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
-
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
     setIsProductInWishlist(false);
   };
-
 
   const handleBuyNow = () => {
     addToCart(

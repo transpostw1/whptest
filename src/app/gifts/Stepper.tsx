@@ -9,7 +9,7 @@ interface StepperProps {
 const Stepper: React.FC<StepperProps> = ({ steps, currentStep }) => {
   return(
     <div className="relative bg-blue-700">
-      <div className="absolute top-0 left-2.5 h-full w-0.5 bg-[#f8a4b4]"></div>
+      <div className="absolute top-0 left-2.5 h-[100%] w-0.5 bg-[#f8a4b4]"></div>
       {steps.map((step, index) => (
         <div key={index} className="flex items-center mb-4">
           {/* <div

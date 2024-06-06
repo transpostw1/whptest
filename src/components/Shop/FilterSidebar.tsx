@@ -5,6 +5,7 @@ import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
 
 interface Props {
+  data:any
   filteredProducts: ProductType[];
   onFilterChange: (options: any) => void;
   mobileFilter: boolean;
@@ -134,7 +135,7 @@ const FilterSidebar: React.FC<Props> = ({
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
             top: isSidebarFixed ? "120px" : "auto",
-            width: isSidebarFixed ? "250px" : "auto",
+            width: isSidebarFixed ? "250px" : "250px",
           }}
         >
           <div className="heading6 border-b-2">FILTER BY</div>

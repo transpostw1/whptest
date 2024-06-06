@@ -22,11 +22,11 @@ const Gifts = () => {
           For what your loved ones Love!
         </h3>
       </div>
-      <div className="flex mx-32">
+      <div className="flex md:mx-32">
         <div className="p-4">
           <Stepper steps={steps} currentStep={currentStep} />
         </div>
-        <div className="flex flex-col items-center justify-between w-full">
+        <div className="flex flex-col items-center justify-between w-full mt-3">
           <div className="flex justify-between items-center  w-full">
             <div className="bg-blue-950 text-white px-4 py-2">
               {steps[currentStep]}

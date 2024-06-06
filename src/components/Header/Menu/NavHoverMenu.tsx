@@ -7,7 +7,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
@@ -21,13 +21,11 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   const [isMobile, setIsMobile] = useState(false);
   const searchParmas = useSearchParams();
   const pathname = usePathname();
-  const router =useRouter();
+  const router = useRouter();
   const { categories } = useAllCategoryContext();
   const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
-
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,9 +58,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     };
   }, []);
 
-  const handleUrl=(value:any)=>{
-    router.push(`/products/?gender=${value}`)
-  }
+  const handleUrl = (value: any) => {
+    router.push(`/products/?gender=${value}`);
+  };
   if (isMobile) {
     return null;
   }
@@ -130,7 +128,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "_men" },
+                            query: { url: "g-men" },
                           }}
                           onClick={() => setCustomcategory("_men")}
                         >
@@ -342,12 +340,15 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("earring")}
+                  onClick={() => {
+                    setCustomcategory("earring");
+                    handleUrl("c-earring");
+                  }}
                 >
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "earring" },
+                      query: { url: "c-earring" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -367,7 +368,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "pendants" },
+                      query: { url: "c-pendant" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -386,7 +387,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "bangle" },
+                      query: { url: "c-bangle" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -405,7 +406,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "Bracelet" },
+                      query: { url: "c-Bracelet" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
@@ -424,7 +425,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "necklace" },
+                      query: { url: "c-necklace" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&

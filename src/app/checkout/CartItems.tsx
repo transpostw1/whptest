@@ -3,7 +3,6 @@
 // import Skeleton from "react-loading-skeleton";
 // import { useCart } from "@/context/CartContext";
 
-
 // interface CartItemsProps {
 //   cartItems: any[];
 //   handleQuantityChange: (productId: number, newQuantity: number) => void;
@@ -16,7 +15,6 @@
 //   removeFromCart,
 // }) => {
 //   // const{cartItems}=useCart()
-  
 
 // const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
 
@@ -34,7 +32,7 @@
 //               handleQuantityChange={handleQuantityChange}
 //               removeFromCart={removeFromCart}
 //             />
-            
+
 //           ))
 //         )}
 //       </div>
@@ -43,9 +41,6 @@
 // };
 
 // export default CartItems;
-
-
-
 
 import React, { useState, useEffect } from "react";
 import CartItem from "./CartItem";

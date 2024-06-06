@@ -43,10 +43,10 @@ const WhatWeOffer = () => {
             <p className="font-medium tracking-[0.49rem] text-center w-full">
               OFFERINGS
             </p>
-            <div className="w-full text-center font-bold text-xl mt-4">
+            <div className="w-full text-center font-semibold text-xl mt-4">
               What We Offer
             </div>
-            <div className="m-auto text-center w-[80%] mb-5 mt-3">
+            <div className="m-auto text-center w-[80%] mb-5 mt-3 ">
               Discover our offerings. Our commitment to quality, elegance, and
               personalised service ensures an exceptional experience.
             </div>
@@ -64,8 +64,8 @@ const WhatWeOffer = () => {
           </div>
           <div className="w-full flex flex-col sm:w-[50%] md:p-4 md:mt-2 sm:p-[4rem]">
             {width > 160 && (
-              <div>
-                <p className="lg:text-[3rem] text-[2rem] font-semibold pb-5">
+              <div className="ps-3 pt-3">
+                <p className="lg:text-[3rem] text-[2rem] pb-5">
                   What We Offer
                 </p>
                 <p className="text-sm md:text-base">
@@ -92,7 +92,7 @@ const WhatWeOffer = () => {
                     where creativity and craftsmanship unite.
                   </p>
                   <a className="inline-flex items-center">
-                    <span className="pt-2 me-2 text-[#E26178] underline cursor-pointer text-sm">
+                    <span className=" me-2 text-[#E26178] underline cursor-pointer text-sm">
                       Next
                     </span>
                     <span className="flex items-center">

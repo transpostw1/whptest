@@ -75,7 +75,9 @@ const Checkout: React.FC = () => {
   const buyNow = searchParams.get("buyNow");
   const pathname = usePathname()
 
-  const [showAllItems, setShowAllItems] = useState(false);
+  const [showAllItems, setShowAllItems] = useState(true);
+
+  
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -378,7 +380,7 @@ const handleOrderComplete = () => {
         setFlashKey((prevKey) => prevKey + 1);
         return;
       }
-      placeOrder();
+      // placeOrder();
     }
   };
   const proceedButtonTitle = () => {
@@ -659,7 +661,7 @@ const handleOrderComplete = () => {
                   <OrderSummary
                     totalDiscount={totalDiscount}
                     totalCart={totalCart}
-                    cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    cartItems={MainCart}
                   />
                 </div>
               )}

@@ -2,15 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType, ImageDetails } from "@/type/ProductType";
+import {
+  ProductType,
+  ImageDetails,
+  ProductForWishlistLoggedIn,
+  ProductForWishlistLoggedOut,
+} from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
+import { useUser } from "@/context/UserContext";
 interface ProductProps {
-  data: ProductType;
+  data: any;
 }
 interface ImageDetailWithTypename extends ImageDetails {
   __typename: string;
@@ -31,6 +35,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const router = useRouter();
   const [width, setWidth] = useState<number>(25);
   const [isMobile, setIsMobile] = useState(false);
+  const { isLoggedIn } = useUser();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
@@ -113,10 +118,35 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   };
 
   const HandleaddToWishlist = () => {
-    addToWishlist(data);
-    setIsProductInWishlist(true);
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.imageDetails[0].image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
   };
-
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);

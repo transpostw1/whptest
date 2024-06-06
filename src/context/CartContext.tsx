@@ -43,7 +43,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
-  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const { isLoggedIn } = useUser();
   const router = useRouter();
@@ -53,7 +52,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (isLoggedIn) {
       const userToken = Cookies.get("localtoken");
       if (userToken) {
-        // setIsLoggedIn(true);
         setCookieToken(userToken);
       }
     }

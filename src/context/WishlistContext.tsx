@@ -26,6 +26,7 @@ interface WishlistItem {
   discountPrice: string;
   discountValue: string;
   image_path: string;
+  imageDetails:any;
   url: string;
 }
 

@@ -1,21 +1,23 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import StickyNav from "@/components/Header/StickyNav"
+import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Loader from "../blog/Loader";
-import Skeleton from "react-loading-skeleton";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 
 const Wishlist = () => {
-  const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const { addToCart } = useCart();
+  const { isLoggedIn } = useUser();
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
+  const pathname = usePathname();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -37,24 +39,30 @@ const Wishlist = () => {
     }
   });
 
-  const handleBuyNow = (product) => {
-    const productDetails = {
-      productId: product.productId,
-      productDetails: {
-        title: product.title,
-        image: product.image_path,
-        price: product.discountPrice,
-      },
-    };
- console.log("Adding to cart:", productDetails);
-    addToCart(productDetails, 1);
-    router.push(`/checkout?buyNow=${product.productId}`);
+  const handleBuyNow = (product: any) => {
+    if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", pathname);
+      router.push("/login");
+    } else {
+      const productDetails = {
+        productId: product.productId,
+        productDetails: {
+          title: product.title,
+          image: product.image_path,
+          price: product.discountPrice,
+        },
+      };
+      console.log("Adding to cart:", productDetails);
+      addToCart(productDetails, 1);
+      router.push(`/checkout?buyNow=${product.productId}`);
+    }
   };
+
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-  const formatCurrency = (value:any) => {
+  const formatCurrency = (value: any) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",

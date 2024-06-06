@@ -63,7 +63,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-
     if (productAlreadyExists) {
       updateCartQuantity(
         productItem.productDetails?.productId,

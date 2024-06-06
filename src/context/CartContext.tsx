@@ -59,27 +59,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
-
-  // useEffect(() => {
-  //   console.log("INNN");
-  //   //  if (typeof window !== "undefined") {
-  //   const cartItemsFromStorage = localStorage.getItem("cartItems");
-  //   if (cartItemsFromStorage) {
-  //     setCartItems(JSON.parse(cartItemsFromStorage));
-  //     console.log(cartItems, "CART");
-  //   }
-  //   //  }
-  //   else if (isLoggedIn) {
-  //     console.log("loggedcart");
-  //     fetchCartItemsFromServer().then((cartItems: any) => {
-  //       setCartItems(cartItems);
-  //       console.log(cartItems);
-  //     });
-  //   }
-  // }, [isLoggedIn]);
-
-
-  
   useEffect(() => {
     const fetchCartItems = async () => {
       if (isLoggedIn) {
@@ -108,35 +87,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       // setCartItems(cartItemsFromServer)
     }
   };
-
-  // const removeFromCart = async (productId: number, newQuantity: number) => {
-  //   const updatedCartItems = cartItems.filter(
-  //     (item) => item.productId !== productId
-  //   );
-  //   setCartItems(updatedCartItems);
-  //   saveCartItemsToStorage(updatedCartItems);
-  //   if (isLoggedIn) {
-  //     try {
-  //       const cartData = cartItems.map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.productId !== productId ? 0 : item.quantity || 0,
-  //       }));
-  //       await instance.post(
-  //         `${baseUrl}/cart/sync`,
-  //         { cart: cartData },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieToken}`,
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.error("Error syncing cart with server:", error);
-  //     }
-  //   }
-  // };
-
-
   const removeFromCart = async (productId: number) => {
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId

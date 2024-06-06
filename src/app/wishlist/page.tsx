@@ -37,16 +37,19 @@ const Wishlist = () => {
     }
   });
 
-// const handleBuyNow = (product) => {
-//   addToCart(
-//     {
-//       productId: product.productId,
-//     },
-//     1
-//   );
-//   router.push(`/checkout?buyNow=${product.productId}`);
-// };
-
+  const handleBuyNow = (product) => {
+    const productDetails = {
+      productId: product.productId,
+      productDetails: {
+        title: product.title,
+        image: product.image_path,
+        price: product.discountPrice,
+      },
+    };
+ console.log("Adding to cart:", productDetails);
+    addToCart(productDetails, 1);
+    router.push(`/checkout?buyNow=${product.productId}`);
+  };
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };

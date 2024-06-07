@@ -1,31 +1,37 @@
-// FilterOptions.tsx
 import React from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 interface Filter {
-  title: string | any;
+  title: string;
   options: string[];
+  labels: string[];
 }
-const Filter = [
+
+const Filter: Filter[] = [
   {
     title: "Price",
-    options: ["Less than 10K", "10Kto20K", "20Kto30K", "30K and Above"],
+    options: ["0to10000", "10000to20000", "20000to30000", "30000to30000000"],
+    labels: ["Less than 10K", "10K to 20K", "20K to 30K", "30K and Above"]
   },
   {
     title: "Karat",
     options: ["14KT", "18KT", "22KT", "23KT", "24KT"],
+    labels: ["14 Karat", "18 Karat", "22 Karat", "23 Karat", "24 Karat"]
   },
   {
     title: "Weight",
     options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+    labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"]
   },
   {
     title: "Gender",
     options: ["Men", "Women", "Kids"],
+    labels: ["Men", "Women", "Kids"]
   },
   {
     title: "Metal",
-    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Sliver"],
+    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
+    labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"]
   },
   {
     title: "Occasion",
@@ -42,14 +48,28 @@ const Filter = [
       "Evening",
       "Party Wear",
     ],
+    labels: [
+      "Birth",
+      "Casual Wear",
+      "Daily Indian",
+      "Engagement",
+      "Festive",
+      "Everyday",
+      "Work Wear",
+      "Wedding",
+      "Desk to Dinner",
+      "Evening",
+      "Party Wear",
+    ]
   },
 ];
+
 interface Props {
   filterDropDown: string;
   handleMobileFilter: () => void;
   handleFilterDropdown: (arg: string) => void;
   handleOptionSelect: (option: string, category: string) => void;
-  selectedOptions: string[];
+  selectedOptions: { [key: string]: string[] };
 }
 
 const FilterOptions: React.FC<Props> = ({
@@ -64,7 +84,7 @@ const FilterOptions: React.FC<Props> = ({
       {Filter.map((item: Filter, index: number) => (
         <div
           key={index}
-          className={`item cursor-pointer`}
+          className="item cursor-pointer"
           onClick={() => handleFilterDropdown(item.title)}
         >
           <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black capitalize">
@@ -76,7 +96,7 @@ const FilterOptions: React.FC<Props> = ({
           </div>
           {filterDropDown === item.title ? (
             <div>
-              {item.options.map((option: string) => (
+              {item.options.map((option: string, idx: number) => (
                 <div key={option} onClick={() => handleMobileFilter()}>
                   <input
                     type="checkbox"
@@ -85,7 +105,7 @@ const FilterOptions: React.FC<Props> = ({
                     onChange={() => handleOptionSelect(option, item.title)}
                   />
                   <label className="ml-2" htmlFor={option}>
-                    {option}
+                    {item.labels[idx]}
                   </label>
                 </div>
               ))}

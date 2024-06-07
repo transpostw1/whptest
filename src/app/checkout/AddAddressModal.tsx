@@ -90,7 +90,7 @@ const AddAddressModal: React.FC<Props> = ({
               ? "Add Billing Address"
               : "Add Shipping Address"}
           </h2>
-          {/* {formError && <div className="text-red-500 mb-4">{formError}</div>} */}
+          {formError && <div className="text-red-500 mb-4">{formError}</div>}
           <div className="mb-4">
             <div className="relative">
               <input

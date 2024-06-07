@@ -237,7 +237,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <Link href={"/offers"}>
                         <PiPercentLight size={30} />
                       </Link>
-                      <h4 className="text-sm">Offers</h4>
+                      <p className="text-sm">Offers</p>
                     </div>
                     <div
                       className="hidden max-lg:block"
@@ -245,7 +245,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     >
                       <div className="flex flex-col items-center">
                         <Icon.MagnifyingGlass size={28} />
-                        <h4 className="text-sm">Search</h4>
+                        <p className="text-sm">Search</p>
                       </div>
                     </div>
                     <div className="flex flex-col items-center">
@@ -255,7 +255,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         width={30}
                         height={30}
                       />
-                      <h4 className="text-sm">Blog</h4>
+                      <p className="text-sm">Blog</p>
                     </div>
                     <div
                       className={`flex flex-col items-center ${
@@ -264,7 +264,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
-                      <h4 className="text-sm">Contact</h4>
+                      <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
                     <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>

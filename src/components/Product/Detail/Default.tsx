@@ -155,7 +155,6 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       `;
     console.log("----------------", productId);
-    console.log("----------------", productId);
 
 
 

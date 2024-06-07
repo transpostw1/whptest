@@ -61,6 +61,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
+        // uri: "http://localhost:8080/",
         uri: "https://seashell-app-kswll.ondigitalocean.app/",
       cache: new InMemoryCache(),
     });
@@ -151,6 +152,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             }
             stoneDetails
             diamondDetails
+            review
           }
         }
       `;
@@ -163,7 +165,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: 'modish-gold-earrings-0p135-0sGERD22057553-0v' },
+      variables: { productUrl: productId },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);

@@ -279,6 +279,10 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`c-${options.Category.join(",")}`);
     }
 
+    if (options.Gender && options.Gender.length > 0) {
+      urlParts.push(`g-${options.Gender.join(",")}`);
+    }
+
     if (options.Karat && options.Karat.length > 0) {
       urlParts.push(`k-${options.Karat.join(",")}`);
     }
@@ -319,6 +323,9 @@ const ShopBreadCrumb1 = () => {
 
       if (key === "c") {
         initialOptions.Category = value.split(",");
+      }
+      if (key === "g") {
+        initialOptions.Gender = value.split(",");
       }
       if (key === "k") {
         initialOptions.Karat = value.split(",");
@@ -412,6 +419,8 @@ const ShopBreadCrumb1 = () => {
     }
     return price;
   };
+
+console.log("Dataa",filteredProducts);
 
   // useEffect(() => {
   //   fetchData(selectedOptions);

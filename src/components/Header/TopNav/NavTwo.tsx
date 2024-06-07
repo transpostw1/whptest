@@ -239,22 +239,24 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </Link>
                       <h4 className="text-sm">Offers</h4>
                     </div>
-                    {/* <div className="flex flex-col items-center">
-                    {/* <div className="flex flex-col items-center">
-                      <Icon.MapPin size={28} />
-                      <h4 className="text-sm">Stores</h4>
-                    </div> */}
-                    <Link href={"/blog"}>
+                    <div
+                      className="hidden max-lg:block"
+                      onClick={() => setIsModalOpen(true)}
+                    >
                       <div className="flex flex-col items-center">
-                        <Image
-                          src={"/images/icons/blog.svg"}
-                          alt="Blog"
-                          width={30}
-                          height={30}
-                        />
-                        <h4 className="text-sm">Blog</h4>
+                        <Icon.MagnifyingGlass size={28} />
+                        <h4 className="text-sm">Search</h4>
                       </div>
-                    </Link>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <Image
+                        src={"/images/icons/blog.svg"}
+                        alt="Blog"
+                        width={30}
+                        height={30}
+                      />
+                      <h4 className="text-sm">Blog</h4>
+                    </div>
                     <div
                       className={`flex flex-col items-center ${
                         contactPopUp ? "text-[#e26178]" : ""

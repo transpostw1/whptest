@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import React, { useEffect, useRef, useState ,MutableRefObject} from "react";
+import React, { useEffect, useRef, useState, MutableRefObject } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
@@ -27,13 +27,15 @@ import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
 import StarRating from "@/components/Other/StarRating";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+
 
 interface Props {
   productId: string | number | null;
 }
-interface Ref extends MutableRefObject<any>{
-  slickNext?:()=>void;
-  slickPrev?:()=>void;
+interface Ref extends MutableRefObject<any> {
+  slickNext?: () => void;
+  slickPrev?: () => void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -54,17 +56,127 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
-    
+
   };
 
   async function getData() {
-    const res = await axios.get(`${baseUrl}/products/${productId}`);
+    const client = new ApolloClient({
+      // uri: "http://localhost:8080/",
+      uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      cache: new InMemoryCache(),
+    });
+    const GET_SINGLE_PRODUCT = gql`
+        query productDetails(
+          $productUrl : String!
+        ){
+          productDetails(
+            productUrl: $productUrl
+          )
+          {
+            productId
+            SKU
+            variantId
+            isParent
+            title
+            displayTitle
+            shortDesc
+            longDesc
+            url
+            tags
+            collectionName
+            shopFor
+            occasion
+            theme
+            length
+            breadth
+            height
+            addDate
+            lastModificationDate
+            productSize
+            productQty
+            attributeId
+            preSalesProductQueries
+            isReplaceable
+            isReturnable
+            isInternationalShippingAvailable
+            customizationAvailability
+            fastDelivery
+            tryAtHome
+            isActive
+            grossWeight
+            netWeight
+            discountId
+            discountCategory
+            discountActive
+            typeOfDiscount
+            discountValue
+            discountAmount
+            discountPrice
+            offerStartDate
+            offerEndDate
+            mediaId
+            metalType
+            metalPurity
+            metalWeight
+            metalRate
+            makingType
+            makingChargesPerGrams
+            makingCharges
+            gst
+            additionalCost
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            productAttributes {
+              goldDetails {
+                goldCertifiedBy
+                goldSetting
+              }
+              gemstoneDetails
+              diamondDetails
+              silverDetails {
+                poojaArticle
+                utensils
+                silverWeight
+              }
+            }
+            stoneDetails
+            diamondDetails
+            review
+            variants
+          }
+        }
+      `;
+    console.log("----------------", productId);
+    console.log("----------------", productId);
+
+
+
+
+
+    const { data } = await client.query({
+      query: GET_SINGLE_PRODUCT,
+      variables: { productUrl: productId },
+    });
+
+    // const res = await axios.get(`${baseUrl}/products/${productId}`);
     setLoading(true);
-    return res.data;
+    return data;
   }
 
   async function singleProduct() {
     const product = await getData();
+    console.log("----------------", product);
     setData(product);
     setLoading(false);
   }
@@ -76,9 +188,117 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
+      const client = new ApolloClient({
+        // uri: "http://localhost:8080/",
+        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        cache: new InMemoryCache(),
+      });
+      const GET_SINGLE_PRODUCT = gql`
+        query productDetails(
+          $productUrl : String!
+        ){
+          productDetails(
+            productUrl: $productUrl
+          )
+          {
+            productId
+            SKU
+            variantId
+            isParent
+            title
+            displayTitle
+            shortDesc
+            longDesc
+            url
+            tags
+            collectionName
+            shopFor
+            occasion
+            theme
+            length
+            breadth
+            height
+            addDate
+            lastModificationDate
+            productSize
+            productQty
+            attributeId
+            preSalesProductQueries
+            isReplaceable
+            isReturnable
+            isInternationalShippingAvailable
+            customizationAvailability
+            fastDelivery
+            tryAtHome
+            isActive
+            grossWeight
+            netWeight
+            discountId
+            discountCategory
+            discountActive
+            typeOfDiscount
+            discountValue
+            discountAmount
+            discountPrice
+            offerStartDate
+            offerEndDate
+            mediaId
+            metalType
+            metalPurity
+            metalWeight
+            metalRate
+            makingType
+            makingChargesPerGrams
+            makingCharges
+            gst
+            additionalCost
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            productAttributes {
+              goldDetails {
+                goldCertifiedBy
+                goldSetting
+              }
+              gemstoneDetails
+              diamondDetails
+              silverDetails {
+                poojaArticle
+                utensils
+                silverWeight
+              }
+            }
+            stoneDetails
+            diamondDetails
+            review
+            variants
+          }
+        }
+      `;
+      console.log("----------------", productId);
+      console.log("----------------", productId);
+
+
+
+
+
+      const { data } = await client.query({
+        query: GET_SINGLE_PRODUCT,
+        variables: { productUrl: newUrl },
+      });
       setLoading(true);
-      const response = await axios.get(`${baseUrl}/products/${newUrl}`);
-      setData(await response.data);
+      // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
+      setData(await data);
     } catch (error) {
       console.error("error in fetching variants", error);
     } finally {
@@ -94,9 +314,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   let sliderRef = useRef<any>();
 
   const settingsThumbnails = {
-    className:"center",
-    centerMode:true,
-    arrows:false,
+    className: "center",
+    centerMode: true,
+    arrows: false,
     dots: false,
     infinite: true,
     speed: 500,
@@ -146,9 +366,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails
-                    .sort(
-                      (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-                    )
+
                     .map((image: any, index: any) => (
                       <div key={index}>
                         <InnerImageZoom
@@ -165,17 +383,14 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <>
                   <Slider
                     {...settingsThumbnails}
-                    ref={(slider:any) => {
+                    ref={(slider: any) => {
                       sliderRef = slider;
                       setNav2(slider)
                     }}
                   >
                     {data &&
                       data.productDetails?.imageDetails
-                        .sort(
-                          (a: any, b: any) =>
-                            parseInt(a.order) - parseInt(b.order)
-                        )
+
                         .map((image: any, index: any) => (
                           <div key={index}>
                             <Image
@@ -184,7 +399,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                               width={100}
                               height={100}
                               className="cursor-pointer mx-3 border"
-                              
+
                             />
                           </div>
                         ))}
@@ -244,9 +459,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
-                  <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
+                  {/* <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
                     3
-                  </div>
+                  </div> */}
                   <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
@@ -286,7 +501,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </span>
           </div>
           {data?.productDetails?.variantId !== null && (
-            <DropDown product={data} handleVariant={handleNewVariant} />
+            <DropDown product={data?.productDetails} handleVariant={handleNewVariant} />
           )}
           {data && data?.productDetails?.productQty !== null && (
             <p className="mt-2">

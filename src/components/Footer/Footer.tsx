@@ -118,7 +118,7 @@ const Footer = () => {
                         className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
                         type="submit"
                       >
-                        <Icon.ArrowRight size={24} color="#e26178" />
+                        <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>
                   </div> */}
@@ -136,6 +136,7 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
+                          inputStyle={{ width: "250px" }}
                           // containerClass="custom-phone-input"
                         />
                       </div>

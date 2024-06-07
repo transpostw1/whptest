@@ -61,8 +61,8 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
-        // uri: "http://localhost:8080/",
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      // uri: "http://localhost:8080/",
+      uri: "https://seashell-app-kswll.ondigitalocean.app/",
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -153,6 +153,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             stoneDetails
             diamondDetails
             review
+            variants
           }
         }
       `;
@@ -184,18 +185,126 @@ const Default: React.FC<Props> = ({ productId }) => {
     singleProduct();
   }, []);
 
-  // const handleNewVariant = async (newUrl: string) => {
-  //   try {
-  //     setVariant(newUrl);
-  //     setLoading(true);
-  //     const response = await axios.get(`${baseUrl}/products/${newUrl}`);
-  //     setData(await response.data);
-  //   } catch (error) {
-  //     console.error("error in fetching variants", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const handleNewVariant = async (newUrl: string) => {
+    try {
+      setVariant(newUrl);
+      const client = new ApolloClient({
+        // uri: "http://localhost:8080/",
+        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        cache: new InMemoryCache(),
+      });
+      const GET_SINGLE_PRODUCT = gql`
+        query productDetails(
+          $productUrl : String!
+        ){
+          productDetails(
+            productUrl: $productUrl
+          )
+          {
+            productId
+            SKU
+            variantId
+            isParent
+            title
+            displayTitle
+            shortDesc
+            longDesc
+            url
+            tags
+            collectionName
+            shopFor
+            occasion
+            theme
+            length
+            breadth
+            height
+            addDate
+            lastModificationDate
+            productSize
+            productQty
+            attributeId
+            preSalesProductQueries
+            isReplaceable
+            isReturnable
+            isInternationalShippingAvailable
+            customizationAvailability
+            fastDelivery
+            tryAtHome
+            isActive
+            grossWeight
+            netWeight
+            discountId
+            discountCategory
+            discountActive
+            typeOfDiscount
+            discountValue
+            discountAmount
+            discountPrice
+            offerStartDate
+            offerEndDate
+            mediaId
+            metalType
+            metalPurity
+            metalWeight
+            metalRate
+            makingType
+            makingChargesPerGrams
+            makingCharges
+            gst
+            additionalCost
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            productAttributes {
+              goldDetails {
+                goldCertifiedBy
+                goldSetting
+              }
+              gemstoneDetails
+              diamondDetails
+              silverDetails {
+                poojaArticle
+                utensils
+                silverWeight
+              }
+            }
+            stoneDetails
+            diamondDetails
+            review
+            variants
+          }
+        }
+      `;
+      console.log("----------------", productId);
+      console.log("----------------", productId);
+
+
+
+
+
+      const { data } = await client.query({
+        query: GET_SINGLE_PRODUCT,
+        variables: { productUrl: newUrl },
+      });
+      setLoading(true);
+      // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
+      setData(await data);
+    } catch (error) {
+      console.error("error in fetching variants", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const slidesToShow = Math.min(
     3,
@@ -257,7 +366,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails
-                    
+
                     .map((image: any, index: any) => (
                       <div key={index}>
                         <InnerImageZoom
@@ -281,7 +390,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   >
                     {data &&
                       data.productDetails?.imageDetails
-                        
+
                         .map((image: any, index: any) => (
                           <div key={index}>
                             <Image
@@ -392,7 +501,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </span>
           </div>
           {data?.productDetails?.variantId !== null && (
-            <DropDown product={data} />
+            <DropDown product={data?.productDetails} handleVariant={handleNewVariant} />
           )}
           {data && data?.productDetails?.productQty !== null && (
             <p className="mt-2">

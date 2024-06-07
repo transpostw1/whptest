@@ -186,7 +186,7 @@ const OtpVerification = ({
             />
           </div>
           <button
-            className="w-full bg-[#e26178] text-white py-2 rounded-lg font-medium hover:bg-[#e26178] transition duration-300"
+            className="w-full bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 rounded-lg font-medium hover:bg-[#e26178] transition duration-300"
             onClick={handleCombinedClick}
           >
             {verifying ? (
@@ -215,7 +215,7 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            className="bg-[#E26178] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
             // className="button-main"
             onClick={handleLoginSubmit}
           >

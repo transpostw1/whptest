@@ -51,7 +51,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
           const productToAdd: ProductForWishlistLoggedIn = {
             productId: data.productId,
           };
-          console.log("In", data.productId, productToAdd);
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
         } else {
@@ -95,7 +94,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     <>
       <div className="product-item grid-type ">
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-white relative overflow-hidden">
+          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
             {/* {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
@@ -141,7 +140,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 )}
               </div>
             ) : ( */}
-            <>
+            <div className="relative ">
               <Image
                 onClick={() => handleDetailProduct()}
                 className="w-[95%] duration-700  m-auto"
@@ -156,22 +155,23 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     <Icon.Heart size={25} weight="light" />
                   </div>
                 </div> */}
-              {isProductInWishlist ? (
-                <Icon.Heart
-                  size={32}
-                  color="#fa0000"
-                  weight="fill"
-                  onClick={() => HandleremoveFromWishlist()}
-                />
-              ) : (
-                <Icon.Heart
-                  size={32}
-                  weight="thin"
-                  color="#e26178"
-                  onClick={() => HandleaddToWishlist()}
-                />
-              )}
-            </>
+              <div className=" absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 p-2">
+
+                {isProductInWishlist ? (
+                  <Icon.Heart
+                    size={25}
+                    color="#fa0000"
+                    weight="fill"
+                    onClick={() => HandleremoveFromWishlist()}
+                  />
+                ) : (
+                  <Icon.Heart
+                    size={25}
+                    onClick={() => HandleaddToWishlist()}
+                  />
+                )}
+              </div>
+            </div>
           </div>
           <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
             <div className="product-name text-title duration-300 text-xl">
@@ -197,11 +197,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   ₹{formattedOriginalPrice}
                 </div>
               )}
-              {data?.discountPrice && (
+              {/* {data?.discountPrice && (
                 <p className="text-[#c95d71]">
                   {data && data?.discountValue}%OFF
                 </p>
-              )}
+              )} */}
               {data?.discountValue == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}

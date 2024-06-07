@@ -99,9 +99,9 @@ import Link from "next/link";
 //   },
 // ];
 const MobileMainCategorySwiper = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const { categories } = useAllCategoryContext();
   const { setCustomcategory } = useCategory();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");

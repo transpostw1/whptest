@@ -27,3 +27,4 @@ export const contactForm = "/queries/store";
 export const getAllBanners = "/getAllBanners";
 export const getSubBanners = "/getAllSubbanner";
 export const storeReviews = "/storeReview";
+export const blogs = "/blogs";

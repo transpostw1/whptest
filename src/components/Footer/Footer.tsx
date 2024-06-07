@@ -8,12 +8,13 @@ import { useUser } from "@/context/UserContext";
 import { useCategory } from "@/context/CategoryContex";
 import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import 'react-phone-input-2/lib/style.css'
 import OtpVerification from "@/app/OtpVerification";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
+import Extendedfooter from "./Extendedfooter";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
@@ -55,11 +56,11 @@ const Footer = () => {
 
   return (
     <>
-      <div id="footer" className="footer  text-rose-950">
-        <div className="footer-main bg-gray-50">
-          <div className="container py-4">
-            <div className="flex flex-wrap gap-3 items-center justify-between">
-              <div className="flex items-center gap-3 ">
+      <div id="footer" className="footer  text-rose-950 ">
+        <div className="footer-main  bg-gray-50">
+          <div className="container py-4 ">
+            <div className="flex  gap-3 items-center justify-between">
+              <div className="flex items-center gap-3">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}
@@ -81,22 +82,22 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 font-medium ">
-                <h3>
+              <div className="w-96 ">
+                <p>
                   Crafting Timeless Elegance,One Jewel at a Time.Discover Your
                   Statement Piece Today.
-                </h3>
+                </p>
               </div>
             </div>
-            <div className="content-footer py-[60px] flex flex-wrap gap-y-8">
-              <div className="company-infor basis-1/4 max-lg:basis-full">
-                <div className="newsletter basis-1/3 max-md:basis-full max-md:pl-0">
-                  <div className="caption1  font-bold">
+            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4">
+              <div className="company-infor">
+                <div className="newsletter ">
+                  <div className="caption1  font-semibold text-center lg:text-start">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block h-[52px] mt-2 relative">
+                  {/* <div className="input-block  mt-2 relative">
                     <form
-                      className="flex"
+                      className="flex justify-center lg:justify-start"
                       action="post"
                       onSubmit={handleSubmit}
                     >
@@ -108,19 +109,47 @@ const Footer = () => {
                             setPhoneNumber(value);
                             formik.handleChange("phoneNumber")(value);
                           }}
-                          containerClass="custom-phone-input"
+                          // containerClass="custom-phone-input"
                         />
                       </div>
 
                       <button
-                        className="w-[30px] h-[30px] bg-[#e26178] flex items-center justify-center "
+                        className=" flex items-center justify-center relative ms-[-2rem] "
+                        className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
                         type="submit"
                       >
                         <Icon.ArrowRight size={24} color="#fff" />
                       </button>
                     </form>
+                  </div> */}
+                  <div className="input-block h-[52px] mt-2 relative">
+                    <form
+                      className="flex justify-center lg:justify-start"
+                      action="post"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="caption1">
+                        <PhoneInput
+                          country={"in"}
+                          value={formik.values.phoneNumber}
+                          onChange={(value) => {
+                            setPhoneNumber(value);
+                            formik.handleChange("phoneNumber")(value);
+                          }}
+                          inputStyle={{ width: "250px" }}
+                          // containerClass="custom-phone-input"
+                        />
+                      </div>
+
+                      <button
+                        className=" flex items-center justify-center relative ms-[-2rem] "
+                        type="submit"
+                      >
+                        <Icon.ArrowRight size={24} color="#e26178" />
+                      </button>
+                    </form>
                   </div>
-                  <div className="list-social flex items-center gap-6 mt-4">
+                  <div className="list-social flex items-center lg:justify-start justify-center gap-6 mt-4">
                     <Link
                       href={"https://www.facebook.com/whpjewellers.india/"}
                       target="_blank"
@@ -154,24 +183,10 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full ">
-                <div className="list-nav flex max-md:basis-full">
-                  <div className="item flex flex-col basis-1/4 ">
-                    <div className="text-button-uppercase pb-3">
-                      Information
-                    </div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href={"/stores"}
-                    >
-                      Stores
-                    </Link>
-                    {/* <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2 "
-                      href={"/contact"}
-                    >
-                      Contact us
-                    </Link> */}
+              <div className="flex flex-col lg:flex-row w-full justify-center">
+                <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
+                  <div className="flex flex-col w-full items-center lg:items-start ">
+                    <div className="font-semibold ">Know WHP</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href={"#!"}
@@ -217,8 +232,9 @@ const Footer = () => {
                       FAQs
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/4 ">
-                    <div className="text-button-uppercase pb-3">Quick Shop</div>
+
+                  <div className="item flex flex-col w-full items-center lg:items-start ">
+                    <div className="font-semibold">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
                       href={{ pathname: "/products", query: { url: "chain" } }}
@@ -258,10 +274,8 @@ const Footer = () => {
                       Stones
                     </Link>
                   </div>
-                  <div className="item flex flex-col basis-1/4 ">
-                    <div className="text-button-uppercase pb-3">
-                      Customer Services
-                    </div>
+                  <div className="item flex flex-col items-center lg:items-start w-full">
+                    <div className="font-semibold ">Customer Services</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
                       href={"/terms-and-condition"}
@@ -296,9 +310,30 @@ const Footer = () => {
                       <BookExchangeModal closeModal={handleOnClose} />
                     )}
                   </div>
+                  <div className="item flex flex-col items-center lg:items-start w-full">
+                    <div className="font-semibold ">Contact</div>
+                    <Link
+                      href="tel:+91 1800-222-225"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="mt-1 flex">
+                        <span>1800-222-225</span>
+                      </div>
+                    </Link>
+                    <Link
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="mt-1 flex">
+                        <span>care@whpjewellers.in</span>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-                <div className="item flex flex-col md:ml-14 lg:ml-14">
-                  <div className="text-button-uppercase pb-3">Contact</div>
+                {/* <div className="item flex flex-col lg:justify-start justify-center lg:items-start items-center mt-5 md:mt-0  ">
+                  <div className="font-semibold">Contact</div>
                   <Link
                     href="tel:+91 1800-222-225"
                     target="_blank"
@@ -317,7 +352,7 @@ const Footer = () => {
                       <span>care@whpjewellers.in</span>
                     </div>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="py-3 flex items-center justify-center gap-5 max-lg:justify-center max-lg:flex-col border-t border-line ">
@@ -330,6 +365,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <Extendedfooter/>
       </div>
       {message && <FlashAlert message={message} type={"success"} />}
     </>

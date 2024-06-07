@@ -5,6 +5,7 @@ import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
 
 interface Props {
+  data:any
   filteredProducts: ProductType[];
   onFilterChange: (options: any) => void;
   mobileFilter: boolean;
@@ -134,14 +135,13 @@ const FilterSidebar: React.FC<Props> = ({
           style={{
             position: isSidebarFixed ? "fixed" : "relative",
             top: isSidebarFixed ? "120px" : "auto",
-            width: isSidebarFixed ? "250px" : "auto",
+            width: isSidebarFixed ? "250px" : "250px",
           }}
         >
           <div className="heading6 border-b-2">FILTER BY</div>
           <div className="mt-5">
             <p className="heading7">Applied Filters</p>
           </div>
-
           <div className="flex flex-wrap">
             {Object.entries(selectedOptions).flatMap(([category, options]) =>
               options.map((option: string, index: number) => (
@@ -160,7 +160,6 @@ const FilterSidebar: React.FC<Props> = ({
               ))
             )}
           </div>
-
           <div className="list-type mt-4">
             <FilterOptions
               handleMobileFilter={handleMobileFilter}

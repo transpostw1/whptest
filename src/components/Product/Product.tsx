@@ -2,14 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType } from "@/type/ProductType";
+import {
+  ProductType,
+  ProductForWishlistLoggedIn,
+  ProductForWishlistLoggedOut,
+} from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
+import { useUser } from "@/context/UserContext";
 interface ProductProps {
-  data: ProductType;
+  data: any;
 }
 
 const Product: React.FC<ProductProps> = ({ data }) => {
@@ -17,9 +22,42 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+  const { isLoggedIn } = useUser();
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
+
+  const [width, setWidth] = useState<number>(25);
+  const [height, setHeight] = useState<number>(25);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Get the current viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth < 768) {
+        // Small screens
+        setWidth(5);
+        setHeight(15);
+      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
+        // Medium screens
+        setWidth(25);
+        setHeight(25);
+      } else {
+        // Large screens
+        setWidth(25);
+        setHeight(25);
+      }
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
@@ -46,8 +84,34 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   };
 
   const HandleaddToWishlist = () => {
-    addToWishlist(data);
-    setIsProductInWishlist(true);
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
   };
 
   const HandleremoveFromWishlist = () => {
@@ -108,26 +172,26 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       className="z-0 absolute flex justify-between bottom-0 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
                     >
-                      <Icon.Play size={25} weight="light" />
+                      <Icon.Play size={width} weight="light" />
                     </div>
                     <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
-                       {isProductInWishlist ? (
+                      {isProductInWishlist ? (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           color="#fa0000"
                           weight="fill"
                           onClick={() => HandleremoveFromWishlist()}
                         />
                       ) : (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           weight="light"
                           onClick={() => HandleaddToWishlist()}
                         />
                       )}
                     </div>
-                    {hover && (
+                    {/* {hover && (
                       <div className="w-full flex justify-center max-sm:flex-col ">
                         <button
                           className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -142,7 +206,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                           View Similar
                         </button>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 )}
               </div>
@@ -160,21 +224,21 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">
                     {isProductInWishlist ? (
                       <Icon.Heart
-                        size={25}
+                        size={width}
                         color="#fa0000"
                         weight="fill"
                         onClick={() => HandleremoveFromWishlist()}
                       />
                     ) : (
                       <Icon.Heart
-                        size={25}
+                        size={width}
                         weight="light"
                         onClick={() => HandleaddToWishlist()}
                       />
                     )}
                   </div>
                 </div>
-                {hover && (
+                {/* {hover && (
                   <div className="w-full flex justify-center max-sm:flex-col ">
                     <button
                       className="px-2 py-2 bg-[#e26178] text-white mr-3 rounded-md hover:bg-[#3d161d] max-sm:w-full"
@@ -189,7 +253,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       View Similar
                     </button>
                   </div>
-                )}
+                )} */}
               </>
             )}
           </div>
@@ -205,7 +269,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
               <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
             </div> */}
-             <StarRating stars={data.rating} />
+            <StarRating stars={data.rating} />
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
               {data?.discountPrice && (
@@ -232,7 +296,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
-      </div> 
+      </div>
       <div>NULL</div>
     </>
   );

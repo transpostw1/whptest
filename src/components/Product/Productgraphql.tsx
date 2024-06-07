@@ -2,15 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType, ImageDetails } from "@/type/ProductType";
+import {
+  ProductType,
+  ImageDetails,
+  ProductForWishlistLoggedIn,
+  ProductForWishlistLoggedOut,
+} from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useModalQuickviewContext } from "@/context/ModalQuickviewContext";
 import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
+import { useUser } from "@/context/UserContext";
 interface ProductProps {
-  data: ProductType;
+  data: any;
 }
 interface ImageDetailWithTypename extends ImageDetails {
   __typename: string;
@@ -29,7 +33,49 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
+  const [width, setWidth] = useState<number>(25);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isLoggedIn } = useUser();
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 800px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Get the current viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth < 768) {
+        // Small screens
+        setWidth(20);
+      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
+        // Medium screens
+        setWidth(25);
+      } else {
+        // Large screens
+        setWidth(25);
+      }
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
       (item) => item.productId === data.productId
@@ -67,15 +113,43 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     );
   const selectedVideo = sortedVideos?.[0];
 
-  const handleDetailProduct = () => {
-    router.push(`/products/${data?.url}`);
+  const handleDetailProduct = (productUrl: any) => {
+    console.log('====================================');
+    console.log(productUrl);
+    console.log('====================================');
+    router.push(`/products/${productUrl}`);
   };
 
   const HandleaddToWishlist = () => {
-    addToWishlist(data);
-    setIsProductInWishlist(true);
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.imageDetails[0].image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
   };
-
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
@@ -119,48 +193,56 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 ) : (
                   <div className="relative">
+
                     <Image
-                      onClick={() => handleDetailProduct()}
+                      onClick={() => handleDetailProduct(data.url)}
                       className="w-[95%] duration-700  m-auto"
                       src={selected.image_path}
                       width={400}
                       height={400}
                       alt="This image is temporarry"
                     />
-                    {hover && (
-                      <div className="w-full relative">
-                        <button
-                          className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-0 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-                          onClick={() => console.log("tryAtHome")}
-                        >
-                          Try At Home
-                        </button>
-                        <button
-                          className="px-3 py-2 bg-[#e26178] text-white bottom-0 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-                          onClick={() => console.log("view Similar")}
-                        >
-                          View Similar
-                        </button>
+                    {isMobile && (
+                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 ">
+                        <Icon.Cards
+                          size={width}
+                          weight="light"
+                          color="#e26178"
+                        />
+                      </div>
+                    )}
+                    {hover && !isMobile && (
+                      <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
+                        <p className="font-semibold">Try At Home</p>
+                      </div>
+                    )}
+                    {hover && !isMobile && (
+                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 bg-white p-1">
+                        <Icon.Cards
+                          size={width}
+                          weight="light"
+                          color="#e26178"
+                        />
                       </div>
                     )}
                     <div
                       className="z-0 absolute flex justify-between top-1 hover:z-50 "
                       onClick={() => setShowVideo(!showVideo)}
                     >
-                      <Icon.Play size={25} weight="light" />
+                      <Icon.Play size={width} weight="light" />
                     </div>
                     <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           color="#fa0000"
                           weight="fill"
                           onClick={() => HandleremoveFromWishlist()}
                         />
                       ) : (
                         <Icon.Heart
-                          size={25}
+                          size={width}
                           weight="light"
                           onClick={() => HandleaddToWishlist()}
                         />
@@ -172,41 +254,40 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             ) : (
               <div className="relative">
                 <Image
-                  onClick={() => handleDetailProduct()}
+                  onClick={() => handleDetailProduct(data.url)}
                   className="w-[95%] duration-700  m-auto"
                   src={selected.image_path}
                   width={400}
                   height={400}
                   alt="This image is temporarry"
                 />
-                {hover && (
-                  <div className="w-full absoulte">
-                    <button
-                      className="px-2 py-2 bg-[#e26178] text-white mr-3 bottom-4 rounded-md hover:bg-[#3d161d] max-sm:w-full"
-                      onClick={() => console.log("tryAtHome")}
-                    >
-                      Try At Home
-                    </button>
-                    <button
-                      className="px-3 py-2 bg-[#e26178] text-white bottom-4 rounded-md hover:bg-[#3d161d] max-sm:mt-3 max-sm:w-full"
-                      onClick={() => console.log("view Similar")}
-                    >
-                      View Similar
-                    </button>
+                {hover && !isMobile && (
+                  <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
+                    <p className="font-semibold">Try At Home</p>
+                  </div>
+                )}
+                {isMobile && (
+                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50">
+                    <Icon.Cards size={width} weight="light" color="#e26178" />
+                  </div>
+                )}
+                {hover && !isMobile && (
+                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 ">
+                    <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )}
                 <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
                   {/* <Icon.Heart size={25} weight="light" /> */}
                   {isProductInWishlist ? (
                     <Icon.Heart
-                      size={25}
+                      size={width}
                       color="#fa0000"
                       weight="fill"
                       onClick={() => HandleremoveFromWishlist()}
                     />
                   ) : (
                     <Icon.Heart
-                      size={25}
+                      size={width}
                       weight="light"
                       onClick={() => HandleaddToWishlist()}
                     />
@@ -241,7 +322,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 </div>
               )}
 
-              {data?.discountValue == null && (
+              {data?.discountPrice == null && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedOriginalPrice}
                 </div>
@@ -254,6 +335,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
+        {isMobile && (
+          <div className="border border-[#e26178] rounded-sm text-center mt-2 hover:text-white hover:bg-[#e26178]">
+            <p className="font-semibold">Try At Home</p>
+          </div>
+        )}
       </div>
     </>
   );

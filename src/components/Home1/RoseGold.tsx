@@ -50,7 +50,7 @@ const RoseGold = () => {
   return (
     <div className="flex flex-wrap p-5 bg-[#f7f5f6] mt-5 justify-between">
       <div className="lg:w-[30%] mr-6 md:w-[40%]">
-        <p className="max-sm:text-center md:mb-3">Explore</p>
+        <p className="max-sm:text-center md:mb-3 font-semibold">Explore</p>
         <p className="lg:text-4xl max-sm:text-[1.5rem] max-sm:text-center lg:text-start lg:leading-[50px] sm:leading-4 md:text-[1.5rem] md:mb-3">
           ROSE GOLD RANGE
         </p>
@@ -89,7 +89,7 @@ const RoseGold = () => {
         </div>
         {width > 135 && (
           <div className="flex justify-normal mt-auto flex-end">
-            <span className="flex justify-center bg-[#e26178] lg:w-[60%]  px-6 py-2 text-white">
+            <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[60%]  px-6 py-2 text-white">
               Shop All
               <span className="mt-1 ml-2">
                 <Icon.ArrowRight />
@@ -113,9 +113,9 @@ const RoseGold = () => {
           alt={"the rose gold section"}
         />
       </div>
-      {width < 170 &&(
+      {width < 170 && (
         <div className="flex justify-center w-full mt-5">
-          <span className="flex justify-center bg-[#e26178] lg:w-[37%] px-6 py-2 text-white">
+          <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[37%] px-6 py-2 text-white">
             Shop All
             <span className="mt-1 ml-2">
               <Icon.ArrowRight />

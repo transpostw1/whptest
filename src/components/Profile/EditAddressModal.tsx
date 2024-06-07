@@ -64,16 +64,16 @@ const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
       window.location.reload();
     }
   };
+  console.log("singAddress",singleAddress);
   const formik = useFormik({
     initialValues: {
-      pincode: singleAddress.pincode,
-      full_address: singleAddress.full_address,
-      area: '',
-      country: singleAddress.country,
-      state: singleAddress.state,
-      city: singleAddress.city,
-      landmark: singleAddress.landmark,
-      address_type: singleAddress.address_type,
+      pincode: singleAddress?.pincode,
+      full_address: singleAddress?.full_address,
+      country: singleAddress?.country,
+      state: singleAddress?.state,
+      city: singleAddress?.city,
+      landmark: singleAddress?.landmark,
+      address_type: singleAddress?.address_type,
     },
     validationSchema,
     onSubmit: handleSubmit,
@@ -136,7 +136,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
             )} */}
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <div className="relative">
               <input
                 id="area"
@@ -155,7 +155,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal,singleAddress }) => {
               </label>
             </div>
             {formik.errors.area && <div className="text-red-500 mt-1">{formik.errors.area}</div>}
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <div>

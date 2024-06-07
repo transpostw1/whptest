@@ -244,9 +244,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
-                  <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
+                  {/* <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
                     3
-                  </div>
+                  </div> */}
                   <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}

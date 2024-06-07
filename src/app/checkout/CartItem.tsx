@@ -161,6 +161,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             onClick={() => setShowModal(false)}
           />
           <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto relative">
+            <div className="float-right" onClick={() => setShowModal(false)}>
+              <Icon.X />
+            </div>
             <div className="mb-4">
               <h2 className="text-xl font-bold text-center">Remove Item?</h2>
               {/* <p>Do you want to add this item to your wishlist?</p> */}

@@ -109,13 +109,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
         {showAccordian === 2 ? (
           <div>
-            <div className="mt-5 ">
-              Introducing our exquisite Dangling Hoop Earrings-a blend of
-              sophistication and femininity in a high-polish gold finish. These
-              intricately crafted 18Karat Gold Earrings,a part of our Gold
-              Collection, are designed for the modern woman. The pair weighs
-              4.810 gms of pure gold
-            </div>
+            <div className="mt-5 ">{product?.productDetails?.longDesc}</div>
             <div className="grid grid-cols-4 max-sm:grid-cols-3 mt-4">
               <div className="p-2 flex flex-col items-center text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />

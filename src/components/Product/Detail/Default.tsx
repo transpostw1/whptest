@@ -3,7 +3,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState, MutableRefObject } from "react";
-import StickyNav from "@/components/Header/StickyNav";
 import Image from "next/image";
 import { ProductData, ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
@@ -11,6 +10,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
+import StickyNavProductPage from "@/components/Other/StickyNavProductPage"
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
 import CheckPincode from "./CheckPincode";
@@ -28,6 +28,7 @@ import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
 import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import AffordabilityWidget from "./AffordabilityWidget";
 
 
 interface Props {
@@ -246,7 +247,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   return (
     <>
-      <StickyNav />
+      <StickyNavProductPage />
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -421,6 +422,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div> */}
           <CheckPincode />
+          <AffordabilityWidget key="ZCUzmW" amount={5000} />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           {data &&data?.productDetails?.tryAtHome===1&&
           <div className="mt-4 border border-[#f7f7f7] p-1 text-center">

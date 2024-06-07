@@ -439,7 +439,8 @@ const handleOrderComplete = () => {
   };
   const orderSummaryRef = useRef<any>(null);
 
-  const scrollToOrderSummary = () => {
+  const scrollToOrderSummary = (event:any) => {
+    event.preventDefault(); // Prevent default anchor behavior
     if (orderSummaryRef.current) {
       orderSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -664,7 +665,7 @@ const handleOrderComplete = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary" ref={orderSummaryRef}>
+                <div id="order-summary"  ref={orderSummaryRef}>
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     totalDiscount={totalDiscount}
@@ -698,8 +699,8 @@ const handleOrderComplete = () => {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(totalPrice.toString())))}
             </p>
-            <Link href="" onClick={scrollToOrderSummary}>
-            <p className="text-[#e26178] cursor-pointer">View Order Summary</p></Link>
+            <Link href="#order-summary" onClick={scrollToOrderSummary}>
+            <p className="text-[#e26178] cursor-pointer"> View Order Summary</p></Link>
           </div>
           <div
             className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"

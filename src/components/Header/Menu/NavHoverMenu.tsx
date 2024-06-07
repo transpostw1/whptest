@@ -341,8 +341,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 <li
                   className="h-full"
                   onClick={() => {
-                    setCustomcategory("earring");
-                    handleUrl("c-earring");
+                    setCustomcategory("c-earring");
+                    // handleUrl("c-earring");
                   }}
                 >
                   <Link
@@ -352,7 +352,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "earring"
+                      searchParmas.get("url") === "c-earring"
                         ? "active"
                         : ""
                     }`}

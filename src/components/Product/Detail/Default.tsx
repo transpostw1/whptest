@@ -229,9 +229,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
-                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[45px] w-[45px]">
+                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]">
                   <Icon.ShareFat
-                    size={30}
+                    size={25}
                     weight="fill"
                     className="text-white"
                   />
@@ -265,7 +265,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     ₹{formattedOriginalPrice}
                   </span>
                   <span className="ml-3 text-[#e26178] underline">
-                    {data && data?.productDetails.discountValue}% OFF on{" "}
+                    {data && parseInt(data?.productDetails.discountValue)}% OFF on{" "}
                     {data && data?.productDetails.discountCategory}
                   </span>
                 </>
@@ -279,12 +279,12 @@ const Default: React.FC<Props> = ({ productId }) => {
               )}
             </div>
           )}
-          <div>
+          {/* <div>
             <span>
               Upon Price Drop,{" "}
               <span className="underline text-[#e26178]">Notify Me</span>
             </span>
-          </div>
+          </div> */}
           {data?.productDetails?.variantId !== null && (
             <DropDown product={data} handleVariant={handleNewVariant} />
           )}
@@ -317,7 +317,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div> */}
           <CheckPincode />
           {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
-
+          {data &&data?.productDetails?.tryAtHome===1&&
           <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
             <span className="underline text-[#e26178] cursor-pointer ">
               Schedule free trial
@@ -327,7 +327,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               Try at Home
             </span>
             <span> today!</span>
-          </div>
+          </div>}
           <GoldSchemeSmallBanner />
           <Accordian product={data} />
         </div>

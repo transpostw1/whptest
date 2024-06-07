@@ -65,10 +65,10 @@ const Default: React.FC<Props> = ({ productId }) => {
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
-        query Product(
+        query productDetails(
           $productUrl : String!
         ){
-          product(
+          productDetails(
             productUrl: $productUrl
           )
           {
@@ -255,9 +255,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
                   data?.productDetails?.imageDetails
-                    .sort(
-                      (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-                    )
+                    
                     .map((image: any, index: any) => (
                       <div key={index}>
                         <InnerImageZoom
@@ -281,10 +279,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   >
                     {data &&
                       data.productDetails?.imageDetails
-                        .sort(
-                          (a: any, b: any) =>
-                            parseInt(a.order) - parseInt(b.order)
-                        )
+                        
                         .map((image: any, index: any) => (
                           <div key={index}>
                             <Image

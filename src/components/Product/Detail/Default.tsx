@@ -61,8 +61,8 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
-      uri: "http://localhost:8080/",
-      // uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      // uri: "http://localhost:8080/",
+      uri: "https://seashell-app-kswll.ondigitalocean.app/",
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -189,8 +189,8 @@ const Default: React.FC<Props> = ({ productId }) => {
     try {
       setVariant(newUrl);
       const client = new ApolloClient({
-        uri: "http://localhost:8080/",
-        // uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        // uri: "http://localhost:8080/",
+        uri: "https://seashell-app-kswll.ondigitalocean.app/",
         cache: new InMemoryCache(),
       });
       const GET_SINGLE_PRODUCT = gql`

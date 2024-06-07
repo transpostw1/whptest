@@ -1,53 +1,51 @@
-import React from 'react'
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface TemplatesProps {
   selectedOccasion: string;
+  selectedTemplateId: number | null; // Add selectedTemplateId prop
+  voucherData: any[];
 }
 
-const Templates: React.FC<TemplatesProps> = ({ selectedOccasion }) => {
+const Templates: React.FC<TemplatesProps> = ({
+  selectedOccasion,
+  selectedTemplateId,
+  voucherData,
+}) => {
+ 
+  const selectedVoucher = voucherData.find(
+    (voucher) => voucher.id == selectedOccasion
+  );
+
+  if (!selectedVoucher) {
+    return <div>No voucher data available for the selected occasion{selectedVoucher}</div>;
+  }
+
   return (
-    // <div>
     <div className="grid md:grid-cols-3 grid-cols-1 gap-2 mt-4 w-full">
-      <div className="rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
-        <Image
-          width={400}
-          height={300}
-          className="w-full h-[250px] object-fill object-center"
-          src="/images/other/whatweoffer.png"
-          alt="sfd"
-        />
-        <div className="p-6">
-          <h3 className="text-xl font-semibold ">Template 1</h3>
-        </div>
-      </div>
-      <div className="rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
-        <Image
-          width={400}
-          height={300}
-          className="w-full h-[250px] object-cover object-center"
-          src="/images/other/whatweoffer.png"
-          alt="sfd"
-        />
-        <div className="p-6">
-          <h3 className="text-xl font-semibold ">Template 2</h3>
-        </div>
-      </div>
-      <div className="rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
-        <Image
-          width={400}
-          height={300}
-          className="w-full h-[250px] object-cover object-center"
-          src="/images/other/whatweoffer.png"
-          alt="sfd"
-        />
-        <div className="p-6">
-          <h3 className="text-xl font-semibold ">Template3</h3>
-        </div>
-      </div>
+      {selectedVoucher.templateImage.map(
+        (templateImageUrl: string, index: number) => (
+          <div
+            key={index}
+            className={`rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden ${
+              selectedTemplateId === selectedVoucher.id ? "bg-blue-200" : ""
+            }`}
+          >
+            <Image
+              width={400}
+              height={300}
+              className="w-full h-[250px] object-fill object-center"
+              src={templateImageUrl}
+              alt={`Template ${index + 1}`}
+            />
+            <div className="p-6">
+              <h3 className="text-xl font-semibold">{selectedVoucher.name}</h3>
+            </div>
+          </div>
+        )
+      )}
     </div>
-    // </div>
   );
 };
 
-export default Templates
+export default Templates;

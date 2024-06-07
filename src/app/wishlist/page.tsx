@@ -75,6 +75,7 @@ const Wishlist = () => {
     };
     console.log("Adding to cart:", productDetails);
     addToCart(productDetails, 1);
+    removeFromWishlist(product.productId);
     router.push(`/checkout?buyNow=${product.productId}`);
   };
 
@@ -132,11 +133,19 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div
-                      className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
-                      onClick={() => handleBuyNow(product)}
-                    >
-                      Buy Now
+                    <div className="flex flex-col gap-1 mt-1">
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        onClick={() => handleBuyNow(product)}
+                      >
+                        Add To Cart
+                      </div>
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        onClick={() => handleBuyNow(product)}
+                      >
+                        Buy Now
+                      </div>
                     </div>
                   </div>
                   <div className="product-actions absolute top-2 right-2">

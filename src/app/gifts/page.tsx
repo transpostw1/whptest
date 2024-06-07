@@ -1,12 +1,14 @@
 "use client";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent,useEffect } from "react";
 import Occasion from "@/components/Gifts/Occasion";
 import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
 import Delivery from "@/components/Gifts/Delivery";
 import Preview from "@/components/Gifts/Preview";
 import Stepper from "./Stepper";
+import { baseUrl,voucher } from "@/utils/constants";
 import { number } from "yup";
+import axios from "axios";
 
 const steps = [
   "Select an Occasion",
@@ -31,7 +33,26 @@ const Gifts = () => {
   const [error, setError] = useState<string>("");
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(true);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
+    null
+  ); 
+  const [voucherData, setVoucher] = useState<any>(null); 
 
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${baseUrl}${voucher}`);
+          setVoucher(response.data);
+        
+        } catch (error) {
+          console.error("Error fetching data: ", error);
+        }
+      };
+
+      fetchData();
+    }, []);
+  console.log(voucherData, "Voucherrrr");
     const handleOccasionSelect = (occasion: string) => {
       setFormData((prevData: any) => ({ ...prevData, occasion }));
       setSelectedOccasion(occasion);
@@ -94,21 +115,25 @@ const Gifts = () => {
     console.log("Proceed to Pay");
   };
 
+   const handleTemplateSelect = (templateId: number) => {
+     setSelectedTemplateId(templateId);
+   };
+
   const completedSteps = steps.slice(0, currentStep);
   const remainingSteps = steps.slice(currentStep + 1);
   const stepCount = currentStep + 1;
 
   return (
-    <div>
+    <div className="md:mx-0 mx-2">
       <div className="text-center py-10 bg-[#f8a4b4]">
         <h1 className="font-medium py-2">GIFT CARDS</h1>
         <h3 className="font-semibold text-3xl italic">
           For what your loved ones Love!
         </h3>
       </div>
-      <div className="flex md:mx-32">
+      <div className="flex lg:mx-32">
         {/* //vertical Line  */}
-        <div className="p-4">
+        <div className="lg:block hidden p-4">
           <div className="bg-red-500 h-full w-0.5"></div>
         </div>
         <div className="flex flex-col justify-between w-full mt-3">
@@ -124,7 +149,7 @@ const Gifts = () => {
                     {step}
                   </div>
                 ))}
-                <div className="bg-blue-950 text-white px-4 py-2 ">
+                <div className="bg-[#e26178] text-white md:px-4 px-2 py-2 ">
                   {steps[currentStep]}
                 </div>
               </div>
@@ -133,7 +158,7 @@ const Gifts = () => {
             <div className="flex gap-2">
               {currentStep > 0 && (
                 <button
-                  className="text-white bg-gray-500 px-4 py-2"
+                  className="text-white bg-gray-500 md:px-4 px-2 py-2"
                   onClick={handlePrevious}
                 >
                   PREVIOUS
@@ -141,7 +166,7 @@ const Gifts = () => {
               )}
               {currentStep < steps.length - 1 ? (
                 <button
-                  className="text-white bg-blue-950 px-4 py-2"
+                  className="text-white bg-blue-950 md:px-4 px-2 py-2"
                   onClick={handleNext}
                 >
                   NEXT
@@ -162,10 +187,18 @@ const Gifts = () => {
           )}
 
           {currentStep === 0 && (
-            <Occasion onSelectOccasion={handleOccasionSelect} />
+            <Occasion
+              onSelectOccasion={handleOccasionSelect}
+              voucherData={voucherData}
+              onTemplateSelect={handleTemplateSelect}
+            />
           )}
           {currentStep === 1 && (
-            <Templates selectedOccasion={selectedOccasion} />
+            <Templates
+              selectedOccasion={selectedOccasion}
+              selectedTemplateId={selectedTemplateId} 
+              voucherData={voucherData}
+            />
           )}
           {currentStep === 2 && <Amount />}
           {currentStep === 3 && (

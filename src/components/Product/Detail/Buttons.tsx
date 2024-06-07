@@ -36,7 +36,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
-console.log(product,"proddddd")
   useEffect(() => {
     const fetchWishlist = async () => {
       try {

@@ -15,7 +15,6 @@ import Payment from "./Payment";
 import OrderSummary from "./OrderSummary";
 import ProceedButton from "./ProceedButton";
 import CouponsModal from "@/components/Other/CouponsModal";
-import Loader from "@/components/Other/Loader";
 import {
   AddressBook,
   ShoppingCart,

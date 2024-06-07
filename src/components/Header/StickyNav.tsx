@@ -110,12 +110,15 @@ const StickyNav = () => {
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(5)}
             >
-              <Icon.ShoppingCart size={25} />
-              {cartLength > 0 && (
-                <span className="quantity cart-quantity absolute right-6 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                  {cartLength}
-                </span>
-              )}
+              <div>
+                <Icon.ShoppingCart size={25} />
+                {cartLength > 0 && (
+                  <span className="quantity cart-quantity absolute right-12 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartLength}
+                  </span>
+                )}
+              </div>
+
               <p>Cart</p>
             </div>
           </Link>

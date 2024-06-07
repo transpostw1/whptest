@@ -89,7 +89,7 @@ const RoseGold = () => {
         </div>
         {width > 135 && (
           <div className="flex justify-normal mt-auto flex-end">
-            <span className="flex justify-center bg-[#e26178] lg:w-[60%]  px-6 py-2 text-white">
+            <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[60%]  px-6 py-2 text-white">
               Shop All
               <span className="mt-1 ml-2">
                 <Icon.ArrowRight />
@@ -113,9 +113,9 @@ const RoseGold = () => {
           alt={"the rose gold section"}
         />
       </div>
-      {width < 170 &&(
+      {width < 170 && (
         <div className="flex justify-center w-full mt-5">
-          <span className="flex justify-center bg-[#e26178] lg:w-[37%] px-6 py-2 text-white">
+          <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[37%] px-6 py-2 text-white">
             Shop All
             <span className="mt-1 ml-2">
               <Icon.ArrowRight />

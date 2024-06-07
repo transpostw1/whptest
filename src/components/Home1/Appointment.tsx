@@ -31,17 +31,13 @@ const Appointment = () => {
                 evolving style.
               </p>
             </div>
-            <div className="flex w-full mt-5">
-              <button
-                type="button"
-                className="text-white flex justify-center px-6 py-3  bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm  text-center mt-6 mb-20 "
-                onClick={() => setAppointmentModal(true)}>
-                Book Appointment
-                <span className="mt-1 ml-2">
-                  <Icon.ArrowRight />
-                </span>
-              </button>
-            </div>
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20 "
+              onClick={() => setAppointmentModal(true)}
+            >
+              Book Appointment
+            </button>
             {appointmentModal && (
               <BookExchangeModal closeModal={handleOnClose} />
             )}

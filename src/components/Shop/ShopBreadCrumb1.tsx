@@ -160,36 +160,7 @@ const ShopBreadCrumb1 = () => {
         }
       `;
 
-      // const filterOptions: any = {};
-
-      // if (options.Category && options.Category.length > 0) {
-      //   console.log("Category options:", options.Category);
-
-      //   filterOptions.category = options.Category;
-      // }
-
-      // if (options.Price && options.Price.length > 0) {
-      //   filterOptions.priceFilter = options.Price.map((price: any) => {
-      //     const [min, max] = price.split('to');
-      //     return { min: parseInt(min), max: parseInt(max) };
-      //   });
-      // }
-
-      // if (options.Gender && options.Gender.length > 0) {
-      // filterOptions.gender = options.Gender;
-      // }
-
-      // if (options.Karat && options.Karat.length > 0) {
-      // filterOptions.karat = options.Karat;
-      // }
-
-      // if (options.Metal && options.Metal.length > 0) {
-      // filterOptions.metal = options.Metal;
-      // }
-
-      // console.log("Constructed filterOptions:", filterOptions);
-
-      // console.log("filterOptions:", filterOptions);
+     
       const variables = {
         category: combinedOptions.category.map((category: string) => ({
           value: category,
@@ -220,7 +191,6 @@ const ShopBreadCrumb1 = () => {
       setIsLoading(false);
     }
   };
-
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
 
@@ -240,7 +210,11 @@ const ShopBreadCrumb1 = () => {
         const min = parseFloat("1");
         const max = parseFloat("10000");
         return { min, max };
-      } else {
+      } 
+      // else if(){
+
+      // }
+      else {
         const value = formatPriceRange(price);
         const [minStr, maxStr] = value.split("to");
         console.log("MIN", minStr);
@@ -278,6 +252,10 @@ const ShopBreadCrumb1 = () => {
     console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
+    }
+
+    if (options.Gender && options.Gender.length > 0) {
+      urlParts.push(`g-${options.Gender.join(",")}`);
     }
 
     if (options.Karat && options.Karat.length > 0) {
@@ -321,6 +299,9 @@ const ShopBreadCrumb1 = () => {
       if (key === "c") {
         initialOptions.Category = value.split(",");
       }
+      if (key === "g") {
+        initialOptions.Gender = value.split(",");
+      }
       if (key === "k") {
         initialOptions.Karat = value.split(",");
       }
@@ -329,9 +310,6 @@ const ShopBreadCrumb1 = () => {
       }
       if (key === "m") {
         initialOptions.Metal = value.split(",");
-      }
-      if(key==="g"){
-        initialOptions.Gender=value.split(",")
       }
       // if (key === "w") {
       //   initialOptions.Weight = value.split(",");
@@ -350,10 +328,10 @@ const ShopBreadCrumb1 = () => {
   //   }
   // }, [selectedOptions]);
 
-  // useEffect(() => {
-  //   const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-  //   fetchData(combinedOptions);
-  // }, [selectedOptions]);
+  useEffect(() => {
+    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+    fetchData(combinedOptions);
+  }, [selectedOptions]);
 
   // useEffect(() => {
   //   fetchData(selectedOptions);
@@ -400,7 +378,6 @@ const ShopBreadCrumb1 = () => {
   };
 
   console.log("Selected Options", selectedOptions);
-  
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";
@@ -412,11 +389,13 @@ const ShopBreadCrumb1 = () => {
       return "30000to40000";
     } else if (price === "40Kto50K") {
       return "40000to50000";
-    } else if (price === "More than 50K") {
+    } else if (price === "50000toInfinity") {
       return "50000toInfinity";
     }
     return price;
   };
+
+console.log("Dataa",filteredProducts);
 
   // useEffect(() => {
   //   fetchData(selectedOptions);

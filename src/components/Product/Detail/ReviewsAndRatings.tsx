@@ -13,12 +13,74 @@ import FlashAlert from "@/components/Other/FlashAlert";
 interface Props {
   product: ProductData;
 }
+
+const CustomStar: React.FC<{
+  index: number;
+  rating: number;
+  hoverRating: number | null;
+  onMouseMove: (
+    e: React.MouseEvent<SVGElement, MouseEvent>,
+    index: number
+  ) => void;
+  onMouseLeave: () => void;
+  onClick: (e: React.MouseEvent<SVGElement, MouseEvent>, index: number) => void;
+}> = ({ index, rating, hoverRating, onMouseMove, onMouseLeave, onClick }) => {
+  const getFillPercentage = () => {
+    let roundedRating;
+    if (hoverRating !== null) {
+      roundedRating = Math.round(hoverRating * 2) / 2;
+      if (roundedRating >= index + 1) {
+        return 100;
+      } else if (roundedRating > index && roundedRating < index + 1) {
+        return (roundedRating - index) * 100;
+      }
+    } else {
+      roundedRating = Math.round(rating * 2) / 2;
+      if (roundedRating >= index + 1) {
+        return 100;
+      } else if (roundedRating > index && roundedRating < index + 1) {
+        return (roundedRating - index) * 100;
+      }
+    }
+    return 0;
+  };
+  return (
+    <svg
+      key={index}
+      width="35"
+      height="35"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="star"
+      onClick={(e) => onClick(e, index)}
+      onMouseMove={(e) => onMouseMove(e, index)}
+      onMouseLeave={onMouseLeave}
+      style={{ cursor: "pointer", position: "relative" }}
+    >
+      <defs>
+        <linearGradient id={`gradient-${index}`}>
+          <stop offset={`${getFillPercentage()}%`} stopColor="gold" />
+          <stop offset={`${getFillPercentage()}%`} stopColor="white" />
+        </linearGradient>
+      </defs>
+      <polygon
+        points="12 2 15 8 21 8 16 12 18 18 12 14 6 18 8 12 3 8 9 8 12 2"
+        fill={`url(#gradient-${index})`}
+        stroke="gold"
+      />
+    </svg>
+  );
+};
 const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const router = useRouter();
   const [review, setReview] = useState<string>("");
   const [activeTab, setActiveTab] = useState("tab1");
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [message, setMessage] = useState<any>("");
   const [type, setType] = useState<any>("");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -51,12 +113,21 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleReveiwChange = (e: any) => {
     setReview(e.target.value);
   };
+  const handleMouseMove = (
+    e: React.MouseEvent<SVGElement, MouseEvent>,
+    index: number
+  ) => {
+    const { left, width } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const hoveredRating = index + x / width;
+    setHoverRating(hoveredRating);
+  };
 
-  const handleReviews = (e: any) => {
+  const handleReviews = async (e: any) => {
     e?.preventDefault();
     try {
       const cookieToken = Cookies.get("localtoken");
-      const response:any = axios.post(
+      const response: any = await axios.post(
         `${baseUrl}${storeReviews}`,
         {
           productId: product.productDetails.productId,
@@ -69,24 +140,29 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
           },
         }
       );
-      setMessage(response.data.message);
       setType("success");
+      setMessage(response.data.message);
       setReview("");
       setRating(0);
     } catch (error: any) {
-      setMessage(error.data.message);
+      setMessage(error?.response?.data?.message || "An error occurred");
       setType("error");
-      console.log("Error Ocuuredd", error);
+      console.log("Error Occurred", error);
     } finally {
       setReview("");
     }
   };
 
-  const handleClick = (ratingValue: number) => {
-    setRating(ratingValue);
-    // if (onRate) {
-    //   onRate(ratingValue);
-    // }
+  const handleClick = (
+    e: React.MouseEvent<SVGElement, MouseEvent>,
+    index: number
+  ) => {
+    const { left, width } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const calculatedRating = index + x / width;
+    const roundedRating = Math.round(calculatedRating * 2) / 2; // Round to nearest 0.5
+    setRating(roundedRating);
+    console.log(`Selected rating: ${roundedRating}`);
   };
 
   const handleMouseEnter = (ratingValue: number) => {
@@ -94,7 +170,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   };
 
   const handleMouseLeave = () => {
-    setHoverRating(0);
+    setHoverRating(null);
   };
 
   return (
@@ -146,36 +222,22 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
               ))}
             </div>
             <div className="mt-4 lg:w-[35%] max-sm:w-[100%]">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <div className="">
                   <p>Write a Review</p>
                 </div>
                 <div style={{ display: "flex" }}>
-                  {Array.from({ length: 5 }, (_, index) => {
-                    const starValue = index + 1;
-                    return (
-                      <svg
-                        key={index}
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill={
-                          starValue <= (hoverRating || rating) ? "gold" : "gray"
-                        }
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="star"
-                        onClick={() => handleClick(starValue)}
-                        onMouseEnter={() => handleMouseEnter(starValue)}
-                        onMouseLeave={handleMouseLeave}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <polygon points="12 2 15 8 21 8 16 12 18 18 12 14 6 18 8 12 3 8 9 8 12 2" />
-                      </svg>
-                    );
-                  })}
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <CustomStar
+                      key={index}
+                      index={index}
+                      rating={rating}
+                      hoverRating={hoverRating}
+                      onMouseMove={handleMouseMove}
+                      onMouseLeave={() => setHoverRating(null)}
+                      onClick={handleClick}
+                    />
+                  ))}
                 </div>
               </div>
               <div>
@@ -223,7 +285,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={(e) => handleReviews(e)}
-                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d]  hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Submit
                   </button>

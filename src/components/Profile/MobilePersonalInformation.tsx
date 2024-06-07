@@ -458,7 +458,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition-colors ${
+            className={`bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d]  text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

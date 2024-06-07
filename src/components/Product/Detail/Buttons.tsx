@@ -28,15 +28,15 @@ interface ProductForWishlistLoggedOut {
   image_path: string;
   url: string;
 }
-
 const Buttons: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } = useWishlist();
+  const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
+    useWishlist();
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
-
+console.log(product,"proddddd")
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -63,9 +63,11 @@ const Buttons: React.FC<Props> = ({ product }) => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-
     if (productAlreadyExists) {
-      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
+      updateCartQuantity(
+        productItem.productDetails?.productId,
+        updatedQuantity
+      );
     } else {
       addToCart(
         {
@@ -78,7 +80,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
-  const handleAddToWishlist = () => {
+  const HandleaddToWishlist = () => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productDetails.productId,
@@ -92,7 +94,8 @@ const Buttons: React.FC<Props> = ({ product }) => {
         productPrice: product.productDetails.productPrice,
         discountPrice: product.productDetails.discountPrice,
         discountValue: product.productDetails.discountValue,
-        imageDetails: product.productDetails.imageDetails,
+        image_path: product.productDetails.imageDetails[0].image_path,
+
         url: product.productDetails.url,
       };
 
@@ -101,14 +104,10 @@ const Buttons: React.FC<Props> = ({ product }) => {
     }
   };
 
-  const handleRemoveFromWishlist = () => {
+  const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
     setIsProductInWishlist(false);
   };
-
-  // const handleBuyNow = () => {
-  //   router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
-  // };
 
   const handleBuyNow = () => {
     addToCart(
@@ -122,7 +121,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
     );
     router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
   };
-  
   if (isLoading) {
     return (
       <div>
@@ -130,9 +128,8 @@ const Buttons: React.FC<Props> = ({ product }) => {
       </div>
     );
   }
-
   return (
-    <div className="flex max-sm:justify-around justify-between mt-[25px]">
+    <div className="flex max-sm:justify-around justify-between mt-[25px] ">
       <div
         className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] mr-[10px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
         onClick={handleBuyNow}
@@ -159,19 +156,18 @@ const Buttons: React.FC<Props> = ({ product }) => {
             size={32}
             color="#fa0000"
             weight="fill"
-            onClick={handleRemoveFromWishlist}
+            onClick={() => HandleremoveFromWishlist()}
           />
         ) : (
           <Icon.Heart
             size={32}
             weight="thin"
             color="#e26178"
-            onClick={handleAddToWishlist}
+            onClick={() => HandleaddToWishlist()}
           />
         )}
       </div>
     </div>
   );
 };
-
 export default Buttons;

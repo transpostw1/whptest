@@ -68,6 +68,10 @@ const Default: React.FC<Props> = ({ productId }) => {
         query Product(
           $productUrl : String!
         ){
+          product(
+            productUrl: $productUrl
+          )
+          {
             productId
             SKU
             variantId
@@ -148,9 +152,12 @@ const Default: React.FC<Props> = ({ productId }) => {
             stoneDetails
             diamondDetails
           }
+        }
       `;
     console.log("----------------", productId);
     console.log("----------------", productId);
+
+
 
 
 
@@ -166,6 +173,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function singleProduct() {
     const product = await getData();
+    console.log("----------------", product);
     setData(product);
     setLoading(false);
   }

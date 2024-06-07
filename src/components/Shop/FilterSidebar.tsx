@@ -142,7 +142,6 @@ const FilterSidebar: React.FC<Props> = ({
           <div className="mt-5">
             <p className="heading7">Applied Filters</p>
           </div>
-
           <div className="flex flex-wrap">
             {Object.entries(selectedOptions).flatMap(([category, options]) =>
               options.map((option: string, index: number) => (
@@ -161,7 +160,6 @@ const FilterSidebar: React.FC<Props> = ({
               ))
             )}
           </div>
-
           <div className="list-type mt-4">
             <FilterOptions
               handleMobileFilter={handleMobileFilter}

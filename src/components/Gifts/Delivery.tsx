@@ -1,6 +1,4 @@
-// src/components/RecipientForm.tsx
-
-import React, { useState, ChangeEvent, FC } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
 interface FormData {
   recipientName: string;
@@ -11,8 +9,15 @@ interface FormData {
   senderName: string;
 }
 
-const Delivery: FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+interface DeliveryProps {
+  formData: FormData;
+  handleChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+}
+
+const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
+  const [errors, setErrors] = useState<FormData>({
     recipientName: "",
     recipientMobile: "",
     recipientEmail: "",
@@ -21,15 +26,41 @@ const Delivery: FC = () => {
     senderName: "",
   });
 
-  const handleChange = (
+  const validateEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
+  const validate = (name: string, value: string) => {
+    let error = "";
+    if (!value) {
+      error = "This field is required";
+    } else {
+      if (name === "recipientEmail" || name === "confirmEmail") {
+        if (!validateEmail(value)) {
+          error = "Invalid email address";
+        } else if (
+          name === "confirmEmail" &&
+          value !== formData.recipientEmail
+        ) {
+          error = "Email addresses do not match";
+        }
+      }
+      if (name === "recipientMobile" && !/^\d+$/.test(value)) {
+        error = "Invalid mobile number";
+      }
+    }
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+  };
+
+  const handleBlur = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    validate(name, value);
   };
 
   return (
-    <form className="space-y-4 p-4 max-w-md mx-auto">
+    <form className="p-4 md:mx-12 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="recipientName" className="block text-gray-700">
@@ -41,8 +72,12 @@ const Delivery: FC = () => {
             type="text"
             value={formData.recipientName}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="border border-black rounded-lg px-4 py-2 w-full"
           />
+          {errors.recipientName && (
+            <p className="text-red-500">{errors.recipientName}</p>
+          )}
         </div>
         <div>
           <label htmlFor="recipientMobile" className="block text-gray-700">
@@ -54,8 +89,12 @@ const Delivery: FC = () => {
             type="text"
             value={formData.recipientMobile}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="border border-black rounded-lg px-4 py-2 w-full"
           />
+          {errors.recipientMobile && (
+            <p className="text-red-500">{errors.recipientMobile}</p>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -69,8 +108,12 @@ const Delivery: FC = () => {
             type="email"
             value={formData.recipientEmail}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="border border-black rounded-lg px-4 py-2 w-full"
           />
+          {errors.recipientEmail && (
+            <p className="text-red-500">{errors.recipientEmail}</p>
+          )}
         </div>
         <div>
           <label htmlFor="confirmEmail" className="block text-gray-700">
@@ -82,8 +125,12 @@ const Delivery: FC = () => {
             type="email"
             value={formData.confirmEmail}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="border border-black rounded-lg px-4 py-2 w-full"
           />
+          {errors.confirmEmail && (
+            <p className="text-red-500">{errors.confirmEmail}</p>
+          )}
         </div>
       </div>
       <div>
@@ -95,9 +142,11 @@ const Delivery: FC = () => {
           name="message"
           value={formData.message}
           onChange={handleChange}
+          onBlur={handleBlur}
           className="border border-black rounded-lg px-4 py-2 w-full"
           rows={4}
         ></textarea>
+        {errors.message && <p className="text-red-500">{errors.message}</p>}
       </div>
       <div>
         <label htmlFor="senderName" className="block text-gray-700">
@@ -109,8 +158,12 @@ const Delivery: FC = () => {
           type="text"
           value={formData.senderName}
           onChange={handleChange}
+          onBlur={handleBlur}
           className="border border-black rounded-lg px-4 py-2 w-full"
         />
+        {errors.senderName && (
+          <p className="text-red-500">{errors.senderName}</p>
+        )}
       </div>
     </form>
   );

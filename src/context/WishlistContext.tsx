@@ -26,6 +26,7 @@ interface WishlistItem {
   discountPrice: string;
   discountValue: string;
   image_path: string;
+  imageDetails:any;
   url: string;
 }
 
@@ -203,6 +204,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   discountValue: product.discountValue,
                   // image_path: product.imageDetails[0].image_path,
                   image_path: normalizeImagePath(product.image_path),
+                  // image_path: product.imageDetails[0].image_path,
                   url: product.url,
                 },
               ];

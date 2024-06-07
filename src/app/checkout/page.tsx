@@ -55,7 +55,7 @@ const Checkout: React.FC = () => {
   const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
   const [GiftWrapformData, setGiftWrapformData] = useState({
     name: "",
-    wrapOption: false, // Change wrapOption to be a boolean
+    wrapOption: false, 
   });
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
@@ -67,6 +67,7 @@ const Checkout: React.FC = () => {
   const [selectedBillingAddress, setSelectedBillingAddress] =
     useState<Address | null>(null);
   const [loading, setLoading] = useState(false);
+  const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
 
   const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -74,7 +75,9 @@ const Checkout: React.FC = () => {
   const buyNow = searchParams.get("buyNow");
   const pathname = usePathname()
 
-  const [showAllItems, setShowAllItems] = useState(false);
+  const [showAllItems, setShowAllItems] = useState(true);
+
+  
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -146,34 +149,6 @@ const Checkout: React.FC = () => {
     fetchCouponData();
   };
 
-  // useEffect(() => {
-  //   const fetchCouponData = async () => {
-  //     setLoading(true);
-  //     const cookieToken = Cookies.get("localtoken");
-  //     try {
-  //       const response = await axios.post<{ data: any }>(
-  //         `${baseUrl}${coupon}`,
-  //         {
-  //           products: cartProductIds,
-  //           coupon: couponCode,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieToken}`,
-  //           },
-  //         }
-  //       );
-  //       setDataAfterCouponCode(response.data);
-  //     } catch (error) {
-  //       console.log("Error occurred", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCouponData();
-  // }, [couponCode]);
-
   useEffect(() => {
     let totalCartDiscount: number = 0;
     Array.isArray(dataAfterCouponCode.discountedProducts) &&
@@ -186,11 +161,25 @@ const Checkout: React.FC = () => {
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
+
+
   useEffect(() => {
     if (buyNow) {
       setShowAllItems(false);
     }
   }, [buyNow]);
+
+   useEffect(() => {
+     if (buyNow) {
+       const buyNowProductId = parseInt(buyNow);
+       const buyNowItem = cartItems.find(
+         (item) => item.productId === buyNowProductId
+       );
+       if (buyNowItem) {
+         setBuyNowItems([buyNowItem]);
+       }
+     }
+   }, [buyNow, cartItems]);
 
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
@@ -198,14 +187,14 @@ const Checkout: React.FC = () => {
 
   const mappedCartItems = cartItems
     .filter(
-      (item) =>
+      (item:any) =>
         item?.productId ||
         item?.quantity ||
         item?.productDetails?.title ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
-    .map((item) => ({
+    .map((item:any) => ({
       productId: item?.productId,
       quantity: item?.quantity,
       name: item?.productDetails?.title,
@@ -216,44 +205,20 @@ const Checkout: React.FC = () => {
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
-  console.log(mappedCartItems, "hh");
+
+
+
 
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
-  // const mappedCartItems = showAllItems
-  //   ? cartItems
-  //       .filter(
-  //         (item) =>
-  //           item?.productId &&
-  //           item?.quantity &&
-  //           item?.productDetails?.displayTitle &&
-  //           item?.productDetails?.discountPrice &&
-  //           item?.productDetails?.imageDetails
-  //       )
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }))
-  //   : cartItems
-  //       .filter((item) => item.productId === parseInt(buyNow as string))
-  //       .map((item) => ({
-  //         productId: item?.productId,
-  //         quantity: item?.quantity,
-  //         name: item?.productDetails?.displayTitle,
-  //         price: item?.productDetails?.discountPrice,
-  //         image:
-  //           item?.productDetails?.imageDetails &&
-  //           item?.productDetails?.imageDetails.length > 0
-  //             ? item.productDetails.imageDetails[0].image_path
-  //             : "",
-  //       }));
+
+ const finalBuyNowItems = buyNow
+   ? MainCart.filter((item) => item.productId === parseInt(buyNow))
+   : [];
+
+
+
+
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -266,39 +231,49 @@ const Checkout: React.FC = () => {
   const handlePaymentMethodChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
-  let discount = searchParams.get("discount");
-  let ship = searchParams.get("ship");
 
-  let totalCart = 0;
-  MainCart.forEach((item) => {
+
+const calculateTotalPrice = (items: any[]) => {
+  let total = 0;
+  items.forEach((item) => {
     const price = parseInt(item.price?.toString());
     if (!isNaN(price) && typeof item.quantity === "number") {
-      totalCart += price * item.quantity;
+      total += price * item.quantity;
     }
   });
+  return total;
+};
+ let totalCart = buyNow
+   ? calculateTotalPrice(finalBuyNowItems)
+   : calculateTotalPrice(MainCart);
+
+
+
+
+
+  // let totalCart = 0;
+  // MainCart.forEach((item) => {
+  //   const price = parseInt(item.price?.toString());
+  //   if (!isNaN(price) && typeof item.quantity === "number") {
+  //     totalCart += price * item.quantity;
+  //   }
+  // });
   let formattedPrice: string = totalCart.toString();
 
-  // const handleOrderComplete = (
-  //   setCartItems: React.Dispatch<React.SetStateAction<any[]>>
-  // ) => {
-  //   setIsOrderPlaced(true);
-  //   setCartItems([]);
-  //   setSelectedShippingAddress(null);
-  //   setSelectedBillingAddress(null);
-  //   setSelectedPaymentMethod("");
-  //   setFlashMessage("Your order has been placed successfully!");
-  //   setFlashType("success");
-  //   setFlashKey((prevKey) => prevKey + 1);
-  // };
 
-const handleOrderComplete = (
-  setCartItems: React.Dispatch<React.SetStateAction<any[]>>,
-  removeFromCart: (productId: number) => void
-) => {
-  // Remove each item from the cart
-  MainCart.forEach((item) => {
-    removeFromCart(item.productId);
-  });
+const handleOrderComplete = () => {
+  if (buyNow) {
+   
+    finalBuyNowItems.forEach((item) => {
+      removeFromCart(item.productId);
+    });
+  } else {
+  
+    MainCart.forEach((item) => {
+      removeFromCart(item.productId);
+    });
+    setCartItems([]);
+  }
 
   setIsOrderPlaced(true);
   setCartItems([]);
@@ -405,7 +380,7 @@ const handleOrderComplete = (
         setFlashKey((prevKey) => prevKey + 1);
         return;
       }
-      placeOrder();
+      // placeOrder();
     }
   };
   const proceedButtonTitle = () => {
@@ -521,7 +496,7 @@ const handleOrderComplete = (
               <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
               {selectedComponent === "CartItems" && (
                 <CartItems
-                  cartItems={MainCart}
+                  cartItems={buyNow ? finalBuyNowItems : MainCart}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
                 />
@@ -551,7 +526,7 @@ const handleOrderComplete = (
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
-                  mappedCartItems={MainCart}
+                  mappedCartItems={buyNow ? finalBuyNowItems : MainCart}
                   couponCode={couponCode}
                   totalDiscount={totalDiscount}
                   setCartItems={setCartItems}

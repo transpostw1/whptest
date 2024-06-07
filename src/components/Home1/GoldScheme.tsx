@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";

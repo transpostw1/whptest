@@ -2,14 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType } from "@/type/ProductType";
+import {
+  ProductType,
+  ProductForWishlistLoggedIn,
+  ProductForWishlistLoggedOut,
+} from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
+import { useUser } from "@/context/UserContext";
 interface ProductProps {
-  data: ProductType;
+  data: any;
 }
 
 const Product: React.FC<ProductProps> = ({ data }) => {
@@ -17,6 +22,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+  const { isLoggedIn } = useUser();
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
@@ -78,8 +84,34 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   };
 
   const HandleaddToWishlist = () => {
-    addToWishlist(data);
-    setIsProductInWishlist(true);
+    try {
+      console.log("Adding to wishlist, product data:", data);
+      if (data && data.productId) {
+        if (isLoggedIn) {
+          const productToAdd: ProductForWishlistLoggedIn = {
+            productId: data.productId,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        } else {
+          const productToAdd: ProductForWishlistLoggedOut = {
+            productId: data.productId,
+            title: data.title,
+            productPrice: data.productPrice,
+            discountPrice: data.discountPrice,
+            discountValue: data.discountValue,
+            image_path: data.image_path,
+            url: data.url,
+          };
+          addToWishlist(productToAdd);
+          setIsProductInWishlist(true);
+        }
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
   };
 
   const HandleremoveFromWishlist = () => {

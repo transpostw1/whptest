@@ -114,6 +114,7 @@ const Footer = () => {
                       </div>
 
                       <button
+                        className=" flex items-center justify-center relative ms-[-2rem] "
                         className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
                         type="submit"
                       >
@@ -182,7 +183,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="flex ps-10 flex-col lg:flex-row w-full justify-center">
+              <div className="flex flex-col lg:flex-row w-full justify-center">
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>

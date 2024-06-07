@@ -69,8 +69,8 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   }, []);
 
   const handleUrl = (value: any) => {
-    router.push(`/products/?gender=${value}`)
-  }
+    router.push(`/products/?gender=${value}`);
+  };
   if (isMobile) {
     return null;
   }
@@ -141,7 +141,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         <Link
                           href={{
                             pathname: "/products",
-                            query: { url: "_men" },
+                            query: { url: "g-men" },
                           }}
                           onClick={() => setCustomcategory("_men")}
                         >
@@ -352,7 +352,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("earring")}
+                  onClick={() => {
+                    setCustomcategory("earring");
+                    handleUrl("c-earring");
+                  }}
                 >
                   <Link
                     href={{

@@ -1,14 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import StickyNav from "@/components/Header/StickyNav"
+import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-import Loader from "./loading";
-import Link from "next/link";
-import Skeleton from "react-loading-skeleton";
+import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 
 const Wishlist = () => {
@@ -37,42 +35,54 @@ const Wishlist = () => {
     }
   });
 
-  const handleBuyNow = (productItem: ProductData) => {
-    const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productDetails?.productId
-    );
-    const currentQuantity = productAlreadyExists?.quantity ?? 0;
-    const updatedQuantity = currentQuantity + 1;
+  const handleBuyNow = (product: any) => {
+    console.log(product, "PRODUCT");
 
-    if (productAlreadyExists) {
-      updateCartQuantity(
-        productItem.productDetails?.productId,
-        updatedQuantity
-      );
-    } else {
-      addToCart(
-        {
-          ...productItem,
-          quantity: 1,
-          productId: productItem.productDetails.productId,
-        },
-        1
-      );
-    }
+    const productDetails = {
+      productId: product.productId,
+      //  productDetails: {
+      //    //  title: product.title,
+      //    //  image: product.image_path,
+      //    //  price: product.discountPrice,
+      //    title: product.title,
+      //    discountPrice: product.discountPrice,
+      //    //  imageDetails: [
+      //    //    {
+      //    //      imagePath: product.image_path,
+      //    //      // Any other image details you may have
+      //    //    },
+      //    //  ],
+      //    image_path: product.imageDetails,
+      //    productPrice: product.discountPrice,
+      //    discountValue: product.disountValue,
+      //    url: product.url,
+      //  },
+      productDetails: {
+        productId: 60,
+        title: product.title,
+        displayTitle: product.title,
+        url: "gold-earrings",
+        discountPrice: product.discountPrice,
+        imageDetails: [
+          {
+            image_path: product.image_path,
+            order: 0,
+            alt_text: null,
+          },
+        ],
+        productPrice: "27131.1476",
+      },
+    };
+    console.log("Adding to cart:", productDetails);
+    addToCart(productDetails, 1);
+    router.push(`/checkout?buyNow=${product.productId}`);
   };
-  if (isLoading) {
-    return (
-      <div>
-        <Skeleton height={70} />
-      </div>
-    );
-  }
 
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
 
-  const formatCurrency = (value:any) => {
+  const formatCurrency = (value: any) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
@@ -126,16 +136,7 @@ const Wishlist = () => {
                       className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                       onClick={() => handleBuyNow(product)}
                     >
-                      <Link
-                        href={{
-                          pathname: "/checkout",
-                          query: {
-                            buyNow: product.productId.toString(),
-                          },
-                        }}
-                      >
-                        Buy Now
-                      </Link>
+                      Buy Now
                     </div>
                   </div>
                   <div className="product-actions absolute top-2 right-2">

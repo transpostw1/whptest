@@ -113,8 +113,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     );
   const selectedVideo = sortedVideos?.[0];
 
-  const handleDetailProduct = () => {
-    router.push(`/products/${data?.url}`);
+  const handleDetailProduct = (productUrl: any) => {
+    console.log('====================================');
+    console.log(productUrl);
+    console.log('====================================');
+    router.push(`/products/${productUrl}`);
   };
 
   const HandleaddToWishlist = () => {
@@ -190,8 +193,9 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 ) : (
                   <div className="relative">
+
                     <Image
-                      onClick={() => handleDetailProduct()}
+                      onClick={() => handleDetailProduct(data.url)}
                       className="w-[95%] duration-700  m-auto"
                       src={selected.image_path}
                       width={400}
@@ -250,7 +254,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             ) : (
               <div className="relative">
                 <Image
-                  onClick={() => handleDetailProduct()}
+                  onClick={() => handleDetailProduct(data.url)}
                   className="w-[95%] duration-700  m-auto"
                   src={selected.image_path}
                   width={400}

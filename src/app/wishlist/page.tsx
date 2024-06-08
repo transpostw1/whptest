@@ -10,7 +10,7 @@ import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 
 const Wishlist = () => {
-  const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const { cartItems, addToCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -74,7 +74,7 @@ const Wishlist = () => {
       },
     };
     console.log("Adding to cart:", productDetails);
-    addToCart(productDetails, 1);
+    addToCart(productDetails, 1,true);
     removeFromWishlist(product.productId);
     router.push(`/checkout?buyNow=${product.productId}`);
   };

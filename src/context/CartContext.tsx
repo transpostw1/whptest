@@ -32,7 +32,7 @@ interface CartItem {
 
 interface CartContextProps {
   cartItems: CartItem[];
-  addToCart: (item: CartItem, quantity: number) => void;
+  addToCart: (item: CartItem, quantity: number, isBuyNow?: boolean) => void;
   removeFromCart: (productId: number) => void;
   updateCartQuantity: (productId: number, newQuantity: number) => void;
 }
@@ -93,7 +93,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const addToCart = async (
     item: CartItem,
     quantity: number,
-    isBuyNow: boolean = false
+    isBuyNow?: boolean 
   ) => {
     const newItem = { ...item, quantity, isBuyNow };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);

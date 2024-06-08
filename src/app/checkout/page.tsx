@@ -168,6 +168,8 @@ const Checkout: React.FC = () => {
     }
   }, [buyNow]);
 
+
+  
    useEffect(() => {
      if (buyNow) {
        const buyNowProductId = parseInt(buyNow);
@@ -179,6 +181,8 @@ const Checkout: React.FC = () => {
        }
      }
    }, [buyNow, cartItems]);
+
+
 
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);

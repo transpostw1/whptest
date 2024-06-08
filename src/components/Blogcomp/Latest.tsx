@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
-interface Latest{
-  blogData:any[]
+interface LatestProps {
+  blogData: any[];
 }
 
+const Latest: React.FC<LatestProps> = ({ blogData }) => {
+  const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
-const Latest: React.FC<Latest> = ({ blogData }) => {
+  const handlePostClick = (blog: any) => {
+    setSelectedPost(blog);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <div className="px-4 py-8">
       <h2 className="text-3xl font-medium text-start mb-4">
@@ -18,16 +27,10 @@ const Latest: React.FC<Latest> = ({ blogData }) => {
       </p>
       <div className="grid md:grid-cols-2 gap-8">
         {blogData.map((blog) => (
-          <a
-            key={blog.id}
-            href={blog.blogUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className=""
-          >
+          <div key={blog.id} className="cursor-pointer">
             <div
-              key={blog.id}
               className="rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden"
+              onClick={() => handlePostClick(blog)}
             >
               <Image
                 width={400}
@@ -38,7 +41,6 @@ const Latest: React.FC<Latest> = ({ blogData }) => {
               />
               <div className="p-6">
                 <h3 className="text-xl font-semibold ">{blog.title}</h3>
-                
                 <p className="text-sm mb-2">{blog.metaTitle}</p>
                 <div className="flex items-center gap-2 ">
                   <span className="inline-block border border-[#e26178] text-[#e26178] text-xs px-2 py-1 rounded-xl">
@@ -47,9 +49,24 @@ const Latest: React.FC<Latest> = ({ blogData }) => {
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
+      {selectedPost && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center z-[1000] items-center">
+          <div className="bg-white p-8 rounded-lg max-w-lg overflow-y-auto max-h-full">
+            <button
+              className="absolute top-4 right-4 text-gray-600"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+            <h2 className="text-2xl font-semibold">{selectedPost.title}</h2>
+            {/* Render the blog post content */}
+            <div dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

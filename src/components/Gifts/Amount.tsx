@@ -1,20 +1,29 @@
 import React, { useState, ChangeEvent, FC } from "react";
-const Amount = () => {
+
+interface AmountProps {
+  onAmountChange: (amount: number) => void;
+}
+
+const Amount: FC<AmountProps> = ({ onAmountChange }) => {
   const [amount, setAmount] = useState("");
 
-const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-  setAmount(e.target.value);
-};
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAmount(value);
+    onAmountChange(parseInt(value, 10));
+  };
 
-const handleButtonClick = (value: number) => {
-  setAmount(value.toString());
-};
+  const handleButtonClick = (value: number) => {
+    setAmount(value.toString());
+    onAmountChange(value);
+  };
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-evenly space-y-4 md:space-y-0 md:space-x-4 p-4 py-6">
       <div className="flex flex-col items-center">
         <label
           htmlFor="amount"
-          className="text-center   text-gray-700 font-semibold"
+          className="text-center text-gray-700 font-semibold"
         >
           Enter an Amount
         </label>

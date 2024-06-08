@@ -1,13 +1,12 @@
 "use client";
-import React, { useState, ChangeEvent,useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import Occasion from "@/components/Gifts/Occasion";
 import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
 import Delivery from "@/components/Gifts/Delivery";
 import Preview from "@/components/Gifts/Preview";
 import Stepper from "./Stepper";
-import { baseUrl,voucher } from "@/utils/constants";
-import { number } from "yup";
+import { baseUrl, voucher } from "@/utils/constants";
 import axios from "axios";
 
 const steps = [
@@ -26,7 +25,7 @@ const Gifts = () => {
     recipientEmail: "",
     confirmEmail: "",
     message: "",
-    amount: number,
+    amount: 0, // Initialize with 0
     occasion: "",
     senderName: "",
   });
@@ -35,28 +34,30 @@ const Gifts = () => {
   const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(true);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
     null
-  ); 
-  const [voucherData, setVoucher] = useState<any>(null); 
+  );
+  const [selectedTemplateUrl, setSelectedTemplateUrl] = useState<string | null>(
+    null
+  );
+  const [voucherData, setVoucher] = useState<any>(null);
 
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${baseUrl}${voucher}`);
-          setVoucher(response.data);
-        
-        } catch (error) {
-          console.error("Error fetching data: ", error);
-        }
-      };
-
-      fetchData();
-    }, []);
-  console.log(voucherData, "Voucherrrr");
-    const handleOccasionSelect = (occasion: string) => {
-      setFormData((prevData: any) => ({ ...prevData, occasion }));
-      setSelectedOccasion(occasion);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}${voucher}`);
+        setVoucher(response.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     };
+
+    fetchData();
+  }, []);
+
+  const handleOccasionSelect = (occasion: string, voucherId: number) => {
+    setFormData((prevData: any) => ({ ...prevData, occasion }));
+    setSelectedOccasion(occasion);
+    setSelectedTemplateId(voucherId);
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -112,12 +113,17 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
-    console.log("Proceed to Pay");
+    // Here you can handle the final form submission logic, such as sending data to the server.
+    console.log("Proceed to Pay", formData);
   };
 
-   const handleTemplateSelect = (templateId: number) => {
-     setSelectedTemplateId(templateId);
-   };
+  const handleTemplateSelect = (templateUrl: string) => {
+    setSelectedTemplateUrl(templateUrl);
+  };
+
+  const handleAmountChange = (amount: number) => {
+    setFormData((prevData) => ({ ...prevData, amount }));
+  };
 
   const completedSteps = steps.slice(0, currentStep);
   const remainingSteps = steps.slice(currentStep + 1);
@@ -190,17 +196,17 @@ const Gifts = () => {
             <Occasion
               onSelectOccasion={handleOccasionSelect}
               voucherData={voucherData}
-              onTemplateSelect={handleTemplateSelect}
             />
           )}
           {currentStep === 1 && (
             <Templates
               selectedOccasion={selectedOccasion}
-              selectedTemplateId={selectedTemplateId} 
+              selectedTemplateId={selectedTemplateId}
               voucherData={voucherData}
+              onTemplateSelect={handleTemplateSelect}
             />
           )}
-          {currentStep === 2 && <Amount />}
+          {currentStep === 2 && <Amount onAmountChange={handleAmountChange} />}
           {currentStep === 3 && (
             <Delivery formData={formData} handleChange={handleChange} />
           )}
@@ -208,9 +214,13 @@ const Gifts = () => {
             <Preview
               recipientName={formData.recipientName}
               recipientEmail={formData.recipientEmail}
-              amount={formData.amount}
+              recipientMobile={formData.recipientMobile}
+              confirmEmail={formData.confirmEmail}
               message={formData.message}
+              senderName={formData.senderName}
+              amount={formData.amount}
               occasion={formData.occasion}
+              selectedTemplateUrl={selectedTemplateUrl} // Pass selected template URL to Preview
             />
           )}
 

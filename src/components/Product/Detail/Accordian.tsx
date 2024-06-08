@@ -11,6 +11,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { TbHomeCheck } from "react-icons/tb";
 import MobileSizeGuide from "./MobileSizeGuide";
+import Image from "next/image";
 import Link from "next/link";
 interface Props {
   product: ProductData;
@@ -72,7 +73,13 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
-                  <Icon.CrownSimple size={30} weight="thin" />
+                  <Image
+                    src="/images/other/hallmarkSymbol.png"
+                    alt={"Hall Mark Symbol"}
+                    width={50}
+                    height={50}
+                  />
+                  {/* <Icon.CrownSimple size={30} weight="thin" /> */}
                 </span>
                 <span>BIS Hallmarked</span>
               </div>

@@ -437,14 +437,7 @@ const handleOrderComplete = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  const orderSummaryRef = useRef<any>(null);
 
-  const scrollToOrderSummary = (event:any) => {
-    event.preventDefault(); // Prevent default anchor behavior
-    if (orderSummaryRef.current) {
-      orderSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
   return (
     <>
       {/* <ProtectedRoute> */}
@@ -665,7 +658,7 @@ const handleOrderComplete = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary"  ref={orderSummaryRef}>
+                <div id="order-summary" >
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     totalDiscount={totalDiscount}
@@ -699,7 +692,7 @@ const handleOrderComplete = () => {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(totalPrice.toString())))}
             </p>
-            <Link href="#order-summary" onClick={scrollToOrderSummary}>
+            <Link href="#order-summary">
             <p className="text-[#e26178] cursor-pointer"> View Order Summary</p></Link>
           </div>
           <div

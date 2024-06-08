@@ -10,7 +10,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Slider from "react-slick";
 import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
-import StickyNavProductPage from "@/components/Other/StickyNavProductPage"
+import StickyNavProductPage from "@/components/Other/StickyNavProductPage";
 import { useRouter } from "next/navigation";
 import ReviewsAndRatings from "./ReviewsAndRatings";
 import CheckPincode from "./CheckPincode";
@@ -29,7 +29,8 @@ import DropDown from "./DropDown";
 import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
-
+import CtaButtonsMobile from "./CtaButtonsMobile";
+import ReactImageMagnify from 'react-image-magnify';
 
 interface Props {
   productId: string | number | null;
@@ -57,7 +58,6 @@ const Default: React.FC<Props> = ({ productId }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
-
   };
 
   async function getData() {
@@ -67,102 +67,93 @@ const Default: React.FC<Props> = ({ productId }) => {
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
-        query productDetails(
-          $productUrl : String!
-        ){
-          productDetails(
-            productUrl: $productUrl
-          )
-          {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-            review
-            variants
+      query productDetails($productUrl: String!) {
+        productDetails(productUrl: $productUrl) {
+          productId
+          SKU
+          variantId
+          isParent
+          title
+          displayTitle
+          shortDesc
+          longDesc
+          url
+          tags
+          collectionName
+          shopFor
+          occasion
+          theme
+          length
+          breadth
+          height
+          addDate
+          lastModificationDate
+          productSize
+          productQty
+          attributeId
+          preSalesProductQueries
+          isReplaceable
+          isReturnable
+          isInternationalShippingAvailable
+          customizationAvailability
+          fastDelivery
+          tryAtHome
+          isActive
+          grossWeight
+          netWeight
+          discountId
+          discountCategory
+          discountActive
+          typeOfDiscount
+          discountValue
+          discountAmount
+          discountPrice
+          offerStartDate
+          offerEndDate
+          mediaId
+          metalType
+          metalPurity
+          metalWeight
+          metalRate
+          makingType
+          makingChargesPerGrams
+          makingCharges
+          gst
+          additionalCost
+          productPrice
+          discountPrice
+          rating
+          imageDetails {
+            image_path
+            order
+            alt_text
           }
+          videoDetails {
+            video_path
+            order
+            alt_text
+          }
+          productAttributes {
+            goldDetails {
+              goldCertifiedBy
+              goldSetting
+            }
+            gemstoneDetails
+            diamondDetails
+            silverDetails {
+              poojaArticle
+              utensils
+              silverWeight
+            }
+          }
+          stoneDetails
+          diamondDetails
+          review
+          variants
         }
-      `;
+      }
+    `;
     console.log("----------------", productId);
-
-
-
-
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
@@ -194,13 +185,8 @@ const Default: React.FC<Props> = ({ productId }) => {
         cache: new InMemoryCache(),
       });
       const GET_SINGLE_PRODUCT = gql`
-        query productDetails(
-          $productUrl : String!
-        ){
-          productDetails(
-            productUrl: $productUrl
-          )
-          {
+        query productDetails($productUrl: String!) {
+          productDetails(productUrl: $productUrl) {
             productId
             SKU
             variantId
@@ -287,10 +273,6 @@ const Default: React.FC<Props> = ({ productId }) => {
       `;
       console.log("----------------", productId);
       console.log("----------------", productId);
-
-
-
-
 
       const { data } = await client.query({
         query: GET_SINGLE_PRODUCT,
@@ -328,7 +310,10 @@ const Default: React.FC<Props> = ({ productId }) => {
       {
         breakpoint: 768, // Adjust this breakpoint as needed
         settings: {
-          slidesToShow: Math.min(3, data?.productDetails?.imageDetails?.length || 0),
+          slidesToShow: Math.min(
+            3,
+            data?.productDetails?.imageDetails?.length || 0
+          ),
           centerPadding: "5px",
         },
       },
@@ -357,6 +342,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   return (
     <>
       <StickyNavProductPage />
+      <CtaButtonsMobile product={data} />
       <div className="lg:flex">
         <div className="lg:w-[50%] sm:w-[100%]">
           {loading ? (
@@ -365,19 +351,49 @@ const Default: React.FC<Props> = ({ productId }) => {
             <div className="bg-[#f7f7f7]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data &&
-                  data?.productDetails?.imageDetails
-
-                    .map((image: any, index: any) => (
-                      <div key={index}>
-                        <InnerImageZoom
-                          src={image.image_path}
-                          zoomScale={1.5}
-                          zoomType="click"
-                          hideCloseButton={true}
+                  data?.productDetails?.imageDetails.map(
+                    (image: any, index: any) => (
+                      <div key={index} className="left-2">
+                        <ReactImageMagnify
                           className="d-flex-important justify-center"
+                          {...{
+                            smallImage: {
+                              alt: "Wristwatch by Ted Baker London",
+                              isFluidWidth: true,
+                              src: image.image_path,
+                            },
+                            largeImage: {
+                              src: image.image_path,
+                              width: 1200,
+                              height: 1800,
+                            },
+                            enlargedImageContainerClassName:"enlarge-image-container",
+                            enlargedImagePosition:"over",
+                            isHintEnabled:"true",
+                            shouldUsePositiveSpaceLens:"true",
+                            enlargedImageContainerDimensions: {
+                              width: "150%",
+                              height: "150%",
+                            },
+                          }}
+                          lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
                         />
                       </div>
-                    ))}
+                    )
+                  )}
+                {data &&
+                  data.productDetails?.videoDetails &&
+                  data.productDetails?.videoDetails.length > 0 &&
+                  data.productDetails?.videoDetails.map((item: any) => (
+                    <video
+                      key={item.order}
+                      className=""
+                      src={item.video_path}
+                      loop
+                      autoPlay
+                      muted
+                    />
+                  ))}
               </Slider>
               <div className="m-auto w-[60%] h-full relative">
                 <>
@@ -385,13 +401,12 @@ const Default: React.FC<Props> = ({ productId }) => {
                     {...settingsThumbnails}
                     ref={(slider: any) => {
                       sliderRef = slider;
-                      setNav2(slider)
+                      setNav2(slider);
                     }}
                   >
                     {data &&
-                      data.productDetails?.imageDetails
-
-                        .map((image: any, index: any) => (
+                      data.productDetails?.imageDetails.map(
+                        (image: any, index: any) => (
                           <div key={index}>
                             <Image
                               src={image?.image_path}
@@ -399,10 +414,21 @@ const Default: React.FC<Props> = ({ productId }) => {
                               width={100}
                               height={100}
                               className="cursor-pointer mx-3 border"
-
                             />
                           </div>
-                        ))}
+                        )
+                      )}
+                    {data &&
+                      data.productDetails?.videoDetails &&
+                      data.productDetails?.videoDetails.length > 0 &&
+                      data.productDetails?.videoDetails.map((item: any) => (
+                        <video
+                          key={item.order}
+                          className="cursor-pointer mx-3 border"
+                          src={item.video_path}
+                          muted
+                        />
+                      ))}
                   </Slider>
                 </>
                 <div className="absolute top-[25px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
@@ -421,7 +447,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
 
-          {data &&
+          {/* {data &&
             data.productDetails?.videoDetails &&
             data.productDetails?.videoDetails.length > 0 &&
             data.productDetails?.videoDetails.map((item: any) => (
@@ -433,7 +459,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 autoPlay
                 muted
               />
-            ))}
+            ))} */}
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
@@ -480,8 +506,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                     ₹{formattedOriginalPrice}
                   </span>
                   <span className="ml-3 text-[#e26178] underline">
-                    {data && parseInt(data?.productDetails.discountValue)}% OFF on{" "}
-                    {data && data?.productDetails.discountCategory}
+                    {data && parseInt(data?.productDetails.discountValue)}% OFF
+                    on {data && data?.productDetails.discountCategory}
                   </span>
                 </>
               )}
@@ -501,7 +527,10 @@ const Default: React.FC<Props> = ({ productId }) => {
             </span>
           </div> */}
           {data?.productDetails?.variantId !== null && (
-            <DropDown product={data?.productDetails} handleVariant={handleNewVariant} />
+            <DropDown
+              product={data?.productDetails}
+              handleVariant={handleNewVariant}
+            />
           )}
           {data && data?.productDetails?.productQty !== null && (
             <p className="mt-2">
@@ -532,18 +561,21 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div> */}
           <CheckPincode />
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
-          {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
-          {data &&data?.productDetails?.tryAtHome===1&&
-          <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
-            <span className="underline text-[#e26178] cursor-pointer ">
-              Schedule free trial
-            </span>
-            <span> or </span>
-            <span className="underline text-[#e26178] cursor-pointer">
-              Try at Home
-            </span>
-            <span> today!</span>
-          </div>}
+          <div className="block max-sm:hidden">
+            {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
+          </div>
+          {data && data?.productDetails?.tryAtHome === 1 && (
+            <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
+              <span className="underline text-[#e26178] cursor-pointer ">
+                Schedule free trial
+              </span>
+              <span> or </span>
+              <span className="underline text-[#e26178] cursor-pointer">
+                Try at Home
+              </span>
+              <span> today!</span>
+            </div>
+          )}
           <GoldSchemeSmallBanner />
           <Accordian product={data} />
         </div>
@@ -553,9 +585,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       </div>
       <div>
         {data && (
-          <SimilarProducts
-            productId={data?.productDetails?.productId}
-          />
+          <SimilarProducts productId={data?.productDetails?.productId} />
         )}
       </div>
     </>

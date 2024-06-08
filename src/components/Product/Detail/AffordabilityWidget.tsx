@@ -6,12 +6,12 @@ interface Props{
 }
 const AffordabilityWidget :React.FC<Props> = ({key,amount}) => {
 
-    function loadWidget() {
+    const loadWidget=()=> {
       const widgetConfig = { key, amount };
       payuAffordability.init(widgetConfig);
     }
   
-    function appendScript() {
+    const appendScript=()=> {
       let myScript = document.getElementById("payu-affordability-widget");
       if(!myScript){    
           myScript = document.createElement('script');

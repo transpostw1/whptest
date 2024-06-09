@@ -1,18 +1,15 @@
-// BlogPostPage.tsx
-
 import React from "react";
 
-interface BlogPostPageProps {
+interface BlogPostProps {
   content: string;
 }
 
-const Blogpost: React.FC<BlogPostPageProps> = ({ content }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ content }) => {
   return (
-    <div>
-      
+    <div className="p-4">
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </div>
   );
 };
 
-export default Blogpost;
+export default BlogPost;

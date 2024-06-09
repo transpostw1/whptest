@@ -74,7 +74,7 @@ const Wishlist = () => {
       },
     };
     console.log("Adding to cart:", productDetails);
-    addToCart(productDetails, 1,true);
+    addToCart(productDetails, 1, true);
     removeFromWishlist(product.productId);
     router.push(`/checkout?buyNow=${product.productId}`);
   };

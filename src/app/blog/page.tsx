@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Loader from "./Loader";
+import Loader from "./Loader"; 
 import Latest from "@/components/Blogcomp/Latest";
 import Trending from "@/components/Blogcomp/Trending";
 import Card from "@/components/Blogcomp/Card";

@@ -248,15 +248,21 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <p className="text-sm">Search</p>
                       </div>
                     </div>
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/blog.svg"}
-                        alt="Blog"
-                        width={30}
-                        height={30}
-                      />
-                      <p className="text-sm">Blog</p>
-                    </div>
+                    <Link href={"/blog"}>
+                      <div   className={`flex flex-col items-center ${
+                            pathname.includes("/blog")
+                              ? "text-[#e26178]"
+                              : ""
+                          }`}>
+                        <Image
+                          src={"/images/icons/blog.svg"}
+                          alt="Blog"
+                          width={30}
+                          height={30}
+                        />
+                        <p className="text-sm">Blog</p>
+                      </div>
+                    </Link>
                     <div
                       className={`flex flex-col items-center ${
                         contactPopUp ? "text-[#e26178]" : ""

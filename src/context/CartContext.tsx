@@ -199,6 +199,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
         for (const item of parsedCartItems) {
          addToCart(item, item.quantity || 1);
+           localStorage.removeItem("cartItems"); 
         }
         localStorage.removeItem("cartItems"); 
       }

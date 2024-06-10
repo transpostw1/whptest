@@ -136,13 +136,13 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
     );
     router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
   };
-  if (isLoading) {
-    return (
-      <div>
-        <Skeleton height={70} />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <Skeleton height={70} />
+  //     </div>
+  //   );
+  // }
 
   if(!isMobile){
     return null;

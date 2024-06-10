@@ -358,7 +358,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                           className="d-flex-important justify-center"
                           {...{
                             smallImage: {
-                              alt: "Wristwatch by Ted Baker London",
+                              alt: "Product Image",
                               isFluidWidth: true,
                               src: image.image_path,
                             },
@@ -369,14 +369,15 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             enlargedImageContainerClassName:"enlarge-image-container",
                             enlargedImagePosition:"over",
-                            isHintEnabled:"true",
-                            shouldUsePositiveSpaceLens:"true",
+                            // isHintEnabled:true,
+                            // shouldUsePositiveSpaceLens:true,
                             enlargedImageContainerDimensions: {
                               width: "150%",
                               height: "150%",
                             },
+                            isActivatedOnTouch: true
                           }}
-                          lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
+                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
                         />
                       </div>
                     )

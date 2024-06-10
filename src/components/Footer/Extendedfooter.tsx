@@ -4,7 +4,7 @@ const Extendedfooter = () => {
   return (
     <div className="px-7 py-10">
       <h1 className="font-semibold mb-4">Popular Searches</h1>
-      <div className="pb-4 border-b border-line">
+      {/* <div className="pb-4 border-b border-line">
         <h1 className="font-semibold">Gold Rate in Major Cities</h1>
         <h1>
           Gold Rate Today In Chennai | Gold Rate Today In Hyderabad | Gold Rate
@@ -13,7 +13,7 @@ const Extendedfooter = () => {
           Today In Vijayawada | Gold Rate Today In Kolkata | Gold Rate Today In
           Ahmedabad
         </h1>
-      </div>
+      </div> */}
 
       <div className="py-4 border-b border-line">
         <h1 className="font-semibold">For Women</h1>

@@ -364,8 +364,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             largeImage: {
                               src: image.image_path,
-                              width: 1200,
-                              height: 1800,
+                              width: 1000,
+                              height: 1200,
                             },
                             enlargedImageContainerClassName:"enlarge-image-container",
                             enlargedImagePosition:"over",

@@ -388,29 +388,33 @@ const Accordian: React.FC<Props> = ({ product }) => {
               call away
             </div>
             <div className="flex">
-              <Link
-                href="tel:+91 1800-222-225"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link href={"#!"}>
                 <div className="mr-5 mt-5 text-center">
                   <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
                   <p>Whatsapp</p>
                 </div>
               </Link>
-              <div className="mr-5 mt-5">
-                <Icon.Phone size={30} color="#e26178" weight="fill" />
-                <p>Call</p>
-              </div>
-              <div className="mr-5 mt-5">
-                <Icon.ChatTeardropDots
-                  className="ml-4"
-                  size={30}
-                  weight="fill"
-                  color="#e26178"
-                />
-                <p>Message</p>
-              </div>
+              <Link
+                href="tel:+91 1800-222-225"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="mr-5 mt-5">
+                  <Icon.Phone size={30} color="#e26178" weight="fill" />
+                  <p>Call</p>
+                </div>
+              </Link>
+              <Link href={"#!"}>
+                <div className="mr-5 mt-5">
+                  <Icon.ChatTeardropDots
+                    className="ml-4"
+                    size={30}
+                    weight="fill"
+                    color="#e26178"
+                  />
+                  <p>Message</p>
+                </div>
+              </Link>
             </div>
           </div>
         ) : null}

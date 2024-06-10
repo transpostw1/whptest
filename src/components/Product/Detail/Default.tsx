@@ -372,8 +372,8 @@ const Default: React.FC<Props> = ({ productId }) => {
                             // isHintEnabled:true,
                             // shouldUsePositiveSpaceLens:true,
                             enlargedImageContainerDimensions: {
-                              width: "150%",
-                              height: "150%",
+                              width: "100%",
+                              height: "100%",
                             },
                             isActivatedOnTouch: true
                           }}

@@ -58,37 +58,36 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (isLoggedIn && cookieToken) {
-        await addLocalItemsToServerCart();
-
-        const cartItemsFromServer = await fetchCartItemsFromServer();
-        setCartItems(cartItemsFromServer);
-      } else if (typeof window !== "undefined") {
-        const cartItemsFromStorage = localStorage.getItem("cartItems");
-        if (cartItemsFromStorage) {
-          setCartItems(JSON.parse(cartItemsFromStorage));
-        } else {
-          const searchParams = new URLSearchParams(window.location.search);
-          const buyNowId = searchParams.get("buyNow");
-          if (buyNowId) {
-            const mockCartItem = {
-              productId: parseInt(buyNowId),
-              quantity: 1,
-              productDetails: {
-                displayTitle: "Product Title",
-                discountPrice: 0,
-                imageDetails: [],
-              },
-            };
-            setCartItems([mockCartItem]);
-          }
-        }
-      }
-    };
-    fetchCartItems();
-  }, [isLoggedIn, cookieToken]);
+ useEffect(() => {
+   const fetchCartItems = async () => {
+     if (isLoggedIn && cookieToken) {
+       await addLocalItemsToServerCart();
+       const cartItemsFromServer = await fetchCartItemsFromServer();
+       setCartItems(cartItemsFromServer);
+     } else if (typeof window !== "undefined") {
+       const cartItemsFromStorage = localStorage.getItem("cartItems");
+       if (cartItemsFromStorage) {
+         setCartItems(JSON.parse(cartItemsFromStorage));
+       } else {
+         const searchParams = new URLSearchParams(window.location.search);
+         const buyNowId = searchParams.get("buyNow");
+         if (buyNowId) {
+           const mockCartItem = {
+             productId: parseInt(buyNowId),
+             quantity: 1,
+             productDetails: {
+               displayTitle: "Product Title",
+               discountPrice: 0,
+               imageDetails: [],
+             },
+           };
+           setCartItems([mockCartItem]);
+         }
+       }
+     }
+   };
+   fetchCartItems();
+ }, [isLoggedIn, cookieToken]);
 
   const addToCart = async (
     item: CartItem,
@@ -100,7 +99,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
-      syncCartWithServer([...cartItems, newItem]);
+      syncCartWithServer([newItem]);
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
     }
@@ -162,51 +161,50 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const syncCartWithServer = async (cartItems: CartItem[]) => {
-    let discount: number = 0;
-    updateTotalDiscount(discount);
-    try {
-      const cartData = cartItems.map((item) => ({
-        productId: item.productId,
-        quantity: item.quantity || "0",
-      }));
-      await instance
-        .post(
-          `${baseUrl}/cart/sync`,
-          { cart: cartData },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
-          }
-        )
-        .then(async (response) => {
-          const cartItemsFromServer = await fetchCartItemsFromServer();
-          setCartItems(cartItemsFromServer);
-        });
-    } catch (error) {
-      console.error("Error syncing cart with server:", error);
-      // logOut();
-      // router.push("/login");
-    }
-  };
+const syncCartWithServer = async (cartItems: CartItem[]) => {
+  let discount: number = 0;
+  updateTotalDiscount(discount);
+  try {
+    const cartData = cartItems.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity || 0,
+    }));
 
-
-  const addLocalItemsToServerCart = async () => {
-    try {
-      const cartItemsFromStorage = localStorage.getItem("cartItems");
-      if (cartItemsFromStorage) {
-        const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
-        for (const item of parsedCartItems) {
-         addToCart(item, item.quantity || 1);
-           localStorage.removeItem("cartItems"); 
-        }
-        localStorage.removeItem("cartItems"); 
+    // Debounce or throttle this call if needed to prevent excessive requests
+    const response = await instance.post(
+      `${baseUrl}/cart/sync`,
+      { cart: cartData },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
       }
-    } catch (error) {
-      console.error("Error adding local items to server cart:", error);
+    );
+
+    const cartItemsFromServer = await fetchCartItemsFromServer();
+    setCartItems(cartItemsFromServer);
+  } catch (error) {
+    console.error("Error syncing cart with server:", error);
+  }
+};
+
+
+const addLocalItemsToServerCart = async () => {
+  try {
+    const cartItemsFromStorage = localStorage.getItem("cartItems");
+    if (cartItemsFromStorage) {
+      const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
+      for (const item of parsedCartItems) {
+        await syncCartWithServer([item]); // Sync each item with the server
+      }
+      localStorage.removeItem("cartItems"); // Clear local storage once items are synced
     }
-  };
+  } catch (error) {
+    console.error("Error adding local items to server cart:", error);
+  }
+};
+
+
 
 
 

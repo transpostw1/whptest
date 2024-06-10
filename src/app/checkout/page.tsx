@@ -86,7 +86,6 @@ const Checkout: React.FC = () => {
     setShippingAddressSelected(true);
   };
   const onBillingAddressSelected = () => {
-    // Add this function
     setBillingAddressSelected(true);
   };
   const handleGiftWrapFormData = (giftmessage: any, wrapvalue: any) => {
@@ -215,7 +214,6 @@ const Checkout: React.FC = () => {
 
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
-  console.log(MainCart,"sfjlsjf")
 
 
  const finalBuyNowItems = buyNow
@@ -348,7 +346,7 @@ const handleOrderComplete = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      localStorage.setItem("redirectPath", pathname);
+      localStorage.setItem("redirectPath", window.location.href);
       router.push("/login");
       return;
     }

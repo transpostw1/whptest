@@ -316,7 +316,7 @@ const ShopBreadCrumb1 = () => {
       // }
     });
 
-    setSelectedOptions(initialOptions);
+    setSelectedOptions(initialOptions)
     console.log("Initial selectedOptions from URL:", initialOptions);
 
     // fetchData(initialOptions);

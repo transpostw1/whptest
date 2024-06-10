@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const Gifts = () => {
+  const [isMobile, setIsMobile] = useState(false);
   let categories = [
     {
       id: 1,
@@ -90,15 +92,38 @@ const Gifts = () => {
     {
       id: 8,
       type: "VALENTINES",
-      image: <Image src={"/images/other/Valentines.jpg"} alt="" width={400} height={400} />,
+      image: (
+        <Image
+          src={"/images/other/Valentines.jpg"}
+          alt=""
+          width={400}
+          height={400}
+        />
+      ),
     },
   ];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
 
   return (
     <>
       <div className="w-full px-8 my-16  text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">GIFTS</h1>
+          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">
+            Occasion
+          </h1>
           <p>
             Discover the joy of gifting with our curated selection,where every
             piece reflects <br />
@@ -108,15 +133,13 @@ const Gifts = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-3">
           {categories.map((category) => (
-            <div
-              key={category.id}
-              className="flex flex-col gap-2 relative"
-            >
+            <div key={category.id} className="flex flex-col gap-2 relative">
               <div className="effect10 img">
-                {category.image} <a href="#">{category.type}</a>
+                {category.image} {!isMobile && <a href="#">{category.type}</a>}
               </div>
               {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}
-              <a className="inline-flex" >
+              {isMobile && <div className="w-[80%] break-words">{category.type}</div>}
+              <div className="inline-flex">
                 <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
                   View All
                 </span>
@@ -128,7 +151,7 @@ const Gifts = () => {
                     height={20}
                   />
                 </span>
-              </a>
+              </div>
             </div>
           ))}
         </div>

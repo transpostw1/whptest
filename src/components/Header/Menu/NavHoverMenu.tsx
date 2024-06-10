@@ -384,11 +384,11 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "new_Arrival" },
+                      query: { url: "c-new_Arrival" },
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "new_Arrival"
+                      searchParmas.get("url") === "c-new_Arrival"
                         ? "active"
                         : ""
                     }`}

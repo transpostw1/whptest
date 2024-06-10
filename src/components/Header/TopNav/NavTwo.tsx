@@ -20,7 +20,6 @@ import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 
-
 interface Props {
   props: string;
 }
@@ -45,7 +44,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-  
+
   const pathname = usePathname();
   const handleOnClose = () => {
     setAppointmentModal(false);
@@ -249,13 +248,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
                     </div>
                     <div className="flex flex-col items-center">
-                      <Image
-                        src={"/images/icons/blog.svg"}
-                        alt="Blog"
-                        width={30}
-                        height={30}
-                      />
-                      <p className="text-sm">Blog</p>
+                      <Link href={"/blog"}>
+                        <Image
+                          src={"/images/icons/blog.svg"}
+                          alt="Blog"
+                          width={30}
+                          height={30}
+                        />
+                        <p className="text-sm">Blog</p>
+                      </Link>
                     </div>
                     <div
                       className={`flex flex-col items-center ${
@@ -275,7 +276,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleProfilePage}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="black" />
+                            <Icon.User size={28} />
                             <p className="text-sm">
                               {userDetails?.customer?.firstname}
                             </p>

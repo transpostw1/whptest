@@ -6,7 +6,7 @@ const NotFound = () => {
     <div className="not-found-container">
       <div className="not-found-content">
         <div className="error-code">
-          <span>4</span>
+          <span >4</span>
           <Image
             src="/images/other/ssss.png"
             alt="Ring"

@@ -95,33 +95,6 @@ const Footer = () => {
                   <div className="caption1  font-semibold text-center lg:text-start">
                     Subscribe for WhatsApp updates
                   </div>
-                  {/* <div className="input-block  mt-2 relative">
-                    <form
-                      className="flex justify-center lg:justify-start"
-                      action="post"
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="caption1 bg-white">
-                        <PhoneInput
-                          country={"in"}
-                          value={formik.values.phoneNumber}
-                          onChange={(value) => {
-                            setPhoneNumber(value);
-                            formik.handleChange("phoneNumber")(value);
-                          }}
-                          // containerClass="custom-phone-input"
-                        />
-                      </div>
-
-                      <button
-                        className=" flex items-center justify-center relative ms-[-2rem] "
-                        className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
-                        type="submit"
-                      >
-                        <Icon.ArrowRight size={24} color="#fff" />
-                      </button>
-                    </form>
-                  </div> */}
                   <div className="input-block h-[52px] mt-2 relative">
                     <form
                       className="flex justify-center lg:justify-start"

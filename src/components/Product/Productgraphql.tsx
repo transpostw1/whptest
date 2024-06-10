@@ -78,14 +78,14 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }, []);
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
-      (item) => item.productId === data.productId
+      (item: any) => item.productId === data.productId
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
   const sortedImages = data?.imageDetails
     ?.filter(
-      (item): item is ImageDetailWithTypename =>
+      (item: any): item is ImageDetailWithTypename =>
         item !== null && item !== undefined
     )
     ?.sort(
@@ -114,9 +114,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = (productUrl: any) => {
-    console.log('====================================');
-    console.log(productUrl);
-    console.log('====================================');
     router.push(`/products/${productUrl}`);
   };
 
@@ -125,13 +122,13 @@ const Product: React.FC<ProductProps> = ({ data }) => {
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         if (isLoggedIn) {
-          const productToAdd: ProductForWishlistLoggedIn = {
+          const productToAdd: any = {
             productId: data.productId,
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
         } else {
-          const productToAdd: ProductForWishlistLoggedOut = {
+          const productToAdd: any = {
             productId: data.productId,
             title: data.title,
             productPrice: data.productPrice,
@@ -181,7 +178,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   <div className="mb-2">
                     <div
                       className="object-cover relative duration-700 product-img"
-                      onClick={() => handleDetailProduct()}
+                      onClick={() => handleDetailProduct(data.url)}
                     >
                       <video loop autoPlay muted>
                         <source
@@ -193,7 +190,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 ) : (
                   <div className="relative">
-
                     <Image
                       onClick={() => handleDetailProduct(data.url)}
                       className="w-[95%] duration-700  m-auto"
@@ -296,18 +292,15 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               </div>
             )}
           </div>
-          <div className=" mt-4 lg:mb-4" onClick={() => handleDetailProduct()}>
+          <div
+            className=" mt-4 lg:mb-4"
+            onClick={() => handleDetailProduct(data.url)}
+          >
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
-            {/* <div className="flex">
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-            </div> */}
+
             <StarRating stars={data.rating} />
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">

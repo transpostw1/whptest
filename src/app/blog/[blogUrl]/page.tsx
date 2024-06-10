@@ -48,14 +48,14 @@ const BlogDetail:React.FC<Props>= ({params}) => {
   return (
     <>
       <div className="mx-11">
-        <h1 className="text-xl font-semibold py-5">{blogData.title}</h1>
         <Image
           src={blogData.image}
           alt={"blog"}
-          className="object-contain my-6"
-          height={500}
-          width={500}
+          className="object-contain mb-6 w-[100%]"
+          height={700}
+          width={700}
         />
+        <h1 className="text-xl font-semibold pb-5">{blogData.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
       </div>
     </>

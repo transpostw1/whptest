@@ -47,7 +47,7 @@ const GoldScheme = () => {
             <Link className=" lg:pb-10 text-center lg:text-left md:justify-start inline-flex w-full justify-center" href="/benefit">
               <button
                 type="button"
-                className="text-white flex justify-center px-6 py-3  bg-[#E26178] focus:ring-4 focus:outline-none font-medium text-sm  text-center my-4 ">
+                className="text-white flex justify-center px-6 py-3  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d]  focus:ring-4 focus:outline-none font-medium text-sm  text-center my-4 ">
                 Know More
                 <span className="mt-1 ml-2">
                   <Icon.ArrowRight />
@@ -71,7 +71,7 @@ const GoldScheme = () => {
                       ₹2000. Make regular installments and get discounts.
                     </p>
                   </div>
-                  <div className="flex w-full mt-5">
+                  <div className="flex w-full">
                   <button
                     // href="#"
                     onClick={() => handleNavigation("/benefit")}

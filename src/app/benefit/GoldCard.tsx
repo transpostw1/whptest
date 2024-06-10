@@ -56,25 +56,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
     }
   };
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value =  parseInt(event.target.value, 10);
-  //   if (isNaN(value)) {
-  //     setMonthlyDeposit(2000);
-  //     setError("Invalid input. Setting to default.");
-  //   } else {
-  //     const newValue = Math.floor(value / 1000) * 1000;
-  //     if (newValue < 2000) {
-  //       setMonthlyDeposit(2000);
-  //       setError("Minimum deposit is 2000");
-  //     } else if (newValue > 50000) {
-  //       setMonthlyDeposit(50000);
-  //       setError("Maximum deposit is 50000");
-  //     } else {
-  //       setMonthlyDeposit(newValue);
-  //       setError(null);
-  //     }
-  //   }
-  // };
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
@@ -212,7 +194,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
               </h1>
             </div>
           </div>
-          <div className="mb-3">
+          <div className="mb-3 flex flex-col text-center">
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
@@ -226,7 +208,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
                 className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
                 href={"/terms-and-condition"}
               >
-             T&C apply*
+                T&C apply*
               </Link>
             </div>
           </div>

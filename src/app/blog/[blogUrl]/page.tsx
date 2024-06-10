@@ -1,31 +1,32 @@
 "use client";
 import Image from "next/image";
-
-import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loader from "../Loader";
 import { baseUrl, blogs } from "@/utils/constants";
-
-const BlogDetail = () => {
-  const searchParams = useSearchParams();
-  const blogUrl = searchParams.get("blogUrl");
+interface Props {
+  title:string;
+  params: { blogUrl: string };
+}
+const BlogDetail:React.FC<Props>= ({params}) => {
+    const { blogUrl } = params;
   const [blogData, setBlogData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
-        console.log("INNINININ",blogUrl)
-        const response = await axios.get(`${baseUrl}${blogs}`);
-        const matchingBlog = response.data.find(
-          (blog:any) => blog.blogUrl === blogUrl
-        );
-        if (matchingBlog) {
-            console.log(matchingBlog,"matchingblooo")
-          setBlogData(matchingBlog);
-        } else {
-          console.log("Blog not found");
+        if (typeof blogUrl === "string") {
+          const response = await axios.get(`${baseUrl}${blogs}`);
+          const matchingBlog = response.data.find(
+            (blog: any) => blog.blogUrl === blogUrl
+          );
+        //   console.log(matchingblog,"Matchingg bloggg")
+          if (matchingBlog) {
+            setBlogData(matchingBlog);
+          } else {
+            console.log("Blog not found");
+          }
         }
       } catch (error) {
         console.log("Error fetching blog data:", error);
@@ -37,7 +38,7 @@ const BlogDetail = () => {
   }, [blogUrl]);
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (!blogData) {
@@ -52,8 +53,8 @@ const BlogDetail = () => {
           src={blogData.image}
           alt={"blog"}
           className="object-contain my-6"
-          height={300}
-          width={300}
+          height={500}
+          width={500}
         />
         <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
       </div>

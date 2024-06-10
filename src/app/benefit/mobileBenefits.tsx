@@ -111,8 +111,10 @@ const MobileBenefits: React.FC = () => {
     <div className="lg:hidden py-5 px-6">
       <div className="flex items-center justify-evenly mb-2">
         <button
-          className={`bg-[#E26178] w-24 rounded-lg font-semibold ${
-            activeSlide === 0 ? "bg-[#ebe3d5]" : ""
+          className={` w-24 rounded-lg font-semibold ${
+            activeSlide === 0
+              ? "bg-[#ebe3d5]"
+              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
           }`}
           onClick={() => handleButtonClick(0)}
         >
@@ -120,16 +122,20 @@ const MobileBenefits: React.FC = () => {
         </button>
 
         <button
-          className={`bg-[#E26178] w-24 rounded-lg font-semibold ${
-            activeSlide === 1 ? "bg-[#d0e1e2]" : ""
+          className={` w-24 rounded-lg font-semibold ${
+            activeSlide === 1
+              ? "bg-[#d0e1e2]"
+              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
           }`}
           onClick={() => handleButtonClick(1)}
         >
           Diamond
         </button>
         <button
-          className={`bg-[#E26178] w-24 rounded-lg font-semibold ${
-            activeSlide === 2 ? "bg-[#edebed]" : ""
+          className={`w-24 rounded-lg font-semibold ${
+            activeSlide === 2
+              ? "bg-[#edebed]"
+              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
           }`}
           onClick={() => handleButtonClick(2)}
         >

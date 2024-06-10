@@ -134,14 +134,6 @@ const SilverCard: React.FC<SilverCardProps> = ({
               monthlyDeposit={monthlyDeposit}
             />
           </div>
-          <div>
-            <Link
-              className=" text-black underline text-center rounded-xl w-full cursor-pointer "
-              href={"/terms-and-condition"}
-            >
-              Read terms and conditions
-            </Link>
-          </div>
         </div>
         <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">
           <h1 className="font-medium">
@@ -200,7 +192,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
               </h1>
             </div>
           </div>
-          <div className="mb-3">
+          <div className="mb-3 flex flex-col text-center">
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "

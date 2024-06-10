@@ -6,6 +6,7 @@ import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
@@ -19,8 +20,37 @@ const GetFastDeliveryProducts = () => {
     const getData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${baseUrl}/fast-delivery`);
-        setData(await response.data);
+        const client = new ApolloClient({
+          // uri: "http://localhost:8080/",
+          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          cache: new InMemoryCache(),
+        });
+
+        const FAST_DELIVERY_QUERY = gql`
+  query FastDelivery {
+    fastDelivery {
+      productId
+      url
+      title
+      productPrice
+      discountPrice
+      typeOfDiscount
+      discountValue
+      rating
+      imageDetails {
+        image_path
+      }
+      videoDetails {
+        video_path
+      }
+    }
+  }
+`;
+        const { data } = await client.query({
+          query: FAST_DELIVERY_QUERY,
+        });
+        // const response = await axios.get(`${baseUrl}/fast-delivery`);
+        setData(await data.fastDelivery);
       } catch (error) {
         console.log();
       } finally {

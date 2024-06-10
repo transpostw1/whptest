@@ -1,8 +1,10 @@
 "use client";
+import Image from "next/image";
 
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Loader from "../Loader";
 import { baseUrl, blogs } from "@/utils/constants";
 
 const BlogDetail = () => {
@@ -14,11 +16,13 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
+        console.log("INNINININ",blogUrl)
         const response = await axios.get(`${baseUrl}${blogs}`);
         const matchingBlog = response.data.find(
-          (blog:any) => blog.blogUrl == blogUrl
+          (blog:any) => blog.blogUrl === blogUrl
         );
         if (matchingBlog) {
+            console.log(matchingBlog,"matchingblooo")
           setBlogData(matchingBlog);
         } else {
           console.log("Blog not found");
@@ -33,7 +37,7 @@ const BlogDetail = () => {
   }, [blogUrl]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loader/>;
   }
 
   if (!blogData) {
@@ -41,10 +45,19 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="mx-11">
-      <h1>{blogData.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
-    </div>
+    <>
+      <div className="mx-11">
+        <h1 className="text-xl font-semibold py-5">{blogData.title}</h1>
+        <Image
+          src={blogData.image}
+          alt={"blog"}
+          className="object-contain my-6"
+          height={300}
+          width={300}
+        />
+        <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
+      </div>
+    </>
   );
 };
 

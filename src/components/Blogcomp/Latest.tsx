@@ -19,7 +19,7 @@ const Latest: React.FC<LatestProps> = ({ blogData }) => {
       <div className="grid md:grid-cols-2 gap-8">
         {blogData.map((blog) => (
           <div key={blog.id} className="cursor-pointer">
-            <Link href={`/blog/${blog.blogUrl}`} passHref>
+            <Link href={`/blogDetail?blogUrl=${blog.blogUrl}`} passHref>
               <div className="rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
                 <Image
                   width={400}

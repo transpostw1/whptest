@@ -220,10 +220,6 @@ const Checkout: React.FC = () => {
  const finalBuyNowItems = buyNow
    ? MainCart.filter((item) => item.productId == parseInt(buyNow))
    : [];
-   console.log(finalBuyNowItems,"Finall")
-
-
-
 
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {

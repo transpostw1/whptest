@@ -113,11 +113,6 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   };
   return (
     <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
-      {/* {loading && (
-        <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
-          <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
-        </div>
-      )} */}
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
         Diamond
       </h3>
@@ -132,14 +127,6 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               redemptionAmount={redemptionAmount}
               monthlyDeposit={monthlyDeposit}
             />
-          </div>
-          <div>
-            <Link
-              className=" text-black underline text-center rounded-xl w-full cursor-pointer "
-              href={"/terms-and-condition"}
-            >
-              Read terms and conditions
-            </Link>
           </div>
         </div>
         <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">
@@ -199,7 +186,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               </h1>
             </div>
           </div>
-          <div className="mb-3">
+          <div className="mb-3 flex flex-col text-center">
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "

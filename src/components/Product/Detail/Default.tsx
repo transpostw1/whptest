@@ -486,10 +486,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
-                  {/* <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
-                    3
-                  </div> */}
-                  <StarRating stars={data?.productDetails?.rating} />
+                 |               <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
             </>
@@ -533,7 +530,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               handleVariant={handleNewVariant}
             />
           )}
-          {data && data?.productDetails?.productQty !== null && (
+          {data && data?.productDetails?.productQty !== null && data?.productDetails?.productQty < 5&& (
             <p className="mt-2">
               Only{" "}
               <span className="text-[#e26178]">
@@ -560,7 +557,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <CheckPincode />
+          {/* a */}
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

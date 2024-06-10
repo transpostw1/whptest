@@ -85,7 +85,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
-                  <Icon.Truck size={30} weight="thin" />
+                  <Icon.Truck size={30} weight="thin" color="#00000" />
                 </span>
                 <span>Pan India Delivery</span>
               </div>
@@ -272,7 +272,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <div className="flex justify-between p-2 border border-[#ebe7e7]">
               <div>
                 <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails && <p>Diamond</p>}
+                {product.productDetails?.diamondDetails[0]?.diamondClarity !=
+                  "" && <p>Diamond</p>}
                 <p>Making Charges</p>
                 {product.productDetails?.discountValue && (
                   <p>Discount- {product.productDetails?.discountValue}%</p>
@@ -281,10 +282,12 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div>
                 <p>{product.productDetails?.metalWeight} gms</p>
-                {product.productDetails?.diamondDetails && (
+                {product.productDetails?.diamondDetails ? (
                   <p>
                     {product.productDetails?.diamondDetails[0]?.diamondClarity}
                   </p>
+                ) : (
+                  <p>-</p>
                 )}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountValue && <p>-</p>}
@@ -297,7 +300,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     minimumFractionDigits: 2,
                   }).format(parseInt(product.productDetails?.metalRate))}
                 </p>
-                {product.productDetails?.diamondDetails && (
+                {product.productDetails?.diamondDetails ? (
                   <p>
                     ₹
                     {new Intl.NumberFormat("en-IN", {
@@ -307,6 +310,12 @@ const Accordian: React.FC<Props> = ({ product }) => {
                         product.productDetails?.diamondDetails[0]?.diamondCost
                       )
                     )}
+                  </p>
+                ) : (
+                  <p>
+                    ₹{new Intl.NumberFormat("en-IN", {
+                      minimumFractionDigits: 2,
+                    }).format(parseInt("0"))}
                   </p>
                 )}
                 <p>

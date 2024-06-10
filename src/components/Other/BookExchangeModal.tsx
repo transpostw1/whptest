@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { baseUrl, contactForm } from "@/utils/constants";
 import axios from "axios";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import FlashAlert from "@/components/Other/FlashAlert"
 interface Props {
   closeModal: () => void;
 }
@@ -13,8 +15,15 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
     message: "",
   });
   const [showPopup, setShowPopup] = useState(false);
-
+  const [phone, setPhone] = useState("");
+  const [isLoding, setIsLoading] = useState(false);
+  const [message,setMessage]=useState("");
+  const [type,setType]=useState<"error" | "success" | "info">();
+  const handlePhoneChange = (value: string) => {
+    setPhone(value);
+  };
   const handleChange = (e: any) => {
+    // Handle regular input change
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -27,14 +36,23 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log("formdata", formData.email);
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${baseUrl}${contactForm}`, {
+        name: formData.name,
+        email: formData.email,
+        number: phone,
+        message: formData.message,
+      });
+      setMessage("Your Request Has Been Submitted. We Will Contact You Soon")
+      setType("success")
+    } catch (error) {
+      setMessage("Error in Booking Appointment")
+      setType("error")
+    } finally{
+      setIsLoading(false);
+    }
 
-    // Submit form logic (here you would typically make an API call or send the data to a server)
-    const response = await axios.post(`${baseUrl}${contactForm}`, {
-      name: formData.name,
-      email: formData.email,
-      number: formData.phone,
-      message: formData.message,
-    });
     // Show popup
     setShowPopup(true);
 
@@ -100,7 +118,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
             >
               Phone Number:
             </label>
-            <input
+            {/* <input
               type="tel"
               id="phone"
               name="phone"
@@ -108,6 +126,25 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
               onChange={handleChange}
               className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               required
+            /> */}
+            <PhoneInput
+              country={"in"}
+              value={phone}
+              onChange={handlePhoneChange}
+              inputStyle={{
+                width: "100%",
+                boxShadow: "0px 1px 2px 0px rgba(0,0,0,0.05)", // shadow-sm
+                borderColor: "#d1d5db", // border-gray-300
+                borderRadius: "0.375rem", // rounded-md
+                fontSize: "0.875rem", // sm:text-sm
+              }}
+              containerStyle={{
+                width: "100%",
+              }}
+              buttonStyle={{
+                borderColor: "#d1d5db", // border-gray-300 for the dropdown button
+              }}
+              // containerClass="custom-phone-input"
             />
           </div>
           <div className="mb-4">
@@ -145,6 +182,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
           </div>
         )}
       </div>
+      {message&&(<FlashAlert message={message} type={type} />)}
     </div>
   );
 };

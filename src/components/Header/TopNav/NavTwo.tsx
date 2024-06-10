@@ -237,7 +237,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <Link href={"/offers"}>
                         <PiPercentLight size={30} />
                       </Link>
-                      <h4 className="text-sm">Offers</h4>
+                      <p className="text-sm">Offers</p>
                     </div>
                     <div
                       className="hidden max-lg:block"
@@ -245,7 +245,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     >
                       <div className="flex flex-col items-center">
                         <Icon.MagnifyingGlass size={28} />
-                        <h4 className="text-sm">Search</h4>
+                        <p className="text-sm">Search</p>
                       </div>
                     </div>
                     <div className="flex flex-col items-center">
@@ -255,7 +255,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         width={30}
                         height={30}
                       />
-                      <h4 className="text-sm">Blog</h4>
+                      <p className="text-sm">Blog</p>
                     </div>
                     <div
                       className={`flex flex-col items-center ${
@@ -264,7 +264,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       onClick={handleContactPopup}
                     >
                       <Icon.Headset size={30} />
-                      <h4 className="text-sm">Contact</h4>
+                      <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
                     <span className="w-[2px] h-[40px] bg-[#E9E9E9]"></span>
@@ -276,9 +276,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             className="flex flex-col items-center"
                           >
                             <Icon.User size={28} color="black" />
-                            <h4 className="text-sm">
+                            <p className="text-sm">
                               {userDetails?.customer?.firstname}
-                            </h4>
+                            </p>
                           </div>
                         </>
                       ) : (
@@ -322,7 +322,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {/* <div>
                         <div className="flex flex-col items-center">
                           <Icon.Heart size={28} color="black" />
-                          <h4 className="text-sm">Wishlist</h4>
+                          <p className="text-sm">Wishlist<p>
                         </div>
                         
                       </div> */}
@@ -338,7 +338,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           }`}
                         >
                           <Icon.Heart size={28} />
-                          <h4 className="text-sm">Wishlist</h4>
+                          <p className="text-sm">Wishlist</p>
                         </div>
                         {wishlistItems.length > 0 && (
                           <span className="quantity cart-quantity absolute right-1 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
@@ -365,7 +365,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           height={30}
                         /> */}
                         <Icon.ShoppingCart size={30} />
-                        <h4 className="text-sm">Cart</h4>
+                        <p className="text-sm">Cart</p>
                       </div>
                       {cartLength > 0 && (
                         // <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">

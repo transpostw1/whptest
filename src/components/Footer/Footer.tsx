@@ -89,7 +89,7 @@ const Footer = () => {
                 </p>
               </div>
             </div>
-            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4">
+            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 lg:gap-28">
               <div className="company-infor">
                 <div className="newsletter ">
                   <div className="caption1  font-semibold text-center lg:text-start">

@@ -134,12 +134,12 @@ const Wishlist = () => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-1 mt-1">
-                      <div
+                      {/* <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                         onClick={() => handleBuyNow(product)}
                       >
                         Add To Cart
-                      </div>
+                      </div> */}
                       <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                         onClick={() => handleBuyNow(product)}

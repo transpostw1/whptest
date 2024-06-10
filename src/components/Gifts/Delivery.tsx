@@ -73,7 +73,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
             value={formData.recipientName}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="border border-black rounded-lg px-4 py-2 w-full"
+            className="border border-black px-2 py-2 w-full"
           />
           {errors.recipientName && (
             <p className="text-red-500">{errors.recipientName}</p>
@@ -90,7 +90,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
             value={formData.recipientMobile}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="border border-black rounded-lg px-4 py-2 w-full"
+            className="border border-black px-2 py-2 w-full"
           />
           {errors.recipientMobile && (
             <p className="text-red-500">{errors.recipientMobile}</p>
@@ -109,7 +109,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
             value={formData.recipientEmail}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="border border-black rounded-lg px-4 py-2 w-full"
+            className="border border-black px-2 py-2 w-full"
           />
           {errors.recipientEmail && (
             <p className="text-red-500">{errors.recipientEmail}</p>
@@ -126,7 +126,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
             value={formData.confirmEmail}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="border border-black rounded-lg px-4 py-2 w-full"
+            className="border border-black px-2 py-2 w-full"
           />
           {errors.confirmEmail && (
             <p className="text-red-500">{errors.confirmEmail}</p>
@@ -143,7 +143,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
           value={formData.message}
           onChange={handleChange}
           onBlur={handleBlur}
-          className="border border-black rounded-lg px-4 py-2 w-full"
+          className="border border-black  px-2 py-2 w-full"
           rows={4}
         ></textarea>
         {errors.message && <p className="text-red-500">{errors.message}</p>}
@@ -159,7 +159,7 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
           value={formData.senderName}
           onChange={handleChange}
           onBlur={handleBlur}
-          className="border border-black rounded-lg px-4 py-2 w-full"
+          className="border border-black px-2 py-2 w-full"
         />
         {errors.senderName && (
           <p className="text-red-500">{errors.senderName}</p>

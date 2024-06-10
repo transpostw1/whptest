@@ -27,14 +27,19 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
         >
           Enter an Amount
         </label>
-        <input
-          id="amount"
-          type="number"
-          value={amount}
-          onChange={handleAmountChange}
-          className="border border-black rounded-lg px-4 py-2 w-48 md:w-64"
-          placeholder="₹"
-        />
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-700">
+            ₹
+          </span>
+          <input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={handleAmountChange}
+            className="border border-black rounded-lg pl-8 pr-4 py-2 w-48 md:w-64"
+            placeholder="Amount"
+          />
+        </div>
       </div>
       <div>
         <p className="text-center text-gray-700 font-semibold">Or</p>

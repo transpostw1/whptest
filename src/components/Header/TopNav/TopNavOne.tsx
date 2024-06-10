@@ -13,7 +13,7 @@ interface Props {
 const TopNavOne: React.FC<Props> = ({ textColor }) => {
   return (
     <div
-      className={`banner-top style-four w-full bg-rose-950 md:h-[25px] h-[32px]`}
+      className={`banner-top style-four w-full bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] md:h-[25px] h-[32px]`}
     >
       <div className="container flex items-center justify-center h-full">
         <div className="flex justify-center items-center w-full h-full">

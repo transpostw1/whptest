@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent,useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
@@ -14,8 +14,8 @@ import DeliveryDetails from "./DeliveryDetails";
 import Payment from "./Payment";
 import OrderSummary from "./OrderSummary";
 import ProceedButton from "./ProceedButton";
+import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
-import Loader from "@/components/Other/Loader";
 import {
   AddressBook,
   ShoppingCart,
@@ -169,6 +169,8 @@ const Checkout: React.FC = () => {
     }
   }, [buyNow]);
 
+
+  
    useEffect(() => {
      if (buyNow) {
        const buyNowProductId = parseInt(buyNow);
@@ -180,6 +182,8 @@ const Checkout: React.FC = () => {
        }
      }
    }, [buyNow, cartItems]);
+
+
 
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
@@ -211,10 +215,13 @@ const Checkout: React.FC = () => {
 
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
+  console.log(MainCart,"sfjlsjf")
+
 
  const finalBuyNowItems = buyNow
-   ? MainCart.filter((item) => item.productId === parseInt(buyNow))
+   ? MainCart.filter((item) => item.productId == parseInt(buyNow))
    : [];
+   console.log(finalBuyNowItems,"Finall")
 
 
 
@@ -287,7 +294,7 @@ const handleOrderComplete = () => {
 
   const validateDeliveryDetails = () => {
     if (!shippingAddressSelected) {
-      // Display error message using FlashAlert
+
       setFlashMessage("Please select a shipping address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
@@ -436,6 +443,7 @@ const handleOrderComplete = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
   return (
     <>
       {/* <ProtectedRoute> */}
@@ -656,7 +664,7 @@ const handleOrderComplete = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div>
+                <div id="order-summary" >
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     totalDiscount={totalDiscount}
@@ -690,7 +698,8 @@ const handleOrderComplete = () => {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(totalPrice.toString())))}
             </p>
-            <p className="text-[#e26178]">View Order Summary</p>
+            <Link href="#order-summary">
+            <p className="text-[#e26178] cursor-pointer"> View Order Summary</p></Link>
           </div>
           <div
             className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"

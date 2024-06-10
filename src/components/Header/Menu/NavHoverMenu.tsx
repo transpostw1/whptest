@@ -396,11 +396,12 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-earring" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "earring"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-earring"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Earrings
                   </Link>

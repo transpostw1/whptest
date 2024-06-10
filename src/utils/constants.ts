@@ -28,3 +28,4 @@ export const getAllBanners = "/getAllBanners";
 export const getSubBanners = "/getAllSubbanner";
 export const storeReviews = "/storeReview";
 export const blogs = "/blogs";
+export const voucher = "/voucher"

@@ -11,7 +11,8 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { TbHomeCheck } from "react-icons/tb";
 import MobileSizeGuide from "./MobileSizeGuide";
-
+import Image from "next/image";
+import Link from "next/link";
 interface Props {
   product: ProductData;
 }
@@ -63,28 +64,34 @@ const Accordian: React.FC<Props> = ({ product }) => {
               timeless elegance, ensuring every piece exudes sophistication and
               allure, setting you apart in style.
             </div>
-            <div className="grid grid-cols-4 justify-items-center mt-5 gap-10">
-              <div>
+            <div className="grid grid-cols-4 max-sm:grid-cols-3 justify-items-center mt-5 gap-4">
+              <div className="flex flex-col items-center text-center">
                 <span className="text-center">
-                  <Icon.SketchLogo size={30} />
+                  <Icon.SketchLogo size={30} weight="thin" />
                 </span>
                 <span>10000+ Designs</span>
               </div>
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <span>
-                  <Icon.CrownSimple size={30} />
+                  <Image
+                    src="/images/other/hallmarkSymbol.png"
+                    alt={"Hall Mark Symbol"}
+                    width={50}
+                    height={50}
+                  />
+                  {/* <Icon.CrownSimple size={30} weight="thin" /> */}
                 </span>
                 <span>BIS Hallmarked</span>
               </div>
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <span>
-                  <Icon.Truck size={30} />
+                  <Icon.Truck size={30} weight="thin" />
                 </span>
                 <span>Pan India Delivery</span>
               </div>
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <span>
-                  <Icon.ShieldCheck size={30} />
+                  <Icon.ShieldCheck size={30} weight="thin" />
                 </span>
                 <span>Safe & Secure Payment</span>
               </div>
@@ -109,61 +116,59 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
         {showAccordian === 2 ? (
           <div>
-            <div className="mt-5 ">
-              Introducing our exquisite Dangling Hoop Earrings-a blend of
-              sophistication and femininity in a high-polish gold finish. These
-              intricately crafted 18Karat Gold Earrings,a part of our Gold
-              Collection, are designed for the modern woman. The pair weighs
-              4.810 gms of pure gold
-            </div>
-            <div className="grid grid-cols-4 mt-4">
-              <div className="p-2">
-                <Icon.Scales className="mr-1 mt-1" size={27} />
+            <div className="mt-5 ">{product?.productDetails?.longDesc}</div>
+            <div className="grid grid-cols-4 max-sm:grid-cols-3 mt-4">
+              <div className="p-2 flex flex-col items-center text-center">
+                <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails?.metalWeight}gms,{" "}
                   {product?.productDetails?.metalType}
                 </p>
               </div>
-              <div className="p-2">
-                <Icon.HandCoins className="mr-1 mt-1" size={27} />
+              <div className="p-2 flex flex-col items-center text-center">
+                <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails.metalPurity}{" "}
                   {product?.productDetails.metalType}
                 </p>
               </div>
               {product?.productDetails?.isReturnable == 1 && (
-                <div className="p-2">
-                  <Icon.ArrowsLeftRight className="mr-1 mt-1" size={27} />
+                <div className="p-2 flex flex-col items-center text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
                   <p>7 days easy returns</p>
                 </div>
               )}
               {product?.productDetails?.isReplaceable === 1 && (
-                <div className="p-2">
+                <div className="p-2 flex flex-col items-center text-center">
                   <TbReplace className="mr-1 mt-1" size={27} />
                   <p>7 days easy replaceable</p>
                 </div>
               )}
               {product?.productDetails?.isInternationalShippingAvailable ===
                 1 && (
-                <div className="p-2">
+                <div className="p-2 flex flex-col items-center text-center">
                   <GiCargoShip className="mr-1 mt-1" size={27} />
                   <p>Delivered Internationally</p>
                 </div>
               )}
               {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="p-2">
+                <div className="p-2 flex flex-col items-center text-center">
                   <VscTools className="mr-1 mt-1" size={27} />
                   <p>Customization Available</p>
                 </div>
               )}
               {product?.productDetails?.fastDelivery === 1 && (
-                <div className="p-2">
+                <div className="p-2 flex flex-col items-center text-center">
                   <FaShippingFast className="mr-1 mt-1" size={27} />
                   <p>Fast Delivery</p>
                 </div>
               )}
               {product?.productDetails?.tryAtHome === 1 && (
-                <div className="p-2">
+                <div className="p-2 flex flex-col items-center text-center">
                   <TbHomeCheck className="mr-1 mt-1" size={27} />
                   <p>Try At Home</p>
                 </div>
@@ -383,23 +388,33 @@ const Accordian: React.FC<Props> = ({ product }) => {
               call away
             </div>
             <div className="flex">
-              <div className="mr-5 mt-5 text-center">
-                <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
-                <p>Whatsapp</p>
-              </div>
-              <div className="mr-5 mt-5">
-                <Icon.Phone size={30} color="#e26178" weight="fill" />
-                <p>Call</p>
-              </div>
-              <div className="mr-5 mt-5">
-                <Icon.ChatTeardropDots
-                  className="ml-4"
-                  size={30}
-                  weight="fill"
-                  color="#e26178"
-                />
-                <p>Message</p>
-              </div>
+              <Link href={"#!"}>
+                <div className="mr-5 mt-5 text-center">
+                  <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
+                  <p>Whatsapp</p>
+                </div>
+              </Link>
+              <Link
+                href="tel:+91 1800-222-225"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="mr-5 mt-5">
+                  <Icon.Phone size={30} color="#e26178" weight="fill" />
+                  <p>Call</p>
+                </div>
+              </Link>
+              <Link href={"#!"}>
+                <div className="mr-5 mt-5">
+                  <Icon.ChatTeardropDots
+                    className="ml-4"
+                    size={30}
+                    weight="fill"
+                    color="#e26178"
+                  />
+                  <p>Message</p>
+                </div>
+              </Link>
             </div>
           </div>
         ) : null}

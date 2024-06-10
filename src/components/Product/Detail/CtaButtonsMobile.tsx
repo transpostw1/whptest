@@ -28,7 +28,7 @@ interface ProductForWishlistLoggedOut {
   image_path: string;
   url: string;
 }
-const Buttons: React.FC<Props> = ({ product }) => {
+const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -36,6 +36,22 @@ const Buttons: React.FC<Props> = ({ product }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
+  console.log(product, "proddddd");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -127,29 +143,13 @@ const Buttons: React.FC<Props> = ({ product }) => {
       </div>
     );
   }
-  return (
-    <div className="flex max-sm:justify-around justify-evenly mt-[25px] ">
-      <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
-        onClick={handleBuyNow}
-      >
-        Buy Now
-      </div>
 
-      <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center cursor-pointer"
-        onClick={() => handleAddToCart(product)}
-      >
-        <div className=" m-[2px] mb-[2px] bg-white">
-          <span className="flex justify-center py-[14px] max-sm:py-[10px]">
-            <span>Add to Cart</span>
-            <span className="mt-1">
-              <Icon.ShoppingCart />
-            </span>
-          </span>
-        </div>
-      </div>
-      <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
+  if(!isMobile){
+    return null;
+  }
+  return (
+    <div className=" flex fixed bottom-9  py-2 px-4 w-full bg-white z-10 ">
+      <div className=" flex justify-center mt-[2px] text-[#e26178] mr-[10px] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
         {isProductInWishlist ? (
           <Icon.Heart
             size={32}
@@ -166,7 +166,28 @@ const Buttons: React.FC<Props> = ({ product }) => {
           />
         )}
       </div>
+
+      <div
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center mr-[10px] cursor-pointer"
+        onClick={() => handleAddToCart(product)}
+      >
+        <div className=" m-[2px] mb-[2px] bg-white">
+          <span className="flex justify-center py-[14px] max-sm:py-[10px]">
+            <span>Add to Cart</span>
+            <span className="mt-1">
+              <Icon.ShoppingCart />
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px]  py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
+        onClick={handleBuyNow}
+      >
+        Buy Now
+      </div>
     </div>
   );
 };
-export default Buttons;
+export default CtaButtonsMobile;

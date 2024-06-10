@@ -77,7 +77,7 @@ const AddAddressMobile: React.FC<Props> = ({
       pincode: "",
       full_address: "",
       area: "",
-      country: "",
+      country: "India",
       state: "",
       city: "",
       landmark: "",
@@ -129,6 +129,32 @@ const AddAddressMobile: React.FC<Props> = ({
                 <div className="mb-4">
                   <div className="relative">
                     <input
+                      id="full_address"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.full_address
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("full_address")}
+                    />
+                    <label
+                      htmlFor="full_address"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Full Address
+                    </label>
+                  </div>
+                  {formik.errors.full_address && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.full_address}
+                    </div>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
                       id="pincode"
                       className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                         formik.errors.pincode
@@ -153,34 +179,7 @@ const AddAddressMobile: React.FC<Props> = ({
                   )}
                 </div>
 
-                <div className="mb-4">
-                  <div className="relative">
-                    <input
-                      id="full_address"
-                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                        formik.errors.full_address
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                      type="text"
-                      placeholder=" "
-                      {...formik.getFieldProps("full_address")}
-                    />
-                    <label
-                      htmlFor="full_address"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                    >
-                      Full Address
-                    </label>
-                  </div>
-                  {formik.errors.full_address && (
-                    <div className="text-red-500 mt-1">
-                      {formik.errors.full_address}
-                    </div>
-                  )}
-                </div>
-
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <div className="relative">
                     <input
                       id="area"
@@ -205,35 +204,7 @@ const AddAddressMobile: React.FC<Props> = ({
                       {formik.errors.area}
                     </div>
                   )}
-                </div>
-
-                <div className="mb-4">
-                  <div className="relative">
-                    <input
-                      id="country"
-                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                        formik.errors.country
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                      type="text"
-                      placeholder=" "
-                      {...formik.getFieldProps("country")}
-                    />
-                    <label
-                      htmlFor="country"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                    >
-                      Country
-                    </label>
-                  </div>
-                  {formik.errors.country && (
-                    <div className="text-red-500 mt-1">
-                      {formik.errors.country}
-                    </div>
-                  )}
-                </div>
-
+                </div> */}
                 <div className="mb-4">
                   <div className="relative">
                     <input
@@ -287,8 +258,33 @@ const AddAddressMobile: React.FC<Props> = ({
                     </div>
                   )}
                 </div>
-
                 <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      id="country"
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                        formik.errors.country
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                      type="text"
+                      placeholder=" "
+                      {...formik.getFieldProps("country")}
+                    />
+                    <label
+                      htmlFor="country"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    >
+                      Country
+                    </label>
+                  </div>
+                  {formik.errors.country && (
+                    <div className="text-red-500 mt-1">
+                      {formik.errors.country}
+                    </div>
+                  )}
+                </div>
+                {/* <div className="mb-4">
                   <div className="relative">
                     <input
                       id="landmark"
@@ -313,7 +309,7 @@ const AddAddressMobile: React.FC<Props> = ({
                       {formik.errors.landmark}
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 <div className="mb-4">
                   <label htmlFor="address_type" className="font-medium">

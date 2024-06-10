@@ -59,8 +59,8 @@ const Footer = () => {
       <div id="footer" className="footer  text-rose-950 ">
         <div className="footer-main  bg-gray-50">
           <div className="container py-4 ">
-            <div className="flex  gap-3 items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col justify-center items-center lg:justify-between lg:flex-row ">
+              <div className="flex items-center">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}
@@ -82,9 +82,9 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 ">
+              <div className=" ">
                 <p>
-                  Crafting Timeless Elegance,One Jewel at a Time.Discover Your
+                  Crafting Timeless Elegance,One Jewel at a </p> <p> Time.Discover Your
                   Statement Piece Today.
                 </p>
               </div>

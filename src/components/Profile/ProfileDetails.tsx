@@ -178,21 +178,21 @@ const ProfileDetails = () => {
       <div className="flex flex-wrap">
         {allAddress &&
           allAddress.map((address: any) => (
-            <div key={address.address_id} className="flex">
-              <div className=" bg-white p-4 rounded-lg shadow-md mt-6 w-[250px] h-[130px] mr-2">
+            <div key={address.address_id} className="flex rounded-lg shadow-md mr-2">
+              <div className=" bg-white p-4 mt-6 w-[250px] h-[130px] ">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
-              <div>
-                <button className="bg-[#e26178] rounded-full p-2 text-sm text-white">
+              <div className="flex flex-col">
+                <button className="hover:text-[#E26178]">
                   <Icon.PencilSimple
-                    size={18}
+                    size={25}
                     onClick={() => handleEditAddress(address.address_id)}
                   />
                 </button>
-                <button className="p-2 text-sm text-black hover:text-red-700">
+                <button className="p-2 text-sm text-black hover:text-[#E26178]">
                   <Icon.X
                     size={25}
                     onClick={() => handleRemoveAddress(address.address_id)}

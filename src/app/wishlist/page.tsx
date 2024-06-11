@@ -110,12 +110,12 @@ const Wishlist = () => {
           ) : wishlistItems.length < 1 ? (
             <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
+            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
-                      className="product-image"
+                      className="product-image flex justify-center"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
                       <Image
@@ -123,7 +123,7 @@ const Wishlist = () => {
                         alt={product.title}
                         width={300}
                         height={300}
-                        className="rounded-md"
+                        className="rounded-md "
                       />
                     </div>
                     <div className="product-details mt-4">
@@ -141,15 +141,15 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-1">
+                    <div className="flex flex-row gap-1 mt-1">
                        <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white px-3 py-1"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
                       </div>
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white px-6 py-1"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now

@@ -10,7 +10,7 @@ import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 
 const Wishlist = () => {
-  const { cartItems, addToCart } = useCart();
+  const { cartItems, addToCart,updateCartQuantity } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -35,28 +35,36 @@ const Wishlist = () => {
     }
   });
 
+
+  const handleAddToCart = (product: any) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+    if (productAlreadyExists) {
+      updateCartQuantity(product.productId, updatedQuantity);
+    } else {
+      const newProduct = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1);
+    }
+  };
+
+
   const handleBuyNow = (product: any) => {
     console.log(product, "PRODUCT");
 
     const productDetails = {
       productId: product.productId,
-      //  productDetails: {
-      //    //  title: product.title,
-      //    //  image: product.image_path,
-      //    //  price: product.discountPrice,
-      //    title: product.title,
-      //    discountPrice: product.discountPrice,
-      //    //  imageDetails: [
-      //    //    {
-      //    //      imagePath: product.image_path,
-      //    //      // Any other image details you may have
-      //    //    },
-      //    //  ],
-      //    image_path: product.imageDetails,
-      //    productPrice: product.discountPrice,
-      //    discountValue: product.disountValue,
-      //    url: product.url,
-      //  },
       productDetails: {
         productId: 60,
         title: product.title,
@@ -134,12 +142,12 @@ const Wishlist = () => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-1 mt-1">
-                      {/* <div
+                       <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
-                        onClick={() => handleBuyNow(product)}
+                        onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
-                      </div> */}
+                      </div>
                       <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                         onClick={() => handleBuyNow(product)}

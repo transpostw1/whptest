@@ -6,11 +6,14 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 
-const Wishlist = () => {
-  const { cartItems, addToCart } = useCart();
+interface Props {
+  handleComponent: (args: string) => void;
+}
+
+const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
+  const { cartItems, addToCart, updateCartQuantity } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -34,6 +37,30 @@ const Wishlist = () => {
       return true;
     }
   });
+
+  const handleAddToCart = (product: any) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+    if (productAlreadyExists) {
+      updateCartQuantity(product.productId, updatedQuantity);
+    } else {
+      const newProduct = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1);
+      removeFromWishlist(product.productId);
+    }
+  };
 
   const handleBuyNow = (product: any) => {
     console.log(product, "PRODUCT");
@@ -75,18 +102,36 @@ const Wishlist = () => {
       .replace("₹", "₹ ");
   };
 
+  const handleBackButton = (args: string) => {
+    handleComponent(args);
+  };
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
       <div className="container">
+        <div className="flex">
+          <div onClick={() => handleBackButton("")} className="">
+            <Icon.CaretLeft size={22} />
+          </div>
+          <div>
+            <p className="font-bold text-xl">WishList</p>
+          </div>
+        </div>
         <div className="list-product-block relative">
           {isLoading ? (
-            <Loader />
+            <div className="loading-container flex justify-center items-center h-full">
+              <Image
+                src="/dummy/loader.gif"
+                alt={"loader"}
+                height={50}
+                width={50}
+              />
+            </div>
           ) : wishlistItems.length < 1 ? (
             <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
-              {filteredWishlistItems.map((product, index) => (
+              {wishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
@@ -119,7 +164,7 @@ const Wishlist = () => {
                     <div className="flex flex-col gap-1 mt-1">
                       <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
-                        onClick={() => handleBuyNow(product)}
+                        onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
                       </div>
@@ -149,4 +194,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default MobileWishList;

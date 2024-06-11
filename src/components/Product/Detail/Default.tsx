@@ -338,7 +338,18 @@ const Default: React.FC<Props> = ({ productId }) => {
   }).format(
     Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0))
   );
-
+  const handleShareClick = () => {
+    if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            url: window.location.href
+        }).then(() => {
+            console.log('Thanks for sharing!');
+        }).catch(console.error);
+    } else {
+        console.log('Share API not supported');
+    }
+};
   return (
     <>
       <StickyNavProductPage />
@@ -471,7 +482,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
-                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]">
+                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]" onClick={handleShareClick}>
                   <Icon.ShareFat
                     size={25}
                     weight="fill"

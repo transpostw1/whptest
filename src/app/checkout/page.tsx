@@ -141,7 +141,9 @@ const Checkout: React.FC = () => {
         setFlashMessage("Coupon Successfully applied");
         setFlashType("success");
       } catch (error: any) {
-        console.log("Error occurred", error);
+        console.log("Error occurred", error.response.data.message);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
       } finally {
         setLoading(false);
       }

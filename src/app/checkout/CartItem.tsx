@@ -60,6 +60,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   };
 
   const handleAddToWishlist = () => {
+    let discount = 0;
+      updateTotalDiscount(discount);
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
@@ -83,6 +85,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   };
 
   const handleJustRemove = () => {
+    let discount = 0;
+    updateTotalDiscount(discount);
     removeFromCart(product.productId);
     setShowModal(false);
   };

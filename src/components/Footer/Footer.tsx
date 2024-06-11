@@ -18,10 +18,15 @@ import Extendedfooter from "./Extendedfooter";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const [careerModal, setCareerModal] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState<any>(null);
   const { setCustomcategory } = useCategory();
   const { isLoggedIn } = useUser();
+  
+  const handleCareerModal=()=>{
+    setCareerModal(false)
+  }
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
@@ -160,15 +165,14 @@ const Footer = () => {
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>
-                    <Link
+                    <div
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
-                      onClick={() => setAppointmentModal(true)}
+                      onClick={() => setCareerModal(true)}
                     >
                       Career
-                    </Link>
-                    {appointmentModal && (
-                      <BookExchangeModal closeModal={handleOnClose} />
+                    </div>
+                    {careerModal && (
+                      <BookExchangeModal title={"Careers"} closeModal={handleCareerModal} />
                     )}
                     {isLoggedIn ? (
                       <Link
@@ -280,7 +284,7 @@ const Footer = () => {
                       Book,Exchange and BuyBack
                     </div>
                     {appointmentModal && (
-                      <BookExchangeModal closeModal={handleOnClose} />
+                      <BookExchangeModal title={"Exchange and BuyBack"} closeModal={handleOnClose} />
                     )}
                   </div>
                   <div className="item flex flex-col items-center lg:items-start w-full">

@@ -74,10 +74,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <div className="flex flex-col items-center text-center">
                 <span>
                   <Image
-                    src="/images/other/hallmarkSymbol.png"
+                    src="/images/other/hallmark.png"
                     alt={"Hall Mark Symbol"}
-                    width={50}
-                    height={50}
+                    width={30}
+                    height={30}
                   />
                   {/* <Icon.CrownSimple size={30} weight="thin" /> */}
                 </span>

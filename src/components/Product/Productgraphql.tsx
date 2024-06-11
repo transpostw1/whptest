@@ -209,7 +209,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     )}
                     {hover && !isMobile && (
                       <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
-                        <p className="font-semibold">Try At Home</p>
+                        <p className="font-semibold">Try ON</p>
                       </div>
                     )}
                     {hover && !isMobile && (
@@ -259,7 +259,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 />
                 {hover && !isMobile && (
                   <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0 hover:z-50">
-                    <p className="font-semibold">Try At Home</p>
+                    <p className="font-semibold">Try ON</p>
                   </div>
                 )}
                 {isMobile && (
@@ -330,7 +330,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
         </div>
         {isMobile && (
           <div className="border border-[#e26178] rounded-sm text-center mt-2 hover:text-white hover:bg-[#e26178]">
-            <p className="font-semibold">Try At Home</p>
+            <p className="font-semibold">Try ON</p>
           </div>
         )}
       </div>

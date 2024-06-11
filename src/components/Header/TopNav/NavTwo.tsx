@@ -476,7 +476,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                 </div>
                 {appointmentModal && (
-                  <BookExchangeModal closeModal={handleOnClose} />
+                  <BookExchangeModal title={"Exchange Your Gold"} closeModal={handleOnClose} />
                 )}
               </div>
               <div className="list-nav mt-6">

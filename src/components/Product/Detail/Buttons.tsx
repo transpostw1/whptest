@@ -41,7 +41,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
       try {
         setIsLoading(true);
         await getWishlist();
-        // Check if the current product is in the fetched wishlist items
         const isInWishlist = wishlistItems.some(
           (item) => item.productId === product.productDetails.productId
         );

@@ -35,6 +35,7 @@ interface CartContextProps {
   addToCart: (item: CartItem, quantity: number, isBuyNow?: boolean) => void;
   removeFromCart: (productId: number) => void;
   updateCartQuantity: (productId: number, newQuantity: number) => void;
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -213,6 +214,7 @@ const addLocalItemsToServerCart = async () => {
     addToCart,
     removeFromCart,
     updateCartQuantity,
+    setCartItems
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

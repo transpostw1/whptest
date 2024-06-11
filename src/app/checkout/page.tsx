@@ -125,7 +125,7 @@ const Checkout: React.FC = () => {
         const response = await axios.post<{ data: any }>(
           `${baseUrl}${coupon}`,
           {
-            products: cartProductIds,
+            products: products,
             coupon: couponCode,
           },
           {

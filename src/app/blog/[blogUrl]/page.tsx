@@ -41,7 +41,11 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
   }
 
   if (!blogData) {
-    return <p>Blog not found</p>;
+    return (
+      <div className="text-center text-2xl my-10">
+        uh oh ! this blog has nothing..
+      </div>
+    );
   }
 
   return (

@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import Loader from "../Loader";
 import { baseUrl, blogs } from "@/utils/constants";
 interface Props {
-  title:string;
   params: { blogUrl: string };
 }
-const BlogDetail:React.FC<Props>= ({params}) => {
-    const { blogUrl } = params;
+const BlogDetail: React.FC<Props> = ({ params }) => {
+  const { blogUrl } = params;
   const [blogData, setBlogData] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -21,7 +20,7 @@ const BlogDetail:React.FC<Props>= ({params}) => {
           const matchingBlog = response.data.find(
             (blog: any) => blog.blogUrl === blogUrl
           );
-        //   console.log(matchingblog,"Matchingg bloggg")
+          //   console.log(matchingblog,"Matchingg bloggg")
           if (matchingBlog) {
             setBlogData(matchingBlog);
           } else {

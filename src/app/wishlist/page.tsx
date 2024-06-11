@@ -56,6 +56,7 @@ const Wishlist = () => {
         quantity: 1,
       };
       addToCart(newProduct, 1);
+       removeFromWishlist(product.productId);
     }
   };
 

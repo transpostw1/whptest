@@ -118,8 +118,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             height={200}
             alt="image"
             className="rounded-lg object-cover"
-            placeholder="blur"
-            blurDataURL="/images/other/Logo.png"
+            // placeholder="blur"
+            // blurDataURL="/images/other/Logo.png"
           />
           <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
             <div className="py-4">

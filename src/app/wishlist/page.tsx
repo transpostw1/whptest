@@ -4,16 +4,23 @@ import Image from "next/image";
 import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
 import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 
 const Wishlist = () => {
-  const { cartItems, addToCart } = useCart();
+  const { cartItems, addToCart, updateCartQuantity } = useCart();
   const [isLoading, setIsLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
+  const { isLoggedIn } = useUser();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,6 +29,7 @@ const Wishlist = () => {
 
     return () => clearTimeout(timeout);
   }, []);
+
   const router = useRouter();
 
   const uniqueProductIds = new Set<number>();
@@ -34,6 +42,30 @@ const Wishlist = () => {
       return true;
     }
   });
+
+  const handleAddToCart = (product: any) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+    if (productAlreadyExists) {
+      updateCartQuantity(product.productId, updatedQuantity);
+    } else {
+      const newProduct = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1);
+      removeFromWishlist(product.productId);
+    }
+  };
 
   const handleBuyNow = (product: any) => {
     console.log(product, "PRODUCT");
@@ -75,6 +107,14 @@ const Wishlist = () => {
       .replace("₹", "₹ ");
   };
 
+  const handleImageLoad = (productId: number) => {
+    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
+  };
+
+  const handleImageError = (productId: number) => {
+    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
+  };
+
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
@@ -83,7 +123,7 @@ const Wishlist = () => {
           {isLoading ? (
             <Loader />
           ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10">Wishlist is empty</div>
+            <div className="text-center text-2xl my-10">Add Something to Wishlist</div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
@@ -93,13 +133,36 @@ const Wishlist = () => {
                       className="product-image"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
-                      <Image
-                        src={product.image_path}
-                        alt={product.title}
-                        width={300}
-                        height={300}
-                        className="rounded-md"
-                      />
+                      {isLoggedIn && imageLoading[product.productId] ? (
+                        <Skeleton
+                          width={300}
+                          height={300}
+                          className="rounded-md"
+                        />
+                      ) : isLoggedIn ? (
+                        <Image
+                          src={
+                            product?.imageDetails?.[0]?.image_path ||
+                            "/images/others/Logo.png"
+                          }
+                          alt={product.title}
+                          width={300}
+                          height={300}
+                          className="rounded-md"
+                          onLoad={() => handleImageLoad(product.productId)}
+                          onError={() => handleImageError(product.productId)}
+                        />
+                      ) : (
+                        <Image
+                          src={product.image_path || "/images/others/Logo.png"}
+                          alt={product.title}
+                          width={300}
+                          height={300}
+                          className="rounded-md"
+                          onLoad={() => handleImageLoad(product.productId)}
+                          onError={() => handleImageError(product.productId)}
+                        />
+                      )}
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
@@ -119,7 +182,7 @@ const Wishlist = () => {
                     <div className="flex flex-col gap-1 mt-1">
                       <div
                         className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
-                        onClick={() => handleBuyNow(product)}
+                        onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
                       </div>

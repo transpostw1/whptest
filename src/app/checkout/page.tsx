@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent,useRef } from "react";
-import { useMediaQuery } from "react-responsive";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
 import { useSearchParams,usePathname } from "next/navigation";
 import StickyNav from "@/components/Header/StickyNav";
@@ -27,7 +25,7 @@ import {
 import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
-import { baseUrl, coupon } from "@/utils/constants";
+import { baseUrl,removeCart, coupon, } from "@/utils/constants";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
@@ -86,7 +84,6 @@ const Checkout: React.FC = () => {
     setShippingAddressSelected(true);
   };
   const onBillingAddressSelected = () => {
-    // Add this function
     setBillingAddressSelected(true);
   };
   const handleGiftWrapFormData = (giftmessage: any, wrapvalue: any) => {
@@ -217,16 +214,11 @@ const Checkout: React.FC = () => {
 
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
-  console.log(MainCart,"sfjlsjf")
 
 
  const finalBuyNowItems = buyNow
    ? MainCart.filter((item) => item.productId == parseInt(buyNow))
    : [];
-   console.log(finalBuyNowItems,"Finall")
-
-
-
 
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
@@ -269,29 +261,54 @@ const calculateTotalPrice = (items: any[]) => {
   // });
   let formattedPrice: string = totalCart.toString();
 
+const handleOrderComplete = async () => {
+  try {
+    console.log("handleOrderComplete called");
 
-const handleOrderComplete = () => {
-  if (buyNow) {
-   
-    finalBuyNowItems.forEach((item) => {
-      removeFromCart(item.productId);
-    });
-  } else {
-  
-    MainCart.forEach((item) => {
-      removeFromCart(item.productId);
-    });
+    const cookieToken = Cookies.get("localtoken");
+    let cartData;
+
+     if (buyNow) {
+       console.log("Removing buy now items from cart:", finalBuyNowItems);
+       for (const item of finalBuyNowItems) {
+         await removeFromCart(item.productId);
+       }
+     } else {
+       console.log("Removing all items from cart:", MainCart);
+       cartData = MainCart.map((item) => ({
+         productId: item.productId,
+         quantity: 0,
+       }));
+     }
+
+    const response = await axios.post(
+      `${baseUrl}${removeCart}`,
+      { cart: cartData },
+      {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      }
+    );
+localStorage.removeItem("cartItems")
+    console.log("API response:", response.data);
+
     setCartItems([]);
-  }
+    setIsOrderPlaced(true);
+    setSelectedShippingAddress(null);
+    setSelectedBillingAddress(null);
+    setSelectedPaymentMethod("");
+    setFlashMessage("Your order has been placed successfully!");
+    setFlashType("success");
+    setFlashKey((prevKey) => prevKey + 1);
 
-  setIsOrderPlaced(true);
-  setCartItems([]);
-  setSelectedShippingAddress(null);
-  setSelectedBillingAddress(null);
-  setSelectedPaymentMethod("");
-  setFlashMessage("Your order has been placed successfully!");
-  setFlashType("success");
-  setFlashKey((prevKey) => prevKey + 1);
+    console.log("Order placed, cart cleared, flash message set");
+  } catch (error) {
+    console.error("Error completing order:", error);
+    setFlashMessage("There was an error placing your order.");
+    setFlashType("error");
+    setFlashKey((prevKey) => prevKey + 1);
+  }
 };
 
   const validateDeliveryDetails = () => {
@@ -354,7 +371,7 @@ const handleOrderComplete = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      localStorage.setItem("redirectPath", pathname);
+      localStorage.setItem("redirectPath", window.location.href);
       router.push("/login");
       return;
     }

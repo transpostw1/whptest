@@ -25,13 +25,14 @@ const Gifts = () => {
     recipientEmail: "",
     confirmEmail: "",
     message: "",
-    amount: 0, // Initialize with 0
+    amount: 0, 
     occasion: "",
     senderName: "",
   });
   const [error, setError] = useState<string>("");
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
-  const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(true);
+  const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(false);
+  const [isTemplateSelected, setIsTemplateSelected] = useState<boolean>(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
     null
   );
@@ -55,6 +56,7 @@ const Gifts = () => {
 
   const handleOccasionSelect = (occasion: string, voucherId: number) => {
     setFormData((prevData: any) => ({ ...prevData, occasion }));
+    setIsOccasionSelected(true);
     setSelectedOccasion(occasion);
     setSelectedTemplateId(voucherId);
   };
@@ -96,6 +98,8 @@ const Gifts = () => {
       setError("Please fill in all the details correctly.");
     } else if (currentStep === 0 && !isOccasionSelected) {
       setError("Please select an occasion.");
+    } else if (currentStep === 1 && !isTemplateSelected) {
+      setError("Please select an Template.");
     } else {
       setError("");
       setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
@@ -113,12 +117,12 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
-    // Here you can handle the final form submission logic, such as sending data to the server.
     console.log("Proceed to Pay", formData);
   };
 
   const handleTemplateSelect = (templateUrl: string) => {
     setSelectedTemplateUrl(templateUrl);
+    setIsTemplateSelected(true)
   };
 
   const handleAmountChange = (amount: number) => {
@@ -130,7 +134,7 @@ const Gifts = () => {
   const stepCount = currentStep + 1;
 
   return (
-    <div className="md:mx-0 mx-2">
+    <div className="md:mx-1 mx-2">
       <div className="text-center py-10 bg-[#f8a4b4]">
         <h1 className="font-medium py-2">GIFT CARDS</h1>
         <h3 className="font-semibold text-3xl italic">
@@ -138,12 +142,11 @@ const Gifts = () => {
         </h3>
       </div>
       <div className="flex lg:mx-32">
-        {/* //vertical Line  */}
         <div className="lg:block hidden p-4">
           <div className="bg-red-500 h-full w-0.5"></div>
         </div>
         <div className="flex flex-col justify-between w-full mt-3">
-          <div className="flex justify-between items-end">
+          <div className="flex justify-between gap-1 items-end">
             <div>
               <div className="flex flex-col items-start">
                 {completedSteps.map((step, index) => (
@@ -155,7 +158,7 @@ const Gifts = () => {
                     {step}
                   </div>
                 ))}
-                <div className="bg-[#e26178] text-white md:px-4 px-2 py-2 ">
+                <div className="bg-[#e26178] text-white md:px-4 p-1">
                   {steps[currentStep]}
                 </div>
               </div>
@@ -179,7 +182,7 @@ const Gifts = () => {
                 </button>
               ) : (
                 <button
-                  className="text-white bg-[#e26178] px-4 py-2"
+                  className="text-white bg-[#e26178] md:px-4 md:py-2"
                   onClick={handleProceedToPay}
                 >
                   PROCEED TO PAY

@@ -7,6 +7,7 @@ import { useCouponContext } from "@/context/CouponContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 import Skeleton from "react-loading-skeleton";
+import Loader from "../blog/Loader";
 
 interface CartItemProps {
   product: {
@@ -116,11 +117,13 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       ) : (
         <div className="justify-between p-4 border rounded-lg border-gray-400 flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
           <Image
-            src={product.image}
+            src={product?.image}
             width={100}
             height={200}
             alt="image"
             className="rounded-lg object-cover"
+            // placeholder="blur"
+            // blurDataURL="/images/other/Logo.png"
           />
           <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
             <div className="py-4">

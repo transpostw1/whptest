@@ -31,8 +31,8 @@ const Blogs = () => {
 
   return (
     <div>
-      <Latest blogData={blogData} />
       <Trending blogData={blogData} />
+      <Latest blogData={blogData} />
       <Card />
     </div>
   );

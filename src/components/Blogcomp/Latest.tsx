@@ -2,20 +2,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface LatestProps {
+interface LatestProps {  
   blogData: any[];
 }
 
 const Latest: React.FC<LatestProps> = ({ blogData }) => {
   return (
     <div className="px-4 py-8">
-      <h2 className="text-3xl font-medium text-start mb-4">
-        Discover Our Latest Posts
-      </h2>
-      <p className="text-start mb-8">
-        Where Passion Meets Precision. Explore Our Jewellery Blog for Insights
-        and Inspiration on All Things Adornments.
-      </p>
+      {/* ... */}
       <div className="grid md:grid-cols-2 gap-8">
         {blogData.map((blog) => (
           <div key={blog.id} className="cursor-pointer">

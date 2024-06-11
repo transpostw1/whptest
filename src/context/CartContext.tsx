@@ -196,9 +196,9 @@ const addLocalItemsToServerCart = async () => {
     if (cartItemsFromStorage) {
       const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
       for (const item of parsedCartItems) {
-        await syncCartWithServer([item]); // Sync each item with the server
+        await syncCartWithServer([item]); 
       }
-      localStorage.removeItem("cartItems"); // Clear local storage once items are synced
+      localStorage.removeItem("cartItems"); 
     }
   } catch (error) {
     console.error("Error adding local items to server cart:", error);

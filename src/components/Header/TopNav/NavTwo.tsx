@@ -161,14 +161,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               </div>
             </div>
             <div className="flex sm:block lg:hidden md:hidden justify-between">
-              <div>
-                <Image
-                  src={"/images/icons/blog.svg"}
-                  alt={"contactIcon"}
-                  width={25}
-                  height={25}
-                />
-              </div>
+              <Link href={"/blog"}>
+                <div>
+                  <Image
+                    src={"/images/icons/blog.svg"}
+                    alt={"contactIcon"}
+                    width={25}
+                    height={25}
+                  />
+                </div>
+              </Link>
+
               <div className="ml-4" onClick={handleContactPopup}>
                 <Image
                   src={"/images/icons/contact.svg"}
@@ -248,11 +251,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
                     </div>
                     <Link href={"/blog"}>
-                      <div   className={`flex flex-col items-center ${
-                            pathname.includes("/blog")
-                              ? "text-[#e26178]"
-                              : ""
-                          }`}>
+                      <div
+                        className={`flex flex-col items-center ${
+                          pathname.includes("/blog") ? "text-[#e26178]" : ""
+                        }`}
+                      >
                         <Image
                           src={"/images/icons/blog.svg"}
                           alt="Blog"

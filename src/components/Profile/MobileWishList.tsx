@@ -6,10 +6,13 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-
 import { useCart } from "@/context/CartContext";
 
-const ProfileWishList = () => {
+interface Props {
+  handleComponent: (args: string) => void;
+}
+
+const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
@@ -98,12 +101,21 @@ const ProfileWishList = () => {
       .format(value)
       .replace("₹", "₹ ");
   };
+
+  const handleBackButton = (args: string) => {
+    handleComponent(args);
+  };
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
       <div className="container">
-        <div>
-          <p className="text-2xl font-semibold">WhisList</p>
+        <div className="flex">
+          <div onClick={() => handleBackButton("")} className="">
+            <Icon.CaretLeft size={22} />
+          </div>
+          <div>
+            <p className="font-bold text-xl">WishList</p>
+          </div>
         </div>
         <div className="list-product-block relative">
           {isLoading ? (
@@ -182,4 +194,4 @@ const ProfileWishList = () => {
   );
 };
 
-export default ProfileWishList;
+export default MobileWishList;

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Video from "./Video";
 import { useSwipeable } from "react-swipeable";
 
-const VideoFeed = ({ videos, products }) => {
+const VideoFeed = ({ videos }) => {
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
 
   const swipeHandlers = useSwipeable({
@@ -58,7 +58,7 @@ const VideoFeed = ({ videos, products }) => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
         {...swipeHandlers}
       >
-        <Video src={videos[currentIndex].src} products={products} />
+        <Video src={videos[currentIndex].src}  />
       </motion.div>
     </AnimatePresence>
   );

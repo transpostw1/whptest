@@ -1,18 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import StickyNav from "@/components/Header/StickyNav";
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
 import ProfileOrders from "@/components/Profile/ProfileOrder";
+import ProfileWishList from "@/components/Profile/ProfileWishList";
 import ProfileGMS from "@/components/Profile/ProfileGMS";
-import StickyNav from "@/components/Header/StickyNav";
 import MobileProfileSideBar from "@/components/Profile/MobileProfileSideBar";
 import MobilePersonalInformation from "@/components/Profile/MobilePersonalInformation";
+import MobileWishList from "@/components/Profile/MobileWishList";
 import MobileOrders from "@/components/Profile/MobileOrders";
+import MobileGms from "@/components/Profile/MobileGms";
 import axios from "axios";
 import Cookie from "js-cookie";
 import { baseUrl, getOrders } from "@/utils/constants";
-import MobileGms from "@/components/Profile/MobileGms";
-import ProfileWishList from "@/components/Profile/ProfileWishList";
 import { useUser } from "@/context/UserContext";
 import ProtectedRoute from "../ProtectedRoute";
 
@@ -69,6 +70,7 @@ const ProfilePage = () => {
       console.error("Error fetching orders:", error);
     }
   };
+  console.log("Component To Render",componentToRender)
   if (isMobile) {
     return (
       <ProtectedRoute>
@@ -87,6 +89,11 @@ const ProfilePage = () => {
           {component === "orders" && (
             <MobileOrders
               orders={ordersData}
+              handleComponent={handleComponent}
+            />
+          )}
+          {component === "wishlist" && (
+            <MobileWishList
               handleComponent={handleComponent}
             />
           )}
@@ -113,7 +120,7 @@ const ProfilePage = () => {
             {componentToRender === "orders" && (
               <ProfileOrders orders={ordersData} />
             )}
-            {componentToRender === "whislist" && <ProfileWishList />}
+            {componentToRender === "wishlist" && <ProfileWishList />}
             {componentToRender === "gms" && <ProfileGMS />}
           </div>
         </div>

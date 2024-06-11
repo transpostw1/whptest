@@ -13,6 +13,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [showAccordian, setShowAccordian] = useState<number>(1);
+  const [error ,setError]=useState<any>()
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
@@ -29,6 +30,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
         setData(response.data);
       } catch (error) {
         console.log("Error from Profile Gms", error);
+        setError(error)
       } finally {
         setLoading(false);
       }
@@ -98,6 +100,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
               {showAccordian === index && <div>Payment History</div>}
             </div>
           ))}
+          {error&&<div className="text-center  font-semibold text-2xl my-10 text-[#e26178]">No Active Gold Saving Scheme</div>}
       </div>
     </div>
   );

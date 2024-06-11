@@ -6,9 +6,10 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import FlashAlert from "@/components/Other/FlashAlert";
 interface Props {
+  title:string
   closeModal: () => void;
 }
-const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
+const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -51,6 +52,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
       setType("error");
     } finally {
       setIsLoading(false);
+      handleOnClose;
       
     }
     setTimeout(() => {
@@ -80,7 +82,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
     >
       <div className="max-w-md w-[65%] max-sm:w-[70%] bg-white p-6 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
-          Contact Form
+          {title}
         </h2>
 
         <form onSubmit={handleSubmit}>

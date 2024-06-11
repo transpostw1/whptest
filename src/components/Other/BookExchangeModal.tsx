@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { baseUrl, contactForm } from "@/utils/constants";
 import axios from "axios";
+import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import FlashAlert from "@/components/Other/FlashAlert"
+import FlashAlert from "@/components/Other/FlashAlert";
 interface Props {
   closeModal: () => void;
 }
@@ -11,14 +12,13 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     message: "",
   });
   const [showPopup, setShowPopup] = useState(false);
   const [phone, setPhone] = useState("");
-  const [isLoding, setIsLoading] = useState(false);
-  const [message,setMessage]=useState("");
-  const [type,setType]=useState<"error" | "success" | "info">();
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState<"error" | "success" | "info">("success");
   const handlePhoneChange = (value: string) => {
     setPhone(value);
   };
@@ -44,25 +44,34 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
         number: phone,
         message: formData.message,
       });
-      setMessage("Your Request Has Been Submitted. We Will Contact You Soon")
-      setType("success")
+      setMessage("Your Request Has Been Submitted. We Will Contact You Soon");
+      setType("success");
     } catch (error) {
-      setMessage("Error in Booking Appointment")
-      setType("error")
-    } finally{
+      setMessage("Error in Booking Appointment");
+      setType("error");
+    } finally {
       setIsLoading(false);
+      
     }
-
-    // Show popup
-    setShowPopup(true);
-
-    // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "", message: "" });
-      setShowPopup(false);
+      setFormData({ name: "", email: "", message: "" });
+      setPhone("+91");
     }, 2000);
   };
-
+  if (isLoading) {
+    return (
+      <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
+        <div className="loading-container flex justify-center items-center h-full">
+          <Image
+            src="/dummy/loader.gif"
+            alt={"loader"}
+            height={50}
+            width={50}
+          />
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-10 bg-blur- z-50 flex justify-center items-center"
@@ -92,7 +101,6 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
               required
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -110,7 +118,6 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
               required
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="phone"
@@ -118,15 +125,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
             >
               Phone Number:
             </label>
-            {/* <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              required
-            /> */}
+            
             <PhoneInput
               country={"in"}
               value={phone}
@@ -164,7 +163,6 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
               required
             />
           </div>
-
           <button
             type="submit"
             className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -172,7 +170,7 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
             Submit
           </button>
         </form>
-
+{/* 
         {showPopup && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white p-6 rounded-md shadow-md">
@@ -180,9 +178,9 @@ const BookExchangeModal: React.FC<Props> = ({ closeModal }) => {
               <p className="text-center">We Will Contact You Soon</p>
             </div>
           </div>
-        )}
+        )} */}
       </div>
-      {message&&(<FlashAlert message={message} type={type} />)}
+      {message && <FlashAlert message={message} type={type} />}
     </div>
   );
 };

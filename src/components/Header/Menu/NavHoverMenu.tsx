@@ -376,7 +376,6 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                   </div>
                 </li>
-
                 <li
                   className="h-full"
                   onClick={() => setCustomcategory("new_Arrival")}

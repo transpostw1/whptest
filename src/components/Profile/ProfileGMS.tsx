@@ -86,7 +86,12 @@ const ProfileGMS = () => {
               </div>
               {showAccordian === index && <div>Payment History</div>}
             </div>
-          ))}
+          ))}{
+            <div className="flex justify-center text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8]">
+            No Active GMS
+          </div>
+          
+        }
       </div>
     </div>
   );

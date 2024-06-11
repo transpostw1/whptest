@@ -601,8 +601,8 @@ const handleOrderComplete = () => {
                       )}
                     </div>
                     {GiftWrapformData.name.length !== 0 && (
-                      <div className="p-2 text-wrap mt-2">
-                        <div>{GiftWrapformData.name}</div>
+                      <div className="p-2  text-wrap m-2 bg-gray-100">
+                        <div><b>Gift Message :</b> {GiftWrapformData.name}</div>
                       </div>
                     )}
                   </div>

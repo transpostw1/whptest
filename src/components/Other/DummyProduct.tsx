@@ -91,7 +91,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     Math.round(parseFloat(data?.productPrice ?? 0))
   );
 
-  console.log("DATAAA",data);
 
   return (
     <>

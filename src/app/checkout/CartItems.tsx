@@ -70,7 +70,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   return (
     <div>
       <h1 className="text-2xl">Your Shopping Bag</h1>
-      <div className="list-product-main w-full mt-3">
+      <div className="list-product-main w-full mt-3 border border-b-0 px-2">
         {isLoading ? (
           <div className="flex flex-col gap-4">
             <Skeleton height={80} />

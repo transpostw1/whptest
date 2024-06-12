@@ -115,13 +115,13 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="justify-between p-4 border rounded-lg border-gray-400 flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
+        <div className="justify-between p-4 border-b flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
           <Image
             src={product?.image}
             width={100}
             height={200}
             alt="image"
-            className="rounded-lg object-cover"
+            className=" object-cover bg-[#f7f7f7]"
             // placeholder="blur"
             // blurDataURL="/images/other/Logo.png"
           />

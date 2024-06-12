@@ -70,7 +70,6 @@ const ProfilePage = () => {
       console.error("Error fetching orders:", error);
     }
   };
-  console.log("Component To Render",componentToRender)
   if (isMobile) {
     return (
       <ProtectedRoute>

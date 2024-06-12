@@ -182,7 +182,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
                 className="px-2 py-2 text-[#E26178] border border-[#E26178] rounded-xl hover:bg-[#E26178] hover:text-white"
                 onClick={handleAddToWishlist}
               >
-                Move To wishlist
+                Move to Wishlist
               </button>
             </div>
           </div>

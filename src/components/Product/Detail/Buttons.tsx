@@ -149,7 +149,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         </div>
       </div>
       <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
-        {isProductInWishlist ? (
+        {isProductInWishlist||wishlistItems ? (
           <Icon.Heart
             size={32}
             color="#fa0000"

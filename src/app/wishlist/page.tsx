@@ -142,8 +142,9 @@ const Wishlist = () => {
                       ) : isLoggedIn ? (
                         <Image
                           src={
-                            product?.imageDetails?.[0]?.image_path ||
-                            "/images/others/Logo.png"
+                            product?.imageDetails?.[0]?.image_path 
+                            // ||
+                            // "/images/others/Logo.png"
                           }
                           alt={product.title}
                           width={300}
@@ -154,7 +155,7 @@ const Wishlist = () => {
                         />
                       ) : (
                         <Image
-                          src={product.image_path || "/images/others/Logo.png"}
+                          src={product.image_path }
                           alt={product.title}
                           width={300}
                           height={300}

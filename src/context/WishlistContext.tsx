@@ -278,6 +278,7 @@ useEffect(() => {
             Authorization: `Bearer ${cookieToken}`,
           },
         });
+        console.log(response.data,"RESPONSE DATA....")
         return response.data;
       } else {
         let localWishlistItems = null;

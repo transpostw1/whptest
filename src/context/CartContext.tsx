@@ -205,6 +205,7 @@ const addLocalItemsToServerCart = async () => {
         await syncCartWithServer([item]); 
       }
       localStorage.removeItem("cartItems"); 
+      console.log("Added Local items to Server");
     }
   } catch (error) {
     console.error("Error adding local items to server cart:", error);

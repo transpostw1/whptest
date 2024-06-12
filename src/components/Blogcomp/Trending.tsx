@@ -7,7 +7,7 @@ interface TrendingProps {
 }
 
 const Trending: React.FC<TrendingProps> = ({ blogData }) => {
-  const trendingBlogs = blogData.slice(0, 2);
+  const trendingBlogs = blogData.slice(-3);
 
   return (
     <div className="mx-auto px-4">
@@ -15,7 +15,7 @@ const Trending: React.FC<TrendingProps> = ({ blogData }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {trendingBlogs.map((blog) => (
           <Link key={blog.id} href={`/blog/${blog.blogUrl}`} passHref>
-            <div className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer">
+            <div className="h-full rounded-lg shadow-md overflow-hidden cursor-pointer ">
               <Image
                 width={400}
                 height={300}
@@ -23,7 +23,7 @@ const Trending: React.FC<TrendingProps> = ({ blogData }) => {
                 src={blog.image}
                 alt={blog.title}
               />
-              <div className="p-4">
+              <div className="p-4 flex flex-col justify-between h-max">
                 <h3 className="text-lg font-semibold">{blog.title}</h3>
                 <p className="text-sm mb-2">{blog.metaTitle}</p>
                 <div className="flex items-center gap-2">

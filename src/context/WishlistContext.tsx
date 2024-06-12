@@ -36,6 +36,7 @@ interface WishlistContextProps {
   removeFromWishlist: (productId: number) => Promise<void>;
   getWishlist: () => Promise<WishlistItem[]>;
   wishlistItemsCount: number;
+  setWishlistItems: React.Dispatch<React.SetStateAction<WishlistItem[]>>;
 }
 
 const WishlistContext = createContext<WishlistContextProps | undefined>(
@@ -303,6 +304,7 @@ useEffect(() => {
     addToWishlist,
     removeFromWishlist,
     getWishlist,
+    setWishlistItems,
     wishlistItemsCount: wishlistItems.length,
   };
 

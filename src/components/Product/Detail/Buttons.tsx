@@ -96,9 +96,8 @@ const Buttons: React.FC<Props> = ({ product }) => {
 
         url: product.productDetails.url,
       };
-
-      addToWishlist(productToAdd);
       setIsProductInWishlist(true);
+      addToWishlist(productToAdd);
     }
   };
 
@@ -107,7 +106,11 @@ const Buttons: React.FC<Props> = ({ product }) => {
     setIsProductInWishlist(false);
   };
 
-  const handleBuyNow = () => {
+const handleBuyNow = () => {
+  const productAlreadyExists = cartItems.find(
+    (item) => item.productId === product.productDetails.productId
+  );
+  if (!productAlreadyExists) {
     addToCart(
       {
         productDetails: {
@@ -117,8 +120,10 @@ const Buttons: React.FC<Props> = ({ product }) => {
       },
       1
     );
-    router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
-  };
+  }
+  router.push(`/checkout?buyNow=${product.productDetails.productId}`);
+};
+
   if (isLoading) {
     return (
       <div>
@@ -149,7 +154,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         </div>
       </div>
       <div className=" flex justify-center text-[#e26178] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
-        {isProductInWishlist||wishlistItems ? (
+        {isProductInWishlist ? (
           <Icon.Heart
             size={32}
             color="#fa0000"

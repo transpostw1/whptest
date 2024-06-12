@@ -27,7 +27,7 @@ const TestimonialData: Testimonial[] = [
   {
     content:
       "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Christian Bale",
+    author: "Ryan Gosling",
   },
   {
     content:

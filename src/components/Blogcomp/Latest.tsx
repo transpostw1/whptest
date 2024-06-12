@@ -9,7 +9,13 @@ interface LatestProps {
 const Latest: React.FC<LatestProps> = ({ blogData }) => {
   return (
     <div className="px-4 py-8">
-      {/* ... */}
+      <h1 className="text-3xl font-medium mb-2 uppercase">
+        Discover Our latest posts
+      </h1>
+      <h3 className="py-2 w-[50%]">
+        Where Passion Meets Precision: Explore Our Jewellery Blog for Insights
+        and Inspiration on All Things Adornments.
+      </h3>
       <div className="grid md:grid-cols-2 gap-8">
         {blogData.map((blog) => (
           <div key={blog.id} className="cursor-pointer">

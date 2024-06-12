@@ -5,6 +5,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useWishlist } from "@/context/WishlistContext";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import StarRating from "./StarRating";
 
 interface ProductProps {
   data: any;
@@ -88,6 +89,8 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     Math.round(parseFloat(data?.productPrice ?? 0))
   );
 
+  console.log("DATAAA",data);
+
   return (
     <>
       <div className="product-item grid-type ">
@@ -142,7 +145,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               <Image
                 onClick={() => handleDetailProduct()}
                 className="w-[95%] duration-700  m-auto"
-                src={data.image_path}
+                src={data?.imageDetails[0].image_path}
                 width={400}
                 height={400}
                 alt="This image is temporarry"
@@ -177,11 +180,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
             <div className="flex">
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
+              <StarRating stars={data?.rating} />
             </div>
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">

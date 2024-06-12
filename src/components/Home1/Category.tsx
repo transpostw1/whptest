@@ -172,7 +172,7 @@ const Category = () => {
               </Link>
 
               <div>
-                <h1 className="text-xl font-semibold uppercase">{category.name}</h1>
+                <h1 className="text-xl font-semibold uppercase break-word">{category.name}</h1>
                 <a className="inline-flex items-center" onClick={() => {
                   router.push(`/products?url=${category.url}`);
                   setCustomcategory(category.url);

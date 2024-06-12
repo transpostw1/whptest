@@ -39,7 +39,7 @@ const Appointment = () => {
               Book Appointment
             </button>
             {appointmentModal && (
-              <BookExchangeModal closeModal={handleOnClose} />
+              <BookExchangeModal  title={"Book Your Appointment"} closeModal={handleOnClose} />
             )}
           </div>
         </div>

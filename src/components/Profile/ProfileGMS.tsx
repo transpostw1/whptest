@@ -11,6 +11,7 @@ const ProfileGMS = () => {
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [showAccordian, setShowAccordian] = useState<number>(1);
+  const [error ,setError]=useState<any>()
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
@@ -27,6 +28,7 @@ const ProfileGMS = () => {
         setData(response.data);
       } catch (error) {
         console.log("Error from Profile Gms", error);
+        setError(error)
       } finally {
         setLoading(false);
       }
@@ -49,7 +51,7 @@ const ProfileGMS = () => {
         </div>
       </div>
       <div>
-        {data &&
+        {data && data.length>0&&
           data.map((gms: any, index: any) => (
             <div key={index} className="border mb-3">
               <div className="flex justify-between border-b px-2">
@@ -87,6 +89,7 @@ const ProfileGMS = () => {
               {showAccordian === index && <div>Payment History</div>}
             </div>
           ))}
+          {error&&<div className="text-center  font-semibold text-2xl my-10 text-[#e26178]">No Active Gold Saving Scheme</div>}
       </div>
     </div>
   );

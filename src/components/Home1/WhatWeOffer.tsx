@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const WhatWeOffer = () => {
   const [width, setWidth] = useState<number>(300);
@@ -65,9 +66,7 @@ const WhatWeOffer = () => {
           <div className="w-full flex flex-col sm:w-[50%] md:p-4 md:mt-2 sm:p-[4rem]">
             {width > 160 && (
               <div className="ps-3 pt-3">
-                <p className="lg:text-[3rem] text-[2rem] pb-5">
-                  What We Offer
-                </p>
+                <p className="lg:text-[3rem] text-[2rem] pb-5">What We Offer</p>
                 <p className="text-sm md:text-base">
                   Discover our offerings. Our commitment to quality, elegance,
                   and personalised service ensures an exceptional experience.
@@ -91,7 +90,13 @@ const WhatWeOffer = () => {
                     Elevate your style with our distinctive jewellery designs,
                     where creativity and craftsmanship unite.
                   </p>
-                  <a className="inline-flex items-center">
+                  <Link
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-new_arrival" },
+                    }}
+                    className="inline-flex items-center"
+                  >
                     <span className=" me-2 text-[#E26178] underline cursor-pointer text-sm">
                       Next
                     </span>
@@ -103,7 +108,7 @@ const WhatWeOffer = () => {
                         height={20}
                       />
                     </span>
-                  </a>
+                  </Link>
                 </div>
                 <div className="hidden sm:block">
                   <p

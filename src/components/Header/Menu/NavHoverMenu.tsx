@@ -42,7 +42,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       const scrollPosition = window.scrollY;
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-        scrollPosition > lastScrollPosition
+          scrollPosition > lastScrollPosition
       );
       setLastScrollPosition(scrollPosition);
     };
@@ -78,8 +78,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   return (
     <>
       <div
-        className={`header-menu-navHoverMenu style-one ${fixedHeader ? " fixed" : "relative"
-          } w-full md:h-[60px] h-[40px] ${props}`}
+        className={`header-menu-navHoverMenu style-one ${
+          fixedHeader ? " fixed" : "relative"
+        } w-full md:h-[60px] h-[40px] ${props}`}
       >
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />
@@ -91,7 +92,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     href=""
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${isSubMenuVisible ? "sub-menu-visible" : ""}`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
+                      isSubMenuVisible ? "sub-menu-visible" : ""
+                    }`}
                   >
                     All Jewellery
                     {isSubMenuVisible ? (
@@ -103,10 +106,14 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <div
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className={`sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl ${isSubMenuVisible ? "visible" : ""}`}
+                    className={`sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl ${
+                      isSubMenuVisible ? "visible" : ""
+                    }`}
                   >
                     <ul>
-                      <p className="font-semibold text-black">Explore Categories</p>
+                      <p className="font-semibold text-black">
+                        Explore Categories
+                      </p>
 
                       {categories &&
                         categories.map((item: any, index: any) => (
@@ -234,7 +241,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                     <ul>
                       <li>
-                        <p className="font-semibold text-black">Shop By Price</p>
+                        <p className="font-semibold text-black">
+                          Shop By Price
+                        </p>
                       </li>
                       <li className="text-secondary duration-300 cursor-pointer">
                         <Link
@@ -305,7 +314,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                     <ul>
                       <li>
-                        <p className="font-semibold text-black">Shop By Karat</p>
+                        <p className="font-semibold text-black">
+                          Shop By Karat
+                        </p>
                       </li>
                       <li>
                         <Link
@@ -365,7 +376,6 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                   </div>
                 </li>
-
                 <li
                   className="h-full"
                   onClick={() => setCustomcategory("new_Arrival")}
@@ -373,13 +383,14 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "new_Arrival" },
+                      query: { url: "c-new_Arrival" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "new_Arrival"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-new_Arrival"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     New Arrival
                   </Link>
@@ -416,11 +427,12 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-pendant" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "pendant"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-pendant"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Pendants
                   </Link>
@@ -434,11 +446,12 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-bangle" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "bangle"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-bangle"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Bangles
                   </Link>
@@ -450,13 +463,14 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "c-Bracelet" },
+                      query: { url: "c-bracelet" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "bracelet"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-bracelet"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Bracelet
                   </Link>
@@ -470,19 +484,22 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-necklace" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${pathname.includes("/products") &&
-                      searchParmas.get("url") === "necklace"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-necklace"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Necklace
                   </Link>
                 </li>
-                <li className="h-full relative">
+                <li className={`h-full relative`}>
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/offers" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/offers") ? "active" : ""
+                    }`}
                   >
                     Offers
                   </Link>
@@ -491,8 +508,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li className="h-full relative">
                   <Link
-                    href="/gifts"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/gifts" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/gifts") ? "active" : ""
+                    }`}
                   >
                     Gifts
                   </Link>
@@ -501,8 +520,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li className="h-full">
                   <Link
-                    href="/benefit"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/benefit" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/benefit") ? "active" : ""
+                    }`}
                   >
                     Gold Services
                   </Link>

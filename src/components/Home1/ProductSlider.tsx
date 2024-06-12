@@ -11,6 +11,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { baseUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
@@ -22,8 +23,37 @@ const ProductSlider = () => {
     const getData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${baseUrl}/best-sellers`);
-        setData(await response.data);
+        const client = new ApolloClient({
+          // uri: "http://localhost:8080/",
+          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          cache: new InMemoryCache(),
+        });
+
+        const BEST_SELLER = gql`
+        query BestSeller {
+          bestSeller {
+            productId
+            url
+            title
+            productPrice
+            discountPrice
+            typeOfDiscount
+            discountValue
+            rating
+            imageDetails {
+              image_path
+            }
+            videoDetails {
+              video_path
+            }
+          }
+        }
+`;
+const { data } = await client.query({
+  query: BEST_SELLER,
+});
+        // const response = await axios.get(`${baseUrl}/best-sellers`);
+        setData(await data.bestSeller);
       } catch (error) {
         console.log();
       } finally {

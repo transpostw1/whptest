@@ -18,10 +18,15 @@ import Extendedfooter from "./Extendedfooter";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const [careerModal, setCareerModal] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState<any>(null);
   const { setCustomcategory } = useCategory();
   const { isLoggedIn } = useUser();
+  
+  const handleCareerModal=()=>{
+    setCareerModal(false)
+  }
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
@@ -59,8 +64,8 @@ const Footer = () => {
       <div id="footer" className="footer  text-rose-950 ">
         <div className="footer-main  bg-gray-50">
           <div className="container py-4 ">
-            <div className="flex  gap-3 items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col justify-center items-center lg:justify-between lg:flex-row ">
+              <div className="flex items-center">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}
@@ -82,46 +87,19 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-96 ">
+              <div className=" ">
                 <p>
-                  Crafting Timeless Elegance,One Jewel at a Time.Discover Your
+                  Crafting Timeless Elegance,One Jewel at a </p> <p> Time.Discover Your
                   Statement Piece Today.
                 </p>
               </div>
             </div>
-            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4">
+            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 lg:gap-28">
               <div className="company-infor">
                 <div className="newsletter ">
                   <div className="caption1  font-semibold text-center lg:text-start">
                     Subscribe for WhatsApp updates
                   </div>
-                  {/* <div className="input-block  mt-2 relative">
-                    <form
-                      className="flex justify-center lg:justify-start"
-                      action="post"
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="caption1 bg-white">
-                        <PhoneInput
-                          country={"in"}
-                          value={formik.values.phoneNumber}
-                          onChange={(value) => {
-                            setPhoneNumber(value);
-                            formik.handleChange("phoneNumber")(value);
-                          }}
-                          // containerClass="custom-phone-input"
-                        />
-                      </div>
-
-                      <button
-                        className=" flex items-center justify-center relative ms-[-2rem] "
-                        className="w-[30px] h-[34px] bg-[#e26178] flex items-center justify-center "
-                        type="submit"
-                      >
-                        <Icon.ArrowRight size={24} color="#fff" />
-                      </button>
-                    </form>
-                  </div> */}
                   <div className="input-block h-[52px] mt-2 relative">
                     <form
                       className="flex justify-center lg:justify-start"
@@ -187,15 +165,14 @@ const Footer = () => {
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>
-                    <Link
+                    <div
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={"#!"}
-                      onClick={() => setAppointmentModal(true)}
+                      onClick={() => setCareerModal(true)}
                     >
                       Career
-                    </Link>
-                    {appointmentModal && (
-                      <BookExchangeModal closeModal={handleOnClose} />
+                    </div>
+                    {careerModal && (
+                      <BookExchangeModal title={"Careers"} closeModal={handleCareerModal} />
                     )}
                     {isLoggedIn ? (
                       <Link
@@ -307,7 +284,7 @@ const Footer = () => {
                       Book,Exchange and BuyBack
                     </div>
                     {appointmentModal && (
-                      <BookExchangeModal closeModal={handleOnClose} />
+                      <BookExchangeModal title={"Exchange and BuyBack"} closeModal={handleOnClose} />
                     )}
                   </div>
                   <div className="item flex flex-col items-center lg:items-start w-full">

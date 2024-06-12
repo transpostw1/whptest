@@ -125,7 +125,7 @@ const Checkout: React.FC = () => {
         const response = await axios.post<{ data: any }>(
           `${baseUrl}${coupon}`,
           {
-            products: cartProductIds,
+            products: products,
             coupon: couponCode,
           },
           {
@@ -138,7 +138,9 @@ const Checkout: React.FC = () => {
         setFlashMessage("Coupon Successfully applied");
         setFlashType("success");
       } catch (error: any) {
-        console.log("Error occurred", error);
+        console.log("Error occurred", error.response.data.message);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
       } finally {
         setLoading(false);
       }
@@ -625,8 +627,8 @@ localStorage.removeItem("cartItems")
                       )}
                     </div>
                     {GiftWrapformData.name.length !== 0 && (
-                      <div className="p-2 text-wrap mt-2">
-                        <div>{GiftWrapformData.name}</div>
+                      <div className="p-2  text-wrap m-2 bg-gray-100">
+                        <div><b>Gift Message :</b> {GiftWrapformData.name}</div>
                       </div>
                     )}
                   </div>
@@ -682,7 +684,7 @@ localStorage.removeItem("cartItems")
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary" >
+                <div id="order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     totalDiscount={totalDiscount}

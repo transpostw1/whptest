@@ -338,7 +338,18 @@ const Default: React.FC<Props> = ({ productId }) => {
   }).format(
     Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0))
   );
-
+  const handleShareClick = () => {
+    if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            url: window.location.href
+        }).then(() => {
+            console.log('Thanks for sharing!');
+        }).catch(console.error);
+    } else {
+        console.log('Share API not supported');
+    }
+};
   return (
     <>
       <StickyNavProductPage />
@@ -358,25 +369,26 @@ const Default: React.FC<Props> = ({ productId }) => {
                           className="d-flex-important justify-center"
                           {...{
                             smallImage: {
-                              alt: "Wristwatch by Ted Baker London",
+                              alt: "Product Image",
                               isFluidWidth: true,
                               src: image.image_path,
                             },
                             largeImage: {
                               src: image.image_path,
-                              width: 1200,
-                              height: 1800,
+                              width: 1000,
+                              height: 1200,
                             },
                             enlargedImageContainerClassName:"enlarge-image-container",
                             enlargedImagePosition:"over",
-                            isHintEnabled:"true",
-                            shouldUsePositiveSpaceLens:"true",
+                            // isHintEnabled:true,
+                            // shouldUsePositiveSpaceLens:true,
                             enlargedImageContainerDimensions: {
-                              width: "150%",
-                              height: "150%",
+                              width: "100%",
+                              height: "100%",
                             },
+                            isActivatedOnTouch: true
                           }}
-                          lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
+                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
                         />
                       </div>
                     )
@@ -470,7 +482,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
-                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]">
+                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]" onClick={handleShareClick}>
                   <Icon.ShareFat
                     size={25}
                     weight="fill"
@@ -485,10 +497,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
-                  {/* <div className="rounded-full bg-[#e26178] text-transparent h-2 w-2 mt-3">
-                    3
-                  </div> */}
-                  <StarRating stars={data?.productDetails?.rating} />
+                 |               <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
             </>
@@ -532,7 +541,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               handleVariant={handleNewVariant}
             />
           )}
-          {data && data?.productDetails?.productQty !== null && (
+          {data && data?.productDetails?.productQty !== null && data?.productDetails?.productQty < 5&& (
             <p className="mt-2">
               Only{" "}
               <span className="text-[#e26178]">
@@ -559,7 +568,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <CheckPincode />
+          {/* a */}
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

@@ -56,9 +56,9 @@ const Video = ({ src, products }) => {
           <Icon.SpeakerHigh className="text-white" size={30} />
         )}
       </button>
-      <div className="absolute bottom-0 w-full z-20">
+      {/* <div className="absolute bottom-0 w-full z-20">
         <VideoOverlayProducts products={products} />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -34,24 +34,24 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
 
   useEffect(() => setSingleOrder(orders), [orders]);
 
-  const handleOrderCancel = async (id: any) => {
-    try {
-      setLoading(true);
-      const cookieToken = Cookie.get("localtoken");
-      const response = await axios.post(
-        `${baseUrl}/${id}/cancel`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${cookieToken}` },
-        }
-      );
-      setMessage(response.data.message);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleOrderCancel = async (id: any) => {
+  //   try {
+  //     setLoading(true);
+  //     const cookieToken = Cookie.get("localtoken");
+  //     const response = await axios.post(
+  //       `${baseUrl}/${id}/cancel`,
+  //       {},
+  //       {
+  //         headers: { Authorization: `Bearer ${cookieToken}` },
+  //       }
+  //     );
+  //     setMessage(response.data.message);
+  //   } catch (error) {
+  //     console.error("Error fetching orders:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleBack = () => {
     setSingleOrder(orders);
@@ -96,7 +96,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
             orders.map((item: any) => (
               <div
                 key={item.id}
-                className="border border-gray-200  border-b-0 mb-4 cursor-pointer"
+                className="border border-gray-200 rounded-lg shadow hover:bg-[#E26178] hover:bg-opacity-5 hover:scale-[1.02] hover:border-[#E26178]   mb-4 cursor-pointer"
                 onClick={() => handleOrderDetails(item.id)}
               >
                 <div className="flex p-2 border-b-2 justify-between">

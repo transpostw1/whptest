@@ -4,24 +4,19 @@ import Image from "next/image";
 import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
-import { useUser } from "@/context/UserContext";
 
-const Wishlist = () => {
+interface Props {
+  handleComponent: (args: string) => void;
+}
+
+const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const {  } = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
-    {}
-  );
   const [type, setType] = useState<string | undefined>();
-  const { wishlistItems,setWishlistItems, removeFromWishlist,getWishlist } = useWishlist();
-  const { isLoggedIn } = useUser();
+  const { wishlistItems, removeFromWishlist } = useWishlist();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -30,19 +25,6 @@ const Wishlist = () => {
 
     return () => clearTimeout(timeout);
   }, []);
-    useEffect(() => {
-      const fetchWishlist = async () => {
-        try {
-          const fetchedWishlistItems = await getWishlist();
-          setWishlistItems(fetchedWishlistItems);
-        } catch (error) {
-          console.error("Error fetching wishlist:", error);
-        }
-      };
-
-      fetchWishlist();
-    }, []);
-
   const router = useRouter();
 
   const uniqueProductIds = new Set<number>();
@@ -81,24 +63,28 @@ const Wishlist = () => {
   };
 
   const handleBuyNow = (product: any) => {
-    const productAlreadyExists = cartItems.find(
-      (item) => item.productId === product.productId
-    );
+    console.log(product, "PRODUCT");
 
-    if (!productAlreadyExists) {
-      const newProduct = {
-        productDetails: {
-          title: product.title,
-          discountPrice: product.discountPrice,
-          imageDetails: [{ image_path: product.image_path }],
-          productPrice: product.productPrice,
-        },
-        productId: product.productId,
-        quantity: 1,
-      };
-      addToCart(newProduct, 1, true);
-    }
-
+    const productDetails = {
+      productId: product.productId,
+      productDetails: {
+        productId: 60,
+        title: product.title,
+        displayTitle: product.title,
+        url: "gold-earrings",
+        discountPrice: product.discountPrice,
+        imageDetails: [
+          {
+            image_path: product.image_path,
+            order: 0,
+            alt_text: null,
+          },
+        ],
+        productPrice: "27131.1476",
+      },
+    };
+    console.log("Adding to cart:", productDetails);
+    addToCart(productDetails, 1, true);
     removeFromWishlist(product.productId);
     router.push(`/checkout?buyNow=${product.productId}`);
   };
@@ -116,65 +102,49 @@ const Wishlist = () => {
       .replace("₹", "₹ ");
   };
 
-  const handleImageLoad = (productId: number) => {
-    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
+  const handleBackButton = (args: string) => {
+    handleComponent(args);
   };
-
-  const handleImageError = (productId: number) => {
-    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
-  };
-
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
       <div className="container">
+        <div className="flex">
+          <div onClick={() => handleBackButton("")} className="">
+            <Icon.CaretLeft size={22} />
+          </div>
+          <div>
+            <p className="font-bold text-xl">WishList</p>
+          </div>
+        </div>
         <div className="list-product-block relative">
           {isLoading ? (
-            <Loader />
-          ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10">
-              Add Something to Wishlist
+            <div className="loading-container flex justify-center items-center h-full">
+              <Image
+                src="/dummy/loader.gif"
+                alt={"loader"}
+                height={50}
+                width={50}
+              />
             </div>
+          ) : wishlistItems.length < 1 ? (
+            <div className="text-center text-2xl my-10">Wishlist is empty</div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
-              {filteredWishlistItems.map((product, index) => (
+            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
+              {wishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
-                      className="product-image flex justify-center"
+                      className="product-image"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
-                      {isLoggedIn && imageLoading[product.productId] ? (
-                        <Skeleton
-                          width={300}
-                          height={300}
-                          className="rounded-md"
-                        />
-                      ) : isLoggedIn ? (
-                        <Image
-                          src={
-                            product?.imageDetails?.[0]?.image_path
-                            // ||
-                            // "/images/others/Logo.png"
-                          }
-                          alt={product.title}
-                          width={300}
-                          height={300}
-                          className="rounded-md"
-                          onLoad={() => handleImageLoad(product.productId)}
-                          onError={() => handleImageError(product.productId)}
-                        />
-                      ) : (
-                        <Image
-                          src={product.image_path}
-                          alt={product.title}
-                          width={300}
-                          height={300}
-                          className="rounded-md"
-                          onLoad={() => handleImageLoad(product.productId)}
-                          onError={() => handleImageError(product.productId)}
-                        />
-                      )}
+                      <Image
+                        src={product.image_path}
+                        alt={product.title}
+                        width={300}
+                        height={300}
+                        className="rounded-md"
+                      />
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
@@ -191,18 +161,18 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">
+                    <div className="flex flex-col gap-1 mt-1">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
-                        onClick={() => handleBuyNow(product)}
-                      >
-                        Buy Now
-                      </div>
-                      <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
+                      </div>
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        onClick={() => handleBuyNow(product)}
+                      >
+                        Buy Now
                       </div>
                     </div>
                   </div>
@@ -224,4 +194,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default MobileWishList;

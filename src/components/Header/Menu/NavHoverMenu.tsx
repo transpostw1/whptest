@@ -80,7 +80,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       <div
         className={`header-menu-navHoverMenu style-one ${
           fixedHeader ? " fixed" : "relative"
-        } w-full md:h-[60px] h-[40px] ${props}`}
+        } w-full md:h-[60px] h-[40px]`}
       >
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />

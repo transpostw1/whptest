@@ -73,6 +73,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                   alt={"image"}
                   width={85}
                   height={85}
+                  className="bg-[#f7f7f7]"
                 />
               </div>
               <div className="flex justify-center flex-col content-start ">

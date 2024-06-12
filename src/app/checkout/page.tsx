@@ -526,6 +526,7 @@ localStorage.removeItem("cartItems")
                   cartItems={buyNow ? finalBuyNowItems : MainCart}
                   handleQuantityChange={handleQuantityChange}
                   removeFromCart={removeFromCart}
+                  loading={loading}
                 />
               )}
               {selectedComponent === "DeliveryDetails" && (

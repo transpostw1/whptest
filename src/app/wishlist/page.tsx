@@ -14,12 +14,13 @@ import { useUser } from "@/context/UserContext";
 
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const {  } = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {}
   );
   const [type, setType] = useState<string | undefined>();
-  const { wishlistItems, removeFromWishlist } = useWishlist();
+  const { wishlistItems,setWishlistItems, removeFromWishlist,getWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
 
   useEffect(() => {
@@ -29,6 +30,18 @@ const Wishlist = () => {
 
     return () => clearTimeout(timeout);
   }, []);
+    useEffect(() => {
+      const fetchWishlist = async () => {
+        try {
+          const fetchedWishlistItems = await getWishlist();
+          setWishlistItems(fetchedWishlistItems);
+        } catch (error) {
+          console.error("Error fetching wishlist:", error);
+        }
+      };
+
+      fetchWishlist();
+    }, []);
 
   const router = useRouter();
 
@@ -68,28 +81,24 @@ const Wishlist = () => {
   };
 
   const handleBuyNow = (product: any) => {
-    console.log(product, "PRODUCT");
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
 
-    const productDetails = {
-      productId: product.productId,
-      productDetails: {
-        productId: 60,
-        title: product.title,
-        displayTitle: product.title,
-        url: "gold-earrings",
-        discountPrice: product.discountPrice,
-        imageDetails: [
-          {
-            image_path: product.image_path,
-            order: 0,
-            alt_text: null,
-          },
-        ],
-        productPrice: "27131.1476",
-      },
-    };
-    console.log("Adding to cart:", productDetails);
-    addToCart(productDetails, 1, true);
+    if (!productAlreadyExists) {
+      const newProduct = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1, true);
+    }
+
     removeFromWishlist(product.productId);
     router.push(`/checkout?buyNow=${product.productId}`);
   };
@@ -123,9 +132,11 @@ const Wishlist = () => {
           {isLoading ? (
             <Loader />
           ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10">Add Something to Wishlist</div>
+            <div className="text-center text-2xl my-10">
+              Add Something to Wishlist
+            </div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10">
+            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
@@ -142,7 +153,7 @@ const Wishlist = () => {
                       ) : isLoggedIn ? (
                         <Image
                           src={
-                            product?.imageDetails?.[0]?.image_path 
+                            product?.imageDetails?.[0]?.image_path
                             // ||
                             // "/images/others/Logo.png"
                           }
@@ -155,7 +166,7 @@ const Wishlist = () => {
                         />
                       ) : (
                         <Image
-                          src={product.image_path }
+                          src={product.image_path}
                           alt={product.title}
                           width={300}
                           height={300}
@@ -180,18 +191,18 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-1">
+                    <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
-                        onClick={() => handleAddToCart(product)}
-                      >
-                        Add To Cart
-                      </div>
-                      <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white px-6 py-1"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
+                      </div>
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        Add To Cart
                       </div>
                     </div>
                   </div>

@@ -28,6 +28,7 @@ interface CartItem {
   price?: number;
   image?: string;
   isBuyNow?: boolean;
+  
 }
 
 interface CartContextProps {
@@ -36,6 +37,7 @@ interface CartContextProps {
   removeFromCart: (productId: number) => void;
   updateCartQuantity: (productId: number, newQuantity: number) => void;
   setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
+  loading: boolean;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -46,9 +48,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
+  const [loading, setLoading] = useState(true);
   const { isLoggedIn } = useUser();
-  const router = useRouter();
-  const { logOut } = useUser();
+
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -61,6 +63,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
  useEffect(() => {
    const fetchCartItems = async () => {
+    setLoading(true);
      if (isLoggedIn && cookieToken) {
        await addLocalItemsToServerCart();
        const cartItemsFromServer = await fetchCartItemsFromServer();
@@ -86,6 +89,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
          }
        }
      }
+         setLoading(false);
    };
    fetchCartItems();
  }, [isLoggedIn, cookieToken]);
@@ -95,6 +99,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     quantity: number,
     isBuyNow?: boolean 
   ) => {
+    setLoading(true);
     const newItem = { ...item, quantity, isBuyNow };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
@@ -104,6 +109,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
     }
+       setLoading(false);
   };
   const removeFromCart = async (productId: number) => {
     const updatedCartItems = cartItems.filter(
@@ -166,12 +172,11 @@ const syncCartWithServer = async (cartItems: CartItem[]) => {
   let discount: number = 0;
   updateTotalDiscount(discount);
   try {
+       setLoading(true);
     const cartData = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity || 0,
     }));
-
-    // Debounce or throttle this call if needed to prevent excessive requests
     const response = await instance.post(
       `${baseUrl}/cart/sync`,
       { cart: cartData },
@@ -184,6 +189,7 @@ const syncCartWithServer = async (cartItems: CartItem[]) => {
 
     const cartItemsFromServer = await fetchCartItemsFromServer();
     setCartItems(cartItemsFromServer);
+       setLoading(false);
   } catch (error) {
     console.error("Error syncing cart with server:", error);
   }
@@ -214,7 +220,8 @@ const addLocalItemsToServerCart = async () => {
     addToCart,
     removeFromCart,
     updateCartQuantity,
-    setCartItems
+    setCartItems,
+    loading,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

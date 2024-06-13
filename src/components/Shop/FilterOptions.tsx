@@ -98,9 +98,12 @@ const FilterOptions: React.FC<Props> = ({
             <div>
               {item.options.map((option: string, idx: number) => (
                 <div key={option} onClick={() => handleMobileFilter()}>
+                  
                   <input
                     type="checkbox"
                     id={option}
+                    value={option}
+                    readOnly={true}
                     checked={selectedOptions[item.title]?.includes(option)}
                     onChange={() => handleOptionSelect(option, item.title)}
                   />

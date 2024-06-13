@@ -95,6 +95,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             </label>
             <input
               type="text"
+              defaultValue={""}
               id="name"
               name="name"
               value={formData.name}
@@ -113,6 +114,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             <input
               type="email"
               id="email"
+              defaultValue={""}
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -157,6 +159,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             </label>
             <input
               type="text"
+              defaultValue={""}
               id="message"
               name="message"
               value={formData.message}

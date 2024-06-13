@@ -387,7 +387,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "c-new_Arrival"
+                      searchParmas.get("url")?.startsWith("c-new_Arrival")
                         ? "active"
                         : ""
                     }`}
@@ -409,7 +409,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "c-earring"
+                      searchParmas.get("url")?.startsWith("c-earring")
                         ? "active"
                         : ""
                     }`}
@@ -429,7 +429,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "c-pendant"
+                      searchParmas.get("url")?.startsWith("c-pendant")
                         ? "active"
                         : ""
                     }`}
@@ -448,7 +448,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "c-bangle"
+                      searchParmas.get("url")?.startsWith("c-bangle")
                         ? "active"
                         : ""
                     }`}
@@ -467,7 +467,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     }}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
                       pathname.includes("/products") &&
-                      searchParmas.get("url") === "c-bracelet"
+                      searchParmas.get("url")?.startsWith("c-bracelet")
                         ? "active"
                         : ""
                     }`}

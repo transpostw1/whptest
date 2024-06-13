@@ -103,7 +103,7 @@ const ProfileWishList = () => {
       <StickyNav />
       <div className="container">
         <div>
-          <p className="text-2xl font-semibold">WhisList</p>
+          <p className="text-2xl font-semibold">Wishlist</p>
         </div>
         <div className="list-product-block relative">
           {isLoading ? (

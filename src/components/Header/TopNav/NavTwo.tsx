@@ -73,6 +73,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
+
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
@@ -133,7 +134,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu w-full md:h-[65px] h-[65px] bg-[#f7f7f7] ${
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
           fixedHeader ? " fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
@@ -286,7 +287,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <>
                           <div
                             onClick={handleProfilePage}
-                            className={`"flex flex-col justify-center ${
+                            className={`"flex flex-col items-center justify-center ${
                               pathname.includes("/profile")
                                 ? "text-[#e26178]"
                                 : ""

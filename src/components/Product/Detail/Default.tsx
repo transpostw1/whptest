@@ -33,7 +33,7 @@ import CtaButtonsMobile from "./CtaButtonsMobile";
 import ReactImageMagnify from 'react-image-magnify';
 
 interface Props {
-  productId: string | number | null;
+  productId: string | number | any;
 }
 interface Ref extends MutableRefObject<any> {
   slickNext?: () => void;
@@ -157,7 +157,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: productId },
+      variables: { productUrl: productId[1] },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);

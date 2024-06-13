@@ -132,6 +132,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                             alt={"image"}
                             width={85}
                             height={85}
+                            className="bg-[#f7f7f7]"
                           />
                         </div>
 

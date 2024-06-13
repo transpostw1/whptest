@@ -113,8 +113,8 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     );
   const selectedVideo = sortedVideos?.[0];
 
-  const handleDetailProduct = (productUrl: any) => {
-    router.push(`/products/${productUrl}`);
+  const handleDetailProduct = (productId:any,productUrl: any) => {
+    router.push(`/products/${productUrl}/${productId}`);
   };
 
   const HandleaddToWishlist = () => {
@@ -147,6 +147,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
       console.error("Error adding product to wishlist:", error);
     }
   };
+
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
@@ -178,7 +179,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   <div className="mb-2">
                     <div
                       className="object-cover relative duration-700 product-img"
-                      onClick={() => handleDetailProduct(data.url)}
+                      onClick={() => handleDetailProduct(data.url,data.productId)}
                     >
                       <video loop autoPlay muted>
                         <source
@@ -191,7 +192,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 ) : (
                   <div className="relative">
                     <Image
-                      onClick={() => handleDetailProduct(data.url)}
+                      onClick={() => handleDetailProduct(data.url,data.productId)}
                       className="w-[95%] duration-700  m-auto"
                       src={selected.image_path}
                       width={400}
@@ -250,7 +251,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             ) : (
               <div className="relative">
                 <Image
-                  onClick={() => handleDetailProduct(data.url)}
+                  onClick={() => handleDetailProduct(data.url,data.productId)}
                   className="w-[95%] duration-700  m-auto"
                   src={selected.image_path}
                   width={400}
@@ -294,7 +295,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
           <div
             className=" mt-4 lg:mb-4"
-            onClick={() => handleDetailProduct(data.url)}
+            onClick={() => handleDetailProduct(data.url,data.productId)}
           >
             <div className="product-name text-title duration-300 text-xl">
               <p className="truncate">{data?.title}</p>

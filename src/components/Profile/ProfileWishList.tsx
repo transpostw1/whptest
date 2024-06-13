@@ -127,7 +127,7 @@ const ProfileWishList = () => {
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
                       <Image
-                        src={product.image_path}
+                        src={product?.imageDetails?.[0]?.image_path}
                         alt={product.title}
                         width={300}
                         height={300}

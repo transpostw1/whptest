@@ -78,7 +78,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }, []);
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
-      (item: any) => item.productId === data.productId
+      (item: any) => item.productId == data.productId
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);

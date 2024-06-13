@@ -287,7 +287,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <>
                           <div
                             onClick={handleProfilePage}
-                            className={`"flex flex-col items-center justify-center ${
+                            className={`flex flex-col items-center ${
                               pathname.includes("/profile")
                                 ? "text-[#e26178]"
                                 : ""

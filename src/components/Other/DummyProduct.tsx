@@ -141,14 +141,14 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             ) : ( */}
             <div className="relative ">
-              <Image
+              {/* <Image
                 onClick={() => handleDetailProduct()}
                 className="w-[95%] duration-700  m-auto"
                 src={data?.imageDetails[0].image_path}
                 width={400}
                 height={400}
                 alt="This image is temporarry"
-              />
+              /> */}
 
               {/* <div className="relative">
                   <div className="absolute bottom-0 right-0 z-0 hover:z-50">

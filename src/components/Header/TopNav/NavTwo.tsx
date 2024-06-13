@@ -218,6 +218,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <input
                 type="text"
                 placeholder="Search"
+                readOnly={true}
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
@@ -305,7 +306,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleLoginDrop}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="black" />
+                            <Icon.User size={28} />
                             <p className="text-sm">Login</p>
                           </div>
                           <div
@@ -445,7 +446,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="mx-4 h-6 border-l border-gray-400"
                     ></div>
                     <Link href={"/login"}>
-                      <p className="text-lg font-semibold">Login</p>
+                      <h2 className="text-lg font-semibold">Login</h2>
                     </Link>
                   </div>
                 )}

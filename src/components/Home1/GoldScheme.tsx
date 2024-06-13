@@ -140,17 +140,17 @@ const GoldScheme = () => {
                       ₹2000. Make regular installments and get discounts.
                     </p>
                   </div>
-                  <div className="flex w-full mt-5">
-                    <button
-                      // href="#"
-                      onClick={() => handleNavigation("/benefit")}
-                      className="text-[#E26178] flex justify-center text-start font-semibold underline"
-                    >
-                      Benefit Calculator
-                      <span className="mt-1 ml-2">
-                        <Icon.ArrowRight />
-                      </span>
-                    </button>
+                  <div className="flex w-full">
+                  <button
+                    // href="#"
+                    onClick={() => handleNavigation("/benefit")}
+                    className="text-[#E26178] flex justify-center text-start font-semibold underline"
+                  >
+                    Benefit Calculator
+                    <span className="mt-1 ml-2">
+                      <Icon.ArrowRight />
+                    </span>
+                  </button>
                   </div>
                 </div>
               </div>

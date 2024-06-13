@@ -21,6 +21,8 @@ interface CartItemProps {
     image: string;
     url: string;
   };
+  handleQuantityChange: (productId: number, newQuantity: number) => void;
+  removeFromCart: (productId: number, quantity: number) => void;
 }
 
 interface ProductForWishlistLoggedIn {
@@ -28,12 +30,12 @@ interface ProductForWishlistLoggedIn {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
-  const { updateCartQuantity, removeFromCart } = useCart();
+  const { updateCartQuantity, removeFromCart,loading } = useCart();
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isloading, setLoading] = useState(true);
 
   useEffect(() => {
     if (product) {
@@ -94,7 +96,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   return (
     <div>
-      {loading ? (
+      {loading||isloading ? (
         <div className="justify-between p-4 border rounded-lg border-gray-400 flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
           <Skeleton height={100} width={100} />
           <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
@@ -186,7 +188,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
                 className="px-2 py-2 text-[#E26178] border border-[#E26178] rounded-xl hover:bg-[#E26178] hover:text-white"
                 onClick={handleAddToWishlist}
               >
-                Add To Wishlist
+                Move to Wishlist
               </button>
             </div>
           </div>

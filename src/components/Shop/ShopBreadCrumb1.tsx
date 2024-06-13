@@ -69,6 +69,7 @@ const ShopBreadCrumb1 = () => {
           $gender: [GenderArrayInput!]
           $karat: [KaratArrayInput!]
           $metal: [MetalArrayInput!]
+          $weightRange : [WeightRangeArrayInput!]
         ) {
           products(
             category: $category
@@ -76,6 +77,7 @@ const ShopBreadCrumb1 = () => {
             gender: $gender
             karat: $karat
             metal: $metal
+            weightRange : $weightRange
           ) {
             productId
             SKU
@@ -173,6 +175,8 @@ const ShopBreadCrumb1 = () => {
         metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
         weightRange: combinedOptions.weight.map((weight: string) => ({ value: weight })),
       };
+
+      
 
       console.log("Variables passed for api call",variables)
       const { data } = await client.query({

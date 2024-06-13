@@ -277,7 +277,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30} />
+                      <Icon.Headset size={30}/>
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}

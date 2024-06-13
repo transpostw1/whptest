@@ -76,6 +76,8 @@ const ShopBreadCrumb1 = () => {
             $karat: [KaratArrayInput!]
             $metal: [MetalArrayInput!]
             $weightRange: [WeightRangeArrayInput!]
+            $sortBy: String
+            $sortOrder: String
           ) {
             products(
               category: $category
@@ -84,6 +86,8 @@ const ShopBreadCrumb1 = () => {
               karat: $karat
               metal: $metal
               weightRange: $weightRange
+              sortBy: $sortBy
+              sortOrder: $sortOrder
             ) {
               productId
               SKU
@@ -168,26 +172,46 @@ const ShopBreadCrumb1 = () => {
             }
           }
         `;
-
-        const variables = {
-          category: combinedOptions.category.map((category: string) => ({
-            value: category,
-          })),
-          priceFilter: combinedOptions.priceFilter,
-          gender: combinedOptions.gender.map((gender: string) => ({
-            value: gender,
-          })),
-          karat: combinedOptions.karat.map((karat: string) => ({
-            value: karat,
-          })),
-          metal: combinedOptions.metal.map((metal: string) => ({
-            value: metal,
-          })),
-          weightRange: combinedOptions.weight.map((weight: string) => ({
-            value: weight,
-          })),
-        };
-
+        let variables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          variables = {
+            category:[{value:""}],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+          };
+        } else {
+          variables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+          };
+        }
         console.log("Variables passed for api call", variables);
         const { data } = await client.query({
           query: GET_PRODUCTS,

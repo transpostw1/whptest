@@ -154,8 +154,6 @@ const Wishlist = () => {
                         <Image
                           src={
                             product?.imageDetails?.[0]?.image_path
-                            // ||
-                            // "/images/others/Logo.png"
                           }
                           alt={product.title}
                           width={300}

@@ -85,6 +85,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
                imageDetails: [],
              },
            };
+           console.log("this running")
            setCartItems([mockCartItem]);
          }
        }

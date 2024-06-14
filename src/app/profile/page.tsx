@@ -76,66 +76,69 @@ const ProfilePage = () => {
       });
 
       const GET_ORDER = gql`
-        query GetCustomerOrder($token: String!) {
-          getCustomerOrder(token: $token) {
-            id
-            customerId
-            couponId
-            orderNo
-            razorpayOrderNo
+      query GetCustomerOrder($token: String!) {
+        getCustomerOrder(token: $token) {
+          id
+          customerId
+          couponId
+          created_at
+          orderNo
+          razorpayOrderNo
+          productTotal
+          discountedTotal
+          balanceAmount
+          paymentStatus
+          orderStatus
+          productDetails {
+            productId
+            productAmount
+            quantity
             productTotal
+            discountAmount
             discountedTotal
-            balanceAmount
-            paymentStatus
-            orderStatus
-            productDetails {
-              productId
-              productAmount
-              quantity
-              productTotal
-              discountAmount
-              discountedTotal
-              displayTitle
-              productPrice
-              discountPrice
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-            }
-            billingAddressId {
-              address_id
-              customer_id
-              address_type
-              full_address
-              country
-              state
-              city
-              landmark
-              pincode
-            }
-            shippingAddressId {
-              address_id
-              customer_id
-              address_type
-              full_address
-              country
-              state
-              city
-              landmark
-              pincode
-            }
-            payments {
-              paymentId
-              orderId
-              date
-              paymentMethod
-              transactionNo
-              amount
+            displayTitle
+            productPrice
+            discountPrice
+            metalType
+            metalWeight
+            imageDetails {
+              image_path
+              order
+              alt_text
             }
           }
+          billingAddressId {
+            address_id
+            customer_id
+            address_type
+            full_address
+            country
+            state
+            city
+            landmark
+            pincode
+          }
+          shippingAddressId {
+            address_id
+            customer_id
+            address_type
+            full_address
+            country
+            state
+            city
+            landmark
+            pincode
+          }
+          payments {
+            paymentId
+            orderId
+            date
+            paymentMethod
+            transactionNo
+            amount
+          }
         }
+      }
       `;
 
       const variables = { token: cookieToken };

@@ -4,11 +4,14 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import instance from "@/utils/axios";
 import axios from "axios";
 import { useUser } from "./UserContext";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+
 import {
   baseUrl,
   addwishlist,
   removewishlist,
   getwishlisted,
+  graphqlbaseUrl
 } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
@@ -20,6 +23,16 @@ import {
 import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
+  productDetails?: {
+    productId: number;
+    title: string;
+    productPrice: string;
+    discountPrice: string;
+    discountValue: string;
+    image_path: string;
+    imageDetails: any;
+    url: string;
+  }
   productId: number;
   title: string;
   productPrice: string;
@@ -74,45 +87,45 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
-useEffect(() => {
-  const fetchWishlistItems = async () => {
-    if (!cookieToken && isLoggedIn) return;
-    try {
-      let localWishlistItems = [];
-      if (typeof window !== "undefined") {
-        localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
+  useEffect(() => {
+    const fetchWishlistItems = async () => {
+      if (!cookieToken && isLoggedIn) return;
+      try {
+        let localWishlistItems = [];
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
+          );
+        }
+
+        // If user is logged in and there are local wishlist items
+        if (isLoggedIn && localWishlistItems.length > 0) {
+          // Extract productIds from local wishlist items
+          const productIds = localWishlistItems.map((item) => item.productId);
+          // Add local wishlist items to the server by passing only productIds
+          const promises = productIds.map((productId) =>
+            instance.get(`${baseUrl}${addwishlist}`, {
+              params: { productId: productId },
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+              },
+            })
+          );
+          await Promise.all(promises);
+          localStorage.removeItem("wishlistItems");
+        }
+
+        // Fetch wishlist items from the server
+        const wishlistData = await getWishlist();
+
+        setWishlistItems(wishlistData);
+      } catch (error) {
+        console.error("Error fetching or adding wishlist items:", error);
       }
+    };
 
-      // If user is logged in and there are local wishlist items
-      if (isLoggedIn && localWishlistItems.length > 0) {
-        // Extract productIds from local wishlist items
-        const productIds = localWishlistItems.map((item) => item.productId);
-        // Add local wishlist items to the server by passing only productIds
-        const promises = productIds.map((productId) =>
-          instance.get(`${baseUrl}${addwishlist}`, {
-            params: { productId: productId },
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
-          })
-        );
-        await Promise.all(promises);
-        localStorage.removeItem("wishlistItems");
-      }
-
-      // Fetch wishlist items from the server
-      const wishlistData = await getWishlist();
-
-      setWishlistItems(wishlistData);
-    } catch (error) {
-      console.error("Error fetching or adding wishlist items:", error);
-    }
-  };
-
-  fetchWishlistItems();
-}, [isLoggedIn, cookieToken]);
+    fetchWishlistItems();
+  }, [isLoggedIn, cookieToken]);
 
 
   const normalizeImagePath = (
@@ -274,13 +287,56 @@ useEffect(() => {
     try {
       if (isLoggedIn) {
         console.log(cookieToken, "wishlistToken");
-        const response = await axios.get(`${baseUrl}${getwishlisted}`, {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+        const link = new HttpLink({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
         });
-        console.log(response.data,"RESPONSE DATA....")
-        return response.data;
+        const client = new ApolloClient({
+          link,
+          cache: new InMemoryCache(),
+        });
+
+        const GET_WISHLIST = gql`query GetCustomerWishlist($token: String!) {
+          getCustomerWishlist(token: $token) {
+            id
+            customerID
+            productId
+            productDetails {
+              productId
+              url
+              discountValue
+              typeOfDiscount
+              displayTitle
+              productPrice
+              discountPrice
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              rating
+            }
+          }
+        }
+        `;
+        const variables = { token: cookieToken };
+        const { data } = await client.query({
+          query: GET_WISHLIST,
+          variables,
+        });
+        console.log(data.getCustomerWishlist, "RESPONSE DATA....")
+        return data.getCustomerWishlist;
       } else {
         let localWishlistItems = null;
         if (typeof window !== "undefined") {

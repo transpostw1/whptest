@@ -124,6 +124,8 @@ const Wishlist = () => {
     setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
   };
 
+  console.log(filteredWishlistItems)
+
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
@@ -137,7 +139,7 @@ const Wishlist = () => {
             </div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
-              {filteredWishlistItems.map((product, index) => (
+              {filteredWishlistItems?.productDetails?.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div

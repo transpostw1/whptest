@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { baseUrl, getSubBanners } from "@/utils/constants";
+import { baseUrl, getSubBanners, graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import axios from "axios";
 const Explore = () => {
   const [data, setData] = useState<any>([]);
@@ -15,16 +16,53 @@ const Explore = () => {
     const fetchSubBanners = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${baseUrl}${getSubBanners}`);
-        setData(response.data.subbanners);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_ALLSUBBANNERS = gql`
+          query GetAllSubBanners {
+            getAllSubBanners {
+              id
+              parentTitle
+              title
+              url
+              image
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GET_ALLSUBBANNERS,
+        });
+
+        setData(data.getAllSubBanners);
+        console.log("Datta", data.getAllSubBanners);
       } catch (error) {
-        console.log("Error Occured", error);
+        console.log("Error in fetching SubBanners", error);
       } finally {
         setLoading(false);
       }
     };
     fetchSubBanners();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchSubBanners = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await axios.get(`${baseUrl}${getSubBanners}`);
+  //       setData(response.data.subbanners);
+  //     } catch (error) {
+  //       console.log("Error Occured", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchSubBanners();
+  // }, []);
+  useEffect(() => {
+    console.log("SubBAnners", data);
+  }, [data]);
   if (loading) {
     return (
       <div>

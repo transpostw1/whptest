@@ -33,7 +33,7 @@ import CtaButtonsMobile from "./CtaButtonsMobile";
 import ReactImageMagnify from 'react-image-magnify';
 
 interface Props {
-  productId: string | number | null;
+  productId: string | number | any;
 }
 interface Ref extends MutableRefObject<any> {
   slickNext?: () => void;
@@ -153,11 +153,10 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
-    console.log("----------------", productId);
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: productId },
+      variables: { productUrl: productId[1] },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);
@@ -167,7 +166,6 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function singleProduct() {
     const product = await getData();
-    console.log("----------------", product);
     setData(product);
     setLoading(false);
   }
@@ -380,8 +378,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             enlargedImageContainerClassName:"enlarge-image-container",
                             enlargedImagePosition:"over",
-                            // isHintEnabled:true,
-                            // shouldUsePositiveSpaceLens:true,
                             enlargedImageContainerDimensions: {
                               width: "100%",
                               height: "100%",

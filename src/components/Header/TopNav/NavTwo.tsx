@@ -73,18 +73,21 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
+
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
       ) {
         setContactPopUp(false);
+      } else {
+        setContactPopUp(false);
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -215,6 +218,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <input
                 type="text"
                 placeholder="Search"
+                readOnly={true}
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
@@ -227,7 +231,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               />
             )}
 
-            <div className="ps-3 right-content flex items-center  max-md:hidden ">
+            <div
+              className="ps-3 right-content flex items-center  max-md:hidden "
+              ref={contactRef}
+            >
               <div className="right flex gap-7 relative z-[1] ">
                 <div className="list-action flex items-center gap-8 ">
                   <div className="user-icon flex  items-center justify-between cursor-pointer gap-8">
@@ -271,7 +278,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30} />
+                      <Icon.Headset size={30}/>
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -281,11 +288,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <>
                           <div
                             onClick={handleProfilePage}
-                            className="flex flex-col items-center"
+                            className={`flex flex-col items-center ${
+                              pathname.includes("/profile")
+                                ? "text-[#e26178]"
+                                : ""
+                            }`}
                           >
                             <Icon.User size={28} />
                             <p className="text-sm">
-                              {userDetails?.customer?.firstname}
+                              {userDetails?.firstname}
                             </p>
                           </div>
                         </>
@@ -295,7 +306,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleLoginDrop}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="black" />
+                            <Icon.User size={28} />
                             <p className="text-sm">Login</p>
                           </div>
                           <div
@@ -435,7 +446,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="mx-4 h-6 border-l border-gray-400"
                     ></div>
                     <Link href={"/login"}>
-                      <p className="text-lg font-semibold">Login</p>
+                      <h2 className="text-lg font-semibold">Login</h2>
                     </Link>
                   </div>
                 )}
@@ -479,7 +490,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                 </div>
                 {appointmentModal && (
-                  <BookExchangeModal title={"Exchange Your Gold"} closeModal={handleOnClose} />
+                  <BookExchangeModal
+                    title={"Exchange Your Gold"}
+                    closeModal={handleOnClose}
+                  />
                 )}
               </div>
               <div className="list-nav mt-6">
@@ -587,7 +601,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     }}
                   >
                     <Link
-                      href={{ pathname: "/products", query: { url: "c-chain" } }}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "c-chain" },
+                      }}
                       onClick={handleMenuMobile}
                     >
                       <p className="text-xl font-semibold flex items-center justify-between mt-5">
@@ -668,24 +685,28 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </li>
                   <li
                     className={`${openSubNavMobile === 8 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(8)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(8);
+                    }}
                   >
-                    <Link href={"/gifts"}>
-                    <p
-                      className={`text-xl font-semibold flex items-center mt-5`}
+                    <Link href={"/gifts"} onClick={handleMenuMobile}>
+                      <p
+                        className={`text-xl font-semibold flex items-center mt-5`}
                       >
-                      Gifts
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} weight="fill" />
-                      </span>
-                    </p>
-                      </Link>
+                        Gifts
+                        {/* <span className="text-right">
+                          <Icon.CaretRight size={20} weight="fill" />
+                        </span> */}
+                      </p>
+                    </Link>
                   </li>
                   <li
                     className={`${openSubNavMobile === 9 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(9)}
+                    onClick={() => {
+                      handleOpenSubNavMobile(9);
+                    }}
                   >
-                    <Link href={"/benefit"}>
+                    <Link href={"/benefit"} onClick={handleMenuMobile}>
                       <p
                         className={`text-xl font-semibold flex items-center  mt-5`}
                       >

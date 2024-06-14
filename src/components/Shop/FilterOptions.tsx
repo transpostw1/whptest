@@ -20,7 +20,7 @@ const Filter: Filter[] = [
   },
   {
     title: "Weight",
-    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+    options: ["0to2gms", "2to5gms", "5to10gms", "10to20gms"],
     labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"]
   },
   {
@@ -30,7 +30,7 @@ const Filter: Filter[] = [
   },
   {
     title: "Metal",
-    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
+    options: ["Rose_Gold", "White_Gold", "Gold", "Diamond", "Silver"],
     labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"]
   },
   {
@@ -98,9 +98,12 @@ const FilterOptions: React.FC<Props> = ({
             <div>
               {item.options.map((option: string, idx: number) => (
                 <div key={option} onClick={() => handleMobileFilter()}>
+                  
                   <input
                     type="checkbox"
                     id={option}
+                    value={option}
+                    readOnly={true}
                     checked={selectedOptions[item.title]?.includes(option)}
                     onChange={() => handleOptionSelect(option, item.title)}
                   />

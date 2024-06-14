@@ -51,144 +51,184 @@ const ShopBreadCrumb1 = () => {
   };
 
   const fetchData = async (combinedOptions: any) => {
-    console.log("Received filterOptions in fetchData:", combinedOptions);
-    console.log("selectedOptions:", combinedOptions);
-
-    try {
-      console.log("Received filter options:", combinedOptions);
-      setIsLoading(false);
-      const client = new ApolloClient({
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
-        cache: new InMemoryCache(),
-      });
-
-      const GET_PRODUCTS = gql`
-        query Products(
-          $category: [CategoryArrayInput!]
-          $priceFilter: [PriceArrayInput!]
-          $gender: [GenderArrayInput!]
-          $karat: [KaratArrayInput!]
-          $metal: [MetalArrayInput!]
-        ) {
-          products(
-            category: $category
-            priceFilter: $priceFilter
-            gender: $gender
-            karat: $karat
-            metal: $metal
-          ) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-          }
-        }
-      `;
-
-     
-      const variables = {
-        category: combinedOptions.category.map((category: string) => ({
-          value: category,
-        })),
-        priceFilter: combinedOptions.priceFilter,
-        gender: combinedOptions.gender.map((gender: string) => ({
-          value: gender,
-        })),
-        karat: combinedOptions.karat.map((karat: string) => ({ value: karat })),
-        metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
-        // weightRange: combinedOptions.weightRange.map((weight: string) => ({ value: weight })),
-      };
-
-      const { data } = await client.query({
-        query: GET_PRODUCTS,
-        variables,
-      });
-
-      if (data && data.products) {
-        setFilteredProducts(data.products);
+    // console.log("Received filterOptions in fetchData:", combinedOptions);
+    // console.log("selectedOptions:", combinedOptions);
+    if (
+      combinedOptions.category.length > 0 ||
+      combinedOptions.priceFilter.length > 0 ||
+      combinedOptions.gender.length > 0 ||
+      combinedOptions.karat.length > 0 ||
+      combinedOptions.metal.length > 0
+    ) {
+      try {
+        console.log("Received filter options:", combinedOptions);
         setIsLoading(false);
-      } else {
-        console.error("Error: No products data received");
+        const client = new ApolloClient({
+          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          cache: new InMemoryCache(),
+        });
+
+        const GET_PRODUCTS = gql`
+          query Products(
+            $category: [CategoryArrayInput!]
+            $priceFilter: [PriceArrayInput!]
+            $gender: [GenderArrayInput!]
+            $karat: [KaratArrayInput!]
+            $metal: [MetalArrayInput!]
+            $weightRange: [WeightRangeArrayInput!]
+            $sortBy: String
+            $sortOrder: String
+          ) {
+            products(
+              category: $category
+              priceFilter: $priceFilter
+              gender: $gender
+              karat: $karat
+              metal: $metal
+              weightRange: $weightRange
+              sortBy: $sortBy
+              sortOrder: $sortOrder
+            ) {
+              productId
+              SKU
+              variantId
+              isParent
+              title
+              displayTitle
+              shortDesc
+              longDesc
+              url
+              tags
+              collectionName
+              shopFor
+              occasion
+              theme
+              length
+              breadth
+              height
+              addDate
+              lastModificationDate
+              productSize
+              productQty
+              attributeId
+              preSalesProductQueries
+              isReplaceable
+              weightRange
+              isReturnable
+              isInternationalShippingAvailable
+              customizationAvailability
+              fastDelivery
+              tryAtHome
+              isActive
+              grossWeight
+              netWeight
+              discountId
+              discountCategory
+              discountActive
+              typeOfDiscount
+              discountValue
+              discountAmount
+              discountPrice
+              offerStartDate
+              offerEndDate
+              mediaId
+              metalType
+              metalPurity
+              metalWeight
+              metalRate
+              makingType
+              makingChargesPerGrams
+              makingCharges
+              gst
+              additionalCost
+              productPrice
+              discountPrice
+              rating
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                gemstoneDetails
+                diamondDetails
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+              }
+              stoneDetails
+              diamondDetails
+            }
+          }
+        `;
+        let variables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          variables = {
+            category:[{value:""}],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+          };
+        } else {
+          variables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+          };
+        }
+        console.log("Variables passed for api call", variables);
+        const { data } = await client.query({
+          query: GET_PRODUCTS,
+          variables,
+        });
+
+        if (data && data.products) {
+          setFilteredProducts(data.products);
+          setIsLoading(false);
+        } else {
+          console.error("Error: No products data received");
+        }
+      } catch (error) {
+        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
-    } finally {
-      setIsLoading(false);
     }
   };
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
@@ -210,23 +250,17 @@ const ShopBreadCrumb1 = () => {
         const min = parseFloat("1");
         const max = parseFloat("10000");
         return { min, max };
-      } 
-      // else if(){
-
-      // }
-      else {
+      } else {
         const value = formatPriceRange(price);
         const [minStr, maxStr] = value.split("to");
-        console.log("MIN", minStr);
-        console.log("MAX", maxStr);
+        // console.log("MIN", minStr);
+        // console.log("MAX", maxStr);
         const min = minStr ? parseFloat(minStr.trim()) : 1;
         const max = maxStr ? parseFloat(maxStr.trim()) : null;
         return { min, max };
       }
     });
 
-    // Combine gender options
-    // http://localhost:3000/products?url=c-pendant+k-18kt+p-10000to20000+m-gold
     combinedOptions.gender = [
       ...(initialOptions.Gender || []),
       ...(selectedOptions.Gender || []),
@@ -244,12 +278,16 @@ const ShopBreadCrumb1 = () => {
       ...(selectedOptions.Metal || []),
     ];
 
+    combinedOptions.weight = [
+      ...(initialOptions.Weight || []),
+      ...(selectedOptions.Weight || []),
+    ];
     return combinedOptions;
   };
 
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-    console.log("filterOptions", options);
+    // console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
     }
@@ -276,130 +314,6 @@ const ShopBreadCrumb1 = () => {
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
     router.push(url);
   };
-
-  useEffect(() => {
-    console.log("useEffect - selectedOptions:", selectedOptions);
-
-    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    fetchData(combinedOptions);
-    updateURL(selectedOptions);
-  }, [selectedOptions]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    const queryValue = params.get("url") || "";
-
-    const initialOptions: any = {};
-
-    const parts = queryValue.split(" ");
-    parts.forEach((part) => {
-      // Split each part by the hyphen to get the key and value
-      const [key, value] = part.split("-");
-
-      if (key === "c") {
-        initialOptions.Category = value.split(",");
-      }
-      if (key === "g") {
-        initialOptions.Gender = value.split(",");
-      }
-      if (key === "k") {
-        initialOptions.Karat = value.split(",");
-      }
-      if (key === "p") {
-        initialOptions.Price = value.split("|");
-      }
-      if (key === "m") {
-        initialOptions.Metal = value.split(",");
-      }
-      // if (key === "w") {
-      //   initialOptions.Weight = value.split(",");
-      // }
-    });
-
-    setSelectedOptions(initialOptions)
-    console.log("Initial selectedOptions from URL:", initialOptions);
-
-    // fetchData(initialOptions);
-  }, [searchParams]);
-
-  // useEffect(() => {
-  //   if (Object.keys(selectedOptions).length > 0) {
-  //     fetchData();
-  //   }
-  // }, [selectedOptions]);
-
-  useEffect(() => {
-    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    fetchData(combinedOptions);
-  }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
-
-  // const handleOptionSelect = (option: string, category: string) => {
-  //   setSelectedOptions((prevSelectedOptions: any) => {
-  //     const updatedOptions = { ...prevSelectedOptions };
-  //     if (updatedOptions[category]) {
-  //       if (updatedOptions[category].includes(option)) {
-  //         updatedOptions[category] = updatedOptions[category].filter(
-  //           (selectedOption: any) => selectedOption !== option
-  //         );
-  //       } else {
-  //         updatedOptions[category].push(option);
-  //       }
-  //     } else {
-  //       updatedOptions[category] = [option];
-  //     }
-  //     console.log('updatedOptions:', updatedOptions);
-
-  //     return updatedOptions;
-  //   });
-  // };
-
-  const handleOptionSelect = (option: string, category: string) => {
-    setSelectedOptions((prevSelectedOptions: any) => {
-      const updatedOptions = { ...prevSelectedOptions };
-      if (updatedOptions[category]) {
-        const formattedOption = formatPriceRange(option);
-        if (updatedOptions[category].includes(formattedOption)) {
-          updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption: any) => selectedOption !== formattedOption
-          );
-        } else {
-          updatedOptions[category].push(formattedOption);
-        }
-      } else {
-        updatedOptions[category] = [formatPriceRange(option)];
-      }
-      console.log("updatedOptions:", updatedOptions);
-      return updatedOptions;
-    });
-  };
-
-  console.log("Selected Options", selectedOptions);
-  const formatPriceRange = (price: string) => {
-    if (price === "Less than 10K") {
-      return "0to10000";
-    } else if (price === "10Kto20K") {
-      return "10000to20000";
-    } else if (price === "20Kto30K") {
-      return "20000to30000";
-    } else if (price === "30Kto40K") {
-      return "30000to40000";
-    } else if (price === "40Kto50K") {
-      return "40000to50000";
-    } else if (price === "50000toInfinity") {
-      return "50000toInfinity";
-    }
-    return price;
-  };
-
-console.log("Dataa",filteredProducts);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -446,6 +360,12 @@ console.log("Dataa",filteredProducts);
         );
       }
 
+      if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
+        filtered = filtered.filter((product: any) =>
+          selectedOptions.Weight.includes(product.weightRange)
+        );
+      }
+
       // Apply style filter
       if (selectedOptions.Style && selectedOptions.Style.length > 0) {
         filtered = filtered.filter((product: any) =>
@@ -469,9 +389,208 @@ console.log("Dataa",filteredProducts);
 
       setFilteredProducts(filtered);
     };
-
     applyFilters();
-  }, [data, selectedOptions]);
+    console.log("useEffect - selectedOptions:", selectedOptions);
+
+    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+    // console.log("Combined Options",combinedOptions)
+    fetchData(combinedOptions);
+    updateURL(selectedOptions);
+  }, [selectedOptions]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const queryValue = params.get("url") || "";
+
+    const initialOptions: any = {};
+
+    const parts = queryValue.split(" ");
+    parts.forEach((part) => {
+      // Split each part by the hyphen to get the key and value
+      const [key, value] = part.split("-");
+
+      if (key === "c") {
+        initialOptions.Category = value.split(",");
+      }
+      if (key === "g") {
+        initialOptions.Gender = value.split(",");
+      }
+      if (key === "k") {
+        initialOptions.Karat = value.split(",");
+      }
+      if (key === "p") {
+        initialOptions.Price = value.split("|");
+      }
+      if (key === "m") {
+        initialOptions.Metal = value.split(",");
+      }
+      if (key === "w") {
+        initialOptions.Weight = value.split(",");
+      }
+    });
+
+    setSelectedOptions(initialOptions);
+    console.log("Initial selectedOptions from URL:", initialOptions);
+
+    // fetchData(initialOptions);
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   if (Object.keys(selectedOptions).length > 0) {
+  //     fetchData();
+  //   }
+  // }, [selectedOptions]);
+
+  // useEffect(() => {
+  //   const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+  //   fetchData(combinedOptions);
+  // }, [selectedOptions]);
+
+  // useEffect(() => {
+  //   fetchData(selectedOptions);
+  // }, [selectedOptions]);
+
+  // const handleOptionSelect = (option: string, category: string) => {
+  //   setSelectedOptions((prevSelectedOptions: any) => {
+  //     const updatedOptions = { ...prevSelectedOptions };
+  //     if (updatedOptions[category]) {
+  //       if (updatedOptions[category].includes(option)) {
+  //         updatedOptions[category] = updatedOptions[category].filter(
+  //           (selectedOption: any) => selectedOption !== option
+  //         );
+  //       } else {
+  //         updatedOptions[category].push(option);
+  //       }
+  //     } else {
+  //       updatedOptions[category] = [option];
+  //     }
+  //     console.log('updatedOptions:', updatedOptions);
+
+  //     return updatedOptions;
+  //   });
+  // };
+
+  const handleOptionSelect = (option: string, category: string) => {
+    setSelectedOptions((prevSelectedOptions: any) => {
+      const updatedOptions = { ...prevSelectedOptions };
+      if (updatedOptions[category]) {
+        const formattedOption = formatPriceRange(option);
+        if (updatedOptions[category].includes(formattedOption)) {
+          updatedOptions[category] = updatedOptions[category].filter(
+            (selectedOption: any) => selectedOption !== formattedOption
+          );
+        } else {
+          updatedOptions[category].push(formattedOption);
+        }
+      } else {
+        updatedOptions[category] = [formatPriceRange(option)];
+      }
+      // console.log("updatedOptions:", updatedOptions);
+      return updatedOptions;
+    });
+  };
+
+  //  console.log("selected options",selectedOptions)
+  // console.log("Selected Options", selectedOptions);
+  const formatPriceRange = (price: string) => {
+    if (price === "Less than 10K") {
+      return "0to10000";
+    } else if (price === "10Kto20K") {
+      return "10000to20000";
+    } else if (price === "20Kto30K") {
+      return "20000to30000";
+    } else if (price === "30Kto40K") {
+      return "30000to40000";
+    } else if (price === "40Kto50K") {
+      return "40000to50000";
+    } else if (price === "50000toInfinity") {
+      return "50000toInfinity";
+    }
+    return price;
+  };
+
+  // console.log("Dataa", filteredProducts);
+
+  // useEffect(() => {
+  //   fetchData(selectedOptions);
+  // }, [selectedOptions]);
+
+  // useEffect(() => {
+  //   const applyFilters = () => {
+  //     let filtered = data;
+
+  //     // Apply price filter
+  //     if (selectedOptions.Price && selectedOptions.Price.length > 0) {
+  //       const minPrice = parseInt(selectedOptions.Price[0]) || 0;
+  //       const maxPrice =
+  //         parseInt(selectedOptions.Price[selectedOptions.Price.length - 1]) ||
+  //         Infinity;
+  //       filtered = filtered.filter(
+  //         (product: any) =>
+  //           product.discountPrice >= minPrice &&
+  //           product.discountPrice <= maxPrice
+  //       );
+  //     }
+
+  //     // Apply gender filter
+  //     if (selectedOptions.Gender && selectedOptions.Gender.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Gender.includes(product.gender)
+  //       );
+  //     }
+
+  //     // Apply karat filter
+  //     if (selectedOptions.Karat && selectedOptions.Karat.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Karat.includes(product.karat)
+  //       );
+  //     }
+
+  //     // Apply metal filter
+  //     if (selectedOptions.Metal && selectedOptions.Metal.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Metal.includes(product.metal)
+  //       );
+  //     }
+
+  //     // Apply type filter
+  //     if (selectedOptions.Type && selectedOptions.Type.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Type.includes(product.type)
+  //       );
+  //     }
+  //     if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Weight.includes(product.weightRange)
+  //       );
+  //     }
+
+  //     // Apply style filter
+  //     if (selectedOptions.Style && selectedOptions.Style.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Style.includes(product.style)
+  //       );
+  //     }
+
+  //     // Apply occasion filter
+  //     if (selectedOptions.Occasion && selectedOptions.Occasion.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Occasion.includes(product.occasion)
+  //       );
+  //     }
+
+  //     // Apply color filter
+  //     if (selectedOptions.Color && selectedOptions.Color.length > 0) {
+  //       filtered = filtered.filter((product: any) =>
+  //         selectedOptions.Color.includes(product.color)
+  //       );
+  //     }
+
+  //     setFilteredProducts(filtered);
+  //   };
+
+  //   applyFilters();
+  // }, [selectedOptions]);
 
   useEffect(() => {
     if (selectedSortOption === "Price-Low To High") {

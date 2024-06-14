@@ -10,7 +10,6 @@ interface Props {
 const BlogDetail: React.FC<Props> = ({ params }) => {
   const { blogUrl } = params;
   const [blogData, setBlogData] = useState(null);
-
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchBlogData = async () => {

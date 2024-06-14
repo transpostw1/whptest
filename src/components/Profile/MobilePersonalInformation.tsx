@@ -5,13 +5,14 @@ import * as Yup from "yup";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 interface Props {
   handleComponent: (args: string) => void;
@@ -62,11 +63,11 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   const dob = userDetails?.customer?.dob; // Assuming dob is "1998-10-18"
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-  const handleSubmit = async (values: FormValues, { resetForm}:any) => {
+  const handleSubmit = async (values: FormValues, { resetForm }: any) => {
     setIsLoading(true);
     setFormError("");
 
-    const formattedValues:any = {
+    const formattedValues: any = {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
@@ -91,12 +92,12 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: userDetails?.customer?.firstname,
-      lastName: userDetails?.customer?.lastname,
-      email: userDetails?.customer?.email,
-      phone: userDetails?.customer?.mobile_no,
-      altPhone: userDetails?.customer?.altPhone,
-      gender: userDetails?.customer?.gender,
+      firstName: userDetails?.firstname,
+      lastName: userDetails?.lastname,
+      email: userDetails?.email,
+      phone: userDetails?.mobile_no,
+      altPhone: userDetails?.altPhone,
+      gender: userDetails?.gender,
       dobDay,
       dobMonth,
       dobYear,
@@ -148,29 +149,73 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     }
   };
   useEffect(() => {
-    const fetchAddresses = async () => {
-      setIsLoading(true);
-      try {
-        const cookieTokenn = Cookies.get("localtoken");
-        const response = await axios.get<{ customerAddress?: Address[] }>(
-          `${baseUrl}/customer/getAddresses`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
+    const fetchData = async () => {
+      const cookieTokenn = Cookies.get("localtoken");
+
+      const getAuthHeaders = () => {
+        if (!cookieTokenn) return null;
+        return {
+          authorization: `Bearer ${cookieTokenn}`,
+        };
+      };
+      const link = new HttpLink({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+      });
+
+      const client = new ApolloClient({
+        link,
+        cache: new InMemoryCache(),
+      });
+
+      const GET_ADDRESS = gql`
+        query GetCustomerAddresses($token: String!) {
+          getCustomerAddresses(token: $token) {
+            address_id
+            address_type
+            city
+            country
+            customer_id
+            full_address
+            landmark
+            pincode
+            state
           }
-        );
-
-        setallAddress(response.data.customerAddress);
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      } finally {
-        setIsLoading(false);
-      }
+        }
+      `;
+      const variables = { token: cookieTokenn };
+      const { data } = await client.query({
+        query: GET_ADDRESS,
+        variables,
+      });
+      setallAddress(data.getCustomerAddresses);
     };
-
-    fetchAddresses();
+    fetchData();
   }, []);
+  // useEffect(() => {
+  //   const fetchAddresses = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const cookieTokenn = Cookies.get("localtoken");
+  //       const response = await axios.get<{ customerAddress?: Address[] }>(
+  //         `${baseUrl}/customer/getAddresses`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${cookieTokenn}`,
+  //           },
+  //         }
+  //       );
+
+  //       setallAddress(response.data.customerAddress);
+  //     } catch (error) {
+  //       console.error("Error fetching addresses:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchAddresses();
+  // }, []);
   const closeEditModal = () => {
     setShowModal(false);
   };
@@ -197,9 +242,9 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       </div>
       <div className="flex justify-between p-4">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          {userDetails?.customer.profile_picture ? (
+          {userDetails?.profile_picture ? (
             <Image
-              src={userDetails.customer.profile_picture}
+              src={userDetails?.profile_picture}
               className="rounded-full h-full w-full"
               alt="Profile Picture"
               width={90}
@@ -211,7 +256,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
         </div>
         <div className="mt-4">
           <p className="font-bold">
-            Wallet Balance:{userDetails?.customer?.wallet_amount}
+            Wallet Balance:{userDetails?.wallet_amount}
           </p>
         </div>
       </div>

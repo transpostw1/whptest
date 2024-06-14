@@ -7,7 +7,8 @@ import React, {
   ReactNode,
 } from "react";
 import axios from "axios";
-import { baseUrl, category } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 interface Category {
   id: number;
@@ -31,16 +32,43 @@ const AllCategoryProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      try {
-        const response = await axios.get<Category[]>(`${baseUrl}${category}`); // Adjust the URL to your API endpoint
-        setCategories(response.data);
-      } catch (err) {
-        console.error("Error fetching categories", err);
-      }
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+      const GET_ALLCATEGORIES = gql`
+        query GetAllParentCategory {
+          getAllParentCategory {
+            id
+            name
+            url
+            menuImg
+            parentImg
+            parent_id
+            order
+          }
+        }
+      `;
+      const { data } = await client.query({
+        query: GET_ALLCATEGORIES,
+      });
+      setCategories(data.getAllParentCategory);
     };
-
     fetchCategories();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await axios.get<Category[]>(`${baseUrl}${category}`); // Adjust the URL to your API endpoint
+  //       setCategories(response.data);
+  //     } catch (err) {
+  //       console.error("Error fetching categories", err);
+  //     }
+  //   };
+
+  //   fetchCategories();
+  // }, []);
 
   return (
     <AllCategoryContext.Provider value={{ categories }}>

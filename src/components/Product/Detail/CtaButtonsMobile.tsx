@@ -36,7 +36,6 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
-  console.log(product, "proddddd");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 500px)");

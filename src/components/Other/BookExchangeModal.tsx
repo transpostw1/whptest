@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client"
+import React, { useState,useEffect,useRef } from "react";
 import { baseUrl, contactForm } from "@/utils/constants";
 import axios from "axios";
 import Image from "next/image";
@@ -10,6 +11,7 @@ interface Props {
   closeModal: () => void;
 }
 const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
+  const inputRef=useRef<any>()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,7 +29,11 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
     // Handle regular input change
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  useEffect(()=>{
+    if(inputRef.current){
+      inputRef.current.focus()
+    }
+  })
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       closeModal();
@@ -96,6 +102,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             <input
               type="text"
               defaultValue={""}
+              ref={inputRef}
               id="name"
               name="name"
               value={formData.name}

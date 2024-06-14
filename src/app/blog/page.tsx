@@ -5,7 +5,8 @@ import Latest from "@/components/Blogcomp/Latest";
 import Trending from "@/components/Blogcomp/Trending";
 import Card from "@/components/Blogcomp/Card";
 import axios from "axios";
-import { baseUrl, blogs } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { baseUrl, blogs, graphqlbaseUrl } from "@/utils/constants";
 
 const Blogs = () => {
   const [blogData, setBlogData] = useState([]);
@@ -14,8 +15,30 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}${blogs}`);
-        setBlogData(response.data);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GetAllBlogs = gql`
+          query GetAllBlogs {
+            getAllBlogs {
+              id
+              categoryId
+              title
+              addDate
+              metaTitle
+              keywords
+              blogUrl
+              image
+              content
+              categoryName
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GetAllBlogs,
+        });
+        setBlogData(data.getAllBlogs);
       } catch (error) {
         console.log("error fetching data of blog", error);
       } finally {

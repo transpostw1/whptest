@@ -4,7 +4,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
 import FlashAlert from "../Other/FlashAlert";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl,graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
@@ -65,8 +65,8 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      console.log("This Effect is Running");
       const cookieTokenn = Cookies.get("localtoken");
+
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
         return {
@@ -74,7 +74,7 @@ const ProfileDetails = () => {
         };
       };
       const link = new HttpLink({
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        uri: graphqlbaseUrl,
         headers: getAuthHeaders(),
       });
 
@@ -83,8 +83,8 @@ const ProfileDetails = () => {
         cache: new InMemoryCache(),
       });
 
-      const GET_PRODUCTS = gql`
-        query GetCustomerAddresses($token: Query!) {
+      const GET_ADDRESS = gql`
+        query GetCustomerAddresses($token: String!) {
           getCustomerAddresses(token: $token) {
             address_id
             address_type
@@ -100,10 +100,10 @@ const ProfileDetails = () => {
       `;
       const variables = { token: cookieTokenn };
       const { data } = await client.query({
-        query: GET_PRODUCTS,
-        variables,
+        query: GET_ADDRESS,
+        variables
       });
-      setallAddress(data);
+      setallAddress(data.getCustomerAddresses);
     };
     fetchData();
   }, []);

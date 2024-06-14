@@ -9,9 +9,11 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { baseUrl, getAllBanners } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import axios from "axios";
 import Link from "next/link";
+import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
 
 const MainCarousel = () => {
   const [allBanners, setAllBanners] = useState<any[]>([]);
@@ -32,21 +34,54 @@ const MainCarousel = () => {
     };
   }, []);
   useEffect(() => {
-    const fetchAddresses = async () => {
+    const fetchMainBanners = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${baseUrl}${getAllBanners}`);
-
-        setAllBanners(response.data);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_ALLBANNERS = gql`
+          query GetAllBanners {
+            getAllBanners {
+              id
+              name
+              url
+              desktopFile
+              mobileFile
+              description
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GET_ALLBANNERS,
+        });
+        setAllBanners(data.getAllBanners);
       } catch (error) {
-        console.error("Error fetching addresses:", error);
+        console.log("Error in Fetching All Main Banner", error);
       } finally {
         setIsLoading(false);
       }
     };
-
-    fetchAddresses();
+    fetchMainBanners();
   }, []);
+  // useEffect(() => {
+  //   const fetchAddresses = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await axios.get(`${baseUrl}${getAllBanners}`);
+
+  //       setAllBanners(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching addresses:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchAddresses();
+  // }, []);
+  console.log("banners",allBanners.getAllBanners)
   if (isLoading) {
     return (
       <div>

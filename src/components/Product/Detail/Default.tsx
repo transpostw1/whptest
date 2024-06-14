@@ -380,8 +380,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             enlargedImageContainerClassName:"enlarge-image-container",
                             enlargedImagePosition:"over",
-                            // isHintEnabled:true,
-                            // shouldUsePositiveSpaceLens:true,
                             enlargedImageContainerDimensions: {
                               width: "100%",
                               height: "100%",

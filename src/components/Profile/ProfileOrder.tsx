@@ -57,7 +57,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     setSingleOrder(orders);
   };
 
-  console.log(orders)
+  console.log(orders);
 
   if (!orders)
     return (

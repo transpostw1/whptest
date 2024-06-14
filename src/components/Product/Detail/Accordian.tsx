@@ -76,8 +76,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <Image
                     src="/images/other/hallmark.png"
                     alt={"Hall Mark Symbol"}
-                    width={30}
-                    height={30}
+                    width={40}
+                    height={40}
                   />
                   {/* <Icon.CrownSimple size={30} weight="thin" /> */}
                 </span>

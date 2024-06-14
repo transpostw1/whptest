@@ -30,7 +30,7 @@ const Filter: Filter[] = [
   },
   {
     title: "Metal",
-    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
+    options: ["Rose_Gold", "White_Gold", "Gold", "Diamond", "Silver"],
     labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"]
   },
   {

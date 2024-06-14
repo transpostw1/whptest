@@ -83,7 +83,7 @@ const ProfileDetails = () => {
         cache: new InMemoryCache(),
       });
 
-      const GET_PRODUCTS = gql`
+      const GET_ADDRESS = gql`
         query GetCustomerAddresses($token: Query!) {
           getCustomerAddresses(token: $token) {
             address_id
@@ -100,7 +100,7 @@ const ProfileDetails = () => {
       `;
       const variables = { token: cookieTokenn };
       const { data } = await client.query({
-        query: GET_PRODUCTS,
+        query: GET_ADDRESS,
         variables,
       });
       setallAddress(data);

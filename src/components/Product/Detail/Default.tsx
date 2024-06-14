@@ -153,7 +153,6 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
-    console.log("----------------", productId);
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
@@ -167,7 +166,6 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function singleProduct() {
     const product = await getData();
-    console.log("----------------", product);
     setData(product);
     setLoading(false);
   }

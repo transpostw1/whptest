@@ -73,6 +73,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
+
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
@@ -133,7 +134,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu w-full md:h-[65px] h-[65px] bg-[#f7f7f7] ${
+        className={`top-nav header-menu w-full md:h-[65px] h-[65px] ${
           fixedHeader ? " fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
@@ -217,6 +218,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <input
                 type="text"
                 placeholder="Search"
+                readOnly={true}
                 className="h-10 rounded-lg border border-line caption2 w-full pl-4 pr-4 bg-[#f7f7f7] focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
@@ -276,7 +278,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30} />
+                      <Icon.Headset size={30}/>
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -286,7 +288,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <>
                           <div
                             onClick={handleProfilePage}
-                            className={`"flex flex-col justify-center ${
+                            className={`flex flex-col items-center ${
                               pathname.includes("/profile")
                                 ? "text-[#e26178]"
                                 : ""
@@ -304,7 +306,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             onClick={handleLoginDrop}
                             className="flex flex-col items-center"
                           >
-                            <Icon.User size={28} color="black" />
+                            <Icon.User size={28} />
                             <p className="text-sm">Login</p>
                           </div>
                           <div
@@ -444,7 +446,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       className="mx-4 h-6 border-l border-gray-400"
                     ></div>
                     <Link href={"/login"}>
-                      <p className="text-lg font-semibold">Login</p>
+                      <h2 className="text-lg font-semibold">Login</h2>
                     </Link>
                   </div>
                 )}

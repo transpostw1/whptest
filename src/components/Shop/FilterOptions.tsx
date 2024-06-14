@@ -30,7 +30,7 @@ const Filter: Filter[] = [
   },
   {
     title: "Metal",
-    options: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
+    options: ["Rose_Gold", "White_Gold", "Gold", "Diamond", "Silver"],
     labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"]
   },
   {
@@ -98,9 +98,12 @@ const FilterOptions: React.FC<Props> = ({
             <div>
               {item.options.map((option: string, idx: number) => (
                 <div key={option} onClick={() => handleMobileFilter()}>
+                  
                   <input
                     type="checkbox"
                     id={option}
+                    value={option}
+                    readOnly={true}
                     checked={selectedOptions[item.title]?.includes(option)}
                     onChange={() => handleOptionSelect(option, item.title)}
                   />

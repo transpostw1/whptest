@@ -10,7 +10,7 @@ import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
   const router = useRouter();
@@ -64,29 +64,74 @@ const ProfileDetails = () => {
     }
   };
   useEffect(() => {
-    const fetchAddresses = async () => {
-      setIsLoading(true);
-      try {
-        const cookieTokenn = Cookies.get("localtoken");
-        const response = await axios.get<{ customerAddress?: Address[] }>(
-          `${baseUrl}/customer/getAddresses`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
+    const fetchData = async () => {
+      console.log("This Effect is Running");
+      const cookieTokenn = Cookies.get("localtoken");
+      const getAuthHeaders = () => {
+        if (!cookieTokenn) return null;
+        return {
+          authorization: `Bearer ${cookieTokenn}`,
+        };
+      };
+      const link = new HttpLink({
+        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        headers: getAuthHeaders(),
+      });
+
+      const client = new ApolloClient({
+        link,
+        cache: new InMemoryCache(),
+      });
+
+      const GET_ADDRESS = gql`
+        query GetCustomerAddresses($token: Query!) {
+          getCustomerAddresses(token: $token) {
+            address_id
+            address_type
+            city
+            country
+            customer_id
+            full_address
+            landmark
+            pincode
+            state
           }
-        );
-
-        setallAddress(response.data.customerAddress);
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      } finally {
-        setIsLoading(false);
-      }
+        }
+      `;
+      const variables = { token: cookieTokenn };
+      const { data } = await client.query({
+        query: GET_ADDRESS,
+        variables,
+      });
+      setallAddress(data);
     };
-
-    fetchAddresses();
+    fetchData();
   }, []);
+  // useEffect(() => {
+  //   const fetchAddresses = async () => {
+  //     setIsLoading(true);
+  // const cookieTokenn = Cookies.get("localtoken");
+  //     try {
+
+  //       const response = await axios.get<{ customerAddress?: Address[] }>(
+  //         `${baseUrl}/customer/getAddresses`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${cookieTokenn}`,
+  //           },
+  //         }
+  //       );
+
+  //       setallAddress(response.data.customerAddress);
+  //     } catch (error) {
+  //       console.error("Error fetching addresses:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchAddresses();
+  // }, []);
   const handleEditAddress = (addressId: any) => {
     const addressToEdit =
       allAddress &&
@@ -178,7 +223,10 @@ const ProfileDetails = () => {
       <div className="flex flex-wrap">
         {allAddress &&
           allAddress.map((address: any) => (
-            <div key={address.address_id} className="flex rounded-lg shadow-md mr-2">
+            <div
+              key={address.address_id}
+              className="flex rounded-lg shadow-md mr-2"
+            >
               <div className=" bg-white p-4 mt-6 w-[250px] h-[130px] ">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}

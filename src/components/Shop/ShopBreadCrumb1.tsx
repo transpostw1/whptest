@@ -53,147 +53,182 @@ const ShopBreadCrumb1 = () => {
   const fetchData = async (combinedOptions: any) => {
     // console.log("Received filterOptions in fetchData:", combinedOptions);
     // console.log("selectedOptions:", combinedOptions);
-
-    try {
-      console.log("Received filter options:", combinedOptions);
-      setIsLoading(false);
-      const client = new ApolloClient({
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
-        cache: new InMemoryCache(),
-      });
-
-      const GET_PRODUCTS = gql`
-        query Products(
-          $category: [CategoryArrayInput!]
-          $priceFilter: [PriceArrayInput!]
-          $gender: [GenderArrayInput!]
-          $karat: [KaratArrayInput!]
-          $metal: [MetalArrayInput!]
-          $weightRange : [WeightRangeArrayInput!]
-        ) {
-          products(
-            category: $category
-            priceFilter: $priceFilter
-            gender: $gender
-            karat: $karat
-            metal: $metal
-            weightRange : $weightRange
-          ) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            weightRange
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-          }
-        }
-      `;
-
-      const variables = {
-        category: combinedOptions.category.map((category: string) => ({
-          value: category,
-        })),
-        priceFilter: combinedOptions.priceFilter,
-        gender: combinedOptions.gender.map((gender: string) => ({
-          value: gender,
-        })),
-        karat: combinedOptions.karat.map((karat: string) => ({ value: karat })),
-        metal: combinedOptions.metal.map((metal: string) => ({ value: metal })),
-        weightRange: combinedOptions.weight.map((weight: string) => ({ value: weight })),
-      };
-
-      
-
-      console.log("Variables passed for api call",variables)
-      const { data } = await client.query({
-        query: GET_PRODUCTS,
-        variables,
-      });
-
-      if (data && data.products) {
-        setFilteredProducts(data.products);
+    if (
+      combinedOptions.category.length > 0 ||
+      combinedOptions.priceFilter.length > 0 ||
+      combinedOptions.gender.length > 0 ||
+      combinedOptions.karat.length > 0 ||
+      combinedOptions.metal.length > 0
+    ) {
+      try {
+        console.log("Received filter options:", combinedOptions);
         setIsLoading(false);
-      } else {
-        console.error("Error: No products data received");
+        const client = new ApolloClient({
+          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          cache: new InMemoryCache(),
+        });
+
+        const GET_PRODUCTS = gql`
+          query Products(
+            $category: [CategoryArrayInput!]
+            $priceFilter: [PriceArrayInput!]
+            $gender: [GenderArrayInput!]
+            $karat: [KaratArrayInput!]
+            $metal: [MetalArrayInput!]
+            $weightRange: [WeightRangeArrayInput!]
+            $sortBy: String
+            $sortOrder: String
+          ) {
+            products(
+              category: $category
+              priceFilter: $priceFilter
+              gender: $gender
+              karat: $karat
+              metal: $metal
+              weightRange: $weightRange
+              sortBy: $sortBy
+              sortOrder: $sortOrder
+            ) {
+              productId
+              SKU
+              variantId
+              isParent
+              title
+              displayTitle
+              shortDesc
+              longDesc
+              url
+              tags
+              collectionName
+              shopFor
+              occasion
+              theme
+              length
+              breadth
+              height
+              addDate
+              lastModificationDate
+              productSize
+              productQty
+              attributeId
+              preSalesProductQueries
+              isReplaceable
+              weightRange
+              isReturnable
+              isInternationalShippingAvailable
+              customizationAvailability
+              fastDelivery
+              tryAtHome
+              isActive
+              grossWeight
+              netWeight
+              discountId
+              discountCategory
+              discountActive
+              typeOfDiscount
+              discountValue
+              discountAmount
+              discountPrice
+              offerStartDate
+              offerEndDate
+              mediaId
+              metalType
+              metalPurity
+              metalWeight
+              metalRate
+              makingType
+              makingChargesPerGrams
+              makingCharges
+              gst
+              additionalCost
+              productPrice
+              discountPrice
+              rating
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                gemstoneDetails
+                diamondDetails
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+              }
+              stoneDetails
+              diamondDetails
+            }
+          }
+        `;
+        let variables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          variables = {
+            category:[{value:""}],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+          };
+        } else {
+          variables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.gender.map((gender: string) => ({
+              value: gender,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+          };
+        }
+        console.log("Variables passed for api call", variables);
+        const { data } = await client.query({
+          query: GET_PRODUCTS,
+          variables,
+        });
+
+        if (data && data.products) {
+          setFilteredProducts(data.products);
+          setIsLoading(false);
+        } else {
+          console.error("Error: No products data received");
+        }
+      } catch (error) {
+        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
-    } finally {
-      setIsLoading(false);
     }
   };
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
@@ -215,8 +250,7 @@ const ShopBreadCrumb1 = () => {
         const min = parseFloat("1");
         const max = parseFloat("10000");
         return { min, max };
-      }
-      else {
+      } else {
         const value = formatPriceRange(price);
         const [minStr, maxStr] = value.split("to");
         // console.log("MIN", minStr);
@@ -325,6 +359,7 @@ const ShopBreadCrumb1 = () => {
           selectedOptions.Type.includes(product.type)
         );
       }
+
       if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
         filtered = filtered.filter((product: any) =>
           selectedOptions.Weight.includes(product.weightRange)
@@ -353,8 +388,8 @@ const ShopBreadCrumb1 = () => {
       }
 
       setFilteredProducts(filtered);
-    }; 
-    applyFilters()
+    };
+    applyFilters();
     console.log("useEffect - selectedOptions:", selectedOptions);
 
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
@@ -455,7 +490,7 @@ const ShopBreadCrumb1 = () => {
     });
   };
 
-//  console.log("selected options",selectedOptions)
+  //  console.log("selected options",selectedOptions)
   // console.log("Selected Options", selectedOptions);
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {

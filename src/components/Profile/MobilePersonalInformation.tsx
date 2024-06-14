@@ -147,6 +147,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     const fetchAddresses = async () => {
       setIsLoading(true);

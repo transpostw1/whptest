@@ -26,9 +26,8 @@
     position: sticky;
     z-index: 49;
     // transition: all ease 0.5s;
-
+    background-color: #FAF9FA;
     &.fixed {
-        background-color: var(--white);
         // box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
         top: 4rem;
         // animation: animateHeader ease 0.5s;
@@ -456,7 +455,7 @@
 }
 
 .style-five {
-    .swiper-slide-active {
+    .swiper-slide- {
         .slider-item {
             .text-content {
                 .text-sub-display {

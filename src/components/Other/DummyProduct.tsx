@@ -89,7 +89,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     Math.round(parseFloat(data?.productPrice ?? 0))
   );
 
-
   return (
     <>
       <div className="product-item grid-type ">

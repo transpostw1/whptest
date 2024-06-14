@@ -42,7 +42,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         setIsLoading(true);
         await getWishlist();
         const isInWishlist = wishlistItems.some(
-          (item) => item.productId === product.productDetails.productId
+          (item) => item.productId == product.productDetails.productId
         );
         setIsProductInWishlist(isInWishlist);
       } catch (error) {

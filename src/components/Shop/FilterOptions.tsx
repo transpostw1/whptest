@@ -20,7 +20,7 @@ const Filter: Filter[] = [
   },
   {
     title: "Weight",
-    options: ["0-2 g", "2-5 g", "5-10 g", "10-20 g"],
+    options: ["0to2gms", "2to5gms", "5to10gms", "10to20gms"],
     labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"]
   },
   {

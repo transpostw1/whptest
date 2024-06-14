@@ -59,7 +59,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             productPrice: data.productPrice,
             discountPrice: data.discountPrice,
             discountValue: data.discountValue,
-            image_path: data.image_path,
+            image_path: data?.imageDetails[0].image_path,
             url: data.url,
           };
           addToWishlist(productToAdd);

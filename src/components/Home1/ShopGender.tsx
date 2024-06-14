@@ -112,16 +112,16 @@ const ShopGender = () => {
                   className="h-[80%]"
                   onClick={() => setCustomcategory(category.categoryUrl)}
                 >
-                  <div className="overflow-hidden ">
+                  <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg ">
                     {category.image}
-                    {/* <div className="overlay">
+                    <div className="overlay">
                       <p className="xs:text-lg md:text-2xl text-center">
                         {category.type}
                       </p>
-                    </div> */}
+                    </div>
                   </div>
                 </Link>
-                <h1 className="md:text-xl font-semibold">{category.type}</h1>
+                <h1 className="lg:text-xl md:text-lg font-semibold">{category.type}</h1>
                 <p className="text-sm ">{category.description}</p>
                 <Link
                   className="inline-flex items-center"

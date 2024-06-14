@@ -25,9 +25,9 @@ const ProfileSidebar: React.FC<Props> = ({
     <div>
       <div className="my-div hidden sm:block  p-6 h-screen bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          {userDetails?.customer.profile_picture ? (
+          {userDetails?.profile_picture ? (
             <Image
-              src={userDetails.customer.profile_picture}
+              src={userDetails?.profile_picture}
               className="rounded-full h-full w-full"
               alt="Profile Picture"
               width={90}
@@ -36,7 +36,7 @@ const ProfileSidebar: React.FC<Props> = ({
           ) : (
             <Icon.UserCircle size={50} />
           )}
-        </div>
+        </div>  
         <div>
           <p className="text-xl font-semibold mt-2">Add Details</p>
           <span

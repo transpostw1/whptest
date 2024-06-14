@@ -92,12 +92,12 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: userDetails?.customer?.firstname,
-      lastName: userDetails?.customer?.lastname,
-      email: userDetails?.customer?.email,
-      phone: userDetails?.customer?.mobile_no,
-      altPhone: userDetails?.customer?.altPhone,
-      gender: userDetails?.customer?.gender,
+      firstName: userDetails?.firstname,
+      lastName: userDetails?.lastname,
+      email: userDetails?.email,
+      phone: userDetails?.mobile_no,
+      altPhone: userDetails?.altPhone,
+      gender: userDetails?.gender,
       dobDay,
       dobMonth,
       dobYear,
@@ -242,9 +242,9 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       </div>
       <div className="flex justify-between p-4">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          {userDetails?.customer.profile_picture ? (
+          {userDetails?.profile_picture ? (
             <Image
-              src={userDetails.customer.profile_picture}
+              src={userDetails?.profile_picture}
               className="rounded-full h-full w-full"
               alt="Profile Picture"
               width={90}
@@ -256,7 +256,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
         </div>
         <div className="mt-4">
           <p className="font-bold">
-            Wallet Balance:{userDetails?.customer?.wallet_amount}
+            Wallet Balance:{userDetails?.wallet_amount}
           </p>
         </div>
       </div>

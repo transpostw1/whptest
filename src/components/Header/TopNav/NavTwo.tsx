@@ -296,7 +296,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           >
                             <Icon.User size={28} />
                             <p className="text-sm">
-                              {userDetails?.customer?.firstname}
+                              {userDetails?.firstname}
                             </p>
                           </div>
                         </>

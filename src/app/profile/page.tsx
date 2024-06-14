@@ -13,9 +13,10 @@ import MobileOrders from "@/components/Profile/MobileOrders";
 import MobileGms from "@/components/Profile/MobileGms";
 import axios from "axios";
 import Cookie from "js-cookie";
-import { baseUrl, getOrders } from "@/utils/constants";
+import { baseUrl, getOrders, graphqlbaseUrl } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import ProtectedRoute from "../ProtectedRoute";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 interface OrdersResponse {
   customerOrders: any;
@@ -33,7 +34,7 @@ const ProfilePage = () => {
   const handleComponent = (component: string) => {
     setComponent(component);
   };
-  const {  isLoggedIn, getUser } = useUser();
+  const { isLoggedIn, getUser } = useUser();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
@@ -50,22 +51,100 @@ const ProfilePage = () => {
     };
   }, []);
 
-  
   useEffect(() => {
     if (isLoggedIn) {
       getUser();
     }
   }, []);
+  
   const handleOrders = async () => {
     try {
       const cookieToken = Cookie.get("localtoken");
-      const response = await axios.get<OrdersResponse>(
-        `${baseUrl}${getOrders}`,
-        {
-          headers: { Authorization: `Bearer ${cookieToken}` },
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+      const link = new HttpLink({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+      });
+
+      const client = new ApolloClient({
+        link,
+        cache: new InMemoryCache(),
+      });
+
+      const GET_ORDER = gql`
+        query GetCustomerOrder($token: String!) {
+          getCustomerOrder(token: $token) {
+            id
+            customerId
+            couponId
+            orderNo
+            razorpayOrderNo
+            productTotal
+            discountedTotal
+            balanceAmount
+            paymentStatus
+            orderStatus
+            productDetails {
+              productId
+              productAmount
+              quantity
+              productTotal
+              discountAmount
+              discountedTotal
+              displayTitle
+              productPrice
+              discountPrice
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+            }
+            billingAddressId {
+              address_id
+              customer_id
+              address_type
+              full_address
+              country
+              state
+              city
+              landmark
+              pincode
+            }
+            shippingAddressId {
+              address_id
+              customer_id
+              address_type
+              full_address
+              country
+              state
+              city
+              landmark
+              pincode
+            }
+            payments {
+              paymentId
+              orderId
+              date
+              paymentMethod
+              transactionNo
+              amount
+            }
+          }
         }
-      );
-      setOrdersData(response.data.customerOrders);
+      `;
+
+      const variables = { token: cookieToken };
+      const { data } = await client.query({
+        query: GET_ORDER,
+        variables,
+      });
+      setOrdersData(data.getCustomerOrder);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -92,9 +171,7 @@ const ProfilePage = () => {
             />
           )}
           {component === "wishlist" && (
-            <MobileWishList
-              handleComponent={handleComponent}
-            />
+            <MobileWishList handleComponent={handleComponent} />
           )}
           {component === "gms" && (
             <MobileGms handleComponent={handleComponent} />

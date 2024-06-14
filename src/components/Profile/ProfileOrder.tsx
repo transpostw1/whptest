@@ -57,6 +57,8 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     setSingleOrder(orders);
   };
 
+  console.log(orders);
+
   if (!orders)
     return (
       <div className="loading-container flex justify-center items-center h-full">
@@ -89,7 +91,9 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
-      {Array.isArray(singleOrder)&&singleOrder.length==0&&(<div>No Order Found</div>)}
+      {Array.isArray(singleOrder) && singleOrder.length == 0 && (
+        <div>No Order Found</div>
+      )}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">
           {Array.isArray(orders) &&
@@ -119,50 +123,47 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     {item?.order_list?.name}
                   </div>
                 </div>
-                {item.productDetails.map((items: any, index: any) => (
+
+                {item.productDetails.map((product: any, index: any) => (
                   <div
                     key={index}
                     className="flex justify-between border-b-2 p-4"
                   >
-                    {items.productDetails.map((product: any, index: any) => (
-                      <div className="flex" key={index}>
-                        <div className="mr-3">
-                          <Image
-                            src={product?.imageDetails[0]?.image_path}
-                            alt={"image"}
-                            width={85}
-                            height={85}
-                            className="bg-[#f7f7f7]"
-                          />
-                        </div>
+                    <div className="mr-3">
+                      <Image
+                        src={product?.imageDetails[0]?.image_path}
+                        alt={"image"}
+                        width={85}
+                        height={85}
+                        className="bg-[#f7f7f7]"
+                      />
+                    </div>
 
-                        <div>
-                          <p className="text-xl font-semibold">
-                            {product?.displayTitle}
-                          </p>
-                          <p>
-                            {product?.metalType}-{product?.metalWeight}
-                          </p>
-                          <p>Quantity:{items.quantity}</p>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="font-semibold">
-                      ₹
-                      {Intl.NumberFormat("en-IN", {
-                        minimumFractionDigits: 2,
-                      }).format(Math.round(parseInt(items?.discountedTotal)))}
+                    <div>
+                      <p className="text-xl font-semibold">
+                        {product?.displayTitle}
+                      </p>
+                      <p>
+                        {product?.metalType}-{product?.metalWeight}
+                      </p>
+                      <p>Quantity:{product.quantity}</p>
                     </div>
                   </div>
                 ))}
+
+                <div className="font-semibold">
+                  ₹
+                  {Intl.NumberFormat("en-IN", {
+                    minimumFractionDigits: 2,
+                  }).format(Math.round(parseInt(item?.discountedTotal)))}
+                </div>
               </div>
             ))}
         </div>
       )}
 
       {Array.isArray(singleOrder) && singleOrder.length == 1 && (
-        <SingleOrderDetails singleOrder={singleOrder}/>
+        <SingleOrderDetails singleOrder={singleOrder} />
       )}
     </div>
   );

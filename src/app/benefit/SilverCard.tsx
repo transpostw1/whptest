@@ -176,10 +176,10 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>50% Discount on 12th installment</h1>
+              <h1>80% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{(monthlyDeposit * 0.5).toLocaleString("en-IN")}</h1>
+              <h1>₹{(monthlyDeposit * 0.8).toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">

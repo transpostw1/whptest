@@ -6,7 +6,8 @@ import Amount from "@/components/Gifts/Amount";
 import Delivery from "@/components/Gifts/Delivery";
 import Preview from "@/components/Gifts/Preview";
 import Stepper from "./Stepper";
-import { baseUrl, voucher } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { baseUrl, voucher, graphqlbaseUrl } from "@/utils/constants";
 import axios from "axios";
 
 const steps = [
@@ -25,7 +26,7 @@ const Gifts = () => {
     recipientEmail: "",
     confirmEmail: "",
     message: "",
-    amount: 0, 
+    amount: 0,
     occasion: "",
     senderName: "",
   });
@@ -44,13 +45,28 @@ const Gifts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}${voucher}`);
-        setVoucher(response.data);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GetAllVoucher = gql`
+          query GetAllVoucher {
+            getAllVoucher {
+              id
+              name
+              thumbnailImage
+              templateImage
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GetAllVoucher,
+        });
+        setVoucher(data.getAllVoucher);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.log("Error in fetching SubBanners", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -122,7 +138,7 @@ const Gifts = () => {
 
   const handleTemplateSelect = (templateUrl: string) => {
     setSelectedTemplateUrl(templateUrl);
-    setIsTemplateSelected(true)
+    setIsTemplateSelected(true);
   };
 
   const handleAmountChange = (amount: number) => {

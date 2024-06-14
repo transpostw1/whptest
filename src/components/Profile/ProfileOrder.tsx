@@ -57,6 +57,8 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     setSingleOrder(orders);
   };
 
+  console.log(orders)
+
   if (!orders)
     return (
       <div className="loading-container flex justify-center items-center h-full">

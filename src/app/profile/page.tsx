@@ -56,6 +56,7 @@ const ProfilePage = () => {
       getUser();
     }
   }, []);
+  
   const handleOrders = async () => {
     try {
       const cookieToken = Cookie.get("localtoken");

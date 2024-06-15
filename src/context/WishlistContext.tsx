@@ -23,6 +23,7 @@ import {
 import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
+  displayTitle: ReactNode;
   productDetails?: {
     productId: number;
     title: string;
@@ -304,28 +305,23 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 
         const GET_WISHLIST = gql`query GetCustomerWishlist($token: String!) {
           getCustomerWishlist(token: $token) {
-            id
-            customerID
             productId
-            productDetails {
-              productId
-              url
-              discountValue
-              typeOfDiscount
-              displayTitle
-              productPrice
-              discountPrice
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              rating
+            url
+            discountValue
+            typeOfDiscount
+            displayTitle
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
             }
           }
         }

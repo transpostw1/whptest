@@ -14,13 +14,13 @@ import { useUser } from "@/context/UserContext";
 
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const {  } = useWishlist();
+  const { } = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {}
   );
   const [type, setType] = useState<string | undefined>();
-  const { wishlistItems,setWishlistItems, removeFromWishlist,getWishlist } = useWishlist();
+  const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
 
   useEffect(() => {
@@ -30,18 +30,18 @@ const Wishlist = () => {
 
     return () => clearTimeout(timeout);
   }, []);
-    useEffect(() => {
-      const fetchWishlist = async () => {
-        try {
-          const fetchedWishlistItems = await getWishlist();
-          setWishlistItems(fetchedWishlistItems);
-        } catch (error) {
-          console.error("Error fetching wishlist:", error);
-        }
-      };
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const fetchedWishlistItems = await getWishlist();
+        setWishlistItems(fetchedWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
 
-      fetchWishlist();
-    }, []);
+    fetchWishlist();
+  }, []);
 
   const router = useRouter();
 
@@ -139,12 +139,12 @@ const Wishlist = () => {
             </div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
-              {filteredWishlistItems?.productDetails?.map((product, index) => (
+              {filteredWishlistItems?.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
                       className="product-image flex justify-center"
-                      onClick={() => router.push(`/products/${product.url}`)}
+                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
                     >
                       {isLoggedIn && imageLoading[product.productId] ? (
                         <Skeleton
@@ -178,12 +178,14 @@ const Wishlist = () => {
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
-                        {product.title}
+                        {product.displayTitle}
                       </h3>
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            {formatCurrency(product.discountPrice)}
+                            {product.discountPrice
+                              ? formatCurrency(product.discountPrice)
+                              : formatCurrency(product.productPrice)}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
                             {formatCurrency(product.productPrice)}

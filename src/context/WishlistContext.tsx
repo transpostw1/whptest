@@ -10,6 +10,8 @@ import {
   removewishlist,
   getwishlisted,
 } from "@/utils/constants";
+import { ApolloClient,InMemoryCache,HttpLink,gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
   ProductType,
@@ -17,7 +19,6 @@ import {
   ProductForWishlistLoggedIn,
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
-import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
   productId: number;
@@ -126,6 +127,7 @@ useEffect(() => {
     }
     return imagePath;
   };
+
 
   const addToWishlist = async (
     product:
@@ -270,34 +272,115 @@ useEffect(() => {
     }
   };
 
-  const getWishlist = async (): Promise<WishlistItem[]> => {
-    try {
-      if (isLoggedIn) {
-        console.log(cookieToken, "wishlistToken");
-        const response = await axios.get(`${baseUrl}${getwishlisted}`, {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+  // const getWishlist = async (): Promise<WishlistItem[]> => {
+  //   try {
+  //     if (isLoggedIn) {
+  //       const response = await axios.get(`${baseUrl}${getwishlisted}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${cookieToken}`,
+  //         },
+  //       });
+  //       console.log(response.data,"RESPONSE DATA....")
+  //       return response.data;
+  //     } else {
+  //       let localWishlistItems = null;
+  //       if (typeof window !== "undefined") {
+  //         localWishlistItems = JSON.parse(
+  //           localStorage.getItem("wishlistItems") || "[]"
+  //         );
+  //       }
+  //       return localWishlistItems;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching wishlist items:", error);
+  //     return [];
+  //   }
+  // };
+
+const getWishlist = async (): Promise<WishlistItem[]> => {
+  try {
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const link = new HttpLink({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
         });
-        console.log(response.data,"RESPONSE DATA....")
-        return response.data;
-      } else {
-        let localWishlistItems = null;
-        if (typeof window !== "undefined") {
-          localWishlistItems = JSON.parse(
-            localStorage.getItem("wishlistItems") || "[]"
-          );
-        }
-        // const localWishlistItems = JSON.parse(
-        //   localStorage.getItem("wishlistItems") || "[]"
-        // );
-        return localWishlistItems;
+
+        const client = new ApolloClient({
+          link,
+          cache: new InMemoryCache(),
+        });
+        const GET_CUSTOMER_WISHLIST = gql`
+          query GetCustomerWishlist($token: String!) {
+            getCustomerWishlist(token: $token) {
+              productId
+              productAmount
+              quantity
+              url
+              SKU
+              variantId
+              productTotal
+              metalType
+              metalWeight
+              discountAmount
+              discountValue
+              typeOfDiscount
+              discountedTotal
+              displayTitle
+              productPrice
+              discountPrice
+              mediaId
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              rating
+            }
+          }
+        `;
+
+    if (isLoggedIn) {
+        const variables = { token: cookieToken };
+      const { data } = await client.query({
+        query: GET_CUSTOMER_WISHLIST,
+        variables
+      });
+      return data.getCustomerWishlist.map((item) => ({
+        productId: item.productId,
+        title: item.displayTitle,
+        productPrice: item.productPrice,
+        discountPrice: item.discountPrice,
+        discountValue: item.discountValue,
+        image_path: item.imageDetails[0]?.image_path || "",
+        url: item.url,
+      }));
+    } else {
+      let localWishlistItems = [];
+      if (typeof window !== "undefined") {
+        localWishlistItems = JSON.parse(
+          localStorage.getItem("wishlistItems") || "[]"
+        );
       }
-    } catch (error) {
-      console.error("Error fetching wishlist items:", error);
-      return [];
+      return localWishlistItems;
     }
-  };
+  } catch (error) {
+    console.error("Error fetching wishlist items:", error);
+    return [];
+  }
+};
+
+
 
   const value: WishlistContextProps = {
     wishlistItems,

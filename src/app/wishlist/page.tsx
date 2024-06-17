@@ -65,6 +65,7 @@ const Wishlist = () => {
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
+
       const newProduct = {
         productDetails: {
           title: product.title,
@@ -152,9 +153,7 @@ const Wishlist = () => {
                         />
                       ) : isLoggedIn ? (
                         <Image
-                          src={
-                            product?.imageDetails?.[0]?.image_path
-                          }
+                          src={product?.image_path}
                           alt={product.title}
                           width={300}
                           height={300}
@@ -179,14 +178,20 @@ const Wishlist = () => {
                         {product.title}
                       </h3>
                       <div className="flex items-center gap-2">
-                        <p className="product-price flex flex-col">
-                          <span className="discounted-price text-title text-lg">
-                            {formatCurrency(product.discountPrice)}
-                          </span>
-                          <span className="original-price line-through text-[#beb3b3]">
+                        {product.discountPrice ? (
+                          <p className="product-price flex flex-col">
+                            <span className="discounted-price text-title text-lg">
+                              {formatCurrency(product.discountPrice)}
+                            </span>
+                            <span className="original-price line-through text-[#beb3b3]">
+                              {formatCurrency(product.productPrice)}
+                            </span>
+                          </p>
+                        ) : (
+                          <p className="product-price text-title text-lg mb-6">
                             {formatCurrency(product.productPrice)}
-                          </span>
-                        </p>
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">

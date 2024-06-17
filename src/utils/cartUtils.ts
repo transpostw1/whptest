@@ -1,6 +1,8 @@
 import axios from "axios";
 import { baseUrl, getCartItems } from "./constants";
 import Cookies from "js-cookie";
+import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 
 // interface CartItem {
 //   productId: number;
@@ -34,13 +36,70 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
       return [];
     }
 
-    const response = await axios.get(`${baseUrl}${getCartItems}`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
+  const link = new HttpLink({
+    uri: graphqlbaseUrl,
+    headers: getAuthHeaders(),
+  });
 
-    const cartItemsData = response.data.cart_items.map((item: any) => {
+  const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache(),
+  });
+
+    const GET_CART_ITEMS = gql`
+      query ExampleQuery($token: String!) {
+        getCustomerCart(token: $token) {
+          id
+          customerID
+          productId
+          productDetails {
+            productId
+            productAmount
+            quantity
+            url
+            SKU
+            variantId
+            productTotal
+            metalType
+            metalWeight
+            discountAmount
+            discountValue
+            typeOfDiscount
+            discountedTotal
+            displayTitle
+            productPrice
+            discountPrice
+            mediaId
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            rating
+          }
+          quantity
+        }
+      }
+    `;
+
+    // const response = await axios.get(`${baseUrl}${getCartItems}`, {
+    //   headers: {
+    //     Authorization: `Bearer ${userToken}`,
+    //   },
+    // });
+
+     const variables = { token:userToken };
+     const { data } = await client.query({
+       query: GET_CART_ITEMS,
+       variables,
+     });
+
+    const cartItemsData = data.getCustomerCart.map((item: any) => {
       const imageDetails = JSON.parse(item.product_details[0].imageDetails);
       imageDetails.sort((a: any, b: any) => a.order - b.order);
       const imagePath = imageDetails[0] ? imageDetails[0].image_path : "";

@@ -11,16 +11,18 @@ import { useRouter } from "next/navigation";
 import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
+import { AnyNode } from "postcss";
 
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const {  } = useWishlist();
+  const {} = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {}
   );
   const [type, setType] = useState<string | undefined>();
-  const { wishlistItems,setWishlistItems, removeFromWishlist,getWishlist } = useWishlist();
+  const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } =
+    useWishlist();
   const { isLoggedIn } = useUser();
 
   useEffect(() => {
@@ -30,18 +32,18 @@ const Wishlist = () => {
 
     return () => clearTimeout(timeout);
   }, []);
-    useEffect(() => {
-      const fetchWishlist = async () => {
-        try {
-          const fetchedWishlistItems = await getWishlist();
-          setWishlistItems(fetchedWishlistItems);
-        } catch (error) {
-          console.error("Error fetching wishlist:", error);
-        }
-      };
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const fetchedWishlistItems = await getWishlist();
+        setWishlistItems(fetchedWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
 
-      fetchWishlist();
-    }, []);
+    fetchWishlist();
+  }, []);
 
   const router = useRouter();
 
@@ -58,14 +60,14 @@ const Wishlist = () => {
 
   const handleAddToCart = (product: any) => {
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === product.productId
+      (item:any) => item.productId === product.productId
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
-      const newProduct = {
+      const newProduct:any = {
         productDetails: {
           title: product.title,
           discountPrice: product.discountPrice,
@@ -86,7 +88,7 @@ const Wishlist = () => {
     );
 
     if (!productAlreadyExists) {
-      const newProduct = {
+      const newProduct:any = {
         productDetails: {
           title: product.title,
           discountPrice: product.discountPrice,
@@ -139,7 +141,7 @@ const Wishlist = () => {
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
               {filteredWishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
-                  <div className="product-card p-4 h-[100%] w-[100%]">
+                  <div className="product-card p-4 h-[100%] w-[80%]">
                     <div
                       className="product-image flex justify-center"
                       onClick={() => router.push(`/products/${product.url}`)}
@@ -151,27 +153,57 @@ const Wishlist = () => {
                           className="rounded-md"
                         />
                       ) : isLoggedIn ? (
-                        <Image
-                          src={
-                            product?.imageDetails?.[0]?.image_path
-                          }
-                          alt={product.title}
-                          width={300}
-                          height={300}
-                          className="rounded-md"
-                          onLoad={() => handleImageLoad(product.productId)}
-                          onError={() => handleImageError(product.productId)}
-                        />
+                        <div className="relative">
+                          <Image
+                            src={product?.imageDetails?.[0]?.image_path}
+                            alt={product.title}
+                            width={300}
+                            height={300}
+                            className="rounded-md bg-[#f7f7f7]"
+                            onLoad={() => handleImageLoad(product.productId)}
+                            onError={() => handleImageError(product.productId)}
+                          />
+                          <div className="product-actions absolute top-2 right-2">
+                            <button
+                              className="heart-icon"
+                              onClick={() =>
+                                removeFromWishlist(product.productId)
+                              }
+                            >
+                              <Icon.Heart
+                                size={25}
+                                color="#fa0000"
+                                weight="fill"
+                              />
+                            </button>
+                          </div>
+                        </div>
                       ) : (
-                        <Image
-                          src={product.image_path}
-                          alt={product.title}
-                          width={300}
-                          height={300}
-                          className="rounded-md"
-                          onLoad={() => handleImageLoad(product.productId)}
-                          onError={() => handleImageError(product.productId)}
-                        />
+                        <div className="relative">
+                          <Image
+                            src={product.image_path}
+                            alt={product.title}
+                            width={300}
+                            height={300}
+                            className="rounded-md bg-[#f7f7f7]"
+                            onLoad={() => handleImageLoad(product.productId)}
+                            onError={() => handleImageError(product.productId)}
+                          />
+                          <div className="product-actions absolute top-2 right-2">
+                            <button
+                              className="heart-icon"
+                              onClick={() =>
+                                removeFromWishlist(product.productId)
+                              }
+                            >
+                              <Icon.Heart
+                                size={25}
+                                color="#fa0000"
+                                weight="fill"
+                              />
+                            </button>
+                          </div>
+                        </div>
                       )}
                     </div>
                     <div className="product-details mt-4">
@@ -191,27 +223,27 @@ const Wishlist = () => {
                     </div>
                     <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-44 w-full p-1 mr-3 rounded-md"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white lg:w-44 w-full p-1"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-44 w-full p-1 rounded-md"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
                       </div>
                     </div>
                   </div>
-                  <div className="product-actions absolute top-2 right-2">
+                  {/* <div className="product-actions absolute top-2 right-2">
                     <button
                       className="heart-icon"
                       onClick={() => removeFromWishlist(product.productId)}
                     >
                       <Icon.Heart size={25} color="#fa0000" weight="fill" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>

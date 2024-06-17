@@ -80,7 +80,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       ) {
         setContactPopUp(false);
       } else {
-        setContactPopUp(false);
+        // setContactPopUp(false);
       }
     };
 
@@ -244,7 +244,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                     >
                       <Link href={"/offers"}>
-                        <PiPercentLight size={30} />
+                        <Icon.SealPercent size={30} />
                       </Link>
                       <p className="text-sm">Offers</p>
                     </div>
@@ -395,11 +395,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
                   </Link>
                   <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
-                  <div className="choose-currency flex items-center p-2 bg-[#e1dcdd] bg-opacity-[0.1] ">
+                  <div className="choose-currency flex items-center p-2 bg-[#E9E9E9] bg-opacity-[0.1] ">
                     <select
                       name="currency"
                       id="chooseCurrency"
-                      className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
+                      className="caption2 bg-[#E9E9E9] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
                     >
                       <option value="INR">&#8377; INR</option>
                       {/* <option value="USD">&#36; USD</option>

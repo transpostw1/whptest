@@ -27,18 +27,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [formError, setFormError] = useState("");
   const { addUserDetails, userDetails } = useUser();
 
-  // const validationSchema = Yup.object().shape({
-  //   // firstName: Yup.string().required("First name is required"),
-  //   lastName: Yup.string(),
-  //   email: Yup.string().email("Invalid email address"),
-  //   phone: Yup.string(),
-  //   altPhone: Yup.string(),
-  //   gender: Yup.string(),
-  //   dobDay: Yup.string(),
-  //   dobMonth: Yup.string(),
-  //   dobYear: Yup.string(),
-  //   profilePicture: Yup.mixed(),
-  // });
 
   const handleSubmit = async (values: FormValues) => {
     setIsLoading(true);
@@ -71,17 +59,17 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const dob = userDetails?.customer?.dob;
+  const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
   const formik = useFormik({
     initialValues: {
-      firstName: userDetails?.customer?.firstname,
-      lastName: userDetails?.customer?.lastname,
-      email: userDetails?.customer?.email,
-      phone: userDetails?.customer?.mobile_no,
-      altPhone: userDetails?.customer?.altPhone,
-      gender: userDetails?.customer?.gender,
+      firstName: userDetails?.firstname || "",
+      lastName: userDetails?.lastname || "",
+      email: userDetails?.email || "",
+      phone: userDetails?.mobile_no || "",
+      altPhone: userDetails?.altPhone || "",
+      gender: userDetails?.gender || "",
       dobDay,
       dobMonth,
       dobYear,

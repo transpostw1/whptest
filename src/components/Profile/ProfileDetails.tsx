@@ -180,7 +180,7 @@ const ProfileDetails = () => {
             >
               First name
             </label>
-            {userDetails?.customer?.firstname}
+            {userDetails?.firstname}
           </div>
           <div>
             <label
@@ -189,16 +189,16 @@ const ProfileDetails = () => {
             >
               Last name
             </label>
-            {userDetails?.customer?.lastname}
+            {userDetails?.lastname}
           </div>
-          <div>
+          <div>  
             <label
               htmlFor="phone"
               className="block text-md font-medium text-black"
             >
               Phone number
             </label>
-            {userDetails?.customer?.mobile_no}
+            {userDetails?.mobile_no}
           </div>
           <div>
             <label
@@ -207,7 +207,7 @@ const ProfileDetails = () => {
             >
               Email address
             </label>
-            {userDetails?.customer?.email}
+            {userDetails?.email}
           </div>
         </div>
       </form>

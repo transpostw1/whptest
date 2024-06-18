@@ -71,6 +71,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       };
       addToWishlist(productToAdd);
     } else {
+      console.log(product,"prrroodd")
       const productToAdd: ProductForWishlistLoggedOut = {
         productId: product.productId,
         title: product.name,
@@ -80,6 +81,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         image_path: product.image,
         url: product.url,
       };
+      console.log(productToAdd,"ADdeddd")
       addToWishlist(productToAdd);
     }
 

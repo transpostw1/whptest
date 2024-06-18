@@ -170,7 +170,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>50% Discount on 12th installment</h1>
+              <h1>100% Discount on 12th installment</h1>
             </div>
             <div>
               <h1>₹{(monthlyDeposit * 0.5).toLocaleString("en-IN")}</h1>

@@ -56,6 +56,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
   }, []);
 
   const handleAddToCart = (productItem: ProductData) => {
+    console.log(productItem,"proddddd")
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId
     );

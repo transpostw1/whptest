@@ -13,6 +13,8 @@ import {
   getwishlisted,
   graphqlbaseUrl
 } from "@/utils/constants";
+import { ApolloClient,InMemoryCache,HttpLink,gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
   ProductType,
@@ -20,7 +22,6 @@ import {
   ProductForWishlistLoggedIn,
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
-import FlashAlert from "@/components/Other/FlashAlert";
 
 interface WishlistItem {
   displayTitle: ReactNode;
@@ -140,6 +141,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     return imagePath;
   };
+
 
   const addToWishlist = async (
     product:

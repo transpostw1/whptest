@@ -88,7 +88,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
 
     try {
       setLoading(true);
-      setBackendError(null); 
+      setBackendError(null);
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -103,10 +103,10 @@ const SilverCard: React.FC<SilverCardProps> = ({
       );
 
       console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message); 
+      setBackendMessage(response.data.message);
     } catch (error) {
       console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later."); 
+      setBackendError("Failed to enroll. Please try again later.");
     } finally {
       setLoading(false);
     }

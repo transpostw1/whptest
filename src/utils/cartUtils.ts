@@ -1,21 +1,14 @@
 import axios from "axios";
 import { baseUrl, getCartItems, graphqlbaseUrl } from "./constants";
 import Cookies from "js-cookie";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 
-
-// interface CartItem {
-//   productId: number;
-//   quantity: number;
-//   name: string;
-//   price: number;
-//   image: string;
-// }
 
 interface CartItem {
   productDetails: {
     displayTitle: string;
     discountPrice: any;
+    productPrice:any;
     imageDetails: any;
   };
   gst?: any;
@@ -53,63 +46,59 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
       cache: new InMemoryCache(),
     });
 
-    const GET_CART = gql `query Query($token: String!) {
-      getCustomerCart(token: $token) {
-        id
-        quantity
-        productDetails {
+    const GET_CUSTOMER_CART = gql`
+      query GetCustomerCart($token: String!) {
+        getCustomerCart(token: $token) {
+          id
+          userId
           productId
-          productAmount
           quantity
-          url
-          SKU
-          variantId
-          productTotal
-          metalType
-          metalWeight
-          discountAmount
-          discountValue
-          typeOfDiscount
-          discountedTotal
-          displayTitle
-          productPrice
-          discountPrice
-          mediaId
-          imageDetails {
-            image_path
-            order
-            alt_text
+          productDetails {
+            productId
+            url
+            displayTitle
+            productPrice
+            discountPrice
+            imageDetails {
+              alt_text
+              image_path
+              order
+            }
+            videoDetails {
+              alt_text
+              order
+              video_path
+            }
           }
-          videoDetails {
-            video_path
-            order
-            alt_text
-          }
-          rating
         }
       }
-    }`;
+    `;
 
     const variables = { token: userToken };
-        const { data } = await client.query({
-          query: GET_CART,
-          variables,
-        });
-
-    const cartItemsData = data.map((item: any) => {
-      const imageDetails = JSON.parse(item.productDetails[0].imageDetails);
-      imageDetails.sort((a: any, b: any) => a.order - b.order);
-      const imagePath = imageDetails[0] ? imageDetails[0].image_path : "";
-      return {
-        productId: item.productId,
-        quantity: item.quantity,
-        name: item.productDetails[0].displayTitle,
-        price: parseInt(item.productDetails[0].discountPrice),
-        image: imagePath,
-      };
+    const { data } = await client.query({
+      query: GET_CUSTOMER_CART,
+      variables,
+      context: {
+        headers: getAuthHeaders(),
+      },
     });
 
-    // localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
+
+   const cartItemsData = data.getCustomerCart.map((item: any) => {
+     const imagePath = item.productDetails[0].imageDetails[0].image_path;
+     const discountPrice = parseInt(item.productDetails[0].discountPrice);
+     const productPrice = parseInt(item.productDetails[0].productPrice);
+     const price = isNaN(discountPrice) ? productPrice : discountPrice;
+
+     return {
+       productId: item.productId,
+       quantity: item.quantity,
+       name: item.productDetails[0].displayTitle,
+       price: price,
+       image: imagePath,
+     };
+   });
+
     {
       typeof window !== "undefined" &&
         localStorage.setItem("cartItems", JSON.stringify(cartItemsData));

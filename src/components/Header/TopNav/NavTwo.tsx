@@ -5,14 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import useMenuMobile from "@/store/useMenuMobile";
-import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
-import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
@@ -73,7 +70,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
@@ -278,7 +274,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30}/>
+                      <Icon.Headset size={30} />
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -295,9 +291,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             }`}
                           >
                             <Icon.User size={28} />
-                            <p className="text-sm">
-                              {userDetails?.firstname}
-                            </p>
+                            <p className="text-sm">{userDetails?.firstname}</p>
                           </div>
                         </>
                       ) : (

@@ -4,38 +4,38 @@ import { useUser } from "@/context/UserContext";
 import Cookies from "js-cookie";
 
 export const useFetchWishlistItems = () => {
-  const [fetchedWishlistItems, setFetchedWishlistItems] = useState<WishlistItem[]>([]);
+  const [fetchedWishlistItems, setFetchedWishlistItems] = useState<
+    WishlistItem[]
+  >([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const {isLoggedIn}=useUser()
+  const { isLoggedIn } = useUser();
 
-  const { getWishlist} = useWishlist();
+  const { getWishlist } = useWishlist();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      const userToken = Cookies.get("localtoken");
+      if (userToken) {
+        // setIsLoggedIn(true);
+        setCookieToken(userToken);
+      }
+    }
+  }, []);
 
-
-   useEffect(() => {
-     if (isLoggedIn) {
-       const userToken = Cookies.get("localtoken");
-       if (userToken) {
-         // setIsLoggedIn(true);
-         setCookieToken(userToken);
-       }
-     }
-   }, []);
-
-   console.log
+  console.log;
 
   useEffect(() => {
     const fetchWishlistItems = async () => {
       try {
         setIsLoading(true);
         const wishlistData = await getWishlist();
-        let localWishlistItems=null
-        if(typeof window!=='undefined'){
+        let localWishlistItems = null;
+        if (typeof window !== "undefined") {
           localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
+            localStorage.getItem("wishlistItems") || "[]"
+          );
         }
         const mergedWishlistItems = [...wishlistData, ...localWishlistItems];
         const uniqueWishlistItems = mergedWishlistItems.filter(

@@ -28,7 +28,6 @@ interface CartItem {
   price?: number;
   image?: string;
   isBuyNow?: boolean;
-  
 }
 
 interface CartContextProps {
@@ -51,7 +50,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const { isLoggedIn } = useUser();
 
-
   useEffect(() => {
     if (isLoggedIn) {
       const userToken = Cookies.get("localtoken");
@@ -61,44 +59,44 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
- useEffect(() => {
-   const fetchCartItems = async () => {
-    setLoading(true);
-     if (isLoggedIn && cookieToken) {
-       await addLocalItemsToServerCart();
-       const cartItemsFromServer = await fetchCartItemsFromServer();
-       setCartItems(cartItemsFromServer);
-     } else if (typeof window !== "undefined") {
-       const cartItemsFromStorage = localStorage.getItem("cartItems");
-       if (cartItemsFromStorage) {
-         setCartItems(JSON.parse(cartItemsFromStorage));
-       } else {
-         const searchParams = new URLSearchParams(window.location.search);
-         const buyNowId = searchParams.get("buyNow");
-         if (buyNowId) {
-           const mockCartItem = {
-             productId: parseInt(buyNowId),
-             quantity: 1,
-             productDetails: {
-               displayTitle: "Product Title",
-               discountPrice: 0,
-               imageDetails: [],
-             },
-           };
-           console.log("this running")
-           setCartItems([mockCartItem]);
-         }
-       }
-     }
-         setLoading(false);
-   };
-   fetchCartItems();
- }, [isLoggedIn, cookieToken]);
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      setLoading(true);
+      if (isLoggedIn && cookieToken) {
+        await addLocalItemsToServerCart();
+        const cartItemsFromServer = await fetchCartItemsFromServer();
+        setCartItems(cartItemsFromServer);
+      } else if (typeof window !== "undefined") {
+        const cartItemsFromStorage = localStorage.getItem("cartItems");
+        if (cartItemsFromStorage) {
+          setCartItems(JSON.parse(cartItemsFromStorage));
+        } else {
+          const searchParams = new URLSearchParams(window.location.search);
+          const buyNowId = searchParams.get("buyNow");
+          if (buyNowId) {
+            const mockCartItem = {
+              productId: parseInt(buyNowId),
+              quantity: 1,
+              productDetails: {
+                displayTitle: "Product Title",
+                discountPrice: 0,
+                imageDetails: [],
+              },
+            };
+            console.log("this running");
+            setCartItems([mockCartItem]);
+          }
+        }
+      }
+      setLoading(false);
+    };
+    fetchCartItems();
+  }, [isLoggedIn, cookieToken]);
 
   const addToCart = async (
     item: CartItem,
     quantity: number,
-    isBuyNow?: boolean 
+    isBuyNow?: boolean
   ) => {
     setLoading(true);
     const newItem = { ...item, quantity, isBuyNow };
@@ -110,7 +108,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
     }
-       setLoading(false);
+    setLoading(false);
   };
   const removeFromCart = async (productId: number) => {
     const updatedCartItems = cartItems.filter(
@@ -169,53 +167,48 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-const syncCartWithServer = async (cartItems: CartItem[]) => {
-  let discount: number = 0;
-  updateTotalDiscount(discount);
-  try {
-       setLoading(true);
-    const cartData = cartItems.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity || 0,
-    }));
-    const response = await instance.post(
-      `${baseUrl}/cart/sync`,
-      { cart: cartData },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      }
-    );
+  const syncCartWithServer = async (cartItems: CartItem[]) => {
+    let discount: number = 0;
+    updateTotalDiscount(discount);
+    try {
+      setLoading(true);
+      const cartData = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity || 0,
+      }));
+      const response = await instance.post(
+        `${baseUrl}/cart/sync`,
+        { cart: cartData },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
 
-    const cartItemsFromServer = await fetchCartItemsFromServer();
-    setCartItems(cartItemsFromServer);
-       setLoading(false);
-  } catch (error) {
-    console.error("Error syncing cart with server:", error);
-  }
-};
-
-
-const addLocalItemsToServerCart = async () => {
-  try {
-    const cartItemsFromStorage = localStorage.getItem("cartItems");
-    if (cartItemsFromStorage) {
-      const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
-      for (const item of parsedCartItems) {
-        await syncCartWithServer([item]); 
-      }
-      localStorage.removeItem("cartItems"); 
-      console.log("Added Local items to Server");
+      const cartItemsFromServer = await fetchCartItemsFromServer();
+      setCartItems(cartItemsFromServer);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error syncing cart with server:", error);
     }
-  } catch (error) {
-    console.error("Error adding local items to server cart:", error);
-  }
-};
+  };
 
-
-
-
+  const addLocalItemsToServerCart = async () => {
+    try {
+      const cartItemsFromStorage = localStorage.getItem("cartItems");
+      if (cartItemsFromStorage) {
+        const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
+        for (const item of parsedCartItems) {
+          await syncCartWithServer([item]);
+        }
+        localStorage.removeItem("cartItems");
+        console.log("Added Local items to Server");
+      }
+    } catch (error) {
+      console.error("Error adding local items to server cart:", error);
+    }
+  };
 
   const value: CartContextProps = {
     cartItems,

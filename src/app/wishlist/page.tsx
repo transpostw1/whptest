@@ -135,8 +135,8 @@ const Wishlist = () => {
           {isLoading ? (
             <Loader />
           ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10">
-              Add Something to Wishlist
+            <div className="text-center text-2xl my-10 text-[#e26178]">
+              Your Wishlist Seems to be Empty!
             </div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
@@ -145,7 +145,11 @@ const Wishlist = () => {
                   <div className="product-card p-4 h-[100%] w-[80%]">
                     <div
                       className="product-image flex justify-center"
-                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
+                      onClick={() =>
+                        router.push(
+                          `/products/${product.productId}/${product.url}`
+                        )
+                      }
                     >
                       {isLoggedIn && imageLoading[product.productId] ? (
                         <Skeleton
@@ -156,7 +160,7 @@ const Wishlist = () => {
                       ) : isLoggedIn ? (
                         <div className="relative">
                           <Image
-                            src={product?.imageDetails?.[0]?.image_path}
+                            src={product?.image_path}
                             alt={product.title}
                             width={300}
                             height={300}
@@ -209,7 +213,7 @@ const Wishlist = () => {
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
-                        {product.displayTitle}
+                        {product.title}
                       </h3>
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">

@@ -18,7 +18,9 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
   return (
     <div className="list-product-main w-full hidden lg:block mb-2">
       {displayedItems?.length < 1 ? (
-        <p className="text-button">No products in your cart</p>
+        <p className="text-xl text-center font-medium pt-3">
+          There is nothing here!
+        </p>
       ) : (
         displayedItems?.map((product, index) => (
           <div

@@ -24,7 +24,7 @@ const useRecentlyViewedProducts = () => {
 
         // Check if the product already exists in the local storage
         const existingProduct = recentlyViewedProducts.find(
-          (p:any) => p?.productId === product?.productDetails?.productId
+          (p: any) => p?.productId === product?.productDetails?.productId
         );
         if (!existingProduct) {
           // If the product doesn't exist, add it to the local storage

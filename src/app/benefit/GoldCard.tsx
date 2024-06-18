@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-
 interface GoldCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
   setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -32,7 +31,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -56,33 +55,30 @@ const GoldCard: React.FC<GoldCardProps> = ({
     }
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
 
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      setInputValue(value);
-
-      const parsedValue = parseInt(value, 10);
-      if (isNaN(parsedValue)) {
-        setError("Invalid input. Please enter a number.");
-      } else if (parsedValue < 2000) {
-        setError("Minimum deposit is 2000");
-      } else if (parsedValue > 50000) {
-        setError("Maximum deposit is 50000");
-      } else if (parsedValue % 1000 !== 0) {
-        setError("Amount must be a multiple of 1000");
-      } else {
-        setMonthlyDeposit(parsedValue);
-        setError(null);
-      }
-    };
-
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue)) {
+      setError("Invalid input. Please enter a number.");
+    } else if (parsedValue < 2000) {
+      setError("Minimum deposit is 2000");
+    } else if (parsedValue > 50000) {
+      setError("Maximum deposit is 50000");
+    } else if (parsedValue % 1000 !== 0) {
+      setError("Amount must be a multiple of 1000");
+    } else {
+      setMonthlyDeposit(parsedValue);
+      setError(null);
+    }
+  };
 
   const handleEnroll = async () => {
-      if (error) {
-        setBackendError("Please correct the input errors before enrolling.");
-        return;
-      }
+    if (error) {
+      setBackendError("Please correct the input errors before enrolling.");
+      return;
+    }
     if (!isLoggedIn) {
       setLoading(true);
       localStorage.setItem("redirectPath", pathname);
@@ -92,7 +88,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
 
     try {
       setLoading(true);
-      setBackendError(null); 
+      setBackendError(null);
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -107,10 +103,10 @@ const GoldCard: React.FC<GoldCardProps> = ({
       );
 
       console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message); 
+      setBackendMessage(response.data.message);
     } catch (error) {
       console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later."); 
+      setBackendError("Failed to enroll. Please try again later.");
     } finally {
       setLoading(false);
     }

@@ -44,7 +44,7 @@ const useUserTracking = (emailID: string | null) => {
     const updatePageTimer = () => {
       if (window.location.href !== currentPage) {
         const array = JSON.parse(
-          window.sessionStorage.getItem("activity_ids") || "[]"
+          window.localStorage..getItem("activity_ids") || "[]"
         );
         setCurrentPage(window.location.href);
         const header = Helmet.peek();
@@ -99,7 +99,7 @@ const useUserTracking = (emailID: string | null) => {
   useEffect(() => {
     if (isIdle && !apiCalled) {
       const array = JSON.parse(
-        window.sessionStorage.getItem("activity_ids") || "[]"
+        window.localStorage..getItem("activity_ids") || "[]"
       );
       const postData = {
         email: emailID,

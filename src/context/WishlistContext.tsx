@@ -13,8 +13,6 @@ import {
   getwishlisted,
   graphqlbaseUrl
 } from "@/utils/constants";
-import { ApolloClient,InMemoryCache,HttpLink,gql } from "@apollo/client";
-import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
   ProductType,

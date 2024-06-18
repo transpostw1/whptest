@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent,useRef } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
-import { useSearchParams,usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import StickyNav from "@/components/Header/StickyNav";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
@@ -25,7 +25,7 @@ import {
 import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
-import { baseUrl,removeCart, coupon, } from "@/utils/constants";
+import { baseUrl, removeCart, coupon } from "@/utils/constants";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
@@ -53,7 +53,7 @@ const Checkout: React.FC = () => {
   const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
   const [GiftWrapformData, setGiftWrapformData] = useState({
     name: "",
-    wrapOption: false, 
+    wrapOption: false,
   });
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
@@ -71,11 +71,9 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const [showAllItems, setShowAllItems] = useState(true);
-
-  
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -160,49 +158,43 @@ const Checkout: React.FC = () => {
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
-
-
   useEffect(() => {
     if (buyNow) {
       setShowAllItems(false);
     }
   }, [buyNow]);
 
-
-  
-   useEffect(() => {
-     if (buyNow) {
-       const buyNowProductId = parseInt(buyNow);
-       const buyNowItem = cartItems.find(
-         (item) => item.productId === buyNowProductId
-       );
-       if (buyNowItem) {
-         setBuyNowItems([buyNowItem]);
-       }
-     }
-   }, [buyNow, cartItems]);
-
-
+  useEffect(() => {
+    if (buyNow) {
+      const buyNowProductId = parseInt(buyNow);
+      const buyNowItem = cartItems.find(
+        (item) => item.productId === buyNowProductId
+      );
+      if (buyNowItem) {
+        setBuyNowItems([buyNowItem]);
+      }
+    }
+  }, [buyNow, cartItems]);
 
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-
+console.log(cartItems,"cartttt")
   const mappedCartItems = cartItems
     .filter(
-      (item:any) =>
+      (item: any) =>
         item?.productId ||
         item?.quantity ||
         item?.productDetails?.title ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails
     )
-    .map((item:any) => ({
+    .map((item: any) => ({
       productId: item?.productId,
       quantity: item?.quantity,
       name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
-      productPrice:item?.productDetails?.productPrice,
+      productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -210,17 +202,11 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
-
-
-
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
 
-
-
- const finalBuyNowItems = buyNow
-   ? MainCart.filter((item) => item.productId == parseInt(buyNow))
-   : [];
-
+  const finalBuyNowItems = buyNow
+    ? MainCart.filter((item) => item.productId == parseInt(buyNow))
+    : [];
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     const itemToUpdate = cartItems.find((item) => item.productId === productId);
@@ -234,24 +220,19 @@ const Checkout: React.FC = () => {
     setSelectedPaymentMethod(event.target.value);
   };
 
-
-const calculateTotalPrice = (items: any[]) => {
-  let total = 0;
-  items.forEach((item) => {
-    const price = parseInt(item.price?.toString());
-    if (!isNaN(price) && typeof item.quantity === "number") {
-      total += price * item.quantity;
-    }
-  });
-  return total;
-};
- let totalCart = buyNow
-   ? calculateTotalPrice(finalBuyNowItems)
-   : calculateTotalPrice(MainCart);
-
-
-
-
+  const calculateTotalPrice = (items: any[]) => {
+    let total = 0;
+    items.forEach((item) => {
+      const price = parseInt(item.price?.toString());
+      if (!isNaN(price) && typeof item.quantity === "number") {
+        total += price * item.quantity;
+      }
+    });
+    return total;
+  };
+  let totalCart = buyNow
+    ? calculateTotalPrice(finalBuyNowItems)
+    : calculateTotalPrice(MainCart);
 
   // let totalCart = 0;
   // MainCart.forEach((item) => {
@@ -262,59 +243,58 @@ const calculateTotalPrice = (items: any[]) => {
   // });
   let formattedPrice: string = totalCart.toString();
 
-const handleOrderComplete = async () => {
-  try {
-    console.log("handleOrderComplete called");
+  const handleOrderComplete = async () => {
+    try {
+      console.log("handleOrderComplete called");
 
-    const cookieToken = Cookies.get("localtoken");
-    let cartData;
+      const cookieToken = Cookies.get("localtoken");
+      let cartData;
 
-     if (buyNow) {
-       console.log("Removing buy now items from cart:", finalBuyNowItems);
-       for (const item of finalBuyNowItems) {
-         await removeFromCart(item.productId);
-       }
-     } else {
-       console.log("Removing all items from cart:", MainCart);
-       cartData = MainCart.map((item) => ({
-         productId: item.productId,
-         quantity: 0,
-       }));
-     }
-
-    const response = await axios.post(
-      `${baseUrl}${removeCart}`,
-      { cart: cartData },
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
+      if (buyNow) {
+        console.log("Removing buy now items from cart:", finalBuyNowItems);
+        for (const item of finalBuyNowItems) {
+          await removeFromCart(item.productId);
+        }
+      } else {
+        console.log("Removing all items from cart:", MainCart);
+        cartData = MainCart.map((item) => ({
+          productId: item.productId,
+          quantity: 0,
+        }));
       }
-    );
-localStorage.removeItem("cartItems")
-    console.log("API response:", response.data);
 
-    setCartItems([]);
-    setIsOrderPlaced(true);
-    setSelectedShippingAddress(null);
-    setSelectedBillingAddress(null);
-    setSelectedPaymentMethod("");
-    setFlashMessage("Your order has been placed successfully!");
-    setFlashType("success");
-    setFlashKey((prevKey) => prevKey + 1);
+      const response = await axios.post(
+        `${baseUrl}${removeCart}`,
+        { cart: cartData },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
+      localStorage.removeItem("cartItems");
+      console.log("API response:", response.data);
 
-    console.log("Order placed, cart cleared, flash message set");
-  } catch (error) {
-    console.error("Error completing order:", error);
-    setFlashMessage("There was an error placing your order.");
-    setFlashType("error");
-    setFlashKey((prevKey) => prevKey + 1);
-  }
-};
+      setCartItems([]);
+      setIsOrderPlaced(true);
+      setSelectedShippingAddress(null);
+      setSelectedBillingAddress(null);
+      setSelectedPaymentMethod("");
+      setFlashMessage("Your order has been placed successfully!");
+      setFlashType("success");
+      setFlashKey((prevKey) => prevKey + 1);
+
+      console.log("Order placed, cart cleared, flash message set");
+    } catch (error) {
+      console.error("Error completing order:", error);
+      setFlashMessage("There was an error placing your order.");
+      setFlashType("error");
+      setFlashKey((prevKey) => prevKey + 1);
+    }
+  };
 
   const validateDeliveryDetails = () => {
     if (!shippingAddressSelected) {
-
       setFlashMessage("Please select a shipping address before proceeding.");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
@@ -431,8 +411,9 @@ localStorage.removeItem("cartItems")
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
-            }`}
+          className={`text-2xl rounded-full ${
+            selectedStep === 0 ? "text-white" : "text-white"
+          }`}
         />
       ),
       label: "Cart",
@@ -440,8 +421,9 @@ localStorage.removeItem("cartItems")
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -449,8 +431,9 @@ localStorage.removeItem("cartItems")
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
-            }`}
+          className={`text-2xl  ${
+            selectedStep === 2 ? "text-white" : "text-black"
+          }`}
         />
       ),
       label: "Payment",
@@ -629,7 +612,9 @@ localStorage.removeItem("cartItems")
                     </div>
                     {GiftWrapformData.name.length !== 0 && (
                       <div className="p-2  text-wrap m-2 bg-gray-100">
-                        <div><b>Gift Message :</b> {GiftWrapformData.name}</div>
+                        <div>
+                          <b>Gift Message :</b> {GiftWrapformData.name}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -720,7 +705,11 @@ localStorage.removeItem("cartItems")
               }).format(Math.round(parseInt(totalPrice.toString())))}
             </p>
             <Link href="#order-summary">
-            <p className="text-[#e26178] cursor-pointer"> View Order Summary</p></Link>
+              <p className="text-[#e26178] cursor-pointer">
+                {" "}
+                View Order Summary
+              </p>
+            </Link>
           </div>
           <div
             className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"

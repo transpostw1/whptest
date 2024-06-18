@@ -1,4 +1,4 @@
-import { useRouter,usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useUser } from "../context/UserContext";
 
@@ -9,11 +9,11 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isLoggedIn } = useUser();
   const router = useRouter();
-   const pathname = usePathname(); 
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!isLoggedIn) {
-           localStorage.setItem("redirectPath",pathname);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
     }
   }, [isLoggedIn, router]);
@@ -21,7 +21,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (!isLoggedIn) {
     return null;
   }
-  
 
   return <>{children}</>;
 };

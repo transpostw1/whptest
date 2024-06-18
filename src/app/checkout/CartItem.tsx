@@ -71,7 +71,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       };
       addToWishlist(productToAdd);
     } else {
-      console.log(product,"prrroodd")
       const productToAdd: ProductForWishlistLoggedOut = {
         productId: product.productId,
         title: product.name,
@@ -81,7 +80,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         image_path: product.image,
         url: product.url,
       };
-      console.log(productToAdd,"ADdeddd")
       addToWishlist(productToAdd);
     }
 
@@ -98,7 +96,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   return (
     <div>
-      {loading||isloading ? (
+      {isloading ? (
         <div className="justify-between p-4 border rounded-lg border-gray-400 flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
           <Skeleton height={100} width={100} />
           <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">

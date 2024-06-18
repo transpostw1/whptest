@@ -70,7 +70,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
@@ -275,7 +274,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30}/>
+                      <Icon.Headset size={30} />
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -292,9 +291,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             }`}
                           >
                             <Icon.User size={28} />
-                            <p className="text-sm">
-                              {userDetails?.firstname}
-                            </p>
+                            <p className="text-sm">{userDetails?.firstname}</p>
                           </div>
                         </>
                       ) : (

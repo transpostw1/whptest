@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, useState,useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+} from "react";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl, baseUrl, updateProfile } from "@/utils/constants";
 import instance from "@/utils/axios";
@@ -70,19 +76,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const cookieToken = Cookies.get("localtoken");
 
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     localStorage.clear();
+  //   };
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.clear();
-    };
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   const logIn = async () => {
     dispatch({ type: "LOG_IN" });

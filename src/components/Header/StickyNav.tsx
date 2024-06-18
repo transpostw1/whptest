@@ -85,7 +85,7 @@ const StickyNav = () => {
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
-              <Icon.Percent size={25} />
+              <Icon.SealPercent size={25} />
               <p>Offers</p>
             </div>
           </Link>

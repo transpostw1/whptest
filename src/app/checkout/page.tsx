@@ -469,7 +469,7 @@ localStorage.removeItem("cartItems")
       {/* <ProtectedRoute> */}
       <div className="cart-block flex-wrap mb-8">
         <div className="content-main flex flex-col justify-between lg:px-14 px-5">
-          <div className="flex w-full justify-between items-center bg-[#F8F3F466]">
+          <div className="flex w-full justify-between items-center bg-[#F8F3F466] mt-4">
             <div className="flex gap-3">
               {isOrderPlaced ? (
                 <div className="flex">

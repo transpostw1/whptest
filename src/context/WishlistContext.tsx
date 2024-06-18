@@ -4,14 +4,15 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import instance from "@/utils/axios";
 import axios from "axios";
 import { useUser } from "./UserContext";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+
 import {
   baseUrl,
   addwishlist,
   removewishlist,
   getwishlisted,
+  graphqlbaseUrl
 } from "@/utils/constants";
-import { ApolloClient,InMemoryCache,HttpLink,gql } from "@apollo/client";
-import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
   ProductType,
@@ -21,6 +22,17 @@ import {
 } from "@/type/ProductType";
 
 interface WishlistItem {
+  displayTitle: ReactNode;
+  productDetails?: {
+    productId: number;
+    title: string;
+    productPrice: string;
+    discountPrice: string;
+    discountValue: string;
+    image_path: string;
+    imageDetails: any;
+    url: string;
+  }
   productId: number;
   title: string;
   productPrice: string;
@@ -75,45 +87,45 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [isLoggedIn]);
 
-useEffect(() => {
-  const fetchWishlistItems = async () => {
-    if (!cookieToken && isLoggedIn) return;
-    try {
-      let localWishlistItems = [];
-      if (typeof window !== "undefined") {
-        localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
+  useEffect(() => {
+    const fetchWishlistItems = async () => {
+      if (!cookieToken && isLoggedIn) return;
+      try {
+        let localWishlistItems = [];
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
+          );
+        }
+
+        // If user is logged in and there are local wishlist items
+        if (isLoggedIn && localWishlistItems.length > 0) {
+          // Extract productIds from local wishlist items
+          const productIds = localWishlistItems.map((item) => item.productId);
+          // Add local wishlist items to the server by passing only productIds
+          const promises = productIds.map((productId) =>
+            instance.get(`${baseUrl}${addwishlist}`, {
+              params: { productId: productId },
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+              },
+            })
+          );
+          await Promise.all(promises);
+          localStorage.removeItem("wishlistItems");
+        }
+
+        // Fetch wishlist items from the server
+        const wishlistData = await getWishlist();
+
+        setWishlistItems(wishlistData);
+      } catch (error) {
+        console.error("Error fetching or adding wishlist items:", error);
       }
+    };
 
-      // If user is logged in and there are local wishlist items
-      if (isLoggedIn && localWishlistItems.length > 0) {
-        // Extract productIds from local wishlist items
-        const productIds = localWishlistItems.map((item) => item.productId);
-        // Add local wishlist items to the server by passing only productIds
-        const promises = productIds.map((productId) =>
-          instance.get(`${baseUrl}${addwishlist}`, {
-            params: { productId: productId },
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
-          })
-        );
-        await Promise.all(promises);
-        localStorage.removeItem("wishlistItems");
-      }
-
-      // Fetch wishlist items from the server
-      const wishlistData = await getWishlist();
-
-      setWishlistItems(wishlistData);
-    } catch (error) {
-      console.error("Error fetching or adding wishlist items:", error);
-    }
-  };
-
-  fetchWishlistItems();
-}, [isLoggedIn, cookieToken]);
+    fetchWishlistItems();
+  }, [isLoggedIn, cookieToken]);
 
 
   const normalizeImagePath = (
@@ -272,115 +284,72 @@ useEffect(() => {
     }
   };
 
-  // const getWishlist = async (): Promise<WishlistItem[]> => {
-  //   try {
-  //     if (isLoggedIn) {
-  //       const response = await axios.get(`${baseUrl}${getwishlisted}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${cookieToken}`,
-  //         },
-  //       });
-  //       console.log(response.data,"RESPONSE DATA....")
-  //       return response.data;
-  //     } else {
-  //       let localWishlistItems = null;
-  //       if (typeof window !== "undefined") {
-  //         localWishlistItems = JSON.parse(
-  //           localStorage.getItem("wishlistItems") || "[]"
-  //         );
-  //       }
-  //       return localWishlistItems;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching wishlist items:", error);
-  //     return [];
-  //   }
-  // };
-
-const getWishlist = async (): Promise<WishlistItem[]> => {
-  try {
+  const getWishlist = async (): Promise<WishlistItem[]> => {
+    try {
+      if (isLoggedIn) {
+        console.log(cookieToken, "wishlistToken");
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
             authorization: `Bearer ${cookieToken}`,
           };
         };
-
         const link = new HttpLink({
           uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
         });
-
         const client = new ApolloClient({
           link,
           cache: new InMemoryCache(),
         });
-        const GET_CUSTOMER_WISHLIST = gql`
-          query GetCustomerWishlist($token: String!) {
-            getCustomerWishlist(token: $token) {
-              productId
-              productAmount
-              quantity
-              url
-              SKU
-              variantId
-              productTotal
-              metalType
-              metalWeight
-              discountAmount
-              discountValue
-              typeOfDiscount
-              discountedTotal
-              displayTitle
-              productPrice
-              discountPrice
-              mediaId
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              rating
+
+        const GET_WISHLIST = gql`query GetCustomerWishlist($token: String!) {
+          getCustomerWishlist(token: $token) {
+            productId
+            url
+            discountValue
+            typeOfDiscount
+            displayTitle
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
+            }
+            videoDetails {
+              video_path
+              order
+              alt_text
             }
           }
+        }
         `;
-
-    if (isLoggedIn) {
         const variables = { token: cookieToken };
-      const { data } = await client.query({
-        query: GET_CUSTOMER_WISHLIST,
-        variables
-      });
-      return data.getCustomerWishlist.map((item) => ({
-        productId: item.productId,
-        title: item.displayTitle,
-        productPrice: item.productPrice,
-        discountPrice: item.discountPrice,
-        discountValue: item.discountValue,
-        image_path: item.imageDetails[0]?.image_path || "",
-        url: item.url,
-      }));
-    } else {
-      let localWishlistItems = [];
-      if (typeof window !== "undefined") {
-        localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
+        const { data } = await client.query({
+          query: GET_WISHLIST,
+          variables,
+        });
+        console.log(data.getCustomerWishlist, "RESPONSE DATA....")
+        return data.getCustomerWishlist;
+      } else {
+        let localWishlistItems = null;
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
+          );
+        }
+        // const localWishlistItems = JSON.parse(
+        //   localStorage.getItem("wishlistItems") || "[]"
+        // );
+        return localWishlistItems;
       }
-      return localWishlistItems;
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
+      return [];
     }
-  } catch (error) {
-    console.error("Error fetching wishlist items:", error);
-    return [];
-  }
-};
-
-
+  };
 
   const value: WishlistContextProps = {
     wishlistItems,

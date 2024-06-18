@@ -1,5 +1,4 @@
-import axios from "axios";
-import { baseUrl, getCartItems, graphqlbaseUrl } from "./constants";
+import {  graphqlbaseUrl } from "./constants";
 import Cookies from "js-cookie";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 

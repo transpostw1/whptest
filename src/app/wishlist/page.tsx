@@ -126,6 +126,8 @@ const Wishlist = () => {
     setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
   };
 
+  console.log(filteredWishlistItems)
+
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
@@ -139,12 +141,12 @@ const Wishlist = () => {
             </div>
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
-              {filteredWishlistItems.map((product, index) => (
+              {filteredWishlistItems?.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[80%]">
                     <div
                       className="product-image flex justify-center"
-                      onClick={() => router.push(`/products/${product.url}`)}
+                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
                     >
                       {isLoggedIn && imageLoading[product.productId] ? (
                         <Skeleton
@@ -208,23 +210,19 @@ const Wishlist = () => {
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
-                        {product.title}
+                        {product.displayTitle}
                       </h3>
                       <div className="flex items-center gap-2">
-                        {product.discountPrice ? (
-                          <p className="product-price flex flex-col">
-                            <span className="discounted-price text-title text-lg">
-                              {formatCurrency(product.discountPrice)}
-                            </span>
-                            <span className="original-price line-through text-[#beb3b3]">
-                              {formatCurrency(product.productPrice)}
-                            </span>
-                          </p>
-                        ) : (
-                          <p className="product-price text-title text-lg mb-6">
+                        <p className="product-price flex flex-col">
+                          <span className="discounted-price text-title text-lg">
+                            {product.discountPrice
+                              ? formatCurrency(product.discountPrice)
+                              : formatCurrency(product.productPrice)}
+                          </span>
+                          <span className="original-price line-through text-[#beb3b3]">
                             {formatCurrency(product.productPrice)}
-                          </p>
-                        )}
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">

@@ -42,17 +42,18 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       <div className="flex">
         <p className="mr-1">Tracking Status:</p>
         <p className="text-green-600 font-bold text-lg">
-          {singleOrder[0]?.order_list.name}
+          {singleOrder[0]?.orderStatus}
         </p>
       </div>
 
-      {singleOrder[0]?.productDetails.map((items: any, index: any) => (
+      {singleOrder?.map((items: any, index: any) => (
         <div
           key={index}
-          className="flex justify-between p-4 border border-gray items-center"
+          className=" p-4 border border-gray items-center"
         >
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex" key={index}>
+            <div className="flex justify-between border-b" key={index}>
+              <div className="flex">
               <div className="mr-3">
                 <Image
                   src={product?.imageDetails[0].image_path}
@@ -64,25 +65,25 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               </div>
 
               <p className=" font-semibold">{product?.displayTitle}</p>
+              </div>
+              <div className="font-semibold">
+                ₹
+                {Intl.NumberFormat("en-IN", {
+                  minimumFractionDigits: 2,
+                }).format(
+                  Math.round(
+                    parseInt(product?.discountedTotal) * parseInt(product?.quantity)
+                  )
+                )}
+              </div>
             </div>
           ))}
-
-          <div className="font-semibold">
-            ₹
-            {Intl.NumberFormat("en-IN", {
-              minimumFractionDigits: 2,
-            }).format(
-              Math.round(
-                parseInt(items?.discountedTotal) * parseInt(items?.quantity)
-              )
-            )}
-          </div>
         </div>
       ))}
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 ">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 px-2 ">
         Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 ">
+      <div className="flex justify-end border-gray border border-b-0 border-t-0 px-2 ">
         Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>
       <div className="flex justify-end border-gray border rounded-b-md p-2">
@@ -155,7 +156,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
-      singleOrder[0]?.orderStatus === "5" ? null : (
+        singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 pr-[6px] rounded-sm">
             Order Cancel

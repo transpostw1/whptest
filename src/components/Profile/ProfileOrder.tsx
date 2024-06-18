@@ -91,9 +91,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
-      {Array.isArray(singleOrder) && singleOrder.length == 0 && (
-        <div>No Order Found</div>
-      )}
+      {Array.isArray(singleOrder) && singleOrder.length == 0 && (<div>No Order Found</div>)}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">
           {Array.isArray(orders) &&
@@ -103,7 +101,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                 className="border border-gray-200 rounded-lg shadow hover:bg-[#E26178] hover:bg-opacity-5 hover:scale-[1.02] hover:border-[#E26178]   mb-4 cursor-pointer"
                 onClick={() => handleOrderDetails(item.id)}
               >
-                <div className="flex p-2 border-b-2 justify-between">
+                <div className="flex p-4 border-b-2 justify-between">
                   <div className="flex">
                     <p>Order ID:{item.orderNo}</p>
                     <p className="bg-[#e26178] rounded-full text-transparent w-2 h-2 ml-2 mt-2">
@@ -120,15 +118,12 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     </p>
                   </div>
                   <div className="text-green-600 font-bold">
-                    {item?.order_list?.name}
+                    {item?.orderStatus}
                   </div>
                 </div>
-
                 {item.productDetails.map((product: any, index: any) => (
-                  <div
-                    key={index}
-                    className="flex justify-between border-b-2 p-4"
-                  >
+                  <div className="flex justify-between p-4" key={index}>
+                    <div className="flex">
                     <div className="mr-3">
                       <Image
                         src={product?.imageDetails[0]?.image_path}
@@ -146,17 +141,19 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                       <p>
                         {product?.metalType}-{product?.metalWeight}
                       </p>
-                      <p>Quantity:{product.quantity}</p>
+                      <p>Quantity:{product?.quantity}</p>
+                    </div>
+                    </div>
+                    <div className="font-semibold">
+                      ₹
+                      {Intl.NumberFormat("en-IN", {
+                        minimumFractionDigits: 2,
+                      }).format(Math.round(parseInt(item?.discountedTotal)))}
                     </div>
                   </div>
                 ))}
 
-                <div className="font-semibold">
-                  ₹
-                  {Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(Math.round(parseInt(item?.discountedTotal)))}
-                </div>
+
               </div>
             ))}
         </div>

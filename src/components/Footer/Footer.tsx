@@ -214,21 +214,21 @@ const Footer = () => {
                     <div className="font-semibold">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={{ pathname: "/products", query: { url: "chain" } }}
+                      href={{ pathname: "/products", query: { url: "c-chain" } }}
                       onClick={() => setCustomcategory("chain")}
                     >
                       Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{ pathname: "/products", query: { url: "bangle" } }}
+                      href={{ pathname: "/products", query: { url: "c-bangle" } }}
                       onClick={() => setCustomcategory("bangle")}
                     >
                       Bangles
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{ pathname: "/products", query: { url: "ring" } }}
+                      href={{ pathname: "/products", query: { url: "c-ring" } }}
                       onClick={() => setCustomcategory("ring")}
                     >
                       Rings
@@ -239,7 +239,7 @@ const Footer = () => {
                         pathname: "/products",
                         query: { url: "necklace" },
                       }}
-                      onClick={() => setCustomcategory("necklace")}
+                      onClick={() => setCustomcategory("c-necklace")}
                     >
                       Necklaces
                     </Link>

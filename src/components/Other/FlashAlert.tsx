@@ -15,7 +15,7 @@ const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'
         setShow(true);
         const timer = setTimeout(() => {
           setShow(false);
-        }, 3000);
+        }, 4000);
         return () => clearTimeout(timer);
       }
     }, [message]);

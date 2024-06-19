@@ -8,6 +8,7 @@ export const login = "/login";
 export const addCart = "/cart/sync";
 export const removeCart = "/cart/sync";
 export const cartUpdate = "/cart/sync";
+export const syncCart = "/cart/sync";
 export const addAddress = "/customer/address";
 export const coupon = "/coupon";
 export const updateProfile = "/customer/details";

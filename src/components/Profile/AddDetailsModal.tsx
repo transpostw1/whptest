@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useUser } from "@/context/UserContext";
+import FlashAlert from "../Other/FlashAlert";
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,7 +25,8 @@ interface FormValues {
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const { addUserDetails, userDetails } = useUser();
+  const { addUserDetails, userDetails, error, flashMessage, flashType } =
+    useUser();
 
 
   const handleSubmit = async (values: FormValues) => {
@@ -113,7 +114,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         event.currentTarget.files[0]
                       );
                     } else {
-                      formik.setFieldValue("profilePicture", null); // Set to null if no file is selected
+                      formik.setFieldValue("profilePicture", null);
                     }
                   }}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none border-gray-300 focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -353,6 +354,9 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             {isLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
+        {(flashMessage || error) && (
+          <FlashAlert message={flashMessage || error} type={flashType} />
+        )}
       </div>
     </div>
   );

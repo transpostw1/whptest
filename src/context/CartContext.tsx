@@ -2,7 +2,7 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, syncCart } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
@@ -124,7 +124,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           quantity: item.productId === productId ? 0 : item.quantity || 0,
         }));
         const response = await instance.post(
-          `${baseUrl}/cart/sync`,
+          `${baseUrl}${syncCart}`,
           { cart: cartData },
           {
             headers: {
@@ -177,7 +177,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         quantity: item.quantity || 0,
       }));
       const response = await instance.post(
-        `${baseUrl}/cart/sync`,
+        `${baseUrl}${syncCart}`,
         { cart: cartData },
         {
           headers: {

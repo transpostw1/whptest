@@ -1,13 +1,14 @@
-// export const baseUrl="http://172.16.100.61:8000/api";
+
 export const baseUrl = "https://whpapi.transpost.co/api";
 // export const baseUrl = "http://172.16.100.87:8005/api";
 // export const baseUrl="http://127.0.0.1:8001/api"
-export const graphqlbaseUrl="http://localhost:4000/graphql"
+export const graphqlbaseUrl = "https://monkfish-app-9plxl.ondigitalocean.app/graphql";
 export const signup = "/signup";
 export const login = "/login";
 export const addCart = "/cart/sync";
 export const removeCart = "/cart/sync";
 export const cartUpdate = "/cart/sync";
+export const syncCart = "/cart/sync";
 export const addAddress = "/customer/address";
 export const coupon = "/coupon";
 export const updateProfile = "/customer/details";

@@ -179,7 +179,7 @@ const Checkout: React.FC = () => {
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-console.log(cartItems,"cartttt")
+  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>

@@ -39,11 +39,6 @@ const Register = () => {
 
   return (
     <>
-      {/* <TopNavOne textColor="text-white" />
-      <NavTwo props="style-three bg-white" />
-      <div id="header" className="relative w-full">
-        <NavHoverMenu props="bg-white" />
-      </div> */}
       <div className="register-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col">
@@ -146,11 +141,7 @@ const Register = () => {
             <div className="right md:w-1/2 w-full lg:pl-[60px] md:pl-[40px] flex items-center">
               <div className="text-content">
                 <div className="heading4">Already have an account?</div>
-                <div className="mt-2 text-secondary">
-                  Welcome back. Sign in to access your personalized experience,
-                  saved preferences, and more. We{String.raw`'re`} thrilled to
-                  have you with us again!
-                </div>
+                
                 <div className="block-button md:mt-7 mt-4">
                   <Link href={"/login"} className="button-main">
                     Login

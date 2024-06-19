@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useUser } from "@/context/UserContext";
-import FlashAlert from "../Other/FlashAlert";
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,8 +25,7 @@ interface FormValues {
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const { addUserDetails, userDetails, error, flashMessage, flashType } =
-    useUser();
+  const { addUserDetails, userDetails } = useUser();
 
 
   const handleSubmit = async (values: FormValues) => {
@@ -347,16 +346,13 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition-colors ${
+            className={`bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 px-4 rounded-lg transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isLoading ? "Submitting..." : "Submit"}
+            {isLoading ? "Updating..." : "Add Details"}
           </button>
         </form>
-        {(flashMessage || error) && (
-          <FlashAlert message={flashMessage || error} type={flashType} />
-        )}
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ import { useCategory } from "@/context/CategoryContex";
 import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
-import OtpVerification from "@/app/OtpVerification";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
 import axios from "axios";

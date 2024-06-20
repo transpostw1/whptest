@@ -15,7 +15,6 @@ import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import {
   ProductType,
-  ProductData,
   ProductForWishlistLoggedIn,
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
@@ -151,8 +150,6 @@ useEffect(() => {
           // const localWishlistItems = JSON.parse(
           //   localStorage.getItem("wishlistItems") || "[]"
           // );
-
-          // Add the local wishlist items to the database if they are not already present
           const dbWishlistItems = await getWishlist();
           const localItemsToAdd = localWishlistItems.filter(
             (item: WishlistItem) =>
@@ -218,9 +215,7 @@ useEffect(() => {
                   productPrice: product.productPrice,
                   discountPrice: product.discountPrice,
                   discountValue: product.discountValue,
-                  // image_path: product.imageDetails[0].image_path,
                   image_path: normalizeImagePath(product.image_path),
-                  // image_path: product.imageDetails[0].image_path,
                   url: product.url,
                 },
               ];
@@ -272,31 +267,6 @@ useEffect(() => {
       console.error("Error removing product from wishlist:", error);
     }
   };
-
-  // const getWishlist = async (): Promise<WishlistItem[]> => {
-  //   try {
-  //     if (isLoggedIn) {
-  //       const response = await axios.get(`${baseUrl}${getwishlisted}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${cookieToken}`,
-  //         },
-  //       });
-  //       console.log(response.data,"RESPONSE DATA....")
-  //       return response.data;
-  //     } else {
-  //       let localWishlistItems = null;
-  //       if (typeof window !== "undefined") {
-  //         localWishlistItems = JSON.parse(
-  //           localStorage.getItem("wishlistItems") || "[]"
-  //         );
-  //       }
-  //       return localWishlistItems;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching wishlist items:", error);
-  //     return [];
-  //   }
-  // };
 
   const getWishlist = async (): Promise<WishlistItem[]> => {
     try {
@@ -362,7 +332,7 @@ useEffect(() => {
           // },
         });
 
-        return data.getCustomerWishlist.map((item) => ({
+        return data.getCustomerWishlist.map((item:any) => ({
           productId: item.productId,
           title: item.displayTitle,
           productPrice: item.productPrice,

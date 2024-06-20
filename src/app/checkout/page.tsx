@@ -25,7 +25,7 @@ import {
 import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
-import { baseUrl, removeCart, coupon } from "@/utils/constants";
+import { baseUrl, syncCart, coupon } from "@/utils/constants";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
@@ -179,7 +179,7 @@ const Checkout: React.FC = () => {
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-console.log(cartItems,"cartttt")
+  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -264,7 +264,7 @@ console.log(cartItems,"cartttt")
       }
 
       const response = await axios.post(
-        `${baseUrl}${removeCart}`,
+        `${baseUrl}${syncCart}`,
         { cart: cartData },
         {
           headers: {

@@ -113,7 +113,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         event.currentTarget.files[0]
                       );
                     } else {
-                      formik.setFieldValue("profilePicture", null); // Set to null if no file is selected
+                      formik.setFieldValue("profilePicture", null);
                     }
                   }}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none border-gray-300 focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -208,7 +208,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   {...formik.getFieldProps("phone")}
                   value={formik.values.phone}
                   readOnly
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-400 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.phone ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
@@ -346,11 +346,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition-colors ${
+            className={`bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 px-4 rounded-lg transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isLoading ? "Submitting..." : "Submit"}
+            {isLoading ? "Updating..." : "Add Details"}
           </button>
         </form>
       </div>

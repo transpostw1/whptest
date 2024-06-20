@@ -1,7 +1,39 @@
-import React from 'react'
-import Image from 'next/image';
+import React, { useState} from "react";
+import Image from "next/image";
+import { useFormik } from "formik";
+import { baseUrl } from "@/utils/constants";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
+import PhoneInput from "react-phone-input-2";
+import axios from "axios";
+import "react-phone-input-2/lib/style.css";
+import * as Yup from "yup";
 
 const Card = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState<any>(null);
+
+  const handleSubmit = async () => {
+    event?.preventDefault();
+    const response = await axios.post(`${baseUrl}/subscribe`, {
+      phone: "+" + phoneNumber,
+    });
+    setMessage(response.data.message);
+  };
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string().required("Phone number is required"),
+  });
+  const formik = useFormik({
+    initialValues: {
+      phoneNumber: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values, { setSubmitting }) => {
+      setTimeout(() => {
+        handleSubmit();
+        setSubmitting(false);
+      }, 400);
+    },
+  });
   return (
     <div className="rounded-lg shadow-md p-6 mx-4 my-8 flex flex-col items-center md:flex-row md:items-start md:justify-between border bg-[#FDF6F7] ">
       <div className=" w-full">
@@ -12,18 +44,32 @@ const Card = () => {
           Subscribe to our newsletter and be the first to access exclusive
           jewelry insights, style tips, and dazzling updates.
         </p>
-        <div className="flex flex-col md:flex-row md:gap-0 gap-3 ">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <button
-            type="button"
-            className="bg-[#E26178] text-white px-6 py-2 rounded-r-md hover:bg-[#c5435b] transition-colors duration-300"
+        <div className="input-block h-[52px] mt-2 relative">
+          <form
+            className="flex justify-center lg:justify-start"
+            action="post"
+            onSubmit={handleSubmit}
           >
-            Subscribe
-          </button>
+            <div className="caption1">
+              <PhoneInput
+                country={"in"}
+                value={formik.values.phoneNumber}
+                onChange={(value) => {
+                  setPhoneNumber(value);
+                  formik.handleChange("phoneNumber")(value);
+                }}
+                inputStyle={{ width: "250px" }}
+                // containerClass="custom-phone-input"
+              />
+            </div>
+
+            <button
+              className=" flex items-center justify-center relative ms-[-2rem] "
+              type="submit"
+            >
+              <Icon.ArrowRight size={24} color="#e26178" />
+            </button>
+          </form>
         </div>
       </div>
       <div className="mt-6 md:mt-0 flex justify-center md:justify-end">
@@ -44,6 +90,6 @@ const Card = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Card
+export default Card;

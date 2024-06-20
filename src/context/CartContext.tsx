@@ -2,12 +2,15 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import instance from "@/utils/axios";
-import { baseUrl, syncCart } from "@/utils/constants";
+import { baseUrl, syncCart, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { AnyARecord } from "dns";
+
 
 interface CartItem {
   productDetails: {
@@ -123,16 +126,54 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           productId: item.productId,
           quantity: item.productId === productId ? 0 : item.quantity || 0,
         }));
-        const response = await instance.post(
-          `${baseUrl}${syncCart}`,
-          { cart: cartData },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
+        const getAuthHeaders: any = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        console.log(typeof (cartData), "CartData");
+        const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
+            details {
+              synced {
+                productId
+                productTitle
+                productImage
+                productPrice
+                quantity
+              }
+              failed {
+                productId
+                message
+              }
+              deleted {
+                productId
+                message
+              }
+            }
           }
-        );
-        const updatedCartFromServer = response.data.updatedCart || [];
+        }`;
+
+        const { data } = await client.mutate({
+          mutation: SYNC_CART,
+          variables: {
+            cartItems: cartData,
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        const updatedCartFromServer = data.cartSync.details.synced || [];
         if (
           updatedCartFromServer.length === 1 &&
           updatedCartFromServer[0].productId === productId
@@ -176,16 +217,37 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
-      const response = await instance.post(
-        `${baseUrl}${syncCart}`,
-        { cart: cartData },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
-        }
-      );
 
+      const getAuthHeaders: any = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      console.log(typeof (cartData), "CartData");
+      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+        cartSync(cartItems: $cartItems) {
+          message
+        }
+      }`;
+
+      const { data } = await client.mutate({
+        mutation: SYNC_CART,
+        variables: {
+          cartItems: cartData,
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
       const cartItemsFromServer = await fetchCartItemsFromServer();
       setCartItems(cartItemsFromServer);
       setLoading(false);

@@ -24,7 +24,6 @@ const CartItems: React.FC<CartItemsProps> = ({
   }, []);
 
   const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
-
   return (
     <div>
       <h1 className="text-2xl">Your Shopping Bag</h1>
@@ -36,7 +35,9 @@ const CartItems: React.FC<CartItemsProps> = ({
             <Skeleton height={80} />
           </div>
         ) : cartItems?.length < 1 ? (
-          <p className="text-button pt-3">No products in your cart</p>
+          <p className="text-xl text-center font-medium text-[#e26178] animate-pulse pt-9">
+            There is nothing here!
+          </p>
         ) : (
           filteredCartItems?.map((product) => (
             <CartItem

@@ -93,7 +93,7 @@ const WhatWeOffer = () => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "c-new_arrival" },
+                      query: { url: "c-new_Arrival" },
                     }}
                     className="inline-flex items-center"
                   >

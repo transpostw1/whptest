@@ -36,6 +36,9 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       setLoading(false);
     }
   };
+
+  console.log(singleOrder);
+
   if (loading) {
     return (
       <div className="loading-container flex justify-center items-center h-full">
@@ -55,55 +58,55 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         <div className="flex">
           <p className="mr-1">Tracking Status:</p>
           <p className="text-green-600 font-bold text-lg">
-            {singleOrder[0]?.order_list.name}
+            {singleOrder[0]?.orderStatus}
           </p>
         </div>
       </div>
-      
-      {singleOrder[0]?.productDetails.map((items: any, index: any) => (
+
+      {singleOrder?.map((items: any, index: any) => (
         <div
           key={index}
-          className="flex justify-between p-4 border border-gray items-center"
+          className="p-4 border border-gray items-center"
         >
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex" key={index}>
-              <div className="mr-3">
-                <Image
-                  src={product?.imageDetails[0].image_path}
-                  alt={"image"}
-                  width={85}
-                  height={85}
-                  className="bg-[#f7f7f7]"
-                />
+            <div className="flex justify-between items-center py-2" key={index}>
+              <div className="flex">
+                <div className="mr-3">
+                  <Image
+                    src={product?.imageDetails[0].image_path}
+                    alt={"image"}
+                    width={85}
+                    height={85}
+                    className="bg-[#f7f7f7]"
+                  />
+                </div>
+                <div className="flex justify-center flex-col content-start ">
+                  <p className=" font-semibold">{product?.displayTitle}</p>
+                  <p>
+                    {product?.metalType}-{product?.metalWeight}
+                  </p>
+                </div>
               </div>
-              <div className="flex justify-center flex-col content-start ">
-                <p className=" font-semibold">{product?.displayTitle}</p>
-                <p>
-                  {product?.metalType}-{product?.metalWeight}
-                </p>
+              <p>
+
+                ₹
+                {Intl.NumberFormat("en-IN", {
+                  minimumFractionDigits: 2,
+                }).format(Math.round(parseInt(product?.discountedTotal)))}
+              </p>
+              <p>{product?.quantity}</p>
+              <div className="font-semibold">
+                ₹
+                {Intl.NumberFormat("en-IN", {
+                  minimumFractionDigits: 2,
+                }).format(
+                  Math.round(
+                    parseInt(product?.discountedTotal) * parseInt(product?.quantity)
+                  )
+                )}
               </div>
             </div>
           ))}
-          <p>
-            
-              ₹
-              {Intl.NumberFormat("en-IN", {
-                minimumFractionDigits: 2,
-              }).format(Math.round(parseInt(items?.discountedTotal)))}
-            
-          </p>
-          <p>{items?.quantity}</p>
-
-          <div className="font-semibold">
-            ₹
-            {Intl.NumberFormat("en-IN", {
-              minimumFractionDigits: 2,
-            }).format(
-              Math.round(
-                parseInt(items?.discountedTotal) * parseInt(items?.quantity)
-              )
-            )}
-          </div>
           {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
@@ -183,7 +186,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
-      singleOrder[0]?.orderStatus === "5" ? null : (
+        singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
             Order Cancel

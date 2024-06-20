@@ -1,10 +1,30 @@
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  gql,
+  HttpLink,
+  ApolloLink,
+  concat,
+} from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
+import Cookies from "js-cookie";
 
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: "http://localhost:4000/graphql",
-  }),
-  cache: new InMemoryCache(),
+const httpLink = new HttpLink({
+  uri: graphqlbaseUrl,
 });
 
-export default client;
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token = Cookies.get("localtoken");
+  console.log("Token from authMiddleware:", token); // Debug line
+  operation.setContext({
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  });
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: concat(authMiddleware, httpLink),
+  cache: new InMemoryCache(),
+});

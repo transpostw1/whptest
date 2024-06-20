@@ -45,6 +45,7 @@ const StickyNav = () => {
   if (!isMobile) {
     return null;
   }
+  
 
   return (
     <>
@@ -84,7 +85,7 @@ const StickyNav = () => {
               } flex flex-col items-center`}
               onClick={() => handleOptionClicked(3)}
             >
-              <Icon.Percent size={25} />
+              <Icon.SealPercent size={25} />
               <p>Offers</p>
             </div>
           </Link>
@@ -96,11 +97,7 @@ const StickyNav = () => {
               onClick={() => handleOptionClicked(4)}
             >
               <Icon.User size={25} />
-              {isLoggedIn ? (
-                <p>{userDetails?.customer?.firstname}</p>
-              ) : (
-                <p>Login</p>
-              )}
+              {isLoggedIn ? <p> {userDetails?.firstname}</p> : <p>Login</p>}
             </div>
           </Link>
           <Link href={"/checkout"}>

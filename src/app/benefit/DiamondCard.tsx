@@ -31,7 +31,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const handleIncrement = () => {
     if (monthlyDeposit % 1000 !== 0) {
@@ -88,7 +88,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
 
     try {
       setLoading(true);
-      setBackendError(null); 
+      setBackendError(null);
       const response = await instance.post(
         `${baseUrl}${gms}`,
         {
@@ -170,10 +170,10 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>50% Discount on 12th installment</h1>
+              <h1>100% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{(monthlyDeposit * 0.5).toLocaleString("en-IN")}</h1>
+              <h1>₹{(monthlyDeposit * 1).toLocaleString("en-IN")}</h1>
             </div>
           </div>
           <div className="flex justify-between">

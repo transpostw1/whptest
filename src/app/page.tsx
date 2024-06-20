@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -20,17 +20,25 @@ import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
+import Head from "next/head";
 
 export default function Home() {
   const { products } = useProductContext();
- 
+
   let logged = null;
-  if (typeof window != "undefined") {
+  if (typeof window !== "undefined") {
     logged = localStorage.getItem("isLoggedIn");
   }
 
   return (
     <>
+      <Head>
+        <title>Home - WHP Web</title>
+        <meta
+          name="description"
+          content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
+        />
+      </Head>
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />

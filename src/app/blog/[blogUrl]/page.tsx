@@ -1,67 +1,66 @@
-"use client";
+"use client"
 import Image from "next/image";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Loader from "../Loader";
-import { baseUrl, blogs } from "@/utils/constants";
+import { useBlog } from "@/context/BlogContext";
+
 interface Props {
   params: { blogUrl: string };
 }
+
 const BlogDetail: React.FC<Props> = ({ params }) => {
   const { blogUrl } = params;
-  const [blogData, setBlogData] = useState(null);
-
+  const { blogData } = useBlog();
+  const [blog, setBlog] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
-        if (typeof blogUrl === "string") {
-          const response = await axios.get(`${baseUrl}${blogs}`);
-          const matchingBlog = response.data.find(
-            (blog: any) => blog.blogUrl === blogUrl
-          );
-          //   console.log(matchingblog,"Matchingg bloggg")
-          if (matchingBlog) {
-            setBlogData(matchingBlog);
-          } else {
-            console.log("Blog not found");
-          }
+        const matchingBlog = blogData.find(
+          (blog: any) => blog.blogUrl === blogUrl
+        );
+        if (matchingBlog) {
+          setBlog(matchingBlog);
+        } else {
+          console.log("Blog not found");
         }
       } catch (error) {
-        console.log("Error fetching blog data:", error);
+        console.error("Error fetching blog data:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchBlogData();
-  }, [blogUrl]);
+
+    if (blogUrl) {
+      fetchBlogData();
+    }
+  }, [blogUrl, blogData]);
 
   if (loading) {
     return <Loader />;
   }
 
-  if (!blogData) {
+  if (!blog) {
     return (
       <div className="text-center text-2xl my-10">
-        uh oh ! this blog has nothing..
+        Uh oh! This blog post was not found.
       </div>
     );
   }
 
   return (
-    <>
-      <div className="mx-11">
-        <Image
-          src={blogData.image}
-          alt={"blog"}
-          className="object-contain mb-6 w-[100%]"
-          height={700}
-          width={700}
-        />
-        <h1 className="text-xl font-semibold pb-5">{blogData.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: blogData.content }} />
-      </div>
-    </>
+    <div className="mx-11">
+      <Image
+        src={blog.image}
+        alt={"blog"}
+        className="object-contain mb-6 w-[100%]"
+        height={700}
+        width={700}
+      />
+      <h1 className="text-xl font-semibold pb-5">{blog.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+    </div>
   );
 };
 

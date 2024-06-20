@@ -4,7 +4,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
 import FlashAlert from "../Other/FlashAlert";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl,graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
@@ -65,8 +65,8 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      console.log("This Effect is Running");
       const cookieTokenn = Cookies.get("localtoken");
+
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
         return {
@@ -74,7 +74,7 @@ const ProfileDetails = () => {
         };
       };
       const link = new HttpLink({
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        uri: graphqlbaseUrl,
         headers: getAuthHeaders(),
       });
 
@@ -84,7 +84,7 @@ const ProfileDetails = () => {
       });
 
       const GET_ADDRESS = gql`
-        query GetCustomerAddresses($token: Query!) {
+        query GetCustomerAddresses($token: String!) {
           getCustomerAddresses(token: $token) {
             address_id
             address_type
@@ -101,9 +101,9 @@ const ProfileDetails = () => {
       const variables = { token: cookieTokenn };
       const { data } = await client.query({
         query: GET_ADDRESS,
-        variables,
+        variables
       });
-      setallAddress(data);
+      setallAddress(data.getCustomerAddresses);
     };
     fetchData();
   }, []);
@@ -180,7 +180,7 @@ const ProfileDetails = () => {
             >
               First name
             </label>
-            {userDetails?.customer?.firstname}
+            {userDetails?.firstname}
           </div>
           <div>
             <label
@@ -189,16 +189,16 @@ const ProfileDetails = () => {
             >
               Last name
             </label>
-            {userDetails?.customer?.lastname}
+            {userDetails?.lastname}
           </div>
-          <div>
+          <div>  
             <label
               htmlFor="phone"
               className="block text-md font-medium text-black"
             >
               Phone number
             </label>
-            {userDetails?.customer?.mobile_no}
+            {userDetails?.mobile_no}
           </div>
           <div>
             <label
@@ -207,7 +207,7 @@ const ProfileDetails = () => {
             >
               Email address
             </label>
-            {userDetails?.customer?.email}
+            {userDetails?.email}
           </div>
         </div>
       </form>

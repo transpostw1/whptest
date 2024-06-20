@@ -1,29 +1,14 @@
+// Blogs.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Loader from "./Loader";
 import Latest from "@/components/Blogcomp/Latest";
 import Trending from "@/components/Blogcomp/Trending";
 import Card from "@/components/Blogcomp/Card";
-import axios from "axios";
-import { baseUrl, blogs } from "@/utils/constants";
+import { useBlog } from "@/context/BlogContext"; // Adjust the import path as necessary
 
-const Blogs = () => {
-  const [blogData, setBlogData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchBlogData = async () => {
-      try {
-        const response = await axios.get(`${baseUrl}${blogs}`);
-        setBlogData(response.data);
-      } catch (error) {
-        console.log("error fetching data of blog", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlogData();
-  }, []);
+const Blogs: React.FC = () => {
+  const { blogData, loading } = useBlog();
 
   if (loading) {
     return <Loader />;

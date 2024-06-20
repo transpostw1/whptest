@@ -26,9 +26,9 @@ const MobileProfileSideBar: React.FC<Props> = ({
     <div className="p-3 flex flex-col justify-center">
       <div className="flex flex-col justify-center w-full items-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          {userDetails?.customer.profile_picture ? (
+          {userDetails?.profile_picture ? (
             <Image
-              src={userDetails.customer.profile_picture}
+              src={userDetails?.profile_picture}
               className="rounded-full h-full w-full"
               alt="Profile Picture"
               width={90}
@@ -41,7 +41,7 @@ const MobileProfileSideBar: React.FC<Props> = ({
         <div>
           <p className="text-xl font-semibold mt-2">
             {" "}
-            {userDetails?.customer?.firstname} {userDetails?.customer?.lastname}
+            {userDetails?.firstname} {userDetails?.lastname}
           </p>
           <span className="flex text-[#e26178] mt-2">
             Edit Profile

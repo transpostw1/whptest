@@ -44,7 +44,7 @@ const ProfileWishList = () => {
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
-      const newProduct = {
+      const newProduct:any = {
         productDetails: {
           title: product.title,
           discountPrice: product.discountPrice,
@@ -62,7 +62,7 @@ const ProfileWishList = () => {
   const handleBuyNow = (product: any) => {
     console.log(product, "PRODUCT");
 
-    const productDetails = {
+    const productDetails:any = {
       productId: product.productId,
       productDetails: {
         productId: 60,
@@ -123,7 +123,7 @@ const ProfileWishList = () => {
                 <div key={index} className="relative cursor-pointer">
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
-                      className="product-image"
+                      className="product-image relative"
                       onClick={() => router.push(`/products/${product.url}`)}
                     >
                       <Image
@@ -133,6 +133,14 @@ const ProfileWishList = () => {
                         height={300}
                         className="rounded-md"
                       />
+                      <div className="product-actions absolute top-2 right-2">
+                    <button
+                      className="heart-icon"
+                      onClick={() => removeFromWishlist(product.productId)}
+                    >
+                      <Icon.Heart size={25} color="#fa0000" weight="fill" />
+                    </button>
+                  </div>
                     </div>
                     <div className="product-details mt-4">
                       <h3 className="product-name text-title text-xl truncate">
@@ -164,14 +172,7 @@ const ProfileWishList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="product-actions absolute top-2 right-2">
-                    <button
-                      className="heart-icon"
-                      onClick={() => removeFromWishlist(product.productId)}
-                    >
-                      <Icon.Heart size={25} color="#fa0000" weight="fill" />
-                    </button>
-                  </div>
+                  
                 </div>
               ))}
             </div>

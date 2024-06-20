@@ -112,42 +112,38 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
                   </p>
                 </div>
                 <div className="text-green-600 font-bold p-2">
-                  {item?.order_list?.name}
+                  {item?.orderStatus}
                 </div>
 
-                {item.productDetails.map((items: any, index: any) => (
-                  <div key={index} className="flex border-b-2 p-4">
-                    {items.productDetails.map((product: any, index: any) => (
-                      <div className="flex w-full" key={index}>
-                        <div className="mr-3">
-                          <Image
-                            src={product?.imageDetails[0]?.image_path}
-                            alt={"image"}
-                            width={95}
-                            height={95}
-                            className="bg-[#f7f7f7]"
-                          />
-                        </div>
+                {item.productDetails.map((product: any, index: any) => (
+                  <div className="flex w-full border-b py-2" key={index}>
+                    <div className="mr-3 flex items-center">
+                      <Image
+                        src={product?.imageDetails[0]?.image_path}
+                        alt={"image"}
+                        width={95}
+                        height={95}
+                        className="bg-[#f7f7f7] "
+                      />
+                    </div>
 
-                        <div className="w-full">
-                          <p className="text-xl font-semibold">
-                            {product?.displayTitle}
-                          </p>
-                          <p>
-                            {product?.metalType}-{product?.metalWeight}
-                          </p>
-                          <p>Quantity:{items.quantity}</p>
-                          <div className="font-semibold">
-                            ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(
-                              Math.round(parseInt(items?.discountedTotal))
-                            )}
-                          </div>
-                        </div>
+                    <div className="w-full">
+                      <p className="text-xl font-semibold">
+                        {product?.displayTitle}
+                      </p>
+                      <p>
+                        {product?.metalType}-{product?.metalWeight}
+                      </p>
+                      <p>Quantity:{product.quantity}</p>
+                      <div className="font-semibold">
+                        ₹
+                        {Intl.NumberFormat("en-IN", {
+                          minimumFractionDigits: 2,
+                        }).format(
+                          Math.round(parseInt(product?.discountedTotal))
+                        )}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 ))}
               </div>

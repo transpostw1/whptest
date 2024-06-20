@@ -5,14 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { PiPercentLight } from "react-icons/pi";
 import useLoginPopup from "@/store/useLoginPopup";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import useMenuMobile from "@/store/useMenuMobile";
-import { IconsManifest } from "react-icons/lib";
 import TopNavOne from "./TopNavOne";
-import { baseUrl } from "@/utils/constants";
 import ContactInfo from "@/components/Other/ContactInfo";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import ModalSearch from "@/components/Modal/ModalSearch";
@@ -73,14 +70,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-
       if (
         contactRef.current &&
         !contactRef.current.contains(event.target as Node)
       ) {
         setContactPopUp(false);
       } else {
-        setContactPopUp(false);
+        // setContactPopUp(false);
       }
     };
 
@@ -244,7 +240,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                     >
                       <Link href={"/offers"}>
-                        <PiPercentLight size={30} />
+                        <Icon.SealPercent size={30} />
                       </Link>
                       <p className="text-sm">Offers</p>
                     </div>
@@ -278,7 +274,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       }`}
                       onClick={handleContactPopup}
                     >
-                      <Icon.Headset size={30}/>
+                      <Icon.Headset size={30} />
                       <p className="text-sm">Contact</p>
                     </div>
                     {contactPopUp ? <ContactInfo /> : null}
@@ -295,9 +291,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                             }`}
                           >
                             <Icon.User size={28} />
-                            <p className="text-sm">
-                              {userDetails?.customer?.firstname}
-                            </p>
+                            <p className="text-sm">{userDetails?.firstname}</p>
                           </div>
                         </>
                       ) : (
@@ -395,11 +389,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
                   </Link>
                   <div className="w-[2px] h-[40px]  bg-[#E9E9E9]"></div>
-                  <div className="choose-currency flex items-center p-2 bg-[#e1dcdd] bg-opacity-[0.1] ">
+                  <div className="choose-currency flex items-center p-2 bg-[#E9E9E9] bg-opacity-[0.1] ">
                     <select
                       name="currency"
                       id="chooseCurrency"
-                      className="caption2 bg-[#e1dcdd] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
+                      className="caption2 bg-[#E9E9E9] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
                     >
                       <option value="INR">&#8377; INR</option>
                       {/* <option value="USD">&#36; USD</option>

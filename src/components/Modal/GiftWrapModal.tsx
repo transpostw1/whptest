@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, {useEffect,useRef, useState } from "react";
 
 interface Props {
   closeModal: () => void;
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
+  const inputRef=useRef<any>();
   const [formData, setFormData] = useState({
     name: "",
     wrapOption: false, // Change wrapOption to be a boolean
@@ -17,7 +18,11 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
       closeModal();
     }
   };
-
+  useEffect(()=>{
+    if(inputRef.current){
+      inputRef.current.focus();
+    }
+  })
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -59,6 +64,7 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
               type="text"
               id="name"
               name="name"
+              ref={inputRef}
               value={formData.name}
               onChange={handleChange}
               className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"

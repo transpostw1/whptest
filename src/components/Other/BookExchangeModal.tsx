@@ -59,12 +59,13 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
       setType("error");
     } finally {
       setIsLoading(false);
-      handleOnClose;
+      
       
     }
     setTimeout(() => {
       setFormData({ name: "", email: "", message: "" });
       setPhone("+91");
+      closeModal()
     }, 2000);
   };
   if (isLoading) {
@@ -93,7 +94,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
           {title}
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} ref={inputRef}>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -104,7 +105,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             <input
               type="text"
               defaultValue={""}
-              ref={inputRef}
+              
               id="name"
               name="name"
               value={formData.name}

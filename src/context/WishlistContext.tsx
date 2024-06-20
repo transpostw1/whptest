@@ -63,15 +63,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     setWishlistItemsCount(uniqueWishlistItems.length);
   }, [wishlistItems]);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     const userToken = Cookies.get("localtoken");
-  //     if (userToken) {
-  //       // setIsLoggedIn(true);
-  //       setCookieToken(userToken);
-  //     }
-  //   }
-  // }, [isLoggedIn]);
+
 
   useEffect(() => {
     console.log("useEffect hook called");
@@ -152,6 +144,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchWishlistItems();
   }, [isLoggedIn, cookieToken]);
+    fetchWishlistItems();
+  }, [isLoggedIn, cookieToken]);
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {
@@ -170,9 +164,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       | ProductForWishlistLoggedIn
       | ProductForWishlistLoggedOut
   ) => {
-    // if (!product || !("productId" in product)) {
-    //   throw new Error("Invalid product data");
-    // }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {
@@ -182,9 +173,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               localStorage.getItem("wishlistItems") || "[]"
             );
           }
-          // const localWishlistItems = JSON.parse(
-          //   localStorage.getItem("wishlistItems") || "[]"
-          // );
           const dbWishlistItems = await getWishlist();
           const localItemsToAdd = localWishlistItems.filter(
             (item: WishlistItem) =>
@@ -438,6 +426,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           // },
         });
 
+        return data.getCustomerWishlist.map((item: any) => ({
         return data.getCustomerWishlist.map((item: any) => ({
           productId: item.productId,
           title: item.displayTitle,

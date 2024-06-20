@@ -25,7 +25,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
                 <CartProvider>
                   <ModalCartProvider>
                     <WishlistProvider>
-                      {/* <ModalWishlistProvider> */}
                       <CompareProvider>
                         <ModalSearchProvider>
                           <ModalQuickviewProvider>
@@ -33,7 +32,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
                           </ModalQuickviewProvider>
                         </ModalSearchProvider>
                       </CompareProvider>
-                      {/* </ModalWishlistProvider> */}
                     </WishlistProvider>
                   </ModalCartProvider>
                 </CartProvider>

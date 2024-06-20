@@ -20,7 +20,7 @@ import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
-import Head from "next/head";
+import HeatMap from "@/components/Home1/HeatMap";
 
 export default function Home() {
   const { products } = useProductContext();
@@ -29,7 +29,13 @@ export default function Home() {
   if (typeof window !== "undefined") {
     logged = localStorage.getItem("isLoggedIn");
   }
-
+  const heatmapData = [
+    { x: 100, y: 150, value: 50 },
+    { x: 200, y: 250, value: 60 },
+    { x: 300, y: 350, value: 70 },
+    { x: 300, y: 2550, value: 70 },
+    // Add more data points as needed
+  ];
   return (
     <>
       <Head>
@@ -42,6 +48,7 @@ export default function Home() {
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
+        <HeatMap data={heatmapData} />
         <Explore />
         {/* <Collection /> */}
         <ProductSlider />

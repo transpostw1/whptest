@@ -144,8 +144,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchWishlistItems();
   }, [isLoggedIn, cookieToken]);
-    fetchWishlistItems();
-  }, [isLoggedIn, cookieToken]);
+   
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {
@@ -426,7 +425,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           // },
         });
 
-        return data.getCustomerWishlist.map((item: any) => ({
         return data.getCustomerWishlist.map((item: any) => ({
           productId: item.productId,
           title: item.displayTitle,

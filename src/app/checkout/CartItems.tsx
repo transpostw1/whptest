@@ -24,8 +24,6 @@ const CartItems: React.FC<CartItemsProps> = ({
   }, []);
 
   const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
-  console.log(filteredCartItems,"sfssf")
-
   return (
     <div>
       <h1 className="text-2xl">Your Shopping Bag</h1>

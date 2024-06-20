@@ -27,7 +27,6 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [parentCategory, setProducts] = useState<any>([]);
-
   const fetchData = async () => {
     try {
       const response = await axios.get(`${baseUrl}${getProducts}`);

@@ -13,10 +13,10 @@ const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "WHP Web",
-  description: "WHP Jewellers app",
-};
+// export const metadata: Metadata = {
+//   title: "WHP Web",
+//   description: "WHP Jewellers app",
+// };
 
 export default function RootLayout({
   children,

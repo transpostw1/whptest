@@ -63,60 +63,46 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     setWishlistItemsCount(uniqueWishlistItems.length);
   }, [wishlistItems]);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     const userToken = Cookies.get("localtoken");
-  //     if (userToken) {
-  //       // setIsLoggedIn(true);
-  //       setCookieToken(userToken);
-  //     }
-  //   }
-  // }, [isLoggedIn]);
 
-useEffect(() => {
-  console.log("useEffect hook called");
 
-  const fetchWishlistItems = async () => {
-    try {
-      let localWishlistItems = [];
-      if (typeof window !== "undefined") {
-        localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
-      }
-
-      const wishlistData = await getWishlist();
-      console.log("wishlistData:", wishlistData);
-
-      if (isLoggedIn && localWishlistItems.length > 0) {
-        const serverProductIds = wishlistData.map(
-          (item: any) => item.productId
-        );
-        const itemsToAdd = localWishlistItems.filter(
-          (item: any) => !serverProductIds.includes(item.productId)
-        );
-
-        if (itemsToAdd.length > 0) {
-          const addPromises = itemsToAdd.map((item: any) =>
-            instance.get(`${baseUrl}${addwishlist}`, {
-              params: { productId: item.productId },
-              headers: {
-                Authorization: `Bearer ${cookieToken}`,
-              },
-            })
+  useEffect(() => {
+    const fetchWishlistItems = async () => {
+      try {
+        let localWishlistItems = [];
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
           );
-          await Promise.all(addPromises);
-          localStorage.removeItem("wishlistItems");
         }
+        const wishlistData = await getWishlist();
+        if (isLoggedIn && localWishlistItems.length > 0) {
+          const serverProductIds = wishlistData.map(
+            (item: any) => item.productId
+          );
+          const itemsToAdd = localWishlistItems.filter(
+            (item: any) => !serverProductIds.includes(item.productId)
+          );
+          if (itemsToAdd.length > 0) {
+            const addPromises = itemsToAdd.map((item: any) =>
+              instance.get(`${baseUrl}${addwishlist}`, {
+                params: { productId: item.productId },
+                headers: {
+                  Authorization: `Bearer ${cookieToken}`,
+                },
+              })
+            );
+            await Promise.all(addPromises);
+            localStorage.removeItem("wishlistItems");
+          }
+        }
+        setWishlistItems(wishlistData);
+      } catch (error) {
+        console.error("Error fetching or adding wishlist items:", error);
       }
-      setWishlistItems(wishlistData);
-    } catch (error) {
-      console.error("Error fetching or adding wishlist items:", error);
-    }
-  };
+    };
 
-  fetchWishlistItems();
-}, [isLoggedIn, cookieToken]);
+    fetchWishlistItems();
+  }, [isLoggedIn, cookieToken]);
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {
@@ -135,9 +121,6 @@ useEffect(() => {
       | ProductForWishlistLoggedIn
       | ProductForWishlistLoggedOut
   ) => {
-    // if (!product || !("productId" in product)) {
-    //   throw new Error("Invalid product data");
-    // }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {
@@ -147,9 +130,6 @@ useEffect(() => {
               localStorage.getItem("wishlistItems") || "[]"
             );
           }
-          // const localWishlistItems = JSON.parse(
-          //   localStorage.getItem("wishlistItems") || "[]"
-          // );
           const dbWishlistItems = await getWishlist();
           const localItemsToAdd = localWishlistItems.filter(
             (item: WishlistItem) =>
@@ -332,7 +312,7 @@ useEffect(() => {
           // },
         });
 
-        return data.getCustomerWishlist.map((item:any) => ({
+        return data.getCustomerWishlist.map((item: any) => ({
           productId: item.productId,
           title: item.displayTitle,
           productPrice: item.productPrice,

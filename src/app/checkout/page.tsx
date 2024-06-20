@@ -179,7 +179,7 @@ const Checkout: React.FC = () => {
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-  
+
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -197,7 +197,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
+          item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -263,17 +263,38 @@ const Checkout: React.FC = () => {
         }));
       }
 
-      const response = await axios.post(
-        `${baseUrl}${syncCart}`,
-        { cart: cartData },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+      const getAuthHeaders: any = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      console.log(typeof (cartData), "CartData");
+      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+        cartSync(cartItems: $cartItems) {
+          message
         }
-      );
+      }`;
+
+      const { data } = await client.mutate({
+        mutation: SYNC_CART,
+        variables: {
+          cartItems: cartData,
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
       localStorage.removeItem("cartItems");
-      console.log("API response:", response.data);
+      console.log("API response:", data);
 
       setCartItems([]);
       setIsOrderPlaced(true);
@@ -411,9 +432,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -421,9 +441,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -431,9 +450,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -480,9 +498,8 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${
-                          selectedStep >= index ? "bg-rose-400" : "bg-white"
-                        }`}
+                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
+                          }`}
                       >
                         {step.icon}
                       </div>
@@ -670,15 +687,15 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary">
-                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary
-                    totalDiscount={totalDiscount}
-                    totalCart={totalCart}
-                    cartItems={MainCart}
-                  />
-                </div>
-              )}
+                  <div id="order-summary">
+                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                    <OrderSummary
+                      totalDiscount={totalDiscount}
+                      totalCart={totalCart}
+                      cartItems={MainCart}
+                    />
+                  </div>
+                )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

@@ -73,50 +73,85 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   //   }
   // }, [isLoggedIn]);
 
-useEffect(() => {
-  console.log("useEffect hook called");
+  useEffect(() => {
+    console.log("useEffect hook called");
 
-  const fetchWishlistItems = async () => {
-    try {
-      let localWishlistItems = [];
-      if (typeof window !== "undefined") {
-        localWishlistItems = JSON.parse(
-          localStorage.getItem("wishlistItems") || "[]"
-        );
-      }
-
-      const wishlistData = await getWishlist();
-      console.log("wishlistData:", wishlistData);
-
-      if (isLoggedIn && localWishlistItems.length > 0) {
-        const serverProductIds = wishlistData.map(
-          (item: any) => item.productId
-        );
-        const itemsToAdd = localWishlistItems.filter(
-          (item: any) => !serverProductIds.includes(item.productId)
-        );
-
-        if (itemsToAdd.length > 0) {
-          const addPromises = itemsToAdd.map((item: any) =>
-            instance.get(`${baseUrl}${addwishlist}`, {
-              params: { productId: item.productId },
-              headers: {
-                Authorization: `Bearer ${cookieToken}`,
-              },
-            })
+    const fetchWishlistItems = async () => {
+      try {
+        let localWishlistItems = [];
+        if (typeof window !== "undefined") {
+          localWishlistItems = JSON.parse(
+            localStorage.getItem("wishlistItems") || "[]"
           );
-          await Promise.all(addPromises);
-          localStorage.removeItem("wishlistItems");
         }
-      }
-      setWishlistItems(wishlistData);
-    } catch (error) {
-      console.error("Error fetching or adding wishlist items:", error);
-    }
-  };
 
-  fetchWishlistItems();
-}, [isLoggedIn, cookieToken]);
+        const wishlistData = await getWishlist();
+        console.log("wishlistData:", wishlistData);
+
+        if (isLoggedIn && localWishlistItems.length > 0) {
+          const serverProductIds = wishlistData.map(
+            (item: any) => item.productId
+          );
+          const itemsToAdd = localWishlistItems.filter(
+            (item: any) => !serverProductIds.includes(item.productId)
+          );
+
+          if (itemsToAdd.length > 0) {
+
+            const productIds = itemsToAdd.map((item: any) => [{ productId: item.productId }]);
+
+            const productWishlistIds = productIds.flat();
+
+
+            const getAuthHeaders: any = () => {
+              if (!cookieToken) return null;
+              return {
+                authorization: `Bearer ${cookieToken}`,
+              };
+            };
+
+            const client = new ApolloClient({
+              uri: graphqlbaseUrl,
+              headers: getAuthHeaders(),
+              cache: new InMemoryCache(),
+            });
+
+            const SYNC_WISHLIST = gql`mutation AddOrUpdateWishlist($wishlist: [WishlistInput!]!) {
+            AddOrUpdateWishlist(wishlist: $wishlist) {
+              message
+            }
+          }`;
+
+            const { data } = await client.mutate({
+              mutation: SYNC_WISHLIST,
+              variables: {
+                wishlist: productWishlistIds,
+              },
+              context: {
+                headers: getAuthHeaders(),
+              },
+              fetchPolicy: "no-cache",
+            });
+            // const addPromises = itemsToAdd.map((item: any) =>
+            //   instance.get(`${baseUrl}${addwishlist}`, {
+            //     params: { productId: item.productId },
+            //     headers: {
+            //       Authorization: `Bearer ${cookieToken}`,
+            //     },
+            //   })
+            // );
+            // await Promise.all(addPromises);
+            localStorage.removeItem("wishlistItems");
+          }
+        }
+        setWishlistItems(wishlistData);
+      } catch (error) {
+        console.error("Error fetching or adding wishlist items:", error);
+      }
+    };
+
+    fetchWishlistItems();
+  }, [isLoggedIn, cookieToken]);
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {
@@ -158,21 +193,59 @@ useEffect(() => {
               )
           );
 
-          const promises = localItemsToAdd.map((item: any) =>
-            instance.get(`${baseUrl}${addwishlist}`, {
-              params: { productId: item.productId },
-              headers: {
-                Authorization: `Bearer ${cookieToken}`,
-              },
-            })
-          );
+          // const promises = localItemsToAdd.map((item: any) =>
+          //   instance.get(`${baseUrl}${addwishlist}`, {
+          //     params: { productId: item.productId },
+          //     headers: {
+          //       Authorization: `Bearer ${cookieToken}`,
+          //     },
+          //   })
+          // );
 
-          await Promise.all(promises);
-          await instance.get(`${baseUrl}${addwishlist}`, {
-            params: { productId: product.productId },
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
+          // await Promise.all(promises);
+          // await instance.get(`${baseUrl}${addwishlist}`, {
+          //   params: { productId: product.productId },
+          //   headers: {
+          //     Authorization: `Bearer ${cookieToken}`,
+          //   },
+          // });
+          console.log(product, "product");
+
+          console.log(product, "product");
+
+          const getAuthHeaders: any = () => {
+            if (!cookieToken) return null;
+            return {
+              authorization: `Bearer ${cookieToken}`,
+            };
+          };
+
+          const client = new ApolloClient({
+            uri: graphqlbaseUrl,
+            headers: getAuthHeaders(),
+            cache: new InMemoryCache(),
+          });
+
+          const SYNC_WISHLIST = gql`mutation 
+          AddOrUpdateWishlist($wishlist: [WishlistInput!]!) {
+            AddOrUpdateWishlist(wishlist: $wishlist) {
+              message
+            }
+          }`;
+
+          const { data } = await client.mutate({
+            mutation: SYNC_WISHLIST,
+            variables: {
+              wishlist: [
+                {
+                  productId: product.productId,
+                }
+              ],
             },
+            context: {
+              headers: getAuthHeaders(),
+            },
+            fetchPolicy: "no-cache",
           });
 
           const updatedDbWishlist = await getWishlist();
@@ -240,11 +313,44 @@ useEffect(() => {
   const removeFromWishlist = async (productId: number) => {
     try {
       if (isLoggedIn) {
-        await instance.get(`${baseUrl}${removewishlist}`, {
-          params: { productId },
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
+        // await instance.get(`${baseUrl}${removewishlist}`, {
+        //   params: { productId },
+        //   headers: {
+        //     Authorization: `Bearer ${cookieToken}`,
+        //   },
+        // });
+        const getAuthHeaders: any = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: "http://localhost:4000/graphql",
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        const SYNC_WISHLIST = gql`mutation DeleteWishlist($wishlist: [WishlistInput!]!) {
+          DeleteWishlist(wishlist: $wishlist) {
+            message
+          }
+        }`;
+
+        const { data } = await client.mutate({
+          mutation: SYNC_WISHLIST,
+          variables: {
+            wishlist: [
+              {
+                productId: productId,
+              }
+            ],
           },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
         });
       }
 
@@ -332,7 +438,7 @@ useEffect(() => {
           // },
         });
 
-        return data.getCustomerWishlist.map((item:any) => ({
+        return data.getCustomerWishlist.map((item: any) => ({
           productId: item.productId,
           title: item.displayTitle,
           productPrice: item.productPrice,

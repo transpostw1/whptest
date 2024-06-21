@@ -1,16 +1,18 @@
-"use client";
-import React, { useState,useEffect } from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import GoldCard from "./GoldCard";
 import DiamondCard from "./DiamondCard";
 import SilverCard from "./SilverCard";
 import FlashAlert from "@/components/Other/FlashAlert";
-import MobileBenefits from "./mobileBenefits"; 
+import MobileBenefits from "./mobileBenefits";
 
 const Benefit: React.FC = () => {
   const [cardArray, setCardArray] = useState<number[]>([1, 2, 3]);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
-  const [flashType, setFlashType] = useState<"success" | "error" | "info">("success");
+  const [flashType, setFlashType] = useState<"success" | "error" | "info">(
+    "success"
+  );
 
   const nextCard = (index: number): void => {
     setCardArray((prevArray) => {
@@ -53,16 +55,15 @@ const Benefit: React.FC = () => {
     }
   };
 
-
-   useEffect(() => {
-     if (backendMessage || backendError) {
-       const timer = setTimeout(() => {
-         setBackendMessage(null);
-         setBackendError(null);
-       }, 3000);
-       return () => clearTimeout(timer);
-     }
-   }, [backendMessage, backendError]);
+  useEffect(() => {
+    if (backendMessage || backendError) {
+      const timer = setTimeout(() => {
+        setBackendMessage(null);
+        setBackendError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [backendMessage, backendError]);
 
   return (
     <>

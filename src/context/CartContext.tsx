@@ -251,9 +251,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         },
         fetchPolicy: "no-cache",
       });
-
-      console.log(data, "DatttttttttTT");
-
       const cartItemsFromServer = await fetchCartItemsFromServer();
       setCartItems(cartItemsFromServer);
       setLoading(false);

@@ -151,29 +151,84 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  // const addUserDetails = async (details: UserDetails) => {
+  //   const formData = new FormData();
+
+  //   Object.keys(details).forEach((key) => {
+  //     const typedKey = key as UserDetailsKeys;
+  //     formData.append(typedKey, details[typedKey] as any);
+  //   });
+
+  //   try {
+  //     const response = await instance.post(
+  //       `${baseUrl}${updateProfile}`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${cookieToken}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     await getUser();
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error("Error adding user details:", error);
+  //     throw error;
+  //   }
+  // };
   const addUserDetails = async (details: UserDetails) => {
-    const formData = new FormData();
-
-    Object.keys(details).forEach((key) => {
-      const typedKey = key as UserDetailsKeys;
-      formData.append(typedKey, details[typedKey] as any);
-    });
-
     try {
-      const response = await instance.post(
-        `${baseUrl}${updateProfile}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            "Content-Type": "multipart/form-data",
-          },
+      // setLoading(true);
+
+      const getAuthHeaders: any = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const STORE_CUSTOMER_DETAILS = gql`
+        mutation StoreCustomerDetails($customerDetails: CustomerDetailsInput!) {
+          storeCustomerDetails(customerDetails: $customerDetails) {
+            message
+          }
         }
-      );
+      `;
+
+      const customerDetails = {
+        profile_picture:details.profile_picture,
+        firstName: details.firstName,
+        lastName: details.lastName,
+        email: details.email,
+        altPhone: details.altPhone,
+      };
+
+      const { data } = await client.mutate({
+        mutation: STORE_CUSTOMER_DETAILS,
+        variables: {
+          customerDetails,
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+
+      console.log(data.storeCustomerDetails.message);
+
       await getUser();
-      return response.data;
+      // setLoading(false);
+      return data.storeCustomerDetails.message;
     } catch (error) {
       console.error("Error adding user details:", error);
+      // setLoading(false);
       throw error;
     }
   };

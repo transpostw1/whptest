@@ -63,7 +63,15 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     setWishlistItemsCount(uniqueWishlistItems.length);
   }, [wishlistItems]);
 
-
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     const userToken = Cookies.get("localtoken");
+  //     if (userToken) {
+  //       // setIsLoggedIn(true);
+  //       setCookieToken(userToken);
+  //     }
+  //   }
+  // }, [isLoggedIn]);
 
   useEffect(() => {
     console.log("useEffect hook called");

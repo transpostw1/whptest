@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";  
@@ -29,15 +30,17 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
         </head>
-        <body className={instrument.className}>
-          <TopNavOne textColor="text-white" />
-          <NavTwo props="style-three bg-white" />
-          <div id="header" className="w-full ">
-            <NavHoverMenu props="bg-white" />
-          </div>
-          {children}
-          <Footer />
-        </body>
+        <Suspense fallback={<div>Loading...</div>}>
+          <body className={instrument.className}>
+            <TopNavOne textColor="text-white" />
+            <NavTwo props="style-three bg-white" />
+            <div id="header" className="w-full ">
+              <NavHoverMenu props="bg-white" />
+            </div>
+            {children}
+            <Footer />
+          </body>
+        </Suspense>
       </html>
     </GlobalProvider>
   );

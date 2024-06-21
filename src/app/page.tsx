@@ -1,5 +1,5 @@
 "use client";
-import React,{Suspense} from "react";
+import React from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -32,38 +32,36 @@ export default function Home() {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Head>
-          <title>Home - WHP Web</title>
-          <meta
-            name="description"
-            content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
-          />
-        </Head>
-        <div className="overflow-x-hidden">
-          <MobileMainCategorySwiper />
-          <MainCarousel />
-          <Explore />
-          {/* <Collection /> */}
-          <ProductSlider />
-          {logged === "true" && <BuyAgain />}
-          <WhpTv products={products} />
-          <RoseGold />
-          <Category />
-          <GetFastDeliveryProducts />
-          <WhatWeOffer />
-          <ShopGender />
-          {/* <PreciousGems /> */}
-          <Appointment />
-          <Gifts />
-          <GoldScheme />
-          <SpecialOccasion />
-          <Reviews />
-          {/* <WhpApp /> */}
-        </div>
+      <Head>
+        <title>Home - WHP Web</title>
+        <meta
+          name="description"
+          content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
+        />
+      </Head>
+      <div className="overflow-x-hidden">
+        <MobileMainCategorySwiper />
+        <MainCarousel />
+        <Explore />
+        {/* <Collection /> */}
+        <ProductSlider />
+        {logged === "true" && <BuyAgain />}
+        <WhpTv products={products} />
+        <RoseGold />
+        <Category />
+        <GetFastDeliveryProducts />
+        <WhatWeOffer />
+        <ShopGender />
+        {/* <PreciousGems /> */}
+        <Appointment />
+        <Gifts />
+        <GoldScheme />
+        <SpecialOccasion />
+        <Reviews />
         {/* <WhpApp /> */}
-        <StickyNav />
-      </Suspense>
+      </div>
+      {/* <WhpApp /> */}
+      <StickyNav />
     </>
   );
 }

@@ -7,6 +7,8 @@ import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 interface SilverCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -87,26 +89,46 @@ const SilverCard: React.FC<SilverCardProps> = ({
     }
 
     try {
-      setLoading(true);
-      setBackendError(null);
-      const response = await instance.post(
-        `${baseUrl}${gms}`,
-        {
-          schemeType: "gold",
-          amount: monthlyDeposit,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+      const cookieToken = Cookies.get("localtoken");
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+      const ADD_CUSTOMER_ADDRESS = gql`
+        mutation StoreCustomerGMS($customerGms: CustomerGMSInput!) {
+          StoreCustomerGMS(customerGMS: $customerGms) {
+            message
+          }
         }
-      );
+      `;
+      const { data } = await client.mutate({
+        mutation: ADD_CUSTOMER_ADDRESS,
+        variables: {
+          customerGms: {
+            schemeType: "silver",
+            amount: monthlyDeposit,
+          },
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
 
-      console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message);
+      console.log("Enrollment successful", data.StoreCustomerGMS.message);
+      setBackendMessage(data.StoreCustomerGMS.message);
+      setFlashType("success")
     } catch (error) {
       console.error("Error during enrollment", error);
       setBackendError("Failed to enroll. Please try again later.");
+      setFlashType("error")
     } finally {
       setLoading(false);
     }

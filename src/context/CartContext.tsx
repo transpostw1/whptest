@@ -65,7 +65,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const fetchCartItems = async () => {
       setLoading(true);
-      if (isLoggedIn && cookieToken) {
+      if (isLoggedIn ) {
         await addLocalItemsToServerCart();
         const cartItemsFromServer = await fetchCartItemsFromServer();
         setCartItems(cartItemsFromServer);
@@ -94,7 +94,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(false);
     };
     fetchCartItems();
-  }, [isLoggedIn, cookieToken]);
+  }, [isLoggedIn]);
 
   const addToCart = async (
     item: CartItem,

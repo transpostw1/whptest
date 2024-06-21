@@ -30,7 +30,7 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
         </head>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
           <body className={instrument.className}>
             <TopNavOne textColor="text-white" />
             <NavTwo props="style-three bg-white" />

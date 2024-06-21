@@ -121,15 +121,15 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-
+  console.log("Selected Options",selectedOptions);
   return (
     <>
       <div
-        className={`sidebar lg:w-[300px] md:w-1/3 w-full lg:block hidden md:block`}
+        className={`sidebar lg:w-[300px] md:w-1/3 w-full pt-4 lg:block hidden md:block`}
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[450px] md:h-[380px] no-scrollbar overflow-y-auto ${
+          className={`filter-type pb-8 border-line h-[450px] md:h-[380px] custom-scrollbar overflow-y-auto ${
             isSidebarFixed ? "fixed w-[300px]" : "relative"
           }`}
           style={{

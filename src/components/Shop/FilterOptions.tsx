@@ -103,7 +103,6 @@ const FilterOptions: React.FC<Props> = ({
                     type="checkbox"
                     id={option}
                     value={option}
-                    readOnly={true}
                     checked={selectedOptions[item.title]?.includes(option)}
                     onChange={() => handleOptionSelect(option, item.title)}
                   />

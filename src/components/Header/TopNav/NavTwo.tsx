@@ -259,12 +259,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           pathname.includes("/blog") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        <Image
-                          src={"/images/icons/blog.svg"}
-                          alt="Blog"
-                          width={30}
-                          height={30}
-                        />
+                        <Icon.Newspaper size={30}/>
                         <p className="text-sm">Blog</p>
                       </div>
                     </Link>

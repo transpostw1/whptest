@@ -11,7 +11,6 @@ import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { AnyARecord } from "dns";
 
-
 interface CartItem {
   productDetails: {
     displayTitle: string;
@@ -139,29 +138,31 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           cache: new InMemoryCache(),
         });
 
-        console.log(typeof (cartData), "CartData");
-        const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
-          cartSync(cartItems: $cartItems) {
-            message
-            details {
-              synced {
-                productId
-                productTitle
-                productImage
-                productPrice
-                quantity
-              }
-              failed {
-                productId
-                message
-              }
-              deleted {
-                productId
-                message
+        console.log(typeof cartData, "CartData");
+        const SYNC_CART = gql`
+          mutation CartSync($cartItems: [CartItemInput!]!) {
+            cartSync(cartItems: $cartItems) {
+              message
+              details {
+                synced {
+                  productId
+                  productTitle
+                  productImage
+                  productPrice
+                  quantity
+                }
+                failed {
+                  productId
+                  message
+                }
+                deleted {
+                  productId
+                  message
+                }
               }
             }
           }
-        }`;
+        `;
 
         const { data } = await client.mutate({
           mutation: SYNC_CART,
@@ -231,12 +232,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         cache: new InMemoryCache(),
       });
 
-      console.log(typeof (cartData), "CartData");
-      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
-        cartSync(cartItems: $cartItems) {
-          message
+      console.log(typeof cartData, "CartData");
+      const SYNC_CART = gql`
+        mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
+          }
         }
-      }`;
+      `;
 
       const { data } = await client.mutate({
         mutation: SYNC_CART,
@@ -250,7 +253,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       console.log(data, "DatttttttttTT");
-
 
       const cartItemsFromServer = await fetchCartItemsFromServer();
       setCartItems(cartItemsFromServer);

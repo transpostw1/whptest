@@ -1,4 +1,3 @@
-
 export const baseUrl = "https://whpapi.transpost.co/api";
 // export const baseUrl = "http://172.16.100.87:8005/api";
 // export const baseUrl="http://127.0.0.1:8001/api"

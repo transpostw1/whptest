@@ -4,7 +4,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Cookies from "js-cookie";
-import { baseUrl, addAddress } from "@/utils/constants";
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 interface Props {
   closeModal: () => void;
@@ -35,23 +36,65 @@ const AddAddressModal: React.FC<Props> = ({
 
     try {
       const cookieToken = Cookies.get("localtoken");
-      const response = await axios.post<{ data: any }>(
-        `${baseUrl}${addAddress}`,
-        {
-          pincode: values.pincode,
-          full_address: values.full_address,
-          country: values.country,
-          state: values.state,
-          city: values.city,
-          address_type: isForBillingAddress ? "billing" : values.address_type,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const ADD_CUSTOMER_ADDRESS = gql`
+        mutation AddCustomerAddresses(
+          $customerAddresses: [AddCustomerAddressesInput!]!
+        ) {
+          AddCustomerAddresses(customerAddresses: $customerAddresses) {
+            message
+          }
         }
-      );
-      console.log("Response from backend:", response.data);
+      `;
+      const { data } = await client.mutate({
+        mutation: ADD_CUSTOMER_ADDRESS,
+        variables: {
+          customerAddresses: [
+            {
+              address_type: values.address_type,
+              full_address: values.full_address,
+              country: values.country,
+              state: values.state,
+              city: values.city,
+              pincode: values.pincode,
+              landmark: values.landmark, // include landmark if necessary
+            },
+          ],
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+      // const response = await axios.post<{ data: any }>(
+      //   `${baseUrl}${addAddress}`,
+      //   {
+      //     pincode: values.pincode,
+      //     full_address: values.full_address,
+      //     country: values.country,
+      //     state: values.state,
+      //     city: values.city,
+      //     address_type: isForBillingAddress ? "billing" : values.address_type,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${cookieToken}`,
+      //     },
+      //   }
+      // );
+      console.log("Response from backend:", data);
       onAddressAdded(isForBillingAddress);
       closeModal();
       formik.resetForm();

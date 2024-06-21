@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
-import instance from "@/utils/axios";
-import { baseUrl, gms } from "@/utils/constants";
-import Cookies from "js-cookie";
-import { useUser } from "@/context/UserContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { graphqlbaseUrl } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
+import useEnroll from "@/hooks/useEnroll";
 interface SilverCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
   setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -25,37 +17,16 @@ const SilverCard: React.FC<SilverCardProps> = ({
 }) => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("2000");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
-  const cookieToken = Cookies.get("localtoken");
-  const { isLoggedIn } = useUser();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const handleIncrement = () => {
-    if (monthlyDeposit % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
-      return;
-    }
-    if (monthlyDeposit + 1000 <= 50000) {
-      setMonthlyDeposit((prev) => prev + 1000);
-      setError(null);
-    }
-  };
-
-  const handleDecrement = () => {
-    if (monthlyDeposit % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
-      return;
-    }
-    if (monthlyDeposit - 1000 >= 2000) {
-      setMonthlyDeposit((prev) => prev - 1000);
-      setError(null);
-    }
-  };
+  const { handleEnroll, loading } = useEnroll(
+    setBackendMessage,
+    setBackendError,
+    setFlashType
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -76,71 +47,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
     }
   };
 
-  const handleEnroll = async () => {
-    if (error) {
-      setBackendError("Please correct the input errors before enrolling.");
-      return;
-    }
-    if (!isLoggedIn) {
-      setLoading(true);
-      localStorage.setItem("redirectPath", pathname);
-      router.push("/login");
-      return;
-    }
-
-    try {
-      const cookieToken = Cookies.get("localtoken");
-      const getAuthHeaders = () => {
-        if (!cookieToken) return null;
-        return {
-          authorization: `Bearer ${cookieToken}`,
-        };
-      };
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        headers: getAuthHeaders(),
-        cache: new InMemoryCache(),
-      });
-      const ADD_CUSTOMER_ADDRESS = gql`
-        mutation StoreCustomerGMS($customerGms: CustomerGMSInput!) {
-          StoreCustomerGMS(customerGMS: $customerGms) {
-            message
-          }
-        }
-      `;
-      const { data } = await client.mutate({
-        mutation: ADD_CUSTOMER_ADDRESS,
-        variables: {
-          customerGms: {
-            schemeType: "silver",
-            amount: monthlyDeposit,
-          },
-        },
-        context: {
-          headers: getAuthHeaders(),
-        },
-        fetchPolicy: "no-cache",
-      });
-
-      console.log("Enrollment successful", data.StoreCustomerGMS.message);
-      setBackendMessage(data.StoreCustomerGMS.message);
-      setFlashType("success")
-    } catch (error) {
-      console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later.");
-      setFlashType("error")
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="bg-[#edebed] h-full rounded-xl p-4 md:p-0">
-      {/* {loading && (
-        <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
-          <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
-        </div>
-      )} */}
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
         Silver
       </h3>
@@ -218,7 +126,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={handleEnroll}
+                onClick={() => handleEnroll("silver", monthlyDeposit)}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>

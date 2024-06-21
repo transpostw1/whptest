@@ -170,9 +170,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       | ProductForWishlistLoggedIn
       | ProductForWishlistLoggedOut
   ) => {
-    // if (!product || !("productId" in product)) {
-    //   throw new Error("Invalid product data");
-    // }
     try {
       if (typeof window !== "undefined") {
         if (isLoggedIn) {
@@ -182,9 +179,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               localStorage.getItem("wishlistItems") || "[]"
             );
           }
-          // const localWishlistItems = JSON.parse(
-          //   localStorage.getItem("wishlistItems") || "[]"
-          // );
           const dbWishlistItems = await getWishlist();
           const localItemsToAdd = localWishlistItems.filter(
             (item: WishlistItem) =>

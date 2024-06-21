@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import PieChart from "./PieChart";
-import instance from "@/utils/axios";
-import { baseUrl, gms } from "@/utils/constants";
-import Cookies from "js-cookie";
-import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
+import useEnroll from "@/hooks/useEnroll";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 
 interface GoldCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -21,96 +17,38 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
-  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
-  const [inputValue, setInputValue] = useState<string>("2000");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const numberOfMonths = 11;
-  const totalAmount = monthlyDeposit * numberOfMonths;
+ const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
+ const [error, setError] = useState<string | null>(null);
+ const [inputValue, setInputValue] = useState<string>("2000");
+ const numberOfMonths = 11;
+ const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
-  const cookieToken = Cookies.get("localtoken");
-  const { isLoggedIn } = useUser();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const handleIncrement = () => {
-    if (monthlyDeposit % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
-      return;
-    }
-    if (monthlyDeposit + 1000 <= 50000) {
-      setMonthlyDeposit((prev) => prev + 1000);
-      setError(null);
-    }
-  };
 
-  const handleDecrement = () => {
-    if (monthlyDeposit % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
-      return;
-    }
-    if (monthlyDeposit - 1000 >= 2000) {
-      setMonthlyDeposit((prev) => prev - 1000);
-      setError(null);
-    }
-  };
+ const { handleEnroll, loading } = useEnroll(
+   setBackendMessage,
+   setBackendError,
+   setFlashType
+ );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   const value = event.target.value;
+   setInputValue(value);
 
-    const parsedValue = parseInt(value, 10);
-    if (isNaN(parsedValue)) {
-      setError("Invalid input. Please enter a number.");
-    } else if (parsedValue < 2000) {
-      setError("Minimum deposit is 2000");
-    } else if (parsedValue > 50000) {
-      setError("Maximum deposit is 50000");
-    } else if (parsedValue % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
-    } else {
-      setMonthlyDeposit(parsedValue);
-      setError(null);
-    }
-  };
-
-  const handleEnroll = async () => {
-    if (error) {
-      setBackendError("Please correct the input errors before enrolling.");
-      return;
-    }
-    if (!isLoggedIn) {
-      setLoading(true);
-      localStorage.setItem("redirectPath", pathname);
-      router.push("/login");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setBackendError(null);
-      const response = await instance.post(
-        `${baseUrl}${gms}`,
-        {
-          schemeType: "gold",
-          amount: monthlyDeposit,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
-        }
-      );
-
-      console.log("Enrollment successful", response.data);
-      setBackendMessage(response.data.message);
-    } catch (error) {
-      console.error("Error during enrollment", error);
-      setBackendError("Failed to enroll. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
+   const parsedValue = parseInt(value, 10);
+   if (isNaN(parsedValue)) {
+     setError("Invalid input. Please enter a number.");
+   } else if (parsedValue < 2000) {
+     setError("Minimum deposit is 2000");
+   } else if (parsedValue > 50000) {
+     setError("Maximum deposit is 50000");
+   } else if (parsedValue % 1000 !== 0) {
+     setError("Amount must be a multiple of 1000");
+   } else {
+     setMonthlyDeposit(parsedValue);
+     setError(null);
+   }
+ };
 
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
@@ -194,7 +132,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={handleEnroll}
+                onClick={() => handleEnroll("gold", monthlyDeposit)}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>

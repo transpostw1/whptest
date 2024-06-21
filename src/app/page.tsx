@@ -38,13 +38,13 @@ export default function Home() {
   ];
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>Home - WHP Web</title>
         <meta
           name="description"
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
-      </Head>
+      </Head> */}
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />

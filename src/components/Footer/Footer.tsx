@@ -8,46 +8,65 @@ import { useUser } from "@/context/UserContext";
 import { useCategory } from "@/context/CategoryContex";
 import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
-import 'react-phone-input-2/lib/style.css'
+import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
 import axios from "axios";
-import { baseUrl } from "@/utils/constants";
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Extendedfooter from "./Extendedfooter";
 
 const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
   const [careerModal, setCareerModal] = useState<boolean>(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setphone] = useState("");
   const [message, setMessage] = useState<any>(null);
   const { setCustomcategory } = useCategory();
   const { isLoggedIn } = useUser();
-  
-  const handleCareerModal=()=>{
-    setCareerModal(false)
-  }
+
+  const handleCareerModal = () => {
+    setCareerModal(false);
+  };
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
   const handleChange = (event: any) => {
     const { value } = event.target;
     // Optional: Add phone number validation logic here
-    setPhoneNumber(value);
+    setphone(value);
   };
 
   const handleSubmit = async () => {
     event?.preventDefault();
-    const response = await axios.post(`${baseUrl}/subscribe`, {
-      phone: "+" + phoneNumber,
+
+    const client = new ApolloClient({
+      uri: graphqlbaseUrl,
+      cache: new InMemoryCache(),
     });
-    setMessage(response.data.message);
+
+    const CUSTOMER_SUBSCRIPTION = gql`
+      mutation StoreCustomerSubscription($customerPhone: CustomerPhoneInput!) {
+        StoreCustomerSubscription(customerPhone:$customerPhone) {
+          message
+        }
+      }
+    `;
+
+    const { data } = await client.mutate({
+      mutation: CUSTOMER_SUBSCRIPTION,
+      variables: { 
+        customerPhone:{phone }},
+
+      fetchPolicy: "no-cache",
+    });
+    setMessage(data.StoreCustomerSubscription.message);
   };
   const validationSchema = Yup.object({
-    phoneNumber: Yup.string().required("Phone number is required"),
+    phone: Yup.string().required("Phone number is required"),
   });
   const formik = useFormik({
     initialValues: {
-      phoneNumber: "",
+      phone: "",
     },
     validationSchema: validationSchema, // Pass the validation schema
     onSubmit: (values, { setSubmitting }) => {
@@ -87,10 +106,8 @@ const Footer = () => {
                 </div>
               </div>
               <div className=" ">
-                <p>
-                  Crafting Timeless Elegance,One Jewel at a </p> <p> Time.Discover Your
-                  Statement Piece Today.
-                </p>
+                <p>Crafting Timeless Elegance,One Jewel at a </p>{" "}
+                <p> Time.Discover Your Statement Piece Today.</p>
               </div>
             </div>
             <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 border-t">
@@ -108,10 +125,10 @@ const Footer = () => {
                       <div className="caption1">
                         <PhoneInput
                           country={"in"}
-                          value={formik.values.phoneNumber}
+                          value={formik.values.phone}
                           onChange={(value) => {
-                            setPhoneNumber(value);
-                            formik.handleChange("phoneNumber")(value);
+                            setphone("+"+value);
+                            formik.handleChange("phone")(value);
                           }}
                           inputStyle={{ width: "250px" }}
                           // containerClass="custom-phone-input"
@@ -171,7 +188,10 @@ const Footer = () => {
                       Career
                     </div>
                     {careerModal && (
-                      <BookExchangeModal title={"Careers"} closeModal={handleCareerModal} />
+                      <BookExchangeModal
+                        title={"Careers"}
+                        closeModal={handleCareerModal}
+                      />
                     )}
                     {isLoggedIn ? (
                       <Link
@@ -213,14 +233,20 @@ const Footer = () => {
                     <div className="font-semibold">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href={{ pathname: "/products", query: { url: "c-chain" } }}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "c-chain" },
+                      }}
                       onClick={() => setCustomcategory("chain")}
                     >
                       Chains
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{ pathname: "/products", query: { url: "c-bangle" } }}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "c-bangle" },
+                      }}
                       onClick={() => setCustomcategory("bangle")}
                     >
                       Bangles
@@ -283,7 +309,10 @@ const Footer = () => {
                       Book,Exchange and BuyBack
                     </div>
                     {appointmentModal && (
-                      <BookExchangeModal title={"Exchange and BuyBack"} closeModal={handleOnClose} />
+                      <BookExchangeModal
+                        title={"Exchange and BuyBack"}
+                        closeModal={handleOnClose}
+                      />
                     )}
                   </div>
                   <div className="item flex flex-col items-center lg:items-start w-full">
@@ -341,7 +370,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <Extendedfooter/>
+        <Extendedfooter />
       </div>
       {message && <FlashAlert message={message} type={"success"} />}
     </>

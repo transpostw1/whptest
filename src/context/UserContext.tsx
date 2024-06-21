@@ -202,36 +202,68 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       `;
 
-      const customerDetails = {
-        profile_picture:details.profile_picture,
-        firstName: details.firstName,
-        lastName: details.lastName,
-        email: details.email,
-        altPhone: details.altPhone,
-      };
+  //     const customerDetails = {
+  //       profile_picture:details.profile_picture,
+  //       firstName: details.firstName,
+  //       lastName: details.lastName,
+  //       email: details.email,
+  //       altPhone: details.altPhone,
+  //     };
 
-      const { data } = await client.mutate({
-        mutation: STORE_CUSTOMER_DETAILS,
-        variables: {
-          customerDetails,
-        },
-        context: {
-          headers: getAuthHeaders(),
-        },
-        fetchPolicy: "no-cache",
-      });
+  //     const { data } = await client.mutate({
+  //       mutation: STORE_CUSTOMER_DETAILS,
+  //       variables: {
+  //         customerDetails,
+  //       },
+  //       context: {
+  //         headers: getAuthHeaders(),
+  //       },
+  //       fetchPolicy: "no-cache",
+  //     });
 
-      console.log(data.storeCustomerDetails.message);
+  //     console.log(data.storeCustomerDetails.message);
 
-      await getUser();
-      // setLoading(false);
-      return data.storeCustomerDetails.message;
-    } catch (error) {
-      console.error("Error adding user details:", error);
-      // setLoading(false);
-      throw error;
-    }
-  };
+  //     await getUser();
+  //     // setLoading(false);
+  //     return data.storeCustomerDetails.message;
+  //   } catch (error) {
+  //     console.error("Error adding user details:", error);
+  //     // setLoading(false);
+  //     throw error;
+  //   }
+  // };
+  const addUserDetails = async (details: FormValues) => {
+  try {
+    const customerDetails = {
+      profile_picture: details.profilePicture,
+      firstname: details.firstName,
+      lastname: details.lastName,
+      email: details.email,
+      mobile_no: details.phone,
+      altPhone: details.altPhone,
+      gender: details.gender,
+      dob: `${details.dobYear}-${details.dobMonth}-${details.dobDay}`,
+    };
+
+    const { data } = await client.mutate({
+      mutation: STORE_CUSTOMER_DETAILS,
+      variables: {
+        customerDetails,
+      },
+      context: {
+        headers: getAuthHeaders(),
+      },
+      fetchPolicy: "no-cache",
+    });
+
+    console.log(data.storeCustomerDetails.message);
+    await getUser();
+    return data.storeCustomerDetails.message;
+  } catch (error) {
+    console.error("Error adding user details:", error);
+    throw error;
+  }
+};
 
   return (
     <UserContext.Provider

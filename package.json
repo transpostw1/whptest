@@ -92,7 +92,7 @@
       "react": "$react"
     },
     "react-leaflet-heatmap-layer": {
-      "react": "$react"
+      "react": "^18.0.0"
     }
   }
 }

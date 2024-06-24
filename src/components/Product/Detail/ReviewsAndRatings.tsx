@@ -7,9 +7,10 @@ import { FaStar } from "react-icons/fa6";
 import StarRating from "@/components/Other/StarRating";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { baseUrl, storeReviews } from "@/utils/constants";
+import { baseUrl, storeReviews, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import FlashAlert from "@/components/Other/FlashAlert";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 interface Props {
   product: ProductData;
 }
@@ -111,6 +112,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   };
 
   const handleReveiwChange = (e: any) => {
+    console.log("Reveiwes Change", e.target.value);
     setReview(e.target.value);
   };
   const handleMouseMove = (
@@ -127,22 +129,48 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
     e?.preventDefault();
     try {
       const cookieToken = Cookies.get("localtoken");
-      const response: any = await axios.post(
-        `${baseUrl}${storeReviews}`,
-        {
-          productId: product.productDetails.productId,
-          rating: rating,
-          review: review,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const ADD_CUSTOMER_REVIEWS = gql`
+        mutation StoreProductReview($productReview: ProductReviewInput!) {
+          StoreProductReview(productReview: $productReview) {
+            message
+            code
+          }
         }
-      );
-      setType("success");
-      setMessage(response.data.message);
-      setReview("");
+      `;
+      const { data } = await client.mutate({
+        mutation: ADD_CUSTOMER_REVIEWS,
+        variables: {
+          productReview: {
+            productId: product.productDetails.productId,
+            rating: rating,
+            review: review,
+          },
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+      if (data.StoreProductReview.code == 200) {
+        setType("success");
+        setMessage(data.StoreProductReview.message);
+      } else {
+        setType("error");
+        setMessage(data.StoreProductReview.message);
+      }
       setRating(0);
     } catch (error: any) {
       setMessage(error?.response?.data?.message || "An error occurred");

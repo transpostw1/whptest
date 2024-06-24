@@ -21,7 +21,7 @@ const useUserTracking = () => {
   const [nextPageId, setNextPageId] = useState<string | null>(null);
   const [apiCalled, setApiCalled] = useState(false);
   const isIdle = useIdleTimer(180000);
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState<any>({});
   const {userDetails}=useUser()
 
   const callTrackingApi = async (postData: any) => {
@@ -53,8 +53,7 @@ const useUserTracking = () => {
 
         setTimeOnPage((prevTimeOnPage) => {
           const postData = {
-            email: userDetails?.email||null,
-            customer_id:null,
+            user_email: userDetails?.email||null,
             // header: pageHeader,
             current_url: currentPage,
             time_spend: prevTimeOnPage,

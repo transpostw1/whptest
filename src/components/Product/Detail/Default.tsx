@@ -30,7 +30,7 @@ import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
-import ReactImageMagnify from 'react-image-magnify';
+import ReactImageMagnify from "react-image-magnify";
 
 interface Props {
   productId: string | number | any;
@@ -338,16 +338,19 @@ const Default: React.FC<Props> = ({ productId }) => {
   );
   const handleShareClick = () => {
     if (navigator.share) {
-        navigator.share({
-            title: document.title,
-            url: window.location.href
-        }).then(() => {
-            console.log('Thanks for sharing!');
-        }).catch(console.error);
+      navigator
+        .share({
+          title: document.title,
+          url: window.location.href,
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
+        })
+        .catch(console.error);
     } else {
-        console.log('Share API not supported');
+      console.log("Share API not supported");
     }
-};
+  };
   return (
     <>
       <StickyNavProductPage />
@@ -376,15 +379,16 @@ const Default: React.FC<Props> = ({ productId }) => {
                               width: 1000,
                               height: 1200,
                             },
-                            enlargedImageContainerClassName:"enlarge-image-container",
-                            enlargedImagePosition:"over",
+                            enlargedImageContainerClassName:
+                              "enlarge-image-container",
+                            enlargedImagePosition: "over",
                             enlargedImageContainerDimensions: {
                               width: "100%",
                               height: "100%",
                             },
-                            isActivatedOnTouch: true
+                            isActivatedOnTouch: true,
                           }}
-                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }} 
+                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
                         />
                       </div>
                     )
@@ -478,7 +482,10 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
-                <span className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]" onClick={handleShareClick}>
+                <span
+                  className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]"
+                  onClick={handleShareClick}
+                >
                   <Icon.ShareFat
                     size={25}
                     weight="fill"
@@ -493,7 +500,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
-                 |               <StarRating stars={data?.productDetails?.rating} />
+                  | <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
             </>
@@ -537,15 +544,17 @@ const Default: React.FC<Props> = ({ productId }) => {
               handleVariant={handleNewVariant}
             />
           )}
-          {data && data?.productDetails?.productQty !== null && data?.productDetails?.productQty < 5&& (
-            <p className="mt-2">
-              Only{" "}
-              <span className="text-[#e26178]">
-                {data && data?.productDetails?.productQty} pieces
-              </span>{" "}
-              left!
-            </p>
-          )}
+          {data &&
+            data?.productDetails?.productQty !== null &&
+            data?.productDetails?.productQty < 5 && (
+              <p className="mt-2">
+                Only{" "}
+                <span className="text-[#e26178]">
+                  {data && data?.productDetails?.productQty} pieces
+                </span>{" "}
+                left!
+              </p>
+            )}
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
@@ -585,9 +594,12 @@ const Default: React.FC<Props> = ({ productId }) => {
           <Accordian product={data} />
         </div>
       </div>
-      <div className="">
-        <ReviewsAndRatings product={data} />
-      </div>
+      {data?.productDetails?.review.length !== 0 && (
+        <div className="">
+          <ReviewsAndRatings product={data} />
+        </div>
+      )}
+
       <div>
         {data && (
           <SimilarProducts productId={data?.productDetails?.productId} />

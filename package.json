@@ -25,9 +25,9 @@
     "fs": "^0.0.1-security",
     "graphql": "^16.8.2",
     "graphql-request": "^7.0.0",
-    "html2canvas": "^1.4.1",
     "heatmap.js": "^2.0.5",
     "heatmapjs": "^2.0.2",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "next": "^14.2.4",
     "node-polyfill-webpack-plugin": "^3.0.0",
@@ -48,7 +48,6 @@
     "react-inner-image-zoom": "^3.0.2",
     "react-international-phone": "^4.2.6",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-heatmap-layer": "^2.0.0",
     "react-loading": "^2.0.3",
     "react-loading-skeleton": "^3.4.0",
     "react-modal": "^3.16.1",
@@ -90,9 +89,6 @@
   "overrides": {
     "react-image-magnify": {
       "react": "$react"
-    },
-    "react-leaflet-heatmap-layer": {
-      "react": "^18.0.0"
     }
   }
 }

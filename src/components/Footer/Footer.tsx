@@ -38,28 +38,35 @@ const Footer = () => {
 
   const handleSubmit = async () => {
     event?.preventDefault();
+    try {
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
 
-    const client = new ApolloClient({
-      uri: graphqlbaseUrl,
-      cache: new InMemoryCache(),
-    });
-
-    const CUSTOMER_SUBSCRIPTION = gql`
-      mutation StoreCustomerSubscription($customerPhone: CustomerPhoneInput!) {
-        StoreCustomerSubscription(customerPhone:$customerPhone) {
-          message
+      const CUSTOMER_SUBSCRIPTION = gql`
+        mutation StoreCustomerSubscription(
+          $customerPhone: CustomerPhoneInput!
+        ) {
+          StoreCustomerSubscription(customerPhone: $customerPhone) {
+            message
+          }
         }
-      }
-    `;
+      `;
 
-    const { data } = await client.mutate({
-      mutation: CUSTOMER_SUBSCRIPTION,
-      variables: { 
-        customerPhone:{phone }},
+      const { data } = await client.mutate({
+        mutation: CUSTOMER_SUBSCRIPTION,
+        variables: {
+          customerPhone: { phone },
+        },
 
-      fetchPolicy: "no-cache",
-    });
-    setMessage(data.StoreCustomerSubscription.message);
+        fetchPolicy: "no-cache",
+      });
+      setMessage(data.StoreCustomerSubscription.message);
+    } catch (error) {
+      console.log("Error From Subscription", error);
+      setMessage(error)
+    }
   };
   const validationSchema = Yup.object({
     phone: Yup.string().required("Phone number is required"),
@@ -127,7 +134,7 @@ const Footer = () => {
                           country={"in"}
                           value={formik.values.phone}
                           onChange={(value) => {
-                            setphone("+"+value);
+                            setphone("+" + value);
                             formik.handleChange("phone")(value);
                           }}
                           inputStyle={{ width: "250px" }}

@@ -259,12 +259,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           pathname.includes("/blog") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        <Image
-                          src={"/images/icons/blog.svg"}
-                          alt="Blog"
-                          width={30}
-                          height={30}
-                        />
+                        <Icon.Newspaper size={30}/>
                         <p className="text-sm">Blog</p>
                       </div>
                     </Link>
@@ -439,9 +434,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       onClick={handleMenuMobile}
                       className="mx-4 h-6 border-l border-gray-400"
                     ></div>
-                    <Link href={"/login"}>
-                      <h2 className="text-lg font-semibold">Login</h2>
-                    </Link>
+                    <Link href={"/login"}><h2 className="text-lg font-semibold">Login</h2></Link>
                   </div>
                 )}
                 {/* <Link href={"/checkout"}>

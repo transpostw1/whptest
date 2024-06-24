@@ -4,7 +4,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { Address } from "@/type/AddressType";
 import FlashAlert from "../Other/FlashAlert";
-import { baseUrl,graphqlbaseUrl } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
@@ -46,16 +46,41 @@ const ProfileDetails = () => {
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post(
-        `${baseUrl}/customer/address/remove`,
-        { address_id: id },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieTokenn}`,
-          },
+
+      const getAuthHeaders: any = () => {
+        if (!cookieTokenn) return null;
+        return {
+          authorization: `Bearer ${cookieTokenn}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+      const DELETE_CUSTOMER_ADDRESS = gql`
+        mutation DeleteCustomerAddresses(
+          $customerAddresses: [CustomerAddressesInput!]!
+        ) {
+          DeleteCustomerAddresses(customerAddresses: $customerAddresses) {
+            message
+          }
         }
-      );
-      setMessage(response.data.message);
+      `;
+
+      const { data } = await client.mutate({
+        mutation: DELETE_CUSTOMER_ADDRESS,
+        variables: {
+          customerAddresses: [
+            {
+              address_id: id,
+            },
+          ],
+        },
+        fetchPolicy: "no-cache",
+      });
+      setMessage(data.DeleteCustomerAddresses.message);
       setType("success");
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -101,7 +126,7 @@ const ProfileDetails = () => {
       const variables = { token: cookieTokenn };
       const { data } = await client.query({
         query: GET_ADDRESS,
-        variables
+        variables,
       });
       setallAddress(data.getCustomerAddresses);
     };
@@ -191,7 +216,7 @@ const ProfileDetails = () => {
             </label>
             {userDetails?.lastname}
           </div>
-          <div>  
+          <div>
             <label
               htmlFor="phone"
               className="block text-md font-medium text-black"
@@ -234,7 +259,7 @@ const ProfileDetails = () => {
                 </p>
               </div>
               <div className="flex flex-col">
-                <button className="hover:text-[#E26178]">
+                <button className="hover:text-[#E26178] flex justify-center">
                   <Icon.PencilSimple
                     size={25}
                     onClick={() => handleEditAddress(address.address_id)}

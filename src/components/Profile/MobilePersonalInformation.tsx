@@ -129,21 +129,44 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
       const cookieTokenn = Cookies.get("localtoken");
-      const response = await axios.post(
-        `${baseUrl}/customer/address/remove`,
-        { address_id: id },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieTokenn}`,
-          },
+
+      const getAuthHeaders: any = () => {
+        if (!cookieTokenn) return null;
+        return {
+          authorization: `Bearer ${cookieTokenn}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+      const DELETE_CUSTOMER_ADDRESS = gql`
+        mutation DeleteCustomerAddresses(
+          $customerAddresses: [CustomerAddressesInput!]!
+        ) {
+          DeleteCustomerAddresses(customerAddresses: $customerAddresses) {
+            message
+          }
         }
-      );
-      setMessage(response.data.message);
+      `;
+
+      const { data } = await client.mutate({
+        mutation: DELETE_CUSTOMER_ADDRESS,
+        variables: {
+          customerAddresses: [
+            {
+              address_id: id,
+            },
+          ],
+        },
+        fetchPolicy: "no-cache",
+      });
+      setMessage(data.DeleteCustomerAddresses.message);
       setType("success");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching addresses:", error);
-      setMessage(error.data.error);
-      setType("error");
     } finally {
       setIsLoading(false);
     }
@@ -192,30 +215,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   const fetchAddresses = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const cookieTokenn = Cookies.get("localtoken");
-  //       const response = await axios.get<{ customerAddress?: Address[] }>(
-  //         `${baseUrl}/customer/getAddresses`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieTokenn}`,
-  //           },
-  //         }
-  //       );
 
-  //       setallAddress(response.data.customerAddress);
-  //     } catch (error) {
-  //       console.error("Error fetching addresses:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchAddresses();
-  // }, []);
   const closeEditModal = () => {
     setShowModal(false);
   };

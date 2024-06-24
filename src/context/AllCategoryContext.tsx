@@ -57,19 +57,6 @@ const AllCategoryProvider = ({ children }: { children: ReactNode }) => {
     fetchCategories();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const response = await axios.get<Category[]>(`${baseUrl}${category}`); // Adjust the URL to your API endpoint
-  //       setCategories(response.data);
-  //     } catch (err) {
-  //       console.error("Error fetching categories", err);
-  //     }
-  //   };
-
-  //   fetchCategories();
-  // }, []);
-
   return (
     <AllCategoryContext.Provider value={{ categories }}>
       {children}

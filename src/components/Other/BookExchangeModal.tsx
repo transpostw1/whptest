@@ -1,5 +1,5 @@
 "use client"
-import React, { useState,useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { baseUrl, contactForm } from "@/utils/constants";
 import axios from "axios";
 import Image from "next/image";
@@ -7,12 +7,14 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import FlashAlert from "@/components/Other/FlashAlert";
+import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+
 interface Props {
-  title:string
+  title: string
   closeModal: () => void;
 }
-const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
-  const inputRef=useRef<any>()
+const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
+  const inputRef = useRef<any>()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,8 +32,8 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
     // Handle regular input change
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  useEffect(()=>{
-    if(inputRef.current){
+  useEffect(() => {
+    if (inputRef.current) {
       inputRef.current.focus()
     }
   })
@@ -46,12 +48,41 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
     console.log("formdata", formData.email);
     try {
       setIsLoading(true);
-      const response = await axios.post(`${baseUrl}${contactForm}`, {
-        name: formData.name,
-        email: formData.email,
-        number: phone,
-        message: formData.message,
+      const client = new ApolloClient({
+        uri: "http://localhost:4000/graphql",
+        cache: new InMemoryCache(),
       });
+
+      const STORE_CUSTOMER_QUERY = gql`
+        mutation StoreCustomerQueries($customerQueries: [CustomerQueriesInput!]!) {
+          StoreCustomerQueries(customerQueries: $customerQueries) {
+            message
+          }
+        }
+      `;
+
+      const { data } = await client.mutate({
+        mutation: STORE_CUSTOMER_QUERY,
+        variables: {
+          customerQueries: [
+            {
+              name: formData.name,
+              email: formData.email,
+              number: phone,
+              message: formData.message,
+            },
+          ],
+        },
+      })
+
+      console.log(data,"Dataaa");
+
+      // const response = await axios.post(`${baseUrl}${contactForm}`, {
+      //   name: formData.name,
+      //   email: formData.email,
+      //   number: phone,
+      //   message: formData.message,
+      // });
       setMessage("Your Request Has Been Submitted. We Will Contact You Soon");
       setType("success");
     } catch (error) {
@@ -59,12 +90,13 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
       setType("error");
     } finally {
       setIsLoading(false);
-      handleOnClose;
-      
+
+
     }
     setTimeout(() => {
       setFormData({ name: "", email: "", message: "" });
       setPhone("+91");
+      closeModal()
     }, 2000);
   };
   if (isLoading) {
@@ -88,12 +120,12 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
       onClick={handleOnClose}
     >
       <div className="max-w-md w-[65%] max-sm:w-[70%] bg-white p-6 rounded-md shadow-md">
-        <div className="float-right cursor-pointer" onClick={()=>closeModal()}><Icon.X size={25}/></div>
+        <div className="float-right cursor-pointer" onClick={() => closeModal()}><Icon.X size={25} /></div>
         <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
           {title}
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} ref={inputRef}>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -104,7 +136,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             <input
               type="text"
               defaultValue={""}
-              ref={inputRef}
+
               id="name"
               name="name"
               value={formData.name}
@@ -138,7 +170,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             >
               Phone Number:
             </label>
-            
+
             <PhoneInput
               country={"in"}
               value={phone}
@@ -156,7 +188,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
               buttonStyle={{
                 borderColor: "#d1d5db", // border-gray-300 for the dropdown button
               }}
-              // containerClass="custom-phone-input"
+            // containerClass="custom-phone-input"
             />
           </div>
           <div className="mb-4">
@@ -184,7 +216,7 @@ const BookExchangeModal: React.FC<Props> = ({ title,closeModal }) => {
             Submit
           </button>
         </form>
-{/* 
+        {/* 
         {showPopup && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white p-6 rounded-md shadow-md">

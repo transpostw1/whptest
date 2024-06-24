@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import Loader from "../blog/Loader";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
-import { AnyNode } from "postcss";
 
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
@@ -60,14 +59,14 @@ const Wishlist = () => {
 
   const handleAddToCart = (product: any) => {
     const productAlreadyExists = cartItems.find(
-      (item:any) => item.productId === product.productId
+      (item: any) => item.productId === product.productId
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
-      const newProduct:any = {
+      const newProduct: any = {
         productDetails: {
           title: product.title,
           discountPrice: product.discountPrice,
@@ -88,7 +87,7 @@ const Wishlist = () => {
     );
 
     if (!productAlreadyExists) {
-      const newProduct:any = {
+      const newProduct: any = {
         productDetails: {
           title: product.title,
           discountPrice: product.discountPrice,
@@ -126,7 +125,7 @@ const Wishlist = () => {
     setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
   };
 
-  console.log(filteredWishlistItems)
+  console.log(filteredWishlistItems);
 
   return (
     <div className="shop-product breadcrumb1">
@@ -142,16 +141,12 @@ const Wishlist = () => {
           ) : (
             <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
               {filteredWishlistItems?.map((product, index) => (
-                <div key={index} className="relative cursor-pointer">
+                <div
+                  key={index}
+                  className="relative cursor-pointer flex justify-center"
+                >
                   <div className="product-card p-4 h-[100%] w-[80%]">
-                    <div
-                      className="product-image flex justify-center"
-                      onClick={() =>
-                        router.push(
-                          `/products/${product.productId}/${product.url}`
-                        )
-                      }
-                    >
+                    <div className="product-image flex justify-center">
                       {isLoggedIn && imageLoading[product.productId] ? (
                         <Skeleton
                           width={300}
@@ -166,6 +161,11 @@ const Wishlist = () => {
                             width={300}
                             height={300}
                             className="rounded-md bg-[#f7f7f7]"
+                            onClick={() =>
+                              router.push(
+                                `/products/${product.productId}/${product.url}`
+                              )
+                            }
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
                           />
@@ -191,6 +191,11 @@ const Wishlist = () => {
                             alt={product.title}
                             width={300}
                             height={300}
+                            onClick={() =>
+                              router.push(
+                                `/products/${product.productId}/${product.url}`
+                              )
+                            }
                             className="rounded-md bg-[#f7f7f7]"
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
@@ -212,7 +217,14 @@ const Wishlist = () => {
                         </div>
                       )}
                     </div>
-                    <div className="product-details mt-4">
+                    <div
+                      className="product-details mt-4"
+                      onClick={() =>
+                        router.push(
+                          `/products/${product.productId}/${product.url}`
+                        )
+                      }
+                    >
                       <h3 className="product-name text-title text-xl truncate">
                         {product.title}
                       </h3>
@@ -229,15 +241,15 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-between mt-3">
+                    <div className="flex lg:max-xl:flex-row flex-col flex-wrap lg:flex-row items-center gap-2 justify-between mt-3">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-44 w-full p-1 mr-3 rounded-md"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-44 w-full p-1 rounded-md"
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart

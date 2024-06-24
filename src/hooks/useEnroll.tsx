@@ -5,14 +5,20 @@ import Cookies from "js-cookie";
 import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
-const useEnroll = (setBackendMessage, setBackendError, setFlashType) => {
+type FlashType = "success" | "error" | "info";
+
+const useEnroll = (
+  setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>,
+  setBackendError: React.Dispatch<React.SetStateAction<string | null>>,
+  setFlashType: React.Dispatch<React.SetStateAction<FlashType>>
+) => {
   const [loading, setLoading] = useState(false);
   const cookieToken = Cookies.get("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleEnroll = async (schemeType, amount) => {
+  const handleEnroll = async (schemeType: string, amount: number) => {
     if (!isLoggedIn) {
       setLoading(true);
       localStorage.setItem("redirectPath", pathname);

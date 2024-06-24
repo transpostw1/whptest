@@ -87,8 +87,11 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-   "overrides": {
+  "overrides": {
     "react-image-magnify": {
+      "react": "$react"
+    },
+    "react-leaflet-heatmap-layer": {
       "react": "$react"
     }
   }

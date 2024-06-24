@@ -73,6 +73,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   //   }
   // }, [isLoggedIn]);
 
+
+
   useEffect(() => {
     console.log("useEffect hook called");
 
@@ -152,6 +154,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchWishlistItems();
   }, [isLoggedIn, cookieToken]);
+   
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {

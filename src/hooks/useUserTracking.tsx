@@ -1,10 +1,10 @@
-"use client"
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import useIdleTimer from './useIdleTime';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import useIdleTimer from "./useIdleTime";
 import axios from "axios";
-import {baseUrl,userTracking}from "@/utils/constants"
-import { useUser } from '@/context/UserContext';
+import { baseUrl, userTracking } from "@/utils/constants";
+import { useUser } from "@/context/UserContext";
 
 type ClickHistory = {
   x: number;
@@ -21,14 +21,17 @@ const useUserTracking = () => {
   const [nextPageId, setNextPageId] = useState<string | null>(null);
   const [apiCalled, setApiCalled] = useState(false);
   const isIdle = useIdleTimer(180000);
-  const [post, setPost] = useState({});
-  const {userDetails}=useUser()
+  const [post, setPost] = useState<any>({});
+  const { userDetails } = useUser();
 
   const callTrackingApi = async (postData: any) => {
-    console.log("PostDAta",postData);
+    console.log("PostDAta", postData);
     try {
-      const response:any = await axios.post(`${baseUrl}${userTracking}`,postData)
-      console.log("Response for UserTracking",response.data);
+      const response: any = await axios.post(
+        `${baseUrl}${userTracking}`,
+        postData
+      );
+      console.log("Response for UserTracking", response.data);
       if (postData.isIdle === 1) {
         setNextPageId(null);
       } else {
@@ -53,8 +56,7 @@ const useUserTracking = () => {
 
         setTimeOnPage((prevTimeOnPage) => {
           const postData = {
-            email: userDetails?.email||null,
-            customer_id:null,
+            user_email: userDetails?.email || null,
             // header: pageHeader,
             current_url: currentPage,
             time_spend: prevTimeOnPage,
@@ -66,7 +68,9 @@ const useUserTracking = () => {
 
           setPost(postData);
 
-          console.log(`Time spent on ${currentPage} page is ${prevTimeOnPage} second`);
+          console.log(
+            `Time spent on ${currentPage} page is ${prevTimeOnPage} second`
+          );
           console.log("Clicks on Page", clicksOnPage, clickHistory);
           callTrackingApi(postData);
 
@@ -82,7 +86,7 @@ const useUserTracking = () => {
     function onClick(e: MouseEvent) {
       setClickHistory((prevCoordinates) => [
         ...prevCoordinates,
-        { x: e.pageX, y: e.pageY},
+        { x: e.pageX, y: e.pageY },
       ]);
       setClicksOnPage((prev) => prev + 1);
     }
@@ -95,7 +99,7 @@ const useUserTracking = () => {
       window.removeEventListener("click", onClick);
       clearInterval(timerId);
     };
-  },[currentPage,clicksOnPage]);
+  }, [currentPage, clicksOnPage]);
 
   useEffect(() => {
     if (isIdle && !apiCalled) {
@@ -103,16 +107,15 @@ const useUserTracking = () => {
         window.localStorage.getItem("activity_ids") || "[]"
       );
       const postData = {
-        email: userDetails?.email||null,
-        customer_id:null,
+        user_email: userDetails?.email || null,
+        user_id: null,
         current_url: currentPage,
         time_spend: timeOnPage,
-        // header: pageHeader,
         no_of_clicks: clicksOnPage,
         click_history: clickHistory,
         next_page: nextPageId,
         isIdle,
-
+        // header: pageHeader,
       };
       callTrackingApi(postData);
       setApiCalled(true);

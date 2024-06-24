@@ -73,8 +73,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   //   }
   // }, [isLoggedIn]);
 
-
-
   useEffect(() => {
     console.log("useEffect hook called");
 
@@ -324,7 +322,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
         };
 
         const client = new ApolloClient({
-          uri: "http://localhost:4000/graphql",
+          uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
           cache: new InMemoryCache(),
         });

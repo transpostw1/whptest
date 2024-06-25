@@ -14,6 +14,8 @@ import OrderSummary from "./OrderSummary";
 import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 import {
   AddressBook,
   ShoppingCart,

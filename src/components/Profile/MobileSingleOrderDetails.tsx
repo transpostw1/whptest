@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl ,graphqlbaseUrl} from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import axios from "axios";
 interface Props {
   singleOrder: any;
@@ -16,15 +17,46 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
     try {
       setLoading(true);
       const cookieToken = Cookie.get("localtoken");
-      const response = await axios.post(
-        `${baseUrl}/${id}/cancel`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${cookieToken}` },
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const CUSTOMER_ORDER_CANCEL = gql`
+        mutation Mutation($customerOrder: CustomerOrderInput!) {
+          CancelCustomerOrder(customerOrder: $customerOrder) {
+            message
+            code
+          }
         }
-      );
-      setMessage(response.data.message);
-      setType("success");
+      `;
+      const { data } = await client.mutate({
+        mutation: CUSTOMER_ORDER_CANCEL,
+        variables: {
+          customerOrder: {
+            orderId: id,
+          },
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+      if (data.CancelCustomerOrder.code == 200) {
+        setMessage(data.CancelCustomerOrder.message);
+        setType("success");
+      } else {
+        setMessage(data.CancelCustomerOrder.message);
+        setType("error");
+      }
     } catch (error: any) {
       console.error("Error fetching orders:", error);
       setMessage(error.response.data.message);

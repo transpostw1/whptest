@@ -73,6 +73,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   //   }
   // }, [isLoggedIn]);
 
+
+
   useEffect(() => {
     console.log("useEffect hook called");
 

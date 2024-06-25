@@ -500,8 +500,9 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
-                          }`}
+                        className={`p-2 rounded-full border border-gray-300 ${
+                          selectedStep >= index ? "bg-rose-400" : "bg-white"
+                        }`}
                       >
                         {step.icon}
                       </div>
@@ -689,15 +690,15 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                  <div id="order-summary">
-                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                    <OrderSummary
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={MainCart}
-                    />
-                  </div>
-                )}
+                <div id="order-summary">
+                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                  <OrderSummary
+                    totalDiscount={totalDiscount}
+                    totalCart={totalCart}
+                    cartItems={buyNow ? finalBuyNowItems : MainCart}
+                  />
+                </div>
+              )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

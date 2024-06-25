@@ -23,6 +23,7 @@ import StickyNav from "@/components/Header/StickyNav";
 
 import Head from "next/head";
 
+import HeatMap from "@/components/Home1/HeatMap";
 
 export default function Home() {
   const { products } = useProductContext();

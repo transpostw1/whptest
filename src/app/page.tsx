@@ -20,7 +20,9 @@ import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
-import HeatMap from "@/components/Home1/HeatMap";
+
+import Head from "next/head";
+
 
 export default function Home() {
   const { products } = useProductContext();

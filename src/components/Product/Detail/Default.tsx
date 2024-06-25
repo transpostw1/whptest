@@ -493,7 +493,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
-              {data?.productDetails?.review && (
+              {data?.productDetails?.review.length!=0 && (
                 <div className="flex flex-wrap mb-2">
                   <div>
                     <span className="underline mr-2 cursor-pointer">

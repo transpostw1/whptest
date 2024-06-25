@@ -31,7 +31,7 @@
     "heatmapjs": "^2.0.2",
     "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
-    "next": "^14.0.3",
+    "next": "^14.2.4",
     "node-polyfill-webpack-plugin": "^3.0.0",
     "nookies": "^2.5.2",
     "nprogress": "^0.2.0",
@@ -50,7 +50,6 @@
     "react-inner-image-zoom": "^3.0.2",
     "react-international-phone": "^4.2.6",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-heatmap-layer": "^2.0.0",
     "react-loading": "^2.0.3",
     "react-loading-skeleton": "^3.4.0",
     "react-modal": "^3.16.1",
@@ -89,5 +88,10 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "overrides": {
+    "react-image-magnify": {
+      "react": "$react"
+    }
   }
 }

@@ -324,7 +324,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
         };
 
         const client = new ApolloClient({
-          uri: "http://localhost:4000/graphql",
+          uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
           cache: new InMemoryCache(),
         });

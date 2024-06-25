@@ -48,7 +48,7 @@ export default function Home() {
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
-        <HeatMap data={heatmapData} />
+        {/* <HeatMap data={heatmapData} /> */}
         <Explore />
         {/* <Collection /> */}
         <ProductSlider />

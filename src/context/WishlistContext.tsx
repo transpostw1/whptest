@@ -152,6 +152,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchWishlistItems();
   }, [isLoggedIn, cookieToken]);
+   
   const normalizeImagePath = (
     imagePath: string | string[] | undefined
   ): string => {
@@ -321,7 +322,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
         };
 
         const client = new ApolloClient({
-          uri: "http://localhost:4000/graphql",
+          uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
           cache: new InMemoryCache(),
         });

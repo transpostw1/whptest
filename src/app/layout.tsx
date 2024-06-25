@@ -9,6 +9,7 @@ import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
+import UserTracking from "./UserTracking";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -30,17 +31,16 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
         </head>
-        <Suspense>
-          <body className={instrument.className}>
-            <TopNavOne textColor="text-white" />
-            <NavTwo props="style-three bg-white" />
-            <div id="header" className="w-full ">
-              <NavHoverMenu props="bg-white" />
-            </div>
-            {children}
-            <Footer />
-          </body>
-        </Suspense>
+        <body className={instrument.className}>
+        <UserTracking />
+          <TopNavOne textColor="text-white" />
+          <NavTwo props="style-three bg-white" />
+          <div id="header" className="w-full ">
+            <NavHoverMenu props="bg-white" />
+          </div>
+          {children}
+          <Footer />
+        </body>
       </html>
     </GlobalProvider>
   );

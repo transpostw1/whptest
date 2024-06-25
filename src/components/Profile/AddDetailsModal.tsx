@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -25,8 +25,12 @@ interface FormValues {
 const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const { addUserDetails, userDetails } = useUser();
-
+  const { addUserDetails, userDetails,getUser,isLoggedIn} = useUser();
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser();
+    }
+  }, []);
 
   const handleSubmit = async (values: FormValues) => {
     setIsLoading(true);
@@ -40,13 +44,9 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       altPhone: values.altPhone,
       gender: values.gender,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      ...(values.profilePicture && { profile_picture: values.profilePicture }),
+      // ...(values.profilePicture && { profile_picture: values.profilePicture }),
+      profile_picture: values.profilePicture,
     };
-    //     values.profilePicture !== null
-    //       ? values.profilePicture
-    //       : userDetails?.customer?.profile_picture,
-    // };
-
     try {
       await addUserDetails(formattedValues);
       handleClose();
@@ -132,7 +132,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="firstName"
                   type="text"
                   {...formik.getFieldProps("firstName")}
-                  value={formik.values.firstName}
+                  value={formik.initialValues.firstName}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.firstName
                       ? "border-red-500"

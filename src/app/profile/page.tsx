@@ -55,7 +55,7 @@ const ProfilePage = () => {
     if (isLoggedIn) {
       getUser();
     }
-  }, []);
+  }, [isLoggedIn]);
   
   const handleOrders = async () => {
     try {
@@ -183,6 +183,7 @@ const ProfilePage = () => {
       </ProtectedRoute>
     );
   }
+  
   return (
     <>
       <ProtectedRoute>

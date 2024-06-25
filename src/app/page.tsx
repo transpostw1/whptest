@@ -23,6 +23,7 @@ import StickyNav from "@/components/Header/StickyNav";
 
 import Head from "next/head";
 
+import HeatMap from "@/components/Home1/HeatMap";
 
 export default function Home() {
   const { products } = useProductContext();
@@ -40,13 +41,13 @@ export default function Home() {
   ];
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>Home - WHP Web</title>
         <meta
           name="description"
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
-      </Head>
+      </Head> */}
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />

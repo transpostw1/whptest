@@ -4,7 +4,8 @@ import Image from "next/image";
 import axios from "axios";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 interface Props {
   singleOrder: any;
@@ -19,15 +20,46 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
     try {
       setLoading(true);
       const cookieToken = Cookie.get("localtoken");
-      const response = await axios.post(
-        `${baseUrl}/${id}/cancel`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${cookieToken}` },
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const CUSTOMER_ORDER_CANCEL = gql`
+        mutation Mutation($customerOrder: CustomerOrderInput!) {
+          CancelCustomerOrder(customerOrder: $customerOrder) {
+            message
+            code
+          }
         }
-      );
-      setMessage(response.data.message);
-      setType("success");
+      `;
+      const { data } = await client.mutate({
+        mutation: CUSTOMER_ORDER_CANCEL,
+        variables: {
+          customerOrder: {
+            orderId: id,
+          },
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+      if (data.CancelCustomerOrder.code == 200) {
+        setMessage(data.CancelCustomerOrder.message);
+        setType("success");
+      } else {
+        setMessage(data.CancelCustomerOrder.message);
+        setType("error");
+      }
     } catch (error: any) {
       console.error("Error fetching orders:", error);
       setMessage(error.response.data.message);
@@ -64,10 +96,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       </div>
 
       {singleOrder?.map((items: any, index: any) => (
-        <div
-          key={index}
-          className="p-4 border border-gray items-center"
-        >
+        <div key={index} className="p-4 border border-gray items-center">
           {items.productDetails.map((product: any, index: any) => (
             <div className="flex justify-between items-center py-2" key={index}>
               <div className="flex">
@@ -88,7 +117,6 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                 </div>
               </div>
               <p>
-
                 ₹
                 {Intl.NumberFormat("en-IN", {
                   minimumFractionDigits: 2,
@@ -101,7 +129,8 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                   minimumFractionDigits: 2,
                 }).format(
                   Math.round(
-                    parseInt(product?.discountedTotal) * parseInt(product?.quantity)
+                    parseInt(product?.discountedTotal) *
+                      parseInt(product?.quantity)
                   )
                 )}
               </div>
@@ -186,7 +215,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||
-        singleOrder[0]?.orderStatus === "5" ? null : (
+      singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
             Order Cancel

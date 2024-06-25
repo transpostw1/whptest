@@ -183,11 +183,88 @@ const Payment: React.FC<PaymentProps> = ({
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
+  const handleCodPayment = async () => {
+    setLoading(true);
+    try {
+      try {
+        setLoading(true);
+        // Prepare the data to be sent to the API
+        const orderData = {
+          shippingAddress: selectedShippingAddress
+            ? {
+                addressId: selectedShippingAddress.address_id || null,
+                addressType: selectedShippingAddress.address_type,
+                fullAddress: selectedShippingAddress.full_address,
+                country: selectedShippingAddress.country,
+                state: selectedShippingAddress.state,
+                city: selectedShippingAddress.city,
+                landmark: selectedShippingAddress.landmark,
+                pincode: selectedShippingAddress.pincode.toString(),
+              }
+            : {},
+          billingAddress: selectedBillingAddress
+            ? {
+                addressId: selectedBillingAddress.address_id || null,
+                addressType: selectedBillingAddress.address_type,
+                fullAddress: selectedBillingAddress.full_address,
+                country: selectedBillingAddress.country,
+                state: selectedBillingAddress.state,
+                city: selectedBillingAddress.city,
+                landmark: selectedBillingAddress.landmark,
+                pincode: selectedBillingAddress.pincode.toString(),
+              }
+            : {},
+          productDetails: {
+            products: mappedCartItems.map((item) => ({
+              productId: item.productId.toString(),
+              productAmount: item.price,
+              quantity: item.quantity.toString(),
+              productTotal: (item.price * item.quantity).toString(),
+              discountAmount: "0", // Replace with the actual discount amount if available
+              discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
+            })),
+            coupons: {
+              couponCode: couponCode, // Replace with the actual coupon code if available
+              discountPrice: totalDiscount, // Replace with the actual discount price if available
+            },
+            productTotal: totalCart.toString(),
+            discountedTotal: (totalCart - totalDiscount).toString(),
+            shippingCharges: "10",
+          },
+        };
 
+        console.log(orderData, "orderData");
+
+        const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        });
+        console.log(apiResponse.data);
+        // Handle the response as needed
+
+        // Call the onOrderComplete function after the API call is successful
+        onOrderComplete(setCartItems);
+      } catch (error) {
+        console.error("Error placing order:", error);
+      } finally {
+        setLoading(false);
+        router.push("/profile");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
       console.log("razorpay should initiate");
       handleRazorpayPayment();
+    } else if (selectedPaymentMethod === "COD") {
+      handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {
       handleOtherPaymentGateway();
     } else {
@@ -214,6 +291,30 @@ const Payment: React.FC<PaymentProps> = ({
     <div className="flex flex-col lg:w-[50rem] md:w-[30rem] sm:w-[30rem] gap-5">
       <h1 className="text-2xl">Payment Method</h1>
       <div className="flex flex-col gap-3">
+        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+          <label
+            htmlFor="razorpayPayment"
+            className="flex gap-2 cursor-pointer font-medium"
+          >
+            <Image
+              src="/images/other/upi-icon.png"
+              alt="upi"
+              width={30}
+              height={30}
+              objectFit="fill"
+            />
+            Cash On Delivery(COD)
+          </label>
+          <input
+            type="radio"
+            id="razorpayPayment"
+            name="paymentOption"
+            value="COD"
+            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+            checked={selectedPaymentMethod === "COD"}
+            onChange={handlePaymentMethodChange}
+          />
+        </div>
         <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="razorpayPayment"

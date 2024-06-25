@@ -78,6 +78,7 @@ const AddAddressModal: React.FC<Props> = ({
         },
         fetchPolicy: "no-cache",
       });
+      
       console.log("Response from backend:", data);
       onAddressAdded(isForBillingAddress);
       closeModal();

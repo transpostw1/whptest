@@ -20,6 +20,7 @@ const Footer = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
   const [careerModal, setCareerModal] = useState<boolean>(false);
   const [phone, setphone] = useState("");
+  const [type, setType] = useState<"success" | "error">("success");
   const [message, setMessage] = useState<any>(null);
   const { setCustomcategory } = useCategory();
   const { isLoggedIn } = useUser();
@@ -62,10 +63,16 @@ const Footer = () => {
 
         fetchPolicy: "no-cache",
       });
-      setMessage(data.StoreCustomerSubscription.message);
+      if (data.StoreCustomerSubscription.code == 200) {
+        setMessage(data.StoreCustomerSubscription.message);
+        setType("success");
+      }else{
+        setMessage(data.StoreCustomerSubscription.message);
+        setType("error")
+      }
     } catch (error) {
       console.log("Error From Subscription", error);
-      setMessage(error)
+      setMessage(error);
     }
   };
   const validationSchema = Yup.object({
@@ -379,7 +386,7 @@ const Footer = () => {
         </div>
         <Extendedfooter />
       </div>
-      {message && <FlashAlert message={message} type={"success"} />}
+      {message && <FlashAlert message={message} type={type} />}
     </>
   );
 };

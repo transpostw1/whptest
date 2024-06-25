@@ -381,10 +381,8 @@
 }
 /********************** Effect 10 *************************/
 .effect10 {
-  float: left;
   display: inline-block;
   width: 100%;
-  max-width: 300px;
   margin-right: 1.5%;
   position: relative;
   cursor: pointer;

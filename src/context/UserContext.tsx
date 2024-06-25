@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import createUploadLink from "apollo-upload-client";
+import { createUploadLink } from "apollo-upload-client";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -106,7 +106,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const client = new ApolloClient({
-    link:createUploadLink({
+    link:new HttpLink({
       uri: graphqlbaseUrl,
       headers: getAuthHeaders(),
     }),

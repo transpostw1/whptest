@@ -78,7 +78,22 @@ const AddAddressModal: React.FC<Props> = ({
         },
         fetchPolicy: "no-cache",
       });
-      
+      // const response = await axios.post<{ data: any }>(
+      //   `${baseUrl}${addAddress}`,
+      //   {
+      //     pincode: values.pincode,
+      //     full_address: values.full_address,
+      //     country: values.country,
+      //     state: values.state,
+      //     city: values.city,
+      //     address_type: isForBillingAddress ? "billing" : values.address_type,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${cookieToken}`,
+      //     },
+      //   }
+      // );
       console.log("Response from backend:", data);
       onAddressAdded(isForBillingAddress);
       closeModal();

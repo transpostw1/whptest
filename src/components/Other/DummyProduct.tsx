@@ -79,7 +79,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   };
 
   const handleDetailProduct = (productId:any,productUrl: any) => {
-    router.push(`/products/${productUrl}/${productId}`);
+    router.push(`/products/${productId}/${productUrl}`);
   };
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
     Math.round(parseFloat(data?.discountPrice ?? 0))

@@ -7,11 +7,13 @@ interface Props {
   product: ProductData;
   handleVariant: (e: string) => void;
 }
+
 const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
   const handleNewVariants = (e: any) => {
+    console.log("Dropping variants", e.target.value);
     handleVariant(e.target.value);
   };
-  console.log(product,"product");
+  console.log(product, "product");
   return (
     <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] md:w-[65%] p-3">
       {product?.variants?.map((item, index) => (
@@ -29,6 +31,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
                   key={index}
                   className="p-2 cursor-pointer hover:bg-gray-400"
                   value={options.ProductUrl}
+                  selected={options.ProductId == product.productId}
                 >
                   {options.VariantName}
                 </option>

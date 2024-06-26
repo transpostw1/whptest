@@ -62,8 +62,8 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
-      // uri: "http://localhost:8080/",
-      uri: graphqlProductUrl,
+      uri: "http://localhost:8080/",
+      // uri: graphqlProductUrl,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -153,10 +153,16 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
+    let productUrl = '';
+    if (variant) {
+      productUrl = variant;
+    } else {
+      productUrl = productId[1];
+    }
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: productId[1] },
+      variables: { productUrl: productUrl },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);
@@ -165,6 +171,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   }
 
   async function singleProduct() {
+    console.log("Single Product");
     const product = await getData();
     setData(product);
     setLoading(false);
@@ -177,105 +184,107 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
-      const client = new ApolloClient({
-        // uri: "http://localhost:8080/",
-        uri: graphqlProductUrl,
-        cache: new InMemoryCache(),
-      });
-      const GET_SINGLE_PRODUCT = gql`
-        query productDetails($productUrl: String!) {
-          productDetails(productUrl: $productUrl) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-            review
-            variants
-          }
-        }
-      `;
-      console.log("----------------", productId);
-      console.log("----------------", productId);
+      const match = newUrl.match(/0p(\d+)/);
+      const newId = match ? match[1] : '';
+      router.push(`/products/${newId}/${newUrl}`);
+      // const client = new ApolloClient({
+      //   uri: "http://localhost:8080/",
+      //   // uri: graphqlProductUrl,
+      //   cache: new InMemoryCache(),
+      // });
+      // const GET_SINGLE_PRODUCT = gql`
+      //   query productDetails($productUrl: String!) {
+      //     productDetails(productUrl: $productUrl) {
+      //       productId
+      //       SKU
+      //       variantId
+      //       isParent
+      //       title
+      //       displayTitle
+      //       shortDesc
+      //       longDesc
+      //       url
+      //       tags
+      //       collectionName
+      //       shopFor
+      //       occasion
+      //       theme
+      //       length
+      //       breadth
+      //       height
+      //       addDate
+      //       lastModificationDate
+      //       productSize
+      //       productQty
+      //       attributeId
+      //       preSalesProductQueries
+      //       isReplaceable
+      //       isReturnable
+      //       isInternationalShippingAvailable
+      //       customizationAvailability
+      //       fastDelivery
+      //       tryAtHome
+      //       isActive
+      //       grossWeight
+      //       netWeight
+      //       discountId
+      //       discountCategory
+      //       discountActive
+      //       typeOfDiscount
+      //       discountValue
+      //       discountAmount
+      //       discountPrice
+      //       offerStartDate
+      //       offerEndDate
+      //       mediaId
+      //       metalType
+      //       metalPurity
+      //       metalWeight
+      //       metalRate
+      //       makingType
+      //       makingChargesPerGrams
+      //       makingCharges
+      //       gst
+      //       additionalCost
+      //       productPrice
+      //       discountPrice
+      //       rating
+      //       imageDetails {
+      //         image_path
+      //         order
+      //         alt_text
+      //       }
+      //       videoDetails {
+      //         video_path
+      //         order
+      //         alt_text
+      //       }
+      //       productAttributes {
+      //         goldDetails {
+      //           goldCertifiedBy
+      //           goldSetting
+      //         }
+      //         gemstoneDetails
+      //         diamondDetails
+      //         silverDetails {
+      //           poojaArticle
+      //           utensils
+      //           silverWeight
+      //         }
+      //       }
+      //       stoneDetails
+      //       diamondDetails
+      //       review
+      //       variants
+      //     }
+      //   }
+      // `;
+      // console.log("----------------", productId);
 
-      const { data } = await client.query({
-        query: GET_SINGLE_PRODUCT,
-        variables: { productUrl: newUrl },
-      });
+      // const { data } = await client.query({
+      //   query: GET_SINGLE_PRODUCT,
+      //   variables: { productUrl: newUrl },
+      // });
       setLoading(true);
       // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await data);
@@ -388,7 +397,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             isActivatedOnTouch: true,
                           }}
-                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
+                        // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
                         />
                       </div>
                     )
@@ -493,7 +502,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
-              {data?.productDetails?.review.length!=0 && (
+              {data?.productDetails?.review.length != 0 && (
                 <div className="flex flex-wrap mb-2">
                   <div>
                     <span className="underline mr-2 cursor-pointer">

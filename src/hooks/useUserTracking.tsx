@@ -16,7 +16,6 @@ const useUserTracking = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>("");
   const [timeOnPage, setTimeOnPage] = useState<number>(0);
-  // const [pageHeader, setPageHeader] = useState<string>("");
   const [clicksOnPage, setClicksOnPage] = useState<number>(0);
   const [clickHistory, setClickHistory] = useState<ClickHistory[]>([]);
   const [nextPageId, setNextPageId] = useState<string | null>(null);

@@ -87,7 +87,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   let loggedIn = null;
   if (typeof window != "undefined") {
-    loggedIn = localStorage.getItem("isLoggedIn");
+    loggedIn = localStorage..getItem("isLoggedIn");
   }
   // Function to handle file selection
   const handleImageChange = (event: any) => {
@@ -128,7 +128,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleReviews = async (e: any) => {
     e?.preventDefault();
     try {
-      const cookieToken = Cookies.get("localtoken");
+      const cookieToken = localStorage.getItem("localtoken");
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

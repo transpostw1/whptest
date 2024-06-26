@@ -16,7 +16,7 @@ export const useFetchWishlistItems = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const userToken = Cookies.get("localtoken");
+      const userToken = localStorage.getItem("localtoken");
       if (userToken) {
         // setIsLoggedIn(true);
         setCookieToken(userToken);
@@ -34,7 +34,7 @@ export const useFetchWishlistItems = () => {
         let localWishlistItems = null;
         if (typeof window !== "undefined") {
           localWishlistItems = JSON.parse(
-            localStorage.getItem("wishlistItems") || "[]"
+            localStorage..getItem("wishlistItems") || "[]"
           );
         }
         const mergedWishlistItems = [...wishlistData, ...localWishlistItems];

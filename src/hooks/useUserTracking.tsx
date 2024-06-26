@@ -21,7 +21,7 @@ const useUserTracking = () => {
   const [clickHistory, setClickHistory] = useState<ClickHistory[]>([]);
   const [nextPageId, setNextPageId] = useState<string | null>(null);
   const [apiCalled, setApiCalled] = useState(false);
-  const isIdle = useIdleTimer(180000);
+  const isIdle = useIdleTimer(600000);
   const [post, setPost] = useState<any>({});
   const { userDetails } = useUser();
 

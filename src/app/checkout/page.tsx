@@ -297,7 +297,7 @@ const Checkout: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-      localStorage..removeItem("cartItems");
+      localStorage.removeItem("cartItems");
       console.log("API response:", data);
 
       setCartItems([]);
@@ -377,7 +377,7 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      localStorage..setItem("redirectPath", window.location.href);
+      localStorage.setItem("redirectPath", window.location.href);
       router.push("/login");
       return;
     }

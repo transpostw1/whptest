@@ -87,7 +87,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   let loggedIn = null;
   if (typeof window != "undefined") {
-    loggedIn = localStorage..getItem("isLoggedIn");
+    loggedIn = localStorage.getItem("isLoggedIn");
   }
   // Function to handle file selection
   const handleImageChange = (event: any) => {

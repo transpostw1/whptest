@@ -30,7 +30,7 @@ const useEnroll = ({
   const handleEnroll = async (schemeType: any, amount: any) => {
     if (!isLoggedIn) {
       setLoading(true);
-      localStorage..setItem("redirectPath", pathname);
+      localStorage.setItem("redirectPath", pathname);
       router.push("/login");
       return;
     }

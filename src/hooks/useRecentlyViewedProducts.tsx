@@ -9,7 +9,7 @@ const useRecentlyViewedProducts = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedProducts = JSON.parse(
-        localStorage..getItem("recentlyViewedProducts") || "[]"
+        localStorage.getItem("recentlyViewedProducts") || "[]"
       );
       setRecentlyViewedProducts(storedProducts);
     }
@@ -19,7 +19,7 @@ const useRecentlyViewedProducts = () => {
     if (typeof window !== "undefined") {
       if (product) {
         const recentlyViewedProducts = JSON.parse(
-          localStorage..getItem("recentlyViewedProducts") || "[]"
+          localStorage.getItem("recentlyViewedProducts") || "[]"
         );
 
         // Check if the product already exists in the local storage
@@ -38,7 +38,7 @@ const useRecentlyViewedProducts = () => {
           // localStorage..setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts));
           {
             typeof window !== "undefined" &&
-              localStorage..setItem(
+              localStorage.setItem(
                 "recentlyViewedProducts",
                 JSON.stringify(recentlyViewedProducts)
               );
@@ -52,7 +52,7 @@ const useRecentlyViewedProducts = () => {
         (product) => product.productId !== productId
       );
       setRecentlyViewedProducts(updatedProducts);
-      localStorage..setItem(
+      localStorage.setItem(
         "recentlyViewedProducts",
         JSON.stringify(updatedProducts)
       );

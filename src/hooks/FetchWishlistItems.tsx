@@ -34,7 +34,7 @@ export const useFetchWishlistItems = () => {
         let localWishlistItems = null;
         if (typeof window !== "undefined") {
           localWishlistItems = JSON.parse(
-            localStorage..getItem("wishlistItems") || "[]"
+            localStorage.getItem("wishlistItems") || "[]"
           );
         }
         const mergedWishlistItems = [...wishlistData, ...localWishlistItems];

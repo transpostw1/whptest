@@ -12,7 +12,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
@@ -25,7 +25,7 @@ const ProductSlider = () => {
         setLoading(true);
         const client = new ApolloClient({
           // uri: "http://localhost:8080/",
-          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
 

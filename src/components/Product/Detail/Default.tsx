@@ -19,7 +19,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
@@ -63,7 +63,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   async function getData() {
     const client = new ApolloClient({
       // uri: "http://localhost:8080/",
-      uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      uri: graphqlProductUrl,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -179,7 +179,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       setVariant(newUrl);
       const client = new ApolloClient({
         // uri: "http://localhost:8080/",
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
+        uri: graphqlProductUrl,
         cache: new InMemoryCache(),
       });
       const GET_SINGLE_PRODUCT = gql`

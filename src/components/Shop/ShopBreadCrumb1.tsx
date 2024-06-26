@@ -12,6 +12,7 @@ import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { graphqlProductUrl } from "@/utils/constants";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -65,7 +66,7 @@ const ShopBreadCrumb1 = () => {
         console.log("Received filter options:", combinedOptions);
         setIsLoading(false);
         const client = new ApolloClient({
-          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
 

@@ -55,6 +55,7 @@ const ShopBreadCrumb1 = () => {
     // console.log("selectedOptions:", combinedOptions);
     if (
       combinedOptions.category.length > 0 ||
+      combinedOptions.search.length > 0 ||
       combinedOptions.priceFilter.length > 0 ||
       combinedOptions.gender.length > 0 ||
       combinedOptions.karat.length > 0 ||
@@ -71,6 +72,7 @@ const ShopBreadCrumb1 = () => {
         const GET_PRODUCTS = gql`
           query Products(
             $category: [CategoryArrayInput!]
+            $search: [SearchArrayInput!]
             $priceFilter: [PriceArrayInput!]
             $gender: [GenderArrayInput!]
             $karat: [KaratArrayInput!]
@@ -81,6 +83,7 @@ const ShopBreadCrumb1 = () => {
           ) {
             products(
               category: $category
+              search : $search
               priceFilter: $priceFilter
               gender: $gender
               karat: $karat
@@ -176,6 +179,7 @@ const ShopBreadCrumb1 = () => {
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {
             category:[{value:""}],
+            search:[{value:""}],
             priceFilter: combinedOptions.priceFilter,
             gender: combinedOptions.gender.map((gender: string) => ({
               value: gender,
@@ -196,6 +200,9 @@ const ShopBreadCrumb1 = () => {
           variables = {
             category: combinedOptions.category.map((category: string) => ({
               value: category,
+            })),
+            search: combinedOptions.search.map((search: string) => ({
+              value: search,
             })),
             priceFilter: combinedOptions.priceFilter,
             gender: combinedOptions.gender.map((gender: string) => ({
@@ -238,6 +245,11 @@ const ShopBreadCrumb1 = () => {
     combinedOptions.category = [
       ...(initialOptions.Category || []),
       ...(selectedOptions.Category || []),
+    ];
+
+    combinedOptions.search = [
+      ...(initialOptions.Search || []),
+      ...(selectedOptions.Search || []),
     ];
 
     // Combine price options
@@ -290,6 +302,10 @@ const ShopBreadCrumb1 = () => {
     // console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
+    }
+
+    if (options.Search && options.Search.length > 0) {
+      urlParts.push(`s-${options.Search.join(",")}`);
     }
 
     if (options.Gender && options.Gender.length > 0) {
@@ -411,6 +427,9 @@ const ShopBreadCrumb1 = () => {
 
       if (key === "c") {
         initialOptions.Category = value.split(",");
+      }
+      if (key === "s") {
+        initialOptions.Search = value.split(",");
       }
       if (key === "g") {
         initialOptions.Gender = value.split(",");

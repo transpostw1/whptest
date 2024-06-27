@@ -67,6 +67,7 @@ const ShopBreadCrumb1 = () => {
         setIsLoading(false);
         const client = new ApolloClient({
           uri: graphqlProductUrl,
+          // uri: "http://localhost:8080/",
           cache: new InMemoryCache(),
         });
 
@@ -179,8 +180,8 @@ const ShopBreadCrumb1 = () => {
         let variables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {
-            category:[{value:""}],
-            search:[{value:""}],
+            category: [{ value: "" }],
+            search: [{ value: "" }],
             priceFilter: combinedOptions.priceFilter,
             gender: combinedOptions.gender.map((gender: string) => ({
               value: gender,

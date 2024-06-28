@@ -558,7 +558,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          {/* a */}
+          <CheckPincode/>
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

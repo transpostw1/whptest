@@ -493,7 +493,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   | <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
-            </>
+            </> 
           )}
           {loading ? (
             <Skeleton height={30} />

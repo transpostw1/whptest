@@ -1,13 +1,17 @@
 "use client";
 import React, { useState } from "react";
-
+import axios from "axios";
 export default function CheckPincode() {
   const [pincode, setPincode] = useState("");
   const [savedPincode, setSavedPincode] = useState("");
+  
 
-  const handleSavePincode = () => {
-    setSavedPincode(pincode);
+  const handleSavePincode = async () => {
     localStorage.setItem("pincode", pincode);
+    const response = axios.post("url", {
+      pincode: pincode,
+    });
+    setSavedPincode(pincode);
     console.log("Saved PinCode:", pincode);
   };
 
@@ -20,7 +24,10 @@ export default function CheckPincode() {
           onChange={(e) => setPincode(e.target.value)}
           className="outline-none"
         />
-        <p className="underline text-[#e26178] cursor-pointer" onClick={handleSavePincode}>
+        <p
+          className="underline text-[#e26178] cursor-pointer"
+          onClick={handleSavePincode}
+        >
           Check
         </p>
       </div>
@@ -28,7 +35,9 @@ export default function CheckPincode() {
         <li>Same day delivery available. Extra Charge- ₹99</li>
         <li>Free delivery in 2 days.</li>
       </ul>
-      {savedPincode && <p className="text-green-500">Saved Pincode: {savedPincode}</p>}
+      {savedPincode && (
+        <p className="text-green-500">Saved Pincode: {savedPincode}</p>
+      )}
     </div>
   );
 }

@@ -275,7 +275,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 {product.productDetails?.diamondDetails[0]?.diamondClarity !=
                   "" && <p>Diamond</p>}
                 <p>Making Charges</p>
-                {product.productDetails?.discountValue && (
+                {product.productDetails?.discountValue!=null && (
                   <p>Discount- {product.productDetails?.discountValue}%</p>
                 )}
                 <p>G.S.T</p>

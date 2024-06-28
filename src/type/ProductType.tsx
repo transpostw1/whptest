@@ -191,7 +191,7 @@ interface ProductDetails {
 interface VariantOption {
   ProductUrl: string;
   VariantName: string;
-  ProductId: number;
+  ProductId: any;
 }
 
 interface Variant {

@@ -48,6 +48,8 @@ const MainCarousel = () => {
               name
               url
               desktopFile
+              desktopFileType
+              mobileFileType
               mobileFile
               description
             }
@@ -78,15 +80,21 @@ const MainCarousel = () => {
         <div className="slider-main w-full">
           {!isMobile && (
             <Swiper
-              spaceBetween={0}
-              slidesPerView={1}
-              loop={true}
-              pagination={{ clickable: true }}
-              modules={[Pagination, Autoplay]}
-              autoplay={{ delay: 6000 }}
-            >
-              {allBanners &&
-                allBanners.map((banner: any) => (
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+            pagination={{ clickable: true }}
+            modules={[Pagination, Autoplay]}
+            autoplay={{ delay: 10000 }}
+          >
+            {allBanners &&
+              allBanners
+                .filter(
+                  (banner: any) =>
+                    banner.desktopFile !== null &&
+                    banner.desktopFileType !== null
+                )
+                .map((banner: any) => (
                   <SwiperSlide key={banner.id}>
                     <Link
                       href={{
@@ -96,17 +104,26 @@ const MainCarousel = () => {
                       onClick={() => setCustomcategory(banner.url)}
                     >
                       <div className="slider-item w-full">
-                        <Image
-                          src={banner.desktopFile}
-                          alt="Hero Image"
-                          width={1920}
-                          height={100}
-                        />
+                        {banner.desktopFileType === "video" ? (
+                          <video
+                            src={banner.desktopFile}
+                            autoPlay
+                            muted
+                            loop
+                          />
+                        ) : (
+                          <Image
+                            src={banner.desktopFile}
+                            alt="Hero Image"
+                            width={1920}
+                            height={100}
+                          />
+                        )}
                       </div>
                     </Link>
                   </SwiperSlide>
                 ))}
-            </Swiper>
+          </Swiper>
           )}
           {isMobile && (
             <Swiper
@@ -115,31 +132,44 @@ const MainCarousel = () => {
               loop={true}
               pagination={{ clickable: true }}
               modules={[Pagination, Autoplay]}
-              autoplay={{ delay: 6000 }}
+              autoplay={{ delay: 10000 }}
             >
               {allBanners &&
-                allBanners.map((banner: any) => (
-                  <SwiperSlide key={banner.id}>
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: banner.url },
-                      }}
-                      onClick={() => setCustomcategory(banner.url)}
-                    >
-                      <div className="w-full">
-                        <Image
-                          src={banner.mobileFile}
-                          alt={banner.name}
-                          width={1920}
-                          height={100}
-                          layout="responsive"
-                          priority
-                        />
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                ))}
+                allBanners
+                  .filter(
+                    (banner: any) =>
+                      banner.mobileFile !== null &&
+                      banner.mobileFileType !== null
+                  )
+                  .map((banner: any) => (
+                    <SwiperSlide key={banner.id}>
+                      <Link
+                        href={{
+                          pathname: "/products",
+                          query: { url: banner.url },
+                        }}
+                        onClick={() => setCustomcategory(banner.url)}
+                      >
+                        <div className="slider-item w-full">
+                          {banner.mobileFileType === "video" ? (
+                            <video
+                              src={banner.mobileFile}
+                              autoPlay
+                              muted
+                              loop
+                            />
+                          ) : (
+                            <Image
+                              src={banner.mobileFile}
+                              alt="Hero Image"
+                              width={1920}
+                              height={100}
+                            />
+                          )}
+                        </div>
+                      </Link>
+                    </SwiperSlide>
+                  ))}
             </Swiper>
           )}
         </div>

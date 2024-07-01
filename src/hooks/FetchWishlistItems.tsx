@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 import { useWishlist } from "@/context/WishlistContext";
 import { useUser } from "@/context/UserContext";

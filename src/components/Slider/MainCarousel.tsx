@@ -65,23 +65,6 @@ const MainCarousel = () => {
     };
     fetchMainBanners();
   }, []);
-  // useEffect(() => {
-  //   const fetchAddresses = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await axios.get(`${baseUrl}${getAllBanners}`);
-
-  //       setAllBanners(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching addresses:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchAddresses();
-  // }, []);
-  console.log("banners",allBanners.getAllBanners)
   if (isLoading) {
     return (
       <div>
@@ -147,7 +130,7 @@ const MainCarousel = () => {
                       <div className="w-full">
                         <Image
                           src={banner.mobileFile}
-                          alt="Mobile Banners"
+                          alt={banner.name}
                           width={1920}
                           height={100}
                           layout="responsive"

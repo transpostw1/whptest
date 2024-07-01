@@ -117,7 +117,7 @@ const GoldScheme = () => {
             )}
           </div>
           <Image
-            src={"/images/other/GoldScheme.jpg"}
+            src={"/images/other/WHP_Gold_Investment copy.jpg"}
             width={1000}
             height={900}
             alt="goldscheme"

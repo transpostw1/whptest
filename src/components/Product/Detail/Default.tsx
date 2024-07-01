@@ -35,10 +35,6 @@ import ReactImageMagnify from "react-image-magnify";
 interface Props {
   productId: string | number | any;
 }
-interface Ref extends MutableRefObject<any> {
-  slickNext?: () => void;
-  slickPrev?: () => void;
-}
 
 const Default: React.FC<Props> = ({ productId }) => {
   const router = useRouter();
@@ -62,8 +58,8 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
-      uri: "http://localhost:8080/",
-      // uri: graphqlProductUrl,
+      // uri: "http://localhost:8080/",
+      uri: graphqlProductUrl,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -300,7 +296,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     data?.productDetails?.imageDetails?.length || 0
   );
 
-  let sliderRef = useRef<any>();
+  let sliderRef = useRef<any>(null);
 
   const settingsThumbnails = {
     className: "center",
@@ -397,7 +393,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             isActivatedOnTouch: true,
                           }}
-                        // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
                         />
                       </div>
                     )
@@ -467,20 +462,6 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           )}
-
-          {/* {data &&
-            data.productDetails?.videoDetails &&
-            data.productDetails?.videoDetails.length > 0 &&
-            data.productDetails?.videoDetails.map((item: any) => (
-              <video
-                key={item.order}
-                className=""
-                src={item.video_path}
-                loop
-                autoPlay
-                muted
-              />
-            ))} */}
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
@@ -512,7 +493,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   | <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
-            </>
+            </> 
           )}
           {loading ? (
             <Skeleton height={30} />
@@ -541,12 +522,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               )}
             </div>
           )}
-          {/* <div>
-            <span>
-              Upon Price Drop,{" "}
-              <span className="underline text-[#e26178]">Notify Me</span>
-            </span>
-          </div> */}
+          
           {data?.productDetails?.variantId !== null && (
             <DropDown
               product={data?.productDetails}
@@ -582,7 +558,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          {/* a */}
+          <CheckPincode/>
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

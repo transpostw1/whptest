@@ -70,58 +70,10 @@ const FilterSidebar: React.FC<Props> = ({
     setMobileFilter(false);
   };
 
-  // useEffect(() => {
-  //   let filteredArray = data.slice();
-  //   Object.entries(selectedOptions).forEach(([category, selectedValues]) => {
-  //     if ((selectedValues as any).length > 0) {
-  //       filteredArray = filteredArray.filter((product) => {
-  //         switch (category) {
-  //           case "Price":
-  //             return (selectedValues as any).some((option: string) => {
-  //               const price = parseInt(product?.discountPrice);
-  //               switch (option) {
-  //                 case "Less than 10K":
-  //                   return price < 10000;
-  //                 case "10k to 20K":
-  //                   return price >= 10000 && price < 20000;
-  //                 case "20k to 30k":
-  //                   return price >= 20000 && price < 30000;
-  //                 case "30k and Above":
-  //                   return price >= 30000;
-  //                 default:
-  //                   return false;
-  //               }
-  //             });
-  //           case "Karat":
-  //             return (selectedValues as any).some((option: string) =>
-  //               product.metalPurity.includes(option.slice(0, -1))
-  //             );
-  //           case "Weight":
-  //             return (selectedValues as any).some((option: string) =>
-  //               product.weightRange.includes(option.slice(0, -1))
-  //             );
-  //           case "Gender":
-  //             return (selectedValues as any).includes(product.shopFor[0]);
-  //           case "Metal":
-  //             return (selectedValues as any).some((option: string) =>
-  //               product.metalType.includes(option.slice(0, -1))
-  //             );
-  //           case "Occasion":
-  //             return (selectedValues as any).some((option: string) =>
-  //               product.occasion.includes(option.slice(0, -1))
-  //             );;
-  //           default:
-  //             return true;
-  //         }
-  //       });
-  //     }
-  //   });
-  //   onFilterChange(filteredArray);
-  // }, [selectedOptions]);
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-  console.log("Selected Options",selectedOptions);
+  
   return (
     <>
       <div

@@ -66,18 +66,6 @@ const Gifts = () => {
       ),
     },
     {
-      id: 1,
-      type: "HOUSE WARMING",
-      image: (
-        <Image
-          src={"/images/occasion/Housewarming.jpg"}
-          alt=""
-          width={400}
-          height={400}
-        />
-      ),
-    },
-    {
       id: 6,
       type: "GET WELL SOON",
       image: (
@@ -95,6 +83,18 @@ const Gifts = () => {
       image: (
         <Image
           src={"/images/occasion/Thankyou.jpg"}
+          alt=""
+          width={400}
+          height={400}
+        />
+      ),
+    },
+    {
+      id: 1,
+      type: "HOUSE WARMING",
+      image: (
+        <Image
+          src={"/images/occasion/Housewarming.jpg"}
           alt=""
           width={400}
           height={400}

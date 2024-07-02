@@ -120,7 +120,7 @@ const Checkout: React.FC = () => {
     setCartProductIds(products);
     const fetchCouponData = async () => {
       setLoading(true);
-      const cookieToken = Cookies.get("localtoken");
+      const cookieToken = localStorage.getItem("localtoken");
       try {
         const response = await axios.post<{ data: any }>(
           `${baseUrl}${coupon}`,
@@ -199,7 +199,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-          item?.productDetails?.imageDetails.length > 0
+        item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -243,7 +243,7 @@ const Checkout: React.FC = () => {
     try {
       console.log("handleOrderComplete called");
 
-      const cookieToken = Cookies.get("localtoken");
+      const cookieToken = localStorage.getItem("localtoken");
       let cartData;
 
       if (buyNow) {
@@ -272,11 +272,14 @@ const Checkout: React.FC = () => {
         cache: new InMemoryCache(),
       });
 
-      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
-        cartSync(cartItems: $cartItems) {
-          message
+      console.log(typeof cartData, "CartData");
+      const SYNC_CART = gql`
+        mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
+          }
         }
-      }`;
+      `;
 
       const { data } = await client.mutate({
         mutation: SYNC_CART,
@@ -427,8 +430,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
-            }`}
+          className={`text-2xl rounded-full ${
+            selectedStep === 0 ? "text-white" : "text-white"
+          }`}
         />
       ),
       label: "Cart",
@@ -436,8 +440,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -445,8 +450,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
-            }`}
+          className={`text-2xl  ${
+            selectedStep === 2 ? "text-white" : "text-black"
+          }`}
         />
       ),
       label: "Payment",

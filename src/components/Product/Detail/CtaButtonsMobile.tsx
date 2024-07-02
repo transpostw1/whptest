@@ -135,20 +135,13 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
     );
     router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
   };
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <Skeleton height={70} />
-  //     </div>
-  //   );
-  // }
 
-  if(!isMobile){
+  if (!isMobile) {
     return null;
   }
   return (
     <div className=" flex fixed bottom-9  py-2 px-4 w-full bg-white z-10 ">
-      <div className=" flex justify-center mt-[2px] text-[#e26178] mr-[10px] outline outline-[#e26178] outline-1 w-[56px] h-[58px] max-sm:h-[45px] items-center cursor-pointer">
+      <div className=" flex justify-center mt-[2px] text-[#e26178] mr-[10px] outline outline-[#e26178] outline-1 w-[56px] items-center cursor-pointer">
         {isProductInWishlist ? (
           <Icon.Heart
             size={32}
@@ -165,23 +158,20 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
           />
         )}
       </div>
-
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center mr-[10px] cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[20%] text-center mr-[10px] cursor-pointer"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">
-          <span className="flex justify-center py-[14px] max-sm:py-[10px]">
-            <span>Add to Cart</span>
+          <span className="flex justify-center py-[14px] pb-[18px]">
             <span className="mt-1">
-              <Icon.ShoppingCart />
+              <Icon.ShoppingCart size={25} />
             </span>
           </span>
         </div>
       </div>
-
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px]  py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[56%] py-[18px] px-[32px] text-center"
         onClick={handleBuyNow}
       >
         Buy Now

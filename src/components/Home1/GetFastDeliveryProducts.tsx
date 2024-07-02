@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 
 const GetFastDeliveryProducts = () => {
   const swiperRef = useRef<any>();
@@ -22,7 +22,7 @@ const GetFastDeliveryProducts = () => {
         setLoading(true);
         const client = new ApolloClient({
           // uri: "http://localhost:8080/",
-          uri: "https://seashell-app-kswll.ondigitalocean.app/",
+          uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
 

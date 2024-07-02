@@ -236,13 +236,7 @@ const Checkout: React.FC = () => {
     ? calculateTotalPrice(finalBuyNowItems)
     : calculateTotalPrice(MainCart);
 
-  // let totalCart = 0;
-  // MainCart.forEach((item) => {
-  //   const price = parseInt(item.price?.toString());
-  //   if (!isNaN(price) && typeof item.quantity === "number") {
-  //     totalCart += price * item.quantity;
-  //   }
-  // });
+
   let formattedPrice: string = totalCart.toString();
 
   const handleOrderComplete = async () => {
@@ -278,12 +272,9 @@ const Checkout: React.FC = () => {
         cache: new InMemoryCache(),
       });
 
-      console.log(typeof cartData, "CartData");
-      const SYNC_CART = gql`
-        mutation CartSync($cartItems: [CartItemInput!]!) {
-          cartSync(cartItems: $cartItems) {
-            message
-          }
+      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+        cartSync(cartItems: $cartItems) {
+          message
         }
       `;
 

@@ -19,7 +19,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
@@ -34,10 +34,6 @@ import ReactImageMagnify from "react-image-magnify";
 
 interface Props {
   productId: string | number | any;
-}
-interface Ref extends MutableRefObject<any> {
-  slickNext?: () => void;
-  slickPrev?: () => void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -63,7 +59,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   async function getData() {
     const client = new ApolloClient({
       // uri: "http://localhost:8080/",
-      uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      uri: graphqlProductUrl,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -153,10 +149,16 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
+    let productUrl = '';
+    if (variant) {
+      productUrl = variant;
+    } else {
+      productUrl = productId[1];
+    }
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: productId[1] },
+      variables: { productUrl: productUrl },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);
@@ -165,6 +167,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   }
 
   async function singleProduct() {
+    console.log("Single Product");
     const product = await getData();
     setData(product);
     setLoading(false);
@@ -177,105 +180,107 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
-      const client = new ApolloClient({
-        // uri: "http://localhost:8080/",
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
-        cache: new InMemoryCache(),
-      });
-      const GET_SINGLE_PRODUCT = gql`
-        query productDetails($productUrl: String!) {
-          productDetails(productUrl: $productUrl) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-            review
-            variants
-          }
-        }
-      `;
-      console.log("----------------", productId);
-      console.log("----------------", productId);
+      const match = newUrl.match(/0p(\d+)/);
+      const newId = match ? match[1] : '';
+      router.push(`/products/${newId}/${newUrl}`);
+      // const client = new ApolloClient({
+      //   uri: "http://localhost:8080/",
+      //   // uri: graphqlProductUrl,
+      //   cache: new InMemoryCache(),
+      // });
+      // const GET_SINGLE_PRODUCT = gql`
+      //   query productDetails($productUrl: String!) {
+      //     productDetails(productUrl: $productUrl) {
+      //       productId
+      //       SKU
+      //       variantId
+      //       isParent
+      //       title
+      //       displayTitle
+      //       shortDesc
+      //       longDesc
+      //       url
+      //       tags
+      //       collectionName
+      //       shopFor
+      //       occasion
+      //       theme
+      //       length
+      //       breadth
+      //       height
+      //       addDate
+      //       lastModificationDate
+      //       productSize
+      //       productQty
+      //       attributeId
+      //       preSalesProductQueries
+      //       isReplaceable
+      //       isReturnable
+      //       isInternationalShippingAvailable
+      //       customizationAvailability
+      //       fastDelivery
+      //       tryAtHome
+      //       isActive
+      //       grossWeight
+      //       netWeight
+      //       discountId
+      //       discountCategory
+      //       discountActive
+      //       typeOfDiscount
+      //       discountValue
+      //       discountAmount
+      //       discountPrice
+      //       offerStartDate
+      //       offerEndDate
+      //       mediaId
+      //       metalType
+      //       metalPurity
+      //       metalWeight
+      //       metalRate
+      //       makingType
+      //       makingChargesPerGrams
+      //       makingCharges
+      //       gst
+      //       additionalCost
+      //       productPrice
+      //       discountPrice
+      //       rating
+      //       imageDetails {
+      //         image_path
+      //         order
+      //         alt_text
+      //       }
+      //       videoDetails {
+      //         video_path
+      //         order
+      //         alt_text
+      //       }
+      //       productAttributes {
+      //         goldDetails {
+      //           goldCertifiedBy
+      //           goldSetting
+      //         }
+      //         gemstoneDetails
+      //         diamondDetails
+      //         silverDetails {
+      //           poojaArticle
+      //           utensils
+      //           silverWeight
+      //         }
+      //       }
+      //       stoneDetails
+      //       diamondDetails
+      //       review
+      //       variants
+      //     }
+      //   }
+      // `;
+      // console.log("----------------", productId);
 
-      const { data } = await client.query({
-        query: GET_SINGLE_PRODUCT,
-        variables: { productUrl: newUrl },
-      });
+      // const { data } = await client.query({
+      //   query: GET_SINGLE_PRODUCT,
+      //   variables: { productUrl: newUrl },
+      // });
       setLoading(true);
       // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await data);
@@ -291,7 +296,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     data?.productDetails?.imageDetails?.length || 0
   );
 
-  let sliderRef = useRef<any>();
+  let sliderRef = useRef<any>(null);
 
   const settingsThumbnails = {
     className: "center",
@@ -388,7 +393,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                             },
                             isActivatedOnTouch: true,
                           }}
-                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
                         />
                       </div>
                     )
@@ -458,20 +462,6 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           )}
-
-          {/* {data &&
-            data.productDetails?.videoDetails &&
-            data.productDetails?.videoDetails.length > 0 &&
-            data.productDetails?.videoDetails.map((item: any) => (
-              <video
-                key={item.order}
-                className=""
-                src={item.video_path}
-                loop
-                autoPlay
-                muted
-              />
-            ))} */}
         </div>
         <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
           {loading ? (
@@ -493,7 +483,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
-              {data?.productDetails?.review.length!=0 && (
+              {data?.productDetails?.review.length != 0 && (
                 <div className="flex flex-wrap mb-2">
                   <div>
                     <span className="underline mr-2 cursor-pointer">
@@ -503,7 +493,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   | <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
-            </>
+            </> 
           )}
           {loading ? (
             <Skeleton height={30} />
@@ -532,12 +522,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               )}
             </div>
           )}
-          {/* <div>
-            <span>
-              Upon Price Drop,{" "}
-              <span className="underline text-[#e26178]">Notify Me</span>
-            </span>
-          </div> */}
+          
           {data?.productDetails?.variantId !== null && (
             <DropDown
               product={data?.productDetails}
@@ -573,7 +558,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          {/* a */}
+          <CheckPincode/>
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

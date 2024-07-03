@@ -34,7 +34,8 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
   const handleSearch = (value: string) => {
     const formattedValue = value.replace(/ /g, "_");
     const value2 = formattedValue.toLowerCase();
-    if (value2 == 'earrings' || value2 == 'rings' || value2 == 'mangalsutra' || value2 == 'pendants' || value2 == 'bangle' || value2 == 'bracelet' || value2 == 'necklace') {
+    console.log("Formatted Value",value2);
+    if (value2 == 'earrings' || value2 == 'ring' || value2 == 'mangalsutra' || value2 == 'pendants' || value2 == 'bangle' || value2 == 'bracelet' || value2 == 'necklace') {
       router.push(`/products?url=c-${value2}`);
     } else {
       router.push(`/products?url=s-${value2}`);
@@ -44,11 +45,6 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     setCustomcategory(value);
     closeModal();
   };
-  // const handleKeywordSearch = (value: any) => {
-  //   handleSearch(value);
-  //   closeModal();
-  // };
-  //   const { recentlyViewedProducts } = useRecentlyViewedProducts();
 
   return (
     <div
@@ -97,7 +93,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-ring");
+                handleSearch("ring");
               }}
             >
               <div className="flex items-center">
@@ -111,7 +107,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-mangalsutra");
+                handleSearch("mangalsutra");
               }}
             >
               <div className="flex items-center">
@@ -123,7 +119,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-pendants");
+                handleSearch("pendants");
               }}
             >
               <div className="flex items-center">

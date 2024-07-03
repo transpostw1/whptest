@@ -239,7 +239,7 @@ const Checkout: React.FC = () => {
 
   let formattedPrice: string = totalCart.toString();
 
-  const handleOrderComplete = async () => {
+  const handleOrderComplete = async (items:any,items2:any) => {
     try {
       console.log("handleOrderComplete called");
 

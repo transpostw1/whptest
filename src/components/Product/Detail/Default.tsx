@@ -149,7 +149,7 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
-    let productUrl = '';
+    let productUrl = "";
     if (variant) {
       productUrl = variant;
     } else {
@@ -181,7 +181,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     try {
       setVariant(newUrl);
       const match = newUrl.match(/0p(\d+)/);
-      const newId = match ? match[1] : '';
+      const newId = match ? match[1] : "";
       router.push(`/products/${newId}/${newUrl}`);
       setLoading(true);
       // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
@@ -272,9 +272,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                 {data &&
                   data?.productDetails?.imageDetails.map(
                     (image: any, index: any) => (
-                      <div key={index} className="left-2">
+                      <div key={index}>
                         <ReactImageMagnify
-                          className="d-flex-important justify-center"
+                          imageClassName="w-[50%]"
                           {...{
                             smallImage: {
                               alt: "Product Image",
@@ -395,7 +395,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   | <StarRating stars={data?.productDetails?.rating} />
                 </div>
               )}
-            </> 
+            </>
           )}
           {loading ? (
             <Skeleton height={30} />
@@ -424,7 +424,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               )}
             </div>
           )}
-          
+
           {data?.productDetails?.variantId !== null && (
             <DropDown
               product={data?.productDetails}
@@ -460,7 +460,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <CheckPincode/>
+          <CheckPincode />
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="block max-sm:hidden">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}

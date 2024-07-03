@@ -122,19 +122,43 @@ const Checkout: React.FC = () => {
       setLoading(true);
       const cookieToken = Cookies.get("localtoken");
       try {
-        const response = await axios.post<{ data: any }>(
-          `${baseUrl}${coupon}`,
-          {
-            products: products,
-            coupon: couponCode,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
+        const getAuthHeaders: any = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+        const CHECK_COUPON_CODE = gql`
+          mutation Coupon($coupon: CouponInput!) {
+            Coupon(coupon: $coupon) {
+              code
+              message
+              discountProduct {
+                productId
+                discountedValue
+                additionalDiscountPrice
+              }
+            }
           }
-        );
-        setDataAfterCouponCode(response.data);
+        `;
+
+        const { data } = await client.mutate({
+          mutation: CHECK_COUPON_CODE,
+          variables: {
+            coupon: { products: products, couponCode: couponCode },
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        console.log("DAta", data.data);
+        setDataAfterCouponCode(data);
         setFlashMessage("Coupon Successfully applied");
         setFlashType("success");
       } catch (error: any) {
@@ -149,6 +173,7 @@ const Checkout: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("Coupon code info", dataAfterCouponCode);
     let totalCartDiscount: number = 0;
     Array.isArray(dataAfterCouponCode.discountedProducts) &&
       dataAfterCouponCode.discountedProducts.map((element: any) => {
@@ -199,7 +224,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-          item?.productDetails?.imageDetails.length > 0
+        item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -236,10 +261,9 @@ const Checkout: React.FC = () => {
     ? calculateTotalPrice(finalBuyNowItems)
     : calculateTotalPrice(MainCart);
 
-
   let formattedPrice: string = totalCart.toString();
 
-  const handleOrderComplete = async (items:any,items2:any) => {
+  const handleOrderComplete = async (items: any, items2: any) => {
     try {
       console.log("handleOrderComplete called");
 
@@ -272,11 +296,13 @@ const Checkout: React.FC = () => {
         cache: new InMemoryCache(),
       });
 
-      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
-        cartSync(cartItems: $cartItems) {
-          message
+      const SYNC_CART = gql`
+        mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
+          }
         }
-      }`;
+      `;
 
       const { data } = await client.mutate({
         mutation: SYNC_CART,
@@ -427,8 +453,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
-            }`}
+          className={`text-2xl rounded-full ${
+            selectedStep === 0 ? "text-white" : "text-white"
+          }`}
         />
       ),
       label: "Cart",
@@ -436,8 +463,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -445,8 +473,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
-            }`}
+          className={`text-2xl  ${
+            selectedStep === 2 ? "text-white" : "text-black"
+          }`}
         />
       ),
       label: "Payment",

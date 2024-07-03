@@ -159,11 +159,11 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         )}
       </div>
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[20%] text-center mr-[10px] cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[20%] text-center mr-[10px] cursor-pointer h-[41px]"
         onClick={() => handleAddToCart(product)}
       >
-        <div className=" m-[2px] mb-[2px] bg-white">
-          <span className="flex justify-center py-[14px] pb-[18px]">
+        <div className=" m-[2px] mb-[2px] bg-white h-[91%]">
+          <span className="flex justify-center h-[91%] items-center">
             <span className="mt-1">
               <Icon.ShoppingCart size={25} />
             </span>
@@ -171,7 +171,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         </div>
       </div>
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[56%] py-[18px] px-[32px] text-center"
+        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[56%] text-center h-[41px]"
         onClick={handleBuyNow}
       >
         Buy Now

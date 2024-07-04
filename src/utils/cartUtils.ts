@@ -92,6 +92,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         quantity: item.quantity,
         name: item.productDetails[0].displayTitle,
         price: price,
+        productPrice : productPrice,
         image: imagePath,
       };
     });

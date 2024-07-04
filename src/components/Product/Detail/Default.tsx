@@ -149,7 +149,7 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
-    let productUrl = '';
+    let productUrl = "";
     if (variant) {
       productUrl = variant;
     } else {
@@ -181,7 +181,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     try {
       setVariant(newUrl);
       const match = newUrl.match(/0p(\d+)/);
-      const newId = match ? match[1] : '';
+      const newId = match ? match[1] : "";
       router.push(`/products/${newId}/${newUrl}`);
       setLoading(true);
       // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
@@ -411,6 +411,25 @@ const Default: React.FC<Props> = ({ productId }) => {
                 left!
               </p>
             )}
+          <CheckPincode />
+          {/* <div className="mt-4">
+            <ul className="list-disc">
+              <li>
+                10% off on HDFC Bank Credit Card. Use{" "}
+                <span className="font-extrabold">HDFC10 </span>
+                <span className="text-[#e26178] underline">
+                  View more Offers
+                </span>
+              </li>
+              <li>
+                7% off on SBI Bank Credit Card. Use{" "}
+                <span className="font-extrabold">SBI17 </span>
+                <span className="text-[#e26178] underline">
+                  View more Offers
+                </span>
+              </li>
+            </ul>
+          </div> */}
           <CheckPincode />
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
           <div className="hidden sm:block">

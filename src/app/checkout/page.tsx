@@ -176,6 +176,7 @@ const Checkout: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("Coupon code info", dataAfterCouponCode);
     let totalCartDiscount: number = 0;
     Array.isArray(dataAfterCouponCode.discountProduct) &&
       dataAfterCouponCode.discountProduct.map((element: any) => {
@@ -226,7 +227,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-          item?.productDetails?.imageDetails.length > 0
+        item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -474,8 +475,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
-            }`}
+          className={`text-2xl rounded-full ${
+            selectedStep === 0 ? "text-white" : "text-white"
+          }`}
         />
       ),
       label: "Cart",
@@ -483,8 +485,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -492,8 +495,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
-            }`}
+          className={`text-2xl  ${
+            selectedStep === 2 ? "text-white" : "text-black"
+          }`}
         />
       ),
       label: "Payment",

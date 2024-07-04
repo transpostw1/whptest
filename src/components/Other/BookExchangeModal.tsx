@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
-import { baseUrl, contactForm } from "@/utils/constants";
+import { graphqlbaseUrl } from "@/utils/constants";
 import axios from "axios";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -49,7 +49,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
     try {
       setIsLoading(true);
       const client = new ApolloClient({
-        uri: "http://localhost:4000/graphql",
+        uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
 

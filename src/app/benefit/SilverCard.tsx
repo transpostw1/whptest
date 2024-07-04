@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
+import ModalExchange from "@/components/Other/ModalExchange";
+
 interface SilverCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
   setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -15,9 +17,11 @@ const SilverCard: React.FC<SilverCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
-  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
+  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState<string>("2000");
+  const [errorModal, setErrorModal] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
@@ -28,6 +32,14 @@ const SilverCard: React.FC<SilverCardProps> = ({
     setFlashType
   );
 
+  const handleInputVerification = () => {
+    if (monthlyDeposit < 500) {
+      setShowModal(true);
+    } else {
+      handleEnroll("sliver", monthlyDeposit);
+    }
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
@@ -35,12 +47,12 @@ const SilverCard: React.FC<SilverCardProps> = ({
     const parsedValue = parseInt(value, 10);
     if (isNaN(parsedValue)) {
       setError("Invalid input. Please enter a number.");
-    } else if (parsedValue < 2000) {
-      setError("Minimum deposit is 2000");
+    // } else if (parsedValue < 2000) {
+    //   setError("Minimum deposit is 2000");
     } else if (parsedValue > 50000) {
       setError("Maximum deposit is 50000");
-    } else if (parsedValue % 1000 !== 0) {
-      setError("Amount must be a multiple of 1000");
+    // } else if (parsedValue % 1000 !== 0) {
+    //   setError("Amount must be a multiple of 1000");
     } else {
       setMonthlyDeposit(parsedValue);
       setError(null);
@@ -78,18 +90,18 @@ const SilverCard: React.FC<SilverCardProps> = ({
                   className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
                   value={monthlyDeposit}
                   onChange={handleChange}
-                  min="2000"
+                  
                   max="50000"
-                  step="1000"
+                  step="500"
                 />
               </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <input
                 type="range"
-                min={1000}
+                min={500}
                 max={50000}
-                step={1000}
+                step={500}
                 className="w-full"
                 onChange={handleChange}
               />
@@ -114,7 +126,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start w-full md:w-52">
-              <h1>Buy any gold worth: (after 11th month)</h1>
+              <h1>Buy any sliver worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="md:text-3xl text-sm text-[#E26178]">
@@ -126,7 +138,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={() => handleEnroll("silver", monthlyDeposit)}
+                onClick={() => handleInputVerification()}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>
@@ -142,6 +154,19 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
         </div>
       </div>
+      <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
+        <div className="text-center">
+          <p>Minimum Deposit is 500</p>
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </ModalExchange>
     </div>
   );
 };

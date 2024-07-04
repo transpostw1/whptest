@@ -699,7 +699,7 @@ const Checkout: React.FC = () => {
                         <div className="flex justify-between font-medium">
                           <h3>Product Discount</h3>
                           <h3>
-                            ₹
+                            -₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
                             }).format(Math.round(parseInt(discountDifference)))}

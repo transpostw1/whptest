@@ -7,13 +7,13 @@ import { useCouponContext } from "@/context/CouponContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 import Skeleton from "react-loading-skeleton";
-import Loader from "../blog/Loader";
+import Loader from "../blog/loading";
 
 interface CartItemProps {
   product: {
     productId: number;
     quantity: number;
-    productPrice: any |string;
+    productPrice: any | string;
     discountPrice: any | string;
     discountValue: string;
     name: string;
@@ -30,7 +30,7 @@ interface ProductForWishlistLoggedIn {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
-  const { updateCartQuantity, removeFromCart,loading } = useCart();
+  const { updateCartQuantity, removeFromCart, loading } = useCart();
   const { totalDiscount, updateTotalDiscount } = useCouponContext();
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
@@ -53,7 +53,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     }
   };
 
-  console.log("Product",product);
+  console.log("Product", product);
 
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;
@@ -72,7 +72,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   const handleAddToWishlist = () => {
     let discount = 0;
-      updateTotalDiscount(discount);
+    updateTotalDiscount(discount);
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
@@ -150,7 +150,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
           <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
             <div className="text-title text-center"> ₹{formattedPrice} </div>
-            <div className="line-through text-[#beb3b3]" >₹{formattedProductPrice}</div>
+            <div className="line-through text-[#beb3b3]">
+              ₹{formattedProductPrice}
+            </div>
             <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
               <Icon.Minus
                 size={28}

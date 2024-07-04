@@ -8,7 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-import Loader from "../blog/Loader";
+import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 

@@ -15,7 +15,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
   };
   console.log(product, "product");
   return (
-    <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] md:w-[65%] p-3">
+    <div className="flex lg:w-[65%] border border-[#f3f3f3] sm:w-[100%] md:w-[65%] p-3">
       {product?.variants?.map((item, index) => (
         <div key={index} className="mr-3">
           <p>{item.VariantType}</p>
@@ -31,7 +31,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
                 const productId = Number(product.productId);
 
                 // Check if product.productId exists in any of the ProductId array elements
-                const isSelected = options.ProductId.some(id => id === productId);
+                const isSelected = options.ProductId.some((id:any) => id === productId);
 
                 return (
                   <option

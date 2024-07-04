@@ -34,7 +34,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
 
   const handleInputVerification = () => {
     if (monthlyDeposit < 500) {
-      setShowModal(true);
+      setErrorModal(true);
     } else {
       handleEnroll("diamond", monthlyDeposit);
     }

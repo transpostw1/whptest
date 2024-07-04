@@ -15,7 +15,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
   };
   console.log(product, "product");
   return (
-    <div className="flex border border-[#f3f3f3] lg:w-[65%] sm:w-[100%] md:w-[65%] p-3">
+    <div className="flex border border-[#f3f3f3] lg:w-[75%] sm:w-[100%] md:w-[65%] p-3">
       {product?.variants?.map((item, index) => (
         <div key={index} className="mr-3">
           <p>{item.VariantType}</p>

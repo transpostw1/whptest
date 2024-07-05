@@ -8,7 +8,6 @@ import { ProductData, ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Slider from "react-slick";
-import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
 import StickyNavProductPage from "@/components/Other/StickyNavProductPage";
 import { useRouter } from "next/navigation";
@@ -31,6 +30,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
 import ReactImageMagnify from "react-image-magnify";
+import ZoomableImage from "./ZoomableImage";
 
 interface Props {
   productId: string | number | any;
@@ -262,57 +262,36 @@ const Default: React.FC<Props> = ({ productId }) => {
       <StickyNavProductPage />
       <CtaButtonsMobile product={data} />
       <div className="lg:flex">
-        <div className="lg:w-[50%] sm:w-[100%]">
+        <div className="lg:w-1/2 sm:w-full">
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
             <div className="bg-[#f7f7f7]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {data &&
-                  data?.productDetails?.imageDetails.map(
-                    (image: any, index: any) => (
-                      <div key={index}>
-                        <ReactImageMagnify
-                          imageClassName="w-[50%]"
-                          {...{
-                            smallImage: {
-                              alt: "Product Image",
-                              isFluidWidth: true,
-                              src: image.image_path,
-                            },
-                            largeImage: {
-                              src: image.image_path,
-                              width: 1000,
-                              height: 1200,
-                            },
-                            enlargedImageContainerClassName:
-                              "enlarge-image-container",
-                            enlargedImagePosition: "over",
-                            enlargedImageContainerDimensions: {
-                              width: "100%",
-                              height: "100%",
-                            },
-                            isActivatedOnTouch: true,
-                          }}
-                        />
-                      </div>
-                    )
-                  )}
-                {data &&
-                  data.productDetails?.videoDetails &&
-                  data.productDetails?.videoDetails.length > 0 &&
-                  data.productDetails?.videoDetails.map((item: any) => (
-                    <video
-                      key={item.order}
-                      className=""
-                      src={item.video_path}
-                      loop
-                      autoPlay
-                      muted
-                    />
+                {data?.productDetails?.imageDetails.map((image: any, index: any) => (
+                  <div key={index} className="flex justify-center items-center h-full">
+                    <div className="max-w-full max-md:h-[300px] h-[600px]">
+                      <ZoomableImage
+                        src={image.image_path}
+                        alt="Product Image"
+                      />
+                    </div>
+                  </div>
+                ))}
+                {data?.productDetails?.videoDetails?.length > 0 &&
+                  data.productDetails.videoDetails.map((item: any) => (
+                    <div key={item.order} className="flex justify-center items-center h-full">
+                      <video
+                        className="max-w-full max-h-full object-contain"
+                        src={item.video_path}
+                        loop
+                        autoPlay
+                        muted
+                      />
+                    </div>
                   ))}
               </Slider>
-              <div className="m-auto w-[60%] h-full relative">
+              <div className="m-auto w-3/5 h-full relative">
                 <>
                   <Slider
                     {...settingsThumbnails}
@@ -321,24 +300,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                       setNav2(slider);
                     }}
                   >
-                    {data &&
-                      data.productDetails?.imageDetails.map(
-                        (image: any, index: any) => (
-                          <div key={index}>
-                            <Image
-                              src={image?.image_path}
-                              alt={data?.productDetails?.title}
-                              width={100}
-                              height={100}
-                              className="cursor-pointer mx-3 border"
-                            />
-                          </div>
-                        )
-                      )}
-                    {data &&
-                      data.productDetails?.videoDetails &&
-                      data.productDetails?.videoDetails.length > 0 &&
-                      data.productDetails?.videoDetails.map((item: any) => (
+                    {data?.productDetails?.imageDetails.map((image: any, index: any) => (
+                      <div key={index}>
+                        <Image
+                          src={image?.image_path}
+                          alt={data?.productDetails?.title}
+                          width={100}
+                          height={100}
+                          className="cursor-pointer mx-3 border"
+                        />
+                      </div>
+                    ))}
+                    {data?.productDetails?.videoDetails?.length > 0 &&
+                      data.productDetails.videoDetails.map((item: any) => (
                         <video
                           key={item.order}
                           className="cursor-pointer mx-3 border"
@@ -348,13 +322,13 @@ const Default: React.FC<Props> = ({ productId }) => {
                       ))}
                   </Slider>
                 </>
-                <div className="absolute top-[25px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
+                <div className="absolute top-6 -right-2 max-sm:-right-10 cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}
                   />
                 </div>
-                <div className="absolute top-[25px] -left-[50px] cursor-pointer">
+                <div className="absolute top-6 -left-12 cursor-pointer">
                   <Icon.CaretLeft
                     onClick={() => sliderRef.slickPrev()}
                     size={25}
@@ -364,17 +338,17 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
         </div>
-        <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
+        <div className="lg:w-1/2 sm:w-full lg:ml-6 p-4">
           {loading ? (
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
+              <div className="flex justify-between w-full">
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
                 <span
-                  className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]"
+                  className="rounded-full bg-[#e26178] px-2 py-2 mr-2 h-9 w-9 flex justify-center items-center cursor-pointer"
                   onClick={handleShareClick}
                 >
                   <Icon.ShareFat
@@ -384,7 +358,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
-              {data?.productDetails?.review.length != 0 && (
+              {data?.productDetails?.review.length !== 0 && (
                 <div className="flex flex-wrap mb-2">
                   <div>
                     <span className="underline mr-2 cursor-pointer">
@@ -400,7 +374,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              {data?.productDetails?.discountPrice && (
+              {data?.productDetails?.discountPrice ? (
                 <>
                   <span className="font-extrabold text-2xl">
                     ₹{formattedDiscountedPrice}
@@ -409,17 +383,13 @@ const Default: React.FC<Props> = ({ productId }) => {
                     ₹{formattedOriginalPrice}
                   </span>
                   <span className="ml-3 text-[#e26178] underline">
-                    {data && parseInt(data?.productDetails.discountValue)}% OFF
-                    on {data && data?.productDetails.discountCategory}
+                    {data?.productDetails.discountValue}% OFF on {data?.productDetails.discountCategory}
                   </span>
                 </>
-              )}
-              {data?.productDetails?.discountPrice == null && (
-                <>
-                  <span className="font-extrabold text-2xl">
-                    ₹{formattedOriginalPrice}
-                  </span>
-                </>
+              ) : (
+                <span className="font-extrabold text-2xl">
+                  ₹{formattedOriginalPrice}
+                </span>
               )}
             </div>
           )}
@@ -430,17 +400,17 @@ const Default: React.FC<Props> = ({ productId }) => {
               handleVariant={handleNewVariant}
             />
           )}
-          {data &&
-            data?.productDetails?.productQty !== null &&
+          {data?.productDetails?.productQty !== null &&
             data?.productDetails?.productQty < 5 && (
               <p className="mt-2">
                 Only{" "}
                 <span className="text-[#e26178]">
-                  {data && data?.productDetails?.productQty} pieces
+                  {data?.productDetails?.productQty} pieces
                 </span>{" "}
                 left!
               </p>
             )}
+          <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
@@ -461,10 +431,10 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div> */}
           <CheckPincode />
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
-          <div className="block max-sm:hidden">
+          <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>
-          {data && data?.productDetails?.tryAtHome === 1 && (
+          {data?.productDetails?.tryAtHome === 1 && (
             <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="underline text-[#e26178] cursor-pointer ">
                 Schedule free trial
@@ -480,6 +450,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <Accordian product={data} />
         </div>
       </div>
+
       {data?.productDetails?.review.length !== 0 && (
         <div className="">
           <ReviewsAndRatings product={data} />

@@ -317,12 +317,9 @@ const Checkout: React.FC = () => {
         cache: new InMemoryCache(),
       });
 
-      console.log(typeof cartData, "CartData");
-      const SYNC_CART = gql`
-        mutation CartSync($cartItems: [CartItemInput!]!) {
-          cartSync(cartItems: $cartItems) {
-            message
-          }
+      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+        cartSync(cartItems: $cartItems) {
+          message
         }
       `;
 

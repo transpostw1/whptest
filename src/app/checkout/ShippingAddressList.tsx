@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { FaCheckCircle, FaEdit, FaTimes } from "react-icons/fa";
 import Preloader from "@/components/Other/Preloader";
-import Loading from "../benefit/loding";
+import Loading from "../benefit/loading";
 import { Address } from "@/type/AddressType";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
@@ -30,7 +30,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
   //   const fetchAddresses = async () => {
   //     setIsLoading(true);
   //     try {
-  //       const cookieTokenn = Cookies.get("localtoken");
+  //       const cookieTokenn = localStorage.getItem("localtoken");
   //       const response = await axios.get<{ customerAddress?: Address[] }>(
   //         `${baseUrl}/customer/getAddresses`,
   //         {
@@ -62,7 +62,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const cookieTokenn = Cookies.get("localtoken");
+        const cookieTokenn = localStorage.getItem("localtoken");
 
         const getAuthHeaders = () => {
           if (!cookieTokenn) return null;

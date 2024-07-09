@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 import { ProductData, ProductType } from "@/type/ProductType";
 
@@ -35,7 +36,7 @@ const useRecentlyViewedProducts = () => {
             recentlyViewedProducts.pop();
           }
 
-          // localStorage.setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts));
+          // localStorage..setItem('recentlyViewedProducts', JSON.stringify(recentlyViewedProducts));
           {
             typeof window !== "undefined" &&
               localStorage.setItem(

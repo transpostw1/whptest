@@ -17,12 +17,12 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
- const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
+ const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
  const [error, setError] = useState<string | null>(null);
- const [inputValue, setInputValue] = useState<string>("2000");
+ const [inputValue, setInputValue] = useState<string>("");
  const numberOfMonths = 11;
  const totalAmount = monthlyDeposit * numberOfMonths;
-  const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
+const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
 
 
  const { handleEnroll, loading } = useEnroll(
@@ -38,12 +38,12 @@ const GoldCard: React.FC<GoldCardProps> = ({
    const parsedValue = parseInt(value, 10);
    if (isNaN(parsedValue)) {
      setError("Invalid input. Please enter a number.");
-   } else if (parsedValue < 2000) {
-     setError("Minimum deposit is 2000");
+  //  } else if (parsedValue < 2000) {
+  //    setError("Minimum deposit is 2000");
    } else if (parsedValue > 50000) {
      setError("Maximum deposit is 50000");
-   } else if (parsedValue % 1000 !== 0) {
-     setError("Amount must be a multiple of 1000");
+  //  } else if (parsedValue % 1000 !== 0) {
+  //    setError("Amount must be a multiple of 1000");
    } else {
      setMonthlyDeposit(parsedValue);
      setError(null);
@@ -52,11 +52,6 @@ const GoldCard: React.FC<GoldCardProps> = ({
 
   return (
     <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
-      {/* {loading && (
-        <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
-          <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
-        </div>
-      )} */}
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
@@ -84,7 +79,6 @@ const GoldCard: React.FC<GoldCardProps> = ({
                   className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
                   value={monthlyDeposit}
                   onChange={handleChange}
-                  min="2000"
                   max="50000"
                   step="1000"
                 />
@@ -93,14 +87,14 @@ const GoldCard: React.FC<GoldCardProps> = ({
             <div style={{ textAlign: "center" }}>
               <input
                 type="range"
-                min={1000}
+                min={500}
                 max={50000}
-                step={1000}
+                step={1100}
                 className="w-full"
                 onChange={handleChange}
               />
             </div>
-            {error && <p className="text-red-500">{error}</p>}
+            {/* {error && <p className="text-red-500">{error}</p>} */}
           </div>
           <div className="flex justify-between">
             <div className="text-start">

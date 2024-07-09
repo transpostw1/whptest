@@ -6,6 +6,7 @@ import axios from "axios";
 import { Address } from "@/type/AddressType";
 import { useCart } from "@/context/CartContext";
 import ReactLoading from "react-loading";
+import Loader from "@/components/Other/Loader"
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
@@ -276,16 +277,7 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading)
     return (
-      <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
-        <div className="loading-container flex justify-center items-center h-full">
-          <Image
-            src="/dummy/loader.gif"
-            alt={"loader"}
-            height={50}
-            width={50}
-          />
-        </div>
-      </div>
+      <Loader/>
     );
   return (
     <div className="flex flex-col lg:w-[50rem] md:w-[30rem] sm:w-[30rem] gap-5">

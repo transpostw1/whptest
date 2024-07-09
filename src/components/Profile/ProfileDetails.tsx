@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -32,7 +33,7 @@ const ProfileDetails = () => {
 
   const handleLogOut = () => {
     if (typeof window !== "undefined") {
-      Cookies.remove("localtoken");
+      // localStorage.remove("localtoken");
       logOut();
       router.push("/");
     }
@@ -45,7 +46,7 @@ const ProfileDetails = () => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
-      const cookieTokenn = Cookies.get("localtoken");
+      const cookieTokenn = localStorage.getItem("localtoken");
 
       const getAuthHeaders: any = () => {
         if (!cookieTokenn) return null;
@@ -90,7 +91,7 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const cookieTokenn = Cookies.get("localtoken");
+      const cookieTokenn = localStorage.getItem("localtoken");
 
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
@@ -135,7 +136,7 @@ const ProfileDetails = () => {
   // useEffect(() => {
   //   const fetchAddresses = async () => {
   //     setIsLoading(true);
-  // const cookieTokenn = Cookies.get("localtoken");
+  // const cookieTokenn = localStorage.getItem("localtoken");
   //     try {
 
   //       const response = await axios.get<{ customerAddress?: Address[] }>(

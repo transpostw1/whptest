@@ -8,7 +8,6 @@ import { ProductData, ProductType } from "@/type/ProductType";
 import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Slider from "react-slick";
-import InnerImageZoom from "react-inner-image-zoom";
 import Accordian from "./Accordian";
 import StickyNavProductPage from "@/components/Other/StickyNavProductPage";
 import { useRouter } from "next/navigation";
@@ -19,8 +18,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
-import { baseUrl } from "@/utils/constants";
-import Buttons from "./Buttons";
+import { baseUrl, graphqlProductUrl } from "@/utils/constants";
+import Buttons from "./Buttons"; 
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
@@ -31,13 +30,10 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
 import ReactImageMagnify from "react-image-magnify";
+import ZoomableImage from "./ZoomableImage";
 
 interface Props {
   productId: string | number | any;
-}
-interface Ref extends MutableRefObject<any> {
-  slickNext?: () => void;
-  slickPrev?: () => void;
 }
 
 const Default: React.FC<Props> = ({ productId }) => {
@@ -62,8 +58,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   async function getData() {
     const client = new ApolloClient({
-      // uri: "http://localhost:8080/",
-      uri: "https://seashell-app-kswll.ondigitalocean.app/",
+      uri: graphqlProductUrl,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
@@ -153,10 +148,16 @@ const Default: React.FC<Props> = ({ productId }) => {
         }
       }
     `;
+    let productUrl = "";
+    if (variant) {
+      productUrl = variant;
+    } else {
+      productUrl = productId[1];
+    }
 
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
-      variables: { productUrl: productId[1] },
+      variables: { productUrl: productUrl },
     });
 
     // const res = await axios.get(`${baseUrl}/products/${productId}`);
@@ -165,6 +166,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   }
 
   async function singleProduct() {
+    console.log("Single Product");
     const product = await getData();
     setData(product);
     setLoading(false);
@@ -177,105 +179,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleNewVariant = async (newUrl: string) => {
     try {
       setVariant(newUrl);
-      const client = new ApolloClient({
-        // uri: "http://localhost:8080/",
-        uri: "https://seashell-app-kswll.ondigitalocean.app/",
-        cache: new InMemoryCache(),
-      });
-      const GET_SINGLE_PRODUCT = gql`
-        query productDetails($productUrl: String!) {
-          productDetails(productUrl: $productUrl) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
-              }
-              gemstoneDetails
-              diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
-            }
-            stoneDetails
-            diamondDetails
-            review
-            variants
-          }
-        }
-      `;
-      console.log("----------------", productId);
-      console.log("----------------", productId);
-
-      const { data } = await client.query({
-        query: GET_SINGLE_PRODUCT,
-        variables: { productUrl: newUrl },
-      });
+      const match = newUrl.match(/0p(\d+)/);
+      const newId = match ? match[1] : "";
+      router.push(`/products/${newId}/${newUrl}`);
       setLoading(true);
       // const response = await axios.get(`${baseUrl}/products/${newUrl}`);
       setData(await data);
@@ -291,7 +197,7 @@ const Default: React.FC<Props> = ({ productId }) => {
     data?.productDetails?.imageDetails?.length || 0
   );
 
-  let sliderRef = useRef<any>();
+  let sliderRef = useRef<any>(null);
 
   const settingsThumbnails = {
     className: "center",
@@ -356,58 +262,36 @@ const Default: React.FC<Props> = ({ productId }) => {
       <StickyNavProductPage />
       <CtaButtonsMobile product={data} />
       <div className="lg:flex">
-        <div className="lg:w-[50%] sm:w-[100%]">
+        <div className="lg:w-1/2 sm:w-full">
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
             <div className="bg-[#f7f7f7]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {data &&
-                  data?.productDetails?.imageDetails.map(
-                    (image: any, index: any) => (
-                      <div key={index} className="left-2">
-                        <ReactImageMagnify
-                          className="d-flex-important justify-center"
-                          {...{
-                            smallImage: {
-                              alt: "Product Image",
-                              isFluidWidth: true,
-                              src: image.image_path,
-                            },
-                            largeImage: {
-                              src: image.image_path,
-                              width: 1000,
-                              height: 1200,
-                            },
-                            enlargedImageContainerClassName:
-                              "enlarge-image-container",
-                            enlargedImagePosition: "over",
-                            enlargedImageContainerDimensions: {
-                              width: "100%",
-                              height: "100%",
-                            },
-                            isActivatedOnTouch: true,
-                          }}
-                          // lensStyle={{ backgroundColor: 'rgba(0,0,0,.6)' }}
-                        />
-                      </div>
-                    )
-                  )}
-                {data &&
-                  data.productDetails?.videoDetails &&
-                  data.productDetails?.videoDetails.length > 0 &&
-                  data.productDetails?.videoDetails.map((item: any) => (
-                    <video
-                      key={item.order}
-                      className=""
-                      src={item.video_path}
-                      loop
-                      autoPlay
-                      muted
-                    />
+                {data?.productDetails?.imageDetails.map((image: any, index: any) => (
+                  <div key={index} className="flex justify-center items-center h-full">
+                    <div className="max-w-full max-md:h-[300px] h-[600px]">
+                      <ZoomableImage
+                        src={image.image_path}
+                        alt="Product Image"
+                      />
+                    </div>
+                  </div>
+                ))}
+                {data?.productDetails?.videoDetails?.length > 0 &&
+                  data.productDetails.videoDetails.map((item: any) => (
+                    <div key={item.order} className="flex justify-center items-center h-full">
+                      <video
+                        className="max-w-full max-h-full object-contain"
+                        src={item.video_path}
+                        loop
+                        autoPlay
+                        muted
+                      />
+                    </div>
                   ))}
               </Slider>
-              <div className="m-auto w-[60%] h-full relative">
+              <div className="m-auto w-3/5 h-full relative">
                 <>
                   <Slider
                     {...settingsThumbnails}
@@ -416,24 +300,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                       setNav2(slider);
                     }}
                   >
-                    {data &&
-                      data.productDetails?.imageDetails.map(
-                        (image: any, index: any) => (
-                          <div key={index}>
-                            <Image
-                              src={image?.image_path}
-                              alt={data?.productDetails?.title}
-                              width={100}
-                              height={100}
-                              className="cursor-pointer mx-3 border"
-                            />
-                          </div>
-                        )
-                      )}
-                    {data &&
-                      data.productDetails?.videoDetails &&
-                      data.productDetails?.videoDetails.length > 0 &&
-                      data.productDetails?.videoDetails.map((item: any) => (
+                    {data?.productDetails?.imageDetails.map((image: any, index: any) => (
+                      <div key={index}>
+                        <Image
+                          src={image?.image_path}
+                          alt={data?.productDetails?.title}
+                          width={100}
+                          height={100}
+                          className="cursor-pointer mx-3 border"
+                        />
+                      </div>
+                    ))}
+                    {data?.productDetails?.videoDetails?.length > 0 &&
+                      data.productDetails.videoDetails.map((item: any) => (
                         <video
                           key={item.order}
                           className="cursor-pointer mx-3 border"
@@ -443,13 +322,13 @@ const Default: React.FC<Props> = ({ productId }) => {
                       ))}
                   </Slider>
                 </>
-                <div className="absolute top-[25px] -right-[10px] max-sm:-right-[40px] cursor-pointer">
+                <div className="absolute top-6 -right-2 max-sm:-right-10 cursor-pointer">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}
                   />
                 </div>
-                <div className="absolute top-[25px] -left-[50px] cursor-pointer">
+                <div className="absolute top-6 -left-12 cursor-pointer">
                   <Icon.CaretLeft
                     onClick={() => sliderRef.slickPrev()}
                     size={25}
@@ -458,32 +337,18 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
             </div>
           )}
-
-          {/* {data &&
-            data.productDetails?.videoDetails &&
-            data.productDetails?.videoDetails.length > 0 &&
-            data.productDetails?.videoDetails.map((item: any) => (
-              <video
-                key={item.order}
-                className=""
-                src={item.video_path}
-                loop
-                autoPlay
-                muted
-              />
-            ))} */}
         </div>
-        <div className="lg:w-[50%] sm:w-[100%] lg:ml-[25px]  p-4">
+        <div className="lg:w-1/2 sm:w-full lg:ml-6 p-4">
           {loading ? (
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex justify-between lg:w-[100%] sm:w-[100%]">
+              <div className="flex justify-between w-full">
                 <p className="font-semibold text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
                 <span
-                  className="rounded-full bg-[#e26178] px-[7px] py-[7px] mr-2 h-[35px] w-[35px]"
+                  className="rounded-full bg-[#e26178] px-2 py-2 mr-2 h-9 w-9 flex justify-center items-center cursor-pointer"
                   onClick={handleShareClick}
                 >
                   <Icon.ShareFat
@@ -493,7 +358,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
-              {data?.productDetails?.review.length!=0 && (
+              {data?.productDetails?.review.length !== 0 && (
                 <div className="flex flex-wrap mb-2">
                   <div>
                     <span className="underline mr-2 cursor-pointer">
@@ -509,7 +374,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              {data?.productDetails?.discountPrice && (
+              {data?.productDetails?.discountPrice ? (
                 <>
                   <span className="font-extrabold text-2xl">
                     ₹{formattedDiscountedPrice}
@@ -518,43 +383,34 @@ const Default: React.FC<Props> = ({ productId }) => {
                     ₹{formattedOriginalPrice}
                   </span>
                   <span className="ml-3 text-[#e26178] underline">
-                    {data && parseInt(data?.productDetails.discountValue)}% OFF
-                    on {data && data?.productDetails.discountCategory}
+                    {data?.productDetails.discountValue}% OFF on {data?.productDetails.discountCategory}
                   </span>
                 </>
-              )}
-              {data?.productDetails?.discountPrice == null && (
-                <>
-                  <span className="font-extrabold text-2xl">
-                    ₹{formattedOriginalPrice}
-                  </span>
-                </>
+              ) : (
+                <span className="font-extrabold text-2xl">
+                  ₹{formattedOriginalPrice}
+                </span>
               )}
             </div>
           )}
-          {/* <div>
-            <span>
-              Upon Price Drop,{" "}
-              <span className="underline text-[#e26178]">Notify Me</span>
-            </span>
-          </div> */}
+
           {data?.productDetails?.variantId !== null && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
             />
           )}
-          {data &&
-            data?.productDetails?.productQty !== null &&
+          {data?.productDetails?.productQty !== null &&
             data?.productDetails?.productQty < 5 && (
               <p className="mt-2">
                 Only{" "}
                 <span className="text-[#e26178]">
-                  {data && data?.productDetails?.productQty} pieces
+                  {data?.productDetails?.productQty} pieces
                 </span>{" "}
                 left!
               </p>
             )}
+          <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
@@ -573,12 +429,12 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          {/* a */}
+          <CheckPincode />
           <AffordabilityWidget key="ZCUzmW" amount={5000} />
-          <div className="block max-sm:hidden">
+          <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>
-          {data && data?.productDetails?.tryAtHome === 1 && (
+          {data?.productDetails?.tryAtHome === 1 && (
             <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="underline text-[#e26178] cursor-pointer ">
                 Schedule free trial
@@ -594,6 +450,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <Accordian product={data} />
         </div>
       </div>
+
       {data?.productDetails?.review.length !== 0 && (
         <div className="">
           <ReviewsAndRatings product={data} />

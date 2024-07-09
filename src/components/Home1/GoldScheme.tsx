@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import Loader from "@/components/Other/Loader";
 import { useRouter } from "next/navigation";
 
 const GoldScheme = () => {
@@ -31,16 +32,7 @@ const GoldScheme = () => {
   };
   return (
     <>
-      {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Image
-            src="/dummy/loader.gif"
-            alt="Loading..."
-            height={50}
-            width={50}
-          />
-        </div>
-      )}
+      {loading && <Loader />}
       <div className="mt-5  text-rose-950 bg-[#FFFAF9]">
         <div className="lg:pl-7 grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1  ">
           <div className="px-8 lg:px-0">
@@ -117,7 +109,7 @@ const GoldScheme = () => {
             )}
           </div>
           <Image
-            src={"/images/other/GoldScheme.jpg"}
+            src={"/images/other/WHP_Gold_Investment copy.jpg"}
             width={1000}
             height={900}
             alt="goldscheme"
@@ -141,16 +133,16 @@ const GoldScheme = () => {
                     </p>
                   </div>
                   <div className="flex w-full">
-                  <button
-                    // href="#"
-                    onClick={() => handleNavigation("/benefit")}
-                    className="text-[#E26178] flex justify-center text-start font-semibold underline"
-                  >
-                    Benefit Calculator
-                    <span className="mt-1 ml-2">
-                      <Icon.ArrowRight />
-                    </span>
-                  </button>
+                    <button
+                      // href="#"
+                      onClick={() => handleNavigation("/benefit")}
+                      className="text-[#E26178] flex justify-center text-start font-semibold underline"
+                    >
+                      Benefit Calculator
+                      <span className="mt-1 ml-2">
+                        <Icon.ArrowRight />
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>

@@ -6,35 +6,11 @@ const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
   let categories = [
     {
-      id: 1,
-      type: "HOUSE WARMING",
-      image: (
-        <Image
-          src={"/images/other/Housewarming.jpg"}
-          alt=""
-          width={400}
-          height={400}
-        />
-      ),
-    },
-    {
-      id: 2,
-      type: "NEW BORN BABY",
-      image: (
-        <Image
-          src={"/images/other/Newborn.jpg"}
-          alt=""
-          width={400}
-          height={400}
-        />
-      ),
-    },
-    {
       id: 3,
       type: "HER BIRTHDAY",
       image: (
         <Image
-          src={"/images/other/Herbdy.jpg"}
+          src={"/images/occasion/WHP_Gift_For_Her.jpg"}
           alt=""
           height={400}
           width={400}
@@ -46,7 +22,7 @@ const Gifts = () => {
       type: "HIS BIRTHDAY",
       image: (
         <Image
-          src={"/images/other/Hisbdy.jpg"}
+          src={"/images/occasion/WHP_Gift_For_Him_01.jpg"}
           alt=""
           width={400}
           height={400}
@@ -54,35 +30,11 @@ const Gifts = () => {
       ),
     },
     {
-      id: 5,
-      type: "CONGRATULATIONS",
+      id: 2,
+      type: "NEW BORN BABY",
       image: (
         <Image
-          src={"/images/other/Congratulations.jpg"}
-          alt=""
-          width={400}
-          height={400}
-        />
-      ),
-    },
-    {
-      id: 6,
-      type: "GET WELL SOON",
-      image: (
-        <Image
-          src={"/images/other/Getwell.jpg"}
-          alt=" "
-          width={400}
-          height={400}
-        />
-      ),
-    },
-    {
-      id: 7,
-      type: "THANK YOU",
-      image: (
-        <Image
-          src={"/images/other/Thankyou.jpg"}
+          src={"/images/occasion/WHP_New Born Baby_01.jpg"}
           alt=""
           width={400}
           height={400}
@@ -94,7 +46,55 @@ const Gifts = () => {
       type: "VALENTINES",
       image: (
         <Image
-          src={"/images/other/Valentines.jpg"}
+          src={"/images/occasion/WHP_Valentines.jpg"}
+          alt=""
+          width={400}
+          height={400}
+        />
+      ),
+    },
+    {
+      id: 5,
+      type: "Weddings",
+      image: (
+        <Image
+          src={"/images/occasion/WHP_Weddings.jpg"}
+          alt=""
+          width={400}
+          height={400}
+        />
+      ),
+    },
+    {
+      id: 6,
+      type: "GET WELL SOON",
+      image: (
+        <Image
+          src={"/images/occasion/Getwell.jpg"}
+          alt=" "
+          width={400}
+          height={400}
+        />
+      ),
+    },
+    {
+      id: 7,
+      type: "THANK YOU",
+      image: (
+        <Image
+          src={"/images/occasion/Thankyou.jpg"}
+          alt=""
+          width={400}
+          height={400}
+        />
+      ),
+    },
+    {
+      id: 1,
+      type: "HOUSE WARMING",
+      image: (
+        <Image
+          src={"/images/occasion/Housewarming.jpg"}
           alt=""
           width={400}
           height={400}
@@ -138,7 +138,9 @@ const Gifts = () => {
                 {category.image} {!isMobile && <a href="#">{category.type}</a>}
               </div>
               {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}
-              {isMobile && <div className="w-[80%] break-words">{category.type}</div>}
+              {isMobile && (
+                <div className="w-[80%] break-words">{category.type}</div>
+              )}
               <div className="inline-flex">
                 <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
                   View All

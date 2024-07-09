@@ -1,7 +1,5 @@
 import { useState } from "react";
 import instance from "@/utils/axios";
-import { baseUrl, gms } from "@/utils/constants";
-import Cookies from "js-cookie";
 import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { graphqlbaseUrl } from "@/utils/constants";
@@ -22,7 +20,7 @@ const useEnroll = ({
   setFlashType,
 }: Props): UseEnrollReturn => {
   const [loading, setLoading] = useState(false);
-  const cookieToken = Cookies.get("localtoken");
+  const cookieToken = localStorage.getItem("localtoken");
   const { isLoggedIn } = useUser();
   const router = useRouter();
   const pathname = usePathname();

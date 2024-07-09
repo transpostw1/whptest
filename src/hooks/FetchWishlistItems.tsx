@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 import { useWishlist } from "@/context/WishlistContext";
 import { useUser } from "@/context/UserContext";
@@ -16,7 +17,7 @@ export const useFetchWishlistItems = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const userToken = Cookies.get("localtoken");
+      const userToken = localStorage.getItem("localtoken");
       if (userToken) {
         // setIsLoggedIn(true);
         setCookieToken(userToken);

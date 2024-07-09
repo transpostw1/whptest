@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Loader from "../Loader";
+import Loader from "../loading";
 import { useBlog } from "@/context/BlogContext";
 
 interface Props {

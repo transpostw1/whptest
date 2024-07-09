@@ -191,6 +191,7 @@ interface ProductDetails {
 interface VariantOption {
   ProductUrl: string;
   VariantName: string;
+  ProductId: any;
 }
 
 interface Variant {
@@ -199,6 +200,7 @@ interface Variant {
 }
 
 export interface ProductData {
+  productId: number;
   productDetails: ProductDetails;
   variants: Variant[];
 }

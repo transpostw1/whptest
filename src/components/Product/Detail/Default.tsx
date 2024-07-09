@@ -19,7 +19,7 @@ import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl, graphqlProductUrl } from "@/utils/constants";
-import Buttons from "./Buttons";
+import Buttons from "./Buttons"; 
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";

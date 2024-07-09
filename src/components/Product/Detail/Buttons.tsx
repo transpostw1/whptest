@@ -133,7 +133,7 @@ const handleBuyNow = () => {
     );
   }
   return (
-    <div className="flex max-sm:justify-around justify-evenly mt-[25px] ">
+    <div className="flex max-sm:justify-around mt-[25px] ">
       <div
         className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white max-sm:w-[35%] w-[33%] h-[58px] max-sm:h-[45px] py-[18px] px-[32px] max-sm:px-[15px] max-sm:py-[10px] text-center"
         onClick={handleBuyNow}
@@ -142,7 +142,7 @@ const handleBuyNow = () => {
       </div>
 
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center cursor-pointer"
+        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[33%] max-sm:w-[35%] h-[58px] max-sm:h-full text-center cursor-pointer mx-10"
         onClick={() => handleAddToCart(product)}
       >
         <div className=" m-[2px] mb-[2px] bg-white">

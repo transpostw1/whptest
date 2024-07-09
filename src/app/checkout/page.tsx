@@ -122,19 +122,46 @@ const Checkout: React.FC = () => {
       setLoading(true);
       const cookieToken = localStorage.getItem("localtoken");
       try {
-        const response = await axios.post<{ data: any }>(
-          `${baseUrl}${coupon}`,
-          {
-            products: products,
-            coupon: couponCode,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-            },
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        const CHECK_COUPON_CODE = gql`
+        mutation Coupon($coupon: CouponInput!) {
+          Coupon(coupon: $coupon) {
+            code
+            message
+            discountProduct {
+              productId
+              discountedValue
+              additionalDiscountPrice
+            }
           }
-        );
-        setDataAfterCouponCode(response.data);
+        }
+      `;
+
+        const { data } = await client.mutate({
+          mutation: CHECK_COUPON_CODE,
+          variables: {
+            coupon: { products: products, couponCode: couponCode },
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+
+        console.log("DAta", data.Coupon);
+        setDataAfterCouponCode(data.Coupon);
         setFlashMessage("Coupon Successfully applied");
         setFlashType("success");
       } catch (error: any) {
@@ -149,9 +176,10 @@ const Checkout: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("Coupon code info", dataAfterCouponCode);
     let totalCartDiscount: number = 0;
-    Array.isArray(dataAfterCouponCode.discountedProducts) &&
-      dataAfterCouponCode.discountedProducts.map((element: any) => {
+    Array.isArray(dataAfterCouponCode.discountProduct) &&
+      dataAfterCouponCode.discountProduct.map((element: any) => {
         const discount = parseInt(element.discountedValue);
         if (!isNaN(discount)) {
           totalCartDiscount += discount;
@@ -232,14 +260,31 @@ const Checkout: React.FC = () => {
     });
     return total;
   };
+
+  const calculateTotalProductPrice = (items: any[]) => {
+    let total = 0;
+    items.forEach((item) => {
+      const price = parseInt(item.productPrice?.toString());
+      if (!isNaN(price) && typeof item.quantity === "number") {
+        total += price * item.quantity;
+      }
+    });
+    return total;
+  };
   let totalCart = buyNow
     ? calculateTotalPrice(finalBuyNowItems)
     : calculateTotalPrice(MainCart);
 
+  let totalProductCart = buyNow
+    ? calculateTotalProductPrice(finalBuyNowItems)
+    : calculateTotalProductPrice(MainCart);
+
 
   let formattedPrice: string = totalCart.toString();
+  let formattedProductPrice: string = totalProductCart.toString();
+  let discountDifference: string = parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
 
-  const handleOrderComplete = async () => {
+  const handleOrderComplete = async (items: any, items2: any) => {
     try {
       console.log("handleOrderComplete called");
 
@@ -496,9 +541,8 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${
-                          selectedStep >= index ? "bg-rose-400" : "bg-white"
-                        }`}
+                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
+                          }`}
                       >
                         {step.icon}
                       </div>
@@ -641,6 +685,24 @@ const Checkout: React.FC = () => {
                     <div className="bg-gray-100 p-2 mt-2">
                       <div className="">
                         <div className="flex justify-between font-medium">
+                          <h3>Product Total</h3>
+                          <h3>
+                            ₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(formattedProductPrice)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Product Discount</h3>
+                          <h3>
+                            -₹
+                            {Intl.NumberFormat("en-IN", {
+                              minimumFractionDigits: 2,
+                            }).format(Math.round(parseInt(discountDifference)))}
+                          </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
                           <h3>
                             ₹
@@ -686,15 +748,15 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary">
-                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary
-                    totalDiscount={totalDiscount}
-                    totalCart={totalCart}
-                    cartItems={buyNow ? finalBuyNowItems : MainCart}
-                  />
-                </div>
-              )}
+                  <div id="order-summary">
+                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                    <OrderSummary
+                      totalDiscount={totalDiscount}
+                      totalCart={totalCart}
+                      cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    />
+                  </div>
+                )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

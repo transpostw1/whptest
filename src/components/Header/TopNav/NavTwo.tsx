@@ -203,7 +203,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search w-48 relative max-lg:hidden">
+            <div className="form-search w-72 relative max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -324,19 +324,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   </div>
                   <div
                     className="max-md:hidden wishlist-icon flex items-center cursor-pointer"
-                    // onClick={openModalWishlist}
                   >
                     <Link href={"/wishlist"}>
-                      {/* <div>
-                        <div className="flex flex-col items-center">
-                          <Icon.Heart size={28} color="black" />
-                          <p className="text-sm">Wishlist<p>
-                        </div>
-                        
-                      </div> */}
+                      
                       <div
                         className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                        // onClick={openModalWishlist}
                       >
                         <div
                           className={`flex flex-col items-center ${
@@ -359,24 +351,16 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <Link href={"/checkout"}>
                     <div
                       className="max-md:hidden cart-icon flex items-center relative cursor-pointer"
-                      // onClick={openModalCart}
                     >
                       <div
                         className={`flex flex-col items-center ${
                           pathname.includes("/checkout") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        {/* <Image
-                          src={"/images/icons/cart.svg"}
-                          alt="Cart"
-                          width={30}
-                          height={30}
-                        /> */}
                         <Icon.ShoppingCart size={30} />
                         <p className="text-sm">Cart</p>
                       </div>
                       {cartLength > 0 && (
-                        // <span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                         <span className="quantity cart-quantity absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                           {cartLength}
                         </span>
@@ -434,7 +418,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       onClick={handleMenuMobile}
                       className="mx-4 h-6 border-l border-gray-400"
                     ></div>
-                    <Link href={"/login"}><h2 className="text-lg font-semibold">Login</h2></Link>
+                    <Link href={"/login"}><p className="text-lg font-semibold">Login</p></Link>
                   </div>
                 )}
                 {/* <Link href={"/checkout"}>

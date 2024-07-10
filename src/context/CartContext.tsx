@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
-import instance from "@/utils/axios";
 import { baseUrl, syncCart, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";

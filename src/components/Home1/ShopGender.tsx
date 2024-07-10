@@ -59,7 +59,6 @@ const ShopGender = () => {
       ),
     },
   ];
-  console.log("shop gender");
   return (
     <>
       <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">

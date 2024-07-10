@@ -44,9 +44,7 @@ interface UserDetails {
 type UserDetailsKeys = keyof UserDetails;
 
 const initialState: UserState = {
-  isLoggedIn:
-    typeof window !== "undefined" &&
-    localStorage.getItem("isLoggedIn") === "true",
+  isLoggedIn: false,
 };
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -54,14 +52,8 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case "LOG_IN":
-      if (typeof window !== "undefined") {
-        localStorage.setItem("isLoggedIn", "true");
-      }
       return { isLoggedIn: true };
     case "LOG_OUT":
-      if (typeof window !== "undefined") {
-        localStorage.setItem("isLoggedIn", "false");
-      }
       return { isLoggedIn: false };
     default:
       return state;
@@ -73,8 +65,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [cookieToken, setCookieToken] = useState<string | null>(null);
   const router = useRouter();
-  const cookieToken = localStorage.getItem("localtoken");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("localtoken");
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      setCookieToken(token);
+      dispatch({ type: isLoggedIn ? "LOG_IN" : "LOG_OUT" });
+    }
+  }, []);
+
 
   const logIn = async () => {
     dispatch({ type: "LOG_IN" });

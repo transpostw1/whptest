@@ -1,29 +1,34 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 interface Props {
   visible: boolean;
   onClose: VoidFunction;
+  onSortOptionChange: (option: string) => void;
 }
 
 const SortOptions = [
-  "Latest",
-  "Discount",
-  "Featured",
-  "Price Low To High",
-  "Price High To Low",
-  "Customer Rating",
+  "All",
+  "Newest First",
+  "Price-Low To High",
+  "Price-High To Low",
 ];
 const SortBy: React.FC<Props> = (props) => {
+  const [sortOption, setSortOption] = useState<string>("");
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       props.onClose();
     }
   };
-  
+  const updateSortOption = (option: string) => {
+    setSortOption(option);
+    props.onSortOptionChange(option);
+  };
+
   if (!props.visible) return null;
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-25 z-50"
+      className="fixed inset-0 bg-black bg-opacity-25 z-50 bottom-0"
       id="container"
       onClick={handleOnClose}
     >
@@ -33,7 +38,15 @@ const SortBy: React.FC<Props> = (props) => {
         </p>
         <div className="p-4">
           {SortOptions.map((option: any) => (
-            <div key={option} className="mt-4 text-lg hover:text-[#e26178]">{option}</div>
+            <div
+              key={option}
+              className={`mt-4 text-lg hover:text-[#e26178] ${
+                sortOption == option ? "text-[#e26179]" : ""
+              }`}
+              onClick={() => updateSortOption(option)}
+            >
+              {option}
+            </div>
           ))}
         </div>
       </div>

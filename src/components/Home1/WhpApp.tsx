@@ -1,38 +1,96 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const WhpApp = () => {
+  const [width, setWidth] = useState<number>(300);
+  const [height, setHeight] = useState<number>(200);
+  const [bannerwidth, setBannerWidth] = useState<number>(300);
+  const divRef = useRef<any>(null);
+  const [bannerheight, setBannerHeight] = useState<number>(200);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Get the current viewport width
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth < 768) {
+        // Small screens
+        setWidth(145);
+        setHeight(43);
+        setBannerWidth(255);
+        setBannerHeight(298);
+      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
+        // Medium screens
+        setWidth(180);
+        setHeight(50);
+        setBannerWidth(300);
+        setBannerHeight(390);
+      } else {
+        // Large screens
+        setWidth(225);
+        setHeight(65);
+        setBannerWidth(397);
+        setBannerHeight(465);
+      }
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <div className=" flex-col md:flex-row md:mb-16 mt-28 pl-8 text-red-950 bg-[#f7f7f7] w-full h-full flex justify-center items-center overflow-hidden">
-        <div className="w-full md:w-1/2 flex flex-col items-start gap-3">
-          <h2 className="font-normal text-5xl ">
-            Download the Waman Hari Pethe App
-          </h2>
-          <p>
-            Now you can explore timeless glamour of Waman Hari Pether whenever
-            you want! Shining new app, made just for you! it is Free, Easy &
-            Smart.
+      <div
+        className="flex flex-wrap justify-center bg-[#f7f5f6] pt-4"
+        ref={divRef}
+      >
+        <div className="lg:w-[50%] sm:w-[100%] md:w-[50%]">
+          {width < 180 ? (
+            <p className="text-center text-2xl font-semibold">
+              Download the WHP App
+            </p>
+          ) : (
+            <p className="lg:text-[3rem] md:text-[2rem] text-start font-semibold leading-10 lg:text-start md:text-center">
+              Download the Waman Hari Pethe App
+            </p>
+          )}
+          <p className="lg:w-[70%] sm:w-[100%] mt-4 md:text-center lg:text-start max-md:text-center max-sm:px-3">
+            Now you can explore the timeless glamour of Waman Hari Pethe
+            whenever you want! Shining new app, made just for you! It's Free,
+            Easy & Smart.
           </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Image
-              src={"/images/other/GooglePlay.png"}
-              height={200}
-              width={180}
-              alt="playstore"
-              className="object-fill"
-            />
-            <Image
-              src={"/images/other/AppleStore.png"}
-              height={200}
-              width={180}
-              alt="playstore"
-              className=""
-            />
+          <div className="flex max-sm:justify-center lg:justify-start  md:justify-start mt-5 mb-5">
+            <div className=" mr-4">
+              <Image
+                src={"/dummy/appStoreButton.png"}
+                alt={"the download app button"}
+                width={width}
+                height={height}
+              />
+            </div>
+            <div>
+              <Image
+                src={"/dummy/playStoreButton.png"}
+                alt={"the download app button"}
+                width={width}
+                height={height}
+              />
+            </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 mt-8 items-center h-full ml-4">
-          <Image src={"/dummy/Download_App_Image.png"} alt="mobileAppBanner" width={125} height={100} className="w-[30%] h-[50%] object-cover" />
+        <div>
+          <Image
+            src={"/dummy/mobileAppBanner.png"}
+            alt="Download WHP App From Play Store or App Store"
+            width={bannerwidth}
+            height={bannerheight}
+          />
         </div>
       </div>
     </>

@@ -17,28 +17,31 @@ const Login = () => {
     initialValues: {
       phoneNumber: "",
     },
-    validationSchema: validationSchema, // Pass the validation schema
+    validationSchema: validationSchema, 
     onSubmit: (values, { setSubmitting }) => {
       setTimeout(() => {
         setSubmitting(false);
       }, 400);
     },
   });
+  const handlekeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("function isexcuted", e.target.value);
+      const value = e.target.value;
+      setPhoneNumber(value);
+      formik.handleChange("phoneNumber")(value);
+    }
+  };
 
   return (
     <>
-      {/* <TopNavOne textColor="text-white" />
-      <NavTwo props="style-three bg-white" />
-      <div id="header" className="w-full relative">
-        <NavHoverMenu props="bg-white" />
-      </div> */}
       <div className="login-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center ">
             <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <form onSubmit={formik.handleSubmit}>
                 <div className="phone">
-                  <h1 className="font-medium text-center">
+                  <h1 className="font-semibold text-center">
                     ENTER PHONE NUMBER TO LOGIN
                   </h1>
                   <PhoneInput

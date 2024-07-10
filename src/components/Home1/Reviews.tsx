@@ -27,7 +27,7 @@ const TestimonialData: Testimonial[] = [
   {
     content:
       "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Christian Bale",
+    author: "Ryan Gosling",
   },
   {
     content:
@@ -57,8 +57,12 @@ const Reviews: React.FC = () => {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
+    prevArrow: (
+      <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
+    ),
+    nextArrow: (
+      <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
+    ),
     arrows: false,
     responsive: [
       {
@@ -79,40 +83,42 @@ const Reviews: React.FC = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center md:mb-16 mt-28 pl-8">
-        <div className="w-full md:w-1/2 flex flex-col items-start">
-          <h2 className="text-2xl md:text-4xl font-semibold mb-4 text-red-950">
+        <div className="w-full md:w-[40%] flex flex-col items-start">
+          <h2 className="font-semibold text-[1.5rem] uppercase mb-5">
             TESTIMONIALS
           </h2>
-          <h1 className="text-2xl md:text-6xl mb-8 text-red-950">
-            Hear from our <br /> customers
-          </h1>
-          <div className="flex -space-x-4 rtl:space-x-reverse mb-8">
-            {[...Array(3)].map((_, index) => (
-              <div
-                key={index}
-                className="w-20 h-20 border-2 border-gray-300 rounded-full overflow-hidden"
-              >
-                <Image
-                  src="/images/other/userimage.jpg"
-                  alt="User"
-                  width={80}
-                  height={80}
-                />
-              </div>
-            ))}
-            <a
+          <div className="flex w-100 justify-between pe-2  md:block md:w-auto">
+            <h1 className="text-2xl md:text-5xl mb-8 text-red-950">
+              Hear from our <br /> customers
+            </h1>
+            <div className="hidden md:flex -space-x-4 rtl:space-x-reverse mb-8">
+              {[...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  className="w-20 h-20 border-2 border-gray-300 rounded-full overflow-hidden"
+                >
+                  <Image
+                    src="/images/other/userimage.jpg"
+                    alt="User"
+                    width={80}
+                    height={80}
+                  />
+                </div>
+              ))}
+              {/* <a
               className="flex items-center justify-center w-20 h-20 text-xs font-medium text-white bg-gray-700 border-2 border-gray-300 rounded-full hover:bg-gray-600"
               href="#"
             >
               +99
-            </a>
-          </div>
-          <div className="flex items-center gap-8 cursor-pointer">
-            <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
-            <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
+            </a> */}
+            </div>
+            <div className="flex items-center gap-8 cursor-pointer">
+              <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
+              <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
+            </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 mt-8 items-center h-full">
+        <div className="w-full md:w-[60%] m-0 md:mt-8 items-center h-full">
           <Slider {...settings} ref={sliderRef}>
             {TestimonialData.map((testimonial, index) => (
               <div key={index} className="p-2">

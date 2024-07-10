@@ -4,35 +4,39 @@ import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { usePathname } from "next/navigation";
-import Product from "@/components/Product/Product";
-import productData from "@/data/Product.json";
-import useMenuMobile from "@/store/useMenuMobile";
-import { useModalSearchContext } from "@/context/ModalSearchContext";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { CategoryType } from "@/type/CategoryType";
+import { useRouter } from "next/navigation";
+import { useCategory } from "@/context/CategoryContex";
 import axios from "@/utils/axios";
 import { baseUrl } from "@/utils/constants";
+import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
+import { TiArrowSortedDown } from "react-icons/ti";
+import { TiArrowSortedUp } from "react-icons/ti";
 
 interface Props {
   props: string;
 }
 
 const NavHoverMenu: React.FC<Props> = ({ props }) => {
-  const [data, setData] = useState<CategoryType[] | null>(null);
-
+  const [isMobile, setIsMobile] = useState(false);
+  const searchParmas = useSearchParams();
   const pathname = usePathname();
-
-  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
-  const [openSubNavMobile, setOpenSubNavMobile] = useState<number | null>(null);
-  const { openModalSearch } = useModalSearchContext();
-
-  const handleOpenSubNavMobile = (index: number) => {
-    setOpenSubNavMobile(openSubNavMobile === index ? null : index);
-  };
-
+  const router = useRouter();
+  const { categories } = useAllCategoryContext();
+  const { category, setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsSubMenuVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsSubMenuVisible(false);
+  };
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -50,85 +54,78 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
     };
   }, [lastScrollPosition]);
 
-  async function getData() {
-    const res = await fetch(`${baseUrl}/getAllParentCategories`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    return res.json();
-  }
-
-  async function getAllCategories() {
-    try {
-      const category = await getData();
-      if (category) {
-        setData(category);
-      }
-    } catch (error) {
-      console.error("Error getting categories:", error);
-    }
-  }
   useEffect(() => {
-    getAllCategories();
+    const mediaQuery = window.matchMedia("(max-width: 1022px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
   }, []);
 
-  // const handleGenderClick = (gender: string) => {
-  //   router.push(`/shop/breadcrumb1?gender=${gender}`);
+  // const handleUrl = (value: any) => {
+  //   console.log("handleUrl", value);
+  //   router.push(`/products/?gender=${value}`);
   // };
-
-  // const handleCategoryClick = (category: string) => {
-  //   router.push(`/shop/breadcrumb1?category=${category}`);
-  // };
-
-  // const handleTypeClick = (type: string) => {
-  //   router.push(`/shop/breadcrumb1?type=${type}`);
-  // };
-
+  if (isMobile) {
+    return null;
+  }
   return (
     <>
       <div
         className={`header-menu-navHoverMenu style-one ${
           fixedHeader ? " fixed" : "relative"
-        } w-full md:h-[60px] h-[40px] ${props}`}
+        } w-full md:h-[37px] h-[40px]`}
       >
         <div className="container mx-auto h-full">
-          <div className="header-main flex items-center justify-between h-full">
-            <div
-              className="menu-mobile-icon lg:hidden flex items-center"
-              onClick={handleMenuMobile}
-            >
-              <i className="icon-category text-2xl"></i>
-            </div>
-            <Link href={"/"} className="flex items-center lg:hidden">
-              <div className="heading4">WHP</div>
-            </Link>
-
-            <div className="menu-main h-full xl:w-full flex items-center justify-center max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-              <ul className="flex items-center justify-between gap-12 h-full  text-rose-950">
+          <MobileMainCategorySwiper />
+          <div className="header-main flex items-center justify-evenly w-full h-full">
+            <div className="menu-main h-full xl:w-full flex items-center w-full max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
+              <ul className="flex items-center justify-evenly h-full w-full text-rose-950">
                 <li className="h-full relative">
                   <Link
                     href=""
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                     className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
-                      pathname.includes("/shop/breadcrumb1") ? "active" : ""
+                      isSubMenuVisible ? "sub-menu-visible" : ""
                     }`}
                   >
                     All Jewellery
-                    <Image className="cursor-pointer" src={"/images/icons/arrow.svg"} alt="Arrow" width={20} height={20} />
+                    {isSubMenuVisible ? (
+                      <TiArrowSortedUp className="cursor-pointer" size={20} />
+                    ) : (
+                      <TiArrowSortedDown className="cursor-pointer" size={20} />
+                    )}
                   </Link>
-                  <div className="sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl">
-                    <ul className="">
-                      <p className="font-bold text-black">Explore Categories</p>
+                  <div
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    className={`sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl ${
+                      isSubMenuVisible ? "visible" : ""
+                    }`}
+                  >
+                    <ul>
+                      <p className="font-semibold text-black">
+                        Explore Categories
+                      </p>
 
-                      {data &&
-                        data.map((item, index) => (
+                      {categories &&
+                        categories.map((item: any, index: any) => (
                           <React.Fragment key={item.id}>
                             <li className="leading-[0px]">
                               <Link
                                 href={{
-                                  pathname: "/shop/breadcrumb1",
+                                  pathname: "/products",
                                   query: { url: item.url },
                                 }}
                                 className=" text-secondary duration-300"
+                                onClick={() => setCustomcategory(item.url)}
                               >
                                 <div className="flex">
                                   <Image
@@ -137,6 +134,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                     height={25}
                                     width={25}
                                     className="mr-1"
+                                    style={{ width: "auto", height: "auto" }}
                                   />
                                   <p>{item.name}</p>
                                 </div>
@@ -146,530 +144,391 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         ))}
                     </ul>
                     <ul>
-                      <li className="font-bold text-black">Shop For</li>
+                      <li className="font-semibold text-black">Shop For</li>
                       <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Men</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Women</Link>
-                      </li>
-                    </ul>
-
-                    <ul>
-                      <li>
-                        <p className="font-bold text-black">Shop by type</p>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Gold</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "g-men" },
+                          }}
+                          onClick={() => setCustomcategory("_men")}
+                        >
+                          Men
+                        </Link>
                       </li>
                       <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Rose Gold</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "g-women" },
+                          }}
+                          // onClick={() => handleUrl("women")}
+                        >
+                          Women
+                        </Link>
                       </li>
                       <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>White Gold</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Diamond</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>Gemstones</Link>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <p className="font-bold text-black">Shop By Price</p>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>less than 10k</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>10k to 20k</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>20k to 30k</Link>
-                      </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
-                        <Link href={"/shop/breacrumb1"}>30k and Above</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "g-kids" },
+                          }}
+                          // onClick={() => handleUrl("women")}
+                        >
+                          Kids
+                        </Link>
                       </li>
                     </ul>
                     <ul>
                       <li>
-                        <p className="font-bold text-black">Shop By Karat</p>
+                        <p className="font-semibold text-black">Shop by type</p>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "m-gold" },
+                          }}
+                          // onClick={() => setCustomcategory("gold")}
+                        >
+                          Gold
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "m-Rose_Gold" },
+                          }}
+                          onClick={() => setCustomcategory("Rose Gold")}
+                        >
+                          Rose Gold
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "m-White_Gold" },
+                          }}
+                          onClick={() => setCustomcategory("White Gold")}
+                        >
+                          White Gold
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "m-diamond" },
+                          }}
+                          onClick={() => setCustomcategory("diamond")}
+                        >
+                          Diamond
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "m-gemstones" },
+                          }}
+                          onClick={() => setCustomcategory("gemstones")}
+                        >
+                          Gemstones
+                        </Link>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="font-semibold text-black">
+                          Shop By Price
+                        </p>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-0to10000" },
+                          }}
+                          onClick={() => setCustomcategory("Less than 10K")}
+                        >
+                          less than 10k
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-10000to20000" },
+                          }}
+                          onClick={() => setCustomcategory("10K to 20K")}
+                        >
+                          10k to 20k
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-20000to30000" },
+                          }}
+                          onClick={() => setCustomcategory("20K to 30K")}
+                        >
+                          20k to 30k
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-30000to40000" },
+                          }}
+                          onClick={() => setCustomcategory("30K to 40K")}
+                        >
+                          30K to 40K
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-40000to50000" },
+                          }}
+                          onClick={() => setCustomcategory("40K to 50K")}
+                        >
+                          40K to 50K
+                        </Link>
+                      </li>
+                      <li className="text-secondary duration-300 cursor-pointer">
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "p-50000to10000000" },
+                          }}
+                          onClick={() => setCustomcategory("50K and Above")}
+                        >
+                          50K and Above
+                        </Link>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <p className="font-semibold text-black">
+                          Shop By Karat
+                        </p>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>14kt</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "k-14KT" },
+                          }}
+                          onClick={() => setCustomcategory("14KT")}
+                        >
+                          14KT
+                        </Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>18kt</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "k-18KT" },
+                          }}
+                          onClick={() => setCustomcategory("18KT")}
+                        >
+                          18KT
+                        </Link>
                       </li>
                       <li>
-                        <Link href={"/shop/breadcrumb1"}>22kt</Link>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "k-22KT" },
+                          }}
+                          onClick={() => setCustomcategory("22KT")}
+                        >
+                          22KT
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "k-23KT" },
+                          }}
+                          onClick={() => setCustomcategory("23KT")}
+                        >
+                          23KT
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href={{
+                            pathname: "/products",
+                            query: { url: "k-24KT" },
+                          }}
+                          onClick={() => setCustomcategory("24KT")}
+                        >
+                          24KT
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 </li>
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("new_Arrival")}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-new_Arrival" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url")?.startsWith("c-new_Arrival")
+                        ? "active"
+                        : ""
+                    }`}
                   >
-                    New Arrivals
+                    New Arrival
                   </Link>
                 </li>
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => {
+                    setCustomcategory("earring");
+                    // handleUrl("c-earring");
+                  }}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-earring" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url")?.startsWith("c-earring")
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Earrings
                   </Link>
                 </li>
 
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("pendant")}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-pendant" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url")?.startsWith("c-pendant")
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Pendants
                   </Link>
                 </li>
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("bangle")}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-bangle" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url")?.startsWith("c-bangle")
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Bangles
                   </Link>
                 </li>
-                <li className="h-full">
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("Bracelet")}
+                >
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-bracelet" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url")?.startsWith("c-bracelet")
+                        ? "active"
+                        : ""
+                    }`}
+                  >
+                    Bracelet
+                  </Link>
+                </li>
+                <li
+                  className="h-full"
+                  onClick={() => setCustomcategory("necklace")}
+                >
+                  <Link
+                    href={{
+                      pathname: "/products",
+                      query: { url: "c-necklace" },
+                    }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/products") &&
+                      searchParmas.get("url") === "c-necklace"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     Necklace
                   </Link>
                 </li>
-                <li className="h-full relative">
+                <li className={`h-full relative`}>
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/offers" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/offers") ? "active" : ""
+                    }`}
                   >
                     Offers
                   </Link>
                   {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
-                    <ul className="w-full">
-                      <li>
-                        <Link
-                          href="/blog/default"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/default" ? "active" : ""
-                          }`}
-                        >
-                          Blog Default
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/list"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/list" ? "active" : ""
-                          }`}
-                        >
-                          Blog List
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/grid"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/grid" ? "active" : ""
-                          }`}
-                        >
-                          Blog Grid
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/detail1"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/detail1" ? "active" : ""
-                          }`}
-                        >
-                          Blog Detail 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/blog/detail2"
-                          className={`text-secondary duration-300 ${
-                            pathname === "/blog/detail2" ? "active" : ""
-                          }`}
-                        >
-                          Blog Detail 2
-                        </Link>
-                      </li>
-                    </ul>
                   </div> */}
                 </li>
                 <li className="h-full relative">
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/gifts" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/gifts") ? "active" : ""
+                    }`}
                   >
                     Gifts
                   </Link>
                   {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
-                    <ul className="w-full">
-                      <li>
-                        <Link href="/shop/breadcrumb1">About Us</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Contact Us</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Store List</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">404</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">FAQs</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Coming Soon</Link>
-                      </li>
-                      <li>
-                        <Link href="/shop/breadcrumb1">Customer Feedbacks</Link>
-                      </li>
-                    </ul>
                   </div> */}
                 </li>
                 <li className="h-full">
                   <Link
-                    href="#!"
-                    className="text-button-uppercase duration-300 h-full flex items-center justify-center"
+                    href={{ pathname: "/benefit" }}
+                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                      pathname.includes("/benefit") ? "active" : ""
+                    }`}
                   >
                     Gold Services
                   </Link>
                 </li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="menu-mobile" className={`${openMenuMobile ? "open" : ""}`}>
-        <div className="menu-container bg-white h-full">
-          <div className="container h-full">
-            <div className="menu-main h-full overflow-hidden">
-              <div className="heading py-2 relative flex items-center justify-center">
-                <div
-                  className="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center"
-                  onClick={handleMenuMobile}
-                >
-                  <Icon.X size={20} />
-                </div>
-                <Link
-                  href={"/"}
-                  className="logo text-3xl font-semibold text-center"
-                >
-                  WHP
-                </Link>
-              </div>
-              <div className="form-search relative mt-2">
-                <Icon.MagnifyingGlass
-                  size={20}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                />
-                <input
-                  type="text"
-                  placeholder="What are you looking for?"
-                  className=" h-12 rounded-lg border border-line text-sm w-full pl-10 pr-4"
-                />
-              </div>
-              <div className="list-nav mt-6">
-                <ul>
-                  <li>
-                    <Link href={'/register'}  className={`text-xl font-semibold flex items-center justify-between`}>
-                    Login
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 1 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(1)}
-                  >
-                    <a
-                      href={"#!"}
-                      className={`text-xl font-semibold flex items-center justify-between`}
-                    >
-                      All Jewellery
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                    <div className="sub-nav-mobile">
-                      <div
-                        className="back-btn flex items-center gap-3"
-                        onClick={() => handleOpenSubNavMobile(1)}
-                      >
-                        <Icon.CaretLeft />
-                        Back
-                      </div>
-                      <div className="list-nav-item w-full grid grid-cols-2 pt-2 pb-6">
-                        <ul>
-                        {data &&
-                        data.map((item, index) => (
-                          <React.Fragment key={item.id}>
-                            <li className="leading-[0px]">
-                              <Link
-                                href={{
-                                  pathname: "/shop/breadcrumb1",
-                                  query: { url: item.url },
-                                }}
-                                className=" text-secondary duration-300"
-                              >
-                                <div className="flex">
-                                  <Image
-                                    src={item.menuImg}
-                                    alt={item.name}
-                                    height={25}
-                                    width={25}
-                                    className="mr-1"
-                                  />
-                                  <p>{item.name}</p>
-                                </div>
-                              </Link>
-                            </li>
-                          </React.Fragment>
-                        ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 2 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(2)}
-                  >
-                    <a
-                      href={"#!"}
-                      className="text-xl font-semibold flex items-center justify-between mt-5"
-                    >
-                      New Arrivals
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 3 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(3)}
-                  >
-                    <a
-                      href={"#!"}
-                      className="text-xl font-semibold flex items-center justify-between mt-5"
-                    >
-                      Earrings
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 4 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(4)}
-                  >
-                    <a
-                      href={"#!"}
-                      className="text-xl font-semibold flex items-center justify-between mt-5"
-                    >
-                      Pendants
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                  </li>
-                  {/* <li
-                    className={`${openSubNavMobile === 5 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(5)}
-                  >
-                    <a
-                      href={"#!"}
-                      className="text-xl font-semibold flex items-center justify-between mt-5"
-                    >
-                      Blog
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                    <div className="sub-nav-mobile">
-                      <div
-                        className="back-btn flex items-center gap-3"
-                        onClick={() => handleOpenSubNavMobile(5)}
-                      >
-                        <Icon.CaretLeft />
-                        Back
-                      </div>
-                      <div className="list-nav-item w-full pt-2 pb-6">
-                        <ul className="w-full">
-                          <li>
-                            <Link
-                              href="/blog/default"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/blog/default" ? "active" : ""
-                              }`}
-                            >
-                              Blog Default
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog/list"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/blog/list" ? "active" : ""
-                              }`}
-                            >
-                              Blog List
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog/grid"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/blog/grid" ? "active" : ""
-                              }`}
-                            >
-                              Blog Grid
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog/detail1"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/blog/detail1" ? "active" : ""
-                              }`}
-                            >
-                              Blog Detail 1
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog/detail2"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/blog/detail2" ? "active" : ""
-                              }`}
-                            >
-                              Blog Detail 2
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li> */}
-                  {/* <li
-                    className={`${openSubNavMobile === 6 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(6)}
-                  >
-                    <a
-                      href={"#!"}
-                      className="text-xl font-semibold flex items-center justify-between mt-5"
-                    >
-                      Pages
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} />
-                      </span>
-                    </a>
-                    <div className="sub-nav-mobile">
-                      <div
-                        className="back-btn flex items-center gap-3"
-                        onClick={() => handleOpenSubNavMobile(6)}
-                      >
-                        <Icon.CaretLeft />
-                        Back
-                      </div>
-                      <div className="list-nav-item w-full pt-2 pb-6">
-                        <ul className="w-full">
-                          <li>
-                            <Link
-                              href="/pages/about"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/about" ? "active" : ""
-                              }`}
-                            >
-                              About Us
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/contact"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/contact" ? "active" : ""
-                              }`}
-                            >
-                              Contact Us
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/store-list"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/store-list" ? "active" : ""
-                              }`}
-                            >
-                              Store List
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/page-not-found"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/page-not-found"
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              404
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/faqs"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/faqs" ? "active" : ""
-                              }`}
-                            >
-                              FAQs
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/coming-soon"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/coming-soon"
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              Coming Soon
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/pages/customer-feedbacks"
-                              className={`text-secondary duration-300 ${
-                                pathname === "/pages/customer-feedbacks"
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              Customer Feedbacks
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li> */}
-                </ul>
-              </div>
             </div>
           </div>
         </div>

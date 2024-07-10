@@ -1,18 +1,12 @@
-import React from 'react'
+"use client";
+import React from "react";
 
-export default function Loader() {
+const Loader = () => {
   return (
-    <div
-      className="
-    h-[70vh]
-    flex 
-    flex-col 
-    justify-center 
-    items-center 
-    bg-transparent
-  "
-    >
-      <p className="font-bold">Loading data</p>
+    <div className="fixed inset-0 z-50 flex bg-black bg-opacity-50 h-full text-white text-5xl items-center justify-center">
+      Loading...
     </div>
-  )
-}
+  );
+};
+
+export default Loader;

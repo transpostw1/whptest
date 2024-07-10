@@ -1,85 +1,177 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useCategory } from "@/context/CategoryContex";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css/bundle";
 import "swiper/css/effect-fade";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import axios from "axios";
+import Link from "next/link";
+import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
 
 const MainCarousel = () => {
+  const [allBanners, setAllBanners] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const { setCustomcategory } = useCategory();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1000px)");
+    const handleChange = (e: any) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, []);
+  useEffect(() => {
+    const fetchMainBanners = async () => {
+      setIsLoading(true);
+      try {
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_ALLBANNERS = gql`
+          query GetAllBanners {
+            getAllBanners {
+              id
+              name
+              url
+              desktopFile
+              desktopFileType
+              mobileFileType
+              mobileFile
+              description
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GET_ALLBANNERS,
+        });
+        setAllBanners(data.getAllBanners);
+      } catch (error) {
+        console.log("Error in Fetching All Main Banner", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMainBanners();
+  }, []);
+  if (isLoading) {
+    return (
+      <div>
+        <Skeleton height={200} />
+      </div>
+    );
+  }
   return (
     <>
-      <div className="slider-block style-one bg-linear 2xl:h-[500px] xl:h-[622px] lg:h-[562] md:h-[462px] sm:h-[382px] h-[302px] w-full">
-        <div className="slider-main w-full h-full" >
-          <Swiper
+      <div className="slider-block bg-linear w-full relative">
+        <div className="slider-main w-full">
+          {!isMobile && (
+            <Swiper
             spaceBetween={0}
             slidesPerView={1}
             loop={true}
             pagination={{ clickable: true }}
             modules={[Pagination, Autoplay]}
-            className="h-full relative "
-            autoplay={{
-              delay: 6000,
-            }}
+            autoplay={{ delay: 10000 }}
           >
-            <SwiperSlide>
-              <div className="slider-item h-full w-full relative">
-                <div className="container w-full h-full flex items-center">
-                  <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                    <Image
-                      src={"/images/slider/SliderTwo.png"}
-                      width={2560}
-                      height={1080}
-                      alt="1920x820"
-                      className="w-full h-full object-fill"
-                    />
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="slider-item h-full w-full relative">
-                <div className="container w-full h-full flex items-center">
-                  <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                    <video
-                      className="w-full h-full object-cover"
-                      autoPlay
-                      loop
-                      muted
+            {allBanners &&
+              allBanners
+                .filter(
+                  (banner: any) =>
+                    banner.desktopFile !== null &&
+                    banner.desktopFileType !== null
+                )
+                .map((banner: any) => (
+                  <SwiperSlide key={banner.id}>
+                    <Link
+                      href={{
+                        pathname: "/products",
+                        query: { url: banner.url },
+                      }}
+                      onClick={() => setCustomcategory(banner.url)}
                     >
-                      <source
-                        src="/images/other/banner_video_4.mp4"
-                        type="video/mp4"
-                      />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="slider-item h-full w-full relative">
-                <div className="container w-full h-full flex items-center">
-                  <div className="sub-img absolute left-0 top-0 w-full h-full z-[-1]">
-                    <video
-                      className="w-full h-full object-cover"
-                      autoPlay
-                      loop
-                      muted
-                    >
-                      <source
-                        src="/images/other/banner_video_3.mp4"
-                        type="video/mp4"
-                      />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
+                      <div className="slider-item w-full">
+                        {banner.desktopFileType === "video" ? (
+                          <video
+                            src={banner.desktopFile}
+                            autoPlay
+                            muted
+                            loop
+                          />
+                        ) : (
+                          <Image
+                            src={banner.desktopFile}
+                            alt="Hero Image"
+                            width={1920}
+                            height={100}
+                          />
+                        )}
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
           </Swiper>
+          )}
+          {isMobile && (
+            <Swiper
+              spaceBetween={0}
+              slidesPerView={1}
+              loop={true}
+              pagination={{ clickable: true }}
+              modules={[Pagination, Autoplay]}
+              autoplay={{ delay: 10000 }}
+            >
+              {allBanners &&
+                allBanners
+                  .filter(
+                    (banner: any) =>
+                      banner.mobileFile !== null &&
+                      banner.mobileFileType !== null
+                  )
+                  .map((banner: any) => (
+                    <SwiperSlide key={banner.id}>
+                      <Link
+                        href={{
+                          pathname: "/products",
+                          query: { url: banner.url },
+                        }}
+                        onClick={() => setCustomcategory(banner.url)}
+                      >
+                        <div className="slider-item w-full">
+                          {banner.mobileFileType === "video" ? (
+                            <video
+                              src={banner.mobileFile}
+                              autoPlay
+                              muted
+                              loop
+                            />
+                          ) : (
+                            <Image
+                              src={banner.mobileFile}
+                              alt="Hero Image"
+                              width={1920}
+                              height={100}
+                            />
+                          )}
+                        </div>
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+            </Swiper>
+          )}
         </div>
       </div>
     </>

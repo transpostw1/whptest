@@ -205,7 +205,7 @@ textarea:focus {
 .text-button-uppercase {
   font-size: 14px;
   line-height: 20px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
 }
 
@@ -221,13 +221,122 @@ textarea:focus {
   font-weight: 400;
 }
 
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #ffffff, #ffcccb);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.not-found-content {
+  padding: 20px;
+  background-color: transparent; /* Make the background transparent to remove card effect */
+}
+
+.error-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100px; /* Increase the size of the "4" */
+  font-weight: bold;
+  color: #333;
+}
+
+.error-code span {
+  margin: 0; /* Remove margin between the "4"s and the image */
+}
+
+.ring-image {
+  width: 200px; /* Increase the size of the ring image */
+  height: auto;
+  margin: 0 -20px; /* Further decrease the margin between the image and the "4"s */
+}
+
+.message {
+  font-size: 24px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.sub-message {
+  font-size: 16px;
+  color: #777;
+  margin: 10px 0;
+}
+
+.home-link {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #e26178; /* Change to pink */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.left_2 {
+}
+.enlarge-image-container{
+  background-color: #f7f7f7;
+}
+
+.zoomable-image-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.zoomable-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.zoomed-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 150%;
+  z-index: 1;
+}
+.zoomable-image.blurred {
+  filter: blur(10px);
+}
+.left_2 img {
+    width: 500px;
+    height: 100%;
+    object-fit: contain;
+}
+
+.home-link:hover {
+  background-color: #f13558; /* Darker pink for hover effect */
+}
+
+@media (max-width: 600px) {
+  .error-code {
+      font-size: 70px; /* Adjust the size for smaller screens */
+  }
+
+  .ring-image {
+      width: 150px; /* Adjust the size for smaller screens */
+      margin: 0 -10px; /* Further decrease the margin for smaller screens */
+  }
+}
+
 .button-main {
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--white);
-  background-color: var(--pink);
+   background-image: linear-gradient(to right, #bb547d, #9b5ba7, #815fc8);
   padding: 16px 40px;
   border-radius: 12px;
   display: inline-block;
@@ -235,8 +344,8 @@ textarea:focus {
   transition: all ease 0.4s;
 
   &:hover {
-    background-color: var(--pink);
-    color: var(--black);
+    background-color:  #a5364b;
+    color: var(--white);
 
     svg {
       path {
@@ -253,16 +362,32 @@ textarea:focus {
   }
 }
 
+.custom-phone-input {
+  border: none;
+  border-radius: 4px;
+  width: 30%;
+}
+
+.custom-phone-input input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.custom-phone-input .flag-dropdown {
+  border: none;
+}
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @media (max-width: 1023.99px) {

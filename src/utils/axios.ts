@@ -14,9 +14,6 @@ const CookieToken = getLocalToken();
 
 const instance: AxiosInstance = axios.create({
   baseURL: baseUrl,
-  headers: {
-    Authorization: `Bearer ${CookieToken}`,
-  },
 });
 
 export default instance;

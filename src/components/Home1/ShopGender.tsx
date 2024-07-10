@@ -20,7 +20,7 @@ const ShopGender = () => {
       description: "Earrings, Pendants, Bracelets and more",
       image: (
         <Image
-          src={"/images/other/WomensGender.jpg"}
+          src={"/images/other/womenGender.jpg"}
           alt="womengender"
           width={500}
           height={500}

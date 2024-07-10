@@ -13,7 +13,7 @@ interface CartItemProps {
   product: {
     productId: number;
     quantity: number;
-    productPrice: string;
+    productPrice: any |string;
     discountPrice: any | string;
     discountValue: string;
     name: string;
@@ -53,10 +53,18 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     }
   };
 
+  console.log("Product",product);
+
   const price = product.price * product.quantity;
+  const productPrice = product.productPrice * product.quantity;
+
   const formattedPrice = new Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(Math.round(parseInt(price.toString())));
+
+  const formattedProductPrice = new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(Math.round(parseInt(productPrice.toString())));
 
   const handleRemoveFromCart = () => {
     setShowModal(true);
@@ -123,7 +131,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             width={100}
             height={200}
             alt="image"
-            className=" object-cover bg-[#f7f7f7]"
+            className=" object-cover bg-[#f7f7f7] mr-2"
             // placeholder="blur"
             // blurDataURL="/images/other/Logo.png"
           />
@@ -142,6 +150,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
           <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
             <div className="text-title text-center"> ₹{formattedPrice} </div>
+            <div className="line-through text-[#beb3b3]" >₹{formattedProductPrice}</div>
             <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
               <Icon.Minus
                 size={28}

@@ -28,7 +28,7 @@ const Cart = () => {
   const cartArray = cartState?.cartArray || [];
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    const itemToUpdate = cartArray.find((item) => item.id === productId);
+    const itemToUpdate = cartArray.find((item:any) => item.id === productId);
 
     if (itemToUpdate) {
       updateCart(
@@ -49,7 +49,7 @@ const Cart = () => {
   // cartState.cartArray.map(item => totalCart += item.price * item.quantity)
   useEffect(() => {
     let calculatedTotal = 0;
-    cartArray.forEach((item) => {
+    cartArray.forEach((item:any) => {
       calculatedTotal += item.price * item.quantity;
     });
     setTotalCart(calculatedTotal);
@@ -158,7 +158,7 @@ const Cart = () => {
                     {cartState?.cartArray?.length < 1 ? (
                       <p className="text-button pt-3">No product in cart</p>
                     ) : (
-                      cartState?.cartArray?.map((product) => (
+                      cartState?.cartArray?.map((product:any) => (
                         <div
                           className="item flex md:mt-7 md:pb-7 mt-5 pb-5 border-b border-line w-full"
                           key={product.id}

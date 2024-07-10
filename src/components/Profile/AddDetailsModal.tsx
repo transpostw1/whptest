@@ -97,7 +97,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </button>
         <form onSubmit={formik.handleSubmit}>
           <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
-          {/* {formError && <div className="text-red-500 mb-4">{formError}</div>} */}
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="mb-4">
               <div className="relative">

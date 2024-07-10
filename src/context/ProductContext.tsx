@@ -3,12 +3,10 @@
 import React, {
   createContext,
   useState,
-  useEffect,
   useContext,
   ReactNode,
 } from "react";
 import { baseUrl, category,getProducts } from "@/utils/constants";
-import instance from "@/utils/axios";
 import axios from "axios";
 
 interface ProductContextType {

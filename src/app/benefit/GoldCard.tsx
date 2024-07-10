@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PieChart from "./PieChart";
 import useEnroll from "@/hooks/useEnroll";
 import Link from "next/link";
-
+import ModalExchange from "@/components/Other/ModalExchange";
 
 interface GoldCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -17,46 +17,55 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
- const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
- const [error, setError] = useState<string | null>(null);
- const [inputValue, setInputValue] = useState<string>("2000");
- const numberOfMonths = 11;
- const totalAmount = monthlyDeposit * numberOfMonths;
+  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
+  const modalRef = useRef();
+  const [errorModal, setErrorModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
+  const numberOfMonths = 11;
+  const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
 
+  const { handleEnroll, loading } = useEnroll(setBackendMessage, setFlashType);
 
- const { handleEnroll, loading } = useEnroll(
-   setBackendMessage,
-   setBackendError,
-   setFlashType
- );
+  const handleInputVerification = () => {
+    if (monthlyDeposit < 500) {
+      setShowModal(true);
+    } else {
+      handleEnroll("gold", monthlyDeposit);
+    }
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
 
- const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-   const value = event.target.value;
-   setInputValue(value);
-
-   const parsedValue = parseInt(value, 10);
-   if (isNaN(parsedValue)) {
-     setError("Invalid input. Please enter a number.");
-   } else if (parsedValue < 2000) {
-     setError("Minimum deposit is 2000");
-   } else if (parsedValue > 50000) {
-     setError("Maximum deposit is 50000");
-   } else if (parsedValue % 1000 !== 0) {
-     setError("Amount must be a multiple of 1000");
-   } else {
-     setMonthlyDeposit(parsedValue);
-     setError(null);
-   }
- };
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue)) {
+      setError("Invalid input. Please enter a number.");
+      //  } else if (parsedValue < 2000) {
+      //    setError("Minimum deposit is 2000");
+    } else if (parsedValue > 50000) {
+      setError("Maximum deposit is 50000");
+      //  } else if (parsedValue % 1000 !== 0) {
+      //    setError("Amount must be a multiple of 1000");
+    } else {
+      setMonthlyDeposit(parsedValue);
+      setError(null);
+    }
+  };
+  const handleOnClose = (e: any) => {
+    if (e.target.id == "containter") {
+      setErrorModal(false);
+    }
+  };
 
   return (
-    <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative">
-      {/* {loading && (
-        <div className="absolute inset-0 bg-black w-screen bg-opacity-55 backdrop-blur-sm flex justify-center items-center z-10">
-          <Image src="/dummy/loader.gif" alt="loader" height={50} width={50} />
-        </div>
-      )} */}
+    <div
+      className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative"
+      id="containter"
+      onClick={(e) => handleOnClose(e)}
+    >
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
@@ -84,23 +93,22 @@ const GoldCard: React.FC<GoldCardProps> = ({
                   className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
                   value={monthlyDeposit}
                   onChange={handleChange}
-                  min="2000"
                   max="50000"
-                  step="1000"
+                  step="500"
                 />
               </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <input
                 type="range"
-                min={1000}
+                min={500}
                 max={50000}
-                step={1000}
+                step={500}
                 className="w-full"
                 onChange={handleChange}
               />
             </div>
-            {error && <p className="text-red-500">{error}</p>}
+            {/* {error && <p className="text-red-500">{error}</p>} */}
           </div>
           <div className="flex justify-between">
             <div className="text-start">
@@ -132,7 +140,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={() => handleEnroll("gold", monthlyDeposit)}
+                onClick={() => handleInputVerification()}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>
@@ -148,6 +156,19 @@ const GoldCard: React.FC<GoldCardProps> = ({
           </div>
         </div>
       </div>
+      <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
+        <div className="text-center">
+          <p>Minimum Deposit is 500</p>
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </ModalExchange>
     </div>
   );
 };

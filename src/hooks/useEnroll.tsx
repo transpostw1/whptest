@@ -1,7 +1,5 @@
 import { useState } from "react";
 import instance from "@/utils/axios";
-import { baseUrl, gms } from "@/utils/constants";
-import Cookies from "js-cookie";
 import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { graphqlbaseUrl } from "@/utils/constants";

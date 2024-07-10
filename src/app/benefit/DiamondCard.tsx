@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
+import ModalExchange from "@/components/Other/ModalExchange";
 
 interface DiamondCardProps {
   setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -16,40 +17,43 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
- const [monthlyDeposit, setMonthlyDeposit] = useState<number>(2000);
- const [error, setError] = useState<string | null>(null);
- const [inputValue, setInputValue] = useState<string>("2000");
- const numberOfMonths = 11;
- const totalAmount = monthlyDeposit * numberOfMonths;
- const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
-  
+  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
+  const [error, setError] = useState<string | null>(null);
+  const [errorModal, setErrorModal] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
+  const numberOfMonths = 11;
+  const totalAmount = monthlyDeposit * numberOfMonths;
+  const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
 
+  const { handleEnroll, loading } = useEnroll(
+    setBackendMessage,
+    setBackendError,
+    setFlashType
+  );
 
-const { handleEnroll, loading } = useEnroll(
-  setBackendMessage,
-  setBackendError,
-  setFlashType
-);
+  const handleInputVerification = () => {
+    if (monthlyDeposit < 500) {
+      setErrorModal(true);
+    } else {
+      handleEnroll("diamond", monthlyDeposit);
+    }
+  };
 
-const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const value = event.target.value;
-  setInputValue(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
 
-  const parsedValue = parseInt(value, 10);
-  if (isNaN(parsedValue)) {
-    setError("Invalid input. Please enter a number.");
-  } else if (parsedValue < 2000) {
-    setError("Minimum deposit is 2000");
-  } else if (parsedValue > 50000) {
-    setError("Maximum deposit is 50000");
-  } else if (parsedValue % 1000 !== 0) {
-    setError("Amount must be a multiple of 1000");
-  } else {
-    setMonthlyDeposit(parsedValue);
-    setError(null);
-  }
-};
-
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue)) {
+      setError("Invalid input. Please enter a number.");
+    } else if (parsedValue > 50000) {
+      setError("Maximum deposit is 50000");
+    } else {
+      setMonthlyDeposit(parsedValue);
+      setError(null);
+    }
+  };
 
   return (
     <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
@@ -130,7 +134,7 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             <div>
               <div
                 className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={() => handleEnroll("silver", monthlyDeposit)}
+                onClick={() => handleInputVerification()}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>
@@ -146,6 +150,19 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
         </div>
       </div>
+      <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
+        <div className="text-center">
+          <p>Minimum Deposit is 500</p>
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </ModalExchange>
     </div>
   );
 };

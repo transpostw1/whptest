@@ -3,7 +3,11 @@ import { baseUrl } from "./constants";
 import Cookies from "js-cookie";
 
 const getLocalToken = () => {
-  return localStorage.getItem("localtoken");
+  if (typeof window !== "undefined") {
+    // Only execute this code in the browser
+    return localStorage.getItem("localtoken");
+  }
+  return null;
 };
 
 const CookieToken = getLocalToken();

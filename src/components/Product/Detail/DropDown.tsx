@@ -31,7 +31,7 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
                 const productId = Number(product.productId);
 
                 // Check if product.productId exists in any of the ProductId array elements
-                const isSelected = options.ProductId.some(id => id === productId);
+                const isSelected = options.ProductId.some((id:any) => id === productId);
 
                 return (
                   <option

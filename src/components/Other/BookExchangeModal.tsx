@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useRef } from "react";
-import { baseUrl, contactForm } from "@/utils/constants";
+import { graphqlbaseUrl } from "@/utils/constants";
 import axios from "axios";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -8,13 +8,14 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import FlashAlert from "@/components/Other/FlashAlert";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import Loader from "@/components/Other/Loader";
 
 interface Props {
-  title: string
+  title: string;
   closeModal: () => void;
 }
 const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
-  const inputRef = useRef<any>()
+  const inputRef = useRef<any>();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,9 +35,9 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
   };
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  })
+  });
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       closeModal();
@@ -49,12 +50,14 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
     try {
       setIsLoading(true);
       const client = new ApolloClient({
-        uri: "http://localhost:4000/graphql",
+        uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
 
       const STORE_CUSTOMER_QUERY = gql`
-        mutation StoreCustomerQueries($customerQueries: [CustomerQueriesInput!]!) {
+        mutation StoreCustomerQueries(
+          $customerQueries: [CustomerQueriesInput!]!
+        ) {
           StoreCustomerQueries(customerQueries: $customerQueries) {
             message
           }
@@ -73,9 +76,9 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
             },
           ],
         },
-      })
+      });
 
-      console.log(data,"Dataaa");
+      console.log(data, "Dataaa");
 
       // const response = await axios.post(`${baseUrl}${contactForm}`, {
       //   name: formData.name,
@@ -90,28 +93,15 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
       setType("error");
     } finally {
       setIsLoading(false);
-
-
     }
     setTimeout(() => {
       setFormData({ name: "", email: "", message: "" });
       setPhone("+91");
-      closeModal()
+      closeModal();
     }, 2000);
   };
   if (isLoading) {
-    return (
-      <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
-        <div className="loading-container flex justify-center items-center h-full">
-          <Image
-            src="/dummy/loader.gif"
-            alt={"loader"}
-            height={50}
-            width={50}
-          />
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <div
@@ -120,10 +110,13 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
       onClick={handleOnClose}
     >
       <div className="max-w-md w-[65%] max-sm:w-[70%] bg-white p-6 rounded-md shadow-md">
-        <div className="float-right cursor-pointer" onClick={() => closeModal()}><Icon.X size={25} /></div>
-        <h2 className="text-xl font-semibold mb-4 text-[#e26178]">
-          {title}
-        </h2>
+        <div
+          className="float-right cursor-pointer"
+          onClick={() => closeModal()}
+        >
+          <Icon.X size={25} />
+        </div>
+        <h2 className="text-xl font-semibold mb-4 text-[#e26178]">{title}</h2>
 
         <form onSubmit={handleSubmit} ref={inputRef}>
           <div className="mb-4">
@@ -136,7 +129,6 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
             <input
               type="text"
               defaultValue={""}
-
               id="name"
               name="name"
               value={formData.name}
@@ -188,7 +180,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               buttonStyle={{
                 borderColor: "#d1d5db", // border-gray-300 for the dropdown button
               }}
-            // containerClass="custom-phone-input"
+              // containerClass="custom-phone-input"
             />
           </div>
           <div className="mb-4">

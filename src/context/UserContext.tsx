@@ -74,7 +74,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const router = useRouter();
-  const cookieToken = localStorage.getItem("localtoken");
+  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+
 
   const logIn = async () => {
     dispatch({ type: "LOG_IN" });

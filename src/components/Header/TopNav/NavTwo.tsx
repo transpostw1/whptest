@@ -88,7 +88,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, []);
 
   const handleLoginDrop = () => {
-    localStorage.setItem("redirectPath", pathname);
+    typeof window !=="undefined"?localStorage.setItem("redirectPath", pathname):null;
     handleLoginPopup();
   };
 

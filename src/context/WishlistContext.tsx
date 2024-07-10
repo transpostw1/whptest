@@ -53,7 +53,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [flashType, setFlashType] = useState<"success" | "error" | "info">(
     "info"
   );
-  const cookieToken = localStorage.getItem("localtoken");
+  // const cookieToken = localStorage.getItem("localtoken");
+  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
   useEffect(() => {
     const uniqueWishlistItems = wishlistItems.filter(

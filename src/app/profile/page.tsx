@@ -59,7 +59,7 @@ const ProfilePage = () => {
   
   const handleOrders = async () => {
     try {
-      const cookieToken = Cookie.get("localtoken");
+       const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

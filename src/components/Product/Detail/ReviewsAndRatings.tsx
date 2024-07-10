@@ -128,7 +128,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleReviews = async (e: any) => {
     e?.preventDefault();
     try {
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

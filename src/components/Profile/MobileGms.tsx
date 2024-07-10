@@ -21,7 +21,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const cookieToken = Cookie.get("localtoken");
+        const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
         const response = await axios.get(`${baseUrl}/getCustomerGMS`, {
           headers: {
             Authorization: `Bearer ${cookieToken}`,

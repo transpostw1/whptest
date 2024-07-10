@@ -21,7 +21,7 @@ const ProductSlider = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
       const response = await axios.get(`${baseUrl}/buyAgain`, {
         headers: { Authorization: `Bearer ${cookieToken}` },

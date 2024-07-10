@@ -7,7 +7,7 @@ export default function CheckPincode() {
   
 
   const handleSavePincode = async () => {
-    localStorage.setItem("pincode", pincode);
+    typeof window !=="undefined"?   localStorage.setItem("pincode", pincode):null;
     const response = axios.post("url", {
       pincode: pincode,
     });

@@ -1,7 +1,7 @@
 // Blogs.tsx
 "use client";
 import React from "react";
-import Loader from "./Loader";
+import Loader from "./loading";
 import Latest from "@/components/Blogcomp/Latest";
 import Trending from "@/components/Blogcomp/Trending";
 import Card from "@/components/Blogcomp/Card";

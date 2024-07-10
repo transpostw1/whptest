@@ -1,10 +1,14 @@
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 
-const ZoomableImage = ({ src, alt }) => {
-    const [isZoomed, setIsZoomed] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const imageRef = useRef(null);
+interface Props{
+    src:any;
+    alt:any;
+}
+const ZoomableImage:React.FC<Props>= ({src,alt}) => {
+    const [isZoomed, setIsZoomed] = useState<boolean>(false);
+    const [mousePosition, setMousePosition] = useState<any>({ x: 0, y: 0 });
+    const imageRef = useRef<any>(null);
 
     const handleMouseEnter = () => {
         setIsZoomed(true);
@@ -14,7 +18,7 @@ const ZoomableImage = ({ src, alt }) => {
         setIsZoomed(false);
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e:any) => {
         if (imageRef.current) {
             const { left, top, width, height } = imageRef.current.getBoundingClientRect();
             const x = (e.clientX - left) / width * 100;

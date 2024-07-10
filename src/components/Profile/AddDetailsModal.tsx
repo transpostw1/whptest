@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Loader from "@/app/blog/Loader";
+import Loader from "../Other/Loader";
 import { useUser } from "@/context/UserContext";
 
 interface ModalProps {

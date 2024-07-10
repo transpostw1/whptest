@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 const Loader = () => {
   return (
-    <div className="fixed inset-0 z-50 flex bg-black bg-opacity-50 h-full text-white text-5xl items-center justify-center">
-      Loading...
+    <div className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50">
+      <div className="loading-container flex justify-center items-center h-full">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      </div>
     </div>
   );
 };

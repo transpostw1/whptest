@@ -14,5 +14,4 @@ const page: React.FC<PageProps> = ({ params }) => {
     </div>
   );
 };
-
 export default page;

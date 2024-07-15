@@ -11,7 +11,6 @@ import {
 } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
 import {
   ProductType,
   ProductForWishlistLoggedIn,
@@ -52,7 +51,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [flashType, setFlashType] = useState<"success" | "error" | "info">(
     "info"
   );
-  const cookieToken = localStorage.getItem("localtoken");
+  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
   useEffect(() => {
     const uniqueWishlistItems = wishlistItems.filter(

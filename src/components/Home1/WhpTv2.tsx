@@ -8,31 +8,27 @@ import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import VideoFeed from "@/components/Video/VideoFeed";
 import { ProductType } from "@/type/ProductType";
-
+import axios from "axios";
+import { baseUrl2, getAllReels } from "@/utils/constants";
 interface PlayList {
   sequence: number;
-  src: string;
-}
-interface Props {
-  data: ProductType[];
+  name: string;
+  thumbnail: string;
+  video: string;
+  products: any;
 }
 
 // import Fade from 'react-reveal'
 import { useProductContext } from "@/context/ProductContext";
 
-const Whptv: React.FC<Props> = ({ data }) => {
-  
+const Whptv2 = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   // const { products, fetchData } = useProductContext();
-  const [playList, setPlayList] = useState<PlayList[]>([
-    { sequence: 1, src: "/images/reels/1.mp4" },
-    { sequence: 2, src: "/images/reels/2.mp4" },
-    { sequence: 3, src: "/images/reels/3.mp4" },
-    { sequence: 4, src: "/images/reels/4.mp4" },
-  ]);
-  const [videos, setVideos] = useState<PlayList[]>([]);
-  const [currentVideo, setCurrentVideo] = useState<PlayList | null>(null);
+  const [playList, setPlayList] = useState<any>();
+  const [videos, setVideos] = useState<any>([]);
+  const [currentVideo, setCurrentVideo] = useState<any>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -60,15 +56,41 @@ const Whptv: React.FC<Props> = ({ data }) => {
     };
   }, [showModal]);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${baseUrl2}${getAllReels}`);
+      const fetchedData = response.data;
+      setPlayList(fetchedData);
+  
+      // Assuming fetchedData is an array of objects
+      const mappedData = fetchedData.map((item: any) => ({
+        reelId: item.reelId, // Replace 'key1' with the actual key you want to map
+        video: item.video,  // Replace 'key2' with the actual key you want to map
+      }));
+      setVideos(mappedData); // setVideos with the mapped data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+
+  useEffect(() => {
+    console.log("reelssssss", playList);
+   console.log("vidoessssss",videos)
+  }, [playList]);
 
   const sortPlayList = useCallback(() => {
-    const sortedPlayList = [...playList];
+    const sortedPlayList = [...videos];
     if (currentVideo) {
       const currentVideoIndex = sortedPlayList.findIndex(
-        (video) => video.sequence === currentVideo.sequence
+        (video) => video.reelId === currentVideo.reelId
       );
       sortedPlayList.splice(currentVideoIndex, 1);
       sortedPlayList.unshift(currentVideo);
@@ -92,7 +114,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
   if (!isMobile) {
     return null;
   }
-
+  if (loading) return null;
   return (
     <>
       <div className="collection-block md:pt-20 pt-10">
@@ -127,7 +149,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
             }}
             className="h-full"
           >
-            {playList.map((video, index) => (
+            {playList.map((video: any, index: any) => (
               <SwiperSlide key={index}>
                 <div
                   className="collection-item block relative overflow-hidden cursor-pointer"
@@ -135,7 +157,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
                 >
                   <div className="bg-img">
                     <Image
-                      src={`/images/reels/${video.sequence}.jpg`}
+                      src={video.thumbnail}
                       width={1000}
                       height={600}
                       alt=""
@@ -176,7 +198,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
             >
               <Icon.X size={25} />
             </button>
-            <VideoFeed videos={videos} />
+            <VideoFeed videos={videos} playList={playList}/>
           </div>
         )}
       </div>
@@ -184,4 +206,4 @@ const Whptv: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default Whptv;
+export default Whptv2;

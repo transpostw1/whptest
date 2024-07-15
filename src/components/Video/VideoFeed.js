@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Video from "./Video";
 import { useSwipeable } from "react-swipeable";
 
-const VideoFeed = ({ videos }) => {
+const VideoFeed = ({ videos, playList }) => {
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
+  const [products, setProducts] = useState([]);
 
   const swipeHandlers = useSwipeable({
     onSwipedUp: () =>
@@ -58,7 +59,7 @@ const VideoFeed = ({ videos }) => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
         {...swipeHandlers}
       >
-        <Video src={videos[currentIndex].src}  />
+        <Video src={videos[currentIndex].video} id={videos[currentIndex].reelId} playList={playList} />
       </motion.div>
     </AnimatePresence>
   );

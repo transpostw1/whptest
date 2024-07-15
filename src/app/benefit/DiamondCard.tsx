@@ -3,13 +3,12 @@ import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
+import { useRouter } from "next/navigation";
 
 interface DiamondCardProps {
-  setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
-  setFlashType: React.Dispatch<
-    React.SetStateAction<"success" | "error" | "info">
-  >;
+  setBackendMessage: (message: string) => void;
+  setBackendError: (error: string) => void;
+  setFlashType: (type: "success" | "error" | "info") => void;
 }
 
 const DiamondCard: React.FC<DiamondCardProps> = ({
@@ -26,16 +25,38 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
 
-  const { handleEnroll, loading } = useEnroll(
+  const router = useRouter();
+
+  const handleEnrollSuccess = () => {
+    console.log("Enrollment success callback triggered");
+    // Store the selected scheme details in session storage, including the monthly deposit amount
+    sessionStorage.setItem(
+      "selectedScheme",
+      JSON.stringify({
+        planName: "Diamond",
+        monthlyAmount: monthlyDeposit,
+        totalAmount: totalAmount,
+        iconUrl: "/images/diamond-icon.png",
+      })
+    );
+
+    // Navigate to the DigitalCheckout component
+    router.push("/digitalCheckout");
+    console.log("Navigation to /digital-checkout triggered");
+  };
+
+  const { handleEnroll, loading } = useEnroll({
     setBackendMessage,
     setBackendError,
-    setFlashType
-  );
+    setFlashType,
+    handleEnrollSuccess,
+  });
 
   const handleInputVerification = () => {
     if (monthlyDeposit < 500) {
       setErrorModal(true);
     } else {
+      console.log("Enrolling with amount:", monthlyDeposit);
       handleEnroll("diamond", monthlyDeposit);
     }
   };

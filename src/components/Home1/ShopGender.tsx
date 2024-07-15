@@ -78,7 +78,7 @@ const ShopGender = () => {
             </button>
           </div>
         </div>
-        <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border ">
+        <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border">
           <Swiper
             spaceBetween={12}
             slidesPerView={1.5}

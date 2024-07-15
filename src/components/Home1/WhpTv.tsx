@@ -23,7 +23,7 @@ import { useProductContext } from "@/context/ProductContext";
 const Whptv: React.FC<Props> = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { products, fetchData } = useProductContext();
+  // const { products, fetchData } = useProductContext();
   const [playList, setPlayList] = useState<PlayList[]>([
     { sequence: 1, src: "/images/reels/1.mp4" },
     { sequence: 2, src: "/images/reels/2.mp4" },
@@ -59,9 +59,9 @@ const Whptv: React.FC<Props> = ({ data }) => {
     };
   }, [showModal]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const sortPlayList = useCallback(() => {
     const sortedPlayList = [...playList];
@@ -175,7 +175,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
             >
               <Icon.X size={25} />
             </button>
-            <VideoFeed videos={videos} products={products} />
+            <VideoFeed videos={videos} />
           </div>
         )}
       </div>

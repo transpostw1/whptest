@@ -3,16 +3,23 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
+import { useUser } from "@/context/UserContext";
+import { useCart } from "@/context/CartContext";
 
 const StickyNav = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number>(1);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false); // New state variable
-
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
+  const { isLoggedIn, userDetails, getUser } = useUser();
+  const { cartItems } = useCart();
+  const pathname = usePathname();
   const toggleSearchModal = () => {
     setIsSearchModalOpen((prevState) => !prevState);
   };
+
+  const cartLength: number = cartItems ? cartItems.length : 0;
 
   const handleOptionClicked = (option: number) => {
     setClicked(option);
@@ -30,78 +37,94 @@ const StickyNav = () => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
+  useEffect(() => {
+    if (isLoggedIn && !userDetails) {
+      getUser();
+    }
+  }, [isLoggedIn, userDetails, getUser]);
   if (!isMobile) {
     return null;
   }
+  
+
   return (
     <>
-    <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
-      <div className="flex justify-evenly items-center">
-        <Link href={"/"}>
-          <div
-            className={`${
-              clicked === 1 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(1)}
-          >
-            <Icon.HouseLine size={25} />
-            <p>Home</p>
-          </div>
-        </Link>
-        <Link href={"/"}>
+      <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
+        <div className="flex justify-evenly items-center">
+          <Link href={"/"}>
             <div
               className={`${
-                clicked === 2 ? "text-[#e26178]" : ""
+                pathname.includes("") &&
+                !pathname.includes("profile") &&
+                !pathname.includes("offers") &&
+                !pathname.includes("checkout")
+                  ? "text-[#e26178]"
+                  : ""
               } flex flex-col items-center`}
-              onClick={toggleSearchModal} // Open the search modal when clicked
+              onClick={() => handleOptionClicked(1)}
             >
-              <Icon.MagnifyingGlass size={25} />
-              <p>Search</p>
+              <Icon.HouseLine size={25} />
+              <p>Home</p>
             </div>
           </Link>
-        <Link href={"/offers"}>
+
           <div
             className={`${
-              clicked === 3 ? "text-[#e26178]" : ""
+              pathname.includes("/search-result") ? "text-[#e26178]" : ""
             } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(3)}
+            onClick={toggleSearchModal} // Open the search modal when clicked
           >
-            <Icon.Percent size={25} />
-            <p>Offers</p>
+            <Icon.MagnifyingGlass size={25} />
+            <p>Search</p>
           </div>
-        </Link>
-        <Link href={""}>
-          <div
-            className={`${
-              clicked === 4 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(4)}
-          >
-            <Icon.User size={25} />
-            <p>Profile</p>
-          </div>
-        </Link>
-        <Link href={"/checkout"}>
-          <div
-            className={`${
-              clicked === 5 ? "text-[#e26178]" : ""
-            } flex flex-col items-center`}
-            onClick={() => handleOptionClicked(5)}
-          >
-            <Icon.ShoppingCart size={25} />
-            <p>Cart</p>
-          </div>
-        </Link>
+
+          <Link href={"/offers"}>
+            <div
+              className={`${
+                pathname.includes("offers") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(3)}
+            >
+              <Icon.SealPercent size={25} />
+              <p>Offers</p>
+            </div>
+          </Link>
+          <Link href={`${isLoggedIn ? "/profile" : "/register"}`}>
+            <div
+              className={`${
+                pathname.includes("profile") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(4)}
+            >
+              <Icon.User size={25} />
+              {isLoggedIn ? <p> {userDetails?.firstname}</p> : <p>Login</p>}
+            </div>
+          </Link>
+          <Link href={"/checkout"}>
+            <div
+              className={`${
+                pathname.includes("checkout") ? "text-[#e26178]" : ""
+              } flex flex-col items-center`}
+              onClick={() => handleOptionClicked(5)}
+            >
+              <div>
+                <Icon.ShoppingCart size={25} />
+                {cartLength > 0 && (
+                  <span className="quantity cart-quantity absolute right-12 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartLength}
+                  </span>
+                )}
+              </div>
+
+              <p>Cart</p>
+            </div>
+          </Link>
+        </div>
       </div>
-    </div>
-    {isSearchModalOpen && (
+      {isSearchModalOpen && (
         <ModalSearch
-          searchKeyword=""
-          setSearchKeyword={() => {}}
-          handleSearch={() => {}}
           closeModal={toggleSearchModal}
           isModalOpen={isSearchModalOpen}
-          handleModalToggle={toggleSearchModal}
         />
       )}
     </>

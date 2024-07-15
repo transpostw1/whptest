@@ -1,27 +1,48 @@
 "use client";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import AddDetailsModal from "./AddDetailsModal";
+import { useUser } from "@/context/UserContext";
+import Image from "next/image";
 
 interface Props {
   handleComponent: (args: string) => void;
   componentName: string;
-  handleOrder:()=>void;
+  handleOrder: () => void;
 }
 const ProfileSidebar: React.FC<Props> = ({
   handleComponent,
   componentName,
   handleOrder,
 }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+  const { userDetails } = useUser();
 
   return (
     <div>
-      <div className="hidden sm:block  p-8 w-80 h-full bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
+      <div className="my-div hidden sm:block  p-6 h-screen bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
         <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
-          D
-        </div>
+          {userDetails?.profile_picture ? (
+            <Image
+              src={userDetails?.profile_picture}
+              className="rounded-full h-full w-full"
+              alt="Profile Picture"
+              width={90}
+              height={100}
+            />
+          ) : (
+            <Icon.UserCircle size={50} />
+          )}
+        </div>  
         <div>
-          <p className="text-xl font-semibold mt-2">Disha Jain</p>
-          <span className="flex text-[#e26178] mt-2">
+          <p className="text-xl font-semibold mt-2">Add Details</p>
+          <span
+            className="flex text-[#e26178] mt-2 cursor-pointer"
+            onClick={openModal}
+          >
             Edit Profile
             <span className="mt-1">
               <Icon.PencilSimple />
@@ -38,7 +59,7 @@ const ProfileSidebar: React.FC<Props> = ({
             <span className="mr-1">
               <Icon.UserCircle size={22} />
             </span>
-            Personal Information
+            <p>Personal Info</p>
           </div>
           <div onClick={() => handleOrder()}>
             <div
@@ -77,6 +98,7 @@ const ProfileSidebar: React.FC<Props> = ({
           </div>
         </div>
       </div>
+      <AddDetailsModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

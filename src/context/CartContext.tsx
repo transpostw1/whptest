@@ -1,43 +1,43 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
-import { ProductType } from "@/type/ProductType";
-import { useUser } from "./UserContext";
-import instance from "@/utils/axios";
-import axios from "axios";
-import {
-  addCart,
-  removeCart,
-  cartUpdate,
-  getCartItems,
-  getProductbyId,
-} from "@/utils/constants";
-
-import { auth } from "@/app/config";
+import { baseUrl, syncCart, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
-import { baseUrl } from "@/utils/constants";
-
-import { request } from "http";
-import { updateCookie } from "@/utils/Token";
+import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { AnyARecord } from "dns";
 
 interface CartItem {
-  productId: number | any;
-  quantity: number;
-  name: string;
-  metalType: string;
-  metalPurity: string;
-  price: any;
-  image: any;
+  productDetails: {
+    displayTitle: string;
+    discountPrice: any;
+    imageDetails: any;
+    productPrice: string;
+    discountValue: string;
+    url: string;
+  };
+  gst?: any;
+  displayTitle?: string;
+  discountPrice?: any;
+  imageDetails?: any;
+  productId: number;
+  quantity?: number;
+  name?: string;
+  price?: number;
+  image?: string;
+  isBuyNow?: boolean;
 }
 
 interface CartContextProps {
-  cartState?: CartItem;
   cartItems: CartItem[];
-  addToCart: (item: ProductType) => void;
-  removeFromCart: (productId: number, quantity: number) => void;
-  updateCart: (productId: number, quantity: number) => void;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  addToCart: (item: CartItem, quantity: number, isBuyNow?: boolean) => void;
+  removeFromCart: (productId: number) => void;
+  updateCartQuantity: (productId: number, newQuantity: number) => void;
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
+  loading: boolean;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -45,220 +45,246 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [error, setError] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [cartUpdated, setCartUpdated] = useState<boolean>(false);
-  const { userState } = useUser();
-  const isLoggedIn = userState.isLoggedIn;
-  const { logOut } = useUser();
-  const {setTotalDiscount}=useCouponContext()
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      if (typeof window !== "undefined") {
-        const storedCartItems = localStorage.getItem("cartItems");
-        if (storedCartItems) {
-          setCartItems(JSON.parse(storedCartItems));
-        }
-      }
-    }
-  }, []);
-
-  const userId = auth?.currentUser?.uid;
-  const cookieTokenn = Cookies.get("localtoken");
+  const { totalDiscount, updateTotalDiscount } = useCouponContext();
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cookieToken, setCookieToken] = useState<string | undefined>("");
+  const [loading, setLoading] = useState(true);
+  const { isLoggedIn } = useUser();
 
   useEffect(() => {
     if (isLoggedIn) {
-      const fetchCartItemsDetails = async () => {
-        try {
-          const response = await instance.get(`${baseUrl}${getCartItems}`);
-          const cartItemsData = response.data.cart_items.map((item: any) => {
-            const imageDetails = JSON.parse(
-              item.product_details[0].imageDetails
-            );
-            imageDetails.sort((a:any, b:any) => a.order - b.order);
-            const imagePath = imageDetails[0] ? imageDetails[0].image_path : '';
-            return {
-              productId: item.productId,
-              quantity: item.quantity,
-              name: item.product_details[0].displayTitle,
-              price: parseInt(item.product_details[0].discountPrice),
-              image: imagePath,
+      const userToken = localStorage.getItem("localtoken");
+      if (userToken) {
+        setCookieToken(userToken);
+      }
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      setLoading(true);
+      if (isLoggedIn) {
+        await addLocalItemsToServerCart();
+        const cartItemsFromServer = await fetchCartItemsFromServer();
+        setCartItems(cartItemsFromServer);
+      } else if (typeof window !== "undefined") {
+        const cartItemsFromStorage = localStorage.getItem("cartItems");
+        if (cartItemsFromStorage) {
+          setCartItems(JSON.parse(cartItemsFromStorage));
+        } else {
+          const searchParams = new URLSearchParams(window.location.search);
+          const buyNowId = searchParams.get("buyNow");
+          if (buyNowId) {
+            const mockCartItem = {
+              productId: parseInt(buyNowId),
+              quantity: 1,
+              productDetails: {
+                displayTitle: "Product Title",
+                discountPrice: 0,
+                imageDetails: [],
+              },
             };
-          });
-          setCartItems(cartItemsData);
-          setTotalDiscount(0);
-        } catch (error) {
-          console.error("Error fetching cart items:", error);
+            console.log("this running");
+            setCartItems([mockCartItem]);
+          }
         }
-      };
-      fetchCartItemsDetails();
-    } else {
-      if (typeof window !== "undefined") {
-        const storedCartItems = localStorage.getItem("cartItems");
-        if (storedCartItems) {
-          const cartItemsFromStorage = JSON.parse(storedCartItems);
-          const productIds = cartItemsFromStorage.map(
-            (item: any) => item.productId
-          );
+      }
+      setLoading(false);
+    };
+    fetchCartItems();
+  }, [isLoggedIn]);
 
-          const updatedCartItems: any = [];
-          const fetchProductDetails = async () => {
-            for (const productId of productIds) {
-              try {
-                const response = await axios.get(
-                  `${baseUrl}${getProductbyId}${productId}`
-                );
-                const productDetails = response.data[0];
+  const addToCart = async (
+    item: CartItem,
+    quantity: number,
+    isBuyNow?: boolean
+  ) => {
+    setLoading(true);
+    const newItem = { ...item, quantity, isBuyNow };
+    setCartItems((prevCartItems) => [...prevCartItems, newItem]);
+    saveCartItemsToStorage([...cartItems, newItem]);
 
-                const updatedCartItem = {
-                  productId: productId,
-                  quantity: 1,
-                  name: productDetails.displayTitle,
-                  price: productDetails.discountPrice,
-                  image: productDetails.imageDetails[0].image_path,
-                };
-                updatedCartItems.push(updatedCartItem);
-              } catch (error) {
-                console.error("Error fetching product details:", error);
+    if (isLoggedIn) {
+      syncCartWithServer([newItem]);
+      // const cartItemsFromServer = await fetchCartItemsFromServer();
+      // setCartItems(cartItemsFromServer)
+    }
+    setLoading(false);
+  };
+  const removeFromCart = async (productId: number) => {
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== productId
+    );
+    setCartItems(updatedCartItems);
+    saveCartItemsToStorage(updatedCartItems);
+
+    if (isLoggedIn) {
+      try {
+        const cartData = cartItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.productId === productId ? 0 : item.quantity || 0,
+        }));
+        const getAuthHeaders: any = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        console.log(typeof cartData, "CartData");
+        const SYNC_CART = gql`
+          mutation CartSync($cartItems: [CartItemInput!]!) {
+            cartSync(cartItems: $cartItems) {
+              message
+              details {
+                synced {
+                  productId
+                  productTitle
+                  productImage
+                  productPrice
+                  quantity
+                }
+                failed {
+                  productId
+                  message
+                }
+                deleted {
+                  productId
+                  message
+                }
               }
             }
-            setCartItems(updatedCartItems);
-            setTotalDiscount(0)
-          };
-          fetchProductDetails();
-        }
-      }
-    }
-  }, [isLoggedIn, cartUpdated]);
-
-  const addToCart = async (item: ProductType) => {
-    const image = item.imageDetails.sort(
-      (a: any, b: any) => parseInt(b.order) - parseInt(a.order)
-    );
-    const newItem: any = {
-      productId: item.productId,
-      quantity: 1,
-      image: image[1].image_path,
-      name: item.displayTitle,
-      price: item.discountPrice,
-    };
-    const cart = [...cartItems, newItem];
-    setCartItems(cart);
-    setTotalDiscount(0);
-    if (!isLoggedIn) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("cartItems", JSON.stringify(cart));
-      }
-      setCartUpdated(!cartUpdated);
-    } else {
-      try {
-        const response = await instance.post<{ data: any }>(
-          `${baseUrl}${addCart}`,
-          {
-            cart,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
           }
-        );
+        `;
+
+        const { data } = await client.mutate({
+          mutation: SYNC_CART,
+          variables: {
+            cartItems: cartData,
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        const updatedCartFromServer = data.cartSync.details.synced || [];
+        if (
+          updatedCartFromServer.length === 1 &&
+          updatedCartFromServer[0].productId === productId
+        ) {
+          // If the server returned only the removed item, fetch the updated cart from the server
+          const cartItemsFromServer = await fetchCartItemsFromServer();
+          setCartItems(cartItemsFromServer);
+        } else {
+          // setCartItems(updatedCartFromServer);
+        }
       } catch (error) {
-        console.error("Error saving cart items to the database:", error);
+        console.error("Error syncing cart with server:", error);
       }
     }
   };
 
-  const removeFromCart = async (productId: number, quantity: number) => {
-    try {
-      if (isLoggedIn) {
-        try {
-          const response = await instance.post<{ data: any }>(
-            `${baseUrl}${removeCart}`,
-            {
-              cart: [
-                {
-                  productId: productId,
-                  quantity: 0,
-                },
-              ],
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${cookieTokenn}`,
-              },
-            }
-          );
-        } catch (error) {
-          setError(true)
-        }
+  const updateCartQuantity = (productId: number, newQuantity: number) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.productId === productId ? { ...item, quantity: newQuantity } : item
+    );
+    setCartItems(updatedCartItems);
+    saveCartItemsToStorage(updatedCartItems);
 
-        // Update local state and localStorage only if the API call is successful
-        const updatedCartItems = cartItems.filter(
-          (item) => item.productId !== productId
-        );
-        setCartItems(updatedCartItems);
-        setTotalDiscount(0);
-      } else {
-        // If not logged in, update only local state and localStorage
-        const updatedCartItems = cartItems.filter(
-          (item) => item.productId !== productId
-        );
-        setCartItems(updatedCartItems);
-        setTotalDiscount(0);
-
-        if (typeof window !== "undefined") {
-          localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-        }
-      }
-    } catch (error) {
-      console.error("Error removing item from cart:", error);
+    if (isLoggedIn) {
+      syncCartWithServer(updatedCartItems);
     }
   };
 
-  const updateCart = async (productId: number, quantity: number) => {
+  const saveCartItemsToStorage = (cartItems: CartItem[]) => {
+    if (typeof window != undefined) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
+  };
+
+  const syncCartWithServer = async (cartItems: CartItem[]) => {
+    let discount: number = 0;
+    updateTotalDiscount(discount);
     try {
-      const updatedCartItems = cartItems.map((item) =>
-        item.productId === productId ? { ...item, quantity } : item
-      );
-      setCartItems(updatedCartItems);
-      setTotalDiscount(0)
+      setLoading(true);
+      const cartData = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity || 0,
+      }));
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-      }
+      const getAuthHeaders: any = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
 
-      if (isLoggedIn) {
-        const response = await instance.post<{ data: any }>(
-          `${baseUrl}${cartUpdate}`,
-          {
-            cart: [
-              {
-                productId,
-                quantity,
-              },
-            ],
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieTokenn}`,
-            },
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      console.log(typeof cartData, "CartData");
+      const SYNC_CART = gql`
+        mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
           }
-        );
-      }
+        }
+      `;
+
+      const { data } = await client.mutate({
+        mutation: SYNC_CART,
+        variables: {
+          cartItems: cartData,
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+
+      const cartItemsFromServer = await fetchCartItemsFromServer();
+      setCartItems(cartItemsFromServer);
+      setLoading(false);
     } catch (error) {
-      console.error("Error updating cart item:", error);
+      console.error("Error syncing cart with server:", error);
     }
   };
 
-  return (
-    <CartContext.Provider
-      value={{ cartItems, addToCart, updateCart, setCartItems, removeFromCart }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+  const addLocalItemsToServerCart = async () => {
+    try {
+      const cartItemsFromStorage = localStorage.getItem("cartItems");
+      if (cartItemsFromStorage) {
+        const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
+        for (const item of parsedCartItems) {
+          await syncCartWithServer([item]);
+        }
+        localStorage.removeItem("cartItems");
+        console.log("Added Local items to Server");
+      }
+    } catch (error) {
+      console.error("Error adding local items to server cart:", error);
+    }
+  };
+
+  const value: CartContextProps = {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    updateCartQuantity,
+    setCartItems,
+    loading,
+  };
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export const useCart = () => {

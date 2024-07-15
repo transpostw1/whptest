@@ -39,14 +39,14 @@ const Video = ({ src, products }) => {
             <Icon.ShareNetwork size={30} />
           </button>
         </div>
-        <div className="w-[50px] h-[50px] text-center bg-white rounded-full p-3">
+        {/* <div className="w-[50px] h-[50px] text-center bg-white rounded-full p-3">
           <button
             onClick={handleLike}
             className="text-[#ff2147] focus:outline-none text-center"
           >
             <Icon.Heart size={30} />
           </button>
-        </div>
+        </div> */}
       </div>
 
       <button onClick={toggleMute} className="absolute top-5 left-5 z-20">
@@ -56,9 +56,9 @@ const Video = ({ src, products }) => {
           <Icon.SpeakerHigh className="text-white" size={30} />
         )}
       </button>
-      <div className="absolute bottom-0 w-full z-20">
+      {/* <div className="absolute bottom-0 w-full z-20">
         <VideoOverlayProducts products={products} />
-      </div>
+      </div> */}
     </div>
   );
 };

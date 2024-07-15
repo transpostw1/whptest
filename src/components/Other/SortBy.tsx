@@ -1,9 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 interface Props {
   visible: boolean;
   onClose: VoidFunction;
-  onSortOptionChange:(option:string)=>void;
+  onSortOptionChange: (option: string) => void;
 }
 
 const SortOptions = [
@@ -13,15 +14,17 @@ const SortOptions = [
   "Price-High To Low",
 ];
 const SortBy: React.FC<Props> = (props) => {
+  const [sortOption, setSortOption] = useState<string>("");
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       props.onClose();
     }
   };
-  const updateSortOption=(option:string)=>{
+  const updateSortOption = (option: string) => {
+    setSortOption(option);
     props.onSortOptionChange(option);
-  }
-  
+  };
+
   if (!props.visible) return null;
   return (
     <div
@@ -35,7 +38,15 @@ const SortBy: React.FC<Props> = (props) => {
         </p>
         <div className="p-4">
           {SortOptions.map((option: any) => (
-            <div key={option} className="mt-4 text-lg hover:text-[#e26178]" onClick={()=>updateSortOption(option)}>{option}</div>
+            <div
+              key={option}
+              className={`mt-4 text-lg hover:text-[#e26178] ${
+                sortOption == option ? "text-[#e26179]" : ""
+              }`}
+              onClick={() => updateSortOption(option)}
+            >
+              {option}
+            </div>
           ))}
         </div>
       </div>

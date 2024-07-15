@@ -1,309 +1,277 @@
-'use client'
-import React, { useState } from 'react'
-// import TopNavOne from '@/components/Header/TopNav/TopNavOne'
-import NavTwo from '@/components/Header/TopNav/NavTwo'
-import NavHoverMenu from '@/components/Header/Menu/NavHoverMenu'
-// import Breadcrumb from '@/components/Breadcrumb/Breadcrumb'
-import Footer from '@/components/Footer/Footer'
-import { ProductType } from '@/type/ProductType'
-import Product from '@/components/Product/Product'
-import { useWishlist } from '@/context/WishlistContext'
-import HandlePagination from '@/components/Other/HandlePagination'
+"use client";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import StickyNav from "@/components/Header/StickyNav";
+import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { ProductData, ProductType } from "@/type/ProductType";
+import { useRouter } from "next/navigation";
+import Loader from "../blog/loading";
+import { useCart } from "@/context/CartContext";
+import { useUser } from "@/context/UserContext";
 
 const Wishlist = () => {
-    const { wishlistState } = useWishlist();
-    const [sortOption, setSortOption] = useState('');
-    const [layoutCol, setLayoutCol] = useState<number | null>(4)
-    const [type, setType] = useState<string | undefined>()
-    const [currentPage, setCurrentPage] = useState(0);
-    const productsPerPage = 12;
-    const offset = currentPage * productsPerPage;
+  const { cartItems, addToCart, updateCartQuantity } = useCart();
+  const {} = useWishlist();
+  const [isLoading, setIsLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+  const [type, setType] = useState<string | undefined>();
+  const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } =
+    useWishlist();
+  const { isLoggedIn } = useUser();
 
-    const handleLayoutCol = (col: number) => {
-        setLayoutCol(col)
-    }
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
 
-    const handleType = (type: string) => {
-        setType((prevType) => (prevType === type ? undefined : type))
-    }
-
-    const handleSortChange = (option: string) => {
-        setSortOption(option);
+    return () => clearTimeout(timeout);
+  }, []);
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const fetchedWishlistItems = await getWishlist();
+        setWishlistItems(fetchedWishlistItems);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
     };
 
-    // Filter product data by type
-    let filteredData = wishlistState.wishlistArray.filter(product => {
-        let isTypeMatched = true;
-        if (type) {
-            isTypeMatched = product.type === type;
-        }
+    fetchWishlist();
+  }, []);
 
-        return isTypeMatched
-    })
+  const router = useRouter();
 
-    const totalProducts = filteredData.length
-    const selectedType = type
+  const uniqueProductIds = new Set<number>();
 
-    if (filteredData.length === 0) {
-        filteredData = [{
-            id: 'no-data',
-            category: 'no-data',
-            type: 'no-data',
-            name: 'no-data',
-            gender: 'no-data',
-            new: false,
-            sale: false,
-            rate: 0,
-            price: 0,
-            originPrice: 0,
-            brand: 'no-data',
-            sold: 0,
-            quantity: 0,
-            quantityPurchase: 0,
-            sizes: [],
-            variation: [],
-            thumbImage: [],
-            images: [],
-            description: 'no-data',
-            action: 'no-data',
-            slug: 'no-data'
-        }];
-    }
-
-    // Tạo một bản sao của mảng đã lọc để sắp xếp
-    let sortedData = [...filteredData];
-
-    if (sortOption === 'soldQuantityHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.sold - a.sold)
-    }
-
-    if (sortOption === 'discountHighToLow') {
-        filteredData = sortedData
-            .sort((a, b) => (
-                (Math.floor(100 - ((b.price / b.originPrice) * 100))) - (Math.floor(100 - ((a.price / a.originPrice) * 100)))
-            ))
-    }
-
-    if (sortOption === 'priceHighToLow') {
-        filteredData = sortedData.sort((a, b) => b.price - a.price)
-    }
-
-    if (sortOption === 'priceLowToHigh') {
-        filteredData = sortedData.sort((a, b) => a.price - b.price)
-    }
-
-
-    // Find page number base on filteredData
-    const pageCount = Math.ceil(filteredData.length / productsPerPage);
-
-    // If page number 0, set current page = 0
-    if (pageCount === 0) {
-        setCurrentPage(0);
-    }
-
-    // Get product data for current page
-    let currentProducts: ProductType[];
-
-    if (filteredData.length > 0) {
-        currentProducts = filteredData.slice(offset, offset + productsPerPage);
+  const filteredWishlistItems = wishlistItems.filter((product) => {
+    if (uniqueProductIds.has(product.productId)) {
+      return false;
     } else {
-        currentProducts = []
+      uniqueProductIds.add(product.productId);
+      return true;
+    }
+  });
+
+  const handleAddToCart = (product: any) => {
+    const productAlreadyExists = cartItems.find(
+      (item: any) => item.productId === product.productId
+    );
+    const currentQuantity = productAlreadyExists?.quantity ?? 0;
+    const updatedQuantity = currentQuantity + 1;
+    if (productAlreadyExists) {
+      updateCartQuantity(product.productId, updatedQuantity);
+    } else {
+      const newProduct: any = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1);
+      removeFromWishlist(product.productId);
+    }
+  };
+
+  const handleBuyNow = (product: any) => {
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
+
+    if (!productAlreadyExists) {
+      const newProduct: any = {
+        productDetails: {
+          title: product.title,
+          discountPrice: product.discountPrice,
+          imageDetails: [{ image_path: product.image_path }],
+          productPrice: product.productPrice,
+        },
+        productId: product.productId,
+        quantity: 1,
+      };
+      addToCart(newProduct, 1, true);
     }
 
-    const handlePageChange = (selected: number) => {
-        setCurrentPage(selected);
-    };
+    removeFromWishlist(product.productId);
+    router.push(`/checkout?buyNow=${product.productId}`);
+  };
 
+  const handleType = (type: string) => {
+    setType((prevType) => (prevType === type ? undefined : type));
+  };
 
-    return (
-      <>
-        {/* <TopNavOne textColor="text-white" />
-        <NavTwo props="style-three bg-white" />
-        <div id="header" className="w-full relative">
-          <NavHoverMenu props="bg-white" /> */}
-          {/* <Breadcrumb heading="Shopping cart" subHeading="Shopping cart" /> */}
-        {/* </div> */}
-        <div className="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
-          <div className="container">
-            <div className="list-product-block relative">
-              <div className="filter-heading flex items-center justify-between gap-5 flex-wrap">
-                <div className="left flex has-line items-center flex-wrap gap-5">
-                  <div className="choose-layout flex items-center gap-2">
-                    <div
-                      className={`item three-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${
-                        layoutCol === 3 ? "active" : ""
-                      }`}
-                      onClick={() => handleLayoutCol(3)}
-                    >
-                      <div className="flex items-center gap-0.5">
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                      </div>
-                    </div>
-                    <div
-                      className={`item four-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${
-                        layoutCol === 4 ? "active" : ""
-                      }`}
-                      onClick={() => handleLayoutCol(4)}
-                    >
-                      <div className="flex items-center gap-0.5">
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                      </div>
-                    </div>
-                    <div
-                      className={`item five-col p-2 border border-line rounded flex items-center justify-center cursor-pointer ${
-                        layoutCol === 5 ? "active" : ""
-                      }`}
-                      onClick={() => handleLayoutCol(5)}
-                    >
-                      <div className="flex items-center gap-0.5">
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                        <span className="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="right flex items-center gap-3">
-                  <div className="select-block filter-type relative">
-                    <select
-                      className="caption1 py-2 pl-3 md:pr-12 pr-8 rounded-lg border border-line capitalize"
-                      name="select-type"
-                      id="select-type"
-                      onChange={(e) => handleType(e.target.value)}
-                      value={type === undefined ? "Type" : type}
-                    >
-                      <option value="Type" disabled>
-                        Type
-                      </option>
-                      {[
-                        "t-shirt",
-                        "dress",
-                        "top",
-                        "swimwear",
-                        "shirt",
-                        "underwear",
-                        "sets",
-                        "accessories",
-                      ].map((item, index) => (
-                        <option
-                          key={index}
-                          className={`item cursor-pointer ${
-                            type === item ? "active" : ""
-                          }`}
-                        >
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                    <Icon.CaretDown
-                      size={12}
-                      className="absolute top-1/2 -translate-y-1/2 md:right-4 right-2"
-                    />
-                  </div>
-                  <div className="select-block relative">
-                    <select
-                      id="select-filter"
-                      name="select-filter"
-                      className="caption1 py-2 pl-3 md:pr-20 pr-10 rounded-lg border border-line"
-                      onChange={(e) => {
-                        handleSortChange(e.target.value);
-                      }}
-                      defaultValue={"Sorting"}
-                    >
-                      <option value="Sorting" disabled>
-                        Sorting
-                      </option>
-                      <option value="soldQuantityHighToLow">
-                        Best Selling
-                      </option>
-                      <option value="discountHighToLow">Best Discount</option>
-                      <option value="priceHighToLow">Price High To Low</option>
-                      <option value="priceLowToHigh">Price Low To High</option>
-                    </select>
-                    <Icon.CaretDown
-                      size={12}
-                      className="absolute top-1/2 -translate-y-1/2 md:right-4 right-2"
-                    />
-                  </div>
-                </div>
-              </div>
+  const formatCurrency = (value: any) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    })
+      .format(value)
+      .replace("₹", "₹ ");
+  };
 
-              <div className="list-filtered flex items-center gap-3 mt-4">
-                <div className="total-product">
-                  {totalProducts}
-                  <span className="text-secondary pl-1">Products Found</span>
-                </div>
-                {selectedType && (
-                  <>
-                    <div className="list flex items-center gap-3">
-                      <div className="w-px h-4 bg-line"></div>
-                      {selectedType && (
-                        <div
-                          className="item flex items-center px-2 py-1 gap-1 bg-linear rounded-full capitalize"
-                          onClick={() => {
-                            setType(undefined);
-                          }}
-                        >
-                          <Icon.X className="cursor-pointer" />
-                          <span>{selectedType}</span>
+  const handleImageLoad = (productId: number) => {
+    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
+  };
+
+  const handleImageError = (productId: number) => {
+    setImageLoading((prevState) => ({ ...prevState, [productId]: false }));
+  };
+
+  console.log(filteredWishlistItems);
+
+  return (
+    <div className="shop-product breadcrumb1">
+      <StickyNav />
+      <div className="container">
+        <div className="list-product-block relative">
+          {isLoading ? (
+            <Loader />
+          ) : wishlistItems.length < 1 ? (
+            <div className="text-center text-2xl my-10 text-[#e26178]">
+              Your Wishlist Seems to be Empty!
+            </div>
+          ) : (
+            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
+              {filteredWishlistItems?.map((product, index) => (
+                <div
+                  key={index}
+                  className="relative cursor-pointer flex justify-center"
+                >
+                  <div className="product-card p-4 h-[100%] w-[80%]">
+                    <div className="product-image flex justify-center">
+                      {isLoggedIn && imageLoading[product.productId] ? (
+                        <Skeleton
+                          width={300}
+                          height={300}
+                          className="rounded-md"
+                        />
+                      ) : isLoggedIn ? (
+                        <div className="relative">
+                          <Image
+                            src={product?.image_path}
+                            alt={product.title}
+                            width={300}
+                            height={300}
+                            className="rounded-md bg-[#f7f7f7]"
+                            onClick={() =>
+                              router.push(
+                                `/products/${product.productId}/${product.url}`
+                              )
+                            }
+                            onLoad={() => handleImageLoad(product.productId)}
+                            onError={() => handleImageError(product.productId)}
+                          />
+                          <div className="product-actions absolute top-2 right-2">
+                            <button
+                              className="heart-icon"
+                              onClick={() =>
+                                removeFromWishlist(product.productId)
+                              }
+                            >
+                              <Icon.Heart
+                                size={25}
+                                color="#fa0000"
+                                weight="fill"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative">
+                          <Image
+                            src={product.image_path}
+                            alt={product.title}
+                            width={300}
+                            height={300}
+                            onClick={() =>
+                              router.push(
+                                `/products/${product.productId}/${product.url}`
+                              )
+                            }
+                            className="rounded-md bg-[#f7f7f7]"
+                            onLoad={() => handleImageLoad(product.productId)}
+                            onError={() => handleImageError(product.productId)}
+                          />
+                          <div className="product-actions absolute top-2 right-2">
+                            <button
+                              className="heart-icon"
+                              onClick={() =>
+                                removeFromWishlist(product.productId)
+                              }
+                            >
+                              <Icon.Heart
+                                size={25}
+                                color="#fa0000"
+                                weight="fill"
+                              />
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
                     <div
-                      className="clear-btn flex items-center px-2 py-1 gap-1 rounded-full border border-red cursor-pointer"
-                      onClick={() => {
-                        setType(undefined);
-                      }}
+                      className="product-details mt-4"
+                      onClick={() =>
+                        router.push(
+                          `/products/${product.productId}/${product.url}`
+                        )
+                      }
                     >
-                      <Icon.X
-                        color="rgb(219, 68, 68)"
-                        className="cursor-pointer"
-                      />
-                      <span className="text-button-uppercase text-red">
-                        Clear All
-                      </span>
+                      <h3 className="product-name text-title text-xl truncate">
+                        {product.title}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <p className="product-price flex flex-col">
+                          <span className="discounted-price text-title text-lg">
+                            {product.discountPrice
+                              ? formatCurrency(product.discountPrice)
+                              : formatCurrency(product.productPrice)}
+                          </span>
+                          <span className="original-price line-through text-[#beb3b3]">
+                            {formatCurrency(product.productPrice)}
+                          </span>
+                        </p>
+                      </div>
                     </div>
-                  </>
-                )}
-              </div>
-
-              <div
-                className={`list-product hide-product-sold grid lg:grid-cols-${layoutCol} sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7`}
-              >
-                {currentProducts.map((item) =>
-                  item.id === "no-data" ? (
-                    <div key={item.id} className="no-data-product">
-                      No products match the selected criteria.
+                    <div className="flex lg:max-xl:flex-row flex-col flex-wrap lg:flex-row items-center gap-2 justify-between mt-3">
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
+                        onClick={() => handleBuyNow(product)}
+                      >
+                        Buy Now
+                      </div>
+                      <div
+                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        Add To Cart
+                      </div>
                     </div>
-                  ) : (
-                    <Product key={item.id} data={item} type="grid" />
-                  )
-                )}
-              </div>
-
-              {pageCount > 1 && (
-                <div className="list-pagination flex items-center justify-center md:mt-10 mt-7">
-                  <HandlePagination
-                    pageCount={pageCount}
-                    onPageChange={handlePageChange}
-                  />
+                  </div>
+                  {/* <div className="product-actions absolute top-2 right-2">
+                    <button
+                      className="heart-icon"
+                      onClick={() => removeFromWishlist(product.productId)}
+                    >
+                      <Icon.Heart size={25} color="#fa0000" weight="fill" />
+                    </button>
+                  </div> */}
                 </div>
-              )}
+              ))}
             </div>
-          </div>
+          )}
         </div>
-        <Footer />
-      </>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
-export default Wishlist
+export default Wishlist;

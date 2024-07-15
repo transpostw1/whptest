@@ -15,7 +15,7 @@ const VideoOverlayProducts = ({ products }) => {
       style={{ zIndex: 2 }}
     >
       {Array.isArray(products)&&products.map((product, index) => (
-        <Link href={`/product/default?id=${product.url}`} key={index}>
+        <Link href={`/products/${product.productId}/${product.url}`} key={index}>
         <motion.div
           className="flex min-w-[350px] max-w-[550px] bg-white p-4 m-2 rounded-lg shadow-lg"
           style={{

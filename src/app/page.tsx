@@ -25,7 +25,6 @@ import StickyNav from "@/components/Header/StickyNav";
 import Head from "next/head";
 
 export default function Home() {
-  const { products } = useProductContext();
 
   let logged = null;
   if (typeof window !== "undefined") {
@@ -53,7 +52,7 @@ export default function Home() {
         {/* <Collection /> */}
         <ProductSlider />
         {logged === "true" && <BuyAgain />}
-        <WhpTv products={products} />
+        {/* <WhpTv products={products} /> */}
         <Whptv2/>
         <RoseGold />
         <Category />

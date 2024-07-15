@@ -5,7 +5,6 @@ import { useSwipeable } from "react-swipeable";
 
 const VideoFeed = ({ videos, playList }) => {
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
-  const [products, setProducts] = useState([]);
 
   const swipeHandlers = useSwipeable({
     onSwipedUp: () =>

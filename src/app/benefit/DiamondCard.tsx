@@ -29,7 +29,6 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
 
   const handleEnrollSuccess = () => {
     console.log("Enrollment success callback triggered");
-    // Store the selected scheme details in session storage, including the monthly deposit amount
     sessionStorage.setItem(
       "selectedScheme",
       JSON.stringify({

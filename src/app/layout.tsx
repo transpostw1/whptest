@@ -70,20 +70,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
-
-  if (isMaintenanceMode) {
-    return (
-      <html lang="en">
-        <head>
-          <link rel="icon" href="/images/other/logo2.png" />
-        </head>
-        <body>
-          <Maintanance />
-        </body>
-      </html>
-    );
-  }
 
   return (
     <GlobalProvider>

@@ -30,7 +30,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
 
     try {
       console.log("Submitting form with values:", values);
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

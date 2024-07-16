@@ -21,7 +21,7 @@ const ProfileGMS = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const cookieToken = Cookie.get("localtoken");
+        const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {

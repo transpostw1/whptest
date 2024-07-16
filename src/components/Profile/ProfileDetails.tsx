@@ -46,7 +46,7 @@ const ProfileDetails = () => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
-      const cookieTokenn = localStorage.getItem("localtoken");
+      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
       const getAuthHeaders: any = () => {
         if (!cookieTokenn) return null;
@@ -91,7 +91,7 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const cookieTokenn = localStorage.getItem("localtoken");
+      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;

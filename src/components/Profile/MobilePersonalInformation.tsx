@@ -128,7 +128,8 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
-      const cookieTokenn = localStorage.getItem("localtoken");
+      if (typeof window !== "undefined") {
+        const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
 
       const getAuthHeaders: any = () => {
         if (!cookieTokenn) return null;
@@ -165,7 +166,9 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       });
       setMessage(data.DeleteCustomerAddresses.message);
       setType("success");
-    } catch (error) {
+    } 
+  }
+  catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {
       setIsLoading(false);
@@ -173,7 +176,8 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const cookieTokenn = localStorage.getItem("localtoken");
+      if (typeof window !== "undefined") {
+        const cookieTokenn =  localStorage.getItem("localtoken") 
 
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
@@ -214,7 +218,8 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
       setallAddress(data.getCustomerAddresses);
     };
     fetchData();
-  }, []);
+  }
+}, []);
 
   const closeEditModal = () => {
     setShowModal(false);

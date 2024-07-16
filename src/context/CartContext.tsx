@@ -53,12 +53,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (isLoggedIn) {
+      if (typeof window != undefined) {
       const userToken = localStorage.getItem("localtoken");
+      
       if (userToken) {
         setCookieToken(userToken);
       }
     }
-  }, [isLoggedIn]);
+  }
+}, [isLoggedIn]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -261,6 +264,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addLocalItemsToServerCart = async () => {
     try {
+      if (typeof window != undefined) {
       const cartItemsFromStorage = localStorage.getItem("cartItems");
       if (cartItemsFromStorage) {
         const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
@@ -270,6 +274,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.removeItem("cartItems");
         console.log("Added Local items to Server");
       }
+    }
     } catch (error) {
       console.error("Error adding local items to server cart:", error);
     }

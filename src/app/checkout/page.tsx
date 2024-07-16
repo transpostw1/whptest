@@ -120,7 +120,7 @@ const Checkout: React.FC = () => {
     setCartProductIds(products);
     const fetchCouponData = async () => {
       setLoading(true);
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       try {
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
@@ -287,7 +287,7 @@ const Checkout: React.FC = () => {
   const handleOrderComplete = async (items: any, items2: any) => {
     try {
 
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       let cartData;
 
       if (buyNow) {
@@ -332,7 +332,7 @@ const Checkout: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-      localStorage.removeItem("cartItems");
+      typeof window !== "undefined" ? localStorage.removeItem("cartItems") : null;
       console.log("API response:", data);
 
       setCartItems([]);
@@ -412,7 +412,8 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      localStorage.setItem("redirectPath", window.location.href);
+      typeof window !== "undefined" ? localStorage.setItem("redirectPath", window.location.href):null;
+
       router.push("/login");
       return;
     }

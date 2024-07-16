@@ -10,6 +10,7 @@ import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
+import Maintanance from "./maintenance/page";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -27,7 +28,9 @@ export default function RootLayout({
 }) {
   return (
     <GlobalProvider>
+     
       <html lang="en">
+      <Maintanance/>
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
         </head>

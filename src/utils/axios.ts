@@ -3,7 +3,7 @@ import { baseUrl } from "./constants";
 import Cookies from "js-cookie";
 
 const getLocalToken = () => {
-  return localStorage.getItem("localtoken");
+  return typeof window !== "undefined"? localStorage.getItem("localtoken"):null;
 };
 
 const CookieToken = getLocalToken();

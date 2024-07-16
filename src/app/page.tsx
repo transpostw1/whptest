@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React,{useEffect} from "react";
+import { useRouter,usePathname } from "next/navigation";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -24,6 +25,22 @@ import StickyNav from "@/components/Header/StickyNav";
 import Head from "next/head";
 
 export default function Home() {
+
+  const router = useRouter();
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (
+      process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true' &&
+      pathname !== '/maintenance'
+    ) {
+      router.push('/maintenance');
+    }
+  }, [pathname,router]);
+
+  if (process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true' && pathname !== '/maintenance') {
+    return null; // Render nothing while redirecting
+  }
   const { products } = useProductContext();
 
   let logged = null;

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import instance from "@/utils/axios";
 import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { graphqlbaseUrl } from "@/utils/constants";
@@ -9,6 +8,7 @@ interface Props {
   setBackendMessage: (item: string) => any;
   setBackendError: (item: string) => any;
   setFlashType: (item: string) => any;
+  handleEnrollSuccess: () => void;
 }
 interface UseEnrollReturn {
   handleEnroll: (schemeType: any, amount: any) => Promise<void>;
@@ -18,6 +18,7 @@ const useEnroll = ({
   setBackendMessage,
   setBackendError,
   setFlashType,
+  handleEnrollSuccess,
 }: Props): UseEnrollReturn => {
   const [loading, setLoading] = useState(false);
   const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
@@ -35,16 +36,8 @@ const useEnroll = ({
 
     try {
       setLoading(true);
-      const getAuthHeaders = () => {
-        if (!cookieToken) return null;
-        return {
-          authorization: `Bearer ${cookieToken}`,
-        };
-      };
-
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
-        headers: getAuthHeaders(),
         cache: new InMemoryCache(),
       });
 
@@ -65,16 +58,19 @@ const useEnroll = ({
           },
         },
         context: {
-          headers: getAuthHeaders(),
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+          },
         },
         fetchPolicy: "no-cache",
       });
-      if (data.StoreCustomerGMS.code == 200) {
+      if (data.StoreCustomerGMS.code === 200) {
         console.log("Enrollment successful", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("success");
+        handleEnrollSuccess(); // Call the success callback function
       } else {
-        console.log("Enrollment successful", data.StoreCustomerGMS.message);
+        console.log("Enrollment failed", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("error");
       }

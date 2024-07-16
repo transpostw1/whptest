@@ -4,13 +4,18 @@ import axios from "axios";
 export default function CheckPincode() {
   const [pincode, setPincode] = useState("");
   const [savedPincode, setSavedPincode] = useState("");
-  
+  const [apiResponse, setApiResponse] = useState<any>({});
 
   const handleSavePincode = async () => {
-    typeof window !=="undefined"?   localStorage.setItem("pincode", pincode):null;
-    const response = axios.post("url", {
-      pincode: pincode,
-    });
+    localStorage.setItem("pincode", pincode);
+    const response = axios.post(
+      "http://edd-service.eshipz.com/edd?shop=whpjewellers.com",
+      {
+        destination_pincode: pincode,
+        origin_pincodes: [pincode],
+      }
+    );
+    setApiResponse(response);
     setSavedPincode(pincode);
     console.log("Saved PinCode:", pincode);
   };

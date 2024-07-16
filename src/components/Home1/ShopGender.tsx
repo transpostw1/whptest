@@ -59,7 +59,6 @@ const ShopGender = () => {
       ),
     },
   ];
-
   return (
     <>
       <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">
@@ -78,7 +77,7 @@ const ShopGender = () => {
             </button>
           </div>
         </div>
-        <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border ">
+        <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border">
           <Swiper
             spaceBetween={12}
             slidesPerView={1.5}

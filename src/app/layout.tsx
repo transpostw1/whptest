@@ -32,16 +32,16 @@ export default function RootLayout({
           <link rel="icon" href="/images/other/logo2.png" />
         </head>
         {/* <Suspense> */}
-          <body className={instrument.className}>
-            <UserTracking />
-            <TopNavOne textColor="text-white" />
-            <NavTwo props="style-three bg-white" />
-            <div id="header" className="w-full ">
-              <NavHoverMenu props="bg-white" />
-            </div>
-            {children}
-            <Footer />
-          </body>
+        <body className={instrument.className}>
+          <UserTracking />
+          <TopNavOne textColor="text-white" />
+          <NavTwo props="style-three bg-white" />
+          <div id="header" className="w-full ">
+            <NavHoverMenu props="bg-white" />
+          </div>
+          {children}
+          <Footer />
+        </body>
         {/* </Suspense> */}
       </html>
     </GlobalProvider>

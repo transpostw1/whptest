@@ -24,7 +24,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const [showModal, setShowModal] = useState(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
-  const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+  const redemptionAmount = totalAmount + monthlyDeposit * 1;
 
   const { handleEnroll, loading } = useEnroll(
     setBackendMessage,

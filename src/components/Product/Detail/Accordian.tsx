@@ -272,35 +272,42 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <div className="flex justify-between p-2 border border-[#ebe7e7]">
               <div>
                 <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails[0]?.diamondClarity !=
-                  "" && <p>Diamond</p>}
+                {product.productDetails?.diamondDetails != null && (
+                  <p>Diamond</p>
+                )}
+                {product.productDetails?.stoneDetails != null && (
+                  <p>Stone Cost</p>
+                )}
                 <p>Making Charges</p>
-                {product.productDetails?.discountValue!=null && (
+                {parseInt(product.productDetails?.discountValue) > 0 && (
                   <p>Discount- {product.productDetails?.discountValue}%</p>
                 )}
                 <p>G.S.T</p>
               </div>
               <div>
-                <p>{product.productDetails?.metalWeight} gms</p>
-                {product.productDetails?.diamondDetails ? (
+                {parseInt(product.productDetails.metalWeight) > 0 && (
+                  <p>{product.productDetails?.metalWeight} gms</p>
+                )}
+                {product.productDetails?.diamondDetails && (
                   <p>
                     {product.productDetails?.diamondDetails[0]?.diamondClarity}
                   </p>
-                ) : (
-                  <p>-</p>
                 )}
+                {product.productDetails.stoneDetails && <p>-</p>}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountValue && <p>-</p>}
                 {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                <p>
-                  ₹
-                  {new Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(parseInt(product.productDetails?.metalRate))}
-                </p>
-                {product.productDetails?.diamondDetails ? (
+                {parseInt(product.productDetails?.metalRate) > 0 && (
+                  <p>
+                    ₹
+                    {new Intl.NumberFormat("en-IN", {
+                      minimumFractionDigits: 2,
+                    }).format(parseInt(product.productDetails?.metalRate))}
+                  </p>
+                )}
+                {product.productDetails?.diamondDetails != null && (
                   <p>
                     ₹
                     {new Intl.NumberFormat("en-IN", {
@@ -311,11 +318,17 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       )
                     )}
                   </p>
-                ) : (
+                )}
+                {product.productDetails.stoneDetails != null && (
                   <p>
-                    ₹{new Intl.NumberFormat("en-IN", {
+                    ₹
+                    {new Intl.NumberFormat("en-IN", {
                       minimumFractionDigits: 2,
-                    }).format(parseInt("0"))}
+                    }).format(
+                      parseFloat(
+                        product?.productDetails?.stoneDetails[0]?.stoneCost
+                      )
+                    )}
                   </p>
                 )}
                 <p>
@@ -324,7 +337,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     minimumFractionDigits: 2,
                   }).format(makingCharges)}
                 </p>
-                {product?.productDetails?.discountValue && (
+                {parseInt(product?.productDetails?.discountValue) > 0 && (
                   <div>
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (

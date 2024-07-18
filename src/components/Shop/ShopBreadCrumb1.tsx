@@ -85,7 +85,7 @@ const ShopBreadCrumb1 = () => {
           ) {
             products(
               category: $category
-              search : $search
+              search: $search
               priceFilter: $priceFilter
               gender: $gender
               karat: $karat
@@ -195,6 +195,9 @@ const ShopBreadCrumb1 = () => {
             weightRange: combinedOptions.weight.map((weight: string) => ({
               value: weight,
             })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
             sortBy: "addDate",
             sortOrder: "DESC",
           };
@@ -218,6 +221,9 @@ const ShopBreadCrumb1 = () => {
             })),
             weightRange: combinedOptions.weight.map((weight: string) => ({
               value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
             })),
           };
         }
@@ -296,6 +302,10 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Weight || []),
       ...(selectedOptions.Weight || []),
     ];
+    combinedOptions.occasion= [
+      ...(initialOptions.Occasion || []),
+      ...(selectedOptions.Occasion || []),
+    ];
     return combinedOptions;
   };
 
@@ -327,6 +337,9 @@ const ShopBreadCrumb1 = () => {
     }
     if (options.Weight && options.Weight.length > 0) {
       urlParts.push(`w-${options.Weight.join(",")}`);
+    }
+    if (options.Occasion && options.Occasion.length > 0) {
+      urlParts.push(`o-${options.Weight.join(",")}`);
     }
 
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;

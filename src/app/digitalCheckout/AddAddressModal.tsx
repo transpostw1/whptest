@@ -35,7 +35,7 @@ const AddAddressModal: React.FC<Props> = ({
     setFormError("");
 
     try {
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken = localStorage.getItem("localtoken");
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

@@ -41,7 +41,7 @@ const Payment: React.FC<PaymentProps> = ({
   setCartItems,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const cookieToken = Cookie.get("localtoken");
+  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
   const router = useRouter();
   const { removeFromCart } = useCart();
 

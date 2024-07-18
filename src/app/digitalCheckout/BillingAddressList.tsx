@@ -41,7 +41,7 @@ const BillingAddressList: React.FC<BillingAddressListProps> = ({
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+        const cookieTokenn = localStorage.getItem("localtoken");
 
         const getAuthHeaders = () => {
           if (!cookieTokenn) return null;

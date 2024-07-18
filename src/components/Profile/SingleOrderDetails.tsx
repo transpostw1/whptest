@@ -19,7 +19,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const handleOrderCancel = async (id: any) => {
     try {
       setLoading(true);
-      const cookieToken = Cookie.get("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {

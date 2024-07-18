@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import VideoOverlayProducts from "./VideoOverlayProducts";
 
-const Video = ({ src, products }) => {
+const Video = ({ src, id,playList }) => {
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
+  const [products, setProducts] = useState([]);
 
   const toggleMute = () => {
     const currentState = !isMuted;
@@ -22,6 +23,14 @@ const Video = ({ src, products }) => {
     console.log("Share button clicked");
   };
 
+  useEffect(() => {
+    const product = playList
+      .filter((item) => item.reelId === id)
+      .map((item) => item.products);
+
+    setProducts(product.flat());
+}, [playList, id]);
+
   return (
     <div className="relative w-screen h-screen">
       <video
@@ -35,7 +44,10 @@ const Video = ({ src, products }) => {
 
       <div className="absolute top-[65%] right-5 transform -translate-y-1/2 z-20 flex flex-col items-center space-y-2">
         <div className="w-[50px] h-[50px] text-center bg-white rounded-full p-3">
-          <button onClick={handleShare} className="focus:outline-none text-center">
+          <button
+            onClick={handleShare}
+            className="focus:outline-none text-center"
+          >
             <Icon.ShareNetwork size={30} />
           </button>
         </div>
@@ -56,9 +68,9 @@ const Video = ({ src, products }) => {
           <Icon.SpeakerHigh className="text-white" size={30} />
         )}
       </button>
-      {/* <div className="absolute bottom-0 w-full z-20">
+      <div className="absolute bottom-0 w-full z-20">
         <VideoOverlayProducts products={products} />
-      </div> */}
+      </div>
     </div>
   );
 };

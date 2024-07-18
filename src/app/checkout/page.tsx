@@ -120,7 +120,7 @@ const Checkout: React.FC = () => {
     setCartProductIds(products);
     const fetchCouponData = async () => {
       setLoading(true);
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       try {
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
@@ -136,18 +136,18 @@ const Checkout: React.FC = () => {
         });
 
         const CHECK_COUPON_CODE = gql`
-        mutation Coupon($coupon: CouponInput!) {
-          Coupon(coupon: $coupon) {
-            code
-            message
-            discountProduct {
-              productId
-              discountedValue
-              additionalDiscountPrice
+          mutation Coupon($coupon: CouponInput!) {
+            Coupon(coupon: $coupon) {
+              code
+              message
+              discountProduct {
+                productId
+                discountedValue
+                additionalDiscountPrice
+              }
             }
           }
-        }
-      `;
+        `;
 
         const { data } = await client.mutate({
           mutation: CHECK_COUPON_CODE,
@@ -279,16 +279,15 @@ const Checkout: React.FC = () => {
     ? calculateTotalProductPrice(finalBuyNowItems)
     : calculateTotalProductPrice(MainCart);
 
-
   let formattedPrice: string = totalCart.toString();
   let formattedProductPrice: string = totalProductCart.toString();
-  let discountDifference: string = parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
+  let discountDifference: string =
+    parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
 
   const handleOrderComplete = async (items: any, items2: any) => {
     try {
-      console.log("handleOrderComplete called");
 
-      const cookieToken = localStorage.getItem("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       let cartData;
 
       if (buyNow) {
@@ -333,7 +332,7 @@ const Checkout: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-      localStorage.removeItem("cartItems");
+      typeof window !== "undefined" ? localStorage.removeItem("cartItems") : null;
       console.log("API response:", data);
 
       setCartItems([]);
@@ -413,7 +412,8 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      localStorage.setItem("redirectPath", window.location.href);
+      typeof window !== "undefined" ? localStorage.setItem("redirectPath", window.location.href):null;
+
       router.push("/login");
       return;
     }
@@ -541,8 +541,9 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
-                          }`}
+                        className={`p-2 rounded-full border border-gray-300 ${
+                          selectedStep >= index ? "bg-rose-400" : "bg-white"
+                        }`}
                       >
                         {step.icon}
                       </div>
@@ -690,7 +691,9 @@ const Checkout: React.FC = () => {
                             ₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(formattedProductPrice)))}
+                            }).format(
+                              Math.round(parseInt(formattedProductPrice))
+                            )}
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
@@ -748,15 +751,19 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                  <div id="order-summary">
-                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                    <OrderSummary
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={buyNow ? finalBuyNowItems : MainCart}
-                    />
-                  </div>
-                )}
+                <div id="order-summary">
+                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                  <OrderSummary
+                    totalProductPrice={formattedProductPrice}
+                    discountDifference={discountDifference}
+                    price={formattedPrice}
+                    totalDiscount={totalDiscount}
+                    totalCart={totalCart}
+                    cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    isBuyNow={false}
+                  />
+                </div>
+              )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

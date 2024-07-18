@@ -32,7 +32,7 @@ const AddressList: React.FC<AddressListProps> = ({
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+        const cookieTokenn = localStorage.getItem("localtoken");
         const response = await axios.get<{ customerAddress?: Address[] }>(
           `${baseUrl}/customer/getAddresses`,
           {

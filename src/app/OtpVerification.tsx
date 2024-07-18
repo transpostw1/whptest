@@ -68,7 +68,7 @@ const OtpVerification = ({
       setFirebaseError(null);
       const result = await signInWithPhoneNumber(
         auth,
-        "+" + formikValues.phoneNumber,
+        '+'+formikValues.phoneNumber,
         window.recaptchaVerifier
       );
       setVerificationId(result.verificationId);
@@ -112,10 +112,10 @@ const OtpVerification = ({
           },
         }
       );
-      logIn(); ////
-      console.log("LOGIN RESPPP", response.data.user);
+      logIn(); 
       const localToken = response.data.token;
-      localStorage.setItem("localtoken", localToken);
+       typeof window !== "undefined" ?localStorage.setItem("localtoken", localToken): null;
+      // localStorage.setItem("localtoken", localToken);
       console.log("intial token", localStorage.getItem("localtoken"));
       router.push("/");
     } catch (error: any) {

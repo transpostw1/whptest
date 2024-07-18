@@ -286,7 +286,6 @@ const Checkout: React.FC = () => {
 
   const handleOrderComplete = async (items: any, items2: any) => {
     try {
-      console.log("handleOrderComplete called");
 
       const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       let cartData;
@@ -755,9 +754,13 @@ const Checkout: React.FC = () => {
                 <div id="order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
+                    totalProductPrice={formattedProductPrice}
+                    discountDifference={discountDifference}
+                    price={formattedPrice}
                     totalDiscount={totalDiscount}
                     totalCart={totalCart}
                     cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    isBuyNow={false}
                   />
                 </div>
               )}

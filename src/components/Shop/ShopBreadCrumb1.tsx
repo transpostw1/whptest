@@ -52,15 +52,14 @@ const ShopBreadCrumb1 = () => {
   };
 
   const fetchData = async (combinedOptions: any) => {
-    // console.log("Received filterOptions in fetchData:", combinedOptions);
-    // console.log("selectedOptions:", combinedOptions);
     if (
       combinedOptions.category.length > 0 ||
       combinedOptions.search.length > 0 ||
       combinedOptions.priceFilter.length > 0 ||
       combinedOptions.gender.length > 0 ||
       combinedOptions.karat.length > 0 ||
-      combinedOptions.metal.length > 0
+      combinedOptions.metal.length > 0 ||
+      combinedOptions.occasion.length > 0
     ) {
       try {
         console.log("Received filter options:", combinedOptions);
@@ -80,6 +79,7 @@ const ShopBreadCrumb1 = () => {
             $karat: [KaratArrayInput!]
             $metal: [MetalArrayInput!]
             $weightRange: [WeightRangeArrayInput!]
+            $occasion: [OccasionArrayInput!]
             $sortBy: String
             $sortOrder: String
           ) {
@@ -91,6 +91,7 @@ const ShopBreadCrumb1 = () => {
               karat: $karat
               metal: $metal
               weightRange: $weightRange
+              occasion: $occasion
               sortBy: $sortBy
               sortOrder: $sortOrder
             ) {
@@ -302,7 +303,7 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Weight || []),
       ...(selectedOptions.Weight || []),
     ];
-    combinedOptions.occasion= [
+    combinedOptions.occasion = [
       ...(initialOptions.Occasion || []),
       ...(selectedOptions.Occasion || []),
     ];
@@ -311,7 +312,7 @@ const ShopBreadCrumb1 = () => {
 
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-    // console.log("filterOptions", options);
+    console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
     }
@@ -339,7 +340,7 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`w-${options.Weight.join(",")}`);
     }
     if (options.Occasion && options.Occasion.length > 0) {
-      urlParts.push(`o-${options.Weight.join(",")}`);
+      urlParts.push(`o-${options.Occasion.join(",")}`);
     }
 
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
@@ -461,48 +462,14 @@ const ShopBreadCrumb1 = () => {
       if (key === "w") {
         initialOptions.Weight = value.split(",");
       }
+      if (key === "o") {
+        initialOptions.Ocassion = value.split(",");
+      }
     });
 
     setSelectedOptions(initialOptions);
     console.log("Initial selectedOptions from URL:", initialOptions);
-
-    // fetchData(initialOptions);
   }, [searchParams]);
-
-  // useEffect(() => {
-  //   if (Object.keys(selectedOptions).length > 0) {
-  //     fetchData();
-  //   }
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-  //   fetchData(combinedOptions);
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
-
-  // const handleOptionSelect = (option: string, category: string) => {
-  //   setSelectedOptions((prevSelectedOptions: any) => {
-  //     const updatedOptions = { ...prevSelectedOptions };
-  //     if (updatedOptions[category]) {
-  //       if (updatedOptions[category].includes(option)) {
-  //         updatedOptions[category] = updatedOptions[category].filter(
-  //           (selectedOption: any) => selectedOption !== option
-  //         );
-  //       } else {
-  //         updatedOptions[category].push(option);
-  //       }
-  //     } else {
-  //       updatedOptions[category] = [option];
-  //     }
-  //     console.log('updatedOptions:', updatedOptions);
-
-  //     return updatedOptions;
-  //   });
-  // };
 
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
@@ -542,89 +509,6 @@ const ShopBreadCrumb1 = () => {
     }
     return price;
   };
-
-  // console.log("Dataa", filteredProducts);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   const applyFilters = () => {
-  //     let filtered = data;
-
-  //     // Apply price filter
-  //     if (selectedOptions.Price && selectedOptions.Price.length > 0) {
-  //       const minPrice = parseInt(selectedOptions.Price[0]) || 0;
-  //       const maxPrice =
-  //         parseInt(selectedOptions.Price[selectedOptions.Price.length - 1]) ||
-  //         Infinity;
-  //       filtered = filtered.filter(
-  //         (product: any) =>
-  //           product.discountPrice >= minPrice &&
-  //           product.discountPrice <= maxPrice
-  //       );
-  //     }
-
-  //     // Apply gender filter
-  //     if (selectedOptions.Gender && selectedOptions.Gender.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Gender.includes(product.gender)
-  //       );
-  //     }
-
-  //     // Apply karat filter
-  //     if (selectedOptions.Karat && selectedOptions.Karat.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Karat.includes(product.karat)
-  //       );
-  //     }
-
-  //     // Apply metal filter
-  //     if (selectedOptions.Metal && selectedOptions.Metal.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Metal.includes(product.metal)
-  //       );
-  //     }
-
-  //     // Apply type filter
-  //     if (selectedOptions.Type && selectedOptions.Type.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Type.includes(product.type)
-  //       );
-  //     }
-  //     if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Weight.includes(product.weightRange)
-  //       );
-  //     }
-
-  //     // Apply style filter
-  //     if (selectedOptions.Style && selectedOptions.Style.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Style.includes(product.style)
-  //       );
-  //     }
-
-  //     // Apply occasion filter
-  //     if (selectedOptions.Occasion && selectedOptions.Occasion.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Occasion.includes(product.occasion)
-  //       );
-  //     }
-
-  //     // Apply color filter
-  //     if (selectedOptions.Color && selectedOptions.Color.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Color.includes(product.color)
-  //       );
-  //     }
-
-  //     setFilteredProducts(filtered);
-  //   };
-
-  //   applyFilters();
-  // }, [selectedOptions]);
 
   useEffect(() => {
     if (selectedSortOption === "Price-Low To High") {
@@ -767,13 +651,6 @@ const ShopBreadCrumb1 = () => {
                       filters.
                     </p>
                     <div className="suggestions mb-8">
-                      {/* <h3 class="text-xl font-semibold text-gray-800 mb-4">Try exploring further:</h3>
-                  <ul class="space-y-2">
-                    <li class="text-base text-gray-600">Adjust your filters to broaden your search</li>
-                    <li class="text-base text-gray-600">Check out our popular categories</li>
-                    <li class="text-base text-gray-600">Browse our latest arrivals</li>
-                    <li class="text-base text-gray-600">Explore our bestsellers</li>
-                  </ul> */}
                     </div>
                     <div className="cta-buttons flex justify-center space-x-4">
                       <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
@@ -806,7 +683,6 @@ const ShopBreadCrumb1 = () => {
             </div>
           )}
         </div>
-        {/* <WhpApp /> */}
       </div>
 
       <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden sm:block md:hidden h-[52px] ">

@@ -11,42 +11,42 @@ const Filter: Filter[] = [
   {
     title: "Price",
     options: ["0to10000", "10000to20000", "20000to30000", "30000to30000000"],
-    labels: ["Less than 10K", "10K to 20K", "20K to 30K", "30K and Above"]
+    labels: ["Less than 10K", "10K to 20K", "20K to 30K", "30K and Above"],
   },
   {
     title: "Karat",
     options: ["14KT", "18KT", "22KT", "23KT", "24KT"],
-    labels: ["14 Karat", "18 Karat", "22 Karat", "23 Karat", "24 Karat"]
+    labels: ["14 Karat", "18 Karat", "22 Karat", "23 Karat", "24 Karat"],
   },
   {
     title: "Weight",
     options: ["0to2gms", "2to5gms", "5to10gms", "10to20gms"],
-    labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"]
+    labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"],
   },
   {
     title: "Gender",
     options: ["Men", "Women", "Kids"],
-    labels: ["Men", "Women", "Kids"]
+    labels: ["Men", "Women", "Kids"],
   },
   {
     title: "Metal",
     options: ["Rose_Gold", "White_Gold", "Gold", "Diamond", "Silver"],
-    labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"]
+    labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
   },
   {
     title: "Occasion",
     options: [
       "Birth",
-      "Casual Wear",
-      "Daily Indian",
+      "Casual_Wear",
+      "Daily_Indian",
       "Engagement",
       "Festive",
       "Everyday",
-      "Work Wear",
+      "Work_Wear",
       "Wedding",
-      "Desk to Dinner",
+      "Desk_to_Dinner",
       "Evening",
-      "Party Wear",
+      "Party_Wear",
     ],
     labels: [
       "Birth",
@@ -60,7 +60,7 @@ const Filter: Filter[] = [
       "Desk to Dinner",
       "Evening",
       "Party Wear",
-    ]
+    ],
   },
 ];
 
@@ -98,7 +98,6 @@ const FilterOptions: React.FC<Props> = ({
             <div>
               {item.options.map((option: string, idx: number) => (
                 <div key={option} onClick={() => handleMobileFilter()}>
-                  
                   <input
                     type="checkbox"
                     id={option}

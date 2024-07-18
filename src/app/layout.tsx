@@ -29,7 +29,7 @@ export default function RootLayout({
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
         </head>
-        {/* <Suspense> */}
+        <Suspense>
         <body className={instrument.className}>
           <UserTracking />
           <TopNavOne textColor="text-white" />
@@ -40,7 +40,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </body>
-        {/* </Suspense> */}
+        </Suspense>
       </html>
     </GlobalProvider>
   );

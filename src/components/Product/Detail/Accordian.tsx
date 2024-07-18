@@ -329,7 +329,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (
                       <p>
-                        ₹
+                        -₹
                         {new Intl.NumberFormat("en-IN", {
                           minimumFractionDigits: 2,
                         }).format(
@@ -337,7 +337,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                         )}
                       </p>
                     ) : (
-                      <p>₹{product.productDetails?.discountValue}</p>
+                      <p>-₹{product.productDetails?.discountValue}</p>
                     )}
                   </div>
                 )}

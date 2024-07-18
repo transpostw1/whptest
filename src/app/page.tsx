@@ -50,13 +50,13 @@ export default function Home() {
         <MainCarousel />
         <Explore />
         {/* <Collection /> */}
-        <ProductSlider />
+        {/* <ProductSlider /> */}
         {logged === "true" && <BuyAgain />}
         {/* <WhpTv products={products} /> */}
         <Whptv2/>
         <RoseGold />
         <Category />
-        <GetFastDeliveryProducts />
+        {/* <GetFastDeliveryProducts /> */}
         <WhatWeOffer />
         <ShopGender />
         {/* <PreciousGems /> */}

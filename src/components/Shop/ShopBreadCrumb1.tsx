@@ -237,12 +237,14 @@ const ShopBreadCrumb1 = () => {
           setFilteredProducts(data.products);
           setIsLoading(false);
         } else {
+        setIsLoading(true);
           console.error("Error: No products data received");
         }
       } catch (error) {
+        setIsLoading(true);
         console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading(true);
       }
     }
   };
@@ -663,6 +665,9 @@ const ShopBreadCrumb1 = () => {
   // Modified string
   const modifiedString = removeUnderscores(category);
 
+  console.log("Isloading", isLoading, filteredProducts.length);
+
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -733,7 +738,7 @@ const ShopBreadCrumb1 = () => {
               </div>
             </div>
 
-            {isLoading ? (
+            {!isLoading && filteredProducts.length == 0 ? (
               <ProductSkeleton />
             ) : filteredProducts.length > 0 ? (
               <div
@@ -752,7 +757,7 @@ const ShopBreadCrumb1 = () => {
               </div>
             ) : (
               <>
-                {!isLoading && (
+                {isLoading && filteredProducts.length == 0 && (
                   <div
                     className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]"
                     ref={productsListRef}

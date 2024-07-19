@@ -27,20 +27,24 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
 
   const router = useRouter();
 
-  const handleEnrollSuccess = () => {
-    console.log("Enrollment success callback triggered");
-    // Store the selected scheme details in session storage, including the monthly deposit amount
+  const handleEnrollSuccess = (
+    enrollmentId: number,
+    schemeType: string,
+    amount: number
+  ) => {
+    // console.log("Enrollment success callback triggered");
     sessionStorage.setItem(
       "selectedScheme",
       JSON.stringify({
+        enrollmentId: enrollmentId,
         planName: "Diamond",
-        monthlyAmount: monthlyDeposit,
-        totalAmount: totalAmount,
+        monthlyAmount: amount,
+        totalAmount: amount * numberOfMonths,
         iconUrl: "/images/diamond-icon.png",
+        schemeType: schemeType,
       })
     );
 
-    // Navigate to the DigitalCheckout component
     router.push("/digitalCheckout");
     console.log("Navigation to /digital-checkout triggered");
   };
@@ -52,12 +56,15 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     handleEnrollSuccess,
   });
 
-  const handleInputVerification = () => {
+  const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
       setErrorModal(true);
     } else {
       console.log("Enrolling with amount:", monthlyDeposit);
-      handleEnroll("diamond", monthlyDeposit);
+      const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
+      if (enrollmentId) {
+        handleEnrollSuccess(enrollmentId, "diamond", monthlyDeposit);
+      }
     }
   };
 
@@ -154,7 +161,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           <div className="mb-3 flex flex-col text-center">
             <div>
               <div
-                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
+                className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2"
                 onClick={() => handleInputVerification()}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
@@ -162,7 +169,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             </div>
             <div>
               <Link
-                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                className="text-black underline text-start text-sm rounded-xl w-full cursor-pointer"
                 href={"/terms-and-condition"}
               >
                 T&C apply*

@@ -5,20 +5,20 @@ import { graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 interface Props {
-  setBackendMessage: (item: string) => any;
-  setBackendError: (item: string) => any;
-  setFlashType: (item: string) => any;
-  handleEnrollSuccess: () => void;
+  setBackendMessage: (item: string) => void;
+  setBackendError: (item: string) => void;
+  setFlashType: (item: string) => void;
 }
+
 interface UseEnrollReturn {
-  handleEnroll: (schemeType: any, amount: any) => Promise<void>;
+  handleEnroll: (schemeType: string, amount: number) => Promise<number | null>;
   loading: boolean;
 }
+
 const useEnroll = ({
   setBackendMessage,
   setBackendError,
   setFlashType,
-  handleEnrollSuccess,
 }: Props): UseEnrollReturn => {
   const [loading, setLoading] = useState(false);
   const cookieToken = localStorage.getItem("localtoken");
@@ -26,12 +26,15 @@ const useEnroll = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleEnroll = async (schemeType: any, amount: any) => {
+  const handleEnroll = async (
+    schemeType: string,
+    amount: number
+  ): Promise<number | null> => {
     if (!isLoggedIn) {
       setLoading(true);
       localStorage.setItem("redirectPath", pathname);
       router.push("/login");
-      return;
+      return null;
     }
 
     try {
@@ -46,9 +49,20 @@ const useEnroll = ({
           StoreCustomerGMS(customerGMS: $customerGms) {
             message
             code
+            enrollmentDetails {
+              enrollmentId
+              customerId
+              schemeType
+              monthlyAmount
+              discountAmount
+              balanceAmount
+              totalAmount
+              enrollDate
+            }
           }
         }
       `;
+
       const { data } = await client.mutate({
         mutation: ADD_CUSTOMER_GMS,
         variables: {
@@ -64,20 +78,28 @@ const useEnroll = ({
         },
         fetchPolicy: "no-cache",
       });
+
       if (data.StoreCustomerGMS.code === 200) {
         console.log("Enrollment successful", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("success");
-        handleEnrollSuccess(); // Call the success callback function
+
+        // Extract enrollmentId from the response
+        const enrollmentId =
+          data.StoreCustomerGMS.enrollmentDetails.enrollmentId;
+        // console.log(enrollmentId);
+        return enrollmentId;
       } else {
         console.log("Enrollment failed", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("error");
+        return null;
       }
     } catch (error) {
       console.error("Error during enrollment", error);
       setBackendError("Failed to enroll. Please try again later.");
       setFlashType("error");
+      return null;
     } finally {
       setLoading(false);
     }

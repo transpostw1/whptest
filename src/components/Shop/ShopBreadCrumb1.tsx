@@ -402,7 +402,7 @@ const ShopBreadCrumb1 = () => {
 
       // Apply style filter
       if (selectedOptions.Style && selectedOptions.Style.length > 0) {
-        filtered = filtered.filter((product: any) =>
+        filtered = filtered.filter((product: any) =>  
           selectedOptions.Style.includes(product.style)
         );
       }

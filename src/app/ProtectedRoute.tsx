@@ -13,7 +13,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      localStorage.setItem("redirectPath", pathname);
+      typeof window !=="undefined"?  localStorage.setItem("redirectPath", pathname):null;
       router.push("/login");
     }
   }, [isLoggedIn, router]);

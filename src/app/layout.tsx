@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
@@ -11,14 +10,10 @@ import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 
+
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
-
-// export const metadata: Metadata = {
-//   title: "WHP Web",
-//   description: "WHP Jewellers app",
-// };
 
 export default function RootLayout({
   children,
@@ -27,6 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <GlobalProvider>
+     
       <html lang="en">
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
@@ -47,3 +43,4 @@ export default function RootLayout({
     </GlobalProvider>
   );
 }
+

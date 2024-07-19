@@ -78,7 +78,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   }, []);
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
-      (item: any) => item.productId == data.productId
+      (item: any) => item.productId == data.productId,
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
@@ -86,11 +86,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const sortedImages = data?.imageDetails
     ?.filter(
       (item: any): item is ImageDetailWithTypename =>
-        item !== null && item !== undefined
+        item !== null && item !== undefined,
     )
     ?.sort(
       (a: ImageDetailWithTypename, b: ImageDetailWithTypename) =>
-        parseInt(a.order) - parseInt(b.order)
+        parseInt(a.order) - parseInt(b.order),
     );
 
   // const sortedImages = data?.imageDetails?.sort(
@@ -105,15 +105,15 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const sortedVideos = data?.videoDetails
     ?.filter(
       (item: any): item is VideoDetailWithTypename =>
-        item !== null && item !== undefined
+        item !== null && item !== undefined,
     )
     ?.sort(
       (a: VideoDetailWithTypename, b: VideoDetailWithTypename) =>
-        parseInt(a.order) - parseInt(b.order)
+        parseInt(a.order) - parseInt(b.order),
     );
   const selectedVideo = sortedVideos?.[0];
 
-  const handleDetailProduct = (productId:any,productUrl: any) => {
+  const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productUrl}/${productId}`);
   };
 
@@ -154,32 +154,34 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   };
 
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.discountPrice ?? 0))
+    Math.round(parseFloat(data?.discountPrice ?? 0)),
   );
 
   const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.productPrice ?? 0))
+    Math.round(parseFloat(data?.productPrice ?? 0)),
   );
 
   return (
     <>
       <div
-        className="product-item grid-type hover:border hover:p-4 hover:shadow-md hover:rounded-lg"
+        className="product-item grid-type hover:rounded-lg hover:border hover:p-4 hover:shadow-md"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
+        <div className="product-main block cursor-pointer">
+          <div className="product-thumb relative overflow-hidden">
             {data?.videoDetails !== null ? (
               <div
-                className=" w-full h-full aspect-[4/3]"
+                className="aspect-[4/3] h-full w-full"
                 onMouseLeave={() => setShowVideo(false)}
               >
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
-                      className="object-cover relative duration-700 product-img"
-                      onClick={() => handleDetailProduct(data.url,data.productId)}
+                      className="product-img relative object-cover duration-700"
+                      onClick={() =>
+                        handleDetailProduct(data.url, data.productId)
+                      }
                     >
                       <video loop autoPlay muted>
                         <source
@@ -192,15 +194,17 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                 ) : (
                   <div className="relative">
                     <Image
-                      onClick={() => handleDetailProduct(data.url,data.productId)}
-                      className="w-[95%] duration-700  m-auto"
+                      onClick={() =>
+                        handleDetailProduct(data.url, data.productId)
+                      }
+                      className="m-auto w-[95%] duration-700"
                       src={selected.image_path}
                       width={400}
                       height={400}
                       alt="This image is temporarry"
                     />
                     {isMobile && (
-                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-30 ">
+                      <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-30">
                         <Icon.Cards
                           size={width}
                           weight="light"
@@ -209,12 +213,12 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       </div>
                     )}
                     {hover && !isMobile && (
-                      <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0">
+                      <div className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white">
                         <p className="font-semibold">Try ON</p>
                       </div>
                     )}
                     {hover && !isMobile && (
-                      <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-30 bg-white p-1">
+                      <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between bg-white p-1 hover:z-30">
                         <Icon.Cards
                           size={width}
                           weight="light"
@@ -223,12 +227,12 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       </div>
                     )}
                     <div
-                      className="z-0 absolute flex justify-between top-1 hover:z-50 "
+                      className="absolute top-1 z-0 flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
                     >
                       <Icon.Play size={width} weight="light" />
                     </div>
-                    <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
+                    <div className="absolute right-1 top-1 z-0 float-right flex justify-between hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
@@ -251,29 +255,29 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             ) : (
               <div className="relative">
                 <Image
-                  onClick={() => handleDetailProduct(data.url,data.productId)}
-                  className="w-[95%] duration-700  m-auto"
+                  onClick={() => handleDetailProduct(data.url, data.productId)}
+                  className="m-auto w-[95%] duration-700"
                   src={selected.image_path}
                   width={400}
                   height={400}
                   alt="This image is temporarry"
                 />
                 {hover && !isMobile && (
-                  <div className="border border-[#e26178] rounded-sm text-center px-2 mt-2 hover:text-white hover:bg-[#e26178] float-right absolute flex justify-between bottom-1 left-1 z-0">
+                  <div className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white">
                     <p className="font-semibold">Try ON</p>
                   </div>
                 )}
                 {isMobile && (
-                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50">
+                  <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )}
                 {hover && !isMobile && (
-                  <div className="float-right absolute flex justify-between bottom-1 right-1 z-0 hover:z-50 ">
+                  <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )}
-                <div className="float-right absolute flex justify-between top-1 right-1 z-0 hover:z-50 ">
+                <div className="absolute right-1 top-1 z-0 float-right flex justify-between hover:z-50">
                   {/* <Icon.Heart size={25} weight="light" /> */}
                   {isProductInWishlist ? (
                     <Icon.Heart
@@ -294,24 +298,24 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )}
           </div>
           <div
-            className=" mt-4 lg:mb-4"
-            onClick={() => handleDetailProduct(data.url,data.productId)}
+            className="mt-4 lg:mb-4"
+            onClick={() => handleDetailProduct(data.url, data.productId)}
           >
-            <div className="product-name text-title duration-300 text-xl">
+            <div className="product-name text-title text-xl duration-300">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
 
             <StarRating stars={data.rating} />
 
-            <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
+            <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
               {data?.discountPrice && (
                 <div className="product-price text-title text-lg">
                   ₹{formattedDiscountedPrice}
                 </div>
               )}
               {data?.discountPrice && (
-                <div className="line-through text-[#beb3b3]">
+                <div className="text-[#beb3b3] line-through">
                   ₹{formattedOriginalPrice}
                 </div>
               )}
@@ -330,7 +334,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
         {isMobile && (
-          <div className="border border-[#e26178] rounded-sm text-center mt-2 hover:text-white hover:bg-[#e26178]">
+          <div className="mt-2 rounded-sm border border-[#e26178] text-center hover:bg-[#e26178] hover:text-white">
             <p className="font-semibold">Try ON</p>
           </div>
         )}

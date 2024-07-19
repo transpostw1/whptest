@@ -75,7 +75,7 @@ const OtpVerification = ({
       setIsOtpSent(true); // Update state to indicate OTP has been sent
       setErrorMessage(null);
       console.log("OTP sent successfully");
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error sending OTP:", error);
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
@@ -112,10 +112,10 @@ const OtpVerification = ({
           },
         }
       );
-      logIn(); ////
-      console.log("LOGIN RESPPP", response.data.user);
+      logIn(); 
       const localToken = response.data.token;
-      localStorage.setItem("localtoken", localToken);
+       typeof window !== "undefined" ?localStorage.setItem("localtoken", localToken): null;
+      // localStorage.setItem("localtoken", localToken);
       console.log("intial token", localStorage.getItem("localtoken"));
       router.push("/");
     } catch (error: any) {

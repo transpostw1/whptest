@@ -36,7 +36,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
   const handleOrderCancel = async (id: any) => {
     try {
       setLoading(true);
-      const cookieToken = Cookie.get("localtoken");
+      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const response = await axios.post(
         `${baseUrl}/${id}/cancel`,
         {},

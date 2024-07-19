@@ -22,7 +22,7 @@ interface CartItem {
 
 export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
   try {
-    const userToken = localStorage.getItem("localtoken");
+    const userToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
     if (!userToken) {
       return [];
     }

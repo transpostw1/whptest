@@ -1,13 +1,12 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
-
-const SideBar= (props:any) => {
+const SideBar = (props: any) => {
   const [filterDropDown, setFilterDropDown] = useState<string | null>("Price");
   const [checkedOptions, setCheckedOptions] = useState<any>({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  
+
   const handleOptionSelect = (option: any) => {
     const newCheckedOptions = {
       ...checkedOptions,
@@ -20,11 +19,11 @@ const SideBar= (props:any) => {
     } else {
       setSelectedOptions(
         selectedOptions.filter(
-          (selectedOptions: any) => selectedOptions !== option
-        )
+          (selectedOptions: any) => selectedOptions !== option,
+        ),
       );
     }
-    props.updateSelectedOption(selectedOptions)
+    props.updateSelectedOption(selectedOptions);
   };
 
   const handleFilterDropdown = (item: any) => {
@@ -32,25 +31,25 @@ const SideBar= (props:any) => {
   };
   return (
     <div
-      className={`sidebar lg:w-4/3 md:w-1/3 w-full md:pr-12 lg:block hidden`}
+      className={`sidebar lg:w-4/3 hidden w-full md:w-1/3 md:pr-12 lg:block`}
     >
       <div
-        className={`filter-type pb-8 border-line h-[550px] no-scrollbar overflow-y-auto `}
+        className={`filter-type border-line no-scrollbar h-[550px] overflow-y-auto pb-8`}
       >
         <div className="heading6 border-b-2">FILTER BY</div>
         <div className="mt-5">
           <p className="heading7">Applied Filters</p>
-        </div>
+        </div>      
 
         <div className="flex flex-wrap">
           {selectedOptions.map((option: string, index: React.Key) => (
             <div
               key={index}
-              className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+              className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
             >
               {option}
               <button
-                className="ml-2 align-middle mb-1"
+                className="mb-1 ml-2 align-middle"
                 onClick={() => handleOptionSelect(option)}
               >
                 <Icon.X size={20} />
@@ -60,13 +59,13 @@ const SideBar= (props:any) => {
         </div>
 
         <div className="list-type mt-4">
-          {props.filter.map((item:any, index:number) => (
+          {props.filter.map((item: any, index: number) => (
             <div
               key={index}
               className={`item cursor-pointer`}
               onClick={() => handleFilterDropdown(item.title)}
             >
-              <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black  capitalize">
+              <div className="text-secondary has-line-before flex cursor-pointer justify-between capitalize hover:text-black">
                 <p className="text-lg font-semibold">{item.title}</p>
 
                 <p className="mt-1">
@@ -75,7 +74,7 @@ const SideBar= (props:any) => {
               </div>
               {filterDropDown === item.title ? (
                 <div>
-                  {item.options.map((option:any, index:any) => (
+                  {item.options.map((option: any, index: any) => (
                     <div key={option}>
                       <input
                         type="checkbox"
@@ -96,5 +95,5 @@ const SideBar= (props:any) => {
       </div>
     </div>
   );
-}
+};
 export default SideBar;

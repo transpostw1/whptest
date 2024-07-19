@@ -39,7 +39,7 @@ const AddAddressMobile: React.FC<Props> = ({
     setFormError("");
 
     try {
-      const cookieToken = localStorage.getItem("localtoken");
+       const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
       const response = await axios.post<{ data: any }>(
         `${baseUrl}${addAddress}`,
         {

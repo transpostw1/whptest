@@ -21,7 +21,7 @@ const useEnroll = ({
   setFlashType,
 }: Props): UseEnrollReturn => {
   const [loading, setLoading] = useState(false);
-  const cookieToken = localStorage.getItem("localtoken");
+  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
   const { isLoggedIn } = useUser();
   const router = useRouter();
   const pathname = usePathname();

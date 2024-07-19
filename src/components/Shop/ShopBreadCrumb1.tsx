@@ -465,7 +465,7 @@ const ShopBreadCrumb1 = () => {
         initialOptions.Weight = value.split(",");
       }
       if (key === "o") {
-        initialOptions.Ocassion = value.split(",");
+        initialOptions.Occasion = value.split(",");
       }
     });
 

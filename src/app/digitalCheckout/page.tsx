@@ -19,7 +19,7 @@ interface GoldSavingScheme {
 
 const DigitalCheckout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState<string>("");
+    useState<string>("razorpay");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState,isLoggedIn } = useUser();
   const [flashMessage, setFlashMessage] = useState("");

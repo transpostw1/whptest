@@ -52,15 +52,14 @@ const ShopBreadCrumb1 = () => {
   };
 
   const fetchData = async (combinedOptions: any) => {
-    // console.log("Received filterOptions in fetchData:", combinedOptions);
-    // console.log("selectedOptions:", combinedOptions);
     if (
       combinedOptions.category.length > 0 ||
       combinedOptions.search.length > 0 ||
       combinedOptions.priceFilter.length > 0 ||
       combinedOptions.gender.length > 0 ||
       combinedOptions.karat.length > 0 ||
-      combinedOptions.metal.length > 0
+      combinedOptions.metal.length > 0 ||
+      combinedOptions.occasion.length > 0
     ) {
       try {
         console.log("Received filter options:", combinedOptions);
@@ -80,6 +79,7 @@ const ShopBreadCrumb1 = () => {
             $karat: [KaratArrayInput!]
             $metal: [MetalArrayInput!]
             $weightRange: [WeightRangeArrayInput!]
+            $occasion: [OccasionArrayInput!]
             $sortBy: String
             $sortOrder: String
           ) {
@@ -91,6 +91,7 @@ const ShopBreadCrumb1 = () => {
               karat: $karat
               metal: $metal
               weightRange: $weightRange
+              occasion: $occasion
               sortBy: $sortBy
               sortOrder: $sortOrder
             ) {
@@ -237,7 +238,7 @@ const ShopBreadCrumb1 = () => {
           setFilteredProducts(data.products);
           setIsLoading(false);
         } else {
-        setIsLoading(true);
+          setIsLoading(true);
           console.error("Error: No products data received");
         }
       } catch (error) {
@@ -304,7 +305,7 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Weight || []),
       ...(selectedOptions.Weight || []),
     ];
-    combinedOptions.occasion= [
+    combinedOptions.occasion = [
       ...(initialOptions.Occasion || []),
       ...(selectedOptions.Occasion || []),
     ];
@@ -313,7 +314,7 @@ const ShopBreadCrumb1 = () => {
 
   const updateURL = (options: any) => {
     const urlParts: string[] = [];
-    // console.log("filterOptions", options);
+    console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
       urlParts.push(`c-${options.Category.join(",")}`);
     }
@@ -341,7 +342,7 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`w-${options.Weight.join(",")}`);
     }
     if (options.Occasion && options.Occasion.length > 0) {
-      urlParts.push(`o-${options.Weight.join(",")}`);
+      urlParts.push(`o-${options.Occasion.join(",")}`);
     }
 
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
@@ -361,62 +362,62 @@ const ShopBreadCrumb1 = () => {
         filtered = filtered.filter(
           (product: any) =>
             product.discountPrice >= minPrice &&
-            product.discountPrice <= maxPrice
+            product.discountPrice <= maxPrice,
         );
       }
 
       // Apply gender filter
       if (selectedOptions.Gender && selectedOptions.Gender.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Gender.includes(product.gender)
+          selectedOptions.Gender.includes(product.gender),
         );
       }
 
       // Apply karat filter
       if (selectedOptions.Karat && selectedOptions.Karat.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Karat.includes(product.karat)
+          selectedOptions.Karat.includes(product.karat),
         );
       }
 
       // Apply metal filter
       if (selectedOptions.Metal && selectedOptions.Metal.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Metal.includes(product.metal)
+          selectedOptions.Metal.includes(product.metal),
         );
       }
 
       // Apply type filter
       if (selectedOptions.Type && selectedOptions.Type.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Type.includes(product.type)
+          selectedOptions.Type.includes(product.type),
         );
       }
 
       if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Weight.includes(product.weightRange)
+          selectedOptions.Weight.includes(product.weightRange),
         );
       }
 
       // Apply style filter
       if (selectedOptions.Style && selectedOptions.Style.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Style.includes(product.style)
+          selectedOptions.Style.includes(product.style),
         );
       }
 
       // Apply occasion filter
       if (selectedOptions.Occasion && selectedOptions.Occasion.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Occasion.includes(product.occasion)
+          selectedOptions.Occasion.includes(product.occasion),
         );
       }
 
       // Apply color filter
       if (selectedOptions.Color && selectedOptions.Color.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Color.includes(product.color)
+          selectedOptions.Color.includes(product.color),
         );
       }
 
@@ -463,48 +464,14 @@ const ShopBreadCrumb1 = () => {
       if (key === "w") {
         initialOptions.Weight = value.split(",");
       }
+      if (key === "o") {
+        initialOptions.Occasion = value.split(",");
+      }
     });
 
     setSelectedOptions(initialOptions);
     console.log("Initial selectedOptions from URL:", initialOptions);
-
-    // fetchData(initialOptions);
   }, [searchParams]);
-
-  // useEffect(() => {
-  //   if (Object.keys(selectedOptions).length > 0) {
-  //     fetchData();
-  //   }
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-  //   fetchData(combinedOptions);
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
-
-  // const handleOptionSelect = (option: string, category: string) => {
-  //   setSelectedOptions((prevSelectedOptions: any) => {
-  //     const updatedOptions = { ...prevSelectedOptions };
-  //     if (updatedOptions[category]) {
-  //       if (updatedOptions[category].includes(option)) {
-  //         updatedOptions[category] = updatedOptions[category].filter(
-  //           (selectedOption: any) => selectedOption !== option
-  //         );
-  //       } else {
-  //         updatedOptions[category].push(option);
-  //       }
-  //     } else {
-  //       updatedOptions[category] = [option];
-  //     }
-  //     console.log('updatedOptions:', updatedOptions);
-
-  //     return updatedOptions;
-  //   });
-  // };
 
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
@@ -513,7 +480,7 @@ const ShopBreadCrumb1 = () => {
         const formattedOption = formatPriceRange(option);
         if (updatedOptions[category].includes(formattedOption)) {
           updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption: any) => selectedOption !== formattedOption
+            (selectedOption: any) => selectedOption !== formattedOption,
           );
         } else {
           updatedOptions[category].push(formattedOption);
@@ -544,89 +511,6 @@ const ShopBreadCrumb1 = () => {
     }
     return price;
   };
-
-  // console.log("Dataa", filteredProducts);
-
-  // useEffect(() => {
-  //   fetchData(selectedOptions);
-  // }, [selectedOptions]);
-
-  // useEffect(() => {
-  //   const applyFilters = () => {
-  //     let filtered = data;
-
-  //     // Apply price filter
-  //     if (selectedOptions.Price && selectedOptions.Price.length > 0) {
-  //       const minPrice = parseInt(selectedOptions.Price[0]) || 0;
-  //       const maxPrice =
-  //         parseInt(selectedOptions.Price[selectedOptions.Price.length - 1]) ||
-  //         Infinity;
-  //       filtered = filtered.filter(
-  //         (product: any) =>
-  //           product.discountPrice >= minPrice &&
-  //           product.discountPrice <= maxPrice
-  //       );
-  //     }
-
-  //     // Apply gender filter
-  //     if (selectedOptions.Gender && selectedOptions.Gender.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Gender.includes(product.gender)
-  //       );
-  //     }
-
-  //     // Apply karat filter
-  //     if (selectedOptions.Karat && selectedOptions.Karat.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Karat.includes(product.karat)
-  //       );
-  //     }
-
-  //     // Apply metal filter
-  //     if (selectedOptions.Metal && selectedOptions.Metal.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Metal.includes(product.metal)
-  //       );
-  //     }
-
-  //     // Apply type filter
-  //     if (selectedOptions.Type && selectedOptions.Type.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Type.includes(product.type)
-  //       );
-  //     }
-  //     if (selectedOptions.Weight && selectedOptions.Weight.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Weight.includes(product.weightRange)
-  //       );
-  //     }
-
-  //     // Apply style filter
-  //     if (selectedOptions.Style && selectedOptions.Style.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Style.includes(product.style)
-  //       );
-  //     }
-
-  //     // Apply occasion filter
-  //     if (selectedOptions.Occasion && selectedOptions.Occasion.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Occasion.includes(product.occasion)
-  //       );
-  //     }
-
-  //     // Apply color filter
-  //     if (selectedOptions.Color && selectedOptions.Color.length > 0) {
-  //       filtered = filtered.filter((product: any) =>
-  //         selectedOptions.Color.includes(product.color)
-  //       );
-  //     }
-
-  //     setFilteredProducts(filtered);
-  //   };
-
-  //   applyFilters();
-  // }, [selectedOptions]);
 
   useEffect(() => {
     if (selectedSortOption === "Price-Low To High") {
@@ -667,12 +551,11 @@ const ShopBreadCrumb1 = () => {
 
   console.log("Isloading", isLoading, filteredProducts.length);
 
-
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
         <MobileMainCategorySwiper />
-        <div className="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8 pt-4">
+        <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
           <FilterSidebar
             data={data}
             filteredProducts={filteredProducts}
@@ -684,40 +567,40 @@ const ShopBreadCrumb1 = () => {
             productsListRef={productsListRef}
             category={category}
           />
-          <div className="list-product-block lg:w-3/4 md:w-2/3 w-full md:pl-3 no-scrollbar">
+          <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
             <div className="">
               <p className="text-4xl font-bold uppercase">{modifiedString}</p>
             </div>
-            <div className="flex justify-between mt-5">
-              <div className="lg:w-[70%] sm:w-[100%]">
+            <div className="mt-5 flex justify-between">
+              <div className="sm:w-[100%] lg:w-[70%]">
                 Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace.
-                <div className="flex flex-wrap lg:hidden sm:block md:hidden">
+                <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                   {Object.entries(selectedOptions).flatMap(
                     ([category, options]) =>
                       options.map((option: string, index: number) => (
                         <div
                           key={`${category}-${index}`}
-                          className="border border-[#e26178] bg-[#fcff4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                          className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                         >
                           {option}
                           <button
-                            className="ml-2 align-middle mb-1"
+                            className="mb-1 ml-2 align-middle"
                             onClick={() => handleOptionSelect(option, category)}
                           >
                             <Icon.X size={20} />
                           </button>
                         </div>
-                      ))
+                      )),
                   )}
                 </div>
               </div>
 
-              <div className="hidden lg:block relative">
+              <div className="relative hidden lg:block">
                 <label className="font-semibold">Sort By: </label>
                 <select
                   onChange={(e) => handleSortOptionChange(e.target.value)}
-                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                  className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
                 >
                   <option className="bg-[#f7f7f7]" value="All">
                     All
@@ -732,7 +615,7 @@ const ShopBreadCrumb1 = () => {
                     Price-High To Low
                   </option>
                 </select>
-                <div className="pointer-events-none ml-3 absolute inset-y-7 bottom-0 right-0 flex items-center px-2 text-gray-700">
+                <div className="pointer-events-none absolute inset-y-7 bottom-0 right-0 ml-3 flex items-center px-2 text-gray-700">
                   <Icon.CaretDown size={18} />
                 </div>
               </div>
@@ -742,7 +625,7 @@ const ShopBreadCrumb1 = () => {
               <ProductSkeleton />
             ) : filteredProducts.length > 0 ? (
               <div
-                className="list-product hide-product-sold grid md:grid-cols-2 lg:grid-cols-3 grid-cols-2 max-sm:gap-[20px] gap-[40px] mt-7 mb-5"
+                className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                 ref={productsListRef}
               >
                 {filteredProducts
@@ -759,32 +642,24 @@ const ShopBreadCrumb1 = () => {
               <>
                 {isLoading && filteredProducts.length == 0 && (
                   <div
-                    className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]"
+                    className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
                     ref={productsListRef}
                   >
                     {/* <p>No products found.</p> */}
 
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
                       Oops! No products found.
                     </h2>
-                    <p className="text-lg text-gray-600 mb-6">
+                    <p className="mb-6 text-lg text-gray-600">
                       We couldn't find any products matching your current
                       filters.
                     </p>
-                    <div className="suggestions mb-8">
-                      {/* <h3 class="text-xl font-semibold text-gray-800 mb-4">Try exploring further:</h3>
-                  <ul class="space-y-2">
-                    <li class="text-base text-gray-600">Adjust your filters to broaden your search</li>
-                    <li class="text-base text-gray-600">Check out our popular categories</li>
-                    <li class="text-base text-gray-600">Browse our latest arrivals</li>
-                    <li class="text-base text-gray-600">Explore our bestsellers</li>
-                  </ul> */}
-                    </div>
+                    <div className="suggestions mb-8"></div>
                     <div className="cta-buttons flex justify-center space-x-4">
-                      <button className="btn-clear-filters bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+                      <button className="btn-clear-filters rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition duration-300 hover:bg-gray-300">
                         Clear Filters
                       </button>
-                      <button className="btn-explore bg-[#e26178] text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-300 ">
+                      <button className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600">
                         Explore More
                       </button>
                     </div>
@@ -796,7 +671,7 @@ const ShopBreadCrumb1 = () => {
         </div>
         <div className="flex justify-center">
           {pageCount > 1 && (
-            <div className="list-pagination flex items-center md:mt-10 mt-7 mb-4">
+            <div className="list-pagination mb-4 mt-7 flex items-center md:mt-10">
               <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
@@ -811,11 +686,10 @@ const ShopBreadCrumb1 = () => {
             </div>
           )}
         </div>
-        {/* <WhpApp /> */}
       </div>
 
-      <div className="fixed bg-[#e26178] bottom-0 left-0 z-10 w-[100%] lg:hidden sm:block md:hidden h-[52px] ">
-        <div className="flex justify-center align-middle mt-4 text-white">
+      <div className="fixed bottom-0 left-0 z-10 h-[52px] w-[100%] bg-[#e26178] sm:block md:hidden lg:hidden">
+        <div className="mt-4 flex justify-center align-middle text-white">
           <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
             SortBy
           </div>

@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
+import { useRouter } from "next/navigation";
 
 interface SilverCardProps {
-  setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
-  setFlashType: React.Dispatch<
-    React.SetStateAction<"success" | "error" | "info">
-  >;
+  setBackendMessage: (message: string) => void;
+  setBackendError: (error: string) => void;
+  setFlashType: (type: "success" | "error" | "info") => void;
 }
 
 const SilverCard: React.FC<SilverCardProps> = ({
@@ -19,24 +18,62 @@ const SilverCard: React.FC<SilverCardProps> = ({
 }) => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
-  const [errorModal, setErrorModal] = useState(false);
-  const [inputValue, setInputValue] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
 
-  const { handleEnroll, loading } = useEnroll(
-    setBackendMessage,
-    setBackendError,
-    setFlashType
+  const router = useRouter();
+
+  const handleEnrollSuccess = useCallback(
+    (enrollmentId: number, schemeType: string, amount: number) => {
+      // console.log(
+      //   "Enrollment success callback triggered",
+      //   enrollmentId,
+      //   schemeType,
+      //   amount
+      // );
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: enrollmentId,
+          planName: "Silver",
+          monthlyAmount: amount,
+          totalAmount: amount * numberOfMonths,
+          iconUrl: "/images/silver-icon.png",
+          schemeType: schemeType,
+        })
+      );
+
+      console.log("Navigating to /digitalCheckout");
+      router.push("/digitalCheckout");
+    },
+    [numberOfMonths, router]
   );
 
-  const handleInputVerification = () => {
+  const { handleEnroll, loading } = useEnroll({
+    setBackendMessage,
+    setBackendError,
+    setFlashType,
+    handleEnrollSuccess,
+  });
+
+  const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
-      handleEnroll("sliver", monthlyDeposit);
+      console.log("Enrolling with amount:", monthlyDeposit);
+      try {
+        const enrollmentId = await handleEnroll("silver", monthlyDeposit);
+        if (enrollmentId) {
+          handleEnrollSuccess(enrollmentId, "silver", monthlyDeposit);
+        }
+      } catch (error) {
+        console.error("Error during enrollment:", error);
+        setBackendError("Failed to enroll. Please try again.");
+        setFlashType("error");
+      }
     }
   };
 
@@ -47,12 +84,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
     const parsedValue = parseInt(value, 10);
     if (isNaN(parsedValue)) {
       setError("Invalid input. Please enter a number.");
-    // } else if (parsedValue < 2000) {
-    //   setError("Minimum deposit is 2000");
     } else if (parsedValue > 50000) {
       setError("Maximum deposit is 50000");
-    // } else if (parsedValue % 1000 !== 0) {
-    //   setError("Amount must be a multiple of 1000");
     } else {
       setMonthlyDeposit(parsedValue);
       setError(null);
@@ -90,7 +123,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
                   className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
                   value={monthlyDeposit}
                   onChange={handleChange}
-                  
+                  min="500"
                   max="50000"
                   step="500"
                 />
@@ -102,6 +135,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
                 min={500}
                 max={50000}
                 step={500}
+                value={monthlyDeposit}
                 className="w-full"
                 onChange={handleChange}
               />
@@ -126,7 +160,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start w-full md:w-52">
-              <h1>Buy any sliver worth: (after 11th month)</h1>
+              <h1>Buy any silver worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="md:text-3xl text-sm text-[#E26178]">
@@ -137,15 +171,15 @@ const SilverCard: React.FC<SilverCardProps> = ({
           <div className="mb-3 flex flex-col text-center">
             <div>
               <div
-                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={() => handleInputVerification()}
+                className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2"
+                onClick={handleInputVerification}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>
             </div>
             <div>
               <Link
-                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                className="text-black underline text-start text-sm rounded-xl w-full cursor-pointer"
                 href={"/terms-and-condition"}
               >
                 T&C apply*

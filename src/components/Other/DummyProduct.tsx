@@ -78,7 +78,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(false);
   };
 
-  const handleDetailProduct = (productId:any,productUrl: any) => {
+  const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productId}/${productUrl}`);
   };
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
@@ -93,7 +93,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     <>
       <div className="product-item grid-type ">
         <div className="product-main cursor-pointer block">
-          <div className="product-thumb bg-[#f7f7f7] relative overflow-hidden">
+          <div className="product-thumb relative overflow-hidden">
             {/* {data?.videoDetails != null ? (
               <div
                 className=" w-full h-full aspect-[4/3]"
@@ -141,7 +141,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             ) : ( */}
             <div className="relative ">
               <Image
-                onClick={() => handleDetailProduct(data.productId,data.url)}
+                onClick={() => handleDetailProduct(data.productId, data.url)}
                 className="w-[95%] duration-700  m-auto"
                 src={data?.imageDetails[0].image_path}
                 width={400}
@@ -155,7 +155,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 </div> */}
               <div className=" absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 p-2">
-
                 {isProductInWishlist ? (
                   <Icon.Heart
                     size={25}
@@ -164,10 +163,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart
-                    size={25}
-                    onClick={() => HandleaddToWishlist()}
-                  />
+                  <Icon.Heart size={25} onClick={() => HandleaddToWishlist()} />
                 )}
               </div>
             </div>

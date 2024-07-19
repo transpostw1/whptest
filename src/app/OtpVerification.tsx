@@ -75,7 +75,7 @@ const OtpVerification = ({
       setIsOtpSent(true); // Update state to indicate OTP has been sent
       setErrorMessage(null);
       console.log("OTP sent successfully");
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error sending OTP:", error);
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {

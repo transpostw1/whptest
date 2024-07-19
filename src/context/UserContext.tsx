@@ -76,9 +76,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-
   const logIn = async () => {
     dispatch({ type: "LOG_IN" });
+    if (typeof window !== "undefined") {
+      localStorage.setItem("isLoggedIn", "true");
+    }
     await getUser();
 
     const redirectPath = localStorage.getItem("redirectPath") || "/";
@@ -142,7 +144,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addUserDetails = async (details: UserDetails) => {
     const formData = new FormData();
-
     Object.keys(details).forEach((key) => {
       const typedKey = key as UserDetailsKeys;
       formData.append(typedKey, details[typedKey] as any);

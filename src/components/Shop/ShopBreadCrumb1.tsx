@@ -85,7 +85,7 @@ const ShopBreadCrumb1 = () => {
           ) {
             products(
               category: $category
-              search : $search
+              search: $search
               priceFilter: $priceFilter
               gender: $gender
               karat: $karat
@@ -195,6 +195,9 @@ const ShopBreadCrumb1 = () => {
             weightRange: combinedOptions.weight.map((weight: string) => ({
               value: weight,
             })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
             sortBy: "addDate",
             sortOrder: "DESC",
           };
@@ -219,6 +222,9 @@ const ShopBreadCrumb1 = () => {
             weightRange: combinedOptions.weight.map((weight: string) => ({
               value: weight,
             })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
           };
         }
         console.log("Variables passed for api call", variables);
@@ -231,12 +237,14 @@ const ShopBreadCrumb1 = () => {
           setFilteredProducts(data.products);
           setIsLoading(false);
         } else {
+        setIsLoading(true);
           console.error("Error: No products data received");
         }
       } catch (error) {
+        setIsLoading(true);
         console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading(true);
       }
     }
   };
@@ -296,6 +304,10 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Weight || []),
       ...(selectedOptions.Weight || []),
     ];
+    combinedOptions.occasion= [
+      ...(initialOptions.Occasion || []),
+      ...(selectedOptions.Occasion || []),
+    ];
     return combinedOptions;
   };
 
@@ -327,6 +339,9 @@ const ShopBreadCrumb1 = () => {
     }
     if (options.Weight && options.Weight.length > 0) {
       urlParts.push(`w-${options.Weight.join(",")}`);
+    }
+    if (options.Occasion && options.Occasion.length > 0) {
+      urlParts.push(`o-${options.Weight.join(",")}`);
     }
 
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
@@ -650,6 +665,9 @@ const ShopBreadCrumb1 = () => {
   // Modified string
   const modifiedString = removeUnderscores(category);
 
+  console.log("Isloading", isLoading, filteredProducts.length);
+
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -720,7 +738,7 @@ const ShopBreadCrumb1 = () => {
               </div>
             </div>
 
-            {isLoading ? (
+            {!isLoading && filteredProducts.length == 0 ? (
               <ProductSkeleton />
             ) : filteredProducts.length > 0 ? (
               <div
@@ -739,7 +757,7 @@ const ShopBreadCrumb1 = () => {
               </div>
             ) : (
               <>
-                {!isLoading && (
+                {isLoading && filteredProducts.length == 0 && (
                   <div
                     className="list-product hide-product-sold sm:gap-[30px] w-full gap-[40px] mt-7 mb-5 h-[500px]"
                     ref={productsListRef}

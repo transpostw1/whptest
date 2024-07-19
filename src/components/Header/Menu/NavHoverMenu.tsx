@@ -189,7 +189,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                             pathname: "/products",
                             query: { url: "m-gold" },
                           }}
-                          // onClick={() => setCustomcategory("gold")}
+                          onClick={() => setCustomcategory("gold")}
                         >
                           Gold
                         </Link>

@@ -9,7 +9,8 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import VideoFeed from "@/components/Video/VideoFeed";
 import { ProductType } from "@/type/ProductType";
 import axios from "axios";
-import { baseUrl2, getAllReels } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { baseUrl2,graphqlbaseUrl, getAllReels } from "@/utils/constants";
 interface PlayList {
   sequence: number;
   name: string;
@@ -17,6 +18,18 @@ interface PlayList {
   video: string;
   products: any;
 }
+
+const GET_ALL_REELS = gql`
+  query GetAllReels {
+    getAllReels {
+      id
+      name
+      thumbnail
+      video
+      productIds
+    }
+  }
+`;
 
 // import Fade from 'react-reveal'
 import { useProductContext } from "@/context/ProductContext";
@@ -59,13 +72,22 @@ const Whptv2 = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${baseUrl2}${getAllReels}`);
-      const fetchedData = response.data;
+    
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+      const { data } = await client.query({
+        query: GET_ALL_REELS,
+      });
+      const fetchedData = data.getAllReels;
       setPlayList(fetchedData);
   
       // Assuming fetchedData is an array of objects
       const mappedData = fetchedData.map((item: any) => ({
-        reelId: item.reelId, // Replace 'key1' with the actual key you want to map
+        reelId: item.id, // Replace 'key1' with the actual key you want to map
         video: item.video,  // Replace 'key2' with the actual key you want to map
       }));
       setVideos(mappedData); // setVideos with the mapped data

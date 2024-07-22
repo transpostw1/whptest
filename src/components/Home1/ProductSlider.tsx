@@ -16,7 +16,7 @@ import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const { data } = await client.query({
     };
     getData();
   }, []);
-
+  if(!data||data.length==0)return null; 
   return (
     <>
       <div className="tab-features-block pt-10">

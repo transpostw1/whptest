@@ -30,8 +30,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
-  const { userState, userDetails, getUser, logOut } = useUser();
-  const isLoggedIn = userState.isLoggedIn;
+  const { userDetails, getUser, logOut,isLoggedIn } = useUser();
+  // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const [fixedHeader, setFixedHeader] = useState(false);

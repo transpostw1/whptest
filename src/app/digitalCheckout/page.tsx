@@ -26,13 +26,13 @@ interface SelectedScheme {
 const DigitalCheckout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("razorpay");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState } = useUser();
+  const { userState,isLoggedIn } = useUser();
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [selectedScheme, setSelectedScheme] = useState<SelectedScheme | null>(null);
 
-  const isLoggedIn = userState.isLoggedIn;
+  // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
 
   useEffect(() => {

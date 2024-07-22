@@ -127,7 +127,7 @@ const Whptv: React.FC<Props> = ({ data }) => {
             }}
             className="h-full"
           >
-            {playList?.map((video, index) => (
+            {playList.map((video, index) => (
               <SwiperSlide key={index}>
                 <div
                   className="collection-item block relative overflow-hidden cursor-pointer"

@@ -53,7 +53,7 @@ export default function Home() {
         <ProductSlider />
         {logged === "true" && <BuyAgain />}
         {/* <WhpTv products={products} /> */}
-        <Whptv2/>
+        {/* <Whptv2/> */}
         <RoseGold />
         <Category />
         <GetFastDeliveryProducts />

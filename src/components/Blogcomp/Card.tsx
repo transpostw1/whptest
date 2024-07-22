@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import { baseUrl } from "@/utils/constants";
@@ -35,16 +35,16 @@ const Card = () => {
     },
   });
   return (
-    <div className="rounded-lg shadow-md p-6 mx-4 my-8 flex flex-col items-center md:flex-row md:items-start md:justify-between border bg-[#FDF6F7] ">
-      <div className=" w-full">
-        <h2 className="md:text-2xl text-lg font-bold mb-4">
+    <div className="mx-4 my-8 flex flex-col items-center rounded-lg border bg-[#FDF6F7] p-6 shadow-md md:flex-row md:items-start md:justify-between">
+      <div className="w-full">
+        <h2 className="mb-4 text-lg font-bold md:text-2xl">
           Always Stay in the Sparkling Loop
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="mb-6 text-gray-600">
           Subscribe to our newsletter and be the first to access exclusive
           jewelry insights, style tips, and dazzling updates.
         </p>
-        <div className="input-block h-[52px] mt-2 relative">
+        <div className="input-block relative mt-2 h-[52px]">
           <form
             className="flex justify-center lg:justify-start"
             action="post"
@@ -64,7 +64,7 @@ const Card = () => {
             </div>
 
             <button
-              className=" flex items-center justify-center relative ms-[-2rem] "
+              className="relative ms-[-2rem] flex items-center justify-center"
               type="submit"
             >
               <Icon.ArrowRight size={24} color="#e26178" />
@@ -72,17 +72,17 @@ const Card = () => {
           </form>
         </div>
       </div>
-      <div className="mt-6 md:mt-0 flex justify-center md:justify-end">
+      <div className="mt-6 flex justify-center md:mt-0 md:justify-end">
         <div className="relative">
-          <span className="absolute -top-4 -left-4 text-[#E26178]">+</span>
+          <span className="absolute -left-4 -top-4 text-[#E26178]">+</span>
           <span className="absolute -bottom-4 -right-4 text-[#E26178]">+</span>
-          <div className="rounded-full w-28 h-28 flex items-center justify-center">
+          <div className="flex h-28 w-28 items-center justify-center rounded-full">
             <Image
               src="/images/blog/Vector.png"
               alt="abc"
               width={500}
               height={300}
-              className="w-full h-auto object-cover"
+              className="h-auto w-full object-cover"
             />
             {/* <img src="/images/blog/Vector.png" alt="" /> */}
           </div>

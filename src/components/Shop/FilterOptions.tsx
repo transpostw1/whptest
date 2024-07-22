@@ -87,7 +87,7 @@ const FilterOptions: React.FC<Props> = ({
           className="item cursor-pointer"
           onClick={() => handleFilterDropdown(item.title)}
         >
-          <div className="text-secondary flex justify-between has-line-before cursor-pointer hover:text-black capitalize">
+          <div className="text-secondary has-line-before flex cursor-pointer justify-between capitalize hover:text-black">
             <p className="text-lg font-semibold">{item.title}</p>
 
             <p className="mt-1">

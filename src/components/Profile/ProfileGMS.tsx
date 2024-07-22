@@ -21,7 +21,10 @@ const ProfileGMS = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+        const cookieToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("localtoken")
+            : null;
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
@@ -89,16 +92,16 @@ const ProfileGMS = () => {
   // }, []);
   if (loading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
+      <div className="loading-container flex h-full items-center justify-center">
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
   }
   return (
     <div className="px-[60px] py-[30px]">
-      <div className="flex justify-between mb-3">
+      <div className="mb-3 flex justify-between">
         <div className="text-xl font-bold">Profile GMS</div>
-        <div className="text-xl font-bold underline text-[#e26178]">
+        <div className="text-xl font-bold text-[#e26178] underline">
           <Link href={"/benefit"}>Know More</Link>
         </div>
       </div>
@@ -106,7 +109,7 @@ const ProfileGMS = () => {
         {data &&
           data.length > 0 &&
           data.map((gms: any, index: any) => (
-            <div key={index} className="border mb-3">
+            <div key={index} className="mb-3 border">
               <div className="flex justify-between border-b px-2">
                 <div>Date: {gms.enrollDate}</div>
                 <div>{gms.schemeType}</div>
@@ -116,14 +119,14 @@ const ProfileGMS = () => {
                 <div>Balance Amount: {gms.balanceAmount}</div>
               </div>
               <p className="px-2">Payment Status Tracking</p>
-              <button className="px-4 py-2 bg-[#e26178] text-white my-2 mr-2">
+              <button className="my-2 mr-2 bg-[#e26178] px-4 py-2 text-white">
                 Pay Now
               </button>
-              <div className="flex mb-2 px-2">
+              <div className="mb-2 flex px-2">
                 {Array.from({ length: 11 }).map((_, index) => (
                   <div key={index}>
                     {/* Render your content here */}
-                    <p className="text-transparent bg-[#929191] mr-3 h-[10px] w-[20px]">
+                    <p className="mr-3 h-[10px] w-[20px] bg-[#929191] text-transparent">
                       3
                     </p>
                   </div>
@@ -131,7 +134,7 @@ const ProfileGMS = () => {
               </div>
 
               <div
-                className="flex justify-between items-center border-t"
+                className="flex items-center justify-between border-t"
                 onClick={() => handleToggle(index)}
               >
                 <div>Payment History</div>
@@ -143,7 +146,7 @@ const ProfileGMS = () => {
             </div>
           ))}
         {error && (
-          <div className="text-center  font-semibold text-2xl my-10 text-[#e26178]">
+          <div className="my-10 text-center text-2xl font-semibold text-[#e26178]">
             No Active Gold Saving Scheme
           </div>
         )}

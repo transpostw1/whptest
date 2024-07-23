@@ -82,7 +82,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("isLoggedIn", "true");
     }
     await getUser();
-  
     let redirectPath = localStorage.getItem("redirectPath") || "/";
     if (redirectPath === "/login") {
       redirectPath = "/";

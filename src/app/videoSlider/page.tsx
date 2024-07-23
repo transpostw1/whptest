@@ -6,7 +6,7 @@ import { useProductContext } from "@/context/ProductContext";
 
 const VideoSlider = () => {
   const [showModal, setShowModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(false); // State to track if the device is mobile
+  const [isMobile, setIsMobile] = useState(false);
   const { products, fetchData } = useProductContext();
 
   const videos = [
@@ -14,7 +14,6 @@ const VideoSlider = () => {
     { src: '/products/GERD23021256.mp4' },
     { src: '/products/GERD23021256.mp4' },
     { src: '/products/GERD23021256.mp4' },
-    // more videos...
   ];
 
   useEffect(() => {
@@ -22,10 +21,8 @@ const VideoSlider = () => {
     const handleChange = (e) => {
       setIsMobile(e.matches);
     };
-
-    // Check immediately and add listener
     setIsMobile(mediaQuery.matches);
-    mediaQuery.addListener(handleChange); // For compatibility with older browsers
+    mediaQuery.addListener(handleChange); 
 
     return () => {
       mediaQuery.removeListener(handleChange);
@@ -48,7 +45,6 @@ const VideoSlider = () => {
     fetchData();
   }, []);
 
-  // Define the missing functions to handle modal open and close
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -57,9 +53,8 @@ const VideoSlider = () => {
     setShowModal(false);
   };
 
-  // Conditionally render based on isMobile
   if (!isMobile) {
-    return null; // Do not render anything if not on mobile
+    return null; 
   }
 
   return (

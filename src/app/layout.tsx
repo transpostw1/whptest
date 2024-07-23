@@ -22,7 +22,6 @@ export default function RootLayout({
 }) {
   return (
     <GlobalProvider>
-     
       <html lang="en">
         <head>
           <link rel="icon" href="/images/other/logo2.png" />

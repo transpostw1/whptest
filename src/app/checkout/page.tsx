@@ -338,7 +338,7 @@ const Checkout: React.FC = () => {
         fetchPolicy: "no-cache",
       });
       typeof window !== "undefined" ? localStorage.removeItem("cartItems") : null;
-      console.log("API response:", data);
+      console.log("API response------------:", data);
 
       setCartItems([]);
       setIsOrderPlaced(true);

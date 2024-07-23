@@ -22,7 +22,10 @@ const ProfileGMS = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+        const cookieToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("localtoken")
+            : null;
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
@@ -101,7 +104,7 @@ const ProfileGMS = () => {
 
   if (loading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
+      <div className="loading-container flex h-full items-center justify-center">
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
@@ -109,9 +112,9 @@ const ProfileGMS = () => {
 
   return (
     <div className="px-[60px] py-[30px]">
-      <div className="flex justify-between mb-3">
+      <div className="mb-3 flex justify-between">
         <div className="text-xl font-bold">Profile GMS</div>
-        <div className="text-xl font-bold underline text-[#e26178]">
+        <div className="text-xl font-bold text-[#e26178] underline">
           <Link href={"/benefit"}>Know More</Link>
         </div>
       </div>
@@ -151,7 +154,7 @@ const ProfileGMS = () => {
                 Pay Now
               </button>
               <div
-                className="flex justify-between items-center border-t"
+                className="flex items-center justify-between border-t"
                 onClick={() => handleToggle(index)}
               >
                 <div>Payment History</div>

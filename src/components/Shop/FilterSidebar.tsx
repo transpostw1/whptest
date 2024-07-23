@@ -5,7 +5,7 @@ import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
 
 interface Props {
-  data:any
+  data: any;
   filteredProducts: ProductType[];
   onFilterChange: (options: any) => void;
   mobileFilter: boolean;
@@ -73,15 +73,15 @@ const FilterSidebar: React.FC<Props> = ({
   useEffect(() => {
     onFilterChange(selectedOptions);
   }, [selectedOptions, onFilterChange]);
-  
+
   return (
     <>
       <div
-        className={`sidebar lg:w-[300px] md:w-1/3 w-full pt-4 lg:block hidden md:block`}
+        className={`sidebar hidden w-full pt-4 md:block md:w-1/3 lg:block lg:w-[300px]`}
         ref={sidebarRef}
       >
         <div
-          className={`filter-type pb-8 border-line h-[450px] md:h-[380px] custom-scrollbar overflow-y-auto ${
+          className={`filter-type border-line custom-scrollbar h-[450px] overflow-y-auto pb-8 md:h-[380px] ${
             isSidebarFixed ? "fixed w-[300px]" : "relative"
           }`}
           style={{
@@ -99,17 +99,17 @@ const FilterSidebar: React.FC<Props> = ({
               options.map((option: string, index: number) => (
                 <div
                   key={`${category}-${index}`}
-                  className="border border-[#e26178] bg-[#fcf4f6] text-[#e26178] px-[10px] py-[5px] mr-1 mt-1"
+                  className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                 >
                   {option}
                   <button
-                    className="ml-2 align-middle mb-1"
+                    className="mb-1 ml-2 align-middle"
                     onClick={() => handleOptionSelect(option, category)}
                   >
                     <Icon.X size={20} />
                   </button>
                 </div>
-              ))
+              )),
             )}
           </div>
           <div className="list-type mt-4">
@@ -124,10 +124,10 @@ const FilterSidebar: React.FC<Props> = ({
         </div>
       </div>
       {mobileFilter && (
-        <div className="fixed inset-0 bg-white z-10 h-[100vh] ">
+        <div className="fixed inset-0 z-10 h-[100vh] bg-white">
           <div className="mt-20 p-4">
             <Icon.X size={25} onClick={() => setMobileFilter(false)} />
-            <div className="h-[350px] overflow-y-auto no-scrollbar">
+            <div className="no-scrollbar h-[350px] overflow-y-auto">
               <div className="mt-5">
                 <p className="heading7">Filter</p>
               </div>

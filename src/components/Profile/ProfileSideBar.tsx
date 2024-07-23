@@ -23,12 +23,12 @@ const ProfileSidebar: React.FC<Props> = ({
 
   return (
     <div>
-      <div className="my-div hidden sm:block  p-6 h-screen bg-[#E26178] bg-opacity-5 lg:flex lg:flex-col lg:justify-center">
-        <div className="flex text-white bg-[#E26178] w-[80px] h-[80px] rounded-full text-[30px] items-center justify-center">
+      <div className="my-div hidden h-screen bg-[#E26178] bg-opacity-5 p-6 sm:block lg:flex lg:flex-col lg:justify-center">
+        <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full bg-[#E26178] text-[30px] text-white">
           {userDetails?.profile_picture ? (
             <Image
               src={userDetails?.profile_picture}
-              className="rounded-full h-full w-full"
+              className="h-full w-full rounded-full"
               alt="Profile Picture"
               width={90}
               height={100}
@@ -36,11 +36,11 @@ const ProfileSidebar: React.FC<Props> = ({
           ) : (
             <Icon.UserCircle size={50} />
           )}
-        </div>  
+        </div>
         <div>
-          <p className="text-xl font-semibold mt-2">Add Details</p>
+          <p className="mt-2 text-xl font-semibold">Add Details</p>
           <span
-            className="flex text-[#e26178] mt-2 cursor-pointer"
+            className="mt-2 flex cursor-pointer text-[#e26178]"
             onClick={openModal}
           >
             Edit Profile
@@ -49,9 +49,9 @@ const ProfileSidebar: React.FC<Props> = ({
             </span>
           </span>
         </div>
-        <div className="w-full  text-center flex flex-col  gap-4 font-medium mt-3">
+        <div className="mt-3 flex w-full flex-col gap-4 text-center font-medium">
           <div
-            className={`flex items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] cursor-pointer ${
+            className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
               componentName === "personalInfo" ? "profile-sidebar" : ""
             }`}
             onClick={() => handleComponent("personalInfo")}
@@ -63,7 +63,7 @@ const ProfileSidebar: React.FC<Props> = ({
           </div>
           <div onClick={() => handleOrder()}>
             <div
-              className={`flex items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] cursor-pointer ${
+              className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                 componentName === "orders" ? "profile-sidebar" : ""
               }`}
               onClick={() => handleComponent("orders")}
@@ -75,7 +75,7 @@ const ProfileSidebar: React.FC<Props> = ({
             </div>
           </div>
           <div
-            className={`flex items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] cursor-pointer ${
+            className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
               componentName === "wishlist" ? "profile-sidebar" : ""
             }`}
             onClick={() => handleComponent("wishlist")}
@@ -86,7 +86,7 @@ const ProfileSidebar: React.FC<Props> = ({
             Wishlist
           </div>
           <div
-            className={`flex items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] cursor-pointer ${
+            className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
               componentName === "gms" ? "profile-sidebar" : ""
             }`}
             onClick={() => handleComponent("gms")}

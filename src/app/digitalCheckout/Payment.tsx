@@ -6,7 +6,6 @@ import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import { DownloadSimple, User } from "@phosphor-icons/react";
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 interface PaymentProps {
   orderPlaced: boolean;
@@ -15,16 +14,13 @@ interface PaymentProps {
   totalCart: number;
   onOrderComplete: () => void;
   handleProceed: () => void;
-  schemeType: 'gms' | 'voucher';
-  selectedScheme: any;
 }
 
 interface TransactionResponse {
   message: string;
   transaction: {
     id: number;
-    enrollment_id?: number;
-    voucher_id?: number;
+    enrollment_id: number;
     amount: number;
     transaction_date: string;
     type: string;
@@ -37,31 +33,6 @@ interface TransactionResponse {
   };
 }
 
-const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
-  cache: new InMemoryCache()
-});
-
-const CREATE_GIFT_VOUCHER = gql`
-  mutation CreateGiftVoucher($input: CreateGiftVoucherInput!) {
-    createGiftVoucher(input: $input) {
-      id
-      code
-      occasion
-      amount
-      recipientName
-      recipientEmail
-      recipientMobile
-      senderName
-      message
-      templateUrl
-      status
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 const Payment: React.FC<PaymentProps> = ({
   orderPlaced,
   selectedPaymentMethod,
@@ -69,11 +40,11 @@ const Payment: React.FC<PaymentProps> = ({
   totalCart,
   onOrderComplete,
   handleProceed,
-  schemeType,
-  selectedScheme,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [transactionDetails, setTransactionDetails] = useState<TransactionResponse["transaction"] | null>(null);
+  const [transactionDetails, setTransactionDetails] = useState<
+    TransactionResponse["transaction"] | null
+  >(null);
   const cookieToken = localStorage.getItem("localtoken");
   const router = useRouter();
 
@@ -99,6 +70,11 @@ const Payment: React.FC<PaymentProps> = ({
       console.log(response);
       const { amount, id: order_id, currency } = response.data;
 
+      const storedScheme = JSON.parse(
+        sessionStorage.getItem("selectedScheme") || "{}"
+      );
+      console.log(storedScheme.enrollmentId);
+
       const options = {
         key: "rzp_test_QZVTreX3fAEZto",
         amount: amount.toString(),
@@ -116,24 +92,19 @@ const Payment: React.FC<PaymentProps> = ({
             } = response;
 
             const payload = {
+              enrollment_id: storedScheme.enrollmentId,
               amount: amount / 100,
               transaction_date: new Date().toISOString().split("T")[0],
               type: "deposit",
-              description: `${schemeType === 'gms' ? 'GMS' : 'Gift Voucher'} payment`,
+              description: `${storedScheme.schemeType} scheme payment`,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
               },
             };
 
-            if (schemeType === 'gms') {
-              payload.enrollment_id = selectedScheme.enrollmentId;
-            } else {
-              payload.voucher_id = selectedScheme.voucherId;
-            }
-
             console.log("Payload being sent:", payload);
             const apiResponse = await axios.post<TransactionResponse>(
-              `${baseUrl}/api/${schemeType === 'gms' ? 'storeGMSTransaction' : 'storeVoucherTransaction'}`,
+              `http://164.92.120.19/api/storeGMSTransaction`,
               payload,
               {
                 headers: {
@@ -143,30 +114,6 @@ const Payment: React.FC<PaymentProps> = ({
             );
             console.log(apiResponse.data);
             setTransactionDetails(apiResponse.data.transaction);
-
-            if (schemeType === 'voucher') {
-              const { data } = await client.mutate({
-                mutation: CREATE_GIFT_VOUCHER,
-                variables: {
-                  input: {
-                    occasion: selectedScheme.planName,
-                    amount: amount / 100,
-                    recipientName: selectedScheme.recipientName,
-                    recipientEmail: selectedScheme.recipientEmail,
-                    recipientMobile: selectedScheme.recipientMobile,
-                    senderName: selectedScheme.senderName,
-                    message: selectedScheme.message,
-                    templateUrl: selectedScheme.iconUrl
-                  }
-                }
-              });
-              console.log('Gift voucher created:', data.createGiftVoucher);
-              setTransactionDetails(prevDetails => ({
-                ...prevDetails!,
-                giftVoucher: data.createGiftVoucher
-              }));
-            }
-
             onOrderComplete();
           } catch (error) {
             console.error("Error placing order:", error);
@@ -205,7 +152,6 @@ const Payment: React.FC<PaymentProps> = ({
       handleProceed();
     }
   };
-
 
   const handleDownloadReceipt = () => {
     if (!transactionDetails) return;
@@ -280,10 +226,10 @@ const Payment: React.FC<PaymentProps> = ({
       { label: "Scheme:", value: schemeName },
       { label: "Transaction No:", value: transactionDetails.id.toString() },
       {
-        label: schemeType === 'gms' ? "Enrollment ID:" : "Voucher ID:",
-        value: (schemeType === 'gms' ? transactionDetails.enrollment_id : transactionDetails.voucher_id)?.toString() || "N/A",
+        label: "Enrollment ID:",
+        value: transactionDetails.enrollment_id.toString(),
       },
-      { label: "Amount:", value: `₹${transactionDetails.amount.toFixed(2)}` },
+      { label: "Amount:", value: `₹${transactionDetails.amount.toFixed(1)}` },
       { label: "Payment Method:", value: transactionDetails.paymentMethod },
       {
         label: "Transaction ID:",
@@ -291,167 +237,162 @@ const Payment: React.FC<PaymentProps> = ({
       },
     ];
 
-        details.forEach((detail, index) => {
-          pdf.text(`${detail.label}`, 15, detailsStart + index * detailsGap);
-          pdf.text(
-            `${detail.value}`,
-            pageWidth - 15,
-            detailsStart + index * detailsGap,
-            { align: "right" }
-          );
-        });
-    
-        // Add thank you message
-        pdf.setFontSize(10);
-        pdf.setTextColor(0);
-        pdf.text("Thank you for your payment!", pageWidth / 2, pageHeight - 20, {
-          align: "center",
-        });
-    
-        pdf.save("payment_receipt.pdf");
-      };
-    
-      const renderReceipt = () => {
-        if (!transactionDetails) return null;
-    
-        const storedScheme = JSON.parse(
-          sessionStorage.getItem("selectedScheme") || "{}"
-        );
-        const schemeName = storedScheme.planName || "N/A";
-    
-        return (
-          <div className="bg-white p-6 rounded-lg shadow-md max-w-sm mx-auto text-center">
-            <div className="mb-4">
-              <Image
-                src="/images/other/logo2.png"
-                alt="Company Logo"
-                width={80}
-                height={40}
-                objectFit="contain"
-                className="mx-auto"
-              />
-              <h2 className="text-xl font-bold text-gray-800 mt-2">
-                Payment Receipt
-              </h2>
-              <p className="text-sm text-gray-600">
-                Date:{" "}
-                {new Date(transactionDetails.transaction_date).toLocaleDateString()}
-              </p>
-            </div>
-    
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">WHP Jewellers</h3>
-              <p className="text-sm text-gray-600">Phone: (123) 456-7890</p>
-              <p className="text-sm text-gray-600">Email: info@whpjewellers.com</p>
-            </div>
-    
-            <div className="mb-4 bg-gray-100 p-4 rounded-md">
-              <h4 className="text-md font-semibold text-gray-800 mb-2">
-                Transaction Details
-              </h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <p className="text-gray-600 text-right">Scheme:</p>
-                <p className="text-gray-800 font-medium text-left">{schemeName}</p>
-                <p className="text-gray-600 text-right">Transaction No:</p>
-                <p className="text-gray-800 font-medium text-left">
-                  {transactionDetails.id}
-                </p>
-                <p className="text-gray-600 text-right">
-                  {schemeType === 'gms' ? "Enrollment ID:" : "Voucher ID:"}
-                </p>
-                <p className="text-gray-800 font-medium text-left">
-                  {schemeType === 'gms'
-                    ? transactionDetails.enrollment_id
-                    : transactionDetails.voucher_id}
-                </p>
-                <p className="text-gray-600 text-right">Amount:</p>
-                <p className="text-gray-800 font-medium text-left">
-                  ₹{transactionDetails.amount.toFixed(2)}
-                </p>
-                <p className="text-gray-600 text-right">Payment Method:</p>
-                <p className="text-gray-800 font-medium text-left">
-                  {transactionDetails.paymentMethod}
-                </p>
-                <p className="text-gray-600 text-right">Transaction ID:</p>
-                <p className="text-gray-800 font-medium text-left">
-                  {transactionDetails.razorpayPaymentNo}
-                </p>
-              </div>
-            </div>
-    
-            <p className="text-sm text-gray-600 mb-4">
-              Thank you for your payment!
+    details.forEach((detail, index) => {
+      pdf.text(`${detail.label}`, 15, detailsStart + index * detailsGap);
+      pdf.text(
+        `${detail.value}`,
+        pageWidth - 15,
+        detailsStart + index * detailsGap,
+        { align: "right" }
+      );
+    });
+
+    // Add thank you message
+    pdf.setFontSize(10);
+    pdf.setTextColor(0);
+    pdf.text("Thank you for your payment!", pageWidth / 2, pageHeight - 20, {
+      align: "center",
+    });
+
+    pdf.save("payment_receipt.pdf");
+  };
+
+  const renderReceipt = () => {
+    if (!transactionDetails) return null;
+
+    const storedScheme = JSON.parse(
+      sessionStorage.getItem("selectedScheme") || "{}"
+    );
+    const schemeName = storedScheme.planName || "N/A";
+
+    return (
+      <div className="bg-white p-6 rounded-lg shadow-md max-w-sm mx-auto text-center">
+        <div className="mb-4">
+          <Image
+            src="/images/other/logo2.png"
+            alt="Company Logo"
+            width={80}
+            height={40}
+            objectFit="contain"
+            className="mx-auto"
+          />
+          <h2 className="text-xl font-bold text-gray-800 mt-2">
+            Payment Receipt
+          </h2>
+          <p className="text-sm text-gray-600">
+            Date:{" "}
+            {new Date(transactionDetails.transaction_date).toLocaleDateString()}
+          </p>
+        </div>
+
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">WHP Jewellers</h3>
+          <p className="text-sm text-gray-600">Phone: (123) 456-7890</p>
+          <p className="text-sm text-gray-600">Email: info@whpjewellers.com</p>
+        </div>
+
+        <div className="mb-4 bg-gray-100 p-4 rounded-md">
+          <h4 className="text-md font-semibold text-gray-800 mb-2">
+            Transaction Details
+          </h4>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            <p className="text-gray-600 text-right">Scheme:</p>
+            <p className="text-gray-800 font-medium text-left">{schemeName}</p>
+            <p className="text-gray-600 text-right">Transaction No:</p>
+            <p className="text-gray-800 font-medium text-left">
+              {transactionDetails.id}
             </p>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={handleDownloadReceipt}
-                className="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 transition duration-300 flex items-center"
+            <p className="text-gray-600 text-right">Enrollment ID:</p>
+            <p className="text-gray-800 font-medium text-left">
+              {transactionDetails.enrollment_id}
+            </p>
+            <p className="text-gray-600 text-right">Amount:</p>
+            <p className="text-gray-800 font-medium text-left">
+              ₹{transactionDetails.amount.toFixed(2)}
+            </p>
+            <p className="text-gray-600 text-right">Payment Method:</p>
+            <p className="text-gray-800 font-medium text-left">
+              {transactionDetails.paymentMethod}
+            </p>
+            <p className="text-gray-600 text-right">Transaction ID:</p>
+            <p className="text-gray-800 font-medium text-left">
+              {transactionDetails.razorpayPaymentNo}
+            </p>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Thank you for your payment!
+        </p>
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={handleDownloadReceipt}
+            className="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 transition duration-300 flex items-center"
+          >
+            <DownloadSimple size={20} className="mr-2" />
+            Download Receipt
+          </button>
+          <button
+            onClick={() => router.push("/profile")}
+            className="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600 transition duration-300 flex items-center"
+          >
+            <User size={20} className="mr-2" />
+            Go to Profile
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
+
+  if (loading) return <Loader />;
+
+  return (
+    <div className="flex flex-col gap-5">
+      {!transactionDetails ? (
+        <>
+          <h1 className="text-xl font-semibold mb-2">Payment Method</h1>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+              <label
+                htmlFor="razorpayPayment"
+                className="flex gap-2 cursor-pointer font-medium"
               >
-                <DownloadSimple size={20} className="mr-2" />
-                Download Receipt
-              </button>
-              <button
-                onClick={() => router.push("/profile")}
-                className="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600 transition duration-300 flex items-center"
-              >
-                <User size={20} className="mr-2" />
-                Go to Profile
-              </button>
+                <Image
+                  src="/images/other/upi-icon.png"
+                  alt="upi"
+                  width={24}
+                  height={24}
+                  objectFit="fill"
+                />
+                Razorpay (UPI, Cards)
+              </label>
+              <input
+                type="radio"
+                id="razorpayPayment"
+                name="paymentOption"
+                value="razorpay"
+                className="appearance-none w-4 h-4 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+                checked={selectedPaymentMethod === "razorpay"}
+                onChange={handlePaymentMethodChange}
+              />
             </div>
           </div>
-        );
-      };
-    
-      const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
-    
-      if (loading) return <Loader />;
-    
-      return (
-        <div className="flex flex-col gap-5">
-          {!transactionDetails ? (
-            <>
-              <h1 className="text-xl font-semibold mb-2">Payment Method</h1>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-                  <label
-                    htmlFor="razorpayPayment"
-                    className="flex gap-2 cursor-pointer font-medium"
-                  >
-                    <Image
-                      src="/images/other/upi-icon.png"
-                      alt="upi"
-                      width={24}
-                      height={24}
-                      objectFit="fill"
-                    />
-                    Razorpay (UPI, Cards)
-                  </label>
-                  <input
-                    type="radio"
-                    id="razorpayPayment"
-                    name="paymentOption"
-                    value="razorpay"
-                    className="appearance-none w-4 h-4 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-                    checked={selectedPaymentMethod === "razorpay"}
-                    onChange={handlePaymentMethodChange}
-                  />
-                </div>
-              </div>
-    
-              <button
-                onClick={handlePayment}
-                className="bg-red-600 text-white px-4 py-2 rounded mt-4"
-                disabled={!isValidTotalCart || !selectedPaymentMethod}
-              >
-                Place Order
-              </button>
-            </>
-          ) : (
-            renderReceipt()
-          )}
-        </div>
-      );
-    };
-    
-    export default Payment;
-    
+
+          <button
+            onClick={handlePayment}
+            className="bg-red-600 text-white px-4 py-2 rounded mt-4"
+            disabled={!isValidTotalCart || !selectedPaymentMethod}
+          >
+            Place Order
+          </button>
+        </>
+      ) : (
+        renderReceipt()
+      )}
+    </div>
+  );
+};
+
+export default Payment;

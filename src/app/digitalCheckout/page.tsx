@@ -8,6 +8,8 @@ import instance from "@/utils/axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Payment from "./Payment";
+import VoucherPayment from "./VoucherPayment";
+
 import { CurrencyCircleDollar, Gift } from "@phosphor-icons/react";
 
 interface SelectedScheme {
@@ -158,16 +160,27 @@ const DigitalCheckout: React.FC = () => {
             )}
           </div>
         </div>
-        <Payment
-          orderPlaced={isOrderPlaced}
-          selectedPaymentMethod={selectedPaymentMethod}
-          handlePaymentMethodChange={handlePaymentMethodChange}
-          totalCart={selectedScheme.totalAmount}
-          onOrderComplete={handleOrderComplete}
-          handleProceed={handleProceed}
-          schemeType={selectedScheme.schemeType}
-          selectedScheme={selectedScheme}
-        />
+        {selectedScheme.schemeType === 'gms' ? (
+          <Payment
+            orderPlaced={isOrderPlaced}
+            selectedPaymentMethod={selectedPaymentMethod}
+            handlePaymentMethodChange={handlePaymentMethodChange}
+            totalCart={selectedScheme.totalAmount}
+            onOrderComplete={handleOrderComplete}
+            handleProceed={handleProceed}
+          />
+        ) : (
+          <VoucherPayment
+            orderPlaced={isOrderPlaced}
+            selectedPaymentMethod={selectedPaymentMethod}
+            handlePaymentMethodChange={handlePaymentMethodChange}
+            totalCart={selectedScheme.totalAmount}
+            onOrderComplete={handleOrderComplete}
+            handleProceed={handleProceed}
+            selectedScheme={selectedScheme}
+          />
+        )}
+
       </div>
     </div>
   );

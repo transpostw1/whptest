@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState,isLoggedIn } = useUser();
+  const { userState, isLoggedIn } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -161,9 +161,14 @@ const Checkout: React.FC = () => {
         });
 
         console.log("DAta", data.Coupon);
-        setDataAfterCouponCode(data.Coupon);
-        setFlashMessage("Coupon Successfully applied");
-        setFlashType("success");
+        if (data.Coupon.code === 400 || data.Coupon.code === '400') {
+          setFlashMessage(data.Coupon.message);
+          setFlashType("error");
+        } else {
+          setDataAfterCouponCode(data.Coupon);
+          setFlashMessage("Coupon Successfully applied");
+          setFlashType("success");
+        }
       } catch (error: any) {
         console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
@@ -227,7 +232,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
+          item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -412,7 +417,7 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      typeof window !== "undefined" ? localStorage.setItem("redirectPath", window.location.href):null;
+      typeof window !== "undefined" ? localStorage.setItem("redirectPath", window.location.href) : null;
 
       router.push("/login");
       return;
@@ -472,9 +477,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`text-2xl rounded-full ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Cart",
@@ -482,9 +486,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -492,9 +495,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl  ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -541,9 +543,8 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${
-                          selectedStep >= index ? "bg-rose-400" : "bg-white"
-                        }`}
+                        className={`p-2 rounded-full border border-gray-300 ${selectedStep >= index ? "bg-rose-400" : "bg-white"
+                          }`}
                       >
                         {step.icon}
                       </div>
@@ -751,19 +752,19 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                <div id="order-summary">
-                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary
-                    totalProductPrice={formattedProductPrice}
-                    discountDifference={discountDifference}
-                    price={formattedPrice}
-                    totalDiscount={totalDiscount}
-                    totalCart={totalCart}
-                    cartItems={buyNow ? finalBuyNowItems : MainCart}
-                    isBuyNow={false}
-                  />
-                </div>
-              )}
+                  <div id="order-summary">
+                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                    <OrderSummary
+                      totalProductPrice={formattedProductPrice}
+                      discountDifference={discountDifference}
+                      price={formattedPrice}
+                      totalDiscount={totalDiscount}
+                      totalCart={totalCart}
+                      cartItems={buyNow ? finalBuyNowItems : MainCart}
+                      isBuyNow={false}
+                    />
+                  </div>
+                )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

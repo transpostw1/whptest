@@ -4,9 +4,10 @@ import axios from "axios";
 import Loader from "@/components/Other/Loader";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
+import { graphqlbaseUrl } from "@/utils/constants";
 import { DownloadSimple, User, ShareNetwork, WhatsappLogo } from "@phosphor-icons/react";
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { Image as NextImage } from "next/image";
+// import { Image as NextImage } from "next/image";
 
 interface VoucherPaymentProps {
   orderPlaced: boolean;
@@ -37,7 +38,7 @@ interface VoucherTransactionResponse {
 }
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql', // Replace with your actual GraphQL endpoint
+  uri: graphqlbaseUrl,
   cache: new InMemoryCache()
 });
 

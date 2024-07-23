@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState,isLoggedIn } = useUser();
+  const { userState, isLoggedIn } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -120,7 +120,10 @@ const Checkout: React.FC = () => {
     setCartProductIds(products);
     const fetchCouponData = async () => {
       setLoading(true);
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       try {
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
@@ -159,11 +162,15 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-
         console.log("DAta", data.Coupon);
-        setDataAfterCouponCode(data.Coupon);
-        setFlashMessage("Coupon Successfully applied");
-        setFlashType("success");
+        if (data.Coupon.code == 400) {
+          setFlashMessage(data.Coupon.message);
+          setFlashType("error");
+        } else {
+          setDataAfterCouponCode(data.Coupon);
+          setFlashMessage("Coupon Successfully applied");
+          setFlashType("success");
+        }
       } catch (error: any) {
         console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
@@ -198,7 +205,7 @@ const Checkout: React.FC = () => {
     if (buyNow) {
       const buyNowProductId = parseInt(buyNow);
       const buyNowItem = cartItems.find(
-        (item) => item.productId === buyNowProductId
+        (item) => item.productId === buyNowProductId,
       );
       if (buyNowItem) {
         setBuyNowItems([buyNowItem]);
@@ -217,7 +224,7 @@ const Checkout: React.FC = () => {
         item?.quantity ||
         item?.productDetails?.title ||
         item?.productDetails?.discountPrice ||
-        item?.productDetails?.imageDetails
+        item?.productDetails?.imageDetails,
     )
     .map((item: any) => ({
       productId: item?.productId,
@@ -286,8 +293,10 @@ const Checkout: React.FC = () => {
 
   const handleOrderComplete = async (items: any, items2: any) => {
     try {
-
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       let cartData;
 
       if (buyNow) {
@@ -332,7 +341,9 @@ const Checkout: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-      typeof window !== "undefined" ? localStorage.removeItem("cartItems") : null;
+      typeof window !== "undefined"
+        ? localStorage.removeItem("cartItems")
+        : null;
       console.log("API response:", data);
 
       setCartItems([]);
@@ -394,7 +405,7 @@ const Checkout: React.FC = () => {
       if (cartItems.length === 0) {
         // Display error message using FlashAlert
         setFlashMessage(
-          "Your cart is empty. Please add items to your cart before proceeding."
+          "Your cart is empty. Please add items to your cart before proceeding.",
         );
         setFlashType("error");
         setFlashKey((prevKey) => prevKey + 1);
@@ -412,7 +423,9 @@ const Checkout: React.FC = () => {
 
   const handleProceed = (useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      typeof window !== "undefined" ? localStorage.setItem("redirectPath", window.location.href):null;
+      typeof window !== "undefined"
+        ? localStorage.setItem("redirectPath", window.location.href)
+        : null;
 
       router.push("/login");
       return;
@@ -423,7 +436,7 @@ const Checkout: React.FC = () => {
       if (cartItems.length === 0) {
         // Display error message using FlashAlert
         setFlashMessage(
-          "Your cart is empty. Please add items to your cart before proceeding."
+          "Your cart is empty. Please add items to your cart before proceeding.",
         );
         setFlashType("error");
         setFlashKey((prevKey) => prevKey + 1);
@@ -442,7 +455,7 @@ const Checkout: React.FC = () => {
       if (!selectedPaymentMethod) {
         // Display error message using FlashAlert
         setFlashMessage(
-          "Please select a payment method before placing the order."
+          "Please select a payment method before placing the order.",
         );
         setFlashType("error");
         setFlashKey((prevKey) => prevKey + 1);
@@ -472,7 +485,7 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <ShoppingCart
-          className={`text-2xl rounded-full ${
+          className={`rounded-full text-2xl ${
             selectedStep === 0 ? "text-white" : "text-white"
           }`}
         />
@@ -492,7 +505,7 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl  ${
+          className={`text-2xl ${
             selectedStep === 2 ? "text-white" : "text-black"
           }`}
         />
@@ -507,13 +520,12 @@ const Checkout: React.FC = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
   return (
     <>
       {/* <ProtectedRoute> */}
-      <div className="cart-block flex-wrap mb-8">
-        <div className="content-main flex flex-col justify-between lg:px-14 px-5">
-          <div className="flex w-full justify-between items-center bg-[#F8F3F466] mt-4">
+      <div className="cart-block mb-8 flex-wrap">
+        <div className="content-main flex flex-col justify-between px-5 lg:px-14">
+          <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">
             <div className="flex gap-3">
               {isOrderPlaced ? (
                 <div className="flex">
@@ -523,35 +535,35 @@ const Checkout: React.FC = () => {
                     width={100}
                     height={10}
                   />
-                  <div className="flex flex-col items-start justify-center py-3 ">
-                    <h1 className="text-3xl text-red-700 font-semibold">
+                  <div className="flex flex-col items-start justify-center py-3">
+                    <h1 className="text-3xl font-semibold text-red-700">
                       Order Placed!!
                     </h1>
                     <h1>ID-#32432</h1>
                   </div>
                 </div>
               ) : (
-                <div className="flex mt-2 items-center sm:mr-1 lg:mr-3 p-2 w-full">
+                <div className="mt-2 flex w-full items-center p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className="flex items-center lg:w-40 max-sm:w-25 max-md:w-25"
+                      className="max-sm:w-25 max-md:w-25 flex items-center lg:w-40"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
                       }
                     >
                       <div
-                        className={`p-2 rounded-full border border-gray-300 ${
+                        className={`rounded-full border border-gray-300 p-2 ${
                           selectedStep >= index ? "bg-rose-400" : "bg-white"
                         }`}
                       >
                         {step.icon}
                       </div>
-                      <h2 className="rounded-full cursor-pointer">
+                      <h2 className="cursor-pointer rounded-full">
                         {step.label}
                       </h2>
                       {index < steps.length - 1 && (
-                        <Icon.CaretRight className="sm:mr-0 sm:ml-0 lg:mr-[10px] lg:ml-[10px]" />
+                        <Icon.CaretRight className="sm:ml-0 sm:mr-0 lg:ml-[10px] lg:mr-[10px]" />
                       )}
                     </div>
                   ))}
@@ -563,9 +575,9 @@ const Checkout: React.FC = () => {
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-          <div className="flex flex-col md:flex-row lg:flex-row justify-between">
-            <div className="w-full md:w-[2000px] sm:mt-7 mt-5 md:pr-5">
-              <div className="heading bg-surface bora-4 pt-4 pb-4"></div>
+          <div className="flex flex-col justify-between md:flex-row lg:flex-row">
+            <div className="mt-5 w-full sm:mt-7 md:w-[2000px] md:pr-5">
+              <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
               {selectedComponent === "CartItems" && (
                 <CartItems
                   cartItems={buyNow ? finalBuyNowItems : MainCart}
@@ -608,42 +620,38 @@ const Checkout: React.FC = () => {
 
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="w-full lg:w-3/4 mt-5">
+            <div className="mt-5 w-full lg:w-3/4">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
-                  <div className="flex justify-between border border-gray-400 p-3">
-                    <>
-                      <div className="flex items-center gap-2 font-medium">
-                        <Image
-                          src={"/images/icons/coupon.png"}
-                          alt={"coupons"}
-                          height={25}
-                          width={25}
-                        />
-                        <h3>Coupons Code</h3>
+                  <div className="border border-gray-400 p-3">
+                    <div className="flex justify-between">
+                      <>
+                        <div className="flex items-center gap-2 font-medium">
+                          <Image
+                            src={"/images/icons/coupon.png"}
+                            alt={"coupons"}
+                            height={25}
+                            width={25}
+                          />
+                          <h3>Coupon Code</h3>
+                        </div>
+                        <h3
+                          className="cursor-pointer text-red-600 underline"
+                          onClick={() => handleCouponsModal()}
+                        >
+                          Check
+                        </h3>
+                      </>
+                    </div>
+                    {couponCode && dataAfterCouponCode.code === 200 && (
+                      <div className="m-2 text-wrap bg-gray-100 p-2">
+                        <p>
+                          <span className="font-bold">Coupon Code:</span>
+                          {couponCode}
+                        </p>
                       </div>
-                      <h3
-                        className="text-red-600 underline cursor-pointer"
-                        onClick={() => handleCouponsModal()}
-                      >
-                        Check
-                      </h3>
-                    </>
-
-                    {/* <>
-                      <input
-                        className="border border-black"
-                        type="text"
-                        onChange={(e) => setCouponCode(e.target.value)}
-                      />
-                      <button
-                        className="bg-black text-white"
-                        onClick={handleCouponCheck}
-                      >
-                        check
-                      </button>
-                    </> */}
+                    )}
                   </div>
                   {couponsModal && (
                     <CouponsModal
@@ -652,14 +660,14 @@ const Checkout: React.FC = () => {
                       couponCode={handleCouponCode}
                     />
                   )}
-                  <div className="border border-gray-400 mt-3">
-                    <div className="flex justify-between p-3 ">
-                      <div className="flex gap-2 items-center font-medium">
+                  <div className="mt-3 border border-gray-400">
+                    <div className="flex justify-between p-3">
+                      <div className="flex items-center gap-2 font-medium">
                         <Gift style={{ color: "red", fontSize: "24px" }} />
                         <h3>Gift Message</h3>
                       </div>
                       <h3
-                        className="text-red-600 underline cursor-pointer"
+                        className="cursor-pointer text-red-600 underline"
                         onClick={() => handleGiftWrapModal()}
                       >
                         Add
@@ -672,18 +680,18 @@ const Checkout: React.FC = () => {
                       )}
                     </div>
                     {GiftWrapformData.name.length !== 0 && (
-                      <div className="p-2  text-wrap m-2 bg-gray-100">
+                      <div className="m-2 text-wrap bg-gray-100 p-2">
                         <div>
                           <b>Gift Message :</b> {GiftWrapformData.name}
                         </div>
                       </div>
                     )}
                   </div>
-                  <p className="mt-2 font-bold text-lg">ORDER SUMMARY</p>
+                  <p className="mt-2 text-lg font-bold">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
                   ) : (
-                    <div className="bg-gray-100 p-2 mt-2">
+                    <div className="mt-2 bg-gray-100 p-2">
                       <div className="">
                         <div className="flex justify-between font-medium">
                           <h3>Product Total</h3>
@@ -692,7 +700,7 @@ const Checkout: React.FC = () => {
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
                             }).format(
-                              Math.round(parseInt(formattedProductPrice))
+                              Math.round(parseInt(formattedProductPrice)),
                             )}
                           </h3>
                         </div>
@@ -739,7 +747,7 @@ const Checkout: React.FC = () => {
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
                             }).format(
-                              Math.round(parseInt(totalPrice.toString()))
+                              Math.round(parseInt(totalPrice.toString())),
                             )}
                           </h3>
                         </div>
@@ -781,23 +789,23 @@ const Checkout: React.FC = () => {
       {/* </ProtectedRoute> */}
 
       {isMobile && (
-        <div className="flex fixed bottom-0 bg-white w-full p-3 z-50 justify-between">
+        <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
-            <p className="font-bold text-[20px]">
+            <p className="text-[20px] font-bold">
               ₹
               {Intl.NumberFormat("en-IN", {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(totalPrice.toString())))}
             </p>
             <Link href="#order-summary">
-              <p className="text-[#e26178] cursor-pointer">
+              <p className="cursor-pointer text-[#e26178]">
                 {" "}
                 View Order Summary
               </p>
             </Link>
           </div>
           <div
-            className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"
+            className="flex cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

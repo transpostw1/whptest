@@ -193,7 +193,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           <p>Minimum Deposit is 500</p>
           <div className="flex justify-center mt-4">
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white px-4 py-2 rounded"
               onClick={() => setShowModal(false)}
             >
               Cancel

@@ -79,11 +79,29 @@ const OtpVerification = ({
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
-      } else {
-        setErrorMessage("Invalid Number or Try again");
+      } 
+      // else {
+      //   setErrorMessage("Check the Number or try again after sometime");
+      //   // setErrorMessage(error.message)
+      // }
+      else {
+        switch (error.code) {
+          case 'auth/invalid-phone-number':
+            setErrorMessage("The phone number is not valid. Please check and try again.");
+            break;
+          case 'auth/quota-exceeded':
+            setErrorMessage("SMS quota for this project has been exceeded. Please try again later.");
+            break;
+          case 'auth/too-many-requests':
+            setErrorMessage("We have detected too many requests from your device. Please try again later.");
+            break;
+          default:
+            setErrorMessage("An error occurred while sending the OTP. Please try again.");
+        }
       }
+    
 
-      //  setFirebaseError(error.message);
+       setFirebaseError(error.message);
     }
   };
   const onVerify = async (action: string) => {

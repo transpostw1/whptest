@@ -58,7 +58,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
 
   const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
-      setErrorModal(true);
+      setShowModal(true);
     } else {
       console.log("Enrolling with amount:", monthlyDeposit);
       const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
@@ -183,7 +183,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           <p>Minimum Deposit is 500</p>
           <div className="flex justify-center mt-4">
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white px-4 py-2 rounded"
               onClick={() => setShowModal(false)}
             >
               Cancel

@@ -104,12 +104,12 @@ const Payment: React.FC<PaymentProps> = ({
 
             console.log("Payload being sent:", payload);
             const apiResponse = await axios.post<TransactionResponse>(
-              `http://164.92.120.19/api/storeGMSTransaction`,
+              `https:/whpapi.transpost.co/api/storeGMSTransaction`,
               payload,
               {
                 headers: {
                   Authorization: `Bearer ${cookieToken}`,
-                },
+                },   
               }
             );
             console.log(apiResponse.data);

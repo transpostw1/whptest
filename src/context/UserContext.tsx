@@ -82,12 +82,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("isLoggedIn", "true");
     }
     await getUser();
-
-    const redirectPath = localStorage.getItem("redirectPath") || "/";
+  
+    let redirectPath = localStorage.getItem("redirectPath") || "/";
+    if (redirectPath === "/login") {
+      redirectPath = "/";
+    }
     router.push(redirectPath);
     localStorage.removeItem("redirectPath");
   };
-
+  
   const logOut = () => {
     localStorage.clear();
     window.location.href = "/";

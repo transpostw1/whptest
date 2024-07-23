@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -46,7 +46,10 @@ const ProfileDetails = () => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
-      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieTokenn =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
 
       const getAuthHeaders: any = () => {
         if (!cookieTokenn) return null;
@@ -91,7 +94,10 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieTokenn =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
 
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
@@ -173,16 +179,16 @@ const ProfileDetails = () => {
   };
   if (isLoading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
+      <div className="loading-container flex h-full items-center justify-center">
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
   }
   return (
-    <div className="mt-10 m-24">
+    <div className="m-24 mt-10">
       <div className="flex justify-between">
         <div>
-          <p className="font-bold text-xl">Personal Information</p>
+          <p className="text-xl font-bold">Personal Information</p>
           <p className="text-[#cfcdcd]">Manage your profile</p>
         </div>
         <div className="flex">
@@ -198,11 +204,11 @@ const ProfileDetails = () => {
         </p>
       </div>
       <form>
-        <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
+        <div className="grid items-center justify-center gap-7 md:grid-cols-2">
           <div>
             <label
               htmlFor="first_name"
-              className="block text-md font-medium text-black"
+              className="text-md block font-medium text-black"
             >
               First name
             </label>
@@ -211,7 +217,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="block text-md font-medium text-black"
+              className="text-md block font-medium text-black"
             >
               Last name
             </label>
@@ -220,7 +226,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="block text-md font-medium text-black"
+              className="text-md block font-medium text-black"
             >
               Phone number
             </label>
@@ -229,7 +235,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-md font-medium text-black"
+              className="text-md block font-medium text-black"
             >
               Email address
             </label>
@@ -238,9 +244,9 @@ const ProfileDetails = () => {
         </div>
       </form>
       <div className="flex justify-between px-[15px]">
-        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+        <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
-          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"
           onClick={() => setShowAddressModal(true)}
         >
           Add Address
@@ -251,16 +257,16 @@ const ProfileDetails = () => {
           allAddress.map((address: any) => (
             <div
               key={address.address_id}
-              className="flex rounded-lg shadow-md mr-2"
+              className="mr-2 flex rounded-lg shadow-md"
             >
-              <div className=" bg-white p-4 mt-6 w-[250px] h-[130px] ">
+              <div className="mt-6 h-[130px] w-[250px] bg-white p-4">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
               <div className="flex flex-col">
-                <button className="hover:text-[#E26178] flex justify-center">
+                <button className="flex justify-center hover:text-[#E26178]">
                   <Icon.PencilSimple
                     size={25}
                     onClick={() => handleEditAddress(address.address_id)}

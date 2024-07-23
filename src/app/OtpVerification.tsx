@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
 import { signup, login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
-import Cookies from "js-cookie";
 import Preloader from "@/components/Other/Preloader";
 
 interface OtpVerificationProps {

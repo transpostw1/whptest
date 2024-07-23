@@ -38,7 +38,7 @@ const Login = () => {
       <div className="login-block md:py-20 py-10">
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center ">
-            <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
+            <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px]  border-line">
               <form onSubmit={formik.handleSubmit}>
                 <div className="phone">
                   <h1 className="font-semibold text-center">

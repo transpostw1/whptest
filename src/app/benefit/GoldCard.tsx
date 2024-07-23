@@ -1,15 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useCallback } from "react";
 import PieChart from "./PieChart";
-import useEnroll from "@/hooks/useEnroll";
 import Link from "next/link";
+import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
+import { useRouter } from "next/navigation";
 
 interface GoldCardProps {
-  setBackendMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  setBackendError: React.Dispatch<React.SetStateAction<string | null>>;
-  setFlashType: React.Dispatch<
-    React.SetStateAction<"success" | "error" | "info">
-  >;
+  setBackendMessage: (message: string) => void;
+  setBackendError: (error: string) => void;
+  setFlashType: (type: "success" | "error" | "info") => void;
 }
 
 const GoldCard: React.FC<GoldCardProps> = ({
@@ -18,24 +17,66 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setFlashType,
 }) => {
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
-  const modalRef = useRef();
-  const [errorModal, setErrorModal] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
 
-  const { handleEnroll, loading } = useEnroll(setBackendMessage, setFlashType);
+  const router = useRouter();
 
-  const handleInputVerification = () => {
+  const handleEnrollSuccess = useCallback(
+    (enrollmentId: number, schemeType: string, amount: number) => {
+      // console.log(
+      //   "Enrollment success callback triggered",
+      //   enrollmentId,
+      //   schemeType,
+      //   amount
+      // );
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: enrollmentId,
+          planName: "Gold",
+          monthlyAmount: amount,
+          totalAmount: amount * numberOfMonths,
+          iconUrl: "/images/gold-icon.png",
+          schemeType: schemeType,
+        })
+      );
+
+      console.log("Navigating to /digitalCheckout");
+      router.push("/digitalCheckout");
+    },
+    [numberOfMonths, router]
+  );
+
+  const { handleEnroll, loading } = useEnroll({
+    setBackendMessage,
+    setBackendError,
+    setFlashType,
+    handleEnrollSuccess,
+  });
+
+  const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
-      handleEnroll("gold", monthlyDeposit);
+      console.log("Enrolling with amount:", monthlyDeposit);
+      try {
+        const enrollmentId = await handleEnroll("gold", monthlyDeposit);
+        if (enrollmentId) {
+          handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
+        }
+      } catch (error) {
+        console.error("Error during enrollment:", error);
+        setBackendError("Failed to enroll. Please try again.");
+        setFlashType("error");
+      }
     }
   };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
@@ -43,29 +84,16 @@ const GoldCard: React.FC<GoldCardProps> = ({
     const parsedValue = parseInt(value, 10);
     if (isNaN(parsedValue)) {
       setError("Invalid input. Please enter a number.");
-      //  } else if (parsedValue < 2000) {
-      //    setError("Minimum deposit is 2000");
     } else if (parsedValue > 50000) {
       setError("Maximum deposit is 50000");
-      //  } else if (parsedValue % 1000 !== 0) {
-      //    setError("Amount must be a multiple of 1000");
     } else {
       setMonthlyDeposit(parsedValue);
       setError(null);
     }
   };
-  const handleOnClose = (e: any) => {
-    if (e.target.id == "containter") {
-      setErrorModal(false);
-    }
-  };
 
   return (
-    <div
-      className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0 relative"
-      id="containter"
-      onClick={(e) => handleOnClose(e)}
-    >
+    <div className="bg-[#ebe3d5] h-full rounded-xl p-4 md:p-0">
       <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
@@ -93,6 +121,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
                   className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
                   value={monthlyDeposit}
                   onChange={handleChange}
+                  min="500"
                   max="50000"
                   step="500"
                 />
@@ -104,11 +133,12 @@ const GoldCard: React.FC<GoldCardProps> = ({
                 min={500}
                 max={50000}
                 step={500}
+                value={monthlyDeposit}
                 className="w-full"
                 onChange={handleChange}
               />
             </div>
-            {/* {error && <p className="text-red-500">{error}</p>} */}
+            {error && <p className="text-red-500">{error}</p>}
           </div>
           <div className="flex justify-between">
             <div className="text-start">
@@ -139,15 +169,15 @@ const GoldCard: React.FC<GoldCardProps> = ({
           <div className="mb-3 flex flex-col text-center">
             <div>
               <div
-                className=" bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2 "
-                onClick={() => handleInputVerification()}
+                className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2"
+                onClick={handleInputVerification}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>
             </div>
             <div>
               <Link
-                className=" text-black underline text-start text-sm rounded-xl w-full cursor-pointer "
+                className="text-black underline text-start text-sm rounded-xl w-full cursor-pointer"
                 href={"/terms-and-condition"}
               >
                 T&C apply*

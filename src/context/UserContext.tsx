@@ -65,13 +65,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  const [cookieToken, setCookieToken] = useState<string | null>(null);
+  // const [cookieToken, setCookieToken] = useState<string | null>(null);
   const router = useRouter();
-  useEffect(() => {
+ const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("localtoken");
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      setCookieToken(token);
+      // setCookieToken(token);
       dispatch({ type: isLoggedIn ? "LOG_IN" : "LOG_OUT" });
     }
   }, []);

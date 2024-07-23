@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState } = useUser();
+  const { userState,isLoggedIn } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -69,7 +69,7 @@ const Checkout: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
 
-  const isLoggedIn = userState.isLoggedIn;
+  // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");

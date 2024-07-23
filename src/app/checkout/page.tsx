@@ -341,15 +341,10 @@ const Checkout: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-<<<<<<< HEAD
-      typeof window !== "undefined" ? localStorage.removeItem("cartItems") : null;
-      console.log("API response------------:", data);
-=======
       typeof window !== "undefined"
         ? localStorage.removeItem("cartItems")
         : null;
       console.log("API response:", data);
->>>>>>> 02ee7b7c85cfbe1905e24ecb341bd5ced7cefaae
 
       setCartItems([]);
       setIsOrderPlaced(true);

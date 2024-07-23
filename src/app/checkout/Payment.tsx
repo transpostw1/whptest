@@ -283,7 +283,7 @@ const Payment: React.FC<PaymentProps> = ({
     <div className="flex flex-col lg:w-[50rem] md:w-[30rem] sm:w-[30rem] gap-5">
       <h1 className="text-2xl">Payment Method</h1>
       <div className="flex flex-col gap-3">
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="razorpayPayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -306,7 +306,7 @@ const Payment: React.FC<PaymentProps> = ({
             checked={selectedPaymentMethod === "COD"}
             onChange={handlePaymentMethodChange}
           />
-        </div>
+        </div> */}
         <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="razorpayPayment"
@@ -331,7 +331,7 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div>
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="otherPaymentGateway"
             className="flex gap-2 cursor-pointer font-medium"
@@ -348,8 +348,8 @@ const Payment: React.FC<PaymentProps> = ({
             checked={selectedPaymentMethod === "otherPaymentGateway"}
             onChange={handlePaymentMethodChange}
           />
-        </div>
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        </div> */}
+        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="paypalPayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -372,8 +372,8 @@ const Payment: React.FC<PaymentProps> = ({
             checked={selectedPaymentMethod === "paypal"}
             onChange={handlePaymentMethodChange}
           />
-        </div>
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        </div> */}
+        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="stripePayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -396,9 +396,9 @@ const Payment: React.FC<PaymentProps> = ({
             checked={selectedPaymentMethod === "stripe"}
             onChange={handlePaymentMethodChange}
           />
-        </div>
+        </div> */}
       </div>
-      <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
+      {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
       <div>
         <div>
           -10% off on HDFC Bank Credit Card. Use{" "}
@@ -410,7 +410,7 @@ const Payment: React.FC<PaymentProps> = ({
           <span className="font-bold">SBI7</span>{" "}
           <span className="text-red-600 underline">View more Offers</span>
         </div>
-      </div>
+      </div> */}
       <button
         onClick={handlePayment}
         className="bg-red-600 text-white px-4 py-2 rounded"

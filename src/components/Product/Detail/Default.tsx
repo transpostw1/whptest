@@ -429,7 +429,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget key="ZCUzmW" amount={5000} />
+          <AffordabilityWidget accesskey="ZCUzmW" amount={5000} />
           <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 
 interface Props{
-  key:any,
+  accesskey:any,
   amount:any,
 }
-const AffordabilityWidget :React.FC<Props> = ({key,amount}) => {
+const AffordabilityWidget :React.FC<Props> = ({accesskey,amount}) => {
 
     const loadWidget=()=> {
-      const widgetConfig = { key, amount };
+      const widgetConfig = { accesskey, amount };
       payuAffordability.init(widgetConfig);
     }
   

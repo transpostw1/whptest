@@ -8,26 +8,31 @@ import instance from "@/utils/axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Payment from "./Payment";
-import { CurrencyCircleDollar } from "@phosphor-icons/react";
+import VoucherPayment from "./VoucherPayment";
 
-interface GoldSavingScheme {
+import { CurrencyCircleDollar, Gift } from "@phosphor-icons/react";
+
+interface SelectedScheme {
   planName: string;
-  monthlyAmount: number;
+  monthlyAmount: number | null;
   totalAmount: number;
   iconUrl: string;
+  schemeType: 'gms' | 'voucher';
+  recipientName?: string;
+  recipientEmail?: string;
+  recipientMobile?: string;
+  message?: string;
+  senderName?: string;
 }
 
 const DigitalCheckout: React.FC = () => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState<string>("razorpay");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("razorpay");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
   const { userState,isLoggedIn } = useUser();
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
-  const [selectedScheme, setSelectedScheme] = useState<GoldSavingScheme | null>(
-    null
-  );
+  const [selectedScheme, setSelectedScheme] = useState<SelectedScheme | null>(null);
 
   // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -39,9 +44,7 @@ const DigitalCheckout: React.FC = () => {
     }
   }, []);
 
-  const handlePaymentMethodChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
   };
 
@@ -60,12 +63,24 @@ const DigitalCheckout: React.FC = () => {
 
     try {
       const cookieToken = Cookies.get("localtoken");
+      const endpoint = selectedScheme?.schemeType === 'voucher' ? 'place-voucher-order' : 'place-order';
+      const payload = selectedScheme?.schemeType === 'voucher' 
+        ? {
+            amount: selectedScheme.totalAmount,
+            recipientName: selectedScheme.recipientName,
+            recipientEmail: selectedScheme.recipientEmail,
+            recipientMobile: selectedScheme.recipientMobile,
+            message: selectedScheme.message,
+            senderName: selectedScheme.senderName,
+          }
+        : {
+            schemeType: selectedScheme?.planName.toLowerCase(),
+            amount: selectedScheme?.monthlyAmount,
+          };
+
       const response = await instance.post(
-        `${baseUrl}${gms}/place-order`,
-        {
-          schemeType: selectedScheme?.planName.toLowerCase(),
-          amount: selectedScheme?.monthlyAmount,
-        },
+        `${baseUrl}${gms}/${endpoint}`,
+        payload,
         {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
@@ -94,14 +109,20 @@ const DigitalCheckout: React.FC = () => {
         <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
         <div className="mb-6">
           <div className="flex items-center mb-4">
-            <CurrencyCircleDollar size={32} className="text-blue-500 mr-2" />
+            {selectedScheme.schemeType === 'voucher' ? (
+              <Gift size={32} className="text-blue-500 mr-2" />
+            ) : (
+              <CurrencyCircleDollar size={32} className="text-blue-500 mr-2" />
+            )}
             <div>
               <h3 className="text-xl font-semibold">
-                {selectedScheme.planName} Plan
+                {selectedScheme.planName}
               </h3>
-              <p className="text-gray-600">
-                Monthly Installment: ₹{selectedScheme.monthlyAmount}
-              </p>
+              {selectedScheme.schemeType === 'gms' && (
+                <p className="text-gray-600">
+                  Monthly Installment: ₹{selectedScheme.monthlyAmount}
+                </p>
+              )}
               <p className="text-gray-600">
                 Total Amount: ₹{selectedScheme.totalAmount}
               </p>
@@ -115,24 +136,51 @@ const DigitalCheckout: React.FC = () => {
               <p>Plan Name:</p>
               <p>{selectedScheme.planName}</p>
             </div>
-            <div className="flex justify-between mb-2">
-              <p>Monthly Installment:</p>
-              <p>₹{selectedScheme.monthlyAmount}</p>
-            </div>
+            {selectedScheme.schemeType === 'gms' && (
+              <div className="flex justify-between mb-2">
+                <p>Monthly Installment:</p>
+                <p>₹{selectedScheme.monthlyAmount}</p>
+              </div>
+            )}
             <div className="flex justify-between mb-2">
               <p>Total Amount:</p>
               <p>₹{selectedScheme.totalAmount}</p>
             </div>
+            {selectedScheme.schemeType === 'voucher' && (
+              <>
+                <div className="flex justify-between mb-2">
+                  <p>Recipient:</p>
+                  <p>{selectedScheme.recipientName}</p>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <p>Recipient Email:</p>
+                  <p>{selectedScheme.recipientEmail}</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <Payment
-          orderPlaced={isOrderPlaced}
-          selectedPaymentMethod={selectedPaymentMethod}
-          handlePaymentMethodChange={handlePaymentMethodChange}
-          totalCart={selectedScheme.monthlyAmount}
-          onOrderComplete={handleOrderComplete}
-          handleProceed={handleProceed}
-        />
+        {selectedScheme.schemeType === 'gms' ? (
+          <Payment
+            orderPlaced={isOrderPlaced}
+            selectedPaymentMethod={selectedPaymentMethod}
+            handlePaymentMethodChange={handlePaymentMethodChange}
+            totalCart={selectedScheme.totalAmount}
+            onOrderComplete={handleOrderComplete}
+            handleProceed={handleProceed}
+          />
+        ) : (
+          <VoucherPayment
+            orderPlaced={isOrderPlaced}
+            selectedPaymentMethod={selectedPaymentMethod}
+            handlePaymentMethodChange={handlePaymentMethodChange}
+            totalCart={selectedScheme.totalAmount}
+            onOrderComplete={handleOrderComplete}
+            handleProceed={handleProceed}
+            selectedScheme={selectedScheme}
+          />
+        )}
+
       </div>
     </div>
   );

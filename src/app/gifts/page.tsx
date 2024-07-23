@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import Occasion from "@/components/Gifts/Occasion";
 import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
@@ -19,6 +20,7 @@ const steps = [
 ];
 
 const Gifts = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     recipientName: "",
@@ -133,7 +135,23 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
-    console.log("Proceed to Pay", formData);
+    const voucherDetails = {
+      enrollmentId: null,
+      planName: formData.occasion,
+      monthlyAmount: null,
+      totalAmount: formData.amount,
+      balanceAmount: formData.amount,
+      iconUrl: selectedTemplateUrl,
+      schemeType: 'voucher',
+      recipientName: formData.recipientName,
+      recipientEmail: formData.recipientEmail,
+      recipientMobile: formData.recipientMobile,
+      message: formData.message,
+      senderName: formData.senderName,
+    };
+
+    sessionStorage.setItem('selectedScheme', JSON.stringify(voucherDetails));
+    router.push('/digitalCheckout');
   };
 
   const handleTemplateSelect = (templateUrl: string) => {
@@ -239,7 +257,7 @@ const Gifts = () => {
               senderName={formData.senderName}
               amount={formData.amount}
               occasion={formData.occasion}
-              selectedTemplateUrl={selectedTemplateUrl} // Pass selected template URL to Preview
+              selectedTemplateUrl={selectedTemplateUrl}
             />
           )}
 

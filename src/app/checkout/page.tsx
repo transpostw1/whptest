@@ -329,6 +329,7 @@ const Checkout: React.FC = () => {
         cartSync(cartItems: $cartItems) {
           message
         }
+      }
       `;
 
       const { data } = await client.mutate({

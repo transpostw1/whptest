@@ -45,7 +45,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { totalDiscount, updateTotalDiscount } = useCouponContext();
+  const { totalDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [loading, setLoading] = useState(true);
@@ -108,6 +108,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
+      console.log("loggeddd")
       syncCartWithServer([newItem]);
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
@@ -212,8 +213,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {
-    let discount: number = 0;
-    updateTotalDiscount(discount);
     try {
       setLoading(true);
       const cartData = cartItems.map((item) => ({

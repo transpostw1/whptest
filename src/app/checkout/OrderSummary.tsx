@@ -56,7 +56,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <div className="flex justify-between font-medium">
             <h3>Discount</h3>
             <h3>
-              ₹
+              -₹
               {Intl.NumberFormat("en-IN", {
                 minimumFractionDigits: 2,
               }).format(Math.round(parseInt(totalDiscount)))}

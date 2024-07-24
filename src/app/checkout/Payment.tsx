@@ -331,6 +331,30 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div>
+        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+          <label
+            htmlFor="razorpayPayment"
+            className="flex gap-2 cursor-pointer font-medium"
+          >
+            <Image
+              src="/images/other/upi-icon.png"
+              alt="upi"
+              width={30}
+              height={30}
+              objectFit="fill"
+            />
+            Whp Wallet
+          </label>
+          <input
+            type="radio"
+            id="razorpayPayment"
+            name="paymentOption"
+            value="razorpay"
+            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+            checked={selectedPaymentMethod === "wallet"}
+            onChange={handlePaymentMethodChange}
+          />
+        </div>
         {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="otherPaymentGateway"

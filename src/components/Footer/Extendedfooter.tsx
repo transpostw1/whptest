@@ -1,9 +1,12 @@
 import React from "react";
+import { usePathname } from "next/navigation";
 
 const Extendedfooter = () => {
+  const pathname = usePathname();
+  if (pathname == "/checkout") return null;
   return (
     <div className="px-7 py-10">
-      <h1 className="font-semibold mb-4">Popular Searches</h1>
+      <h1 className="mb-4 font-semibold">Popular Searches</h1>
       {/* <div className="pb-4 border-b border-line">
         <h1 className="font-semibold">Gold Rate in Major Cities</h1>
         <h1>
@@ -15,16 +18,18 @@ const Extendedfooter = () => {
         </h1>
       </div> */}
 
-      <div className="py-4 border-b border-line">
+      <div className="border-line border-b py-4">
         <h1 className="font-semibold">For Women</h1>
         <h1>
-          Rings For Women | Earrings For Women | Bracelet For Women | Bangles For
-          Women | Pendants For Women | Necklaces For Women
+          Rings For Women | Earrings For Women | Bracelet For Women | Bangles
+          For Women | Pendants For Women | Necklaces For Women
         </h1>
       </div>
-      <div className="py-4 border-b border-line">
+      <div className="border-line border-b py-4">
         <h1 className="font-semibold">For Men</h1>
-        <h1>Rings For Men | Earrings For Men | Bracelet For Men | Men's Kada</h1>
+        <h1>
+          Rings For Men | Earrings For Men | Bracelet For Men | Men's Kada
+        </h1>
       </div>
     </div>
   );

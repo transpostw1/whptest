@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 interface CouponContextProps {
   totalDiscount: number | any;
   updateDiscount: (discount: any) => void;
+  updateTotalDiscount: (discount: any) => void;
   // setTotalDiscount: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -17,6 +18,12 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
   const updateDiscount = (discount: any) => {
     setTotalDiscount((prevTotalDiscount) => discount);
   };
+  const updateTotalDiscount = (discount: any) => {
+    setTimeout(() => {
+      setTotalDiscount((prevTotalDiscount) => prevTotalDiscount);
+      setResetDiscount(true);
+    }, 1000);
+  };
 
   useEffect(() => {
     if (resetDiscount) {
@@ -27,7 +34,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CouponContext.Provider
-      value={{ totalDiscount, updateDiscount }}
+      value={{ totalDiscount,updateTotalDiscount, updateDiscount }}
     >
       {children}
     </CouponContext.Provider>

@@ -12,7 +12,7 @@ export default function CheckPincode() {
     
     try {
       const response = await axios.post(
-        "http://edd-service.eshipz.com/edd?shop=whpjewellers.com",
+        "https://edd-service.eshipz.com/edd?shop=whpjewellers.com",
         {
           destination_pincode: pincode,
           origin_pincodes: [pincode],

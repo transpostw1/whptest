@@ -69,7 +69,6 @@ const Checkout: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
 
-  // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
@@ -414,7 +413,6 @@ const Checkout: React.FC = () => {
       setSelectedStep(0);
       setSelectedComponent("CartItems");
     } else if (index === 1) {
-      // Reset the address selection states when returning to the delivery details step
       setShippingAddressSelected(false);
       setBillingAddressSelected(false);
       setSelectedShippingAddress(null);

@@ -163,7 +163,7 @@ const Checkout: React.FC = () => {
           fetchPolicy: "no-cache",
         });
         console.log("DAta", data.Coupon);
-        if (data.Coupon.code === 400 || data.Coupon.code === '400') {
+        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
         } else {
@@ -234,7 +234,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-          item?.productDetails?.imageDetails.length > 0
+        item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -514,8 +514,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -561,10 +562,10 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mt-2 flex w-full items-center p-2 sm:mr-1 lg:mr-3">
+                <div className="mt-2 flex w-full items-center justify-evenly p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className="max-sm:w-25 max-md:w-25 flex items-center lg:w-40"
+                      className="max-sm:w-25 max-md:w-25 flex items-center justify-around lg:w-40"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -652,7 +653,7 @@ const Checkout: React.FC = () => {
                             height={25}
                             width={25}
                           />
-                          <h3>Coupon Code</h3>
+                          <h3>Apply Coupon</h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
@@ -743,7 +744,7 @@ const Checkout: React.FC = () => {
                         <div className="flex justify-between font-medium">
                           <h3>Discount</h3>
                           <h3>
-                            ₹
+                            -₹
                             {Intl.NumberFormat("en-IN", {
                               minimumFractionDigits: 2,
                             }).format(Math.round(parseInt(totalDiscount)))}
@@ -777,19 +778,19 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                  <div id="order-summary">
-                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                    <OrderSummary
-                      totalProductPrice={formattedProductPrice}
-                      discountDifference={discountDifference}
-                      price={formattedPrice}
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={buyNow ? finalBuyNowItems : MainCart}
-                      isBuyNow={false}
-                    />
-                  </div>
-                )}
+                <div id="order-summary">
+                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                  <OrderSummary
+                    totalProductPrice={formattedProductPrice}
+                    discountDifference={discountDifference}
+                    price={formattedPrice}
+                    totalDiscount={totalDiscount}
+                    totalCart={totalCart}
+                    cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    isBuyNow={false}
+                  />
+                </div>
+              )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

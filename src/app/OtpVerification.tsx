@@ -62,13 +62,15 @@ const OtpVerification = ({
     if (!window.recaptchaVerifier) {
       setUpRecaptcha();
     }
+    const appVerifier = window.recaptchaVerifier;
+    const formatPh = "+" +formikValues.phoneNumber;
     try {
       setLoading(true);
       setFirebaseError(null);
       const result = await signInWithPhoneNumber(
         auth,
-        '+'+formikValues.phoneNumber,
-        window.recaptchaVerifier
+        formatPh,
+        appVerifier
       );
       setVerificationId(result.verificationId);
       setIsOtpSent(true); // Update state to indicate OTP has been sent
@@ -76,31 +78,15 @@ const OtpVerification = ({
       console.log("OTP sent successfully");
     } catch (error:any) {
       console.error("Error sending OTP:", error);
+      console.error(FirebaseError,error.message,"FIREE")
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
       } else {
-        setErrorMessage("Check the Number or try again after sometime");
-        // setErrorMessage(error.message)
+        setErrorMessage("Invalid Number or Try again");
       }
-    //   else {
-    // switch (error.code) {
-    //   case 'auth/invalid-phone-number':
-    //     setErrorMessage("The phone number is not valid. Please check and try again.");
-    //     break;
-    //   case 'auth/quota-exceeded':
-    //     setErrorMessage("SMS quota for this project has been exceeded. Please try again later.");
-    //     break;
-    //   case 'auth/too-many-requests':
-    //     setErrorMessage("We have detected too many requests from your device. Please try again later.");
-    //     break;
-    //   default:
-    //     setErrorMessage("An error occurred while sending the OTP. Please try again.");
-  //   }
-  // }
 
-
-       setFirebaseError(error.message);
+      //  setFirebaseError(error.message);
     }
   };
   const onVerify = async (action: string) => {

@@ -310,6 +310,7 @@ const Checkout: React.FC = () => {
           productId: item.productId,
           quantity: 0,
         }));
+        console.log(cartData,"cartDATTAA")
       }
 
       const getAuthHeaders: any = () => {
@@ -325,13 +326,30 @@ const Checkout: React.FC = () => {
         cache: new InMemoryCache(),
       });
 
-      const SYNC_CART = gql`mutation CartSync($cartItems: [CartItemInput!]!) {
+      const SYNC_CART = gql`
+      mutation CartSync($cartItems: [CartItemInput!]!) {
         cartSync(cartItems: $cartItems) {
           message
+          details {
+            synced {
+              productId
+              productTitle
+              productImage
+              productPrice
+              quantity
+            }
+            failed {
+              productId
+              message
+            }
+            deleted {
+              productId
+              message
+            }
+          }
         }
       }
-      `;
-
+    `;
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {

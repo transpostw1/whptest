@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -11,7 +12,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
-import axios from "axios";
 import { graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Extendedfooter from "./Extendedfooter";
@@ -90,6 +90,15 @@ const Footer = () => {
       }, 400);
     },
   });
+
+  const pathname = usePathname();
+  if (pathname == "/checkout") 
+    return (
+      <>
+        <div id="footer" className="footer h-20  text-rose-950 ">
+          </div>
+          </>
+    )
 
   return (
     <>

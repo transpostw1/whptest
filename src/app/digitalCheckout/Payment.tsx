@@ -11,7 +11,7 @@ interface PaymentProps {
   orderPlaced: boolean;
   selectedPaymentMethod: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  totalCart: number;
+  totalCart: any;
   onOrderComplete: () => void;
   handleProceed: () => void;
 }

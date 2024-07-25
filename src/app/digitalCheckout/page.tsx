@@ -136,7 +136,7 @@ const DigitalCheckout: React.FC = () => {
               <p>Plan Name:</p>
               <p>{selectedScheme.planName}</p>
             </div>
-            {selectedScheme.schemeType === 'gms' && (
+            {selectedScheme.schemeType === 'gms ' && (
               <div className="flex justify-between mb-2">
                 <p>Monthly Installment:</p>
                 <p>₹{selectedScheme.monthlyAmount}</p>
@@ -165,7 +165,7 @@ const DigitalCheckout: React.FC = () => {
             orderPlaced={isOrderPlaced}
             selectedPaymentMethod={selectedPaymentMethod}
             handlePaymentMethodChange={handlePaymentMethodChange}
-            totalCart={selectedScheme.totalAmount}
+            totalCart={selectedScheme.monthlyAmount}
             onOrderComplete={handleOrderComplete}
             handleProceed={handleProceed}
           />

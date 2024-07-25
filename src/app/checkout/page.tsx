@@ -656,7 +656,7 @@ const Checkout: React.FC = () => {
                           className="cursor-pointer text-red-600 underline"
                           onClick={() => handleCouponsModal()}
                         >
-                          Check
+                          Apply
                         </h3>
                       </>
                     </div>

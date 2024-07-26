@@ -41,7 +41,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         monthlyAmount: amount,
         totalAmount: amount * numberOfMonths,
         iconUrl: "/images/diamond-icon.png",
-        schemeType: schemeType,
+        schemeType: "gms",
       })
     );
 

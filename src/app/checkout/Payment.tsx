@@ -6,12 +6,14 @@ import axios from "axios";
 import { Address } from "@/type/AddressType";
 import { useCart } from "@/context/CartContext";
 import ReactLoading from "react-loading";
-import Loader from "@/components/Other/Loader"
+import Loader from "@/components/Other/Loader";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 interface PaymentProps {
+  wallet: any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -27,6 +29,7 @@ interface PaymentProps {
 }
 
 const Payment: React.FC<PaymentProps> = ({
+  wallet,
   orderPlaced,
   selectedPaymentMethod,
   handlePaymentMethodChange,
@@ -41,10 +44,15 @@ const Payment: React.FC<PaymentProps> = ({
   setCartItems,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+  const cookieToken =
+    typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
   const router = useRouter();
   const { removeFromCart } = useCart();
-
+  const [walletPayment, setWalletPayment] = useState<any>(null);
+  const { logOut, isLoggedIn, userDetails } = useUser();
+  const handleWalletPayment = () => {
+    setWalletPayment("whp_Wallet");
+  };
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -63,7 +71,12 @@ const Payment: React.FC<PaymentProps> = ({
     setLoading(true);
     try {
       const orderUrl = "/api/razorpay";
-      const response = await axios.post(orderUrl, { amount: totalCart * 100 });
+      const response = await axios.post(orderUrl, {
+        amount:
+          wallet && userDetails?.wallet_amount < totalCart
+            ? (totalCart - userDetails?.wallet_amount) * 100
+            : totalCart * 100,
+      });
       console.log(response);
       const { amount, id: order_id, currency } = response.data;
 
@@ -141,7 +154,7 @@ const Payment: React.FC<PaymentProps> = ({
                 headers: {
                   Authorization: `Bearer ${cookieToken}`,
                 },
-              }
+              },
             );
             console.log(apiResponse.data);
             // Handle the response as needed
@@ -259,7 +272,7 @@ const Payment: React.FC<PaymentProps> = ({
       setLoading(false);
     }
   };
-  
+
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
       console.log("razorpay should initiate");
@@ -275,12 +288,9 @@ const Payment: React.FC<PaymentProps> = ({
 
   // Check if totalCart is a valid number
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
-  if (loading)
-    return (
-      <Loader/>
-    );
+  if (loading) return <Loader />;
   return (
-    <div className="flex flex-col lg:w-[50rem] md:w-[30rem] sm:w-[30rem] gap-5">
+    <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[50rem]">
       <h1 className="text-2xl">Payment Method</h1>
       <div className="flex flex-col gap-3">
         {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
@@ -307,17 +317,16 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
           <label
             htmlFor="razorpayPayment"
-            className="flex gap-2 cursor-pointer font-medium"
+            className="flex cursor-pointer gap-2 font-medium"
           >
             <Image
               src="/images/other/upi-icon.png"
               alt="upi"
               width={30}
               height={30}
-              objectFit="fill"
             />
             Razorpay (UPI, Cards)
           </label>
@@ -326,32 +335,8 @@ const Payment: React.FC<PaymentProps> = ({
             id="razorpayPayment"
             name="paymentOption"
             value="razorpay"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
             checked={selectedPaymentMethod === "razorpay"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div>
-        <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-          <label
-            htmlFor="razorpayPayment"
-            className="flex gap-2 cursor-pointer font-medium"
-          >
-            <Image
-              src="/images/other/upi-icon.png"
-              alt="upi"
-              width={30}
-              height={30}
-              objectFit="fill"
-            />
-            Whp Wallet
-          </label>
-          <input
-            type="radio"
-            id="razorpayPayment"
-            name="paymentOption"
-            value="razorpay"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-            checked={selectedPaymentMethod === "wallet"}
             onChange={handlePaymentMethodChange}
           />
         </div>
@@ -437,7 +422,7 @@ const Payment: React.FC<PaymentProps> = ({
       </div> */}
       <button
         onClick={handlePayment}
-        className="bg-red-600 text-white px-4 py-2 rounded"
+        className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white"
         disabled={
           !selectedShippingAddress ||
           !selectedBillingAddress ||

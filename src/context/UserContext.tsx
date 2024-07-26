@@ -37,6 +37,7 @@ interface UserDetails {
   alternatePhone: string;
   gender: string;
   dateOfBirth: string;
+  wallet_amount:any;
   profile_picture: File | null;
   customer: any;
 }
@@ -169,7 +170,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       throw error;
     }
   };
-
+  console.log("User details",userDetails)
   return (
     <UserContext.Provider
       value={{

@@ -200,7 +200,7 @@ const ProfileDetails = () => {
       </div>
       <div className="flex justify-end">
         <p className="font-bold">
-          Wallet Balance:{userDetails?.customer?.wallet_amount}
+          Wallet Balance:₹{userDetails?.wallet_amount}
         </p>
       </div>
       <form>

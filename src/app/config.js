@@ -1,6 +1,6 @@
 import exp from "constants";
 import { initializeApp } from "firebase/app";
-import "firebase/auth";
+// import "firebase/auth";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = 

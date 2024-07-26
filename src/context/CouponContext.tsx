@@ -16,7 +16,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [resetDiscount, setResetDiscount] = useState<boolean>(false);
 
   const updateDiscount = (discount: any) => {
-    setTotalDiscount((prevTotalDiscount) => discount);
+    setTotalDiscount(discount);
   };
   const updateTotalDiscount = (discount: any) => {
     setTimeout(() => {
@@ -34,7 +34,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CouponContext.Provider
-      value={{ totalDiscount,updateTotalDiscount, updateDiscount }}
+      value={{ totalDiscount, updateTotalDiscount, updateDiscount }}
     >
       {children}
     </CouponContext.Provider>
@@ -45,7 +45,7 @@ export const useCouponContext = () => {
   const context = useContext(CouponContext);
   if (context === undefined) {
     throw new Error(
-      "useCouponContext must be used within a CouponCodeProvider"
+      "useCouponContext must be used within a CouponCodeProvider",
     );
   }
   return context;

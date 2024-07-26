@@ -15,7 +15,7 @@ export default function CheckPincode() {
         "https://edd-service.eshipz.com/edd?shop=whpjewellers.com",
         {
           destination_pincode: pincode,
-          origin_pincodes: [pincode],
+          origin_pincodes: ["400056"],
         },
         {
           headers: {

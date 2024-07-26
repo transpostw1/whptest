@@ -110,6 +110,9 @@ const Checkout: React.FC = () => {
     console.log("value", value);
     setCouponCode(value);
   };
+  const removeCoupon =(value:string)=>{
+    setCouponCode("")
+  }
 
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
@@ -661,11 +664,12 @@ const Checkout: React.FC = () => {
                       </>
                     </div>
                     {couponCode && dataAfterCouponCode.code === 200 && (
-                      <div className="m-2 text-wrap bg-gray-100 p-2">
+                      <div className="text-wrap bg-gray-100 p-2">
                         <p>
-                          <span className="font-bold">Coupon Code:</span>
-                          {couponCode}
+                          {/* <span className="font-bold">Coupon Code:</span> */}
+                          {couponCode} <span className="text-red-600">  applied </span>
                         </p>
+                        {/* <div  onClick={() =>removeCoupon("")}>remove api not implemented</div> */}
                       </div>
                     )}
                   </div>

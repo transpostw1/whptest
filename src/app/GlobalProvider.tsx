@@ -17,11 +17,11 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <BlogProvider>
-      <ProductProvider>
-        <UserProvider>
-          <AllCategoryProvider>
-            <CategoryProvider>
-              <CouponCodeProvider>
+      <CouponCodeProvider>
+        <ProductProvider>
+          <UserProvider>
+            <AllCategoryProvider>
+              <CategoryProvider>
                 <CartProvider>
                   <ModalCartProvider>
                     <WishlistProvider>
@@ -35,11 +35,11 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
                     </WishlistProvider>
                   </ModalCartProvider>
                 </CartProvider>
-              </CouponCodeProvider>
-            </CategoryProvider>
-          </AllCategoryProvider>
-        </UserProvider>
-      </ProductProvider>
+              </CategoryProvider>
+            </AllCategoryProvider>
+          </UserProvider>
+        </ProductProvider>
+      </CouponCodeProvider>
     </BlogProvider>
   );
 };

@@ -1,12 +1,18 @@
 "use client";
 import React, { useRef, useEffect, FormEvent, useState } from "react";
+import { useCouponContext } from "@/context/CouponContext";
 
 interface Coupon {
+  id: string;
+  name: string;
   code: string;
-  discount: string;
-  validity: string;
-  description: string;
-  applicable: boolean;
+  discountOn: string;
+  discountType: string;
+  discountValue: number;
+  discountMinAmount: number;
+  discountMaxAmount: number;
+  discountStartDate: string;
+  discountEndDate: string;
 }
 
 interface Props {
@@ -16,31 +22,10 @@ interface Props {
 }
 
 const CouponsModal: React.FC<Props> = ({ handleCouponCheck, onClose, couponCode }) => {
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [selectedCoupon, setSelectedCoupon] = useState<string>("");
-  const [coupons, setCoupons] = useState<Coupon[]>([
-    {
-      code: "SHAYAUPSELL5",
-      discount: "5% OFF",
-      validity: "Valid till July 31 2024",
-      description: "Get Extra 5% OFF on purchase of 3 or more items",
-      applicable: false,
-    },
-    {
-      code: "PERFECT3",
-      discount: "3% OFF",
-      validity: "Valid till July 31 2024",
-      description: "Flat 3% Off on Loose Solitaires Only",
-      applicable: false,
-    },
-    {
-      code: "MOUNT5",
-      discount: "5% OFF",
-      validity: "Valid till July 31 2024",
-      description: "Get 5% OFF on all items",
-      applicable: false,
-    },
-  ]);
+  const { coupons, fetchCoupons } = useCouponContext();
+
 
   useEffect(() => {
     if (inputRef.current) {
@@ -54,21 +39,18 @@ const CouponsModal: React.FC<Props> = ({ handleCouponCheck, onClose, couponCode 
     onClose();
   };
 
-  const handleCouponChange = (e: any) => {
+  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCoupon(e.target.value);
     couponCode(e.target.value);
   };
 
   const handleCouponClick = (coupon: Coupon) => {
     setSelectedCoupon(coupon.code);
-    handleCouponCheck(coupon.code);
-    if (coupon.applicable) {
-      onClose();
-    }
+    couponCode(coupon.code); 
   };
 
-  const handleOnClose = (e: any) => {
-    if (e.target.id === "container") {
+  const handleOnClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if ((e.target as HTMLDivElement).id === "container") {
       onClose();
     }
   };
@@ -113,19 +95,23 @@ const CouponsModal: React.FC<Props> = ({ handleCouponCheck, onClose, couponCode 
             <div className="space-y-2 max-h-40 overflow-y-auto">
               {coupons.map((coupon) => (
                 <div
-                  key={coupon.code}
-                  className="flex items-center  border rounded-md shadow-sm cursor-pointer hover:bg-gray-100"
+                  key={coupon.id}
+                  className="flex items-center border rounded-md shadow-sm cursor-pointer hover:bg-gray-100"
                   onClick={() => handleCouponClick(coupon)}
                 >
-                  <div className="flex items-center bg-gray-200 p-2 ">
-                    <span className="block font-semibold text-gray-800">{coupon.discount}</span>
+                  <div className="flex items-center text-start bg-gray-200 p-2 w-16">
+                    <span className="block font-semibold text-gray-800">
+                      {coupon.discountType === "Percentage"
+                        ? `${coupon.discountValue}%`
+                        : `₹${coupon.discountValue}`}
+                    </span>
                   </div>
                   <div className="ml-2 flex-1">
-                    <span className="block text-sm text-gray-500">{coupon.validity}</span>
-                    <span className="block text-sm text-gray-500">{coupon.description}</span>
+                    <span className="block text-sm text-gray-500">{`Valid till ${new Date(coupon.discountEndDate).toDateString()}`}</span>
+                    <span className="block text-sm text-gray-500">{coupon.name}</span>
                   </div>
                   <div className="text-xs text-red-500 ml-2">
-                    {coupon.applicable ? "Applicable" : "Not Applicable"}
+                    {coupon.discountMinAmount ? "Applicable" : "Not Applicable"}
                   </div>
                 </div>
               ))}

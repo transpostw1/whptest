@@ -4,6 +4,7 @@ import { useUser } from "@/context/UserContext";
 import FlashAlert from "@/components/Other/FlashAlert";
 interface OrderSummaryProps {
   wallet: any;
+  component: any;
   handleWhpWallet: any;
   totalProductPrice: any;
   discountDifference: any;
@@ -16,6 +17,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   wallet,
+  component,
   handleWhpWallet,
   discountDifference,
   totalProductPrice,
@@ -39,8 +41,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   return (
     <div className="">
       <OrderSummaryProducts cartItems={cartItems} isBuyNow={isBuyNow} />
-      <div className="flex justify-between border p-2">
-        <>
+      {component == "Payment" && (
+        <div className="flex justify-between border p-2">
           <div className="flex items-center gap-2 font-medium">
             <input
               type="checkbox"
@@ -50,8 +52,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             />
             <h3>Whp Wallet</h3>
           </div>
-        </>
-      </div>
+          <div className="font-bold">
+            {wallet == "whp_Wallet" ? "₹0" : `₹${userDetails?.wallet_amount}`}
+          </div>
+        </div>
+      )}
       <div className="mt-2 bg-gray-100 p-2">
         <div className="">
           <div className="flex justify-between font-medium">

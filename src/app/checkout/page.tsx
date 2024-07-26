@@ -878,6 +878,7 @@ const Checkout: React.FC = () => {
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     wallet={whpWallet}
+                    component={selectedComponent}
                     handleWhpWallet={handleWhpWallet}
                     totalProductPrice={formattedProductPrice}
                     discountDifference={discountDifference}

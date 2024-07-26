@@ -204,12 +204,12 @@ const Footer = () => {
                 <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
                   <div className="flex flex-col w-full items-center lg:items-start ">
                     <div className="font-semibold ">Know WHP</div>
-                    <div
+                    <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      onClick={() => setCareerModal(true)}
+                     href="/careers"
                     >
-                      Career
-                    </div>
+                      Careers
+                    </Link>
                     {careerModal && (
                       <BookExchangeModal
                         title={"Careers"}

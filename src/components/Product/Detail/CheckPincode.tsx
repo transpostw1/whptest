@@ -6,20 +6,33 @@ export default function CheckPincode() {
   const [savedPincode, setSavedPincode] = useState("");
   const [apiResponse, setApiResponse] = useState<any>({});
 
+
   const handleSavePincode = async () => {
     localStorage.setItem("pincode", pincode);
-    const response = axios.post(
-      "http://edd-service.eshipz.com/edd?shop=whpjewellers.com",
-      {
-        destination_pincode: pincode,
-        origin_pincodes: [pincode],
-      }
-    );
-    setApiResponse(response);
-    setSavedPincode(pincode);
-    console.log("Saved PinCode:", pincode);
+    
+    try {
+      const response = await axios.post(
+        "http://edd-service.eshipz.com/edd?shop=whpjewellers.com",
+        {
+          destination_pincode: pincode,
+          origin_pincodes: [pincode],
+        },
+        {
+          headers: {
+            'x-api-token': '5d5657e57e233b3920eb4729', 
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      setApiResponse(response.data); 
+      setSavedPincode(pincode);
+      console.log("Saved PinCode:", pincode);
+    } catch (error) {
+      console.error("Error making the request:", error);
+    }
   };
-
+  
   return (
     <div className="bg-[#f7f7f7] lg:w-[65%] p-4 mt-4">
       <p className="mb-3">Enter pincode to check delivery</p>

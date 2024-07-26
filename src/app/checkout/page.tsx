@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState, isLoggedIn,userDetails } = useUser();
+  const { userState, isLoggedIn, userDetails } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -108,7 +108,7 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    console.log("value", value);
+    // console.log("value", value);
     setCouponCode(value);
   };
   const removeCoupon =(value:string)=>{
@@ -184,78 +184,82 @@ const Checkout: React.FC = () => {
     };
     fetchCouponData();
   };
+  const coupon: any = searchParams.get("coupon");
+  typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
-  // useEffect(()=>{
-  //   const products = cartItems.map((item) => ({
-  //     productId: item.productId,
-  //     quantity: item.quantity,
-  //   }));
-  //   setCartProductIds(products);
-  //   const fetchCouponData = async () => {
-  //     setLoading(true);
-  //     const cookieToken =
-  //       typeof window !== "undefined"
-  //         ? localStorage.getItem("localtoken")
-  //         : null;
-  //     try {
-  //       const getAuthHeaders = () => {
-  //         if (!cookieToken) return null;
-  //         return {
-  //           authorization: `Bearer ${cookieToken}`,
-  //         };
-  //       };
-
-  //       const client = new ApolloClient({
-  //         uri: graphqlbaseUrl,
-  //         headers: getAuthHeaders(),
-  //         cache: new InMemoryCache(),
-  //       });
-
-  //       const CHECK_COUPON_CODE = gql`
-  //         mutation Coupon($coupon: CouponInput!) {
-  //           Coupon(coupon: $coupon) {
-  //             code
-  //             message
-  //             discountProduct {
-  //               productId
-  //               discountedValue
-  //               additionalDiscountPrice
-  //             }
-  //           }
-  //         }
-  //       `;
-
-  //       const { data } = await client.mutate({
-  //         mutation: CHECK_COUPON_CODE,
-  //         variables: {
-  //           coupon: { products: products, couponCode: couponCode },
-  //         },
-  //         context: {
-  //           headers: getAuthHeaders(),
-  //         },
-  //         fetchPolicy: "no-cache",
-  //       });
-  //       console.log("DAta", data.Coupon);
-  //       if (data.Coupon.code === 400 || data.Coupon.code === "400") {
-  //         setFlashMessage(data.Coupon.message);
-  //         setFlashType("error");
-  //       } else {
-  //         setDataAfterCouponCode(data.Coupon);
-  //         setFlashMessage("Coupon Successfully applied");
-  //         setFlashType("success");
-  //       }
-  //     } catch (error: any) {
-  //       console.log("Error occurred", error.response.data.message);
-  //       setFlashMessage(error.response.data.message);
-  //       setFlashType("error");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchCouponData();
-  // },[])
   useEffect(() => {
-    console.log("Coupon code info", dataAfterCouponCode);
+    const fetchCouponData = async () => {
+      const products = cartItems.map((item: any) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+      setCartProductIds(products);
+      setLoading(true);
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
+      try {
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        const CHECK_COUPON_CODE = gql`
+          mutation Coupon($coupon: CouponInput!) {
+            Coupon(coupon: $coupon) {
+              code
+              message
+              discountProduct {
+                productId
+                discountedValue
+                additionalDiscountPrice
+              }
+            }
+          }
+        `;
+
+        const { data } = await client.mutate({
+          mutation: CHECK_COUPON_CODE,
+          variables: {
+            coupon: { products: products, couponCode: coupon },
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        console.log("DAta", data.Coupon);
+        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
+          setFlashMessage(data.Coupon.message);
+          setFlashType("error");
+        } else {
+          setDataAfterCouponCode(data.Coupon);
+          setFlashMessage("Coupon Successfully applied");
+          setFlashType("success");
+        }
+      } catch (error: any) {
+        console.log("Error occurred", error.response.data.message);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
+      } finally {
+        setLoading(false);
+      }
+    };
+    setTimeout(() => {
+      fetchCouponData();
+    }, 1450);
+  }, [coupon, isLoggedIn]);
+
+  useEffect(() => {
     let totalCartDiscount: number = 0;
     Array.isArray(dataAfterCouponCode.discountProduct) &&
       dataAfterCouponCode.discountProduct.map((element: any) => {
@@ -264,6 +268,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
+    console.log("total calculated Discount", totalCartDiscount);
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -554,6 +559,7 @@ const Checkout: React.FC = () => {
       // placeOrder();
     }
   };
+
   const proceedButtonTitle = () => {
     if (!isLoggedIn) {
       return "Please Login to Proceed";
@@ -862,7 +868,11 @@ const Checkout: React.FC = () => {
                               ₹
                               {Intl.NumberFormat("en-IN").format(
                                 Math.round(
-                                  parseInt((totalPrice-userDetails?.wallet_amount).toString()),
+                                  parseInt(
+                                    (
+                                      totalPrice - userDetails?.wallet_amount
+                                    ).toString(),
+                                  ),
                                 ),
                               )}
                             </h3>
@@ -886,7 +896,7 @@ const Checkout: React.FC = () => {
                 <div id="order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
-                  wallet={whpWallet}
+                    wallet={whpWallet}
                     handleWhpWallet={handleWhpWallet}
                     totalProductPrice={formattedProductPrice}
                     discountDifference={discountDifference}

@@ -53,7 +53,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     }
   };
 
-  console.log("Product", product);
 
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;

@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ApplyForm from "./applyForm";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import Loader from "@/components/Other/Loader";
+
 interface CareerData {
     title: string;
     description: string;
@@ -19,27 +26,51 @@ interface CareerData {
   }
   
 
-const FilterButtons : React.FC<FilterButtonsProps> =  ({ filters, activeFilter, onFilterChange }) => {
-  return (
-    <div className="flex justify-center md:flex-row flex-col gap-3 mb-4 md:mx-0 mx-9">
-      {filters.map((filter) => (
-        <button
-          key={filter}
-          className={`md:px-4 px-2 md:py-2 py-1 rounded-full border ${
-            activeFilter === filter ? "bg-purple-200" : ""
-          }`}
-          onClick={() => onFilterChange(filter)}
-        >
-          {filter}
-        </button>
-      ))}
-    </div>
-  );
-};
+  const FilterButtons: React.FC<FilterButtonsProps> = ({ filters, activeFilter, onFilterChange }) => {
+    return (
+      <div className="mb-4">
+        <div className="hidden md:flex justify-center gap-3">
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              className={`px-4 py-2 rounded-full border ${activeFilter === filter ? "bg-purple-200" : ""}`}
+              onClick={() => onFilterChange(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+        <div className="flex md:hidden ">
+          <Swiper
+            // spaceBetween={2}
+            slidesPerView={2.5}
+            modules={[Autoplay, Navigation]}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            className="w-full"
+          >
+            {filters.map((filter) => (
+              <SwiperSlide key={filter} className="">
+                <button
+                  className={`px-4 py-2 rounded-full border w-36 ${activeFilter === filter ? "bg-purple-200" : ""}`}
+                  onClick={() => onFilterChange(filter)}
+                >
+                  {filter}
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </div>
+    );
+  };
 
 const Careers: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   const openModal = () => {
     setShowModal(true);
@@ -115,6 +146,16 @@ const Careers: React.FC = () => {
     ? careerData
     : careerData.filter((job) => job.title.includes(activeFilter));
 
+    useEffect(() => {
+      // Simulate data fetching
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }, []);
+
+    if (loading) {
+      return <Loader />;
+    }
   return (
     <>
       <div>
@@ -176,8 +217,8 @@ const Careers: React.FC = () => {
             </div>
           )}
           {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#296D9C] bg-opacity-50 backdrop-blur-sm">
-              <div className="w-full max-w-md overflow-x-visible rounded-xl bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] p-3">
+            <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50 backdrop-blur-sm overflow-x-hidden">
+              <div className="w-full max-w-md overflow-x-hidden rounded-xl bg-gray-300  p-3">
                 <ApplyForm closeModal={closeModal} />
               </div>
             </div>

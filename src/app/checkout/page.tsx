@@ -565,7 +565,7 @@ const Checkout: React.FC = () => {
                 <div className="mt-2 flex w-full items-center p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className="max-sm:w-25 max-md:w-25 flex items-center lg:w-40"
+                      className="max-sm:w-25 max-md:w-25 flex items-center gap-1 lg:w-40"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -578,7 +578,7 @@ const Checkout: React.FC = () => {
                       >
                         {step.icon}
                       </div>
-                      <h2 className="cursor-pointer rounded-full">
+                      <h2 className="cursor-pointer rounded-full text-xs sm:text-lg">
                         {step.label}
                       </h2>
                       {index < steps.length - 1 && (

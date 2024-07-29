@@ -200,7 +200,7 @@ const ProfileDetails = () => {
       </div>
       <div className="flex justify-end">
         <p className="font-bold">
-          Wallet Balance:{userDetails?.customer?.wallet_amount}
+          Wallet Balance:₹{userDetails?.wallet_amount}
         </p>
       </div>
       <form>
@@ -208,42 +208,50 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md block font-medium text-black"
+              className="text-md block font-medium text-black mb-3"
             >
               First name
             </label>
-            {userDetails?.firstname}
+            <span className="text-xl font-semibold">
+              {userDetails?.firstname}
+            </span>
           </div>
           <div>
             <label
               htmlFor="last_name"
-              className="text-md block font-medium text-black"
+              className="text-md block font-medium text-black mb-3"
             >
               Last name
             </label>
-            {userDetails?.lastname}
+            <span className="text-xl font-semibold">
+              {userDetails?.lastname}
+            </span>
           </div>
           <div>
             <label
               htmlFor="phone"
-              className="text-md block font-medium text-black"
+              className="text-md block font-medium text-black mb-3"
             >
               Phone number
             </label>
+            <span className="font-semibold text-xl" >
             {userDetails?.mobile_no}
+            </span>
           </div>
           <div>
             <label
               htmlFor="email"
-              className="text-md block font-medium text-black"
+              className="text-md block font-medium text-black mb-3"
             >
               Email address
             </label>
+            <span className="font-semibold text-xl" >
             {userDetails?.email}
+            </span>
           </div>
         </div>
       </form>
-      <div className="flex justify-between px-[15px]">
+      <div className="flex justify-between ">
         <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"

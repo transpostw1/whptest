@@ -77,7 +77,7 @@ query GetAllJobs {
     addDate
   }
 }
-`
+`;
 
 export const useBlog = () => {
   const context = useContext(BlogContext);
@@ -91,6 +91,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [blogData, setBlogData] = useState<Blog[]>([]);
+  const [careersData, setcareersData] = useState<Careers[]>([]);
   const [aboutusData, setaboutusData] = useState<Showcase | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -141,6 +142,12 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
         uri:graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
+      const { data } = await client.query({
+        query: GetAllJobs,
+      });
+      setcareersData(data)
+      console.log(careersData,"careeeerr")
+
 
     }catch(error){
       console.log(error)
@@ -151,6 +158,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     fetchBlogData();
     fetchShowCaseData();
+    fetchJobsData();
   }, []);
 
   return (

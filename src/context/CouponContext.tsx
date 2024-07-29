@@ -26,11 +26,29 @@ interface CouponContextProps {
 
 const CouponContext = createContext<CouponContextProps | undefined>(undefined);
 
+const GET_COUPONS = gql`
+query GetAllCoupons {
+  getAllCoupons {
+    id
+    name
+    code
+    discountOn
+    discountType
+    discountValue
+    discountMinAmount
+    discountMaxAmount
+    discountStartDate
+    discountEndDate
+  }
+}
+`;
+
 export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const [resetDiscount, setResetDiscount] = useState<boolean>(false);
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
 
   const updateDiscount = (discount: number) => {
     setTotalDiscount((prevTotalDiscount) => discount);
@@ -60,7 +78,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (resetDiscount) {
       setTotalDiscount(0);
-      setResetDiscount(false); // Reset resetDiscount back to false
+      setResetDiscount(false); 
     }
   }, [resetDiscount]);
 

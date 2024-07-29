@@ -11,9 +11,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
-import axios from "axios";
 import Link from "next/link";
-import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
 
 const MainCarousel = () => {
   const [allBanners, setAllBanners] = useState<any[]>([]);
@@ -68,38 +66,29 @@ const MainCarousel = () => {
     };
     fetchMainBanners();
   }, []);
-  const handleSlideChange = (swiper:any) => {
-    // Wait for the active slide DOM to be available
+  const handleSlideChange = (swiper: any) => {
     setTimeout(() => {
       const activeSlide = swiper.slides[swiper.activeIndex];
-      console.log("activeSlide", activeSlide);
 
-      // Ensure activeSlide is not undefined
       if (!activeSlide) return;
 
       const video = activeSlide.querySelector("video");
 
-      // Check if the active slide contains a video
       if (video) {
-        // Pause Swiper autoplay
         swiper.autoplay.stop();
 
-        // Play the video and attach event listeners
         video.play();
 
-        // Add an event listener for when the video ends
         video.onended = () => {
-          // Move to the next slide after the video finishes
           swiper.slideNext();
-          swiper.autoplay.start(); // Resume autoplay
+          swiper.autoplay.start();
         };
       } else {
-        // Resume Swiper autoplay if the active slide does not contain a video
         swiper.autoplay.start();
       }
-    }, 0); // Use a short delay to ensure DOM availability
+    }, 0);
   };
-  
+
   if (isLoading) {
     return (
       <div>
@@ -113,14 +102,14 @@ const MainCarousel = () => {
         <div className="slider-main w-full">
           {!isMobile && (
             <Swiper
-              onSwiper={(swiper) => (swiperRef.current = swiper)} // Store swiper instance
-              onSlideChange={handleSlideChange} // Handle slide change
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              onSlideChange={handleSlideChange}
               spaceBetween={0}
               slidesPerView={1}
               loop={true}
               pagination={{ clickable: true }}
               modules={[Pagination, Autoplay]}
-              autoplay={{ delay: 10000 }} // 10-second delay
+              autoplay={{ delay: 10000 }}
             >
               {allBanners &&
                 allBanners
@@ -144,8 +133,8 @@ const MainCarousel = () => {
                               src={banner.desktopFile}
                               autoPlay
                               muted
-                              loop={false} // Video plays only once
-                              style={{ width: "100%", height: "auto" }} // Ensure full width
+                              loop={false}
+                              style={{ width: "100%", height: "auto" }}
                             />
                           ) : (
                             <Image

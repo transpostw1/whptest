@@ -16,6 +16,7 @@ import ModalSearch from "@/components/Modal/ModalSearch";
 import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface Props {
   props: string;
@@ -33,6 +34,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const { userDetails, getUser, logOut,isLoggedIn } = useUser();
   // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
+  const {currency,handleCurrencyChange}=useCurrency()
   const [contactPopUp, setContactPopUp] = useState<boolean>(false);
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
@@ -41,7 +43,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
-
+  const [selectedCurrency, setSelectedCurrency] = useState('');
   const pathname = usePathname();
   const handleOnClose = () => {
     setAppointmentModal(false);
@@ -103,6 +105,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
 
   const handleOpenSubNavMobile = (index: number) => {
     setOpenSubNavMobile(openSubNavMobile === index ? null : index);
+  };
+
+  const handleCurrency = (event:any) => {
+    const value = event.target.value;
+    handleCurrencyChange(value);
   };
 
   useEffect(() => {
@@ -371,13 +378,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   <div className="choose-currency flex items-center p-2 bg-[#E9E9E9] bg-opacity-[0.1] ">
                     <select
                       name="currency"
-                      id="chooseCurrency"
+                      id="chooseCcurrency"
+                      value={currency}
                       className="caption2 bg-[#E9E9E9] bg-opacity-[0.1]  text-[16px] font-[500] pe-2 p-2 cursor-pointer"
+                      onChange={handleCurrency}
                     >
                       <option value="INR">&#8377; INR</option>
-                      {/* <option value="USD">&#36; USD</option>
+                      <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>
-                      <option value="GBP">&#163; GBP</option> */}
+                      {/* <option value="GBP">&#163; GBP</option> */}
                     </select>
                     <Image
                       className="cursor-pointer"

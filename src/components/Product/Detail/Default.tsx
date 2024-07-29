@@ -394,7 +394,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
 
-          {data?.productDetails?.variantId !== null && (
+          {data?.productDetails?.variantId !== "" && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}

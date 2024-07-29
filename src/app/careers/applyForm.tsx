@@ -9,7 +9,7 @@ interface ApplyFormProps {
   
   const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal }) => {
     return (
-        <div className="flex flex-col md:h-full h-screen">
+        <div className="flex flex-col md:h-full h-full ">
           <div className="flex justify-end px-4 py-2">
             <button
               type="button"
@@ -58,7 +58,7 @@ interface ApplyFormProps {
               <div className="flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="bg-[#296D9C] hover:bg-[#4d97cb] text-white py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline w-full"
+                  className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] hover:bg-[#4d97cb] text-white py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline w-full"
                 >
                   Apply
                 </button>

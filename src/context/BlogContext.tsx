@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, {
@@ -24,13 +23,61 @@ interface Blog {
   categoryName: string;
 }
 
+interface Showcase {
+  id: string;
+  name: string;
+  url: string;
+  content: string;
+}
+
 interface BlogContextType {
   blogData: Blog[];
+  aboutusData: Showcase | null;
   loading: boolean;
   fetchBlogData: () => Promise<void>;
 }
 
 const BlogContext = createContext<BlogContextType | undefined>(undefined);
+
+const GetAllBlogs = gql`
+  query GetAllBlogs {
+    getAllBlogs {
+      id
+      categoryId
+      title
+      addDate
+      metaTitle
+      keywords
+      blogUrl
+      image
+      content
+      categoryName
+    }
+  }
+`;
+
+const GetAllShowCase = gql`
+  query GetAllShowCase {
+    getAllShowCase {
+      id
+      name
+      url
+      content
+    }
+  }
+`;
+const GetAllJobs = gql`
+query GetAllJobs {
+  getAllJobs {
+    id
+    title
+    content
+    url
+    category
+    addDate
+  }
+}
+`
 
 export const useBlog = () => {
   const context = useContext(BlogContext);
@@ -44,6 +91,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [blogData, setBlogData] = useState<Blog[]>([]);
+  const [aboutusData, setaboutusData] = useState<Showcase | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchBlogData = async () => {
@@ -52,22 +100,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-      const GetAllBlogs = gql`
-        query GetAllBlogs {
-          getAllBlogs {
-            id
-            categoryId
-            title
-            addDate
-            metaTitle
-            keywords
-            blogUrl
-            image
-            content
-            categoryName
-          }
-        }
-      `;
+
       const { data } = await client.query({
         query: GetAllBlogs,
       });
@@ -79,12 +112,49 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const fetchShowCaseData = async () => {
+    try {
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+      const { data } = await client.query({
+        query: GetAllShowCase,
+      });
+
+      const showcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "about-whpjewellers"
+      );
+
+      if (showcase) {
+        setaboutusData(showcase);
+      }
+    } catch (error) {
+      console.error("Error fetching showcase data", error);
+    }
+  };
+
+  const fetchJobsData = async ()=>{
+    try{
+      const client = new ApolloClient({
+        uri:graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+
   useEffect(() => {
     fetchBlogData();
+    fetchShowCaseData();
   }, []);
 
   return (
-    <BlogContext.Provider value={{ blogData, loading, fetchBlogData }}>
+    <BlogContext.Provider value={{ blogData, aboutusData, loading, fetchBlogData }}>
       {children}
     </BlogContext.Provider>
   );

@@ -75,6 +75,9 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   if (isMobile) {
     return null;
   }
+
+  if (pathname == "/checkout") return null;
+
   return (
     <>
       <div

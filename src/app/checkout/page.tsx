@@ -70,7 +70,6 @@ const Checkout: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
 
-  // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
@@ -112,6 +111,9 @@ const Checkout: React.FC = () => {
     // console.log("value", value);
     setCouponCode(value);
   };
+  const removeCoupon =(value:string)=>{
+    setCouponCode("")
+  }
 
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
@@ -385,6 +387,7 @@ const Checkout: React.FC = () => {
           productId: item.productId,
           quantity: 0,
         }));
+        console.log(cartData,"cartDATTAA")
       }
 
       const getAuthHeaders: any = () => {
@@ -401,13 +404,29 @@ const Checkout: React.FC = () => {
       });
 
       const SYNC_CART = gql`
-        mutation CartSync($cartItems: [CartItemInput!]!) {
-          cartSync(cartItems: $cartItems) {
-            message
+      mutation CartSync($cartItems: [CartItemInput!]!) {
+        cartSync(cartItems: $cartItems) {
+          message
+          details {
+            synced {
+              productId
+              productTitle
+              productImage
+              productPrice
+              quantity
+            }
+            failed {
+              productId
+              message
+            }
+            deleted {
+              productId
+              message
+            }
           }
         }
-      `;
-
+      }
+    `;
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {
@@ -472,7 +491,6 @@ const Checkout: React.FC = () => {
       setSelectedStep(0);
       setSelectedComponent("CartItems");
     } else if (index === 1) {
-      // Reset the address selection states when returning to the delivery details step
       setShippingAddressSelected(false);
       setBillingAddressSelected(false);
       setSelectedShippingAddress(null);
@@ -633,6 +651,7 @@ const Checkout: React.FC = () => {
                   {steps.map((step, index) => (
                     <div
                       className="max-sm:w-25 max-md:w-25 flex items-center justify-around lg:w-40"
+                      className="max-sm:w-25 max-md:w-25 flex items-center gap-1 lg:w-40"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -645,7 +664,7 @@ const Checkout: React.FC = () => {
                       >
                         {step.icon}
                       </div>
-                      <h2 className="cursor-pointer rounded-full">
+                      <h2 className="cursor-pointer rounded-full text-xs sm:text-lg">
                         {step.label}
                       </h2>
                       {index < steps.length - 1 && (
@@ -727,16 +746,17 @@ const Checkout: React.FC = () => {
                           className="cursor-pointer text-red-600 underline"
                           onClick={() => handleCouponsModal()}
                         >
-                          Check
+                          Apply
                         </h3>
                       </>
                     </div>
                     {couponCode && dataAfterCouponCode.code === 200 && (
-                      <div className="m-2 text-wrap bg-gray-100 p-2">
+                      <div className="text-wrap bg-gray-100 p-2">
                         <p>
-                          <span className="font-bold">Coupon Code:</span>
-                          {couponCode}
+                          {/* <span className="font-bold">Coupon Code:</span> */}
+                          {couponCode} <span className="text-red-600">  applied </span>
                         </p>
+                        {/* <div  onClick={() =>removeCoupon("")}>remove api not implemented</div> */}
                       </div>
                     )}
                   </div>

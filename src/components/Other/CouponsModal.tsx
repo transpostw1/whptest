@@ -57,7 +57,7 @@ const CouponsModal: React.FC<Props> = ({
               Check
             </button>
           </form>
-          <div className="mt-3 rounded-lg bg-[#d4c3c6] p-3">
+          {/* <div className="mt-3 rounded-lg bg-[#d4c3c6] p-3">
             <p>Other Offer at WHP JEWELLERS</p>
 
             <div className="mt-4 flex rounded-lg bg-[#b37ca7]">
@@ -75,7 +75,7 @@ const CouponsModal: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,12 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
   let categories = [
     {
       id: 3,
+      url: "o-Her_Birthday",
       type: "HER BIRTHDAY",
       image: (
         <Image
@@ -19,6 +21,7 @@ const Gifts = () => {
     },
     {
       id: 4,
+      url: "o-His_Birthday",
       type: "HIS BIRTHDAY",
       image: (
         <Image
@@ -31,6 +34,7 @@ const Gifts = () => {
     },
     {
       id: 2,
+      url: "o-New_Born_Baby",
       type: "NEW BORN BABY",
       image: (
         <Image
@@ -43,6 +47,7 @@ const Gifts = () => {
     },
     {
       id: 8,
+      url: "o-Valentines",
       type: "VALENTINES",
       image: (
         <Image
@@ -55,6 +60,7 @@ const Gifts = () => {
     },
     {
       id: 5,
+      url: "o-Weddings",
       type: "Weddings",
       image: (
         <Image
@@ -67,6 +73,7 @@ const Gifts = () => {
     },
     {
       id: 6,
+      url: "o-Get_Well_Soon",
       type: "GET WELL SOON",
       image: (
         <Image
@@ -79,6 +86,7 @@ const Gifts = () => {
     },
     {
       id: 7,
+      url: "o-Thankyou",
       type: "THANK YOU",
       image: (
         <Image
@@ -91,6 +99,7 @@ const Gifts = () => {
     },
     {
       id: 1,
+      url: "o-House_Warming",
       type: "HOUSE WARMING",
       image: (
         <Image
@@ -119,9 +128,9 @@ const Gifts = () => {
 
   return (
     <>
-      <div className="w-full px-8 my-16  text-rose-950">
+      <div className="my-16 w-full px-8 text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">
+          <h1 className="pb-2 text-[1.5rem] font-semibold uppercase">
             Occasion
           </h1>
           <p>
@@ -131,30 +140,38 @@ const Gifts = () => {
             special.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-3">
+        <div className="mt-3 grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
-            <div key={category.id} className="flex flex-col gap-2 relative">
-              <div className="effect10 img">
-                {category.image} {!isMobile && <a href="#">{category.type}</a>}
+            <Link
+              key={category.id}
+              href={{
+                pathname: "/products",
+                query: { url: `${category.url}` },
+              }}
+            >
+              <div className="relative flex flex-col gap-2">
+                <div className="effect10 img">
+                  {category.image}{" "}
+                  {!isMobile && <a href="#">{category.type}</a>}
+                </div>
+                {isMobile && (
+                  <div className="w-[80%] break-words">{category.type}</div>
+                )}
+                <div className="inline-flex">
+                  <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
+                    View All
+                  </span>
+                  <span className="flex">
+                    <Image
+                      src={"/images/icons/rightarrow.svg"}
+                      alt="Right Arrow"
+                      width={20}
+                      height={20}
+                    />
+                  </span>
+                </div>
               </div>
-              {/* <h1 className="text-xl font-semibold">{category.type}</h1> */}
-              {isMobile && (
-                <div className="w-[80%] break-words">{category.type}</div>
-              )}
-              <div className="inline-flex">
-                <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
-                  View All
-                </span>
-                <span className="flex">
-                  <Image
-                    src={"/images/icons/rightarrow.svg"}
-                    alt="Right Arrow"
-                    width={20}
-                    height={20}
-                  />
-                </span>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

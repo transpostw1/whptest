@@ -344,7 +344,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           ) : (
             <>
               <div className="flex justify-between w-full">
-                <p className="font-semibold text-3xl">
+                <p className="font-[500] text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
                 <span
@@ -376,7 +376,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <div className="mb-5">
               {data?.productDetails?.discountPrice ? (
                 <>
-                  <span className="font-extrabold text-2xl">
+                  <span className="font-[500] text-2xl">
                     ₹{formattedDiscountedPrice}
                   </span>
                   <span className="line-through ml-3 text-[#aa9e9e]">

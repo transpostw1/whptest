@@ -11,6 +11,7 @@ import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
+import { IoMdLogOut } from "react-icons/io";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
@@ -184,23 +185,29 @@ const ProfileDetails = () => {
       </div>
     );
   }
+
+  const formattedWalletAmount = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(
+    Math.round(parseFloat((userDetails && userDetails?.wallet_amount) ?? 0))
+  );
   return (
     <div className="m-24 mt-10">
       <div className="flex justify-between">
         <div>
-          <p className="text-xl font-bold">Personal Information</p>
+          <p className="text-xl font-semibold">Personal Information</p>
           <p className="text-[#cfcdcd]">Manage your profile</p>
         </div>
         <div className="flex">
-          <Icon.SignOut className="mt-1" />
+          <IoMdLogOut size={20} className="mt-1 me-1" />
           <p className="cursor-pointer" onClick={() => handleLogOut()}>
             Logout
           </p>
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">
-          Wallet Balance:₹{userDetails?.wallet_amount}
+        <p className="font-semibold">
+          Wallet Balance:₹{formattedWalletAmount}
         </p>
       </div>
       <form>
@@ -212,9 +219,11 @@ const ProfileDetails = () => {
             >
               First name
             </label>
-            <span className="text-xl font-semibold">
-              {userDetails?.firstname}
-            </span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
+              <span className="  text-md font-semibold ">
+                {userDetails?.firstname}
+              </span>
+            </div>
           </div>
           <div>
             <label
@@ -223,9 +232,11 @@ const ProfileDetails = () => {
             >
               Last name
             </label>
-            <span className="text-xl font-semibold">
-              {userDetails?.lastname}
-            </span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
+              <span className="text-md font-semibold">
+                {userDetails?.lastname}
+              </span>
+            </div>
           </div>
           <div>
             <label
@@ -234,9 +245,11 @@ const ProfileDetails = () => {
             >
               Phone number
             </label>
-            <span className="font-semibold text-xl" >
-            {userDetails?.mobile_no}
-            </span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
+              <span className="font-semibold text-md" >
+                {userDetails?.mobile_no}
+              </span>
+            </div>
           </div>
           <div>
             <label
@@ -245,12 +258,15 @@ const ProfileDetails = () => {
             >
               Email address
             </label>
-            <span className="font-semibold text-xl" >
-            {userDetails?.email}
-            </span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded text-wrap">
+              <span className="font-semibold text-md" >
+                {userDetails?.email}
+              </span>
+            </div>
           </div>
         </div>
-      </form>
+      </form >
+      <hr className="mt-3" />
       <div className="flex justify-between ">
         <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
@@ -265,49 +281,51 @@ const ProfileDetails = () => {
           allAddress.map((address: any) => (
             <div
               key={address.address_id}
-              className="mr-2 flex rounded-lg shadow-md"
+              className="relative mr-2 flex rounded-lg border bg-white"
             >
-              <div className="mt-6 h-[130px] w-[250px] bg-white p-4">
+              <div className=" h-[130px] w-[250px] p-4">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
-              <div className="flex flex-col">
-                <button className="flex justify-center hover:text-[#E26178]">
-                  <Icon.PencilSimple
-                    size={25}
-                    onClick={() => handleEditAddress(address.address_id)}
-                  />
-                </button>
-                <button className="p-2 text-sm text-black hover:text-[#E26178]">
-                  <Icon.X
-                    size={25}
-                    onClick={() => handleRemoveAddress(address.address_id)}
-                  />
-                </button>
-              </div>
-              {showModal &&
-                selectedAddress?.address_id === address.address_id && (
-                  <EditAddressModal
-                    closeModal={closeEditModal}
-                    singleAddress={selectedAddress}
-                  />
-                )}
+              <button
+                className="absolute -top-4 -right-4 bg-[#E26178] rounded-full p-2 inline-flex items-center justify-center"
+                onClick={() => handleEditAddress(address.address_id)}
+              >
+                <Icon.PencilSimple
+                  size={15}
+                  className="text-white"
+                />
+              </button>
+              <button
+                className="absolute top-4 -right-4 bg-[#E26178] rounded-full p-2 inline-flex items-center justify-center"
+                onClick={() => handleRemoveAddress(address.address_id)}
+              >
+                <Icon.X size={15} className="text-white" />
+              </button>
+              {showModal && selectedAddress?.address_id === address.address_id && (
+                <EditAddressModal
+                  closeModal={closeEditModal}
+                  singleAddress={selectedAddress}
+                />
+              )}
             </div>
           ))}
       </div>
-      {showAddressModal && (
-        <AddAddressModal
-          closeModal={closeModal}
-          isForBillingAddress={false}
-          onAddressAdded={function (isBillingAddress: boolean): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      )}
+      {
+        showAddressModal && (
+          <AddAddressModal
+            closeModal={closeModal}
+            isForBillingAddress={false}
+            onAddressAdded={function (isBillingAddress: boolean): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
+        )
+      }
       {message && <FlashAlert message={message} type={type} />}
-    </div>
+    </div >
   );
 };
 

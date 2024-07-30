@@ -354,8 +354,8 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex w-full justify-between">
-                <p className="text-3xl font-semibold">
+              <div className="flex justify-between w-full">
+                <p className="font-[500] text-3xl">
                   {data?.productDetails.displayTitle}
                 </p>
                 <span

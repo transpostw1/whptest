@@ -17,7 +17,7 @@ const About = () => {
   return (
     <>
     <div className="mx-5">
-      <h1 className="text-center font-bold my-3 text-[#e26178]  text-2xl">{aboutusData.name}</h1>
+    <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">{aboutusData.name}</h1>
       {/* <Image
         objectFit="cover"
         src={"/images/banner/waman-hari-pethe-jewellers.png"}

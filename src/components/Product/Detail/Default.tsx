@@ -19,7 +19,7 @@ import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl, graphqlProductUrl } from "@/utils/constants";
-import Buttons from "./Buttons"; 
+import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
@@ -29,7 +29,7 @@ import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
-import ReactImageMagnify from "react-image-magnify";
+import { useCurrency } from "@/context/CurrencyContext";
 import ZoomableImage from "./ZoomableImage";
 
 interface Props {
@@ -43,6 +43,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [variant, setVariant] = useState<string>("");
   const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const { currency, handleCurrencyChange } = useCurrency();
 
   // const { recentlyViewedProducts, saveToRecentlyViewed } =
   //   useRecentlyViewedProducts();
@@ -194,7 +195,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   const slidesToShow = Math.min(
     3,
-    data?.productDetails?.imageDetails?.length || 0
+    data?.productDetails?.imageDetails?.length || 0,
   );
 
   let sliderRef = useRef<any>(null);
@@ -216,7 +217,7 @@ const Default: React.FC<Props> = ({ productId }) => {
         settings: {
           slidesToShow: Math.min(
             3,
-            data?.productDetails?.imageDetails?.length || 0
+            data?.productDetails?.imageDetails?.length || 0,
           ),
           centerPadding: "5px",
         },
@@ -234,13 +235,13 @@ const Default: React.FC<Props> = ({ productId }) => {
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(
-    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0))
+    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0)),
   );
 
   const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(
-    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0))
+    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0)),
   );
   const handleShareClick = () => {
     if (navigator.share) {
@@ -262,27 +263,35 @@ const Default: React.FC<Props> = ({ productId }) => {
       <StickyNavProductPage />
       <CtaButtonsMobile product={data} />
       <div className="lg:flex">
-        <div className="lg:w-1/2 sm:w-full">
+        <div className="sm:w-full lg:w-1/2">
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
             <div className="bg-[#f7f7f7]">
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                  <div key={index} className="flex justify-center items-center h-full">
-                    <div className="max-w-full max-md:h-[300px] h-[600px]">
-                      <ZoomableImage
-                        src={image.image_path}
-                        alt="Product Image"
-                      />
+                {data?.productDetails?.imageDetails.map(
+                  (image: any, index: any) => (
+                    <div
+                      key={index}
+                      className="flex h-full items-center justify-center"
+                    >
+                      <div className="h-[600px] max-w-full max-md:h-[300px]">
+                        <ZoomableImage
+                          src={image.image_path}
+                          alt="Product Image"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ),
+                )}
                 {data?.productDetails?.videoDetails?.length > 0 &&
                   data.productDetails.videoDetails.map((item: any) => (
-                    <div key={item.order} className="flex justify-center items-center h-full">
+                    <div
+                      key={item.order}
+                      className="flex h-full items-center justify-center"
+                    >
                       <video
-                        className="max-w-full max-h-full object-contain"
+                        className="max-h-full max-w-full object-contain"
                         src={item.video_path}
                         loop
                         autoPlay
@@ -291,7 +300,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     </div>
                   ))}
               </Slider>
-              <div className="m-auto w-3/5 h-full relative">
+              <div className="relative m-auto h-full w-3/5">
                 <>
                   <Slider
                     {...settingsThumbnails}
@@ -300,35 +309,37 @@ const Default: React.FC<Props> = ({ productId }) => {
                       setNav2(slider);
                     }}
                   >
-                    {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                      <div key={index}>
-                        <Image
-                          src={image?.image_path}
-                          alt={data?.productDetails?.title}
-                          width={100}
-                          height={100}
-                          className="cursor-pointer mx-3 border"
-                        />
-                      </div>
-                    ))}
+                    {data?.productDetails?.imageDetails.map(
+                      (image: any, index: any) => (
+                        <div key={index}>
+                          <Image
+                            src={image?.image_path}
+                            alt={data?.productDetails?.title}
+                            width={100}
+                            height={100}
+                            className="mx-3 cursor-pointer border"
+                          />
+                        </div>
+                      ),
+                    )}
                     {data?.productDetails?.videoDetails?.length > 0 &&
                       data.productDetails.videoDetails.map((item: any) => (
                         <video
                           key={item.order}
-                          className="cursor-pointer mx-3 border"
+                          className="mx-3 cursor-pointer border"
                           src={item.video_path}
                           muted
                         />
                       ))}
                   </Slider>
                 </>
-                <div className="absolute top-6 -right-2 max-sm:-right-10 cursor-pointer">
+                <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
                   <Icon.CaretRight
                     onClick={() => sliderRef.slickNext()}
                     size={25}
                   />
                 </div>
-                <div className="absolute top-6 -left-12 cursor-pointer">
+                <div className="absolute -left-12 top-6 cursor-pointer">
                   <Icon.CaretLeft
                     onClick={() => sliderRef.slickPrev()}
                     size={25}
@@ -338,17 +349,17 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
         </div>
-        <div className="lg:w-1/2 sm:w-full lg:ml-6 p-4">
+        <div className="p-4 sm:w-full lg:ml-6 lg:w-1/2">
           {loading ? (
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex justify-between w-full">
-                <p className="font-semibold text-3xl">
+              <div className="flex w-full justify-between">
+                <p className="text-3xl font-semibold">
                   {data?.productDetails.displayTitle}
                 </p>
                 <span
-                  className="rounded-full bg-[#e26178] px-2 py-2 mr-2 h-9 w-9 flex justify-center items-center cursor-pointer"
+                  className="mr-2 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#e26178] px-2 py-2"
                   onClick={handleShareClick}
                 >
                   <Icon.ShareFat
@@ -359,9 +370,9 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               </div>
               {data?.productDetails?.review.length !== 0 && (
-                <div className="flex flex-wrap mb-2">
+                <div className="mb-2 flex flex-wrap">
                   <div>
-                    <span className="underline mr-2 cursor-pointer">
+                    <span className="mr-2 cursor-pointer underline">
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
@@ -373,28 +384,128 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="mb-5">
+            <div className="mb-5 flex">
               {data?.productDetails?.discountPrice ? (
                 <>
-                  <span className="font-extrabold text-2xl">
-                    ₹{formattedDiscountedPrice}
-                  </span>
-                  <span className="line-through ml-3 text-[#aa9e9e]">
+                  {currency === "INR" ? (
+                    <div className="text-2xl font-extrabold">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(data?.productDetails?.discountPrice ?? 0),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="text-2xl font-extrabold">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(data?.productDetails?.discountPrice ?? 0) *
+                          0.012,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="text-2xl font-extrabold">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(data?.productDetails?.discountPrice ?? 0) *
+                          0.011,
+                      )}
+                    </div>
+                  ) : (
+                    // Handle case where currency doesn't match expected values
+                    <div className="text-2xl font-extrabold">
+                      {/* Default or error message */}
+                      Price not available
+                    </div>
+                  )}
+                  {/* <span className="ml-3 text-[#aa9e9e] line-through">
                     ₹{formattedOriginalPrice}
-                  </span>
+                  </span> */}
+                  {currency === "INR" ? (
+                    <div className="ml-3 text-[#aa9e9e] line-through">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(data?.productDetails?.productPrice ?? 0),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="ml-3 text-[#aa9e9e] line-through">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(data?.productDetails?.productPrice ?? 0) *
+                          0.012,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="ml-3 text-[#aa9e9e] line-through">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        (parseFloat(data?.productDetails?.productPrice) ?? 0) *
+                          0.011,
+                      )}
+                    </div>
+                  ) : (
+                    // Handle case where currency doesn't match expected values
+                    <div className="ml-3 text-[#aa9e9e] line-through">
+                      {/* Default or error message */}
+                      Price not available
+                    </div>
+                  )}
                   <span className="ml-3 text-[#e26178] underline">
-                    {data?.productDetails.discountValue}% OFF on {data?.productDetails.discountCategory}
+                    {data?.productDetails.discountValue}% OFF on{" "}
+                    {data?.productDetails.discountCategory}
                   </span>
                 </>
+              ) : currency === "INR" ? (
+                <div className="ml-3 text-[#aa9e9e] line-through">
+                  ₹
+                  {Intl.NumberFormat("en-IN").format(
+                    Math.round(
+                      parseFloat(data?.productDetails?.productPrice ?? 0),
+                    ),
+                  )}
+                </div>
+              ) : currency === "USD" ? (
+                <div className="ml-3 text-[#aa9e9e] line-through">
+                  {Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(
+                    parseFloat(data?.productDetails?.productPrice ?? 0) * 0.012,
+                  )}
+                </div>
+              ) : currency === "EUR" ? (
+                <div className="ml-3 text-[#aa9e9e] line-through">
+                  {Intl.NumberFormat("en-IE", {
+                    style: "currency",
+                    currency: "EUR",
+                  }).format(
+                    (parseFloat(data?.productDetails?.productPrice) ?? 0) *
+                      0.011,
+                  )}
+                </div>
               ) : (
-                <span className="font-extrabold text-2xl">
-                  ₹{formattedOriginalPrice}
-                </span>
+                // Handle case where currency doesn't match expected values
+                <div className="ml-3 text-[#aa9e9e] line-through">
+                  {/* Default or error message */}
+                  Price not available
+                </div>
               )}
             </div>
           )}
 
-          {data?.productDetails?.variantId !== null && (
+          {data?.productDetails?.variantId !== "" && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
@@ -435,11 +546,11 @@ const Default: React.FC<Props> = ({ productId }) => {
           </div>
           {data?.productDetails?.tryAtHome === 1 && (
             <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
-              <span className="underline text-[#e26178] cursor-pointer ">
+              <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>
               <span> or </span>
-              <span className="underline text-[#e26178] cursor-pointer">
+              <span className="cursor-pointer text-[#e26178] underline">
                 Try at Home
               </span>
               <span> today!</span>

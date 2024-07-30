@@ -42,7 +42,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           monthlyAmount: amount,
           totalAmount: amount * numberOfMonths,
           iconUrl: "/images/gold-icon.png",
-          schemeType: schemeType,
+          schemeType: "gms",
         })
       );
 

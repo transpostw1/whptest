@@ -133,7 +133,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                         className="bg-[#f7f7f7]"
                       />
                     </div>
-
                     <div>
                       <p className="text-xl font-semibold">
                         {product?.displayTitle}
@@ -146,9 +145,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     </div>
                     <div className="font-semibold">
                       ₹
-                      {Intl.NumberFormat("en-IN", {
-                        minimumFractionDigits: 2,
-                      }).format(Math.round(parseInt(item?.discountedTotal)))}
+                      {Intl.NumberFormat("en-IN").format(Math.round(parseInt(product?.discountedTotal)))}
                     </div>
                   </div>
                 ))}

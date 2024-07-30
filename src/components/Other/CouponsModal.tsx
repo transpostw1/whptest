@@ -58,7 +58,7 @@ const CouponsModal: React.FC<Props> = ({ handleCouponCheck, onClose, couponCode 
   return (
     <div
       id="container"
-      className="backdrop fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-50"
+      className="backdrop fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur-sm"
       onClick={handleOnClose}
     >
       <div className="loading-container flex justify-center items-center h-full">

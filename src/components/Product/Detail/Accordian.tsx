@@ -13,12 +13,15 @@ import { TbHomeCheck } from "react-icons/tb";
 import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
 import Link from "next/link";
+import { useCurrency } from "@/context/CurrencyContext";
+
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
   const [isMobile, setIsMobile] = useState(false);
+  const { currency, handleCurrencyChange } = useCurrency();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
@@ -41,8 +44,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
     parseFloat(product?.productDetails?.makingCharges) +
     parseFloat(product?.productDetails?.additionalCost);
   return (
-    <div className="mt-7 ">
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+    <div className="mt-7">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"
@@ -64,7 +67,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               timeless elegance, ensuring every piece exudes sophistication and
               allure, setting you apart in style.
             </div>
-            <div className="grid grid-cols-4 max-sm:grid-cols-3 justify-items-center mt-5 gap-4">
+            <div className="mt-5 grid grid-cols-4 justify-items-center gap-4 max-sm:grid-cols-3">
               <div className="flex flex-col items-center text-center">
                 <span className="text-center">
                   <Icon.SketchLogo size={30} weight="thin" />
@@ -99,7 +102,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"
@@ -116,16 +119,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
         {showAccordian === 2 ? (
           <div>
-            <div className="mt-5 ">{product?.productDetails?.longDesc}</div>
-            <div className="grid grid-cols-4 max-sm:grid-cols-3 mt-4">
-              <div className="p-2 flex flex-col items-center text-center">
+            <div className="mt-5">{product?.productDetails?.longDesc}</div>
+            <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
+              <div className="flex flex-col items-center p-2 text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails?.metalWeight}gms,{" "}
                   {product?.productDetails?.metalType}
                 </p>
               </div>
-              <div className="p-2 flex flex-col items-center text-center">
+              <div className="flex flex-col items-center p-2 text-center">
                 <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails.metalPurity}{" "}
@@ -133,7 +136,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </p>
               </div>
               {product?.productDetails?.isReturnable == 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <Icon.ArrowsLeftRight
                     className="mr-1 mt-1"
                     size={27}
@@ -143,32 +146,32 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </div>
               )}
               {product?.productDetails?.isReplaceable === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <TbReplace className="mr-1 mt-1" size={27} />
                   <p>7 days easy replaceable</p>
                 </div>
               )}
               {product?.productDetails?.isInternationalShippingAvailable ===
                 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <GiCargoShip className="mr-1 mt-1" size={27} />
                   <p>Delivered Internationally</p>
                 </div>
               )}
               {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <VscTools className="mr-1 mt-1" size={27} />
                   <p>Customization Available</p>
                 </div>
               )}
               {product?.productDetails?.fastDelivery === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <FaShippingFast className="mr-1 mt-1" size={27} />
                   <p>Fast Delivery</p>
                 </div>
               )}
               {product?.productDetails?.tryAtHome === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <TbHomeCheck className="mr-1 mt-1" size={27} />
                   <p>Try At Home</p>
                 </div>
@@ -177,7 +180,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"
@@ -199,47 +202,47 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <MobileSizeGuide />
               </>
             ) : (
-              <div className="text-center rounded-md w-[80%]">
+              <div className="w-[80%] rounded-md text-center">
                 <table className="mt-5 bg-[#f7f7f7]">
                   <tr className="">
-                    <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] p-4">
                       Size
                     </td>
-                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] max-sm:p-4">
                       Diameter(inch)
                     </td>
-                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] max-sm:p-4">
                       Diameter(cms)
                     </td>
-                    <td className="max-sm:p-4 border-b-2 border-[#F0ECED]">
+                    <td className="border-b-2 border-[#F0ECED] max-sm:p-4">
                       Circumference(inch)
                     </td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED]">2.2</td>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.125</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">5.4</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">5.4</td>
                     <td className="">6.67</td>
                   </tr>
                   <tr>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.4</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.25</td>
-                    <td className="max-sm:p-2 border-r-2 border-[#F0ECED]">
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.4</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.25</td>
+                    <td className="border-r-2 border-[#F0ECED] max-sm:p-2">
                       5.7
                     </td>
                     <td className="p-2">7.06</td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.6</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.375</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">6</td>
-                    <td className=" p-2">7.46</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.375</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">6</td>
+                    <td className="p-2">7.46</td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
-                    <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
-                    <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
-                    <td className=" p-2 rounded-b-lg">7.85</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.5</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">6.5</td>
+                    <td className="rounded-b-lg p-2">7.85</td>
                   </tr>
                 </table>
               </div>
@@ -247,7 +250,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between justify-items-center text-xl"
@@ -263,13 +266,13 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian === 4 ? (
-          <div className="lg:w-[100%] sm:w-[100%] p-4">
+          <div className="p-4 sm:w-[100%] lg:w-[100%]">
             <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>Component</div>
               <div>Weight</div>
               <div>Value</div>
             </div>
-            <div className="flex justify-between p-2 border border-[#ebe7e7]">
+            <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>
                 <p>{product.productDetails?.metalType}</p>
                 {product.productDetails?.diamondDetails != null && (
@@ -299,38 +302,132 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                {parseInt(product.productDetails?.metalRate) > 0 && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product.productDetails?.metalRate))}
-                  </p>
-                )}
-                {product.productDetails?.diamondDetails != null && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(
-                      parseInt(
-                        product.productDetails?.diamondDetails[0]?.diamondCost
-                      )
-                    )}
-                  </p>
-                )}
-                {product.productDetails.stoneDetails != null && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(
-                      parseFloat(
-                        product?.productDetails?.stoneDetails[0]?.stoneCost
-                      )
-                    )}
-                  </p>
-                )}
+                {parseInt(product.productDetails?.metalRate) > 0 &&
+                  (currency === "INR" ? (
+                    <div className="">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(
+                            `${product.productDetails?.metalRate}` ?? "0",
+                          ),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(product.productDetails?.metalRate) * 0.012 ??
+                          0,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(product.productDetails?.metalRate) * 0.011 ??
+                          0,
+                      )}
+                    </div>
+                  ) : (
+                    // Handle case where currency doesn't match expected values
+                    <div className="product-price text-title text-lg">
+                      {/* Default or error message */}
+                      Price not available
+                    </div>
+                  ))}
+                {product.productDetails?.diamondDetails != null &&
+                  (currency === "INR" ? (
+                    <div className="">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(
+                            `${
+                              product.productDetails?.diamondDetails[0]
+                                ?.diamondCost
+                            }` ?? "0",
+                          ),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(
+                          product.productDetails?.diamondDetails[0]
+                            ?.diamondCost,
+                        ) * 0.012 ?? 0,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(
+                          product.productDetails?.diamondDetails[0]
+                            ?.diamondCost,
+                        ) * 0.011 ?? 0,
+                      )}
+                    </div>
+                  ) : (
+                    <div className="product-price text-title text-lg">
+                      Price not available
+                    </div>
+                  ))}
+                {product.productDetails.stoneDetails != null &&
+                  (currency === "INR" ? (
+                    <div className="">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(
+                            `${
+                              product?.productDetails?.stoneDetails[0]
+                                ?.stoneCost
+                            }` ?? "0",
+                          ),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(
+                          product?.productDetails?.stoneDetails[0]?.stoneCost,
+                        ) * 0.012 ?? 0,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(
+                          product?.productDetails?.stoneDetails[0]?.stoneCost,
+                        ) * 0.011 ?? 0,
+                      )}
+                    </div>
+                  ) : (
+                    <div className="product-price text-title text-lg">
+                      Price not available
+                    </div>
+                  ))}
+
                 <p>
                   ₹
                   {new Intl.NumberFormat("en-IN", {
@@ -346,7 +443,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                         {new Intl.NumberFormat("en-IN", {
                           minimumFractionDigits: 2,
                         }).format(
-                          parseFloat(product?.productDetails?.discountAmount)
+                          parseFloat(product?.productDetails?.discountAmount),
                         )}
                       </p>
                     ) : (
@@ -354,40 +451,132 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-                <p>
-                  ₹
-                  {new Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(parseInt(product?.productDetails?.gst))}
-                </p>
+                <div>
+                  {currency === "INR" ? (
+                    <div className="">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(`${product?.productDetails?.gst}` ?? "0"),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(product?.productDetails?.gst) * 0.012 ?? 0,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(product?.productDetails?.gst) * 0.011 ?? 0,
+                      )}
+                    </div>
+                  ) : (
+                    // Handle case where currency doesn't match expected values
+                    <div className="product-price text-title text-lg">
+                      {/* Default or error message */}
+                      Price not available
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex justify-between px-2 border border-[#ebe7e7] border-t-0">
+            <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
               <div className="text-md font-semibold">
                 <p>Total</p>
               </div>
               <div className="text-md font-semibold">
                 {product?.productDetails?.discountPrice !== null ? (
-                  <p>
+                  currency === "INR" ? (
+                    <div className="text-md font-semibold">
+                      ₹
+                      {Intl.NumberFormat("en-IN").format(
+                        Math.round(
+                          parseFloat(
+                            `${product?.productDetails?.discountPrice}` ?? "0",
+                          ),
+                        ),
+                      )}
+                    </div>
+                  ) : currency === "USD" ? (
+                    <div className="text-md font-semibold">
+                      {Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(
+                        parseFloat(product?.productDetails?.discountPrice) *
+                          0.012 ?? 0,
+                      )}
+                    </div>
+                  ) : currency === "EUR" ? (
+                    <div className="text-md font-semibold">
+                      {Intl.NumberFormat("en-IE", {
+                        style: "currency",
+                        currency: "EUR",
+                      }).format(
+                        parseFloat(product?.productDetails?.discountPrice) *
+                          0.011 ?? 0,
+                      )}
+                    </div>
+                  ) : (
+                    // Handle case where currency doesn't match expected values
+                    <div className="product-price text-title text-lg">
+                      {/* Default or error message */}
+                      Price not available
+                    </div>
+                  )
+                ) : currency === "INR" ? (
+                  <div className="text-md font-semibold">
                     ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product?.productDetails?.discountPrice))}
-                  </p>
+                    {Intl.NumberFormat("en-IN").format(
+                      Math.round(
+                        parseFloat(
+                          `${product?.productDetails?.productPrice}` ?? "0",
+                        ),
+                      ),
+                    )}
+                  </div>
+                ) : currency === "USD" ? (
+                  <div className="text-md font-semibold">
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(
+                      parseFloat(product?.productDetails?.productPrice) *
+                        0.012 ?? 0,
+                    )}
+                  </div>
+                ) : currency === "EUR" ? (
+                  <div className="text-md font-semibold">
+                    {Intl.NumberFormat("en-IE", {
+                      style: "currency",
+                      currency: "EUR",
+                    }).format(
+                      parseFloat(product?.productDetails?.productPrice) *
+                        0.011 ?? 0,
+                    )}
+                  </div>
                 ) : (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product?.productDetails?.productPrice))}
-                  </p>
+                  // Handle case where currency doesn't match expected values
+                  <div className="product-price text-title text-lg">
+                    {/* Default or error message */}
+                    Price not available
+                  </div>
                 )}
               </div>
             </div>
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"

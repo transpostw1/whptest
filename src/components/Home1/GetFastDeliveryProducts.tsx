@@ -27,25 +27,25 @@ const GetFastDeliveryProducts = () => {
         });
 
         const FAST_DELIVERY_QUERY = gql`
-  query FastDelivery {
-    fastDelivery {
-      productId
-      url
-      title
-      productPrice
-      discountPrice
-      typeOfDiscount
-      discountValue
-      rating
-      imageDetails {
-        image_path
-      }
-      videoDetails {
-        video_path
-      }
-    }
-  }
-`;
+          query FastDelivery {
+            fastDelivery {
+              productId
+              url
+              title
+              productPrice
+              discountPrice
+              typeOfDiscount
+              discountValue
+              rating
+              imageDetails {
+                image_path
+              }
+              videoDetails {
+                video_path
+              }
+            }
+          }
+        `;
         const { data } = await client.query({
           query: FAST_DELIVERY_QUERY,
         });
@@ -66,7 +66,9 @@ const GetFastDeliveryProducts = () => {
         <div className="container">
           <div className="flex justify-between">
             <div>
-              <p className="font-semibold text-[1.5rem] uppercase">GET IN 24-48 HRS</p>
+              <p className="text-[1.5rem] font-semibold uppercase">
+                GET IN 24-48 HRS
+              </p>
             </div>
             <div className="flex">
               <button onClick={() => swiperRef.current.slidePrev()}>
@@ -103,10 +105,10 @@ const GetFastDeliveryProducts = () => {
                 },
               }}
             >
-              <SwiperSlide className="mr-4 ">
+              <SwiperSlide className="mr-4">
                 <Skeleton height={300} width={200} />
               </SwiperSlide>
-              <SwiperSlide className="mr-4 ">
+              <SwiperSlide className="mr-4">
                 <Skeleton height={300} width={200} />
               </SwiperSlide>
               <SwiperSlide className="mr-4">
@@ -117,7 +119,7 @@ const GetFastDeliveryProducts = () => {
               </SwiperSlide>
             </Swiper>
           ) : (
-            <div className="list-product  hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+            <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
               <Swiper
                 spaceBetween={12}
                 slidesPerView={1.5}

@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState, isLoggedIn } = useUser();
+  const { userState, isLoggedIn, userDetails } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -58,6 +58,7 @@ const Checkout: React.FC = () => {
     wrapOption: false,
   });
   const [flashMessage, setFlashMessage] = useState("");
+  const [whpWallet, setWhpWallet] = useState<any>();
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
@@ -107,7 +108,7 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    console.log("value", value);
+    // console.log("value", value);
     setCouponCode(value);
   };
   const removeCoupon =(value:string)=>{
@@ -165,7 +166,7 @@ const Checkout: React.FC = () => {
           fetchPolicy: "no-cache",
         });
         console.log("DAta", data.Coupon);
-        if (data.Coupon.code === 400 || data.Coupon.code === '400') {
+        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
         } else {
@@ -183,9 +184,82 @@ const Checkout: React.FC = () => {
     };
     fetchCouponData();
   };
+  const coupon: any = searchParams.get("coupon");
+  typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
   useEffect(() => {
-    console.log("Coupon code info", dataAfterCouponCode);
+    const fetchCouponData = async () => {
+      const products = cartItems.map((item: any) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+      setCartProductIds(products);
+      setLoading(true);
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
+      try {
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
+
+        const CHECK_COUPON_CODE = gql`
+          mutation Coupon($coupon: CouponInput!) {
+            Coupon(coupon: $coupon) {
+              code
+              message
+              discountProduct {
+                productId
+                discountedValue
+                additionalDiscountPrice
+              }
+            }
+          }
+        `;
+
+        const { data } = await client.mutate({
+          mutation: CHECK_COUPON_CODE,
+          variables: {
+            coupon: { products: products, couponCode: coupon },
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        console.log("DAta", data.Coupon);
+        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
+          setFlashMessage(data.Coupon.message);
+          setFlashType("error");
+        } else {
+          setDataAfterCouponCode(data.Coupon);
+          setFlashMessage("Coupon Successfully applied");
+          setFlashType("success");
+        }
+      } catch (error: any) {
+        console.log("Error occurred", error.response.data.message);
+        setFlashMessage(error.response.data.message);
+        setFlashType("error");
+      } finally {
+        setLoading(false);
+      }
+    };
+    setTimeout(() => {
+      fetchCouponData();
+    }, 1450);
+  }, [coupon, isLoggedIn]);
+
+  useEffect(() => {
     let totalCartDiscount: number = 0;
     Array.isArray(dataAfterCouponCode.discountProduct) &&
       dataAfterCouponCode.discountProduct.map((element: any) => {
@@ -194,6 +268,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
+    console.log("total calculated Discount", totalCartDiscount);
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -236,7 +311,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       image:
         item?.productDetails?.imageDetails &&
-          item?.productDetails?.imageDetails.length > 0
+        item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -290,7 +365,7 @@ const Checkout: React.FC = () => {
 
   let formattedPrice: string = totalCart.toString();
   let formattedProductPrice: string = totalProductCart.toString();
-  let discountDifference: string =
+  let discountDifference: any =
     parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
 
   const handleOrderComplete = async (items: any, items2: any) => {
@@ -484,6 +559,7 @@ const Checkout: React.FC = () => {
       // placeOrder();
     }
   };
+
   const proceedButtonTitle = () => {
     if (!isLoggedIn) {
       return "Please Login to Proceed";
@@ -515,8 +591,9 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-            }`}
+          className={`text-2xl text-black ${
+            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+          }`}
         />
       ),
       label: "Address",
@@ -532,6 +609,14 @@ const Checkout: React.FC = () => {
       label: "Payment",
     },
   ];
+
+  const handleWhpWallet = (e: any) => {
+    if (e.target.checked) {
+      setWhpWallet("whp_Wallet");
+    } else {
+      setWhpWallet(null);
+    }
+  };
 
   const handleGiftWrapModal = () => {
     setShowModal(true);
@@ -562,9 +647,10 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mt-2 flex w-full items-center p-2 sm:mr-1 lg:mr-3">
+                <div className="mt-2 flex w-full items-center justify-evenly p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
+                      className="max-sm:w-25 max-md:w-25 flex items-center justify-around lg:w-40"
                       className="max-sm:w-25 max-md:w-25 flex items-center gap-1 lg:w-40"
                       key={index}
                       onClick={() =>
@@ -627,6 +713,7 @@ const Checkout: React.FC = () => {
                   onOrderComplete={(setCartItems) =>
                     handleOrderComplete(setCartItems, removeFromCart)
                   }
+                  wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}
@@ -653,7 +740,7 @@ const Checkout: React.FC = () => {
                             height={25}
                             width={25}
                           />
-                          <h3>Coupon Code</h3>
+                          <h3>Apply Coupon</h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
@@ -717,9 +804,7 @@ const Checkout: React.FC = () => {
                           <h3>Product Total</h3>
                           <h3>
                             ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(
+                            {Intl.NumberFormat("en-IN").format(
                               Math.round(parseInt(formattedProductPrice)),
                             )}
                           </h3>
@@ -728,48 +813,78 @@ const Checkout: React.FC = () => {
                           <h3>Product Discount</h3>
                           <h3>
                             -₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(discountDifference)))}
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(parseInt(discountDifference)),
+                            )}
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
                           <h3>
                             ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(formattedPrice)))}
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(parseInt(formattedPrice)),
+                            )}
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Discount</h3>
                           <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(Math.round(parseInt(totalDiscount)))}
+                            -₹
+                            {Intl.NumberFormat("en-IN").format(
+                              Math.round(parseInt(totalDiscount)),
+                            )}
                           </h3>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <h3>Wallet</h3>
+                          {whpWallet === "whp_Wallet" ? (
+                            <h3>
+                              -₹
+                              {Intl.NumberFormat("en-IN").format(
+                                Math.round(
+                                  parseInt(userDetails?.wallet_amount),
+                                ),
+                              )}
+                            </h3>
+                          ) : (
+                            <h3>
+                              ₹
+                              {Intl.NumberFormat("en-IN").format(
+                                Math.round(parseInt("0")),
+                              )}
+                            </h3>
+                          )}
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Shipping Charges</h3>
                           <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(Math.round(0))}
+                            ₹{Intl.NumberFormat("en-IN").format(Math.round(0))}
                           </h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
-                          <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN", {
-                              minimumFractionDigits: 2,
-                            }).format(
-                              Math.round(parseInt(totalPrice.toString())),
-                            )}
-                          </h3>
+                          {whpWallet === "whp_Wallet" ? (
+                            <h3>
+                              ₹
+                              {Intl.NumberFormat("en-IN").format(
+                                Math.round(
+                                  parseInt(
+                                    (
+                                      totalPrice - userDetails?.wallet_amount
+                                    ).toString(),
+                                  ),
+                                ),
+                              )}
+                            </h3>
+                          ) : (
+                            <h3>
+                              ₹
+                              {Intl.NumberFormat("en-IN").format(
+                                Math.round(parseInt(totalPrice.toString())),
+                              )}
+                            </h3>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -779,19 +894,22 @@ const Checkout: React.FC = () => {
 
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
-                  <div id="order-summary">
-                    <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                    <OrderSummary
-                      totalProductPrice={formattedProductPrice}
-                      discountDifference={discountDifference}
-                      price={formattedPrice}
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={buyNow ? finalBuyNowItems : MainCart}
-                      isBuyNow={false}
-                    />
-                  </div>
-                )}
+                <div id="order-summary">
+                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
+                  <OrderSummary
+                    wallet={whpWallet}
+                    component={selectedComponent}
+                    handleWhpWallet={handleWhpWallet}
+                    totalProductPrice={formattedProductPrice}
+                    discountDifference={discountDifference}
+                    price={formattedPrice}
+                    totalDiscount={totalDiscount}
+                    totalCart={totalCart}
+                    cartItems={buyNow ? finalBuyNowItems : MainCart}
+                    isBuyNow={false}
+                  />
+                </div>
+              )}
 
               {selectedStep !== 2 && (
                 <ProceedButton

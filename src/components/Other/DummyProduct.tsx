@@ -5,6 +5,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useWishlist } from "@/context/WishlistContext";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { useCurrency } from "@/context/CurrencyContext";
 import StarRating from "./StarRating";
 
 interface ProductProps {
@@ -32,12 +33,29 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     useWishlist();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
-
+  const { currency, handleCurrencyChange } = useCurrency();
   const router = useRouter();
+
+  // useEffect(() => {
+  //   const updateCurrency = () => {
+  //     const currentCurrency = localStorage.getItem("currency");
+  //     if (currentCurrency) {
+  //       handleCurrencyChange(currentCurrency);
+  //     }
+  //   };
+
+  //   window.addEventListener("storage", updateCurrency);
+
+  //   updateCurrency();
+
+  //   return () => {
+  //     window.removeEventListener("storage", updateCurrency);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
-      (item) => item.productId === data.productId
+      (item) => item.productId === data.productId,
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
@@ -81,18 +99,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productId}/${productUrl}`);
   };
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.discountPrice ?? 0))
-  );
-
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.productPrice ?? 0))
-  );
 
   return (
     <>
-      <div className="product-item grid-type ">
-        <div className="product-main cursor-pointer block">
+      <div className="product-item grid-type">
+        <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
             {/* {data?.videoDetails != null ? (
               <div
@@ -139,10 +150,10 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 )}
               </div>
             ) : ( */}
-            <div className="relative ">
+            <div className="relative">
               <Image
                 onClick={() => handleDetailProduct(data.productId, data.url)}
-                className="w-[95%] duration-700  m-auto"
+                className="m-auto w-[95%] duration-700"
                 src={data?.imageDetails[0].image_path}
                 width={400}
                 height={400}
@@ -154,7 +165,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     <Icon.Heart size={25} weight="light" />
                   </div>
                 </div> */}
-              <div className=" absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 p-2">
+              <div className="absolute bottom-0 right-0 z-0 flex justify-between p-2 hover:z-50">
                 {isProductInWishlist ? (
                   <Icon.Heart
                     size={25}
@@ -168,8 +179,8 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
-            <div className="product-name text-title duration-300 text-xl">
+          <div className="mt-4 lg:mb-7" onClick={() => handleDetailProduct}>
+            <div className="product-name text-title text-xl duration-300">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
@@ -177,27 +188,96 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               <StarRating stars={data?.rating} />
             </div>
 
-            <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-              {data?.discountPrice && (
-                <div className="product-price text-title text-lg">
-                  ₹{formattedDiscountedPrice}
-                </div>
-              )}
-              {data?.discountPrice && (
-                <div className="line-through text-[#beb3b3]">
-                  ₹{formattedOriginalPrice}
-                </div>
-              )}
-              {/* {data?.discountPrice && (
-                <p className="text-[#c95d71]">
-                  {data && data?.discountValue}%OFF
-                </p>
-              )} */}
-              {data?.discountValue == null && (
-                <div className="product-price text-title text-lg">
-                  ₹{formattedOriginalPrice}
-                </div>
-              )}
+            <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
+              {data?.discountPrice &&
+                (currency === "INR" ? (
+                  <div className="product-price text-title text-lg">
+                    ₹
+                    {Intl.NumberFormat("en-IN").format(
+                      Math.round(parseFloat(data?.discountPrice ?? 0)),
+                    )}
+                  </div>
+                ) : currency === "USD" ? (
+                  <div className="product-price text-title text-lg">
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(data?.discountPrice * 0.012 ?? 0)}
+                  </div>
+                ) : currency === "EUR" ? (
+                  <div className="product-price text-title text-lg">
+                    {Intl.NumberFormat("en-IE", {
+                      style: "currency",
+                      currency: "EUR",
+                    }).format(data?.discountPrice * 0.011 ?? 0)}
+                  </div>
+                ) : (
+                  // Handle case where currency doesn't match expected values
+                  <div className="product-price text-title text-lg">
+                    {/* Default or error message */}
+                    Price not available
+                  </div>
+                ))}
+
+              {data?.discountPrice &&
+                (currency === "INR" ? (
+                  <div className="text-[#beb3b3] line-through">
+                    ₹
+                    {Intl.NumberFormat("en-IN").format(
+                      Math.round(parseFloat(`${data?.productPrice}` ?? "0")),
+                    )}
+                  </div>
+                ) : currency === "USD" ? (
+                  <div className="text-[#beb3b3] line-through">
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(data?.productPrice * 0.012 ?? 0)}
+                  </div>
+                ) : currency === "EUR" ? (
+                  <div className="text-[#beb3b3] line-through">
+                    {Intl.NumberFormat("en-IE", {
+                      style: "currency",
+                      currency: "EUR",
+                    }).format(data?.productPrice * 0.011 ?? 0)}
+                  </div>
+                ) : (
+                  // Handle case where currency doesn't match expected values
+                  <div className="product-price text-title text-lg">
+                    {/* Default or error message */}
+                    Price not available
+                  </div>
+                ))}
+
+              {data?.discountValue == null &&
+                (currency === "INR" ? (
+                  <div className="product-price text-title text-lg">
+                    ₹
+                    {Intl.NumberFormat("en-IN").format(
+                      Math.round(parseFloat(data?.productPrice ?? 0)),
+                    )}
+                  </div>
+                ) : currency === "USD" ? (
+                  <div className="product-price text-title text-lg">
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format((data?.productPrice ?? 0) * 0.012)}
+                  </div>
+                ) : currency === "EUR" ? (
+                  <div className="product-price text-title text-lg">
+                    {Intl.NumberFormat("en-IE", {
+                      style: "currency",
+                      currency: "EUR",
+                    }).format((data?.productPrice ?? 0) * 0.011)}
+                  </div>
+                ) : (
+                  // Handle case where currency doesn't match expected values
+                  <div className="product-price text-title text-lg">
+                    {/* Default or error message */}
+                    Price not available
+                  </div>
+                ))}
             </div>
           </div>
         </div>

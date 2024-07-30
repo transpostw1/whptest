@@ -342,25 +342,21 @@ const Footer = () => {
                   <div className="font-semibold ">User Guide</div>
                   <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{ pathname: "/products", query: { url: "c-ring" } }}
-                      // onClick={() => setCustomcategory("ring")}
+                      href={"/diamondguide"}
+                     
                     >
                       Diamond Guide
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{
-                        pathname: "/products",
-                        query: { url: "necklace" },
-                      }}
-                      // onClick={() => setCustomcategory("c-necklace")}
+                      href={"/gemstoneguide"}
                     >
                       Gemstone Guide
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href={{ pathname: "/products", query: { url: "stone" } }}
-                      // onClick={() => setCustomcategory("stone")}
+                    href={"/preciousmetal"}
+                      
                     >
                       Precious Metal Guide
                     </Link>

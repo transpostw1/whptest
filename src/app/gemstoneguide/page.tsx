@@ -3,27 +3,27 @@ import React from "react";
 import Loader from "@/components/Other/Loader";
 import { useBlog } from "@/context/BlogContext";
 
-const Terms: React.FC  = () => {
-  const { termsData, loading } = useBlog();
+const Gemguide: React.FC  = () => {
+  const { gemstoneData, loading } = useBlog();
 
   if (loading) {
     return <Loader />;
   }
 
-  if (!termsData) {
+  if (!gemstoneData) {
     return <div>No T&C data available</div>;
   }
 
   return (
     <>
       <div className="mx-5">
-      <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">
-          {termsData.name}
+        <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">
+          {gemstoneData.name}
         </h1>
-        <div dangerouslySetInnerHTML={{ __html: termsData.content }} />
+        <div dangerouslySetInnerHTML={{ __html: gemstoneData.content }} />
       </div>
     </>
   );
 };
 
-export default Terms;
+export default Gemguide;

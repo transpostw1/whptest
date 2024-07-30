@@ -44,6 +44,9 @@ interface BlogContextType {
   blogData: Blog[];
   aboutusData: Showcase | null;
   termsData:Showcase|null;
+  diamondData:Showcase|null;
+  gemstoneData:Showcase|null;
+  preciousmetalData:Showcase|null;
   careersData: Job[];
   jobCategories: string[];
   loading: boolean;
@@ -112,6 +115,9 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   const [jobCategories, setJobCategories] = useState<string[]>([]);
   const [aboutusData, setAboutusData] = useState<Showcase | null>(null);
   const [termsData, setTermsData] = useState<Showcase | null>(null);
+  const [diamondData,setDiamondData]=useState<Showcase|null>(null);
+  const [gemstoneData,setGemstoneData]=useState<Showcase|null>(null);
+  const [preciousmetalData,setPreciousmetalData]=useState<Showcase|null>(null);
 
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -149,6 +155,17 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
         (showcase: Showcase) => showcase.url === "about-whpjewellers"
       );
   
+      const DiamondShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "diamond-guide",
+      );
+      const GemsShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url ==="gemstone-guide",
+      );
+      const PreciousShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url ==="precious-metal-guide",
+      );
+  
+      
       const termsShowcase = data.getAllShowCase.find(
         (showcase: Showcase) => showcase.url === "terms-and-condition"
       );
@@ -160,6 +177,20 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
       if (termsShowcase) {
         setTermsData(termsShowcase);
       }
+      if(DiamondShowcase){
+        setDiamondData(DiamondShowcase)
+      }
+      if(GemsShowcase){
+        setGemstoneData(GemsShowcase)
+      }
+      if (PreciousShowcase){
+        setPreciousmetalData(PreciousShowcase);
+      }
+
+
+
+
+
     } catch (error) {
       console.error("Error fetching showcase data", error);
     }
@@ -195,7 +226,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   }, [jobCategories]);
 
   return (
-    <BlogContext.Provider value={{ blogData, aboutusData,termsData, careersData, jobCategories, loading, selectedUrl, setSelectedUrl, fetchBlogData }}>
+    <BlogContext.Provider value={{ blogData, aboutusData,termsData, careersData,diamondData,gemstoneData,preciousmetalData, jobCategories, loading, selectedUrl, setSelectedUrl, fetchBlogData }}>
       {children}
     </BlogContext.Provider>
   );

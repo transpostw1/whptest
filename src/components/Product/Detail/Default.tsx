@@ -29,8 +29,9 @@ import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
-import { useCurrency } from "@/context/CurrencyContext";
+import ReactImageMagnify from "react-image-magnify";
 import ZoomableImage from "./ZoomableImage";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface Props {
   productId: string | number | any;
@@ -43,8 +44,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [variant, setVariant] = useState<string>("");
   const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const { currency, handleCurrencyChange } = useCurrency();
-
+  const { formatPrice } = useCurrency();
   // const { recentlyViewedProducts, saveToRecentlyViewed } =
   //   useRecentlyViewedProducts();
 
@@ -384,123 +384,24 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="mb-5 flex">
+            <div className="mb-5">
               {data?.productDetails?.discountPrice ? (
                 <>
-                  {currency === "INR" ? (
-                    <div className="text-2xl font-extrabold">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(data?.productDetails?.discountPrice ?? 0),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="text-2xl font-extrabold">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(data?.productDetails?.discountPrice ?? 0) *
-                          0.012,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="text-2xl font-extrabold">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(data?.productDetails?.discountPrice ?? 0) *
-                          0.011,
-                      )}
-                    </div>
-                  ) : (
-                    // Handle case where currency doesn't match expected values
-                    <div className="text-2xl font-extrabold">
-                      {/* Default or error message */}
-                      Price not available
-                    </div>
-                  )}
-                  {/* <span className="ml-3 text-[#aa9e9e] line-through">
-                    ₹{formattedOriginalPrice}
-                  </span> */}
-                  {currency === "INR" ? (
-                    <div className="ml-3 text-[#aa9e9e] line-through">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(data?.productDetails?.productPrice ?? 0),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="ml-3 text-[#aa9e9e] line-through">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(data?.productDetails?.productPrice ?? 0) *
-                          0.012,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="ml-3 text-[#aa9e9e] line-through">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        (parseFloat(data?.productDetails?.productPrice) ?? 0) *
-                          0.011,
-                      )}
-                    </div>
-                  ) : (
-                    // Handle case where currency doesn't match expected values
-                    <div className="ml-3 text-[#aa9e9e] line-through">
-                      {/* Default or error message */}
-                      Price not available
-                    </div>
-                  )}
+                  <span className="text-2xl font-extrabold">
+                    {formatPrice(parseInt(data?.productDetails?.discountPrice))}
+                  </span>
+                  <span className="ml-3 text-[#aa9e9e] line-through">
+                    {formatPrice(parseInt(data?.productDetails?.productPrice))}
+                  </span>
                   <span className="ml-3 text-[#e26178] underline">
                     {data?.productDetails.discountValue}% OFF on{" "}
                     {data?.productDetails.discountCategory}
                   </span>
                 </>
-              ) : currency === "INR" ? (
-                <div className="ml-3 text-[#aa9e9e] line-through">
-                  ₹
-                  {Intl.NumberFormat("en-IN").format(
-                    Math.round(
-                      parseFloat(data?.productDetails?.productPrice ?? 0),
-                    ),
-                  )}
-                </div>
-              ) : currency === "USD" ? (
-                <div className="ml-3 text-[#aa9e9e] line-through">
-                  {Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(
-                    parseFloat(data?.productDetails?.productPrice ?? 0) * 0.012,
-                  )}
-                </div>
-              ) : currency === "EUR" ? (
-                <div className="ml-3 text-[#aa9e9e] line-through">
-                  {Intl.NumberFormat("en-IE", {
-                    style: "currency",
-                    currency: "EUR",
-                  }).format(
-                    (parseFloat(data?.productDetails?.productPrice) ?? 0) *
-                      0.011,
-                  )}
-                </div>
               ) : (
-                // Handle case where currency doesn't match expected values
-                <div className="ml-3 text-[#aa9e9e] line-through">
-                  {/* Default or error message */}
-                  Price not available
-                </div>
+                <span className="text-2xl font-extrabold">
+                  {formatPrice(parseInt(data?.productDetails?.productPrice))}
+                </span>
               )}
             </div>
           )}

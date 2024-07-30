@@ -4,7 +4,7 @@ import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
-
+import { useCurrency } from "@/context/CurrencyContext";
 interface DiamondCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -16,6 +16,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
+  const { formatPrice } = useCurrency();
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
   const [errorModal, setErrorModal] = useState(false);
@@ -30,7 +31,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const handleEnrollSuccess = (
     enrollmentId: number,
     schemeType: string,
-    amount: number
+    amount: number,
   ) => {
     // console.log("Enrollment success callback triggered");
     sessionStorage.setItem(
@@ -42,7 +43,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         totalAmount: amount * numberOfMonths,
         iconUrl: "/images/diamond-icon.png",
         schemeType: "gms",
-      })
+      }),
     );
 
     router.push("/digitalCheckout");
@@ -84,16 +85,16 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   };
 
   return (
-    <div className="bg-[#d0e1e2] h-full rounded-xl p-4 md:p-0">
-      <h3 className="font-semibold text-end mr-2 pt-2 text-[#E26178]">
+    <div className="h-full rounded-xl bg-[#d0e1e2] p-4 md:p-0">
+      <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Diamond
       </h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR DIAMOND
       </h1>
-      <div className="flex flex-col lg:flex-row justify-evenly gap-3 items-center mx-4">
-        <div className="flex flex-col justify-between text-start mt-7 w-full md:w-auto">
-          <div className="flex justify-center items-center mt-2">
+      <div className="mx-4 flex flex-col items-center justify-evenly gap-3 lg:flex-row">
+        <div className="mt-7 flex w-full flex-col justify-between text-start md:w-auto">
+          <div className="mt-2 flex items-center justify-center">
             <PieChart
               totalAmount={totalAmount}
               redemptionAmount={redemptionAmount}
@@ -101,17 +102,17 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             />
           </div>
         </div>
-        <div className="flex flex-col justify-between px-4 md:gap-6 gap-4 mt-7 md:w-96 w-full font-medium">
+        <div className="mt-7 flex w-full flex-col justify-between gap-4 px-4 font-medium md:w-96 md:gap-6">
           <h1 className="font-medium">
             Slide or enter monthly installment amount
           </h1>
-          <div className="mb-5 md:mb-0 text-center">
-            <div className="flex items-center justify-center rounded p-2 border border-gray-700 bg-white mb-2 h-10">
-              <div className="flex items-center justify-start w-full">
+          <div className="mb-5 text-center md:mb-0">
+            <div className="mb-2 flex h-10 items-center justify-center rounded border border-gray-700 bg-white p-2">
+              <div className="flex w-full items-center justify-start">
                 <span className="text-2xl md:text-3xl">₹</span>
                 <input
                   type="number"
-                  className="text-2xl md:text-3xl font-bold mx-2 w-32 md:w-32 text-center remove-arrows"
+                  className="remove-arrows mx-2 w-32 text-center text-2xl font-bold md:w-32 md:text-3xl"
                   value={monthlyDeposit}
                   onChange={handleChange}
                   min="2000"
@@ -137,7 +138,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="">₹{totalAmount.toLocaleString("en-IN")}</h1>
+              <h1 className="">{formatPrice(totalAmount)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -145,23 +146,23 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               <h1>100% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{(monthlyDeposit * 1).toLocaleString("en-IN")}</h1>
+              <h1>{formatPrice(monthlyDeposit * 1)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
-            <div className="text-start w-full md:w-52">
+            <div className="w-full text-start md:w-52">
               <h1>Buy any gold worth: (after 11th month)</h1>
             </div>
             <div>
-              <h1 className="md:text-3xl text-sm text-[#E26178]">
-                ₹{redemptionAmount.toLocaleString("en-IN")}
+              <h1 className="text-sm text-[#E26178] md:text-3xl">
+                {formatPrice(redemptionAmount)}
               </h1>
             </div>
           </div>
           <div className="mb-3 flex flex-col text-center">
             <div>
               <div
-                className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white text-center p-1 rounded-lg w-full cursor-pointer mb-2"
+                className="mb-2 w-full cursor-pointer rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
                 onClick={() => handleInputVerification()}
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
@@ -169,7 +170,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             </div>
             <div>
               <Link
-                className="text-black underline text-start text-sm rounded-xl w-full cursor-pointer"
+                className="w-full cursor-pointer rounded-xl text-start text-sm text-black underline"
                 href={"/terms-and-condition"}
               >
                 T&C apply*
@@ -181,9 +182,9 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center">
           <p>Minimum Deposit is 500</p>
-          <div className="flex justify-center mt-4">
+          <div className="mt-4 flex justify-center">
             <button
-              className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white px-4 py-2 rounded"
+              className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
               onClick={() => setShowModal(false)}
             >
               Cancel

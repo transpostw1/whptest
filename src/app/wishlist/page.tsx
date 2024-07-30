@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
-
+import {useCurrency} from "@/context/CurrencyContext";
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const {} = useWishlist();
@@ -19,6 +19,7 @@ const Wishlist = () => {
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {}
   );
+  const {formatPrice}=useCurrency();
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -232,11 +233,11 @@ const Wishlist = () => {
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
                             {product.discountPrice
-                              ? formatCurrency(product.discountPrice)
-                              : formatCurrency(product.productPrice)}
+                              ? formatPrice(parseInt(product.discountPrice))
+                              : formatPrice(parseInt(product.productPrice))}
                           </span>
                           <span className="original-price line-through text-[#beb3b3]">
-                            {formatCurrency(product.productPrice)}
+                            {formatPrice(parseInt(product.productPrice))}
                           </span>
                         </p>
                       </div>

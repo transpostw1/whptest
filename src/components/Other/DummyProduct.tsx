@@ -33,7 +33,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     useWishlist();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
-  const { currency, handleCurrencyChange } = useCurrency();
+  const { formatPrice } = useCurrency();
   const router = useRouter();
 
   // useEffect(() => {
@@ -189,95 +189,22 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             </div>
 
             <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
-              {data?.discountPrice &&
-                (currency === "INR" ? (
-                  <div className="product-price text-title text-lg">
-                    ₹
-                    {Intl.NumberFormat("en-IN").format(
-                      Math.round(parseFloat(data?.discountPrice ?? 0)),
-                    )}
-                  </div>
-                ) : currency === "USD" ? (
-                  <div className="product-price text-title text-lg">
-                    {Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(data?.discountPrice * 0.012 ?? 0)}
-                  </div>
-                ) : currency === "EUR" ? (
-                  <div className="product-price text-title text-lg">
-                    {Intl.NumberFormat("en-IE", {
-                      style: "currency",
-                      currency: "EUR",
-                    }).format(data?.discountPrice * 0.011 ?? 0)}
-                  </div>
-                ) : (
-                  // Handle case where currency doesn't match expected values
-                  <div className="product-price text-title text-lg">
-                    {/* Default or error message */}
-                    Price not available
-                  </div>
-                ))}
+              {data?.discountPrice && (
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.discountPrice))}
+                </p>
+              )}
+              {data?.discountPrice && (
+                <p className="text-[#beb3b3] line-through">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
+              )}
 
-              {data?.discountPrice &&
-                (currency === "INR" ? (
-                  <div className="text-[#beb3b3] line-through">
-                    ₹
-                    {Intl.NumberFormat("en-IN").format(
-                      Math.round(parseFloat(`${data?.productPrice}` ?? "0")),
-                    )}
-                  </div>
-                ) : currency === "USD" ? (
-                  <div className="text-[#beb3b3] line-through">
-                    {Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(data?.productPrice * 0.012 ?? 0)}
-                  </div>
-                ) : currency === "EUR" ? (
-                  <div className="text-[#beb3b3] line-through">
-                    {Intl.NumberFormat("en-IE", {
-                      style: "currency",
-                      currency: "EUR",
-                    }).format(data?.productPrice * 0.011 ?? 0)}
-                  </div>
-                ) : (
-                  // Handle case where currency doesn't match expected values
-                  <div className="product-price text-title text-lg">
-                    {/* Default or error message */}
-                    Price not available
-                  </div>
-                ))}
-
-              {data?.discountValue == null &&
-                (currency === "INR" ? (
-                  <div className="product-price text-title text-lg">
-                    ₹
-                    {Intl.NumberFormat("en-IN").format(
-                      Math.round(parseFloat(data?.productPrice ?? 0)),
-                    )}
-                  </div>
-                ) : currency === "USD" ? (
-                  <div className="product-price text-title text-lg">
-                    {Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format((data?.productPrice ?? 0) * 0.012)}
-                  </div>
-                ) : currency === "EUR" ? (
-                  <div className="product-price text-title text-lg">
-                    {Intl.NumberFormat("en-IE", {
-                      style: "currency",
-                      currency: "EUR",
-                    }).format((data?.productPrice ?? 0) * 0.011)}
-                  </div>
-                ) : (
-                  // Handle case where currency doesn't match expected values
-                  <div className="product-price text-title text-lg">
-                    {/* Default or error message */}
-                    Price not available
-                  </div>
-                ))}
+              {data?.discountValue == null && (
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
+              )}
             </div>
           </div>
         </div>

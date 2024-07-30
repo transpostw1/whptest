@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { useBlog } from "@/context/BlogContext";
 import Loader from "@/components/Other/Loader";
 
@@ -16,6 +15,7 @@ const About = () => {
   }
 
   return (
+    <>
     <div className="mx-5">
       <h1 className="text-center font-bold my-3 text-[#e26178]  text-2xl">{aboutusData.name}</h1>
       {/* <Image
@@ -27,6 +27,7 @@ const About = () => {
       /> */}
       <div dangerouslySetInnerHTML={{ __html: aboutusData.content }} />
     </div>
+    </>
   );
 };
 

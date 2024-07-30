@@ -25,6 +25,7 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
               delay: 3000,
               disableOnInteraction: false,
             }}
+            loop={true} 
             className="h-full w-full"
           >
             <SwiperSlide>

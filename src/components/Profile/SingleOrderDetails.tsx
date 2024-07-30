@@ -208,10 +208,35 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
         </div>
         <div className="border border-gray mb-2 mt-4 ml-2 rounded-md max-md:col-span-2">
-          <p className=" border-gray border-b font-semibold p-2 mb-2">
-            Order Tracking
-          </p>
+  <p className="border-gray border-b font-semibold p-2 mb-2">
+    Order Tracking
+  </p>
+  <div className="p-4 relative">
+    <div className="absolute top-5 left-[1.40rem] w-0.5 h-[calc(100%-3rem)] bg-gray-300"></div>
+    {singleOrder[0]?.orderTracking.map((track:any, index:any) => (
+      <div key={index} className="flex items-start mb-8 relative">
+        <div className="mr-4 z-10">
+          <div className={`w-4 h-4 rounded-full ${
+            index === singleOrder[0].orderTracking.length - 1 ? 'bg-green-500' : 'bg-blue-500'
+          }`}></div>
         </div>
+        <div className="flex flex-col">
+          <span className="font-semibold">{track.trackingOrderStatusName}</span>
+          <span className="text-sm text-gray-500">
+            {new Date(track.created_at).toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+            })}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
       </div>
 
       {singleOrder[0]?.orderStatus === "4" ||

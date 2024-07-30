@@ -11,7 +11,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Loader from "@/components/Other/Loader";
 
-
 interface careersData {
   title: string;
   description: string;
@@ -20,7 +19,7 @@ interface careersData {
   location: string[];
   posted: string;
   image: string;
-  url: string; 
+  url: string;
 }
 interface FilterButtonsProps {
   jobCategories: string[];
@@ -51,7 +50,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
           </button>
         ))}
       </div> */}
-      <div className="flex ">
+      <div className="flex">
         <Swiper
           slidesPerView={1.8}
           spaceBetween={160}
@@ -63,16 +62,16 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
           breakpoints={{
             768: {
               slidesPerView: 3.5,
-              spaceBetween:10,
+              spaceBetween: 10,
             },
           }}
-          loop={true} 
+          loop={true}
           className="w-full"
         >
           {uniqueCategories.map((filter) => (
             <SwiperSlide key={filter}>
               <button
-                className={`w-80 md:w-full rounded-full border px-4 py-2 transition-colors duration-300 ${
+                className={`w-80 rounded-full border px-4 py-2 transition-colors duration-300 md:w-full ${
                   activeFilter === filter ? "bg-purple-200" : "bg-white"
                 }`}
                 onClick={() => onFilterChange(filter)}
@@ -87,16 +86,18 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
   );
 };
 
-
 const Careers: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
-  const { careersData, jobCategories,setSelectedUrl,loading } = useBlog();
+  const { careersData, jobCategories, setSelectedUrl, loading } = useBlog();
   // const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleJobDetail = (url: string, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleJobDetail = (
+    url: string,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     const target = event.target as HTMLElement;
     if (target.closest("button")) {
       setShowModal(true);
@@ -123,8 +124,6 @@ const Careers: React.FC = () => {
       ? careersData
       : careersData.filter((job) => job.category.includes(activeFilter));
 
- 
-
   if (loading) {
     return <Loader />;
   }
@@ -147,7 +146,7 @@ const Careers: React.FC = () => {
           onFilterChange={handleFilterChange}
         />
 
-        <div className="mx-4 md:mx-14">
+        <div className="mx-4 md:mx-14 my-4">
           {filteredcareersData.length > 0 ? (
             filteredcareersData.map((data, index) => (
               <div
@@ -155,7 +154,7 @@ const Careers: React.FC = () => {
                 key={index}
                 onClick={(event) => handleJobDetail(data.url, event)}
               >
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between ">
                   <div>
                     <div className="flex items-center gap-2">
                       <h1 className="text-lg font-semibold md:text-2xl">
@@ -163,18 +162,21 @@ const Careers: React.FC = () => {
                       </h1>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between items-end">
+                  <div className="flex flex-col items-end  justify-between">
                     <div className="flex flex-wrap justify-end gap-2 text-sm text-gray-400 md:text-lg">
                       {data.location.map((loc, index) => (
                         <div key={index} className="flex items-center gap-1">
-                          <span>{loc}</span>
+                          <span>
+                            {loc}
+                            {index < data.location.length - 1 && ","}
+                          </span>
                         </div>
                       ))}
                     </div>
                     <button
                       type="button"
                       onClick={openModal}
-                      className="w-28 mb-2 rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#4d97cb] focus:ring-4 focus:ring-blue-500"
+                      className="mb-2 w-28 rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#4d97cb] focus:ring-4 focus:ring-blue-500"
                     >
                       Apply
                     </button>

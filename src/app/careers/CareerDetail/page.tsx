@@ -1,7 +1,8 @@
 "use client";
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { useBlog } from '@/context/BlogContext';
 import Loader from '@/components/Other/Loader';
+import { useRouter } from 'next/navigation';
 import ApplyForm from '../applyForm';
 
 interface JobDetail {
@@ -17,10 +18,14 @@ interface JobDetail {
 const CareerDetail: React.FC = () => {
   const { careersData, selectedUrl, loading } = useBlog();
   const [showModal, setShowModal] = useState(false);
-  console.log(careersData, selectedUrl, "consoleee");
+  const router = useRouter();
 
+  useEffect(() => {
+    if (!loading && (!careersData.length || !selectedUrl)) {
+      router.push('/careers');
+    }
+  }, [loading, careersData, selectedUrl, router]);
 
-  
   const openModal = () => {
     setShowModal(true);
   };
@@ -29,20 +34,16 @@ const CareerDetail: React.FC = () => {
     setShowModal(false);
   };
 
-  // Find the job that matches the selected URL
-  const jobDetail = careersData.find((job: JobDetail) => job.url === selectedUrl);
   
+  const jobDetail = careersData.find((job: JobDetail) => job.url === selectedUrl);
 
   if (loading) {
-    return (
-      <Loader/>
-    )
+    return <Loader />;
   }
 
   if (!jobDetail) {
-    return <p>No job details found for the selected one.</p>;
+    return null; 
   }
-
   return (
     <div className="flex flex-col">
       <div className="border-b py-2 mb-4 bg-gray-100 md:px-10 px-1">

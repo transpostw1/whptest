@@ -339,7 +339,32 @@ const Footer = () => {
                     )}
                   </div>
                   <div className="item flex flex-col items-center lg:items-start w-full">
-                    <div className="font-semibold ">Contact</div>
+                  <div className="font-semibold ">User Guide</div>
+                  <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={{ pathname: "/products", query: { url: "c-ring" } }}
+                      // onClick={() => setCustomcategory("ring")}
+                    >
+                      Diamond Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={{
+                        pathname: "/products",
+                        query: { url: "necklace" },
+                      }}
+                      // onClick={() => setCustomcategory("c-necklace")}
+                    >
+                      Gemstone Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={{ pathname: "/products", query: { url: "stone" } }}
+                      // onClick={() => setCustomcategory("stone")}
+                    >
+                      Precious Metal Guide
+                    </Link>
+                    <div className="font-semibold mt-4 ">Contact</div>
                     <Link
                       href="tel:+91 1800-222-225"
                       target="_blank"

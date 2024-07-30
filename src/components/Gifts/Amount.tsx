@@ -5,7 +5,7 @@ interface AmountProps {
 }
 
 const Amount: FC<AmountProps> = ({ onAmountChange }) => {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("500");
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

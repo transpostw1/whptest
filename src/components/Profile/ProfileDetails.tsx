@@ -11,8 +11,8 @@ import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
-import { useCurrency } from "@/context/CurrencyContext";
 import { IoMdLogOut } from "react-icons/io";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
@@ -208,7 +208,7 @@ const ProfileDetails = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">
+        <p className="font-semibold">
           Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
         </p>
       </div>
@@ -247,9 +247,11 @@ const ProfileDetails = () => {
             >
               Phone number
             </label>
-            <span className="text-xl font-semibold">
-              {userDetails?.mobile_no}
-            </span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
+              <span className="font-semibold text-md" >
+                {userDetails?.mobile_no}
+              </span>
+            </div>
           </div>
           <div>
             <label
@@ -258,11 +260,16 @@ const ProfileDetails = () => {
             >
               Email address
             </label>
-            <span className="text-xl font-semibold">{userDetails?.email}</span>
+            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded text-wrap">
+              <span className="font-semibold text-md" >
+                {userDetails?.email}
+              </span>
+            </div>
           </div>
         </div>
-      </form>
-      <div className="flex justify-between">
+      </form >
+      <hr className="mt-3" />
+      <div className="flex justify-between ">
         <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"

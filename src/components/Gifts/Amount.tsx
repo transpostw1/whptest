@@ -15,8 +15,16 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
   };
 
   const handleButtonClick = (value: number) => {
-    setAmount(value);
-    onAmountChange(value);
+    if (currency == "USD") {
+      setAmount(value * 0.012);
+      onAmountChange(value * 0.012);
+    } else if (currency=="EUR") {
+      setAmount(value * 0.011);
+      onAmountChange(value * 0.011);
+    } else {
+      setAmount(value);
+      onAmountChange(value);
+    }
   };
   useEffect(() => {
     console.log("amount from Button Click", amount);

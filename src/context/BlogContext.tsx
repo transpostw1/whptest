@@ -30,10 +30,28 @@ interface Showcase {
   content: string;
 }
 
+interface Job {
+  id: string;
+  title: string;
+  content: string;
+  url: string;
+  category: string;
+  addDate: string;
+  location: string[];
+}
+
 interface BlogContextType {
   blogData: Blog[];
   aboutusData: Showcase | null;
+  termsData:Showcase|null;
+  diamondData:Showcase|null;
+  gemstoneData:Showcase|null;
+  preciousmetalData:Showcase|null;
+  careersData: Job[];
+  jobCategories: string[];
   loading: boolean;
+  selectedUrl: string | null;
+  setSelectedUrl: React.Dispatch<React.SetStateAction<string | null>>;
   fetchBlogData: () => Promise<void>;
 }
 
@@ -66,17 +84,19 @@ const GetAllShowCase = gql`
     }
   }
 `;
+
 const GetAllJobs = gql`
-query GetAllJobs {
-  getAllJobs {
-    id
-    title
-    content
-    url
-    category
-    addDate
+  query GetAllJobs {
+    getAllJobs {
+      id
+      title
+      content
+      url
+      category
+      addDate
+      location
+    }
   }
-}
 `;
 
 export const useBlog = () => {
@@ -91,8 +111,15 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [blogData, setBlogData] = useState<Blog[]>([]);
-  const [careersData, setcareersData] = useState<Careers[]>([]);
-  const [aboutusData, setaboutusData] = useState<Showcase | null>(null);
+  const [careersData, setCareersData] = useState<Job[]>([]);
+  const [jobCategories, setJobCategories] = useState<string[]>([]);
+  const [aboutusData, setAboutusData] = useState<Showcase | null>(null);
+  const [termsData, setTermsData] = useState<Showcase | null>(null);
+  const [diamondData,setDiamondData]=useState<Showcase|null>(null);
+  const [gemstoneData,setGemstoneData]=useState<Showcase|null>(null);
+  const [preciousmetalData,setPreciousmetalData]=useState<Showcase|null>(null);
+
+  const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchBlogData = async () => {
@@ -119,41 +146,74 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-
+  
       const { data } = await client.query({
         query: GetAllShowCase,
       });
-
-      const showcase = data.getAllShowCase.find(
+  
+      const aboutUsShowcase = data.getAllShowCase.find(
         (showcase: Showcase) => showcase.url === "about-whpjewellers"
       );
-
-      if (showcase) {
-        setaboutusData(showcase);
+  
+      const DiamondShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "diamond-guide",
+      );
+      const GemsShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url ==="gemstone-guide",
+      );
+      const PreciousShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url ==="precious-metal-guide",
+      );
+  
+      
+      const termsShowcase = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "terms-and-condition"
+      );
+  
+      if (aboutUsShowcase) {
+        setAboutusData(aboutUsShowcase);
       }
+  
+      if (termsShowcase) {
+        setTermsData(termsShowcase);
+      }
+      if(DiamondShowcase){
+        setDiamondData(DiamondShowcase)
+      }
+      if(GemsShowcase){
+        setGemstoneData(GemsShowcase)
+      }
+      if (PreciousShowcase){
+        setPreciousmetalData(PreciousShowcase);
+      }
+
+
+
+
+
     } catch (error) {
       console.error("Error fetching showcase data", error);
     }
   };
-
-  const fetchJobsData = async ()=>{
-    try{
+  const fetchJobsData = async () => {
+    try {
       const client = new ApolloClient({
-        uri:graphqlbaseUrl,
+        uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
       const { data } = await client.query({
         query: GetAllJobs,
       });
-      setcareersData(data)
-      console.log(careersData,"careeeerr")
-
-
-    }catch(error){
-      console.log(error)
+      setCareersData(data.getAllJobs);
+      const categories = data.getAllJobs.map((job: Job) => job.category);
+      setJobCategories(categories);
+      console.log(data.getAllJobs)
+      console.log(careersData, "careers data");
+      console.log(jobCategories, "job categories");
+    } catch (error) {
+      console.log(error);
     }
-  }
-
+  };
 
   useEffect(() => {
     fetchBlogData();
@@ -161,8 +221,12 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
     fetchJobsData();
   }, []);
 
+  useEffect(() => {
+    console.log(jobCategories, "job categories");
+  }, [jobCategories]);
+
   return (
-    <BlogContext.Provider value={{ blogData, aboutusData, loading, fetchBlogData }}>
+    <BlogContext.Provider value={{ blogData, aboutusData,termsData, careersData,diamondData,gemstoneData,preciousmetalData, jobCategories, loading, selectedUrl, setSelectedUrl, fetchBlogData }}>
       {children}
     </BlogContext.Provider>
   );

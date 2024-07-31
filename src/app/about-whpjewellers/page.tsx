@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { useBlog } from "@/context/BlogContext";
 import Loader from "@/components/Other/Loader";
 
@@ -16,8 +15,9 @@ const About = () => {
   }
 
   return (
+    <>
     <div className="mx-5">
-      <h1 className="text-center font-bold my-3 text-[#e26178]  text-2xl">{aboutusData.name}</h1>
+    <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">{aboutusData.name}</h1>
       {/* <Image
         objectFit="cover"
         src={"/images/banner/waman-hari-pethe-jewellers.png"}
@@ -25,8 +25,9 @@ const About = () => {
         width={5000}
         height={5000}
       /> */}
-      <div dangerouslySetInnerHTML={{ __html: aboutusData.content }} />
+      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: aboutusData.content }} />
     </div>
+    </>
   );
 };
 

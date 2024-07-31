@@ -339,7 +339,28 @@ const Footer = () => {
                     )}
                   </div>
                   <div className="item flex flex-col items-center lg:items-start w-full">
-                    <div className="font-semibold ">Contact</div>
+                  <div className="font-semibold ">User Guide</div>
+                  <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/diamondguide"}
+                     
+                    >
+                      Diamond Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      href={"/gemstoneguide"}
+                    >
+                      Gemstone Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                    href={"/preciousmetal"}
+                      
+                    >
+                      Precious Metal Guide
+                    </Link>
+                    <div className="font-semibold mt-4 ">Contact</div>
                     <Link
                       href="tel:+91 1800-222-225"
                       target="_blank"

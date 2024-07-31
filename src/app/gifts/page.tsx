@@ -38,6 +38,7 @@ const Gifts = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(false);
   const [isTemplateSelected, setIsTemplateSelected] = useState<boolean>(false);
+  const [isAmountSelected, setIsAmountSelected] = useState<boolean>(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
     null,
   );
@@ -132,8 +133,22 @@ const Gifts = () => {
   };
 
   const handleStepClick = (index: number) => {
-    setError("");
-    setCurrentStep(index);
+    if (!isStepValid()) {
+      setError("Please fill in all the details correctly.");
+    } else if (currentStep === 0 && !isOccasionSelected) {
+      setError("Please select an occasion.");
+    } else if (currentStep === 0 && !isTemplateSelected) {
+      setError("Please select a Template.");
+      setCurrentStep(1);
+    } else if (currentStep === 1 && !isTemplateSelected) {
+      setError("Please select an Template.");
+    }else if (currentStep <= 3 &&! isAmountSelected) {
+      setError("Please Enter Amount.");
+      setCurrentStep(2)
+    } else {
+      setError("");
+      setCurrentStep(index);
+    }
   };
 
   const handleProceedToPay = () => {
@@ -168,6 +183,7 @@ const Gifts = () => {
   };
 
   const handleAmountChange = (amount: number) => {
+    setIsAmountSelected(true)
     setFormData((prevData) => ({ ...prevData, amount }));
   };
 

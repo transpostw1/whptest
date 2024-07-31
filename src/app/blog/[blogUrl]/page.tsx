@@ -59,7 +59,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         width={700}
       />
       <h1 className="text-xl font-semibold pb-5">{blog.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
     </div>
   );
 };

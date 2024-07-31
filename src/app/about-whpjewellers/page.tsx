@@ -25,7 +25,7 @@ const About = () => {
         width={5000}
         height={5000}
       /> */}
-      <div dangerouslySetInnerHTML={{ __html: aboutusData.content }} />
+      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: aboutusData.content }} />
     </div>
     </>
   );

@@ -12,6 +12,7 @@ import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import { IoMdLogOut } from "react-icons/io";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
@@ -25,6 +26,7 @@ const ProfileDetails = () => {
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const {formatPrice}=useCurrency()
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -207,7 +209,7 @@ const ProfileDetails = () => {
       </div>
       <div className="flex justify-end">
         <p className="font-semibold">
-          Wallet Balance:₹{formattedWalletAmount}
+          Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
         </p>
       </div>
       <form>
@@ -215,7 +217,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md block font-medium text-black mb-1"
             >
               First name
             </label>
@@ -228,7 +230,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md block font-medium text-black mb-1"
             >
               Last name
             </label>
@@ -241,7 +243,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md block font-medium text-black mb-1"
             >
               Phone number
             </label>
@@ -254,7 +256,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md block font-medium text-black mb-1"
             >
               Email address
             </label>
@@ -268,9 +270,9 @@ const ProfileDetails = () => {
       </form >
       <hr className="mt-3" />
       <div className="flex justify-between ">
-        <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
+        <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
-          className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"
+          className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
           onClick={() => setShowAddressModal(true)}
         >
           Add Address

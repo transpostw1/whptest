@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Occasion from "@/components/Gifts/Occasion";
 import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
@@ -10,6 +10,7 @@ import Stepper from "./Stepper";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { baseUrl, voucher, graphqlbaseUrl } from "@/utils/constants";
 import axios from "axios";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const steps = [
   "Select an Occasion",
@@ -21,6 +22,7 @@ const steps = [
 
 const Gifts = () => {
   const router = useRouter();
+  const { currency } = useCurrency();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     recipientName: "",
@@ -36,11 +38,12 @@ const Gifts = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(false);
   const [isTemplateSelected, setIsTemplateSelected] = useState<boolean>(false);
+  const [isAmountSelected, setIsAmountSelected] = useState<boolean>(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
-    null
+    null,
   );
   const [selectedTemplateUrl, setSelectedTemplateUrl] = useState<string | null>(
-    null
+    null,
   );
   const [voucherData, setVoucher] = useState<any>(null);
 
@@ -80,7 +83,7 @@ const Gifts = () => {
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -130,19 +133,39 @@ const Gifts = () => {
   };
 
   const handleStepClick = (index: number) => {
-    setError("");
-    setCurrentStep(index);
+    if (!isStepValid()) {
+      setError("Please fill in all the details correctly.");
+    } else if (currentStep === 0 && !isOccasionSelected) {
+      setError("Please select an occasion.");
+    } else if (currentStep === 0 && !isTemplateSelected) {
+      setError("Please select a Template.");
+      setCurrentStep(1);
+    } else if (currentStep === 1 && !isTemplateSelected) {
+      setError("Please select an Template.");
+    }else if (currentStep <= 3 &&! isAmountSelected) {
+      setError("Please Enter Amount.");
+      setCurrentStep(2)
+    } else {
+      setError("");
+      setCurrentStep(index);
+    }
   };
 
   const handleProceedToPay = () => {
+    let payableAmount;
+    if (currency == "USD") {
+      payableAmount = Math.round(formData.amount * 83.7);
+    } else if (currency == "EUR") {
+      payableAmount = Math.round(formData.amount * 90.7);
+    }
     const voucherDetails = {
       enrollmentId: null,
       planName: formData.occasion,
       monthlyAmount: null,
-      totalAmount: formData.amount,
-      balanceAmount: formData.amount,
+      totalAmount: payableAmount,
+      balanceAmount: payableAmount,
       iconUrl: selectedTemplateUrl,
-      schemeType: 'voucher',
+      schemeType: "voucher",
       recipientName: formData.recipientName,
       recipientEmail: formData.recipientEmail,
       recipientMobile: formData.recipientMobile,
@@ -150,8 +173,8 @@ const Gifts = () => {
       senderName: formData.senderName,
     };
 
-    sessionStorage.setItem('selectedScheme', JSON.stringify(voucherDetails));
-    router.push('/digitalCheckout');
+    sessionStorage.setItem("selectedScheme", JSON.stringify(voucherDetails));
+    router.push("/digitalCheckout");
   };
 
   const handleTemplateSelect = (templateUrl: string) => {
@@ -160,6 +183,7 @@ const Gifts = () => {
   };
 
   const handleAmountChange = (amount: number) => {
+    setIsAmountSelected(true)
     setFormData((prevData) => ({ ...prevData, amount }));
   };
 
@@ -168,31 +192,31 @@ const Gifts = () => {
   const stepCount = currentStep + 1;
 
   return (
-    <div className="md:mx-1 mx-2">
-      <div className="text-center py-10 bg-[#f8a4b4]">
-        <h1 className="font-medium py-2">GIFT CARDS</h1>
-        <h3 className="font-semibold text-3xl italic">
+    <div className="mx-2 md:mx-1">
+      <div className="bg-[#f8a4b4] py-10 text-center">
+        <h1 className="py-2 font-medium">GIFT CARDS</h1>
+        <h3 className="text-3xl font-semibold italic">
           For what your loved ones Love!
         </h3>
       </div>
       <div className="flex lg:mx-32">
-        <div className="lg:block hidden p-4">
-          <div className="bg-red-500 h-full w-0.5"></div>
+        <div className="hidden p-4 lg:block">
+          <div className="h-full w-0.5 bg-red-500"></div>
         </div>
-        <div className="flex flex-col justify-between w-full mt-3">
-          <div className="flex justify-between gap-1 items-end">
+        <div className="mt-3 flex w-full flex-col justify-between">
+          <div className="flex items-end justify-between gap-1">
             <div>
               <div className="flex flex-col items-start">
                 {completedSteps.map((step, index) => (
                   <div
                     key={index}
-                    className="flex gap-3 text-green-600 py-2 mb-2 "
+                    className="mb-2 flex gap-3 py-2 text-green-600"
                   >
                     <div className="font-bold">{index + 1}</div>
                     {step}
                   </div>
                 ))}
-                <div className="bg-[#e26178] text-white md:px-4 p-1">
+                <div className="bg-[#e26178] p-1 text-white md:px-4">
                   {steps[currentStep]}
                 </div>
               </div>
@@ -201,7 +225,7 @@ const Gifts = () => {
             <div className="flex gap-2">
               {currentStep > 0 && (
                 <button
-                  className="text-white bg-gray-500 md:px-4 px-2 py-2"
+                  className="bg-gray-500 px-2 py-2 text-white md:px-4"
                   onClick={handlePrevious}
                 >
                   PREVIOUS
@@ -209,14 +233,14 @@ const Gifts = () => {
               )}
               {currentStep < steps.length - 1 ? (
                 <button
-                  className="text-white bg-blue-950 md:px-4 px-2 py-2"
+                  className="bg-blue-950 px-2 py-2 text-white md:px-4"
                   onClick={handleNext}
                 >
                   NEXT
                 </button>
               ) : (
                 <button
-                  className="text-white bg-[#e26178] md:px-4 md:py-2"
+                  className="bg-[#e26178] text-white md:px-4 md:py-2"
                   onClick={handleProceedToPay}
                 >
                   PROCEED TO PAY
@@ -226,7 +250,7 @@ const Gifts = () => {
           </div>
 
           {error && (
-            <div className="text-red-500 text-center mt-2">{error}</div>
+            <div className="mt-2 text-center text-red-500">{error}</div>
           )}
 
           {currentStep === 0 && (
@@ -262,11 +286,11 @@ const Gifts = () => {
           )}
 
           <div className="flex items-center justify-between">
-            <div className="mt-2 text-sm flex flex-col justify-start">
+            <div className="mt-2 flex flex-col justify-start text-sm">
               {remainingSteps.map((step, index) => (
                 <div
                   key={index}
-                  className="py-1 px-2 font-normal cursor-pointer text-gray-400"
+                  className="cursor-pointer px-2 py-1 font-normal text-gray-400"
                   onClick={() => handleStepClick(currentStep + index + 1)}
                 >
                   {step}

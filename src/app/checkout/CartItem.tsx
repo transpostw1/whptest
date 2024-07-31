@@ -8,7 +8,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 import Skeleton from "react-loading-skeleton";
 import Loader from "../blog/loading";
-
+import { useCurrency } from "@/context/CurrencyContext";
 interface CartItemProps {
   product: {
     productId: number;
@@ -36,6 +36,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [isloading, setLoading] = useState(true);
+  const {formatPrice}=useCurrency()
 
   useEffect(() => {
     if (product) {
@@ -53,17 +54,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     }
   };
 
-
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;
-
-  const formattedPrice = new Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(Math.round(parseInt(price.toString())));
-
-  const formattedProductPrice = new Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(Math.round(parseInt(productPrice.toString())));
 
   const handleRemoveFromCart = () => {
     setShowModal(true);
@@ -148,9 +140,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             </div>
           </div>
           <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
-            <div className="text-title text-center"> ₹{formattedPrice} </div>
+            <div className="text-title text-center"> {formatPrice(price)} </div>
             <div className="line-through text-[#beb3b3]">
-              ₹{formattedProductPrice}
+              {formatPrice(productPrice)}
             </div>
             <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
               <Icon.Minus

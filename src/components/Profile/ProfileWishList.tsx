@@ -6,7 +6,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
-
+import {useCurrency} from "@/context/CurrencyContext"
 import { useCart } from "@/context/CartContext";
 
 const ProfileWishList = () => {
@@ -14,7 +14,7 @@ const ProfileWishList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
-
+  const {formatPrice}=useCurrency()
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -89,15 +89,6 @@ const ProfileWishList = () => {
   const handleType = (type: string) => {
     setType((prevType) => (prevType === type ? undefined : type));
   };
-
-  const formatCurrency = (value: any) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-    })
-      .format(value)
-      .replace("₹", "₹ ");
-  };
   return (
     <div className="shop-product breadcrumb1">
       <StickyNav />
@@ -149,10 +140,10 @@ const ProfileWishList = () => {
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
-                            {formatCurrency(product.discountPrice)}
+                            {formatPrice(parseInt(product.discountPrice))}
                           </span>
                           <span className="original-price text-[#beb3b3] line-through">
-                            {formatCurrency(product.productPrice)}
+                            {formatPrice(parseInt(product.productPrice))}
                           </span>
                         </p>
                       </div>

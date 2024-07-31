@@ -4,7 +4,7 @@ import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
-
+import {useCurrency} from "@/context/CurrencyContext"
 interface GoldCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -16,6 +16,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setBackendError,
   setFlashType,
 }) => {
+  const {formatPrice}=useCurrency();
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -145,7 +146,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="">₹{totalAmount.toLocaleString("en-IN")}</h1>
+              <h1 className="">{formatPrice(totalAmount)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -153,7 +154,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
               <h1>50% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{(monthlyDeposit * 0.5).toLocaleString("en-IN")}</h1>
+              <h1>{formatPrice(monthlyDeposit * 0.5)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -162,7 +163,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
             </div>
             <div>
               <h1 className="md:text-3xl text-sm text-[#E26178]">
-                ₹{redemptionAmount.toLocaleString("en-IN")}
+                {formatPrice(redemptionAmount)}
               </h1>
             </div>
           </div>

@@ -11,6 +11,7 @@ import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
+import { useCurrency } from "@/context/CurrencyContext";
 import { IoMdLogOut } from "react-icons/io";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
@@ -25,6 +26,7 @@ const ProfileDetails = () => {
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const {formatPrice}=useCurrency()
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -206,8 +208,8 @@ const ProfileDetails = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-semibold">
-          Wallet Balance:₹{formattedWalletAmount}
+        <p className="font-bold">
+          Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
         </p>
       </div>
       <form>
@@ -215,7 +217,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md mb-3 block font-medium text-black"
             >
               First name
             </label>
@@ -228,7 +230,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md mb-3 block font-medium text-black"
             >
               Last name
             </label>
@@ -241,33 +243,26 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md mb-3 block font-medium text-black"
             >
               Phone number
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
-              <span className="font-semibold text-md" >
-                {userDetails?.mobile_no}
-              </span>
-            </div>
+            <span className="text-xl font-semibold">
+              {userDetails?.mobile_no}
+            </span>
           </div>
           <div>
             <label
               htmlFor="email"
-              className="text-md block font-medium text-black mb-3"
+              className="text-md mb-3 block font-medium text-black"
             >
               Email address
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded text-wrap">
-              <span className="font-semibold text-md" >
-                {userDetails?.email}
-              </span>
-            </div>
+            <span className="text-xl font-semibold">{userDetails?.email}</span>
           </div>
         </div>
-      </form >
-      <hr className="mt-3" />
-      <div className="flex justify-between ">
+      </form>
+      <div className="flex justify-between">
         <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"

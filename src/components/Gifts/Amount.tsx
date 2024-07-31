@@ -1,11 +1,12 @@
-import React, { useState, ChangeEvent, FC } from "react";
-
+import React, { useEffect, useState, ChangeEvent, FC } from "react";
+import { useCurrency } from "@/context/CurrencyContext";
 interface AmountProps {
   onAmountChange: (amount: number) => void;
 }
 
 const Amount: FC<AmountProps> = ({ onAmountChange }) => {
-  const [amount, setAmount] = useState("500");
+  const [amount, setAmount] = useState<any>("");
+  const { formatPrice, currency } = useCurrency();
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -14,38 +15,40 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
   };
 
   const handleButtonClick = (value: number) => {
-    setAmount(value.toString());
+    setAmount(value);
     onAmountChange(value);
   };
-
+  useEffect(() => {
+    console.log("amount from Button Click", amount);
+  }, [amount]);
   return (
-    <div className="flex flex-col md:flex-row items-center justify-evenly space-y-4 md:space-y-0 md:space-x-4 p-4 py-6">
+    <div className="flex flex-col items-center justify-evenly space-y-4 p-4 py-6 md:flex-row md:space-x-4 md:space-y-0">
       <div className="flex flex-col items-center">
         <label
           htmlFor="amount"
-          className="text-center text-gray-700 font-semibold"
+          className="text-center font-semibold text-gray-700"
         >
           Enter an Amount
         </label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-700">
-            ₹
+            {currency == "INR" ? "₹" : currency == "USD" ? "$" : "€"}
           </span>
           <input
             id="amount"
             type="number"
             value={amount}
             onChange={handleAmountChange}
-            className="border border-black rounded-lg pl-8 pr-4 py-2 w-48 md:w-64"
+            className="w-48 rounded-lg border border-black py-2 pl-8 pr-4 md:w-64"
             placeholder="Amount"
           />
         </div>
       </div>
       <div>
-        <p className="text-center text-gray-700 font-semibold">Or</p>
+        <p className="text-center font-semibold text-gray-700">Or</p>
       </div>
-      <div className="flex flex-col items-center ">
-        <p className="text-center text-gray-700 font-semibold">
+      <div className="flex flex-col items-center">
+        <p className="text-center font-semibold text-gray-700">
           Pick a Common Denomination
         </p>
         <div className="flex space-x-2">
@@ -53,9 +56,9 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
             <button
               key={value}
               onClick={() => handleButtonClick(value)}
-              className="bg-[#e26178] text-white px-4 py-2 rounded-lg hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="rounded-lg bg-[#e26178] px-4 py-2 text-white hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
-              ₹{value}
+              {formatPrice(value)}
             </button>
           ))}
         </div>

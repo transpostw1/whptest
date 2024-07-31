@@ -14,15 +14,13 @@ import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
 import Link from "next/link";
 import { useCurrency } from "@/context/CurrencyContext";
-
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
   const [isMobile, setIsMobile] = useState(false);
-  const { currency, handleCurrencyChange } = useCurrency();
-
+  const { formatPrice } = useCurrency();
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
     const handleChange = (e: any) => {
@@ -302,191 +300,51 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                {parseInt(product.productDetails?.metalRate) > 0 &&
-                  (currency === "INR" ? (
-                    <div className="">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(
-                            `${product.productDetails?.metalRate}` ?? "0",
-                          ),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(product.productDetails?.metalRate) * 0.012 ??
-                          0,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(product.productDetails?.metalRate) * 0.011 ??
-                          0,
-                      )}
-                    </div>
-                  ) : (
-                    // Handle case where currency doesn't match expected values
-                    <div className="product-price text-title text-lg">
-                      {/* Default or error message */}
-                      Price not available
-                    </div>
-                  ))}
-                {product.productDetails?.diamondDetails != null &&
-                  (currency === "INR" ? (
-                    <div className="">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(
-                            `${
-                              product.productDetails?.diamondDetails[0]
-                                ?.diamondCost
-                            }` ?? "0",
-                          ),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(
-                          product.productDetails?.diamondDetails[0]
-                            ?.diamondCost,
-                        ) * 0.012 ?? 0,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(
-                          product.productDetails?.diamondDetails[0]
-                            ?.diamondCost,
-                        ) * 0.011 ?? 0,
-                      )}
-                    </div>
-                  ) : (
-                    <div className="product-price text-title text-lg">
-                      Price not available
-                    </div>
-                  ))}
-                {product.productDetails.stoneDetails != null &&
-                  (currency === "INR" ? (
-                    <div className="">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(
-                            `${
-                              product?.productDetails?.stoneDetails[0]
-                                ?.stoneCost
-                            }` ?? "0",
-                          ),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(
-                          product?.productDetails?.stoneDetails[0]?.stoneCost,
-                        ) * 0.012 ?? 0,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(
-                          product?.productDetails?.stoneDetails[0]?.stoneCost,
-                        ) * 0.011 ?? 0,
-                      )}
-                    </div>
-                  ) : (
-                    <div className="product-price text-title text-lg">
-                      Price not available
-                    </div>
-                  ))}
-
-                <p>
-                  ₹
-                  {new Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(makingCharges)}
-                </p>
+                {parseInt(product.productDetails?.metalRate) > 0 && (
+                  <p>
+                    {formatPrice(parseInt(product.productDetails?.metalRate))}
+                  </p>
+                )}
+                {product.productDetails?.diamondDetails != null && (
+                  <p>
+                    {formatPrice(
+                      parseInt(
+                        product.productDetails?.diamondDetails[0]?.diamondCost,
+                      ),
+                    )}
+                  </p>
+                )}
+                {product.productDetails.stoneDetails != null && (
+                  <p>
+                    {formatPrice(
+                      parseInt(
+                        product?.productDetails?.stoneDetails[0]?.stoneCost,
+                      ),
+                    )}
+                  </p>
+                )}
+                <p>{formatPrice(parseInt(makingCharges))}</p>
                 {parseInt(product?.productDetails?.discountValue) > 0 && (
                   <div>
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (
                       <p>
-                        -₹
-                        {new Intl.NumberFormat("en-IN", {
-                          minimumFractionDigits: 2,
-                        }).format(
-                          parseFloat(product?.productDetails?.discountAmount),
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountAmount),
                         )}
                       </p>
                     ) : (
-                      <p>-₹{product.productDetails?.discountValue}</p>
+                      <p>
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountValue),
+                        )}
+                      </p>
                     )}
                   </div>
                 )}
-                <div>
-                  {currency === "INR" ? (
-                    <div className="">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(`${product?.productDetails?.gst}` ?? "0"),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(product?.productDetails?.gst) * 0.012 ?? 0,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(product?.productDetails?.gst) * 0.011 ?? 0,
-                      )}
-                    </div>
-                  ) : (
-                    // Handle case where currency doesn't match expected values
-                    <div className="product-price text-title text-lg">
-                      {/* Default or error message */}
-                      Price not available
-                    </div>
-                  )}
-                </div>
+                <p>{formatPrice(parseInt(product?.productDetails?.gst))}</p>
               </div>
             </div>
             <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
@@ -495,81 +353,17 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div className="text-md font-semibold">
                 {product?.productDetails?.discountPrice !== null ? (
-                  currency === "INR" ? (
-                    <div className="text-md font-semibold">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(
-                        Math.round(
-                          parseFloat(
-                            `${product?.productDetails?.discountPrice}` ?? "0",
-                          ),
-                        ),
-                      )}
-                    </div>
-                  ) : currency === "USD" ? (
-                    <div className="text-md font-semibold">
-                      {Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(
-                        parseFloat(product?.productDetails?.discountPrice) *
-                          0.012 ?? 0,
-                      )}
-                    </div>
-                  ) : currency === "EUR" ? (
-                    <div className="text-md font-semibold">
-                      {Intl.NumberFormat("en-IE", {
-                        style: "currency",
-                        currency: "EUR",
-                      }).format(
-                        parseFloat(product?.productDetails?.discountPrice) *
-                          0.011 ?? 0,
-                      )}
-                    </div>
-                  ) : (
-                    // Handle case where currency doesn't match expected values
-                    <div className="product-price text-title text-lg">
-                      {/* Default or error message */}
-                      Price not available
-                    </div>
-                  )
-                ) : currency === "INR" ? (
-                  <div className="text-md font-semibold">
-                    ₹
-                    {Intl.NumberFormat("en-IN").format(
-                      Math.round(
-                        parseFloat(
-                          `${product?.productDetails?.productPrice}` ?? "0",
-                        ),
-                      ),
+                  <p>
+                    {formatPrice(
+                      parseInt(product?.productDetails?.discountPrice),
                     )}
-                  </div>
-                ) : currency === "USD" ? (
-                  <div className="text-md font-semibold">
-                    {Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(
-                      parseFloat(product?.productDetails?.productPrice) *
-                        0.012 ?? 0,
-                    )}
-                  </div>
-                ) : currency === "EUR" ? (
-                  <div className="text-md font-semibold">
-                    {Intl.NumberFormat("en-IE", {
-                      style: "currency",
-                      currency: "EUR",
-                    }).format(
-                      parseFloat(product?.productDetails?.productPrice) *
-                        0.011 ?? 0,
-                    )}
-                  </div>
+                  </p>
                 ) : (
-                  // Handle case where currency doesn't match expected values
-                  <div className="product-price text-title text-lg">
-                    {/* Default or error message */}
-                    Price not available
-                  </div>
+                  <p>
+                    {formatPrice(
+                      parseInt(product?.productDetails?.productPrice),
+                    )}
+                  </p>
                 )}
               </div>
             </div>

@@ -42,7 +42,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
       const scrollPosition = window.scrollY;
       setFixedHeader(
         (scrollPosition > 0 && scrollPosition < lastScrollPosition) ||
-          scrollPosition > lastScrollPosition
+          scrollPosition > lastScrollPosition,
       );
       setLastScrollPosition(scrollPosition);
     };
@@ -75,27 +75,24 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
   if (isMobile) {
     return null;
   }
-
-  if (pathname == "/checkout") return null;
-
   return (
     <>
       <div
         className={`header-menu-navHoverMenu style-one ${
-          fixedHeader ? " fixed" : "relative"
-        } w-full md:h-[37px] h-[40px]`}
+          fixedHeader ? "fixed" : "relative"
+        } h-[40px] w-full md:h-[37px]`}
       >
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />
-          <div className="header-main flex items-center justify-evenly w-full h-full">
-            <div className="menu-main h-full xl:w-full flex items-center w-full max-lg:hidden xl:absolute xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
-              <ul className="flex items-center justify-evenly h-full w-full text-rose-950">
-                <li className="h-full relative">
+          <div className="header-main flex h-full w-full items-center justify-evenly">
+            <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2">
+              <ul className="flex h-full w-full items-center justify-evenly text-rose-950">
+                <li className="relative h-full">
                   <Link
                     href=""
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 ${
+                    className={`text-button-uppercase flex h-full items-center justify-center gap-1 duration-300 ${
                       isSubMenuVisible ? "sub-menu-visible" : ""
                     }`}
                   >
@@ -109,7 +106,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <div
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className={`sub-menu absolute py-3 px-5 -left-4 w-max grid grid-cols-5 gap-5 bg-white rounded-b-xl ${
+                    className={`sub-menu absolute -left-4 grid w-max grid-cols-5 gap-5 rounded-b-xl bg-white px-5 py-3 ${
                       isSubMenuVisible ? "visible" : ""
                     }`}
                   >
@@ -127,7 +124,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                   pathname: "/products",
                                   query: { url: item.url },
                                 }}
-                                className=" text-secondary duration-300"
+                                className="text-secondary duration-300"
                                 onClick={() => setCustomcategory(item.url)}
                               >
                                 <div className="flex">
@@ -148,7 +145,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     </ul>
                     <ul>
                       <li className="font-semibold text-black">Shop For</li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -159,7 +156,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Men
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -170,7 +167,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Women
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -186,7 +183,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       <li>
                         <p className="font-semibold text-black">Shop by type</p>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -197,7 +194,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Gold
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -208,7 +205,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Rose Gold
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -219,7 +216,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           White Gold
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -230,7 +227,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Diamond
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -248,7 +245,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           Shop By Price
                         </p>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -259,7 +256,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           less than 10k
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -270,7 +267,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           10k to 20k
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -281,7 +278,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           20k to 30k
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -292,7 +289,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           30K to 40K
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -303,7 +300,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                           40K to 50K
                         </Link>
                       </li>
-                      <li className="text-secondary duration-300 cursor-pointer">
+                      <li className="text-secondary cursor-pointer duration-300">
                         <Link
                           href={{
                             pathname: "/products",
@@ -388,7 +385,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-new_Arrival" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url")?.startsWith("c-new_Arrival")
                         ? "active"
@@ -410,7 +407,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-earring" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url")?.startsWith("c-earring")
                         ? "active"
@@ -430,7 +427,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-pendant" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url")?.startsWith("c-pendant")
                         ? "active"
@@ -449,7 +446,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-bangle" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url")?.startsWith("c-bangle")
                         ? "active"
@@ -468,7 +465,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-bracelet" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url")?.startsWith("c-bracelet")
                         ? "active"
@@ -487,7 +484,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                       pathname: "/products",
                       query: { url: "c-necklace" },
                     }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
                       searchParmas.get("url") === "c-necklace"
                         ? "active"
@@ -497,10 +494,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                     Necklace
                   </Link>
                 </li>
-                <li className={`h-full relative`}>
+                <li className={`relative h-full`}>
                   <Link
                     href={{ pathname: "/offers" }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/offers") ? "active" : ""
                     }`}
                   >
@@ -509,10 +506,10 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   {/* <div className="sub-menu py-3 px-5 -left-10 absolute bg-white rounded-b-xl">
                   </div> */}
                 </li>
-                <li className="h-full relative">
+                <li className="relative h-full">
                   <Link
                     href={{ pathname: "/gifts" }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/gifts") ? "active" : ""
                     }`}
                   >
@@ -524,7 +521,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 <li className="h-full">
                   <Link
                     href={{ pathname: "/benefit" }}
-                    className={`text-button-uppercase duration-300 h-full flex items-center justify-center ${
+                    className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/benefit") ? "active" : ""
                     }`}
                   >

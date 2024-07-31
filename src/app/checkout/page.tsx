@@ -14,6 +14,7 @@ import OrderSummary from "./OrderSummary";
 import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
@@ -69,7 +70,7 @@ const Checkout: React.FC = () => {
     useState<Address | null>(null);
   const [loading, setLoading] = useState(false);
   const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
-
+  const { formatPrice } = useCurrency();
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
@@ -111,9 +112,9 @@ const Checkout: React.FC = () => {
     // console.log("value", value);
     setCouponCode(value);
   };
-  const removeCoupon =(value:string)=>{
-    setCouponCode("")
-  }
+  const removeCoupon = (value: string) => {
+    setCouponCode("");
+  };
 
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
@@ -387,7 +388,7 @@ const Checkout: React.FC = () => {
           productId: item.productId,
           quantity: 0,
         }));
-        console.log(cartData,"cartDATTAA")
+        console.log(cartData, "cartDATTAA");
       }
 
       const getAuthHeaders: any = () => {
@@ -404,29 +405,29 @@ const Checkout: React.FC = () => {
       });
 
       const SYNC_CART = gql`
-      mutation CartSync($cartItems: [CartItemInput!]!) {
-        cartSync(cartItems: $cartItems) {
-          message
-          details {
-            synced {
-              productId
-              productTitle
-              productImage
-              productPrice
-              quantity
-            }
-            failed {
-              productId
-              message
-            }
-            deleted {
-              productId
-              message
+        mutation CartSync($cartItems: [CartItemInput!]!) {
+          cartSync(cartItems: $cartItems) {
+            message
+            details {
+              synced {
+                productId
+                productTitle
+                productImage
+                productPrice
+                quantity
+              }
+              failed {
+                productId
+                message
+              }
+              deleted {
+                productId
+                message
+              }
             }
           }
         }
-      }
-    `;
+      `;
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {
@@ -753,7 +754,8 @@ const Checkout: React.FC = () => {
                       <div className="text-wrap bg-gray-100 p-2">
                         <p>
                           {/* <span className="font-bold">Coupon Code:</span> */}
-                          {couponCode} <span className="text-red-600">  applied </span>
+                          {couponCode}{" "}
+                          <span className="text-red-600"> applied </span>
                         </p>
                         {/* <div  onClick={() =>removeCoupon("")}>remove api not implemented</div> */}
                       </div>
@@ -802,87 +804,50 @@ const Checkout: React.FC = () => {
                         <div className="flex justify-between font-medium">
                           <h3>Product Total</h3>
                           <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseInt(formattedProductPrice)),
-                            )}
+                            {formatPrice(parseInt(formattedProductPrice))}
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Product Discount</h3>
-                          <h3>
-                            -₹
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseInt(discountDifference)),
-                            )}
-                          </h3>
+                          <h3>-{formatPrice(parseInt(discountDifference))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
-                          <h3>
-                            ₹
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseInt(formattedPrice)),
-                            )}
-                          </h3>
+                          <h3>{formatPrice(parseInt(formattedPrice))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Discount</h3>
                           <h3>
-                            -₹
-                            {Intl.NumberFormat("en-IN").format(
-                              Math.round(parseInt(totalDiscount)),
-                            )}
+                            -{formatPrice(parseInt(totalDiscount.toString()))}
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (
                             <h3>
-                              -₹
-                              {Intl.NumberFormat("en-IN").format(
-                                Math.round(
-                                  parseInt(userDetails?.wallet_amount),
-                                ),
+                              -
+                              {formatPrice(
+                                parseInt(userDetails?.wallet_amount),
                               )}
                             </h3>
                           ) : (
-                            <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN").format(
-                                Math.round(parseInt("0")),
-                              )}
-                            </h3>
+                            <h3>{formatPrice(0)}</h3>
                           )}
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Shipping Charges</h3>
-                          <h3>
-                            ₹{Intl.NumberFormat("en-IN").format(Math.round(0))}
-                          </h3>
+                          <h3>{formatPrice(0)}</h3>
                         </div>
                         <div className="flex justify-between font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
                           {whpWallet === "whp_Wallet" ? (
                             <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN").format(
-                                Math.round(
-                                  parseInt(
-                                    (
-                                      totalPrice - userDetails?.wallet_amount
-                                    ).toString(),
-                                  ),
-                                ),
+                              {formatPrice(
+                                totalPrice - userDetails?.wallet_amount,
                               )}
                             </h3>
                           ) : (
-                            <h3>
-                              ₹
-                              {Intl.NumberFormat("en-IN").format(
-                                Math.round(parseInt(totalPrice.toString())),
-                              )}
-                            </h3>
+                            <h3>{formatPrice(totalPrice)}</h3>
                           )}
                         </div>
                       </div>
@@ -928,12 +893,7 @@ const Checkout: React.FC = () => {
       {isMobile && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
-            <p className="text-[20px] font-bold">
-              ₹
-              {Intl.NumberFormat("en-IN", {
-                minimumFractionDigits: 2,
-              }).format(Math.round(parseInt(totalPrice.toString())))}
-            </p>
+            <p className="text-[20px] font-bold">₹{formatPrice(totalPrice)}</p>
             <Link href="#order-summary">
               <p className="cursor-pointer text-[#e26178]">
                 {" "}

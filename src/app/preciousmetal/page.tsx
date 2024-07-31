@@ -20,7 +20,7 @@ const Preciousguide: React.FC  = () => {
         <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">
           {preciousmetalData.name}
         </h1>
-        <div dangerouslySetInnerHTML={{ __html: preciousmetalData.content }} />
+        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: preciousmetalData.content }} />
       </div>
     </>
   );

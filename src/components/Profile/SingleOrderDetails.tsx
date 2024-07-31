@@ -6,12 +6,13 @@ import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
+import { useCurrency } from "@/context/CurrencyContext";
 interface Props {
   singleOrder: any;
 }
 
 const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
+  const {formatPrice}=useCurrency()
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
   const [type, setType] = useState<any>("");
@@ -120,22 +121,11 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                 </div>
               </div>
               <p>
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(Math.round(parseInt(product?.discountedTotal)))}
+                {formatPrice(product?.discountedTotal)}
               </p>
               <p>{product?.quantity}</p>
               <div className="font-semibold">
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(
-                  Math.round(
-                    parseInt(product?.discountedTotal) *
-                      parseInt(product?.quantity),
-                  ),
-                )}
+                {formatPrice(parseInt(product?.discountedTotal)*parseInt(product?.quantity))}
               </div>
             </div>
           ))}
@@ -143,18 +133,15 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         </div>
       ))}
       <div className="border-gray flex justify-end border border-b-0 border-t-0 pr-14">
-        Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
+        Discount Amount:{formatPrice(singleOrder[0]?.productDetails[0]?.discountAmount)}
       </div>
       <div className="border-gray flex justify-end border border-b-0 border-t-0 pr-14">
-        Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
+        Shipping Charges:{formatPrice(0)}
       </div>
       <div className="border-gray flex justify-end rounded-b-md border p-2">
         <p>Total Amount: </p>
         <span className="text-md font-semibold">
-          ₹
-          {Intl.NumberFormat("en-IN").format(
-            Math.round(singleOrder[0]?.productTotal),
-          )}
+          {formatPrice(singleOrder[0]?.productTotal)}
         </span>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3">
@@ -198,8 +185,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                 Transaction No.: {payment?.transactionNo}
               </p>
               <p className="px-2">
-                Amount: ₹
-                {Intl.NumberFormat("en-IN").format(Math.round(payment?.amount))}
+                Amount: {formatPrice(payment?.amount)}
               </p>
             </div>
           ))}

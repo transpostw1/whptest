@@ -12,6 +12,7 @@ import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import { IoMdLogOut } from "react-icons/io";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
@@ -25,6 +26,7 @@ const ProfileDetails = () => {
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const {formatPrice}=useCurrency()
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -207,7 +209,7 @@ const ProfileDetails = () => {
       </div>
       <div className="flex justify-end">
         <p className="font-semibold">
-          Wallet Balance:₹{formattedWalletAmount}
+          Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
         </p>
       </div>
       <form>

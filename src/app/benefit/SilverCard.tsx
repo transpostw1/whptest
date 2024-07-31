@@ -4,7 +4,7 @@ import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
-
+import {useCurrency} from "@/context/CurrencyContext"
 interface SilverCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -23,6 +23,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+  const {formatPrice}=useCurrency();
 
   const router = useRouter();
 
@@ -147,7 +148,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
               <h1>Your total payment</h1>
             </div>
             <div>
-              <h1 className="">₹{totalAmount.toLocaleString("en-IN")}</h1>
+              <h1 className="">{formatPrice(totalAmount)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -155,7 +156,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
               <h1>80% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>₹{(monthlyDeposit * 0.8).toLocaleString("en-IN")}</h1>
+              <h1>{formatPrice(monthlyDeposit * 0.8)}</h1>
             </div>
           </div>
           <div className="flex justify-between">
@@ -164,7 +165,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
             </div>
             <div>
               <h1 className="text-sm text-[#E26178] md:text-3xl">
-                ₹{redemptionAmount.toLocaleString("en-IN")}
+                {formatPrice(redemptionAmount)}
               </h1>
             </div>
           </div>

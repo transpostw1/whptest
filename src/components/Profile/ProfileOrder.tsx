@@ -10,6 +10,7 @@ import SingleOrderDetails from "./SingleOrderDetails";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
+import { useCurrency } from "@/context/CurrencyContext";
 interface Props {
   orders: any;
 }
@@ -19,7 +20,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const [message, setMessage] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
   const [singleOrder, setSingleOrder] = useState<any>([]);
-
+  const {formatPrice}=useCurrency()
   const handleLogOut = () => {
     logOut();
     router.push("/");
@@ -144,8 +145,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     </div>
                     </div>
                     <div className="font-semibold">
-                      ₹
-                      {Intl.NumberFormat("en-IN").format(Math.round(parseInt(product?.discountedTotal)))}
+                      {formatPrice(product?.discountedTotal)}
                     </div>
                   </div>
                 ))}

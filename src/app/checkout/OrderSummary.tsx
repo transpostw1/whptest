@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import OrderSummaryProducts from "./OrderSummaryProducts";
 import { useUser } from "@/context/UserContext";
 import FlashAlert from "@/components/Other/FlashAlert";
+import { useCurrency } from "@/context/CurrencyContext";
 interface OrderSummaryProps {
   wallet: any;
   component: any;
@@ -29,6 +30,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const { userDetails } = useUser();
   let totalPrice = totalCart - totalDiscount;
+  const { formatPrice } = useCurrency();
   // const [whpWallet, setWhpWallet] = useState<any>();
 
   // const handleWhpWallet = (e: any) => {
@@ -53,7 +55,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <h3>Whp Wallet</h3>
           </div>
           <div className="font-bold">
-            {wallet == "whp_Wallet" ? "₹0" : `₹${userDetails?.wallet_amount}`}
+            {wallet == "whp_Wallet"
+              ? `${formatPrice(0)}`
+              : `${formatPrice(userDetails?.wallet_amount)}`}
           </div>
         </div>
       )}
@@ -61,78 +65,40 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         <div className="">
           <div className="flex justify-between font-medium">
             <h3>Product Total</h3>
-            <h3>
-              ₹
-              {Intl.NumberFormat("en-IN").format(
-                Math.round(parseInt(totalProductPrice)),
-              )}
-            </h3>
+            <h3>{formatPrice(totalProductPrice)}</h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Product Discount</h3>
-            <h3>
-              -₹
-              {Intl.NumberFormat("en-IN").format(
-                Math.round(parseInt(discountDifference)),
-              )}
-            </h3>
+            <h3>-{formatPrice(discountDifference)}</h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Subtotal</h3>
-            <h3>
-              ₹{Intl.NumberFormat("en-IN").format(Math.round(parseInt(price)))}
-            </h3>
+            <h3>{formatPrice(price)}</h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Discount</h3>
-            <h3>
-              -₹
-              {Intl.NumberFormat("en-IN").format(
-                Math.round(parseInt(totalDiscount)),
-              )}
-            </h3>
+            <h3>-{formatPrice(totalDiscount)}</h3>
           </div>
           <div className="flex justify-between font-medium">
             <h3>Wallet</h3>
             {wallet === "whp_Wallet" &&
             userDetails?.wallet_amount < totalPrice ? (
-              <h3>
-                -₹
-                {Intl.NumberFormat("en-IN").format(
-                  Math.round(parseInt(userDetails?.wallet_amount)),
-                )}
-              </h3>
+              <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
             ) : (
-              <h3>
-                ₹{Intl.NumberFormat("en-IN").format(Math.round(parseInt("0")))}
-              </h3>
+              <h3>{formatPrice(0)}</h3>
             )}
           </div>
           <div className="flex justify-between font-medium">
             <h3>Shipping Charges</h3>
-            <h3>₹{Intl.NumberFormat("en-IN").format(Math.round(0))}</h3>
+            <h3> {formatPrice(0)}</h3>
           </div>
           <div className="flex justify-between font-bold">
             <h3 className="text-gray-800">Total Price</h3>
             {wallet === "whp_Wallet" &&
             userDetails?.wallet_amount < totalPrice ? (
-              <h3>
-                ₹
-                {Intl.NumberFormat("en-IN").format(
-                  Math.round(
-                    parseInt(
-                      (totalPrice - userDetails?.wallet_amount).toString(),
-                    ),
-                  ),
-                )}
-              </h3>
+              <h3>{formatPrice(totalPrice - userDetails?.wallet_amount)}</h3>
             ) : (
-              <h3>
-                ₹
-                {Intl.NumberFormat("en-IN").format(
-                  Math.round(parseInt(totalPrice.toString())),
-                )}
-              </h3>
+              <h3>{formatPrice(totalPrice)}</h3>
             )}
           </div>
         </div>

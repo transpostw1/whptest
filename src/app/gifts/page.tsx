@@ -10,6 +10,7 @@ import Stepper from "./Stepper";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { baseUrl, voucher, graphqlbaseUrl } from "@/utils/constants";
 import axios from "axios";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const steps = [
   "Select an Occasion",
@@ -21,6 +22,7 @@ const steps = [
 
 const Gifts = () => {
   const router = useRouter();
+  const { currency } = useCurrency();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     recipientName: "",
@@ -150,12 +152,18 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
+    let payableAmount;
+    if (currency == "USD") {
+      payableAmount = Math.round(formData.amount * 83.7);
+    } else if (currency == "EUR") {
+      payableAmount = Math.round(formData.amount * 90.7);
+    }
     const voucherDetails = {
       enrollmentId: null,
       planName: formData.occasion,
       monthlyAmount: null,
-      totalAmount: formData.amount,
-      balanceAmount: formData.amount,
+      totalAmount: payableAmount,
+      balanceAmount: payableAmount,
       iconUrl: selectedTemplateUrl,
       schemeType: "voucher",
       recipientName: formData.recipientName,

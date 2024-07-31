@@ -247,8 +247,7 @@ const Checkout: React.FC = () => {
           setFlashType("success");
         }
       } catch (error: any) {
-        console.log("Error occurred", error.response.data.message);
-        setFlashMessage(error.response.data.message);
+        setFlashMessage(error.response?.data?.message);
         setFlashType("error");
       } finally {
         setLoading(false);

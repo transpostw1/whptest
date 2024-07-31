@@ -122,7 +122,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
           <Icon.CaretLeft size={15} />
         </div>
         <div className="flex justify-between w-full">
-          <div className="text-[20px] font-bold">Your GMS</div>
+          <div className="text-[20px] font-bold">Your GMS payments</div>
           <div className="text-[20px] font-bold text-[#e26178] underline">
             <Link href={"/benefit"}>Know More</Link>
           </div>
@@ -167,7 +167,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
                 className="flex justify-between items-center border-t"
                 onClick={() => handleToggle(index)}
               >
-                <div>Payment History</div>
+                {/* <div>Payment History</div> */}
                 <div>
                   <Icon.CaretDown />
                 </div>

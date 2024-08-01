@@ -30,7 +30,7 @@ const ProfileSidebar: React.FC<Props> = ({
               src={userDetails?.profile_picture}
               className="h-full w-full rounded-full"
               alt="Profile Picture"
-              width={90}
+              width={90 .}
               height={100}
             />
           ) : (

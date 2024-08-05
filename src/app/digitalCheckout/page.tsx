@@ -136,7 +136,7 @@ const DigitalCheckout: React.FC = () => {
               <p>Plan Name:</p>
               <p>{selectedScheme.planName}</p>
             </div>
-            {selectedScheme.schemeType === 'gms ' && (
+            {selectedScheme.schemeType =='gms ' && (
               <div className="flex justify-between mb-2">
                 <p>Monthly Installment:</p>
                 <p>₹{selectedScheme.monthlyAmount}</p>

@@ -66,6 +66,7 @@ const MainCarousel = () => {
     };
     fetchMainBanners();
   }, []);
+
   const handleSlideChange = (swiper: any) => {
     setTimeout(() => {
       const activeSlide = swiper.slides[swiper.activeIndex];
@@ -86,9 +87,19 @@ const MainCarousel = () => {
       } else {
         swiper.autoplay.start();
       }
-    }, 0);
+    }, 1000);
   };
-
+  // useEffect(() => {
+  //   const swiper:any = new Swiper('.swiper-container', {
+  //     // Options
+  //   });
+  
+  //   swiper.on('slideChange', () => handleSlideChange(swiper));
+  
+  //   return () => {
+  //     swiper.destroy(true, true);
+  //   };
+  // }, []);
   if (isLoading) {
     return (
       <div>

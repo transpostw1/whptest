@@ -113,11 +113,12 @@ const ProfileGMS = () => {
   return (
     <div className="px-[60px] py-[30px]">
       <div className="mb-3 flex justify-between">
-        <div className="text-xl font-bold">Profile GMS</div>
+        <div className="text-xl font-bold">Your GMS payment history</div>
         <div className="text-xl font-bold text-[#e26178] underline">
           <Link href={"/benefit"}>Know More</Link>
         </div>
       </div>
+      <div></div>
       <div>
         {data && data.length > 0 ? (
           data.map((gms: any, index: number) => (
@@ -157,7 +158,7 @@ const ProfileGMS = () => {
                 className="flex items-center justify-between border-t"
                 onClick={() => handleToggle(index)}
               >
-                <div>Payment History</div>
+              
                 <div>
                   <Icon.CaretDown />
                 </div>

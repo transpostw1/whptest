@@ -223,7 +223,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-medium text-black mb-1"
             >
               First name
             </label>
@@ -236,7 +236,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-medium text-black mb-1"
             >
               Last name
             </label>
@@ -249,7 +249,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-medium text-black mb-1"
             >
               Phone number
             </label>
@@ -262,7 +262,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-medium text-black mb-1"
             >
               Email address
             </label>
@@ -275,10 +275,10 @@ const ProfileDetails = () => {
         </div>
       </form>
       <hr className="mt-3" />
-      <div className="flex justify-between">
-        <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
+      <div className="flex justify-between ">
+        <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
-          className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"
+          className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
           onClick={() => setShowAddressModal(true)}
         >
           Add Address

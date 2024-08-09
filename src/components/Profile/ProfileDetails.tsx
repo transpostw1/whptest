@@ -223,11 +223,11 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md block font-medium text-black mb-1"
+              className="text-md block font-normal text-black mb-1"
             >
               First name
             </label>
-            <div className="w-100 rounded bg-[#E26178] bg-opacity-5 p-2">
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.firstname}
               </span>
@@ -236,11 +236,11 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md block font-medium text-black mb-1"
+              className="text-md block font-normal text-black mb-1"
             >
               Last name
             </label>
-            <div className="w-100 rounded bg-[#E26178] bg-opacity-5 p-2">
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.lastname}
               </span>
@@ -249,11 +249,11 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="text-md block font-medium text-black mb-1"
+              className="text-md block font-normal text-black mb-1"
             >
               Phone number
             </label>
-            <div className="w-100 rounded bg-[#E26178] bg-opacity-5 p-2">
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.mobile_no}
               </span>
@@ -262,11 +262,11 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="text-md block font-medium text-black mb-1"
+              className="text-md block font-normal text-black mb-1"
             >
               Email address
             </label>
-            <div className="w-100 text-wrap rounded bg-[#E26178] bg-opacity-5 p-2">
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.email}
               </span>

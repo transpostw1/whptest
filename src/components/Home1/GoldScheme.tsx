@@ -120,8 +120,8 @@ const GoldScheme = () => {
                 <Image
                   src={"/images/other/BenefitBangle.jpg"}
                   alt="Benefit"
-                  width={400}
-                  height={100}
+                  width={299}
+                  height={241}
                   className="w-full sm:w-auto h-auto"
                 />
                 <div className="flex flex-col justify-between gap-3">

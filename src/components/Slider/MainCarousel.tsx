@@ -19,6 +19,8 @@ const MainCarousel = () => {
   const swiperRef = useRef<any>(null);
   const { setCustomcategory } = useCategory();
   const [isMobile, setIsMobile] = useState(false);
+
+  // Media query to detect mobile devices
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1000px)");
     const handleChange = (e: any) => {
@@ -32,6 +34,8 @@ const MainCarousel = () => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
+
+  // Fetch banners using GraphQL
   useEffect(() => {
     const fetchMainBanners = async () => {
       setIsLoading(true);
@@ -67,6 +71,7 @@ const MainCarousel = () => {
     fetchMainBanners();
   }, []);
 
+  // Handle slide change to pause autoplay during video playback
   const handleSlideChange = (swiper: any) => {
     setTimeout(() => {
       const activeSlide = swiper.slides[swiper.activeIndex];
@@ -84,22 +89,23 @@ const MainCarousel = () => {
           swiper.slideNext();
           swiper.autoplay.start();
         };
+
+        video.onclick = () => {
+          if (video.paused) {
+            video.play();
+            swiper.autoplay.stop(); // Stop autoplay when the video is clicked
+          } else {
+            video.pause();
+            swiper.autoplay.start(); // Resume autoplay if the video is paused
+          }
+        };
       } else {
         swiper.autoplay.start();
       }
     }, 1000);
   };
-  // useEffect(() => {
-  //   const swiper:any = new Swiper('.swiper-container', {
-  //     // Options
-  //   });
-  
-  //   swiper.on('slideChange', () => handleSlideChange(swiper));
-  
-  //   return () => {
-  //     swiper.destroy(true, true);
-  //   };
-  // }, []);
+
+  // Display loading skeleton if banners are still loading
   if (isLoading) {
     return (
       <div>
@@ -107,6 +113,7 @@ const MainCarousel = () => {
       </div>
     );
   }
+
   return (
     <>
       <div className="slider-block bg-linear relative w-full">

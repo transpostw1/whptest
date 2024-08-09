@@ -59,7 +59,7 @@ const Category = () => {
               </Link>
 
               <div>
-                <h1 className="break-word text-xl font-semibold uppercase">
+                <h1 className="break-word sm:text-lg font-semibold uppercase">
                   {category.name}
                 </h1>
                 <a

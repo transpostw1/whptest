@@ -167,7 +167,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
                 className="flex justify-between items-center border-t"
                 onClick={() => handleToggle(index)}
               >
-                {/* <div>Payment History</div> */}
+                <div>Payment History</div>
                 <div>
                   <Icon.CaretDown />
                 </div>

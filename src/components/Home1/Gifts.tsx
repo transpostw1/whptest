@@ -139,12 +139,12 @@ const Gifts = () => {
     <>
       <div className="my-16 w-full px-8 text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-2 text-[1.5rem] font-semibold uppercase">
+          <h1 className="pb-2 text-[18px] font-medium uppercase">
             Gifts
           </h1>
-          <p>
+          <p className="w-[100%] lg:w-[50%] text-[16px] font-light">
             Discover the joy of gifting with our curated selection,where every
-            piece reflects <br />
+            piece reflects 
             thoughtfulness and timeless charm, making evey occasion extra
             special.
           </p>

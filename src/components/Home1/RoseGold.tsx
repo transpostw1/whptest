@@ -10,11 +10,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useCategory } from "@/context/CategoryContex";
 
 const RoseGold = () => {
+  const { setCustomcategory } = useCategory();
   const [width, setWidth] = useState<number>(300);
   const [height, setHeight] = useState<number>(200);
   const [bannerwidth, setBannerWidth] = useState<number>(300);
   const [bannerheight, setBannerHeight] = useState<number>(200);
-  const { setCustomcategory } = useCategory();
   useEffect(() => {
     const handleResize = () => {
       // Get the current viewport width

@@ -140,7 +140,7 @@ const Gifts = () => {
       <div className="my-16 w-full px-8 text-rose-950">
         <div className="flex flex-col items-start justify-between">
           <h1 className="pb-2 text-[18px] font-medium uppercase">
-            Gifts
+            GIFTS
           </h1>
           <p className="w-[100%] lg:w-[50%] text-[16px] font-light">
             Discover the joy of gifting with our curated selection,where every

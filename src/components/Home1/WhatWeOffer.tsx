@@ -45,10 +45,10 @@ const WhatWeOffer = () => {
             <p className="w-full text-center font-medium tracking-[0.49rem]">
               OFFERINGS
             </p>
-            <div className="mt-4 w-full text-center text-xl font-semibold">
+            <div className="mt-4 w-full text-center text-[24px] font-normal">
               What We Offer
             </div>
-            <div className="m-auto mb-5 mt-3 w-[80%] text-center">
+            <div className="m-auto mb-5 mt-3 w-[80%] text-center text-[12px] font-light">
               Discover our offerings. Our commitment to quality, elegance, and
               personalised service ensures an exceptional experience.
             </div>
@@ -67,7 +67,7 @@ const WhatWeOffer = () => {
           <div className="flex w-full flex-col sm:w-[50%] sm:p-[4rem] md:mt-2 md:p-8">
             {width > 160 && (
               <div className="ps-3 pt-3">
-                <p className="pb-5 text-[2rem] lg:text-[3rem]">What We Offer</p>
+                <p className="pb-5 text-[61px] font-normal">What we Offer</p>
                 <p className="text-sm md:text-base">
                   Discover our offerings. Our commitment to quality, elegance,
                   and personalised service ensures an exceptional experience.
@@ -87,7 +87,7 @@ const WhatWeOffer = () => {
                   <p className="pb-2 pt-3 text-lg font-semibold md:text-xl">
                     12000 + UNIQUE DESIGNS
                   </p>
-                  <p className="lg:w-[67%] text-sm md:text-base mt-3">
+                  <p className="mt-3 text-sm md:text-base lg:w-[67%]">
                     Elevate your style with our distinctive jewellery designs,
                     where creativity and craftsmanship unite.
                   </p>

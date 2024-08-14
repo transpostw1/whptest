@@ -31,7 +31,7 @@ const PageNotFound = () => {
                                 <div className="body1 text-secondary mt-4 pb-4">The page you are looking for cannot be found. <br className='max-xl:hidden' />Take a break before trying again </div>
                                 <Link className="flex items-center gap-3" href={'/'}>
                                     <Icon.ArrowLeft />
-                                    <div className="text-button">Back To Homepage</div>
+                                    <p className="text-button">Back To Homepage</p>
                                 </Link>
                             </div>
                         </div>

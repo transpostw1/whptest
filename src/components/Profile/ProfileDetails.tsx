@@ -26,7 +26,7 @@ const ProfileDetails = () => {
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
-  const {formatPrice}=useCurrency()
+  const { formatPrice } = useCurrency();
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -87,8 +87,14 @@ const ProfileDetails = () => {
         },
         fetchPolicy: "no-cache",
       });
-      setMessage(data.DeleteCustomerAddresses.message);
-      setType("success");
+      // if(data.DeletCustomerAddress.code==200){
+
+      //   setMessage(data.DeleteCustomerAddresses.message);
+      //   setType("success");
+      // }else{
+      //   setMessage(data.DeletCustomerAddresses.message);
+      //   setType("error");
+      // }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {
@@ -191,7 +197,7 @@ const ProfileDetails = () => {
   const formattedWalletAmount = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(
-    Math.round(parseFloat((userDetails && userDetails?.wallet_amount) ?? 0))
+    Math.round(parseFloat((userDetails && userDetails?.wallet_amount) ?? 0)),
   );
   return (
     <div className="m-24 mt-10">
@@ -201,7 +207,7 @@ const ProfileDetails = () => {
           <p className="text-[#cfcdcd]">Manage your profile</p>
         </div>
         <div className="flex">
-          <IoMdLogOut size={20} className="mt-1 me-1" />
+          <IoMdLogOut size={20} className="me-1 mt-1" />
           <p className="cursor-pointer" onClick={() => handleLogOut()}>
             Logout
           </p>
@@ -217,12 +223,12 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-normal text-black mb-1"
             >
               First name
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
-              <span className="  text-md font-semibold ">
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
                 {userDetails?.firstname}
               </span>
             </div>
@@ -230,11 +236,11 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-normal text-black mb-1"
             >
               Last name
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.lastname}
               </span>
@@ -243,12 +249,12 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="phone"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-normal text-black mb-1"
             >
               Phone number
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded">
-              <span className="font-semibold text-md" >
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
                 {userDetails?.mobile_no}
               </span>
             </div>
@@ -256,23 +262,23 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="text-md mb-3 block font-medium text-black"
+              className="text-md block font-normal text-black mb-1"
             >
               Email address
             </label>
-            <div className="w-100 bg-[#E26178] bg-opacity-5 p-2 rounded text-wrap">
-              <span className="font-semibold text-md" >
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
                 {userDetails?.email}
               </span>
             </div>
           </div>
         </div>
-      </form >
+      </form>
       <hr className="mt-3" />
       <div className="flex justify-between ">
-        <h2 className="mb-3 mt-4 text-xl font-semibold">My Addresses</h2>
+        <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
-          className="mb-3 mt-4 cursor-pointer text-xl text-[#e26178]"
+          className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
           onClick={() => setShowAddressModal(true)}
         >
           Add Address
@@ -285,49 +291,45 @@ const ProfileDetails = () => {
               key={address.address_id}
               className="relative mr-2 flex rounded-lg border bg-white"
             >
-              <div className=" h-[130px] w-[250px] p-4">
+              <div className="h-[130px] w-[250px] p-4">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
               <button
-                className="absolute -top-4 -right-4 bg-[#E26178] rounded-full p-2 inline-flex items-center justify-center"
+                className="absolute -right-4 -top-4 inline-flex items-center justify-center rounded-full bg-[#E26178] p-2"
                 onClick={() => handleEditAddress(address.address_id)}
               >
-                <Icon.PencilSimple
-                  size={15}
-                  className="text-white"
-                />
+                <Icon.PencilSimple size={15} className="text-white" />
               </button>
               <button
-                className="absolute top-4 -right-4 bg-[#E26178] rounded-full p-2 inline-flex items-center justify-center"
+                className="absolute -right-4 top-4 inline-flex items-center justify-center rounded-full bg-[#E26178] p-2"
                 onClick={() => handleRemoveAddress(address.address_id)}
               >
                 <Icon.X size={15} className="text-white" />
               </button>
-              {showModal && selectedAddress?.address_id === address.address_id && (
-                <EditAddressModal
-                  closeModal={closeEditModal}
-                  singleAddress={selectedAddress}
-                />
-              )}
+              {showModal &&
+                selectedAddress?.address_id === address.address_id && (
+                  <EditAddressModal
+                    closeModal={closeEditModal}
+                    singleAddress={selectedAddress}
+                  />
+                )}
             </div>
           ))}
       </div>
-      {
-        showAddressModal && (
-          <AddAddressModal
-            closeModal={closeModal}
-            isForBillingAddress={false}
-            onAddressAdded={function (isBillingAddress: boolean): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        )
-      }
+      {showAddressModal && (
+        <AddAddressModal
+          closeModal={closeModal}
+          isForBillingAddress={false}
+          onAddressAdded={function (isBillingAddress: boolean): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
       {message && <FlashAlert message={message} type={type} />}
-    </div >
+    </div>
   );
 };
 

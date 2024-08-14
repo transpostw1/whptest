@@ -80,7 +80,10 @@ const ProfileGMS = () => {
   }, []);
 
   const handlePayNow = (gms: any) => {
-    const amountPaid = gms.transactionDetails.reduce((sum: number, transaction: any) => sum + transaction.amount, 0);
+    const amountPaid = gms.transactionDetails.reduce(
+      (sum: number, transaction: any) => sum + transaction.amount,
+      0,
+    );
     const installmentsPaid = gms.transactionDetails.length;
     const nextInstallmentAmount = gms.monthlyAmount;
 
@@ -97,7 +100,7 @@ const ProfileGMS = () => {
         nextInstallmentAmount: nextInstallmentAmount,
         iconUrl: `/images/${gms.schemeType.toLowerCase()}-icon.png`,
         schemeType: gms.schemeType,
-      })
+      }),
     );
     router.push("/digitalCheckout");
   };
@@ -113,25 +116,28 @@ const ProfileGMS = () => {
   return (
     <div className="px-[60px] py-[30px]">
       <div className="mb-3 flex justify-between">
-        <div className="text-xl font-bold">Profile GMS</div>
+        <div className="text-xl font-bold">Your GMS payment history</div>
         <div className="text-xl font-bold text-[#e26178] underline">
           <Link href={"/benefit"}>Know More</Link>
         </div>
       </div>
+      <div></div>
       <div>
         {data && data.length > 0 ? (
           data.map((gms: any, index: number) => (
-            <div key={index} className="border mb-3">
+            <div key={index} className="mb-3 border">
               <div className="flex justify-between border-b px-2">
                 <div>Date: {new Date(gms.enrollDate).toLocaleDateString()}</div>
                 <div>{gms.schemeType}</div>
               </div>
               <div className="flex justify-between px-2">
-                <div>Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()} </div>
+                <div>
+                  Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()}{" "}
+                </div>
                 <div>Balance Amount: ₹{gms.balanceAmount.toLocaleString()}</div>
               </div>
               <p className="px-2">Payment Status Tracking</p>
-              <div className="flex mb-2 px-2 my-2">
+              <div className="my-2 mb-2 flex px-2">
                 {Array.from({ length: 12 }).map((_, i) => {
                   const transaction = gms.transactionDetails[i];
                   const isPaid = transaction !== undefined;
@@ -139,16 +145,16 @@ const ProfileGMS = () => {
                     ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
                     : `Installment ${i + 1} (Pending)`;
                   return (
-                    <div 
-                      key={i} 
-                      className={`mr-3 h-[10px] w-[20px] ${isPaid ? 'bg-green-500' : 'bg-[#929191]'} cursor-pointer`}
+                    <div
+                      key={i}
+                      className={`mr-3 h-[10px] w-[20px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
                       title={tooltipContent}
                     />
                   );
                 })}
               </div>
-              <button 
-                className="px-4 py-2 bg-[#e26178] text-white my-2 mr-2"
+              <button
+                className="my-2 mr-2 bg-[#e26178] px-4 py-2 text-white"
                 onClick={() => handlePayNow(gms)}
               >
                 Pay Now
@@ -158,6 +164,7 @@ const ProfileGMS = () => {
                 onClick={() => handleToggle(index)}
               >
                 <div>Payment History</div>
+
                 <div>
                   <Icon.CaretDown />
                 </div>
@@ -165,12 +172,18 @@ const ProfileGMS = () => {
               {showAccordian === index && (
                 <div className="p-2">
                   {gms.transactionDetails.length > 0 ? (
-                    gms.transactionDetails.map((transaction: any, tIndex: number) => (
-                      <div key={tIndex} className="flex justify-between">
-                        <span>₹{transaction.amount.toLocaleString()}</span>
-                        <span>{new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}</span>
-                      </div>
-                    ))
+                    gms.transactionDetails.map(
+                      (transaction: any, tIndex: number) => (
+                        <div key={tIndex} className="flex justify-between">
+                          <span>₹{transaction.amount.toLocaleString()}</span>
+                          <span>
+                            {new Date(
+                              parseInt(transaction.transactionDate),
+                            ).toLocaleDateString()}
+                          </span>
+                        </div>
+                      ),
+                    )
                   ) : (
                     <p>No transactions yet.</p>
                   )}
@@ -179,14 +192,13 @@ const ProfileGMS = () => {
             </div>
           ))
         ) : (
-          <div className="text-center font-semibold text-2xl my-10 text-[#e26178]">
+          <div className="my-10 text-center text-2xl font-semibold text-[#e26178]">
             No Active Gold Saving Scheme
           </div>
         )}
       </div>
     </div>
   );
-  
 };
 
 export default ProfileGMS;

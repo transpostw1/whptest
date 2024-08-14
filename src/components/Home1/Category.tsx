@@ -28,12 +28,12 @@ const Category = () => {
     <>
       <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-2 text-[1.5rem] font-semibold uppercase">
+          <h1 className="pb-2 text-[1.13rem] font-medium uppercase">
             SHOP BY CATEGORY
           </h1>
-          <p className="">
+          <p className="font-light md:w-[50%]">
             Effortlessly find your perfect piece by exploring our jewellery
-            categories. <br />
+            categories.
             From stunning necklaces to exquisite rings, our collections cater to
             every style and taste.
           </p>
@@ -59,7 +59,7 @@ const Category = () => {
               </Link>
 
               <div>
-                <h1 className="break-word text-xl font-semibold uppercase">
+                <h1 className="break-word sm:text-lg font-semibold uppercase">
                   {category.name}
                 </h1>
                 <a

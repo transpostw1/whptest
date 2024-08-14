@@ -157,6 +157,8 @@ const Gifts = () => {
       payableAmount = Math.round(formData.amount * 83.7);
     } else if (currency == "EUR") {
       payableAmount = Math.round(formData.amount * 90.7);
+    } else{
+      payableAmount=formData.amount;
     }
     const voucherDetails = {
       enrollmentId: null,

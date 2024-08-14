@@ -61,6 +61,7 @@ const SpecialOccasion = () => {
             <SwiperSlide>
               <Link
                 href={{ pathname: "/products", query: { url: "o-everyday" } }}
+               
               >
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"

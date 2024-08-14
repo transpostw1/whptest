@@ -2,13 +2,15 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useCategory } from "@/context/CategoryContex";
 const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const {setCustomcategory} =useCategory();
   let categories = [
     {
       id: 3,
       url: "o-Her_Birthday",
+      head: "her_birthday",
       type: "HER BIRTHDAY",
       image: (
         <Image
@@ -22,6 +24,7 @@ const Gifts = () => {
     {
       id: 4,
       url: "o-His_Birthday",
+      head: "his_birthday",
       type: "HIS BIRTHDAY",
       image: (
         <Image
@@ -35,6 +38,7 @@ const Gifts = () => {
     {
       id: 2,
       url: "o-New_Born_Baby",
+      head: "new_born_baby",
       type: "NEW BORN BABY",
       image: (
         <Image
@@ -48,6 +52,7 @@ const Gifts = () => {
     {
       id: 8,
       url: "o-Valentines",
+      head: "valentines",
       type: "VALENTINES",
       image: (
         <Image
@@ -61,7 +66,8 @@ const Gifts = () => {
     {
       id: 5,
       url: "o-Weddings",
-      type: "Weddings",
+      head: "weddings",
+      type: "WEDDINGS",
       image: (
         <Image
           src={"/images/occasion/WHP_Weddings.jpg"}
@@ -74,6 +80,7 @@ const Gifts = () => {
     {
       id: 6,
       url: "o-Get_Well_Soon",
+      head: "get_well_soon",
       type: "GET WELL SOON",
       image: (
         <Image
@@ -87,6 +94,7 @@ const Gifts = () => {
     {
       id: 7,
       url: "o-Thankyou",
+      head: "thankyou",
       type: "THANK YOU",
       image: (
         <Image
@@ -100,6 +108,7 @@ const Gifts = () => {
     {
       id: 1,
       url: "o-House_Warming",
+      head: "house_warming",
       type: "HOUSE WARMING",
       image: (
         <Image
@@ -130,12 +139,12 @@ const Gifts = () => {
     <>
       <div className="my-16 w-full px-8 text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-2 text-[1.5rem] font-semibold uppercase">
-            Occasion
+          <h1 className="pb-2 text-[18px] font-medium uppercase">
+            Gifts
           </h1>
-          <p>
+          <p className="w-[100%] lg:w-[50%] text-[16px] font-light">
             Discover the joy of gifting with our curated selection,where every
-            piece reflects <br />
+            piece reflects 
             thoughtfulness and timeless charm, making evey occasion extra
             special.
           </p>
@@ -148,6 +157,7 @@ const Gifts = () => {
                 pathname: "/products",
                 query: { url: `${category.url}` },
               }}
+              onClick={()=>setCustomcategory(category.head)}
             >
               <div className="relative flex flex-col gap-2">
                 <div className="effect10 img">
@@ -155,7 +165,7 @@ const Gifts = () => {
                   {!isMobile && <a href="#">{category.type}</a>}
                 </div>
                 {isMobile && (
-                  <div className="w-[80%] break-words">{category.type}</div>
+                  <div className="text-md break-words">{category.type}</div>
                 )}
                 <div className="inline-flex">
                   <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">

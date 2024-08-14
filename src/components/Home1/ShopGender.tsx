@@ -64,16 +64,16 @@ const ShopGender = () => {
       <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">
         <div className="flex justify-between">
           <div>
-            <p className="font-semibold text-[1.5rem] uppercase">
+            <p className="font-medium sm:text-[18px] lg:text-[32px] uppercase">
               Shop by gender
             </p>
           </div>
-          <div className="flex">
-            <button onClick={() => swiperRef.current.slidePrev()}>
-              <Icon.CaretLeft size={30} />
+          <div className="lg:hidden sm:block">
+            <button  onClick={() => swiperRef.current.slidePrev()}>
+              <Icon.CaretLeft size={25} />
             </button>
             <button onClick={() => swiperRef.current.slideNext()}>
-              <Icon.CaretRight size={30} />
+              <Icon.CaretRight size={25} />
             </button>
           </div>
         </div>
@@ -114,14 +114,14 @@ const ShopGender = () => {
                   <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg ">
                     {category.image}
                     <div className="overlay">
-                      <p className="xs:text-lg md:text-2xl text-center">
+                      <p className="xs:text-lg md:text-[24px]  text-center ">
                         {category.type}
                       </p>
                     </div>
                   </div>
                 </Link>
-                <h1 className="lg:text-xl md:text-lg font-semibold">{category.type}</h1>
-                <p className="text-sm ">{category.description}</p>
+                <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>
+                <p className="lg:text-[16px] sm:text-[12px] font-light">{category.description}</p>
                 <Link
                   className="inline-flex items-center"
                   href={`/products?url=${category.url}`}

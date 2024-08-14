@@ -36,13 +36,13 @@ const GoldScheme = () => {
       <div className="mt-5  text-rose-950 bg-[#FFFAF9]">
         <div className="lg:pl-7 grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1  ">
           <div className="px-8 lg:px-0">
-            <h2 className="max-sm:text-center  font-semibold">
-              GOLD MONTHLY SCHEME
+            <h2 className="max-sm:text-center sm:text-[14px] lg:text-[16px] font-medium">
+              GOLD SCHEME
             </h2>
-            <h1 className="py-4 lg:text-5xl md:text-3xl text-center lg:text-left text-2xl md:text-left">
+            <h1 className="py-4 lg:text-[50px] md:text-3xl text-center lg:text-left text-2xl md:text-left lg:leading-[74px]">
               It's time to invest in a Golden Future
             </h1>
-            <p className="text-rose-950 text-center lg:text-left md:text-left">
+            <p className="text-rose-950 text-center lg:text-left md:text-left font-normal ">
               Invest in timeless wealth with our Gold Scheme, catering to a wide
               range of budgets. Making gold investment accessible to everyone.
               Watch your savings grow as you accumulate one of the most enduring

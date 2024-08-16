@@ -8,7 +8,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { useCategory } from "@/context/CategoryContex";
-const ShopGender = () => {
+
+const ShopByGender = () => {
   const { setCustomcategory } = useCategory();
   const swiperRef = useRef<any>();
   let categories = [
@@ -148,4 +149,4 @@ const ShopGender = () => {
   );
 };
 
-export default ShopGender;
+export default ShopByGender;

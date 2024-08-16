@@ -50,8 +50,8 @@ const RoseGold = () => {
     };
   }, []);
   return (
-    <div className="mt-5 flex flex-wrap justify-between bg-[#f7f5f6] p-5">
-      <div className="mr-6 md:w-[40%] lg:w-[30%]">
+    <div className="mt-5 flex flex-wrap justify-between bg-[#f7f5f6] lg:py-[90px]">
+      <div className="md:w-[40%] lg:w-[30%] lg:pl-[65px] sm:pt-[36px]">
         <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
         <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
           ROSE GOLD RANGE
@@ -89,7 +89,7 @@ const RoseGold = () => {
             />
           </div>
         </div>
-        <div className="flex-grow"></div>
+        
         {width > 135 && (
           <Link
             href={{ pathname: "/products", query: { url: "c-rose_gold" } }}

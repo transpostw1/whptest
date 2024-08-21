@@ -67,26 +67,26 @@ const MainCarousel = () => {
     fetchMainBanners();
   }, []);
   const handleSlideChange = (swiper: any) => {
-    setTimeout(() => {
-      const activeSlide = swiper.slides[swiper.activeIndex];
+    // setTimeout(() => {
+    //   const activeSlide = swiper.slides[swiper.activeIndex];
 
-      if (!activeSlide) return;
+    //   if (!activeSlide) return;
 
-      const video = activeSlide.querySelector("video");
+    //   const video = activeSlide.querySelector("video");
 
-      if (video) {
-        swiper.autoplay.stop();
+    //   if (video) {
+    //     swiper.autoplay.stop();
 
-        video.play();
+    //     video.play();
 
-        video.onended = () => {
-          swiper.slideNext();
-          swiper.autoplay.start();
-        };
-      } else {
-        swiper.autoplay.start();
-      }
-    }, 0);
+    //     video.onended = () => {
+    //       swiper.slideNext();
+    //       swiper.autoplay.start();
+    //     };
+    //   } else {
+    //     swiper.autoplay.start();
+    //   }
+    // }, 0);
   };
 
   if (isLoading) {

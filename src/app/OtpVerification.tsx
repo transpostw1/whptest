@@ -3,13 +3,11 @@ import {
   RecaptchaVerifier,
   signInWithCredential,
   signInWithPhoneNumber,
-  FirebaseError,
+  // FirebaseError,
 } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";
 import OTPInput from "react-otp-input";
-import { BsFillShieldLockFill } from "react-icons/bs";
-import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
 import { signup, login } from "@/utils/constants";

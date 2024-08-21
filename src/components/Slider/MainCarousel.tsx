@@ -71,7 +71,6 @@ const MainCarousel = () => {
     fetchMainBanners();
   }, []);
 
-  // Handle slide change to pause autoplay during video playback
   const handleSlideChange = (swiper: any) => {
     setTimeout(() => {
       const activeSlide = swiper.slides[swiper.activeIndex];

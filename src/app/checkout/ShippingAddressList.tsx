@@ -164,10 +164,10 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
                 <p>{`${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}</p>
                 <p>Address Type: {address.address_type}</p>
               </div>
-              <div className="flex space-x-2">
+              {/* <div className="flex space-x-2">
                 <FaEdit className="text-gray-500 hover:text-gray-700 cursor-pointer" />
                 <FaTimes className="text-gray-500 hover:text-gray-700 cursor-pointer" />
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

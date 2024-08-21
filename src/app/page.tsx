@@ -27,7 +27,7 @@ export default function Home() {
 
   let logged = null;
   if (typeof window !== "undefined") {
-    logged = localStorage.getItem("isLoggedIn");
+    logged = localStorage.getItem("isLoggedIn>>>>>>>>>");
   }
   const heatmapData = [
     { x: 100, y: 150, value: 50 },

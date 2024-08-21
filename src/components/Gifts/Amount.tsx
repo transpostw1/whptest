@@ -6,6 +6,7 @@ interface AmountProps {
 
 const Amount: FC<AmountProps> = ({ onAmountChange }) => {
   const [amount, setAmount] = useState<any>("");
+  const [value, setValue] = useState<any>(0);
   const { formatPrice, currency } = useCurrency();
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -13,12 +14,14 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
     setAmount(value);
     onAmountChange(parseInt(value, 10));
   };
-
+  useEffect(() => {
+    handleButtonClick(value);
+  }, [currency]);
   const handleButtonClick = (value: number) => {
     if (currency == "USD") {
       setAmount(value * 0.012);
       onAmountChange(value * 0.012);
-    } else if (currency=="EUR") {
+    } else if (currency == "EUR") {
       setAmount(value * 0.011);
       onAmountChange(value * 0.011);
     } else {
@@ -26,9 +29,6 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
       onAmountChange(value);
     }
   };
-  useEffect(() => {
-    console.log("amount from Button Click", amount);
-  }, [amount]);
   return (
     <div className="flex flex-col items-center justify-evenly space-y-4 p-4 py-6 md:flex-row md:space-x-4 md:space-y-0">
       <div className="flex flex-col items-center">
@@ -63,7 +63,10 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
           {[1000, 2000, 5000, 10000].map((value) => (
             <button
               key={value}
-              onClick={() => handleButtonClick(value)}
+              onClick={() => {
+                handleButtonClick(value);
+                setValue(value);
+              }}
               className="rounded-lg bg-[#e26178] px-4 py-2 text-white hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
               {formatPrice(value)}

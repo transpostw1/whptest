@@ -146,7 +146,7 @@ const Careers: React.FC = () => {
           onFilterChange={handleFilterChange}
         />
 
-        <div className="mx-4 md:mx-14 my-4">
+        <div className="mx-4 my-4 md:mx-14">
           {filteredcareersData.length > 0 ? (
             filteredcareersData.map((data, index) => (
               <div
@@ -154,7 +154,7 @@ const Careers: React.FC = () => {
                 key={index}
                 onClick={(event) => handleJobDetail(data.url, event)}
               >
-                <div className="flex items-center justify-between ">
+                <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
                       <h1 className="text-lg font-semibold md:text-2xl">
@@ -162,7 +162,7 @@ const Careers: React.FC = () => {
                       </h1>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end  justify-between">
+                  <div className="flex flex-col items-end justify-between">
                     <div className="flex flex-wrap justify-end gap-2 text-sm text-gray-400 md:text-lg">
                       {data.location.map((loc, index) => (
                         <div key={index} className="flex items-center gap-1">

@@ -6,6 +6,7 @@ import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import { DownloadSimple, User } from "@phosphor-icons/react";
+import { headers } from "next/headers";
 
 interface PaymentProps {
   orderPlaced: boolean;
@@ -61,6 +62,7 @@ const Payment: React.FC<PaymentProps> = ({
 
     loadRazorpayScript();
   }, []);
+ 
 
   const handleRazorpayPayment = async () => {
     setLoading(true);
@@ -71,7 +73,7 @@ const Payment: React.FC<PaymentProps> = ({
       const { amount, id: order_id, currency } = response.data;
 
       const storedScheme = JSON.parse(
-        sessionStorage.getItem("selectedScheme") || "{}"
+        sessionStorage.getItem("selectedScheme") || "{}",
       );
       console.log(storedScheme.enrollmentId);
 
@@ -111,7 +113,7 @@ const Payment: React.FC<PaymentProps> = ({
                 headers: {
                   Authorization: `Bearer ${cookieToken}`,
                 },
-              }
+              },
             );
             console.log(apiResponse.data);
             setTransactionDetails(apiResponse.data.transaction);
@@ -158,7 +160,7 @@ const Payment: React.FC<PaymentProps> = ({
     if (!transactionDetails) return;
 
     const storedScheme = JSON.parse(
-      sessionStorage.getItem("selectedScheme") || "{}"
+      sessionStorage.getItem("selectedScheme") || "{}",
     );
     const schemeName = storedScheme.planName || "N/A";
 
@@ -179,7 +181,7 @@ const Payment: React.FC<PaymentProps> = ({
       (pageWidth - 20) / 2,
       10,
       20,
-      20
+      20,
     );
 
     // Add title
@@ -192,11 +194,11 @@ const Payment: React.FC<PaymentProps> = ({
     pdf.setTextColor(100);
     pdf.text(
       `Date: ${new Date(
-        transactionDetails.transaction_date
+        transactionDetails.transaction_date,
       ).toLocaleDateString()}`,
       pageWidth / 2,
       48,
-      { align: "center" }
+      { align: "center" },
     );
 
     // Add company info
@@ -244,7 +246,7 @@ const Payment: React.FC<PaymentProps> = ({
         `${detail.value}`,
         pageWidth - 15,
         detailsStart + index * detailsGap,
-        { align: "right" }
+        { align: "right" },
       );
     });
 
@@ -262,12 +264,12 @@ const Payment: React.FC<PaymentProps> = ({
     if (!transactionDetails) return null;
 
     const storedScheme = JSON.parse(
-      sessionStorage.getItem("selectedScheme") || "{}"
+      sessionStorage.getItem("selectedScheme") || "{}",
     );
     const schemeName = storedScheme.planName || "N/A";
 
     return (
-      <div className="bg-white p-6 rounded-lg shadow-md max-w-sm mx-auto text-center">
+      <div className="mx-auto max-w-sm rounded-lg bg-white p-6 text-center shadow-md">
         <div className="mb-4">
           <Image
             src="/images/other/logo2.png"
@@ -277,7 +279,7 @@ const Payment: React.FC<PaymentProps> = ({
             objectFit="contain"
             className="mx-auto"
           />
-          <h2 className="text-xl font-bold text-gray-800 mt-2">
+          <h2 className="mt-2 text-xl font-bold text-gray-800">
             Payment Receipt
           </h2>
           <p className="text-sm text-gray-600">
@@ -292,50 +294,50 @@ const Payment: React.FC<PaymentProps> = ({
           <p className="text-sm text-gray-600">Email: info@whpjewellers.com</p>
         </div>
 
-        <div className="mb-4 bg-gray-100 p-4 rounded-md">
-          <h4 className="text-md font-semibold text-gray-800 mb-2">
+        <div className="mb-4 rounded-md bg-gray-100 p-4">
+          <h4 className="text-md mb-2 font-semibold text-gray-800">
             Transaction Details
           </h4>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <p className="text-gray-600 text-right">Scheme:</p>
-            <p className="text-gray-800 font-medium text-left">{schemeName}</p>
-            <p className="text-gray-600 text-right">Transaction No:</p>
-            <p className="text-gray-800 font-medium text-left">
+            <p className="text-right text-gray-600">Scheme:</p>
+            <p className="text-left font-medium text-gray-800">{schemeName}</p>
+            <p className="text-right text-gray-600">Transaction No:</p>
+            <p className="text-left font-medium text-gray-800">
               {transactionDetails.id}
             </p>
-            <p className="text-gray-600 text-right">Enrollment ID:</p>
-            <p className="text-gray-800 font-medium text-left">
+            <p className="text-right text-gray-600">Enrollment ID:</p>
+            <p className="text-left font-medium text-gray-800">
               {transactionDetails.enrollment_id}
             </p>
-            <p className="text-gray-600 text-right">Amount:</p>
-            <p className="text-gray-800 font-medium text-left">
+            <p className="text-right text-gray-600">Amount:</p>
+            <p className="text-left font-medium text-gray-800">
               ₹{transactionDetails.amount.toFixed(2)}
             </p>
-            <p className="text-gray-600 text-right">Payment Method:</p>
-            <p className="text-gray-800 font-medium text-left">
+            <p className="text-right text-gray-600">Payment Method:</p>
+            <p className="text-left font-medium text-gray-800">
               {transactionDetails.paymentMethod}
             </p>
-            <p className="text-gray-600 text-right">Transaction ID:</p>
-            <p className="text-gray-800 font-medium text-left">
+            <p className="text-right text-gray-600">Transaction ID:</p>
+            <p className="text-left font-medium text-gray-800">
               {transactionDetails.razorpayPaymentNo}
             </p>
           </div>
         </div>
 
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="mb-4 text-sm text-gray-600">
           Thank you for your payment!
         </p>
         <div className="flex justify-center space-x-4">
           <button
             onClick={handleDownloadReceipt}
-            className="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 transition duration-300 flex items-center"
+            className="flex items-center rounded bg-blue-500 px-4 py-2 text-sm text-white transition duration-300 hover:bg-blue-600"
           >
             <DownloadSimple size={20} className="mr-2" />
             Download Receipt
           </button>
           <button
             onClick={() => router.push("/profile")}
-            className="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600 transition duration-300 flex items-center"
+            className="flex items-center rounded bg-gray-500 px-4 py-2 text-sm text-white transition duration-300 hover:bg-gray-600"
           >
             <User size={20} className="mr-2" />
             Go to Profile
@@ -353,12 +355,12 @@ const Payment: React.FC<PaymentProps> = ({
     <div className="flex flex-col gap-5">
       {!transactionDetails ? (
         <>
-          <h1 className="text-xl font-semibold mb-2">Payment Method</h1>
+          <h1 className="mb-2 text-xl font-semibold">Payment Method</h1>
           <div className="flex flex-col gap-3">
-            <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
               <label
                 htmlFor="razorpayPayment"
-                className="flex gap-2 cursor-pointer font-medium"
+                className="flex cursor-pointer gap-2 font-medium"
               >
                 <Image
                   src="/images/other/upi-icon.png"
@@ -374,7 +376,7 @@ const Payment: React.FC<PaymentProps> = ({
                 id="razorpayPayment"
                 name="paymentOption"
                 value="razorpay"
-                className="appearance-none w-4 h-4 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+                className="h-4 w-4 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
                 checked={selectedPaymentMethod === "razorpay"}
                 onChange={handlePaymentMethodChange}
               />
@@ -383,7 +385,7 @@ const Payment: React.FC<PaymentProps> = ({
 
           <button
             onClick={handlePayment}
-            className="bg-red-600 text-white px-4 py-2 rounded mt-4"
+            className="mt-4 rounded bg-red-600 px-4 py-2 text-white"
             disabled={!isValidTotalCart || !selectedPaymentMethod}
           >
             Place Order

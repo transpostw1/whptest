@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCategory } from "@/context/CategoryContex";
 
 const WhatWeOffer = () => {
   const [width, setWidth] = useState<number>(300);
   const [height, setHeight] = useState<number>(200);
-
+  const { setCustomcategory } = useCategory();
   useEffect(() => {
     const handleResize = () => {
       // Get the current viewport width
@@ -38,42 +39,42 @@ const WhatWeOffer = () => {
 
   return (
     <>
-      <div className="bg-[#F9F5F5] text-[#39161C] mt-4">
+      <div className="mt-4 bg-[#F9F5F5] text-[#39161C]">
         {width < 140 && (
-          <div className="p-4 mt-5">
-            <p className="font-medium tracking-[0.49rem] text-center w-full">
+          <div className="mt-5 p-4">
+            <p className="w-full text-center font-medium tracking-[0.49rem]">
               OFFERINGS
             </p>
-            <div className="w-full text-center font-semibold text-xl mt-4">
+            <div className="mt-4 w-full text-center text-[24px] font-normal">
               What We Offer
             </div>
-            <div className="m-auto text-center w-[80%] mb-5 mt-3 ">
+            <div className="m-auto mb-5 mt-3 w-[80%] text-center text-[12px] font-light">
               Discover our offerings. Our commitment to quality, elegance, and
               personalised service ensures an exceptional experience.
             </div>
           </div>
         )}
         <div className="flex flex-wrap lg:flex-row">
-          <div className="lg:w-[50%] max-sm:w-full md:w-[50%]">
+          <div className="max-sm:w-full md:w-[50%] lg:w-[50%]">
             <Image
               src={"/images/other/whatweoffer.jpg"}
-              className="w-full h-auto"
+              className="h-auto w-full"
               alt="What We Offer"
               width={width}
               height={height}
             />
           </div>
-          <div className="w-full flex flex-col sm:w-[50%] md:p-4 md:mt-2 sm:p-[4rem]">
+          <div className="flex w-full flex-col sm:w-[50%] sm:p-[4rem] md:mt-2 md:p-8">
             {width > 160 && (
               <div className="ps-3 pt-3">
-                <p className="lg:text-[3rem] text-[2rem] pb-5">What We Offer</p>
+                <p className="pb-5 text-[61px] font-normal">What we Offer</p>
                 <p className="text-sm md:text-base">
                   Discover our offerings. Our commitment to quality, elegance,
                   and personalised service ensures an exceptional experience.
                 </p>
               </div>
             )}
-            <div className="mt-auto flex-end order-1">
+            <div className="flex-end order-1 mt-auto">
               <div className="flex justify-between max-sm:text-center">
                 <div className="py-4">
                   <Image
@@ -83,10 +84,10 @@ const WhatWeOffer = () => {
                     height={40}
                     className={`${width < 140 && "m-auto"}`}
                   />
-                  <p className="font-semibold text-lg md:text-xl pt-3 pb-2">
+                  <p className="pb-2 pt-3 text-lg font-semibold md:text-xl">
                     12000 + UNIQUE DESIGNS
                   </p>
-                  <p className="text-sm md:text-base">
+                  <p className="mt-3 text-sm md:text-base lg:w-[67%]">
                     Elevate your style with our distinctive jewellery designs,
                     where creativity and craftsmanship unite.
                   </p>
@@ -95,9 +96,10 @@ const WhatWeOffer = () => {
                       pathname: "/products",
                       query: { url: "c-new_Arrival" },
                     }}
-                    className="inline-flex items-center"
+                    onClick={() => setCustomcategory("new_arrival")}
+                    className="mt-8 inline-flex items-center"
                   >
-                    <span className=" me-2 text-[#E26178] underline cursor-pointer text-sm">
+                    <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
                       Next
                     </span>
                     <span className="flex items-center">
@@ -112,7 +114,7 @@ const WhatWeOffer = () => {
                 </div>
                 <div className="hidden sm:block">
                   <p
-                    className="font-semibold text-lg tracking-[0.49rem]"
+                    className="mt-5 text-lg font-semibold tracking-[0.49rem]"
                     style={{
                       textOrientation: "mixed",
                       writingMode: "vertical-lr",

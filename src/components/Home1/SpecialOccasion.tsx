@@ -23,15 +23,14 @@ const SpecialOccasion = () => {
         {/* <div className="container"> */}
         {/* <Fade bottom> */}
         {/* <div className="heading3 text-center">Special Occasion</div> */}
-        <div className="flex flex-col justify-between gap-8 px-8 text-red-950">
-          <h1 className="text-2xl md:text-3xl lg:text-5xl">
-            Something special for <br /> Every Occasion
-          </h1>
-          <p className="font-medium text-gray-700">
+        <div className="flex flex-col justify-between px-8 text-red-950 gap-2">
+          <p className="text-[24px] sm:w-[100%] sm:leading-[18px] md:w-[57%] md:text-3xl lg:w-[71%] lg:text-[62px] lg:leading-[86px]">
+            Something special for Every Occasion
+          </p>
+          <p className="font-light text-gray-700 sm:text-[12px] md:w-[60%] lg:w-[65%] lg:text-[16px]">
             Crafted to add a touch of elegance and charm to every occasion. From
-            celebrations to <br />
-            cherished milestones, find the perfect piece that speaks to your
-            unique style and sentiments.
+            celebrations to cherished milestones, find the perfect piece that
+            speaks to your unique style and sentiments.
           </p>
         </div>
         {/* </Fade> */}

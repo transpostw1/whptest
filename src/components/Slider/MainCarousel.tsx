@@ -19,6 +19,8 @@ const MainCarousel = () => {
   const swiperRef = useRef<any>(null);
   const { setCustomcategory } = useCategory();
   const [isMobile, setIsMobile] = useState(false);
+
+  // Media query to detect mobile devices
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1000px)");
     const handleChange = (e: any) => {
@@ -32,6 +34,8 @@ const MainCarousel = () => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
+
+  // Fetch banners using GraphQL
   useEffect(() => {
     const fetchMainBanners = async () => {
       setIsLoading(true);
@@ -66,29 +70,41 @@ const MainCarousel = () => {
     };
     fetchMainBanners();
   }, []);
+
   const handleSlideChange = (swiper: any) => {
-    // setTimeout(() => {
-    //   const activeSlide = swiper.slides[swiper.activeIndex];
+    setTimeout(() => {
+      const activeSlide = swiper.slides[swiper.activeIndex];
 
-    //   if (!activeSlide) return;
+      if (!activeSlide) return;
 
-    //   const video = activeSlide.querySelector("video");
+      const video = activeSlide.querySelector("video");
 
-    //   if (video) {
-    //     swiper.autoplay.stop();
+      if (video) {
+        swiper.autoplay.stop();
 
-    //     video.play();
+        video.play();
 
-    //     video.onended = () => {
-    //       swiper.slideNext();
-    //       swiper.autoplay.start();
-    //     };
-    //   } else {
-    //     swiper.autoplay.start();
-    //   }
-    // }, 0);
+        video.onended = () => {
+          swiper.slideNext();
+          swiper.autoplay.start();
+        };
+
+        video.onclick = () => {
+          if (video.paused) {
+            video.play();
+            swiper.autoplay.stop(); // Stop autoplay when the video is clicked
+          } else {
+            video.pause();
+            swiper.autoplay.start(); // Resume autoplay if the video is paused
+          }
+        };
+      } else {
+        swiper.autoplay.start();
+      }
+    }, 1000);
   };
 
+  // Display loading skeleton if banners are still loading
   if (isLoading) {
     return (
       <div>
@@ -96,6 +112,7 @@ const MainCarousel = () => {
       </div>
     );
   }
+
   return (
     <>
       <div className="slider-block bg-linear relative w-full">

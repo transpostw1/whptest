@@ -20,15 +20,26 @@ interface PlayList {
 }
 
 const GET_ALL_REELS = gql`
-  query GetAllReels {
+  query Query {
     getAllReels {
-      id
-      name
-      thumbnail
-      video
-      productIds
+    id
+    name
+    thumbnail
+    video
+    productDetails {
+      productId
+      displayTitle
+      url
+      imageDetails {
+        image_path
+        order
+        alt_text
+      }
+      productPrice
+      discountPrice
     }
   }
+}
 `;
 
 // import Fade from 'react-reveal'
@@ -104,7 +115,7 @@ const Whptv2 = () => {
   
 
   useEffect(() => {
-    console.log("reelssssss", playList);
+    console.log("PLayLIstttttsss", playList);
    console.log("vidoessssss",videos)
   }, [playList]);
 

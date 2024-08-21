@@ -8,7 +8,7 @@ import BuyAgain from "@/components/Home1/BuyAgain";
 import Category from "@/components/Home1/Category";
 import RoseGold from "@/components/Home1/RoseGold";
 import GoldScheme from "@/components/Home1/GoldScheme";
-import ShopGender from "@/components/Home1/ShopGender";
+import ShopByGender from "@/components/Home1/ShopByGender";
 import Appointment from "@/components/Home1/Appointment";
 import Gifts from "@/components/Home1/Gifts";
 import PreciousGems from "@/components/Home1/PreciousGems";
@@ -22,13 +22,12 @@ import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts"
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
 
-import Head from "next/head";
 
 export default function Home() {
 
   let logged = null;
   if (typeof window !== "undefined") {
-    logged = localStorage.getItem("isLoggedIn");
+    logged = localStorage.getItem("isLoggedIn>>>>>>>>>");
   }
   const heatmapData = [
     { x: 100, y: 150, value: 50 },
@@ -58,7 +57,7 @@ export default function Home() {
         <Category />
         <GetFastDeliveryProducts />
         <WhatWeOffer />
-        <ShopGender />
+        <ShopByGender />
         {/* <PreciousGems /> */}
         <Appointment />
         <Gifts />

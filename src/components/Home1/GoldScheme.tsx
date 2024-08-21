@@ -33,16 +33,16 @@ const GoldScheme = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-5  text-rose-950 bg-[#FFFAF9]">
-        <div className="lg:pl-7 grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1  ">
+      <div className="mt-5 bg-[#FFFAF9] text-rose-950">
+        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
           <div className="px-8 lg:px-0">
-            <h2 className="max-sm:text-center  font-semibold">
-              GOLD MONTHLY SCHEME
+            <h2 className="font-medium max-sm:text-center sm:text-[14px] md:text-center lg:text-start lg:text-[16px]">
+              GOLD SCHEME
             </h2>
-            <h1 className="py-4 lg:text-5xl md:text-3xl text-center lg:text-left text-2xl md:text-left">
+            <h1 className="py-4 text-center text-2xl md:text-center md:text-3xl lg:text-left lg:text-[50px] lg:leading-[74px]">
               It's time to invest in a Golden Future
             </h1>
-            <p className="text-rose-950 text-center lg:text-left md:text-left">
+            <p className="text-center font-normal text-rose-950 sm:w-[100%] md:text-center lg:w-[70%] lg:text-left">
               Invest in timeless wealth with our Gold Scheme, catering to a wide
               range of budgets. Making gold investment accessible to everyone.
               Watch your savings grow as you accumulate one of the most enduring
@@ -58,47 +58,47 @@ const GoldScheme = () => {
               </button>
             </Link> */}
             <Link
-              className=" lg:pb-10 text-center lg:text-left md:justify-start inline-flex w-full justify-center"
+              className="inline-flex w-full justify-center text-center sm:justify-center md:justify-center lg:justify-start lg:pb-10 lg:text-left"
               href="/benefit"
             >
               <button
                 type="button"
-                className="text-white flex justify-center px-6 py-3  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] focus:ring-4 focus:outline-none font-medium text-sm  text-center my-4 "
+                className="my-4 flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-3 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 Know More
-                <span className="mt-1 ml-2">
+                <span className="ml-2 mt-1">
                   <Icon.ArrowRight />
                 </span>
               </button>
             </Link>
             {!isMobile && (
-              <div className="p-0 bg-[#FFFAF9]">
-                <div className="flex gap-3 sm:flex-row p-0  md:py-5 md:ps-5 mx-auto items-center">
+              <div className="bg-[#FFFAF9] p-0">
+                <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
                   <Image
                     src={"/images/other/BenefitBangle.jpg"}
                     alt="Benefit"
                     width={400}
                     height={100}
-                    className="w-full sm:w-auto h-auto"
+                    className="h-auto w-full sm:w-auto"
                   />
                   <div className="flex flex-col justify-between gap-3">
                     <div>
-                      <h1 className="text-xl font-semibold pb-2">
+                      <h1 className="pb-2 text-xl font-semibold">
                         GOLD ACCOUNT
                       </h1>
-                      <p className="text-sm pe-2">
+                      <p className="pe-2 text-sm">
                         Open a WHP Gold Scheme account with an amount as low as
                         ₹2000. Make regular installments and get discounts.
                       </p>
                     </div>
-                    <div className="flex w-full mt-5">
+                    <div className="mt-5 flex w-full">
                       <button
                         // href="#"
                         onClick={() => handleNavigation("/benefit")}
-                        className="text-[#E26178] flex justify-center text-start font-semibold underline"
+                        className="flex justify-center text-start font-semibold text-[#E26178] underline"
                       >
                         Benefit Calculator
-                        <span className="mt-1 ml-2">
+                        <span className="ml-2 mt-1">
                           <Icon.ArrowRight />
                         </span>
                       </button>
@@ -115,19 +115,19 @@ const GoldScheme = () => {
             alt="goldscheme"
           />
           {isMobile && (
-            <div className="p-0 bg-[#FFFAF9]">
-              <div className="flex gap-3 sm:flex-row p-0  md:py-5 md:ps-5 mx-auto items-center">
+            <div className="bg-[#FFFAF9] p-0">
+              <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
                 <Image
                   src={"/images/other/BenefitBangle.jpg"}
                   alt="Benefit"
-                  width={400}
-                  height={100}
-                  className="w-full sm:w-auto h-auto"
+                  width={299}
+                  height={241}
+                  className="h-auto w-full sm:w-auto"
                 />
                 <div className="flex flex-col justify-between gap-3">
                   <div>
-                    <h1 className="text-xl font-semibold pb-2">GOLD ACCOUNT</h1>
-                    <p className="text-sm pe-2">
+                    <h1 className="pb-2 text-xl font-semibold">GOLD ACCOUNT</h1>
+                    <p className="pe-2 text-sm">
                       Open a WHP Gold Scheme account with an amount as low as
                       ₹2000. Make regular installments and get discounts.
                     </p>
@@ -136,10 +136,10 @@ const GoldScheme = () => {
                     <button
                       // href="#"
                       onClick={() => handleNavigation("/benefit")}
-                      className="text-[#E26178] flex justify-center text-start font-semibold underline"
+                      className="flex justify-center text-start font-semibold text-[#E26178] underline"
                     >
                       Benefit Calculator
-                      <span className="mt-1 ml-2">
+                      <span className="ml-2 mt-1">
                         <Icon.ArrowRight />
                       </span>
                     </button>

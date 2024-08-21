@@ -42,7 +42,7 @@ const GoldScheme = () => {
             <h1 className="py-4 text-center text-2xl md:text-center md:text-3xl lg:text-left lg:text-[50px] lg:leading-[74px]">
               It's time to invest in a Golden Future
             </h1>
-            <p className="lg:w-[70%] sm:w-[100%] text-center font-normal text-rose-950 md:text-center lg:text-left">
+            <p className="text-center font-normal text-rose-950 sm:w-[100%] md:text-center lg:w-[70%] lg:text-left">
               Invest in timeless wealth with our Gold Scheme, catering to a wide
               range of budgets. Making gold investment accessible to everyone.
               Watch your savings grow as you accumulate one of the most enduring
@@ -58,7 +58,7 @@ const GoldScheme = () => {
               </button>
             </Link> */}
             <Link
-              className="inline-flex w-full lg:justify-start text-center md:justify-center sm:justify-center lg:pb-10 lg:text-left"
+              className="inline-flex w-full justify-center text-center sm:justify-center md:justify-center lg:justify-start lg:pb-10 lg:text-left"
               href="/benefit"
             >
               <button

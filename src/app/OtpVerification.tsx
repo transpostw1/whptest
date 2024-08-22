@@ -3,7 +3,7 @@ import {
   RecaptchaVerifier,
   signInWithCredential,
   signInWithPhoneNumber,
-  // FirebaseError,
+  FirebaseError,
 } from "firebase/auth";
 import { useEffect, useState, useRef } from "react";
 import { auth } from "./config";

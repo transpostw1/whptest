@@ -722,7 +722,6 @@ const Checkout: React.FC = () => {
                   setCartItems={setCartItems}
                 />
               )}
-
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
             <div className="mt-5 w-full lg:w-3/4">
@@ -854,7 +853,6 @@ const Checkout: React.FC = () => {
                   )}
                 </div>
               )}
-
               {(selectedComponent === "DeliveryDetails" ||
                 selectedComponent === "Payment") && (
                 <div id="order-summary">
@@ -873,7 +871,6 @@ const Checkout: React.FC = () => {
                   />
                 </div>
               )}
-
               {selectedStep !== 2 && (
                 <ProceedButton
                   totalPrice={totalPrice}
@@ -887,21 +884,19 @@ const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* </ProtectedRoute> */}
 
       {isMobile && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
-            <p className="text-[20px] font-bold">₹{formatPrice(totalPrice)}</p>
+            <p className="text-[18px] font-medium">{formatPrice(totalPrice)}</p>
             <Link href="#order-summary">
-              <p className="cursor-pointer text-[#e26178]">
-                {" "}
+              <p className="cursor-pointer text-[12px] font-medium text-[#e26178]">
                 View Order Summary
               </p>
             </Link>
           </div>
           <div
-            className="flex cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex w-[170px] h-[58px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

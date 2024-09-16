@@ -73,22 +73,24 @@ const MainCarousel = () => {
 
   const handleSlideChange = (swiper: any) => {
     setTimeout(() => {
+      if (!swiper || !swiper.slides || swiper.activeIndex === undefined) return;
+  
       const activeSlide = swiper.slides[swiper.activeIndex];
-
+  
       if (!activeSlide) return;
-
+  
       const video = activeSlide.querySelector("video");
-
+  
       if (video) {
         swiper.autoplay.stop();
-
+  
         video.play();
-
+  
         video.onended = () => {
           swiper.slideNext();
           swiper.autoplay.start();
         };
-
+  
         video.onclick = () => {
           if (video.paused) {
             video.play();
@@ -103,6 +105,7 @@ const MainCarousel = () => {
       }
     }, 1000);
   };
+  
 
   // Display loading skeleton if banners are still loading
   if (isLoading) {

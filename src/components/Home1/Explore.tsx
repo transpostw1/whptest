@@ -36,7 +36,6 @@ const Explore = () => {
         });
 
         setData(data.getAllSubBanners);
-        console.log("Datta", data.getAllSubBanners);
       } catch (error) {
         console.log("Error in fetching SubBanners", error);
       } finally {
@@ -59,10 +58,7 @@ const Explore = () => {
   //     }
   //   };
   //   fetchSubBanners();
-  // }, []);
-  useEffect(() => {
-    console.log("SubBAnners", data);
-  }, [data]);
+  // }, []);  
   if (loading) {
     return (
       <div>

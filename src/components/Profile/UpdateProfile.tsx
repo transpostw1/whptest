@@ -11,6 +11,8 @@ interface FormValues {
   phone: string | any;
   altPhone: string | any;
   gender: string | any;
+  gstNum: string | any;
+  panNum: string | any;
   dobDay: string | any;
   dobMonth: string | any;
   dobYear: string | any;
@@ -40,9 +42,9 @@ const UpdateProfile:React.FC<Props> = ({
     dobDay: Yup.string().required("Day is required"),
     dobMonth: Yup.string().required("Month is required"),
     dobYear: Yup.string().required("Year is required"),
-    profilePicture: Yup.mixed(),
+    // profilePicture: Yup.mixed(),
   });
-  const dob = userDetails?.customer?.dob; // Assuming dob is "1998-10-18"
+  const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
@@ -56,6 +58,8 @@ const UpdateProfile:React.FC<Props> = ({
       phone: values.phone,
       altPhone: values.altPhone,
       gender: values.gender,
+      gstNum:values.gstNum,
+      panNum:values.panNum,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
       profile_picture: values.profilePicture,
     };
@@ -69,20 +73,23 @@ const UpdateProfile:React.FC<Props> = ({
       );
     } finally {
       setIsLoading(false);
+      isClose();
     }
   };
   const formik = useFormik({
     initialValues: {
-        firstName: userDetails?.firstname,
-        lastName: userDetails?.lastname,
-        email: userDetails?.email,
-        phone: userDetails?.mobile_no,
-        gender: userDetails?.gender,
-        profilePicture: null,
-        altPhone: undefined,
-        dobDay,
-        dobMonth,
-        dobYear,
+      firstName: userDetails?.firstname || "",
+      lastName: userDetails?.lastname || "",
+      email: userDetails?.email || "",
+      phone: userDetails?.mobile_no || "",
+      altPhone: userDetails?.altPhone || "",
+      gender: userDetails?.gender || "",
+      gstNum: userDetails?.gstNum || "",
+      panNum: userDetails?.panNum || "",
+      dobDay,
+      dobMonth,
+      dobYear,
+      profilePicture: null,
     },
     validationSchema,
     onSubmit: handleSubmit,
@@ -139,6 +146,8 @@ const UpdateProfile:React.FC<Props> = ({
                           "profilePicture",
                           event.currentTarget.files[0],
                         );
+                      } else {
+                        formik.setFieldValue("profilePicture", null);
                       }
                     }}
                     className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
@@ -288,6 +297,57 @@ const UpdateProfile:React.FC<Props> = ({
                   </label>
                 </div>
               </div>
+              <div className="">
+                <div className="relative">
+                  <input
+                    id="gstNum"
+                    type="text"
+                    {...formik.getFieldProps("gstNum")}
+                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      formik.errors.gstNum
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+                  />
+                  <label
+                    htmlFor="gstNum"
+                    className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
+                  >
+                    GST Number
+                  </label>
+                </div>
+                {formik.errors.gstNum && (
+                  <div className="mt-1 text-red-500">
+                    {formik.errors.gstNum}
+                  </div>
+                )}
+              </div>
+              <div className="">
+                <div className="relative">
+                  <input
+                    id="panNum"
+                    type="text"
+                    {...formik.getFieldProps("panNum")}
+                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      formik.errors.panNum
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+                  />
+                  <label
+                    htmlFor="PanNum"
+                    className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
+                  >
+                    PAN Number
+                  </label>
+                </div>
+                {formik.errors.panNum && (
+                  <div className="mt-1 text-red-500">
+                    {formik.errors.panNum}
+                  </div>
+                )}
+              </div>
+              
               <div className="">
                 <div className="relative">
                   <input

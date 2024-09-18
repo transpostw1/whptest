@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Loader from "@/components/Other/Loader"
 import { useUser } from "@/context/UserContext";
 
@@ -17,6 +16,8 @@ interface FormValues {
   phone: string;
   altPhone: string;
   gender: string;
+  gstNum:string;
+  panNum:string;
   dobDay: string;
   dobMonth: string;
   dobYear: string;
@@ -44,8 +45,9 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       phone: values.phone,
       altPhone: values.altPhone,
       gender: values.gender,
+      gstNum:values.gstNum,
+      panNum:values.panNum,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      // ...(values.profilePicture && { profile_picture: values.profilePicture }),
       profile_picture: values.profilePicture,
     };
     try {
@@ -71,6 +73,8 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       phone: userDetails?.mobile_no || "",
       altPhone: userDetails?.altPhone || "",
       gender: userDetails?.gender || "",
+      gstNum:userDetails?.gstNum||"",
+      panNum:userDetails?.panNum||"",
       dobDay,
       dobMonth,
       dobYear,
@@ -142,7 +146,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="lastName"
+                  htmlFor="firstName"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   First Name
@@ -273,6 +277,56 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               {formik.errors.gender && (
                 <div className="text-red-500 mt-1">{formik.errors.gender}</div>
+              )}
+            </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="gstNum"
+                  type="text"
+                  {...formik.getFieldProps("gstNum")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.gstNum
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="gstNum"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                 GST Number
+                </label>
+              </div>
+              {formik.errors.gstNum && (
+                <div className="text-red-500 mt-1">
+                  {formik.errors.gstNum}
+                </div>
+              )}
+            </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="panNum"
+                  type="text"
+                  {...formik.getFieldProps("panNum")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.panNum
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="panNum"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  PAN Number
+                </label>
+              </div>
+              {formik.errors.panNum && (
+                <div className="text-red-500 mt-1">
+                  {formik.errors.panNum}
+                </div>
               )}
             </div>
           </div>

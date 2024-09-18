@@ -139,4 +139,3 @@ const FAQs = () => {
 };
 
 export default FAQs;
-xxxc

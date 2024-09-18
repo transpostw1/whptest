@@ -199,6 +199,7 @@ const ProfileDetails = () => {
   }).format(
     Math.round(parseFloat((userDetails && userDetails?.wallet_amount) ?? 0)),
   );
+
   return (
     <div className="m-24 mt-10">
       <div className="flex justify-between">
@@ -223,7 +224,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="first_name"
-              className="text-md block font-normal text-black mb-1"
+              className="text-md mb-1 block font-normal text-black"
             >
               First name
             </label>
@@ -236,7 +237,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="last_name"
-              className="text-md block font-normal text-black mb-1"
+              className="text-md mb-1 block font-normal text-black"
             >
               Last name
             </label>
@@ -248,8 +249,21 @@ const ProfileDetails = () => {
           </div>
           <div>
             <label
+              htmlFor="last_name"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              date of Birth
+            </label>
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.dob}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
               htmlFor="phone"
-              className="text-md block font-normal text-black mb-1"
+              className="text-md mb-1 block font-normal text-black"
             >
               Phone number
             </label>
@@ -262,7 +276,7 @@ const ProfileDetails = () => {
           <div>
             <label
               htmlFor="email"
-              className="text-md block font-normal text-black mb-1"
+              className="text-md mb-1 block font-normal text-black"
             >
               Email address
             </label>
@@ -272,10 +286,34 @@ const ProfileDetails = () => {
               </span>
             </div>
           </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              GST No.
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.gst_no}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              PAN ID
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">{userDetails?.pan}</span>
+            </div>
+          </div>
         </div>
       </form>
       <hr className="mt-3" />
-      <div className="flex justify-between ">
+      <div className="flex justify-between">
         <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"

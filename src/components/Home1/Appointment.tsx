@@ -53,33 +53,61 @@ const Appointment = () => {
     <>
       <div className="grid text-rose-950 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="bg-secondary2 flex items-center justify-start bg-gradient-to-r from-pink-100 to-gray-100 sm:h-full sm:py-10 md:h-full md:py-0 lg:h-full lg:py-0">
-          <div className="flex flex-col items-start gap-3 p-10 text-center sm:py-10">
-            <h2 className="text-red mt-5 text-left text-[24px] font-normal md:text-4xl lg:text-[62px] lg:leading-[86.8px]">
-              Visualize Your <br className="hidden sm:inline" /> Perfect look!{" "}
+          <div className="flex flex-col items-start gap-3 text-center sm:py-10">
+            <h2 className="text-red mt-5 px-4 text-left text-[20px] font-normal sm:text-center md:text-left md:text-4xl lg:text-[62px] lg:leading-[86.8px]">
+              Visualize Your Perfect look!
             </h2>
             <div className="">
-              <p className="mb-4 text-left font-normal text-red-950">
+              <p className="mb-4 px-4 font-normal text-red-950 sm:text-center md:text-left">
                 Try Before you Buy: Experience the Elegance of Our Jewellery in
                 the Comfort of your Home.Book an appoinment with us today!
               </p>
-              <h1 className="text-left font-medium text-red-950">
+              {width > 150 && (
+                <h1 className="px-4 text-left font-medium text-red-950">
+                  Gold Exchange
+                </h1>
+              )}
+              {width > 150 && (
+                <p className="px-4 text-left font-normal text-red-950">
+                  Trade your previous gold items for newer, more exquisite
+                  pieces that better suit your evolving style.
+                </p>
+              )}
+            </div>
+            {width < 140 && (
+              <div className="relative flex items-center justify-center">
+                <div className="relative h-full w-full">
+                  <Image
+                    src="/images/other/image135.png"
+                    alt=""
+                    width={500}
+                    height={500}
+                  />
+                </div>
+                <div className="relative h-full w-full">
+                  <Image
+                    src="/images/other/image1366.png"
+                    alt=""
+                    width={500}
+                    height={500}
+                  />
+                </div>
+              </div>
+            )}
+            {width < 150 && (
+              <h1 className="w-full text-center font-medium text-red-950">
                 Gold Exchange
               </h1>
-              <p className="text-left font-normal text-red-950">
+            )}
+            {width < 150 && (
+              <p className="text-center font-normal text-red-950">
                 Trade your previous gold items for newer, more exquisite pieces
                 that better suit your evolving style.
               </p>
-            </div>
-            <div className="relative h-full w-full">
-            <Image
-              src="/images/other/image1366.png"
-              alt=""
-              fill
-            />
-          </div>
+            )}
             <div
               onClick={() => setAppointmentModal(true)}
-              className="mb-20 mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+              className="mb-20 ml-[51px] mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
             >
               <button type="button" className="text-[18px] font-medium">
                 Book Appointment
@@ -94,6 +122,7 @@ const Appointment = () => {
             )}
           </div>
         </div>
+
         <div className="relative flex items-center justify-center">
           <div className="relative h-full w-full">
             <Image

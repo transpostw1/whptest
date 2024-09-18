@@ -4,7 +4,10 @@ import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
-import {useCurrency} from "@/context/CurrencyContext"
+import { useCurrency } from "@/context/CurrencyContext";
+import { useUser } from "@/context/UserContext";
+import axios from "axios";
+import { baseUrl2 } from "@/utils/constants";
 interface SilverCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -23,8 +26,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
-  const {formatPrice}=useCurrency();
-
+  const { formatPrice } = useCurrency();
+  const { userDetails } = useUser();
   const router = useRouter();
 
   const handleEnrollSuccess = useCallback(
@@ -64,13 +67,21 @@ const SilverCard: React.FC<SilverCardProps> = ({
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
+      const dateOfBirth = new Date(userDetails?.dob);
       console.log("Enrolling with amount:", monthlyDeposit);
       try {
+        const response = await axios.post(`${baseUrl2}/verify-pan`, {
+          name: `${userDetails?.firstname} ${userDetails?.lastname}`,
+          dob: dateOfBirth.toLocaleDateString("en-GB"),
+          pan_number: `${userDetails?.pan}`,
+        });
+
         const enrollmentId = await handleEnroll("silver", monthlyDeposit);
         if (enrollmentId) {
           handleEnrollSuccess(enrollmentId, "silver", monthlyDeposit);
         }
       } catch (error) {
+        setShowModal(true);
         console.error("Error during enrollment:", error);
         setBackendError("Failed to enroll. Please try again.");
         setFlashType("error");
@@ -191,7 +202,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
       </div>
       <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center">
-          <p>Minimum Deposit is 500</p>
+          <p>Pan Verification is Not Completed</p>
+          <p>Kindly Complete Your Pan Verification</p>
           <div className="mt-4 flex justify-center">
             <button
               className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"

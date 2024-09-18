@@ -112,12 +112,6 @@ const Whptv2 = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
-
-  useEffect(() => {
-    console.log("PLayLIstttttsss", playList);
-   console.log("vidoessssss",videos)
-  }, [playList]);
 
   const sortPlayList = useCallback(() => {
     const sortedPlayList = [...videos];

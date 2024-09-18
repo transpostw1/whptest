@@ -28,7 +28,6 @@ interface UserContextProps {
   userDetails: UserDetails | null;
   getUser: () => Promise<void>;
 }
-
 interface UserDetails {
   firstname: string;
   lastname: string;
@@ -36,12 +35,13 @@ interface UserDetails {
   mobile_no: string;
   alternatePhone: string;
   gender: string;
-  dateOfBirth: string;
-  wallet_amount:any;
+  dob: any;
+  wallet_amount: any;
   profile_picture: File | null;
   customer: any;
+  pan:any;
+  gst_no:any;
 }
-
 type UserDetailsKeys = keyof UserDetails;
 
 const initialState: UserState = {
@@ -68,8 +68,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   // const [cookieToken, setCookieToken] = useState<string | null>(null);
   const router = useRouter();
- const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-   useEffect(() => {
+  const cookieToken =
+    typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
       // setCookieToken(token);
@@ -90,7 +92,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     router.push(redirectPath);
     localStorage.removeItem("redirectPath");
   };
-  
+
   const logOut = () => {
     localStorage.clear();
     window.location.href = "/";
@@ -129,6 +131,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           gender
           profile_picture
           wallet_amount
+          status
+          created_at
+          pan
+          gst_no
         }
       }
     `;
@@ -161,7 +167,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
             Authorization: `Bearer ${cookieToken}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       await getUser();
       return response.data;
@@ -170,7 +176,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       throw error;
     }
   };
-  console.log("User details",userDetails)
+
   return (
     <UserContext.Provider
       value={{

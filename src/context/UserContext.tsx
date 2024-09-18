@@ -34,9 +34,11 @@ interface UserDetails {
   lastname: string;
   email: string;
   mobile_no: string;
-  alternatePhone: string;
+  altPhone: string;
   gender: string;
-  dateOfBirth: string;
+  gstNum:string;
+  panNum:string;
+  dob: string;
   wallet_amount:any;
   profile_picture: File | null;
   customer: any;

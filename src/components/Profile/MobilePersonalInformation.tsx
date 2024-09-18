@@ -261,7 +261,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
             htmlFor="first_name"
             className="text-md mb-1 block font-normal text-black"
           >
-            First name
+            First name 
           </label>
           <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
             <span className="text-md font-semibold">

@@ -40,6 +40,39 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
 
+  const loadScript = () => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.camweara.com/integrations/camweara_api.js";
+    script.onload = () => {
+      // Initialize the script once it has loaded
+      window.loadTryOnButton({
+        psku: `${data.SKU}`,
+        page: "product",
+        company: "Teststore",
+        buynow: { enable: "true" },
+        prependButton: { class: "try_on" },
+        MBprependButton: { class: "product-main_div" },
+        styles: {
+          tryonbutton: {
+            backgroundColor: "white",
+            color: "black",
+            border: "1px solid black",
+            borderRadius: "25px",
+          },
+          tryonbuttonHover: {
+            backgroundColor: "black",
+            color: "white",
+            border: "none",
+            borderRadius: "25px",
+          },
+          MBtryonbutton: { width: "100%", borderRadius: "25px" },
+        },
+        tryonButtonData: { text: "Virtual Try-On", faIcon: "fa fa-camera" },
+      });
+    };
+    document.body.appendChild(script);
+  };
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
     const handleChange = (e: any) => {
@@ -216,7 +249,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       </div>
                     )}
                     {hover && !isMobile && (
-                      <div className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white">
+                      <div
+                        id="try_on"
+                        className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        onClick={loadScript}
+                      >
                         <p className="font-semibold">Try ON</p>
                       </div>
                     )}
@@ -266,7 +303,11 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   alt="This image is temporarry"
                 />
                 {hover && !isMobile && (
-                  <div className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white">
+                  <div
+                    id="try_on"
+                    className="absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-sm border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    onClick={loadScript}
+                  >
                     <p className="font-semibold">Try ON</p>
                   </div>
                 )}

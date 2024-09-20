@@ -10,7 +10,6 @@ import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 
-
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
@@ -31,7 +30,7 @@ export default function RootLayout({
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />
-          <div id="header" className="w-full ">
+          <div id="header" className="w-full">
             <NavHoverMenu props="bg-white" />
           </div>
           {children}
@@ -42,4 +41,3 @@ export default function RootLayout({
     </GlobalProvider>
   );
 }
-

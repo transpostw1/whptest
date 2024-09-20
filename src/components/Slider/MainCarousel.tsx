@@ -9,8 +9,8 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Link from "next/link";
 
 const MainCarousel = () => {
@@ -35,7 +35,6 @@ const MainCarousel = () => {
     };
   }, []);
 
-  // Fetch banners using GraphQL
   useEffect(() => {
     const fetchMainBanners = async () => {
       setIsLoading(true);
@@ -94,10 +93,10 @@ const MainCarousel = () => {
         video.onclick = () => {
           if (video.paused) {
             video.play();
-            swiper.autoplay.stop(); // Stop autoplay when the video is clicked
+            swiper.autoplay.stop(); 
           } else {
             video.pause();
-            swiper.autoplay.start(); // Resume autoplay if the video is paused
+            swiper.autoplay.start();
           }
         };
       } else {
@@ -107,7 +106,6 @@ const MainCarousel = () => {
   };
   
 
-  // Display loading skeleton if banners are still loading
   if (isLoading) {
     return (
       <div>

@@ -35,25 +35,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
 
   useEffect(() => setSingleOrder(orders), [orders]);
 
-  // const handleOrderCancel = async (id: any) => {
-  //   try {
-  //     setLoading(true);
-  //     const cookieToken = Cookie.get("localtoken");
-  //     const response = await axios.post(
-  //       `${baseUrl}/${id}/cancel`,
-  //       {},
-  //       {
-  //         headers: { Authorization: `Bearer ${cookieToken}` },
-  //       }
-  //     );
-  //     setMessage(response.data.message);
-  //   } catch (error) {
-  //     console.error("Error fetching orders:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleBack = () => {
     setSingleOrder(orders);
   };
@@ -149,8 +130,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     </div>
                   </div>
                 ))}
-
-
               </div>
             ))}
         </div>

@@ -27,6 +27,7 @@ const ProfileDetails = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
+  console.log("Usererrerer",userDetails?.dob)
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -36,7 +37,6 @@ const ProfileDetails = () => {
 
   const handleLogOut = () => {
     if (typeof window !== "undefined") {
-      // localStorage.remove("localtoken");
       logOut();
       router.push("/");
     }
@@ -87,14 +87,6 @@ const ProfileDetails = () => {
         },
         fetchPolicy: "no-cache",
       });
-      // if(data.DeletCustomerAddress.code==200){
-
-      //   setMessage(data.DeleteCustomerAddresses.message);
-      //   setType("success");
-      // }else{
-      //   setMessage(data.DeletCustomerAddresses.message);
-      //   setType("error");
-      // }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {

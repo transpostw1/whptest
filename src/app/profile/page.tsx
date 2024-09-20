@@ -82,77 +82,100 @@ const ProfilePage = () => {
       const GET_ORDER = gql`
         query GetCustomerOrder($token: String!) {
           getCustomerOrder(token: $token) {
-            id
-            customerId
-            couponId
-            created_at
-            orderNo
-            razorpayOrderNo
-            productTotal
-            discountedTotal
-            balanceAmount
-            paymentStatus
-            orderStatus
-            productDetails {
-              productId
-              productAmount
-              quantity
-              productTotal
-              discountAmount
-              discountedTotal
-              displayTitle
-              productPrice
-              discountPrice
-              metalType
-              metalWeight
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-            }
-            billingAddressId {
-              address_id
-              customer_id
-              address_type
-              full_address
-              country
-              state
-              city
-              landmark
-              pincode
-            }
-            shippingAddressId {
-              address_id
-              customer_id
-              address_type
-              full_address
-              country
-              state
-              city
-              landmark
-              pincode
-            }
-            payments {
-              paymentId
-              orderId
-              date
-              paymentMethod
-              transactionNo
-              amount
-            }
-            orderTracking {
-              id
-              orderId
-              customerId
-              orderStatus
-              created_at
-              updated_at
-              trackingOrderStatusName
-            }
-            created_at
-          }
-        }
+    id
+    productDetails {
+      productId
+      productAmount
+      quantity
+      url
+      SKU
+      variantId
+      productTotal
+      metalType
+      metalWeight
+      discountAmount
+      discountValue
+      typeOfDiscount
+      discountedTotal
+      displayTitle
+      productPrice
+      discountPrice
+      mediaId
+      imageDetails {
+        image_path
+        order
+        alt_text
+      }
+      videoDetails {
+        video_path
+        order
+        alt_text
+      }
+      rating
+    }
+    customerId
+    billingAddressId {
+      address_id
+      customer_id
+      address_type
+      full_address
+      country
+      state
+      city
+      landmark
+      pincode
+    }
+    shippingAddressId {
+      address_id
+      customer_id
+      address_type
+      full_address
+      country
+      state
+      city
+      landmark
+      pincode
+    }
+    couponId
+    orderNo
+    razorpayOrderNo
+    productTotal
+    discountedTotal
+    balanceAmount
+    paymentStatus
+    orderStatus
+    payments {
+      paymentId
+      orderId
+      date
+      paymentMethod
+      transactionNo
+      amount
+    }
+    created_at
+    orderTracking {
+      id
+      orderId
+      customerId
+      orderStatus
+      created_at
+      updated_at
+      trackingOrderStatusName
+    }
+    trackingNo
+    eshipTracking {
+      id
+      orderId
+      trackingId
+      trackingNumber
+      deliveryDate
+      expectedDeliveryDate
+      shipmentStatus
+      tag
+      checkpoints
+    }
+  }
+}
       `;
 
       const variables = { token: cookieToken };

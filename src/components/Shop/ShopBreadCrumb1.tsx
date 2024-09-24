@@ -229,6 +229,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
           };
         }
         console.log("Variables passed for api call", variables);

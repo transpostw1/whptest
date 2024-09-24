@@ -34,12 +34,12 @@ const ProceedButton: React.FC<ProceedButtonProps> = ({
         {/* <div
           className="flex justify-center cursor-pointer items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"
           onClick={handleClick}
-        > */}
+        >
           <button className="text-black">{proceedButtonTitle}</button>
           <span>
             <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
           </span>
-        </div>
+        </div> */}
       </div>
     );
   }

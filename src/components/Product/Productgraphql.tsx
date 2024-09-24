@@ -62,7 +62,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   //   }
   // };
 
- 
+
 
   const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
     return new Promise<void>(async (resolve, reject) => {
@@ -84,13 +84,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
               },
 
             });
+            console.log("Button Created");
             // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
-              const tryonButton = document.getElementById('tryonButton');
+              const tryonButton = document.getElementById('tryonButton') ||  document.getElementById('MB_tryonButton') ;
               if (tryonButton) {
                 // Hide the button
                 tryonButton.style.display = 'none';
-
+                console.log("Button Clicked");
                 // Automatically click the button
                 tryonButton.click();
 
@@ -123,7 +124,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     });
   };
 
-  
+
 
 
   // useEffect(() => {
@@ -423,7 +424,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute bottom-1  z-0 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute bottom-1  z-999 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between">

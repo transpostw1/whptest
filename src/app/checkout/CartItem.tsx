@@ -31,7 +31,7 @@ interface ProductForWishlistLoggedIn {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart, loading } = useCart();
-  const { totalDiscount} = useCouponContext();
+  const { totalDiscount,updateDiscount} = useCouponContext();
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
@@ -47,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1) {
       let discount = 0;
-      updateTotalDiscount(discount);
+      updateDiscount(discount);
       updateCartQuantity(product.productId, newQuantity);
     } else {
       removeFromCart(product.productId);

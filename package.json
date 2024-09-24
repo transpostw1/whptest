@@ -78,6 +78,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.11",
     "swiper": "^11.0.4",
+    "typography": "^0.16.24",
     "update": "^0.4.2",
     "yup": "^1.3.3"
   },

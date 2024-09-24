@@ -240,6 +240,7 @@ const ShopBreadCrumb1 = () => {
 
         if (data && data.products) {
           setFilteredProducts(data.products);
+          setPageNumber(0);
           setIsLoading(false);
         } else {
           setIsLoading(true);
@@ -426,6 +427,7 @@ const ShopBreadCrumb1 = () => {
       }
 
       setFilteredProducts(filtered);
+      setPageNumber(0);
     };
     applyFilters();
     console.log("useEffect - selectedOptions:", selectedOptions);
@@ -526,6 +528,7 @@ const ShopBreadCrumb1 = () => {
         return priceA - priceB;
       });
       setFilteredProducts(sortedProducts);
+      setPageNumber(0);
     } else if (selectedSortOption === "Price-High To Low") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const priceA: any =
@@ -535,6 +538,7 @@ const ShopBreadCrumb1 = () => {
         return priceB - priceA;
       });
       setFilteredProducts(sortedProducts);
+      setPageNumber(0);
     } else if (selectedSortOption === "Newest First") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const product1: any = a.addDate;
@@ -542,6 +546,7 @@ const ShopBreadCrumb1 = () => {
         return product2 - product1;
       });
       setFilteredProducts(sortedProducts);
+      setPageNumber(0);
     }
     // Add other sorting options here
   }, [selectedSortOption]);

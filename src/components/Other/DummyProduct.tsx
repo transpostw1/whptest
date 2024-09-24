@@ -7,6 +7,8 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import StarRating from "./StarRating";
+import { IoCameraOutline } from "react-icons/io5";
+
 
 interface ProductProps {
   data: any;
@@ -35,6 +37,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const { isLoggedIn } = useUser();
   const { formatPrice } = useCurrency();
   const router = useRouter();
+  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
 
   // useEffect(() => {
   //   const updateCurrency = () => {
@@ -59,6 +62,10 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
+
+  useEffect(() => {
+    fetchSkusList();
+  }, []);
 
   const HandleaddToWishlist = () => {
     try {
@@ -99,6 +106,107 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productId}/${productUrl}`);
   };
+
+  const loadScript = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // Check if the script is already loaded
+      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+        resolve(); // Script already loaded
+        return;
+      }
+
+      // Create the script tag
+      const script = document.createElement('script');
+      script.src = "https://camweara.com/integrations/camweara_api.js";
+      script.onload = () => {
+        // Give some time for the function to be available
+        setTimeout(() => {
+          if (typeof window.getSkusListWithTryOn === "function") {
+            resolve(); // Function is ready
+          } else {
+            reject(new Error("getSkusListWithTryOn is not defined"));
+          }
+        }, 1000);
+      };
+      script.onerror = () => reject(new Error("Failed to load script"));
+
+      // Append the script to the body
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchSkusList = async () => {
+    try {
+      await loadScript(); // Ensure the script is loaded
+      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      setSkuList(skus); // Update SKU list state
+      // console.log(skuList);
+    } catch (error) {
+      console.error("Error fetching SKU list:", error);
+    }
+  };
+
+  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+    return new Promise<void>(async (resolve, reject) => {
+      const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
+
+      const loadButton = async () => {
+        return new Promise<void>((buttonResolve) => {
+          try {
+            window.loadTryOnButton({
+              psku: sku,
+              page: 'product',
+              company: 'whpjewellers',
+              buynow: { enable: 'false' },
+              prependButton: { class: `try_on`, id: `product-form-${productId}` },
+              styles: {
+                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px' }, // Hide the auto-loaded button
+                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
+                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              },
+
+            });
+            console.log("Button Created");
+            // After loading, wait for the button to appear in the DOM
+            const buttonInterval = setInterval(() => {
+              const tryonButton = document.getElementById('tryonButton') || document.getElementById('MB_tryonButton');
+
+              if (tryonButton) {
+                // Hide the button
+                tryonButton.style.display = 'none';
+                console.log("Button Clicked");
+                // Automatically click the button
+                tryonButton.click();
+
+                // Stop the interval once the button is clicked
+                clearInterval(buttonInterval);
+
+                buttonResolve(); // Resolve after the button is clicked
+              }
+            }, 100); // Check every 100ms for the button
+          } catch (error) {
+            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+          }
+        });
+      };
+
+      // Check if the script is already loaded
+      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      if (existingScript) {
+        await loadButton(); // Await the button loading if script is already loaded
+      } else {
+        // Append the script and load the button after it's loaded
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = async () => {
+          await loadButton(); // Await loading the button after the script is loaded
+        };
+        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        document.body.appendChild(script);
+      }
+    });
+  };
+
 
   return (
     <>
@@ -151,6 +259,18 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             ) : ( */}
             <div className="relative">
+              {skuList.includes(data.SKU) && (
+                <div
+                  id={`product-form-${data.productId}`} // Fixed template string syntax
+                  className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
+                  onClick={() => loadTryOnButton(data.SKU, data.productId)} // Uncomment if you want to enable button click
+                >
+                  <div className="flex items-center justify-between">
+                    <IoCameraOutline />
+                    <p className="ps-1 text-sm">Try On</p>
+                  </div>
+                </div>
+              )}
               <Image
                 onClick={() => handleDetailProduct(data.productId, data.url)}
                 className="m-auto w-[95%] duration-700"

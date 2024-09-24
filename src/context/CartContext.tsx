@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { AnyARecord } from "dns";
-
 interface CartItem {
   productDetails: {
     displayTitle: string;
@@ -45,7 +44,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { totalDiscount } = useCouponContext();
+  const { totalDiscount ,updateDiscount} = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [loading, setLoading] = useState(true);
@@ -116,6 +115,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   };
   const removeFromCart = async (productId: number) => {
+    let discount=0;
+    updateDiscount(discount);
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId
     );

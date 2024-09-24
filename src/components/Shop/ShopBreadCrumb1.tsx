@@ -69,115 +69,100 @@ const ShopBreadCrumb1 = () => {
           // uri: "http://localhost:8080/",
           cache: new InMemoryCache(),
         });
-
         const GET_PRODUCTS = gql`
-          query Products(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $sortOrder: String
+        query Products(
+          $category: [CategoryArrayInput!]
+          $sortBy: String
+          $sortOrder: String
+        ) {
+          products(
+            category: $category
+            sortBy: $sortBy
+            sortOrder: $sortOrder
           ) {
-            products(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-            ) {
-              productId
-              SKU
-              variantId
-              isParent
-              title
-              displayTitle
-              shortDesc
-              longDesc
-              url
-              tags
-              collectionName
-              shopFor
-              occasion
-              theme
-              length
-              breadth
-              height
-              addDate
-              lastModificationDate
-              productSize
-              productQty
-              attributeId
-              preSalesProductQueries
-              isReplaceable
-              weightRange
-              isReturnable
-              isInternationalShippingAvailable
-              customizationAvailability
-              fastDelivery
-              tryAtHome
-              isActive
-              grossWeight
-              netWeight
-              discountId
-              discountCategory
-              discountActive
-              typeOfDiscount
-              discountValue
-              discountAmount
-              discountPrice
-              offerStartDate
-              offerEndDate
-              mediaId
-              metalType
-              metalPurity
-              metalWeight
-              metalRate
-              makingType
-              makingChargesPerGrams
-              makingCharges
-              gst
-              additionalCost
-              productPrice
-              discountPrice
-              rating
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                gemstoneDetails
-                diamondDetails
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-              }
-              stoneDetails
-              diamondDetails
+            productId
+            SKU
+            variantId
+            isParent
+            title
+            displayTitle
+            shortDesc
+            longDesc
+            url
+            tags
+            collectionName
+            shopFor
+            occasion
+            theme
+            length
+            breadth
+            height
+            addDate
+            lastModificationDate
+            productSize
+            productQty
+            attributeId
+            preSalesProductQueries
+            isReplaceable
+            weightRange
+            isReturnable
+            isInternationalShippingAvailable
+            customizationAvailability
+            fastDelivery
+            tryAtHome
+            isActive
+            grossWeight
+            netWeight
+            discountId
+            discountCategory
+            discountActive
+            typeOfDiscount
+            discountValue
+            discountAmount
+            discountPrice
+            offerStartDate
+            offerEndDate
+            mediaId
+            metalType
+            metalPurity
+            metalWeight
+            metalRate
+            makingType
+            makingChargesPerGrams
+            makingCharges
+            gst
+            additionalCost
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
             }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            productAttributes {
+              goldDetails {
+                goldCertifiedBy
+                goldSetting
+              }
+              gemstoneDetails
+              diamondDetails
+              silverDetails {
+                poojaArticle
+                utensils
+                silverWeight
+              }
+            }
+            stoneDetails
+            diamondDetails
           }
-        `;
+        }
+      `;
         let variables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {

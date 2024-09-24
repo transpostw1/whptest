@@ -20,13 +20,23 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
   const swiperRef = useRef<any>();
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await axios.get(
-        `${baseUrl}/similar-products/${productId}`
-      );
-      setProducts(response.data);
+      try {
+        const response = await axios.get(`${baseUrl}/similar-products/${productId}`);
+        
+        if (response.data) {
+          setProducts(response.data);
+        } else {
+          setProducts([]); // or any fallback valuw
+        }
+      } catch (error) {
+        console.error("Error fetching similar products:", error);
+        // Optionally, you can set an error state here
+      }
     };
+  
     fetchProduct();
   }, [productId]);
+  
   const filteredProducts = products;
   return (
     <>

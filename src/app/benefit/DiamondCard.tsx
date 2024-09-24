@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
+import { useUser } from "@/context/UserContext";
+import axios from "axios";
+import { baseUrl2 } from "@/utils/constants";
 interface DiamondCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -22,6 +25,9 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   // const [errorModal, setErrorModal] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
+  const [responsefromPanVerfication, setResponsefromPanVerfication] =
+    useState(false);
+  const { userDetails } = useUser();
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const redemptionAmount = totalAmount + monthlyDeposit * 1;
@@ -33,7 +39,6 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     schemeType: string,
     amount: number,
   ) => {
-    // console.log("Enrollment success callback triggered");
     sessionStorage.setItem(
       "selectedScheme",
       JSON.stringify({
@@ -61,14 +66,32 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
+      const dateOfBirth = new Date(userDetails?.dob);
       console.log("Enrolling with amount:", monthlyDeposit);
-      const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
-      if (enrollmentId) {
-        handleEnrollSuccess(enrollmentId, "diamond", monthlyDeposit);
+      try {
+        const response = await axios.post(
+          `${baseUrl2}/verify-pan`,
+          {
+            name: `${userDetails?.firstname} ${userDetails?.lastname}`,
+            dob: dateOfBirth.toLocaleDateString("en-GB"),
+            pan_number: `bxzpt2731c`,
+          },
+        );
+        console.log("REsponse from pan verification",response);
+        const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
+
+        if (enrollmentId) {
+          handleEnrollSuccess(enrollmentId, "diamond", monthlyDeposit);
+        }
+      } catch (error) {
+        setShowModal(true);
       }
     }
   };
 
+  useEffect(() => {
+    console.log("Data After Pan Verification", responsefromPanVerfication);
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
@@ -181,7 +204,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       </div>
       <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center">
-          <p>Minimum Deposit is 500</p>
+          <p>Pan Verification is Not Completed</p>
+          <p>Kindly Complete Your Pan Verification</p>
           <div className="mt-4 flex justify-center">
             <button
               className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"

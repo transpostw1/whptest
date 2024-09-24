@@ -81,7 +81,7 @@ const GoldScheme = () => {
                     height={100}
                     className="h-auto w-full sm:w-auto"
                   />
-                  <div className="flex flex-col justify-between gap-3">
+                  <div className="flex flex-col justify-between gap-3 ">
                     <div>
                       <h1 className="pb-2 text-xl font-semibold">
                         GOLD ACCOUNT
@@ -124,7 +124,7 @@ const GoldScheme = () => {
                   height={241}
                   className="h-auto w-full sm:w-auto"
                 />
-                <div className="flex flex-col justify-between gap-3">
+                <div className="flex flex-col justify-between gap-3 md:pt-0 pt-3">
                   <div>
                     <h1 className="pb-2 text-xl font-semibold">GOLD ACCOUNT</h1>
                     <p className="pe-2 text-sm">

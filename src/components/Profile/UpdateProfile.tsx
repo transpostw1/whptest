@@ -11,7 +11,7 @@ interface FormValues {
   phone: string | any;
   altPhone: string | any;
   gender: string | any;
-  gstNum: string | any;
+  gst_no: string | any;
   panNum: string | any;
   dobDay: string | any;
   dobMonth: string | any;
@@ -58,7 +58,7 @@ const UpdateProfile:React.FC<Props> = ({
       phone: values.phone,
       altPhone: values.altPhone,
       gender: values.gender,
-      gstNum:values.gstNum,
+      gst_no:values.gst_no,
       panNum:values.panNum,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
       profile_picture: values.profilePicture,
@@ -84,8 +84,8 @@ const UpdateProfile:React.FC<Props> = ({
       phone: userDetails?.mobile_no || "",
       altPhone: userDetails?.altPhone || "",
       gender: userDetails?.gender || "",
-      gstNum: userDetails?.gstNum || "",
-      panNum: userDetails?.panNum || "",
+      gst_no: userDetails?.gst_no || "",
+      panNum: userDetails?.pan || "",
       dobDay,
       dobMonth,
       dobYear,
@@ -300,25 +300,25 @@ const UpdateProfile:React.FC<Props> = ({
               <div className="">
                 <div className="relative">
                   <input
-                    id="gstNum"
+                    id="gst_no"
                     type="text"
-                    {...formik.getFieldProps("gstNum")}
+                    {...formik.getFieldProps("gst_no")}
                     className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                      formik.errors.gstNum
+                      formik.errors.gst_no
                         ? "border-red-500"
                         : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
                   <label
-                    htmlFor="gstNum"
+                    htmlFor="gst_no"
                     className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
                   >
                     GST Number
                   </label>
                 </div>
-                {formik.errors.gstNum && (
+                {formik.errors.gst_no && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.gstNum}
+                    {formik.errors.gst_no}
                   </div>
                 )}
               </div>

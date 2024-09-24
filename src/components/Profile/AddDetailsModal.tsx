@@ -16,8 +16,8 @@ interface FormValues {
   phone: string;
   altPhone: string;
   gender: string;
-  gstNum:string;
-  panNum:string;
+  gst_no:string;
+  pan:string;
   dobDay: string;
   dobMonth: string;
   dobYear: string;
@@ -45,8 +45,8 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       phone: values.phone,
       altPhone: values.altPhone,
       gender: values.gender,
-      gstNum:values.gstNum,
-      panNum:values.panNum,
+      gst_no:values.gst_no,
+      pan:values.pan,
       dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
       profile_picture: values.profilePicture,
     };
@@ -73,8 +73,8 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       phone: userDetails?.mobile_no || "",
       altPhone: userDetails?.altPhone || "",
       gender: userDetails?.gender || "",
-      gstNum:userDetails?.gstNum||"",
-      panNum:userDetails?.panNum||"",
+      gst_no:userDetails?.gst_no||"",
+      pan:userDetails?.pan||"",
       dobDay,
       dobMonth,
       dobYear,
@@ -282,50 +282,50 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="mb-4">
               <div className="relative">
                 <input
-                  id="gstNum"
+                  id="gst_no"
                   type="text"
-                  {...formik.getFieldProps("gstNum")}
+                  {...formik.getFieldProps("gst_no")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.gstNum
+                    formik.errors.gst_no
                       ? "border-red-500"
                       : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="gstNum"
+                  htmlFor="gst_no"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                  GST Number
                 </label>
               </div>
-              {formik.errors.gstNum && (
+              {formik.errors.gst_no && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.gstNum}
+                  {formik.errors.gst_no}
                 </div>
               )}
             </div>
             <div className="mb-4">
               <div className="relative">
                 <input
-                  id="panNum"
+                  id="pan"
                   type="text"
-                  {...formik.getFieldProps("panNum")}
+                  {...formik.getFieldProps("pan")}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.panNum
+                    formik.errors.pan
                       ? "border-red-500"
                       : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
-                  htmlFor="panNum"
+                  htmlFor="pan"
                   className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                 >
                   PAN Number
                 </label>
               </div>
-              {formik.errors.panNum && (
+              {formik.errors.pan && (
                 <div className="text-red-500 mt-1">
-                  {formik.errors.panNum}
+                  {formik.errors.pan}
                 </div>
               )}
             </div>

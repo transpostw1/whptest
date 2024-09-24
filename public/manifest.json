@@ -1,0 +1,22 @@
+{
+    "name": "WHP Web App",
+    "short_name": "WHP",
+    "description": "Pure Trust Since 1909",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#bb547d",
+    "theme_color": "#bb547d",
+    "icons": [
+      {
+        "src": "/images/other/logo2.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/images/other/logo2.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  

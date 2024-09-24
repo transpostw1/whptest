@@ -72,7 +72,6 @@ const ShopBreadCrumb1 = () => {
           // uri: "http://localhost:8080/",
           cache: new InMemoryCache(),
         });
-
         const GET_PRODUCTS = gql`
         query Products(
           $category: [CategoryArrayInput!]

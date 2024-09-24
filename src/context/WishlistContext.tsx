@@ -1,14 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { useUser } from "./UserContext";
-import {
-  baseUrl,
-  addwishlist,
-  removewishlist,
-  getwishlisted,
-} from "@/utils/constants";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {

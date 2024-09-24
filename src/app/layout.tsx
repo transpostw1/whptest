@@ -24,6 +24,8 @@ export default function RootLayout({
       <html lang="en">
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
+          <meta name="whp" content="welcome to whp jewellers" />
+          <link rel="manifest" href="/manifest.json" />
         </head>
         <Suspense>
         <body className={instrument.className}>

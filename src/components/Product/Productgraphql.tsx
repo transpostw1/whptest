@@ -14,10 +14,13 @@ import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
+import { IoCameraOutline } from "react-icons/io5";
 
 interface ProductProps {
   data: any;
+  skuList: any;
 }
+
 interface ImageDetailWithTypename extends ImageDetails {
   __typename: string;
 }
@@ -27,7 +30,7 @@ interface VideoDetailWithTypename {
   order: any;
 }
 
-const Product: React.FC<ProductProps> = ({ data }) => {
+const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,7 +42,127 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [width, setWidth] = useState<number>(25);
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
-  const tryOnRef = useRef(null);
+  const [isButtonLoaded, setIsButtonLoaded] = useState(false);
+  // const [loadedSkus, setLoadedSkus] = useState<string[]>([]);
+  // const [skulist, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  // const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
+
+
+
+  // const fetchSkusList = async () => {
+  //   try {
+  //     await loadScript(); // Ensure the script is loaded
+  //     const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+  //     setSkuList(skus); // Update SKU list state
+  //     setIsSkuListLoaded(true);
+  //     console.log("Fetched SKU List:", skus); // Check what you're fetching
+
+  //   } catch (error) {
+  //     console.error("Error fetching SKU list:", error);
+  //   }
+  // };
+
+
+
+  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+    return new Promise<void>(async (resolve, reject) => {
+      const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
+
+      const loadButton = async () => {
+        return new Promise<void>((buttonResolve) => {
+          try {
+            window.loadTryOnButton({
+              psku: sku,
+              page: 'product',
+              company: 'whpjewellers',
+              buynow: { enable: 'false' },
+              prependButton: { class: `try_on`, id: `product-form-${productId}` },
+              styles: {
+                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px', display: 'none' }, // Hide the auto-loaded button
+                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
+                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              },
+
+            });
+            console.log("Button Created");
+            // After loading, wait for the button to appear in the DOM
+            const buttonInterval = setInterval(() => {
+              const tryonButton = document.getElementById('tryonButton') ||  document.getElementById('MB_tryonButton') ;
+              if (tryonButton) {
+                // Hide the button
+                tryonButton.style.display = 'none';
+                console.log("Button Clicked");
+                // Automatically click the button
+                tryonButton.click();
+
+                // Stop the interval once the button is clicked
+                clearInterval(buttonInterval);
+
+                buttonResolve(); // Resolve after the button is clicked
+              }
+            }, 100); // Check every 100ms for the button
+          } catch (error) {
+            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+          }
+        });
+      };
+
+      // Check if the script is already loaded
+      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      if (existingScript) {
+        await loadButton(); // Await the button loading if script is already loaded
+      } else {
+        // Append the script and load the button after it's loaded
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = async () => {
+          await loadButton(); // Await loading the button after the script is loaded
+        };
+        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        document.body.appendChild(script);
+      }
+    });
+  };
+
+
+
+
+  // useEffect(() => {
+  //   // Fetch SKU list only once on component mount
+  //   fetchSkusList();
+
+  // }, []); // Empty dependency array ensures this runs only on mount
+
+  // useEffect(() => {
+  //   console.log("fetchSkusList", skuList); // Check what you're fetching
+  //   console.log("isSkuListLoaded", isSkuListLoaded); // Check what you're fetching
+  // }, [skuList, isSkuListLoaded]); // Empty dependency array ensures this runs only on
+
+  // useEffect(() => {
+  //   const loadButtonsForSkus = async () => {
+  //     try {
+  //       if (skuList.length > 0 && data.SKU) {
+  //         if (skuList.includes(data.SKU)) {
+  //           console.log("Loading Try-On button for SKU:", data.SKU);
+  //           await loadTryOnButton(data.SKU, data.productId);
+  //         } else {
+  //           console.log("SKU not found in the list:", data.SKU);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading buttons for SKUs:", error);
+  //     }
+  //   };
+
+  //   if (skuList.length > 0 && data.SKU) {
+  //     loadButtonsForSkus();
+  //   }
+
+  // }, [data.SKU, data.productId]);
+
+  // useEffect(() => {
+  //   console.log("Loaded SKUs:", loadedSkus);
+  // }, [loadedSkus]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
@@ -87,11 +210,12 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-  useEffect(() => {
-    if (hover && !isMobile && tryOnRef.current) {
-      loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
-    }
-  }, [hover, isMobile]); // Dependencies to run effect when hover state changes
+  // useEffect(() => {
+  //   if (hover && !isMobile && tryOnRef.current) {
+  //     loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
+  //   }
+  // }, [data.SKU, hover, isMobile]); // Dependencies to run effect when hover state changes
+
 
   const sortedImages = data?.imageDetails
     ?.filter(
@@ -171,27 +295,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
     Math.round(parseFloat(data?.productPrice ?? 0)),
   );
 
-  const loadTryOnButton = (psku) => {
-    const script = document.createElement('script');
-    script.src = "https://cdn.camweara.com/integrations/camweara_api.js";
-    script.onload = () => {
-      window.loadTryOnButton({
-        psku: psku,
-        page: 'product',
-        company: 'whpjewellers',
-        buynow: { enable: 'false' },
-        prependButton: { class: 'product-form' },
-        styles: {
-          tryonbutton: { backgroundColor: 'white', color: 'black', border: '1px solid #e26178', borderRadius: '25px' },
-          tryonbuttonHover: { backgroundColor: '#e26178', color: 'white', borderRadius: '25px' },
-          MBtryonbutton: { width: '50%', borderRadius: '25px' }
-        },
-        tryonButtonData: { text: 'Try On', faIcon: 'fa fa-camera' },
-      });
-    };
-
-    document.body.appendChild(script);
-  };
 
   return (
     <>
@@ -244,9 +347,16 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                         />
                       </div>
                     )}
-                    {hover && !isMobile && (
-                      <div ref={tryOnRef}>
-                        <div className="product-form"></div>
+                    {skuList.includes(data.SKU) && !isMobile && (
+                      <div
+                        id={`product-form-${data.productId}`}
+                        className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        onClick={() => loadTryOnButton(data.SKU, data.productId)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <IoCameraOutline />
+                          <p className="font-semibold ps-1">Try ON</p>
+                        </div>
                       </div>
                     )}
                     {hover && !isMobile && (
@@ -294,9 +404,16 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   height={400}
                   alt="This image is temporarry"
                 />
-                {hover && !isMobile && (
-                  <div ref={tryOnRef}>
-                    <div className="product-form"></div>
+                {skuList.includes(data.SKU) && !isMobile && (
+                  <div
+                    id={`product-form-${data.productId}`}
+                    className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    onClick={() => loadTryOnButton(data.SKU, data.productId)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <IoCameraOutline />
+                      <p className="font-semibold ps-1">Try ON</p>
+                    </div>
                   </div>
                 )}
                 {isMobile && (
@@ -304,7 +421,19 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )}
-                {hover && !isMobile && (
+                {skuList.includes(data.SKU) && isMobile && (
+                  <div
+                    id={`product-form-${data.productId}`}
+                    className="try_on absolute bottom-1  z-999 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
+                    onClick={() => loadTryOnButton(data.SKU, data.productId)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <IoCameraOutline />
+                      <p className="font-semibold ps-1">Try ON</p>
+                    </div>
+                  </div>
+                )}
+                {!isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
@@ -365,11 +494,18 @@ const Product: React.FC<ProductProps> = ({ data }) => {
             )} */}
           </div>
         </div>
-        {isMobile && (
-          <div ref={tryOnRef}>
-            <div className="product-form"></div>
+        {/* {skuList.includes(data.SKU) && isMobile && (
+          <div
+            id={`product-form-${data.productId}`}
+            className="try_on absolute bottom-1  z-0 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
+            onClick={() => loadTryOnButton(data.SKU, data.productId)}
+          >
+            <div className="flex items-center justify-between">
+              <IoCameraOutline />
+              <p className="font-semibold ps-1">Try ON</p>
+            </div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

@@ -278,6 +278,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 width={400}
                 height={400}
                 alt="This image is temporarry"
+                unoptimized
               />
 
               {/* <div className="relative">

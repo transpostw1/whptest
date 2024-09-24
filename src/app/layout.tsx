@@ -27,7 +27,7 @@ export default function RootLayout({
           <meta name="whp" content="welcome to whp jewellers" />
           <link rel="manifest" href="/manifest.json" />
         </head>
-        <Suspense>
+        {/* <Suspense> */}
         <body className={instrument.className}>
           <UserTracking />
           <TopNavOne textColor="text-white" />
@@ -38,7 +38,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </body>
-        </Suspense>
+        {/* </Suspense> */}
       </html>
     </GlobalProvider>
   );

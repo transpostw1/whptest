@@ -41,6 +41,7 @@ const ZoomableImage:React.FC<Props>= ({src,alt}) => {
                     alt={alt}
                     layout="fill" // Adjust layout as per your design needs
                     objectFit="contain" // Adjust objectFit as per your design needs
+                    unoptimized
                 />
             </div>
 

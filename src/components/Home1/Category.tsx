@@ -54,6 +54,7 @@ const Category = () => {
                     alt={category.url}
                     width={400}
                     height={400}
+                    unoptimized
                   />
                 </div>
               </Link>

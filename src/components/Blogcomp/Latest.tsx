@@ -27,6 +27,7 @@ const Latest: React.FC<LatestProps> = ({ blogData }) => {
                   className="w-full h-[300px] object-cover object-center"
                   src={blog.image}
                   alt={blog.title}
+                  unoptimized
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold">{blog.title}</h3>

@@ -638,6 +638,7 @@ const Checkout: React.FC = () => {
                     alt="check"
                     width={100}
                     height={10}
+                    unoptimized
                   />
                   <div className="flex flex-col items-start justify-center py-3">
                     <h1 className="text-3xl font-semibold text-red-700">
@@ -737,6 +738,7 @@ const Checkout: React.FC = () => {
                             alt={"coupons"}
                             height={25}
                             width={25}
+                            unoptimized
                           />
                           <h3>Apply Coupon</h3>
                         </div>

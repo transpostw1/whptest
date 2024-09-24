@@ -636,6 +636,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                         height={25}
                                         width={25}
                                         className="mr-1"
+                                        unoptimized
                                       />
                                       <p>{item.name}</p>
                                     </div>

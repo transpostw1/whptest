@@ -429,6 +429,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                         height={100}
                         unoptimized
                         className="mx-3 cursor-pointer border"
+                        
                       />
                     </div>
                   ))}

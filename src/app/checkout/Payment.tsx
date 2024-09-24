@@ -327,6 +327,7 @@ const Payment: React.FC<PaymentProps> = ({
               alt="upi"
               width={30}
               height={30}
+              unoptimized
             />
             Razorpay (UPI, Cards)
           </label>

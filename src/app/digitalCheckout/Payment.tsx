@@ -278,6 +278,7 @@ const Payment: React.FC<PaymentProps> = ({
             height={40}
             objectFit="contain"
             className="mx-auto"
+            unoptimized
           />
           <h2 className="mt-2 text-xl font-bold text-gray-800">
             Payment Receipt

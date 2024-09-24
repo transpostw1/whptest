@@ -123,6 +123,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             height={200}
             alt="image"
             className=" object-cover bg-[#f7f7f7] mr-2"
+            unoptimized
             // placeholder="blur"
             // blurDataURL="/images/other/Logo.png"
           />

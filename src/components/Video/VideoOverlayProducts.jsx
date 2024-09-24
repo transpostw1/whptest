@@ -35,7 +35,7 @@ const VideoOverlayProducts = ({ products }) => {
               
                 <Image
                   key={index}
-                  src={product.imageDetails[0].image_path}
+                  src={product.imageDetails.image_path}
                   alt={product?.displayTitle}
                   height={22}
                   width={92}

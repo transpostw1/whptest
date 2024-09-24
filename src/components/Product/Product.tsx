@@ -166,6 +166,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       width={400}
                       height={400}
                       alt="This image is temporarry"
+                      unoptimized
                     />
 
                     <div
@@ -219,6 +220,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   width={400}
                   height={400}
                   alt="This image is temporarry"
+                  unoptimized
                 />
                 <div className="relative">
                   <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">

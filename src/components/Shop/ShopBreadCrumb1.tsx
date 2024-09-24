@@ -28,6 +28,9 @@ const ShopBreadCrumb1 = () => {
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
 
+  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
+
   const productsPerPage = 15;
   const pagesVisited = pageNumber * productsPerPage;
   const searchParams = useSearchParams();
@@ -69,115 +72,114 @@ const ShopBreadCrumb1 = () => {
           // uri: "http://localhost:8080/",
           cache: new InMemoryCache(),
         });
-
         const GET_PRODUCTS = gql`
-          query Products(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $sortOrder: String
+        query Products(
+          $category: [CategoryArrayInput!]
+          $search: [SearchArrayInput!]
+          $priceFilter: [PriceArrayInput!]
+          $gender: [GenderArrayInput!]
+          $karat: [KaratArrayInput!]
+          $metal: [MetalArrayInput!]
+          $weightRange: [WeightRangeArrayInput!]
+          $occasion: [OccasionArrayInput!]
+          $sortBy: String
+          $sortOrder: String
+        ) {
+          products(
+            category: $category
+            search: $search
+            priceFilter: $priceFilter
+            gender: $gender
+            karat: $karat
+            metal: $metal
+            weightRange: $weightRange
+            occasion: $occasion
+            sortBy: $sortBy
+            sortOrder: $sortOrder
           ) {
-            products(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-            ) {
-              productId
-              SKU
-              variantId
-              isParent
-              title
-              displayTitle
-              shortDesc
-              longDesc
-              url
-              tags
-              collectionName
-              shopFor
-              occasion
-              theme
-              length
-              breadth
-              height
-              addDate
-              lastModificationDate
-              productSize
-              productQty
-              attributeId
-              preSalesProductQueries
-              isReplaceable
-              weightRange
-              isReturnable
-              isInternationalShippingAvailable
-              customizationAvailability
-              fastDelivery
-              tryAtHome
-              isActive
-              grossWeight
-              netWeight
-              discountId
-              discountCategory
-              discountActive
-              typeOfDiscount
-              discountValue
-              discountAmount
-              discountPrice
-              offerStartDate
-              offerEndDate
-              mediaId
-              metalType
-              metalPurity
-              metalWeight
-              metalRate
-              makingType
-              makingChargesPerGrams
-              makingCharges
-              gst
-              additionalCost
-              productPrice
-              discountPrice
-              rating
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                gemstoneDetails
-                diamondDetails
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-              }
-              stoneDetails
-              diamondDetails
+            productId
+            SKU
+            variantId
+            isParent
+            title
+            displayTitle
+            shortDesc
+            longDesc
+            url
+            tags
+            collectionName
+            shopFor
+            occasion
+            theme
+            length
+            breadth
+            height
+            addDate
+            lastModificationDate
+            productSize
+            productQty
+            attributeId
+            preSalesProductQueries
+            isReplaceable
+            weightRange
+            isReturnable
+            isInternationalShippingAvailable
+            customizationAvailability
+            fastDelivery
+            tryAtHome
+            isActive
+            grossWeight
+            netWeight
+            discountId
+            discountCategory
+            discountActive
+            typeOfDiscount
+            discountValue
+            discountAmount
+            discountPrice
+            offerStartDate
+            offerEndDate
+            mediaId
+            metalType
+            metalPurity
+            metalWeight
+            metalRate
+            makingType
+            makingChargesPerGrams
+            makingCharges
+            gst
+            additionalCost
+            productPrice
+            discountPrice
+            rating
+            imageDetails {
+              image_path
+              order
+              alt_text
             }
+            videoDetails {
+              video_path
+              order
+              alt_text
+            }
+            productAttributes {
+              goldDetails {
+                goldCertifiedBy
+                goldSetting
+              }
+              gemstoneDetails
+              diamondDetails
+              silverDetails {
+                poojaArticle
+                utensils
+                silverWeight
+              }
+            }
+            stoneDetails
+            diamondDetails
           }
-        `;
+        }
+      `;
         let variables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {
@@ -226,6 +228,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
           };
         }
         console.log("Variables passed for api call", variables);
@@ -551,6 +555,53 @@ const ShopBreadCrumb1 = () => {
 
   console.log("Isloading", isLoading, filteredProducts.length);
 
+  const loadScript = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // Check if the script is already loaded
+      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+        resolve(); // Script already loaded
+        return;
+      }
+
+      // Create the script tag
+      const script = document.createElement('script');
+      script.src = "https://camweara.com/integrations/camweara_api.js";
+      script.onload = () => {
+        // Give some time for the function to be available
+        setTimeout(() => {
+          if (typeof window.getSkusListWithTryOn === "function") {
+            resolve(); // Function is ready
+          } else {
+            reject(new Error("getSkusListWithTryOn is not defined"));
+          }
+        }, 1000);
+      };
+      script.onerror = () => reject(new Error("Failed to load script"));
+
+      // Append the script to the body
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchSkusList = async () => {
+    try {
+      await loadScript(); // Ensure the script is loaded
+      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      setSkuList(skus); // Update SKU list state
+      setIsSkuListLoaded(true);
+    } catch (error) {
+      console.error("Error fetching SKU list:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch SKU list only once on component mount
+    fetchSkusList();
+
+  }, []); // Empty dependency array ensures this runs only on mount
+
+
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -633,7 +684,7 @@ const ShopBreadCrumb1 = () => {
                   .map((item: any) => {
                     return (
                       <div key={item.productId}>
-                        <Product data={item} />
+                        <Product data={item} skuList = {skuList} />
                       </div>
                     );
                   })}

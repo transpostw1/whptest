@@ -144,6 +144,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                         width={300}
                         height={300}
                         className="rounded-md"
+                        unoptimized
                       />
                     </div>
                     <div className="product-details mt-4">

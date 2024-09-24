@@ -1,5 +1,12 @@
+// Import next-pwa
+const withPWA = require('next-pwa')({
+  dest: 'public', 
+  register: true, 
+  skipWaiting: true,
+});
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withPWA({
   reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true,
@@ -23,6 +30,7 @@ const nextConfig = {
       },
     ],
   },
-};
+  // Optionally, you can add more configurations here
+});
 
 module.exports = nextConfig;

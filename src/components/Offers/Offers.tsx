@@ -134,6 +134,7 @@ const Offers = () => {
               alt={"the offer banner"}
               width={400}
               height={400}
+              unoptimized
             />
           </div>
         ))}

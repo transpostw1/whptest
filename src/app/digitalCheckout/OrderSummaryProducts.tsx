@@ -33,6 +33,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
               height={200}
               alt={product.name}
               className="rounded-lg object-cover"
+              unoptimized
             />
             <div className="p-4 flex flex-col">
               <div className="text-title">

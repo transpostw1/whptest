@@ -93,6 +93,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                     width={85}
                     height={85}
                     className="bg-[#f7f7f7]"
+                    unoptimized
                   />
                 </div>
 

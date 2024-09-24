@@ -40,6 +40,7 @@ const VideoOverlayProducts = ({ products }) => {
                   height={22}
                   width={92}
                   className="rounded-md object-cover"
+                  unoptimized
                 />
               <div className="ml-4 flex flex-col justify-between">
                 <h3 className="text-lg font-semibold">

@@ -188,6 +188,7 @@ const Whptv2 = () => {
                       width={1000}
                       height={600}
                       alt=""
+                      unoptimized
                     />
                   </div>
                   <div className="collection-name bg-[#f7f7ff7] heading7 text-center sm:bottom-8  lg:w-[150px] md:w-[160px] w-[100px] md:py-3 py-1.5 duration-500">

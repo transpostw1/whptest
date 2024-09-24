@@ -135,6 +135,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                                     width={25}
                                     className="mr-1"
                                     style={{ width: "auto", height: "auto" }}
+                                    unoptimized
                                   />
                                   <p>{item.name}</p>
                                 </div>

@@ -123,6 +123,7 @@ const ProfileWishList = () => {
                         width={300}
                         height={300}
                         className="rounded-md"
+                        unoptimized
                       />
                       <div className="product-actions absolute right-2 top-2">
                         <button

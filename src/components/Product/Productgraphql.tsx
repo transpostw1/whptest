@@ -337,6 +337,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       width={400}
                       height={400}
                       alt="This image is temporarry"
+                      unoptimized
                     />
                     {isMobile && (
                       <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-30">
@@ -403,6 +404,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   width={400}
                   height={400}
                   alt="This image is temporarry"
+                  unoptimized
                 />
                 {skuList.includes(data.SKU) && !isMobile && (
                   <div

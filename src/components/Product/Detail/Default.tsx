@@ -239,7 +239,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             console.log("Button Created");
             // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
-              const tryonButton = document.getElementById('tryonButton') ||  document.getElementById('MB_tryonButton') ;
+              const tryonButton = document.getElementById('tryonButton') || document.getElementById('MB_tryonButton');
               if (tryonButton) {
                 // Hide the button
                 tryonButton.style.display = 'none';
@@ -378,17 +378,18 @@ const Default: React.FC<Props> = ({ productId }) => {
           ) : (
             <div className="bg-[#f7f7f7] relative"> {/* Make this div relative */}
               {/* Try ON Button positioned in the top right corner of the slider */}
-              <div
-                id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
-                className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
-                onClick={() => loadTryOnButton(data?.productDetails.SKU, data?.productDetails.productId)} // Uncomment if you want to enable button click
-              >
-                <div className="flex items-center justify-between">
-                  <IoCameraOutline />
-                  <p className="ps-1 text-sm">Virtually Try On</p>
+              {skuList.includes(data?.productDetails.SKU) && (
+                <div
+                  id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
+                  className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
+                  onClick={() => loadTryOnButton(data?.productDetails.SKU, data?.productDetails.productId)} // Uncomment if you want to enable button click
+                >
+                  <div className="flex items-center justify-between">
+                    <IoCameraOutline />
+                    <p className="ps-1 text-sm">Virtually Try On</p>
+                  </div>
                 </div>
-              </div>
-
+              )}
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
                 {data?.productDetails?.imageDetails.map((image: any, index: any) => (
                   <div key={index} className="flex h-full items-center justify-center">

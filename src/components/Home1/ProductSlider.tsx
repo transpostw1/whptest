@@ -34,6 +34,7 @@ const ProductSlider = () => {
           bestSeller {
             productId
             url
+            SKU
             title
             productPrice
             discountPrice

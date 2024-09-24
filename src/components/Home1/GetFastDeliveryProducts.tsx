@@ -31,6 +31,7 @@ const GetFastDeliveryProducts = () => {
             fastDelivery {
               productId
               url
+              SKU
               title
               productPrice
               discountPrice

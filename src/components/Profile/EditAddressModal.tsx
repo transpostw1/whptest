@@ -84,7 +84,6 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
       );
     } finally {
       setIsLoading(false);
-      window.location.reload();
     }
   };
 

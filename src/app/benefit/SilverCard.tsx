@@ -8,6 +8,8 @@ import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
 import axios from "axios";
 import { baseUrl2 } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 interface SilverCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -67,13 +69,29 @@ const SilverCard: React.FC<SilverCardProps> = ({
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
-      const dateOfBirth = new Date(userDetails?.dob);
       console.log("Enrolling with amount:", monthlyDeposit);
       try {
-        const response = await axios.post(`${baseUrl2}/verify-pan`, {
-          name: `${userDetails?.firstname} ${userDetails?.lastname}`,
-          dob: dateOfBirth.toLocaleDateString("en-GB"),
-          pan_number: `${userDetails?.pan}`,
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+
+        const VERIFY_PAN = gql`
+          mutation Mutation($input: CheckCustomerVerifiedInput) {
+            verifyPAN(input: $input) {
+              success
+              message
+            }
+          }
+        `;
+        const { data } = await client.mutate({
+          mutation: VERIFY_PAN,
+          variables: {
+            pan_number: "BXZPT2731C",
+            name: "Rutuja Parab",
+            dob: null,
+          },
+          fetchPolicy: "no-cache",
         });
 
         const enrollmentId = await handleEnroll("silver", monthlyDeposit);

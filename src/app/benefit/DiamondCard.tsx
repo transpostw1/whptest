@@ -76,8 +76,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         });
 
         const VERIFY_PAN = gql`
-          mutation Mutation($input: CheckCustomerVerifiedInput) {
-            verifyPAN(input: $input) {
+          mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
+            verifyPAN(verifyPanInput: $verifyPanInput) {
               success
               message
             }
@@ -86,12 +86,15 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         const { data } = await client.mutate({
           mutation: VERIFY_PAN,
           variables: {
-            pan_number: "BXZPT2731C",
-            name: "Rutuja Parab",
-            dob: null,
+            verifyPanInput: {  
+              pan_number: "EDWPP8777C",
+              name: "Rutuja Parab"
+            },
           },
           fetchPolicy: "no-cache",
         });
+      
+        console.log(data);
         const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
 
         if (enrollmentId) {

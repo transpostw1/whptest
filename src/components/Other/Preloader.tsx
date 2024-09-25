@@ -1,9 +1,16 @@
-import React from 'react';
-
+import React from "react";
+import Image from "next/image";
 const Preloader: React.FC = () => {
   return (
-    <div className="flex justify-center items-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-rose-400"></div>
+    <div className="flex items-center justify-center">
+      <div className="">
+        <Image
+          src={"/dummy/loader-white.gif"}
+          alt="loader"
+          height={30}
+          width={30}
+        />
+      </div>
     </div>
   );
 };

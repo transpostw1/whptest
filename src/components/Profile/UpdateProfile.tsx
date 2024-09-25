@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Sheet from "react-modal-sheet";
 import { useFormik } from "formik";
 import { useUser } from "@/context/UserContext";
@@ -12,7 +12,7 @@ interface FormValues {
   altPhone: string | any;
   gender: string | any;
   gst_no: string | any;
-  panNum: string | any;
+  pan:string;
   dobDay: string | any;
   dobMonth: string | any;
   dobYear: string | any;
@@ -31,7 +31,7 @@ const UpdateProfile:React.FC<Props> = ({
   const { logOut, isLoggedIn, userDetails, addUserDetails } = useUser();
 
   const validationSchema = Yup.object().shape({
-    // firstName: Yup.string().required("First name is required"),
+    firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -47,53 +47,73 @@ const UpdateProfile:React.FC<Props> = ({
   const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-  const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    setIsLoading(true);
-    setFormError("");
-
-    const formattedValues: any = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone,
-      altPhone: values.altPhone,
-      gender: values.gender,
-      gst_no:values.gst_no,
-      panNum:values.panNum,
-      dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      profile_picture: values.profilePicture,
-    };
-
-    try {
-      await addUserDetails(formattedValues);
-      resetForm();
-    } catch (error) {
-      setFormError(
-        "An error occurred while submitting the form. Please try again later.",
-      );
-    } finally {
-      setIsLoading(false);
-      isClose();
-    }
-  };
-  const formik = useFormik({
+   const formik = useFormik({
     initialValues: {
-      firstName: userDetails?.firstname || "",
-      lastName: userDetails?.lastname || "",
-      email: userDetails?.email || "",
-      phone: userDetails?.mobile_no || "",
-      altPhone: userDetails?.altPhone || "",
-      gender: userDetails?.gender || "",
-      gst_no: userDetails?.gst_no || "",
-      panNum: userDetails?.pan || "",
-      dobDay,
-      dobMonth,
-      dobYear,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      altPhone: "",
+      gender: "",
+      gst_no: "",
+      pan: "",
+      dobDay: "",
+      dobMonth: "",
+      dobYear: "",
       profilePicture: null,
     },
-    validationSchema,
-    onSubmit: handleSubmit,
+    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    onSubmit: async (values: FormValues) => {
+      setIsLoading(true);
+      setFormError("");
+
+      const formattedValues = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        altPhone: values.altPhone,
+        gender: values.gender,
+        gst_no: values.gst_no,
+        pan: values.pan,
+        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        profile_picture: values.profilePicture,
+      };
+
+      try {
+        await addUserDetails(formattedValues);
+        isClose();
+      } catch (error) {
+        setFormError(
+          "An error occurred while submitting the form. Please try again later."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
   });
+
+  useEffect(() => {
+    if (userDetails && isOpen) {
+      const dob = userDetails?.dob;
+      const [dobYear = "", dobMonth = "", dobDay = ""] = dob?.split("-") || [];
+
+      formik.setValues({
+        firstName: userDetails.firstname || "",
+        lastName: userDetails.lastname || "",
+        email: userDetails.email || "",
+        phone: userDetails.mobile_no || "",
+        altPhone: userDetails.altPhone || "",
+        gender: userDetails.gender || "",
+        gst_no: userDetails.gst_no || "",
+        pan: userDetails.pan || "",
+        dobDay,
+        dobMonth,
+        dobYear,
+        profilePicture: null,
+      });
+    }
+  }, [isOpen, userDetails]);
   return (
     <Sheet
       isOpen={isOpen}
@@ -216,6 +236,7 @@ const UpdateProfile:React.FC<Props> = ({
                   <input
                     id="email"
                     type="text"
+                    readOnly
                     {...formik.getFieldProps("email")}
                     value={formik.values.email}
                     className={`peer block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-rose-400 focus:outline-none focus:ring-0`}
@@ -325,25 +346,25 @@ const UpdateProfile:React.FC<Props> = ({
               <div className="">
                 <div className="relative">
                   <input
-                    id="panNum"
+                    id="pan"
                     type="text"
-                    {...formik.getFieldProps("panNum")}
+                    {...formik.getFieldProps("pan")}
                     className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                      formik.errors.panNum
+                      formik.errors.pan
                         ? "border-red-500"
                         : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
                   <label
-                    htmlFor="PanNum"
+                    htmlFor="pan"
                     className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
                   >
                     PAN Number
                   </label>
                 </div>
-                {formik.errors.panNum && (
+                {formik.errors.pan && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.panNum}
+                    {formik.errors.pan}
                   </div>
                 )}
               </div>

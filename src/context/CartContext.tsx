@@ -15,6 +15,7 @@ interface CartItem {
     discountPrice: any;
     imageDetails: any;
     productPrice: string;
+    quantityleft:number;
     discountValue: string;
     url: string;
   };

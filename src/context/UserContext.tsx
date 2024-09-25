@@ -1,5 +1,4 @@
 "use client";
-
 import React, {
   createContext,
   useContext,
@@ -10,7 +9,6 @@ import React, {
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl, baseUrl, updateProfile } from "@/utils/constants";
 import instance from "@/utils/axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 interface UserState {

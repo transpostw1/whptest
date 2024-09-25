@@ -34,55 +34,80 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   }, []);
 
-  const handleSubmit = async (values: FormValues) => {
-    setIsLoading(true);
-    setFormError("");
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      altPhone: "",
+      gender: "",
+      gst_no: "",
+      pan: "",
+      dobDay: "",
+      dobMonth: "",
+      dobYear: "",
+      profilePicture: null,
+    },
+    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    onSubmit: async (values: FormValues) => {
+      setIsLoading(true);
+      setFormError("");
 
-    const formattedValues = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone,
-      altPhone: values.altPhone,
-      gender: values.gender,
-      gst_no:values.gst_no,
-      pan:values.pan,
-      dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      profile_picture: values.profilePicture,
-    };
-    try {
-      await addUserDetails(formattedValues);
-      handleClose();
-    } catch (error) {
-      setFormError(
-        "An error occurred while submitting the form. Please try again later."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      const formattedValues = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        altPhone: values.altPhone,
+        gender: values.gender,
+        gst_no: values.gst_no,
+        pan: values.pan,
+        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        profile_picture: values.profilePicture,
+      };
+
+      try {
+        await addUserDetails(formattedValues);
+        handleClose();
+      } catch (error) {
+        setFormError(
+          "An error occurred while submitting the form. Please try again later."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
+
 
   const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: userDetails?.firstname || "",
-      lastName: userDetails?.lastname || "",
-      email: userDetails?.email || "",
-      phone: userDetails?.mobile_no || "",
-      altPhone: userDetails?.altPhone || "",
-      gender: userDetails?.gender || "",
-      gst_no:userDetails?.gst_no||"",
-      pan:userDetails?.pan||"",
-      dobDay,
-      dobMonth,
-      dobYear,
-      profilePicture: null,
-    },
-    // validationSchema,
-    onSubmit: handleSubmit,
-  });
+  
+
+  useEffect(() => {
+    if (userDetails && isOpen) {
+      const dob = userDetails?.dob;
+      const [dobYear = "", dobMonth = "", dobDay = ""] = dob?.split("-") || [];
+
+      formik.setValues({
+        firstName: userDetails.firstname || "",
+        lastName: userDetails.lastname || "",
+        email: userDetails.email || "",
+        phone: userDetails.mobile_no || "",
+        altPhone: userDetails.altPhone || "",
+        gender: userDetails.gender || "",
+        gst_no: userDetails.gst_no || "",
+        pan: userDetails.pan || "",
+        dobDay,
+        dobMonth,
+        dobYear,
+        profilePicture: null,
+      });
+    }
+  }, [isOpen, userDetails]);
+
 
   if (!isOpen) return null;
 
@@ -137,18 +162,17 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <input
                   id="firstName"
                   type="text"
-                  {...formik.getFieldProps("firstName")}
-                  value={formik.initialValues.firstName}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.firstName
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                />
-                <label
-                  htmlFor="firstName"
-                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
+                {...formik.getFieldProps("firstName")} // Bind values properly
+                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  formik.errors.firstName
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+              />
+              <label
+                htmlFor="firstName"
+                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+              >
                   First Name
                 </label>
               </div>
@@ -191,6 +215,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   type="text"
                   {...formik.getFieldProps("email")}
                   value={formik.values.email}
+                  readOnly
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.email ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}

@@ -1,3 +1,5 @@
+
+
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -6,7 +8,6 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
 import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
@@ -19,6 +20,16 @@ const Wishlist = () => {
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {},
   );
+  const [isOutOfStock, setIsOutOfStock] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setIsOutOfStock(true);
+  };
+  
+  const closeModal = () => {
+    setIsOutOfStock(false);
+  };
   const { formatPrice } = useCurrency();
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } =
@@ -35,6 +46,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
+        console.log(wishlistItems, "wissshhshs");
         const fetchedWishlistItems = await getWishlist();
         setWishlistItems(fetchedWishlistItems);
       } catch (error) {
@@ -59,6 +71,10 @@ const Wishlist = () => {
   });
 
   const handleAddToCart = (product: any) => {
+    // if (product.quantityleft === 0 || product.quantityleft === null) {
+    //   showModal('Product is out of stock !');
+    //   return;
+    // }
     const productAlreadyExists = cartItems.find(
       (item: any) => item.productId === product.productId,
     );
@@ -83,6 +99,10 @@ const Wishlist = () => {
   };
 
   const handleBuyNow = (product: any) => {
+    if (product.quantityleft === 0 || product.quantityleft === null) {
+      showModal('Product is out of stock');
+      return; 
+    }
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === product.productId,
     );
@@ -162,7 +182,6 @@ const Wishlist = () => {
                             width={300}
                             height={300}
                             className="rounded-md bg-[#f7f7f7]"
-                            unoptimized
                             onClick={() =>
                               router.push(
                                 `/products/${product.productId}/${product.url}`,
@@ -189,7 +208,6 @@ const Wishlist = () => {
                       ) : (
                         <div className="relative">
                           <Image
-                            unoptimized
                             src={product.image_path}
                             alt={product.title}
                             width={300}
@@ -272,6 +290,19 @@ const Wishlist = () => {
             </div>
           )}
         </div>
+        {isOutOfStock && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
+          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
+            <p>{modalMessage}</p>
+            <button
+              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
+              onClick={() => closeModal()}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );

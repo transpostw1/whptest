@@ -16,6 +16,7 @@ interface CartItemProps {
     productPrice: any | string;
     discountPrice: any | string;
     discountValue: string;
+    quantityleft:number;
     name: string;
     price: number;
     image: string;
@@ -40,6 +41,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   useEffect(() => {
     if (product) {
+      console.log(product,"sfdfsffsfs")
       setLoading(false);
     }
   }, [product]);

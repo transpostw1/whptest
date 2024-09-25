@@ -6,20 +6,29 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
 import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
-import {useCurrency} from "@/context/CurrencyContext";
+import { useCurrency } from "@/context/CurrencyContext";
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const {} = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
-    {}
+    {},
   );
-  const {formatPrice}=useCurrency();
+  const [isOutOfStock, setIsOutOfStock] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setIsOutOfStock(true);
+  };
+  
+  const closeModal = () => {
+    setIsOutOfStock(false);
+  };
+  const { formatPrice } = useCurrency();
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, setWishlistItems, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -35,6 +44,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
+        console.log(wishlistItems, "wissshhshs");
         const fetchedWishlistItems = await getWishlist();
         setWishlistItems(fetchedWishlistItems);
       } catch (error) {
@@ -59,8 +69,12 @@ const Wishlist = () => {
   });
 
   const handleAddToCart = (product: any) => {
+    if (product.quantityleft === 0 || product.quantityleft === null) {
+      showModal('Product is out of stock !');
+      return;
+    }
     const productAlreadyExists = cartItems.find(
-      (item: any) => item.productId === product.productId
+      (item: any) => item.productId === product.productId,
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
@@ -83,8 +97,12 @@ const Wishlist = () => {
   };
 
   const handleBuyNow = (product: any) => {
+    if (product.quantityleft === 0 || product.quantityleft === null) {
+      showModal('Product is out of stock');
+      return; 
+    }
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === product.productId
+      (item) => item.productId === product.productId,
     );
 
     if (!productAlreadyExists) {
@@ -136,17 +154,17 @@ const Wishlist = () => {
           {isLoading ? (
             <Loader />
           ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10 text-[#e26178]">
+            <div className="my-10 text-center text-2xl text-[#e26178]">
               Your Wishlist Seems to be Empty!
             </div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
+            <div className="list-product my-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
               {filteredWishlistItems?.map((product, index) => (
                 <div
                   key={index}
-                  className="relative cursor-pointer flex justify-center"
+                  className="relative flex cursor-pointer justify-center"
                 >
-                  <div className="product-card p-4 h-[100%] w-[80%]">
+                  <div className="product-card h-[100%] w-[80%] p-4">
                     <div className="product-image flex justify-center">
                       {isLoggedIn && imageLoading[product.productId] ? (
                         <Skeleton
@@ -164,13 +182,13 @@ const Wishlist = () => {
                             className="rounded-md bg-[#f7f7f7]"
                             onClick={() =>
                               router.push(
-                                `/products/${product.productId}/${product.url}`
+                                `/products/${product.productId}/${product.url}`,
                               )
                             }
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
                           />
-                          <div className="product-actions absolute top-2 right-2">
+                          <div className="product-actions absolute right-2 top-2">
                             <button
                               className="heart-icon"
                               onClick={() =>
@@ -194,14 +212,14 @@ const Wishlist = () => {
                             height={300}
                             onClick={() =>
                               router.push(
-                                `/products/${product.productId}/${product.url}`
+                                `/products/${product.productId}/${product.url}`,
                               )
                             }
                             className="rounded-md bg-[#f7f7f7]"
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
                           />
-                          <div className="product-actions absolute top-2 right-2">
+                          <div className="product-actions absolute right-2 top-2">
                             <button
                               className="heart-icon"
                               onClick={() =>
@@ -222,11 +240,11 @@ const Wishlist = () => {
                       className="product-details mt-4"
                       onClick={() =>
                         router.push(
-                          `/products/${product.productId}/${product.url}`
+                          `/products/${product.productId}/${product.url}`,
                         )
                       }
                     >
-                      <h3 className="product-name text-title text-xl truncate">
+                      <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
                       <div className="flex items-center gap-2">
@@ -236,21 +254,21 @@ const Wishlist = () => {
                               ? formatPrice(parseInt(product.discountPrice))
                               : formatPrice(parseInt(product.productPrice))}
                           </span>
-                          <span className="original-price line-through text-[#beb3b3]">
+                          <span className="original-price text-[#beb3b3] line-through">
                             {formatPrice(parseInt(product.productPrice))}
                           </span>
                         </p>
                       </div>
                     </div>
-                    <div className="flex lg:max-xl:flex-row flex-col flex-wrap lg:flex-row items-center gap-2 justify-between mt-3">
+                    <div className="mt-3 flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:max-xl:flex-row">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
+                        className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg text-white lg:w-36 w-full p-1 rounded-md lg:max-xl:w-full"
+                        className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
@@ -270,6 +288,19 @@ const Wishlist = () => {
             </div>
           )}
         </div>
+        {isOutOfStock && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
+          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
+            <p>{modalMessage}</p>
+            <button
+              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
+              onClick={() => closeModal()}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );

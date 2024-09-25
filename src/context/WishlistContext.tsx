@@ -16,6 +16,7 @@ interface WishlistItem {
   productPrice: string;
   discountPrice: string;
   discountValue: string;
+  quantityleft:number;
   image_path: string;
   imageDetails: any;
   url: string;
@@ -125,15 +126,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               },
               fetchPolicy: "no-cache",
             });
-            // const addPromises = itemsToAdd.map((item: any) =>
-            //   instance.get(`${baseUrl}${addwishlist}`, {
-            //     params: { productId: item.productId },
-            //     headers: {
-            //       Authorization: `Bearer ${cookieToken}`,
-            //     },
-            //   })
-            // );
-            // await Promise.all(addPromises);
             localStorage.removeItem("wishlistItems");
           }
         }
@@ -180,25 +172,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 (dbItem) => dbItem.productId === item.productId
               )
           );
-
-          // const promises = localItemsToAdd.map((item: any) =>
-          //   instance.get(`${baseUrl}${addwishlist}`, {
-          //     params: { productId: item.productId },
-          //     headers: {
-          //       Authorization: `Bearer ${cookieToken}`,
-          //     },
-          //   })
-          // );
-
-          // await Promise.all(promises);
-          // await instance.get(`${baseUrl}${addwishlist}`, {
-          //   params: { productId: product.productId },
-          //   headers: {
-          //     Authorization: `Bearer ${cookieToken}`,
-          //   },
-          // });
-          console.log(product, "product");
-
           console.log(product, "product");
 
           const getAuthHeaders: any = () => {
@@ -269,6 +242,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             );
 
             if (!isProductInlocalStorage) {
+              console.log(product.productQty,"WIZZZZZZZZZZZZ")
               const updatedWishlistItems = [
                 ...localWishlistItems,
                 {
@@ -277,6 +251,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   productPrice: product.productPrice,
                   discountPrice: product.discountPrice,
                   discountValue: product.discountValue,
+                  quantityleft:product.quantityleft,
                   image_path: normalizeImagePath(product.image_path),
                   url: product.url,
                 },
@@ -435,6 +410,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           productPrice: item.productPrice,
           discountPrice: item.discountPrice,
           discountValue: item.discountValue,
+          quantityleft:item.quantity,
           image_path: item.imageDetails[0]?.image_path || "",
           url: item.url,
         }));

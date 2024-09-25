@@ -55,6 +55,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
             productId
             url
             displayTitle
+            quantity
             productPrice
             discountPrice
             imageDetails {

@@ -44,6 +44,7 @@ export default function Home() {
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
+      
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />

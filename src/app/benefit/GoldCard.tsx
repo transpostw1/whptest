@@ -8,6 +8,8 @@ import { useCurrency } from "@/context/CurrencyContext";
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 import { baseUrl2 } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 interface GoldCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -23,6 +25,8 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
+    useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
@@ -62,22 +66,39 @@ const GoldCard: React.FC<GoldCardProps> = ({
     setFlashType,
     handleEnrollSuccess,
   });
-
   const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
-      const dateOfBirth = new Date(userDetails?.dob);
       console.log("Enrolling with amount:", monthlyDeposit);
       try {
-        const response = await axios.post(`${baseUrl2}/verify-pan`, {
-          name: `${userDetails?.firstname} ${userDetails?.lastname}`,
-          dob: dateOfBirth.toLocaleDateString("en-GB"),
-          pan_number: `${userDetails?.pan}`,
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
         });
 
+        const VERIFY_PAN = gql`
+          mutation Mutation($input: CheckCustomerVerifiedInput) {
+            verifyPAN(input: $input) {
+              success
+              message
+            }
+          }
+        `;
+        const { data } = await client.mutate({
+          mutation: VERIFY_PAN,
+          variables: {
+            input: {
+              pan_number: "EDWPP8777C",
+              name: "Rutuja Parab",
+            },
+          },
+        });
+        console.log(data);
+        setResponseFromPanVerificationApi(data.verifyPAN.success);
+
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
-        if (enrollmentId) {
+        if (enrollmentId && responseFromPanVerificationApi) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
         }
       } catch (error) {

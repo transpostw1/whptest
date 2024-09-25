@@ -48,11 +48,11 @@ const ShopBreadCrumb1 = () => {
     setSelectedSortOption(option);
   };
 
-  const handleFilterChange = (filteredProducts: ProductType[]) => {
-    setFilteredProducts(filteredProducts);
-    setIsLoading(false);
-    setPageNumber(0);
-  };
+  // const handleFilterChange = (filteredProducts: ProductType[]) => {
+  //   setFilteredProducts(filteredProducts);
+  //   setIsLoading(false);
+  //   setPageNumber(0);
+  // };
 
   const fetchData = async (combinedOptions: any) => {
     if (

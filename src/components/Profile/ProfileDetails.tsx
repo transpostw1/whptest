@@ -140,31 +140,6 @@ const ProfileDetails = () => {
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   const fetchAddresses = async () => {
-  //     setIsLoading(true);
-  // const cookieTokenn = localStorage.getItem("localtoken");
-  //     try {
-
-  //       const response = await axios.get<{ customerAddress?: Address[] }>(
-  //         `${baseUrl}/customer/getAddresses`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieTokenn}`,
-  //           },
-  //         }
-  //       );
-
-  //       setallAddress(response.data.customerAddress);
-  //     } catch (error) {
-  //       console.error("Error fetching addresses:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchAddresses();
-  // }, []);
   const handleEditAddress = (addressId: any) => {
     const addressToEdit =
       allAddress &&
@@ -306,7 +281,7 @@ const ProfileDetails = () => {
         </div>
       </form>
       <hr className="mt-3" />
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-2">
         <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
@@ -320,7 +295,7 @@ const ProfileDetails = () => {
           allAddress.map((address: any) => (
             <div
               key={address.address_id}
-              className="relative mr-2 flex rounded-lg border bg-white"
+              className="relative mr-4 flex rounded-lg border bg-white"
             >
               <div className="h-[130px] w-[250px] p-4">
                 <p>

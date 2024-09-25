@@ -85,38 +85,31 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
             });
             console.log("Button Created");
-            // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
               const tryonButton = document.getElementById('tryonButton') ||  document.getElementById('MB_tryonButton') ;
               if (tryonButton) {
                 // Hide the button
                 tryonButton.style.display = 'none';
                 console.log("Button Clicked");
-                // Automatically click the button
                 tryonButton.click();
-
-                // Stop the interval once the button is clicked
                 clearInterval(buttonInterval);
 
-                buttonResolve(); // Resolve after the button is clicked
+                buttonResolve();
               }
-            }, 100); // Check every 100ms for the button
+            }, 100);
           } catch (error) {
             reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
           }
         });
       };
-
-      // Check if the script is already loaded
       const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
       if (existingScript) {
-        await loadButton(); // Await the button loading if script is already loaded
+        await loadButton();
       } else {
-        // Append the script and load the button after it's loaded
         const script = document.createElement('script');
         script.src = scriptSrc;
         script.onload = async () => {
-          await loadButton(); // Await loading the button after the script is loaded
+          await loadButton(); 
         };
         script.onerror = () => reject(new Error("Failed to load Camweara script"));
         document.body.appendChild(script);
@@ -180,22 +173,16 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      // Get the current viewport width
       const viewportWidth = window.innerWidth;
 
       if (viewportWidth < 768) {
-        // Small screens
         setWidth(20);
       } else if (viewportWidth >= 768 && viewportWidth < 1024) {
-        // Medium screens
         setWidth(25);
       } else {
-        // Large screens
         setWidth(25);
       }
     };
-
-    // Add event listener for window resize
     window.addEventListener("resize", handleResize);
     handleResize();
 
@@ -286,16 +273,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
   };
-
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.discountPrice ?? 0)),
-  );
-
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.productPrice ?? 0)),
-  );
-
-
+  
   return (
     <>
       <div

@@ -25,6 +25,7 @@ interface ProductForWishlistLoggedOut {
   productPrice: string;
   discountPrice: string;
   discountValue: string;
+  quantityleft:number;
   image_path: string;
   url: string;
 }
@@ -36,6 +37,11 @@ const Buttons: React.FC<Props> = ({ product }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("Out Of Stock");
+
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -55,8 +61,19 @@ const Buttons: React.FC<Props> = ({ product }) => {
     fetchWishlist();
   }, []);
 
+  const isOutOfStock = (productQty: number | null | undefined) => {
+    return productQty === 0 || productQty === null;
+  };
+
   const handleAddToCart = (productItem: ProductData) => {
-    console.log(productItem,"proddddd")
+    
+
+    if (isOutOfStock(productItem.productDetails?.productQty)) {
+      setModalMessage("This product is out of stock.");
+      setShowModal(true);
+      return;
+    }
+
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId
     );
@@ -93,6 +110,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         productPrice: product.productDetails.productPrice,
         discountPrice: product.productDetails.discountPrice,
         discountValue: product.productDetails.discountValue,
+        quantityleft:product.productDetails.productQty,
         image_path: product.productDetails.imageDetails[0].image_path,
 
         url: product.productDetails.url,
@@ -108,6 +126,11 @@ const Buttons: React.FC<Props> = ({ product }) => {
   };
 
 const handleBuyNow = () => {
+  if (isOutOfStock(product.productDetails?.productQty)) {
+    setModalMessage("This product is out of stock.");
+    setShowModal(true);
+    return;
+  }
   const productAlreadyExists = cartItems.find(
     (item) => item.productId === product.productDetails.productId
   );
@@ -171,6 +194,19 @@ const handleBuyNow = () => {
           />
         )}
       </div>
+      {showModal && (
+       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
+          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
+            <p>{modalMessage}</p>
+            <button
+              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

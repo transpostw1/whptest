@@ -242,7 +242,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             );
 
             if (!isProductInlocalStorage) {
-              console.log(product.productQty,"WIZZZZZZZZZZZZ")
               const updatedWishlistItems = [
                 ...localWishlistItems,
                 {

@@ -57,6 +57,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         className="mb-6 w-[100%] object-contain"
         height={700}
         width={700}
+        unoptimized
       />
       <h1 className="pb-5 text-[24px] font-medium leading-[33px] lg:text-[48px] lg:leading-[67px]">
         {blog.title}

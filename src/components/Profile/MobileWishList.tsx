@@ -140,6 +140,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                 alt={"loader"}
                 height={50}
                 width={50}
+                unoptimized
               />
             </div>
           ) : wishlistItems.length < 1 ? (
@@ -159,6 +160,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                         width={300}
                         height={300}
                         className="rounded-md"
+                        unoptimized
                       />
                     </div>
                     <div className="product-details mt-4">

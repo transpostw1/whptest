@@ -244,7 +244,7 @@ const ProfileDetails = () => {
               htmlFor="last_name"
               className="text-md mb-1 block font-normal text-black"
             >
-              date of Birth
+              Date of Birth
             </label>
             <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
@@ -270,12 +270,10 @@ const ProfileDetails = () => {
               htmlFor="email"
               className="text-md mb-1 block font-normal text-black"
             >
-              Email address
+              PAN ID
             </label>
             <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
-              <span className="text-md font-semibold">
-                {userDetails?.email}
-              </span>
+              <span className="text-md font-semibold">{userDetails?.pan}</span>
             </div>
           </div>
           <div>
@@ -296,12 +294,15 @@ const ProfileDetails = () => {
               htmlFor="email"
               className="text-md mb-1 block font-normal text-black"
             >
-              PAN ID
+              Email address
             </label>
             <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
-              <span className="text-md font-semibold">{userDetails?.pan}</span>
+              <span className="text-md font-semibold">
+                {userDetails?.email}
+              </span>
             </div>
           </div>
+        
         </div>
       </form>
       <hr className="mt-3" />

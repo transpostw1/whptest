@@ -160,6 +160,7 @@ const MainCarousel = () => {
                               alt="Hero Image"
                               width={1920}
                               height={100}
+                              unoptimized
                             />
                           )}
                         </div>
@@ -207,6 +208,7 @@ const MainCarousel = () => {
                               alt="Hero Image"
                               width={1920}
                               height={100}
+                              unoptimized
                             />
                           )}
                         </div>

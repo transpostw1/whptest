@@ -35,11 +35,12 @@ const VideoOverlayProducts = ({ products }) => {
               
                 <Image
                   key={index}
-                  src={product.imageDetails[0].image_path}
+                  src={product.imageDetails.image_path}
                   alt={product?.displayTitle}
                   height={22}
                   width={92}
                   className="rounded-md object-cover"
+                  unoptimized
                 />
               <div className="ml-4 flex flex-col justify-between">
                 <h3 className="text-lg font-semibold">

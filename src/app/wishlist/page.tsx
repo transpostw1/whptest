@@ -1,3 +1,5 @@
+
+
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -69,10 +71,10 @@ const Wishlist = () => {
   });
 
   const handleAddToCart = (product: any) => {
-    if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock !');
-      return;
-    }
+    // if (product.quantityleft === 0 || product.quantityleft === null) {
+    //   showModal('Product is out of stock !');
+    //   return;
+    // }
     const productAlreadyExists = cartItems.find(
       (item: any) => item.productId === product.productId,
     );

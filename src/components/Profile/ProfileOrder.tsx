@@ -113,6 +113,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                         width={85}
                         height={85}
                         className="bg-[#f7f7f7]"
+                        unoptimized
                       />
                     </div>
                     <div>

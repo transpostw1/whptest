@@ -29,13 +29,10 @@ import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
 import { baseUrl, syncCart, coupon } from "@/utils/constants";
-import axios from "axios";
-import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
 import GiftWrapModal from "@/components/Modal/GiftWrapModal";
-import ProtectedRoute from "../ProtectedRoute";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
@@ -640,6 +637,7 @@ const Checkout: React.FC = () => {
                     alt="check"
                     width={100}
                     height={10}
+                    unoptimized
                   />
                   <div className="flex flex-col items-start justify-center py-3">
                     <h1 className="text-3xl font-semibold text-red-700">
@@ -739,6 +737,7 @@ const Checkout: React.FC = () => {
                             alt={"coupons"}
                             height={25}
                             width={25}
+                            unoptimized
                           />
                           <h3>Apply Coupon</h3>
                         </div>

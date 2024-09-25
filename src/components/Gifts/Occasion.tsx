@@ -35,6 +35,7 @@ const Occasion: React.FC<OccasionProps> = ({
             className="w-full h-[250px] object-fill object-center"
             src={voucher.thumbnailImage}
             alt={voucher.name}
+            unoptimized
           />
           <div className="p-4">
             <h3 className="text-xl font-semibold">{voucher.name}</h3>

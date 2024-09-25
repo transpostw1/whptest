@@ -48,6 +48,7 @@ const Templates: React.FC<TemplatesProps> = ({
               className="w-full h-[250px] object-fill object-center"
               src={templateImageUrl}
               alt={`Template ${index + 1}`}
+              unoptimized
             />
             <div className="p-6">
               <h3 className="text-xl font-semibold">{selectedVoucher.name}</h3>

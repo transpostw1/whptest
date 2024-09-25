@@ -243,6 +243,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
               alt="Profile Picture"
               width={90}
               height={100}
+              unoptimized
             />
           ) : (
             <Icon.UserCircle size={50} />

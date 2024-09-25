@@ -125,6 +125,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                 alt={"loader"}
                 height={50}
                 width={50}
+                unoptimized
               />
             </div>
           ) : wishlistItems.length < 1 ? (

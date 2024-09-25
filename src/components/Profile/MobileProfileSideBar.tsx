@@ -37,6 +37,7 @@ const MobileProfileSideBar: React.FC<Props> = ({
               alt="Profile Picture"
               width={90}
               height={100}
+              unoptimized
             />
           ) : (
             <Icon.UserCircle size={50} />

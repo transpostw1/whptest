@@ -238,6 +238,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                         alt="profile_picture"
                         height={75}
                         width={75}
+                        unoptimized
                       />
                     </div>
                     <div className="ml-2">
@@ -299,6 +300,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                         className="max-w-xs max-h-48 rounded-md"
                         height={100}
                         width={100}
+                        unoptimized
                       />
                       <button
                         onClick={() => removeImage(index)}

@@ -15,7 +15,7 @@ import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql,  HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
   AddressBook,
@@ -29,8 +29,6 @@ import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
 import { baseUrl, syncCart, coupon } from "@/utils/constants";
-import axios from "axios";
-import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
@@ -638,6 +636,7 @@ const Checkout: React.FC = () => {
                     alt="check"
                     width={100}
                     height={10}
+                    unoptimized
                   />
                   <div className="flex flex-col items-start justify-center py-3">
                     <h1 className="text-3xl font-semibold text-red-700">
@@ -737,6 +736,7 @@ const Checkout: React.FC = () => {
                             alt={"coupons"}
                             height={25}
                             width={25}
+                            unoptimized
                           />
                           <h3>Apply Coupon</h3>
                         </div>

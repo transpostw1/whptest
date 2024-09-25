@@ -83,6 +83,7 @@ const Explore = () => {
                     height={1300}
                     alt="banner1"
                     className="duration-1000"
+                    unoptimized
                   />
                 </div>
               </Link>

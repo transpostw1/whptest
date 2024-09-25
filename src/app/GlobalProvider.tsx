@@ -12,7 +12,6 @@ import { CouponCodeProvider } from "@/context/CouponContext";
 import { CategoryProvider } from "@/context/CategoryContex";
 import { AllCategoryProvider } from "@/context/AllCategoryContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
-import { TryOnProvider } from "@/context/TryOnContext";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -21,7 +20,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     <BlogProvider>
       <CurrencyProvider>
         <CouponCodeProvider>
-          {/* <TryOnProvider> */}
           <ProductProvider>
             <UserProvider>
               <AllCategoryProvider>
@@ -43,7 +41,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
               </AllCategoryProvider>
             </UserProvider>
           </ProductProvider>
-          {/* </TryOnProvider> */}
         </CouponCodeProvider>
       </CurrencyProvider>
     </BlogProvider>

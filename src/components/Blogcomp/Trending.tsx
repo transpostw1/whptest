@@ -22,6 +22,7 @@ const Trending: React.FC<TrendingProps> = ({ blogData }) => {
                 className="w-full h-[300px] object-cover object-center"
                 src={blog.image}
                 alt={blog.title}
+                unoptimized
               />
               <div className="p-4 flex flex-col justify-between h-max">
                 <h3 className="text-lg font-semibold">{blog.title}</h3>

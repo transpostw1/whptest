@@ -39,6 +39,7 @@ const Preview: React.FC<PreviewProps> = ({
                     className="h-[250px] w-full object-fill object-center"
                     src={selectedTemplateUrl}
                     alt="Selected Template"
+                    unoptimized
                   />
                 ) : (
                   <Image

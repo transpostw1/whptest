@@ -1,6 +1,4 @@
-"use client"; // Add this line
-
-import Link from "next/link";
+"use client";
 import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";

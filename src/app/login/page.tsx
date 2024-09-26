@@ -39,19 +39,27 @@ const Login = () => {
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center ">
             <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px]  border-line">
-              <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit} className="bg-red-600">
                 <div className="phone">
                   <h1 className="font-semibold text-center">
                     ENTER PHONE NUMBER TO LOGIN
                   </h1>
-                  <PhoneInput
-                    country={"in"}
-                    value={formik.values.phoneNumber}
-                    onChange={(value) => {
-                      setPhoneNumber(value);
-                      formik.handleChange("phoneNumber")(value);
-                    }}
-                  />
+              <PhoneInput 
+      country={"in"} 
+      value={formik.values.phoneNumber} 
+      onChange={(value) => { 
+        setPhoneNumber(value); 
+        formik.handleChange("phoneNumber")(value); 
+      }} 
+      inputStyle={{
+        width: '400px', 
+        height: '40px', 
+        fontSize: '16px'
+      }}
+      containerStyle={{
+        width: 'auto'  // This allows the container to adjust to the input width
+      }}
+    />
                   {/* {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
                     // <div className="text-red-500">
                     //   {formik.errors.phoneNumber}

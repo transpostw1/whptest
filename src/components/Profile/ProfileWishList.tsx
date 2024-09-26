@@ -4,7 +4,6 @@ import Image from "next/image";
 import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductData, ProductType } from "@/type/ProductType";
 import { useRouter } from "next/navigation";
 import {useCurrency} from "@/context/CurrencyContext"
 import { useCart } from "@/context/CartContext";
@@ -15,6 +14,18 @@ const ProfileWishList = () => {
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
   const {formatPrice}=useCurrency()
+  const [isOutOfStock, setIsOutOfStock] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setIsOutOfStock(true);
+  };
+  
+  const closeModal = () => {
+    setIsOutOfStock(false);
+  };
+
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -36,6 +47,10 @@ const ProfileWishList = () => {
   });
 
   const handleAddToCart = (product: any) => {
+       if (product.quantityleft === 0 || product.quantityleft === null) {
+      showModal('Product is out of stock !');
+      return;
+    }
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === product.productId,
     );
@@ -60,7 +75,10 @@ const ProfileWishList = () => {
   };
 
   const handleBuyNow = (product: any) => {
-    console.log(product, "PRODUCT");
+    if (product.quantityleft === 0 || product.quantityleft === null) {
+      showModal('Product is out of stock !');
+      return;
+    }
 
     const productDetails: any = {
       productId: product.productId,
@@ -94,7 +112,7 @@ const ProfileWishList = () => {
       <StickyNav />
       <div className="container">
         <div>
-          <p className="text-2xl font-semibold">Wishlist</p>
+          <p className="text-2xl my-5 font-semibold">Wishlist</p>
         </div>
         <div className="list-product-block relative">
           {isLoading ? (
@@ -168,6 +186,19 @@ const ProfileWishList = () => {
               ))}
             </div>
           )}
+           {isOutOfStock && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
+          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
+            <p>{modalMessage}</p>
+            <button
+              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
+              onClick={() => closeModal()}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
         </div>
       </div>
     </div>

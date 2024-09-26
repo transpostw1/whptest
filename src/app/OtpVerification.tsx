@@ -171,7 +171,7 @@ const OtpVerification = ({
         <div className="bg-gray-100 p-4 rounded-lg shadow-md">
           <h1 className="text-center text-xl font-normal mb-2">
             Enter Verification Code
-          </h1>
+          </h1>z
           <div
             className="flex justify-center items-center mb-6"
             onKeyDown={handleCombinedClick2}

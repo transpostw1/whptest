@@ -97,6 +97,8 @@ const Payment: React.FC<PaymentProps> = ({
               razorpay_signature,
             } = response;
             const orderData = {
+              isWallet: wallet ? 1 : 0,
+              walletAmount:userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
@@ -204,6 +206,8 @@ const Payment: React.FC<PaymentProps> = ({
         setLoading(true);
         // Prepare the data to be sent to the API
         const orderData = {
+          isWallet: wallet ? 1 : 0,
+          walletAmount:userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,

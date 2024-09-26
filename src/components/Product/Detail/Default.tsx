@@ -401,9 +401,6 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={500} width={550} />
           ) : (
             <div className="relative bg-[#f7f7f7]">
-              {" "}
-              {/* Make this div relative */}
-              {/* Try ON Button positioned in the top right corner of the slider */}
               {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
@@ -411,7 +408,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
-                      data?.productDetails.productId,
+                      data?.productDetails.productId.toString(),
                     )
                   } // Uncomment if you want to enable button click
                 >

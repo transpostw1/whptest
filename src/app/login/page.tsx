@@ -39,7 +39,7 @@ const Login = () => {
         <div className="container">
           <div className="content-main flex gap-y-8 max-md:flex-col justify-center ">
             <div className="flex justify-center w-full lg:pr-[60px] md:pr-[40px]  border-line">
-              <form onSubmit={formik.handleSubmit} className="bg-red-600">
+              <form onSubmit={formik.handleSubmit} className="">
                 <div className="phone">
                   <h1 className="font-semibold text-center">
                     ENTER PHONE NUMBER TO LOGIN

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sheet from "react-modal-sheet";
 import { useFormik } from "formik";
 import { useUser } from "@/context/UserContext";
@@ -12,20 +12,17 @@ interface FormValues {
   altPhone: string | any;
   gender: string | any;
   gst_no: string | any;
-  pan:string;
+  pan: string;
   dobDay: string | any;
   dobMonth: string | any;
   dobYear: string | any;
   profilePicture: File | null;
 }
 interface Props {
-    isClose:()=>void;
-    isOpen:boolean;
+  isClose: () => void;
+  isOpen: boolean;
 }
-const UpdateProfile:React.FC<Props> = ({
-    isClose,
-    isOpen
-}) => {
+const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formError, setFormError] = useState("");
   const { logOut, isLoggedIn, userDetails, addUserDetails } = useUser();
@@ -47,7 +44,7 @@ const UpdateProfile:React.FC<Props> = ({
   const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-   const formik = useFormik({
+  const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -62,10 +59,14 @@ const UpdateProfile:React.FC<Props> = ({
       dobYear: "",
       profilePicture: null,
     },
-    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    enableReinitialize: true,
     onSubmit: async (values: FormValues) => {
       setIsLoading(true);
       setFormError("");
+      let dob = null;
+      if (values.dobYear && values.dobMonth && values.dobDay) {
+        dob = `${values.dobYear}-${values.dobMonth}-${values.dobDay}`;
+      }
 
       const formattedValues = {
         firstName: values.firstName,
@@ -76,7 +77,7 @@ const UpdateProfile:React.FC<Props> = ({
         gender: values.gender,
         gst_no: values.gst_no,
         pan: values.pan,
-        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        dob,
         profile_picture: values.profilePicture,
       };
 
@@ -85,7 +86,7 @@ const UpdateProfile:React.FC<Props> = ({
         isClose();
       } catch (error) {
         setFormError(
-          "An error occurred while submitting the form. Please try again later."
+          "An error occurred while submitting the form. Please try again later.",
         );
       } finally {
         setIsLoading(false);
@@ -96,7 +97,8 @@ const UpdateProfile:React.FC<Props> = ({
   useEffect(() => {
     if (userDetails && isOpen) {
       const dob = userDetails?.dob;
-      const [dobYear = "", dobMonth = "", dobDay = ""] = dob?.split("-") || [];
+      const [dobYear = "", dobMonth = "", dobDay = ""] =
+        dob?.split("-") || null;
 
       formik.setValues({
         firstName: userDetails.firstname || "",
@@ -350,9 +352,7 @@ const UpdateProfile:React.FC<Props> = ({
                     type="text"
                     {...formik.getFieldProps("pan")}
                     className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                      formik.errors.pan
-                        ? "border-red-500"
-                        : "border-gray-300"
+                      formik.errors.pan ? "border-red-500" : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
                   <label
@@ -363,12 +363,10 @@ const UpdateProfile:React.FC<Props> = ({
                   </label>
                 </div>
                 {formik.errors.pan && (
-                  <div className="mt-1 text-red-500">
-                    {formik.errors.pan}
-                  </div>
+                  <div className="mt-1 text-red-500">{formik.errors.pan}</div>
                 )}
               </div>
-              
+
               <div className="">
                 <div className="relative">
                   <input

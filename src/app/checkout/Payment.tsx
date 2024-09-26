@@ -47,11 +47,16 @@ const Payment: React.FC<PaymentProps> = ({
   const cookieToken =
     typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const { removeFromCart } = useCart();
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
   const handleWalletPayment = () => {
     setWalletPayment("whp_Wallet");
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+    router.push("/profile");
   };
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -98,7 +103,7 @@ const Payment: React.FC<PaymentProps> = ({
             } = response;
             const orderData = {
               isWallet: wallet ? 1 : 0,
-              walletAmount:userDetails?.wallet_amount,
+              walletAmount: userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
@@ -207,7 +212,7 @@ const Payment: React.FC<PaymentProps> = ({
         // Prepare the data to be sent to the API
         const orderData = {
           isWallet: wallet ? 1 : 0,
-          walletAmount:userDetails?.wallet_amount,
+          walletAmount: userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,
@@ -255,24 +260,20 @@ const Payment: React.FC<PaymentProps> = ({
             signature: "0",
           },
         };
-
-        console.log(orderData, "orderData");
-
         const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
           },
         });
-        console.log(apiResponse.data);
         // Handle the response as needed
 
         // Call the onOrderComplete function after the API call is successful
         onOrderComplete(setCartItems);
-        router.push("/profile");
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
         setLoading(false);
+        setIsOpen(true);
       }
     } catch (error) {
       console.error(error);
@@ -443,6 +444,20 @@ const Payment: React.FC<PaymentProps> = ({
       >
         Place Order
       </button>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
+            <h2 className="mb-4 text-2xl font-semibold">Thank you!</h2>
+            <p className="text-gray-700">Thank you for placing your order.</p>
+            <button
+              onClick={closeModal}
+              className="mt-6 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

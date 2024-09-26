@@ -9,6 +9,7 @@ import { GiCargoShip } from "react-icons/gi";
 import { VscTools } from "react-icons/vsc";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
+import { BiTargetLock } from "react-icons/bi";
 import { TbHomeCheck } from "react-icons/tb";
 import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
@@ -118,7 +119,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         {showAccordian === 2 ? (
           <div>
             <div className="mt-5">{product?.productDetails?.longDesc}</div>
-            <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
+            {/* <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
               <div className="flex flex-col items-center p-2 text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
@@ -187,6 +188,32 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   </p>
                 </div>
               )}
+              {product.productDetails?.diamondDetails?.length > 0 && (
+                <div className="flex">
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center p-2 text-center"
+                      >
+                        <Icon.Diamond />
+                        <p>
+                          Diamond Color:{diamond.diamondColor}(
+                          {index === 0
+                            ? "Primary"
+                            : index === 1
+                              ? "Secondary"
+                              : index === 2
+                                ? "Tertiary"
+                                : `Diamond ${index + 1}`}
+                          )
+                        </p>
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
+
               {product?.productDetails?.diamondDetails[0] && (
                 <div className="flex flex-col items-center p-2 text-center">
                   <Icon.ArrowsLeftRight
@@ -209,10 +236,147 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   />
                   <p>
                     Diamond Color:
-                    {product?.productDetails?.diamondDetails[0].diamondCost}
+                    {product?.productDetails?.diamondDetails[0].diamondColor}
                   </p>
                 </div>
               )}
+            </div> */}
+            <div className="mt-4 grid grid-cols-4 gap-4 max-sm:grid-cols-3">
+              <div className="flex flex-col items-center p-2 text-center">
+                <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
+                <p>
+                  {product?.productDetails?.metalWeight}gms,{" "}
+                  {product?.productDetails?.metalType}
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center p-2 text-center">
+                <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
+                <p>
+                  {product?.productDetails.metalPurity}{" "}
+                  {product?.productDetails.metalType}
+                </p>
+              </div>
+
+              {product?.productDetails?.isReturnable == 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>7 days easy returns</p>
+                </div>
+              )}
+
+              {product?.productDetails?.isReplaceable === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <TbReplace className="mr-1 mt-1" size={27} />
+                  <p>7 days easy replacement</p>
+                </div>
+              )}
+
+              {product?.productDetails?.isInternationalShippingAvailable ===
+                1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <GiCargoShip className="mr-1 mt-1" size={27} />
+                  <p>Delivered Internationally</p>
+                </div>
+              )}
+
+              {product?.productDetails?.customizationAvailability === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <VscTools className="mr-1 mt-1" size={27} />
+                  <p>Customization Available</p>
+                </div>
+              )}
+
+              {product?.productDetails?.fastDelivery === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <FaShippingFast className="mr-1 mt-1" size={27} />
+                  <p>Fast Delivery</p>
+                </div>
+              )}
+
+              {product?.productDetails?.tryAtHome === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <TbHomeCheck className="mr-1 mt-1" size={27} />
+                  <p>Try At Home</p>
+                </div>
+              )}
+
+              {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <Icon.SketchLogo size={22} weight="thin" />
+                          <p>
+                            Diamond Color: {diamond.diamondColor} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )}
+              {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <BiTargetLock size={22} />
+                          <p>
+                            Diamond Clarity: {diamond.diamondClarity} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )}
+              {/* {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <Icon.SketchLogo />
+                          <p>
+                            Diamond Color: {diamond.diamondColor} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )} */}
             </div>
           </div>
         ) : null}
@@ -317,7 +481,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>Diamond</p>
+                          <p>Diamond ({diamond.diamondColor}-{diamond.diamondClarity})</p>
                         </div>
                       ),
                     )}
@@ -343,7 +507,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>{diamond.caratWeight}</p>
+                          <p>
+                            {diamond.caratWeight} ct ({diamond.diamondQuantity} Qty)
+                          </p>
                         </div>
                       ),
                     )}

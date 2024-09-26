@@ -8,7 +8,7 @@ import { useCurrency } from "@/context/CurrencyContext";
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 import { baseUrl2 } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 interface GoldCardProps {
   setBackendMessage: (message: string) => void;
@@ -76,29 +76,32 @@ const GoldCard: React.FC<GoldCardProps> = ({
           uri: graphqlbaseUrl,
           cache: new InMemoryCache(),
         });
-
+      
         const VERIFY_PAN = gql`
-          mutation Mutation($input: CheckCustomerVerifiedInput) {
-            verifyPAN(input: $input) {
+          mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
+            verifyPAN(verifyPanInput: $verifyPanInput) {
               success
               message
             }
           }
         `;
+      
         const { data } = await client.mutate({
           mutation: VERIFY_PAN,
           variables: {
-            input: {
+            verifyPanInput: {
               pan_number: "EDWPP8777C",
-              name: "Rutuja Parab",
+              name: "Rutuja Parab"
             },
           },
+          fetchPolicy: "no-cache",
         });
+      
         console.log(data);
         setResponseFromPanVerificationApi(data.verifyPAN.success);
-
+      
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
-        if (enrollmentId && responseFromPanVerificationApi) {
+        if (enrollmentId && data.verifyPAN.success) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
         }
       } catch (error) {

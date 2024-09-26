@@ -48,7 +48,7 @@ const OtpVerification = ({
       "recaptcha-container",
       {
         size: "invisible",
-      }
+      },
     );
   };
 
@@ -61,22 +61,18 @@ const OtpVerification = ({
       setUpRecaptcha();
     }
     const appVerifier = window.recaptchaVerifier;
-    const formatPh = "+" +formikValues.phoneNumber;
+    const formatPh = "+" + formikValues.phoneNumber;
     try {
       setLoading(true);
       setFirebaseError(null);
-      const result = await signInWithPhoneNumber(
-        auth,
-        formatPh,
-        appVerifier
-      );
+      const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
       setVerificationId(result.verificationId);
       setIsOtpSent(true); // Update state to indicate OTP has been sent
       setErrorMessage(null);
       console.log("OTP sent successfully");
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Error sending OTP:", error);
-      console.error(FirebaseError,error.message,"FIREE")
+      console.error(FirebaseError, error.message, "FIREE");
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
@@ -110,12 +106,13 @@ const OtpVerification = ({
           headers: {
             Authorization: `Bearer ${tokenn}`,
           },
-        }
+        },
       );
-      logIn(); 
+      logIn();
       const localToken = response.data.token;
-       typeof window !== "undefined" ?localStorage.setItem("localtoken", localToken): null;
-      // localStorage.setItem("localtoken", localToken);
+      typeof window !== "undefined"
+        ? localStorage.setItem("localtoken", localToken)
+        : null;
       console.log("intial token", localStorage.getItem("localtoken"));
       router.push("/");
     } catch (error: any) {
@@ -137,7 +134,6 @@ const OtpVerification = ({
       } else {
         console.error("Request setup error:", error.message);
       }
-      // }
     }
   };
   useEffect(() => {
@@ -168,12 +164,15 @@ const OtpVerification = ({
   return (
     <div className="otpVerification">
       {isOtpSent ? (
-        <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h1 className="text-center text-xl font-normal mb-2">
+        <div className="rounded-lg bg-gray-100 p-4 shadow-md">
+          <h1 className="mb-4 text-center text-2xl font-semibold text-gray-800">
             Enter Verification Code
-          </h1>z
+          </h1>
+          <p className="mb-6 text-center text-sm text-gray-500">
+            A code has been sent to your phone. Please enter it below.
+          </p>
           <div
-            className="flex justify-center items-center mb-6"
+            className="mb-6 flex items-center justify-center"
             onKeyDown={handleCombinedClick2}
           >
             <OTPInput
@@ -187,7 +186,7 @@ const OtpVerification = ({
             />
           </div>
           <button
-            className="w-full bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 rounded-lg font-medium hover:bg-[#e26178] transition duration-300"
+            className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-medium text-white transition duration-300 hover:bg-[#e26178]"
             onClick={handleCombinedClick}
           >
             {verifying ? (
@@ -202,7 +201,7 @@ const OtpVerification = ({
             )}
           </button>
           {errorMessage && (
-            <p className="text-center text-red-500 mt-3">{errorMessage}</p>
+            <p className="mt-3 text-center text-red-500">{errorMessage}</p>
           )}
         </div>
       ) : (
@@ -216,13 +215,13 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            className="mb-4 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 font-medium text-white"
             // className="button-main"
             onClick={handleLoginSubmit}
           >
             {loading ? (
               <>
-                <div className="flex ">
+                <div className="flex">
                   {/* <span>Sending OTP</span> */}
                   {/* <CgSpinner size={20} className="animate-spin" /> */}
                   <Preloader />

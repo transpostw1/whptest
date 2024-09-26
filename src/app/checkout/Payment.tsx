@@ -309,6 +309,7 @@ const Payment: React.FC<PaymentProps> = ({
               width={30}
               height={30}
               objectFit="fill"
+              unoptimized
             />
             Cash On Delivery(COD)
           </label>

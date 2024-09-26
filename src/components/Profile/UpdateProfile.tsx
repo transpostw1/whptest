@@ -62,10 +62,16 @@ const UpdateProfile:React.FC<Props> = ({
       dobYear: "",
       profilePicture: null,
     },
-    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    enableReinitialize: true, 
     onSubmit: async (values: FormValues) => {
       setIsLoading(true);
       setFormError("");
+
+      let dob = null;
+
+      if (values.dobYear && values.dobMonth && values.dobDay) {
+        dob = `${values.dobYear}-${values.dobMonth}-${values.dobDay}`;
+      }
 
       const formattedValues = {
         firstName: values.firstName,
@@ -76,7 +82,7 @@ const UpdateProfile:React.FC<Props> = ({
         gender: values.gender,
         gst_no: values.gst_no,
         pan: values.pan,
-        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        dob,
         profile_picture: values.profilePicture,
       };
 
@@ -239,8 +245,11 @@ const UpdateProfile:React.FC<Props> = ({
                     readOnly
                     {...formik.getFieldProps("email")}
                     value={formik.values.email}
-                    className={`peer block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  />
+                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      formik.errors.email
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } peer focus:border-rose-400 focus:outline-none focus:ring-0`}                  />
                   <label
                     htmlFor="email"
                     className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -391,6 +400,7 @@ const UpdateProfile:React.FC<Props> = ({
                   <div className="mt-1 text-red-500">{formik.errors.email}</div>
                 )}
               </div>
+              <p className="text-center w-full">Date of Birth</p>
               <div className="mb-4 grid grid-cols-3 gap-4">
                 <div className="mb-4">
                   <div className="relative">

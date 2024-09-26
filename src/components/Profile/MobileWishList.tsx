@@ -129,7 +129,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
             <Icon.CaretLeft size={22} />
           </div>
           <div>
-            <p className="font-bold text-xl">WishList</p>
+            <p className="font-bold text-xl">Wishlist</p>
           </div>
         </div>
         <div className="list-product-block relative">

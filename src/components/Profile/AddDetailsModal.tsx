@@ -54,6 +54,12 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       setIsLoading(true);
       setFormError("");
 
+      let dob = null; 
+
+      if (values.dobYear && values.dobMonth && values.dobDay) {
+        dob = `${values.dobYear}-${values.dobMonth}-${values.dobDay}`;
+      }
+
       const formattedValues = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -63,7 +69,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         gender: values.gender,
         gst_no: values.gst_no,
         pan: values.pan,
-        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        dob,
         profile_picture: values.profilePicture,
       };
 
@@ -355,9 +361,13 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               )}
             </div>
           </div>
+          <p className="my-4">Date of Birth</p>
           <div className="grid grid-cols-3 gap-4 mb-4">
+            
             <div className="mb-4">
+              
               <div className="relative">
+                
                 <input
                   id="dobDay"
                   type="text"
@@ -376,8 +386,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               {formik.errors.dobDay && (
                 <div className="text-red-500 mt-1">{formik.errors.dobDay}</div>
               )}
+              
             </div>
+            
             <div className="mb-4">
+              
               <div className="relative">
                 <input
                   id="dobMonth"

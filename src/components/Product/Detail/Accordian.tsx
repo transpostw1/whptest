@@ -174,6 +174,45 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <p>Try At Home</p>
                 </div>
               )}
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Color:
+                    {product?.productDetails?.diamondDetails[0].diamondColor}
+                  </p>
+                </div>
+              )}
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Clarity:
+                    {product?.productDetails?.diamondDetails[0].diamondClarity}
+                  </p>
+                </div>
+              )}
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Color:
+                    {product?.productDetails?.diamondDetails[0].diamondCost}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         ) : null}
@@ -273,9 +312,18 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>
                 <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails != null && (
-                  <p>Diamond</p>
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>Diamond</p>
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
+
                 {product.productDetails?.stoneDetails != null && (
                   <p>Stone Cost</p>
                 )}
@@ -289,11 +337,19 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 {parseInt(product.productDetails.metalWeight) > 0 && (
                   <p>{product.productDetails?.metalWeight} gms</p>
                 )}
-                {product.productDetails?.diamondDetails && (
-                  <p>
-                    {product.productDetails?.diamondDetails[0]?.diamondClarity}
-                  </p>
+
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>{diamond.caratWeight}</p>
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
+
                 {product.productDetails.stoneDetails && <p>-</p>}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountValue && <p>-</p>}
@@ -305,14 +361,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>
                 )}
-                {product.productDetails?.diamondDetails != null && (
-                  <p>
-                    {formatPrice(
-                      parseInt(
-                        product.productDetails?.diamondDetails[0]?.diamondCost,
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>{formatPrice(parseInt(diamond?.diamondCost))}</p>
+                        </div>
                       ),
                     )}
-                  </p>
+                  </div>
                 )}
                 {product.productDetails.stoneDetails != null && (
                   <p>

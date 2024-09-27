@@ -97,6 +97,8 @@ const Payment: React.FC<PaymentProps> = ({
               razorpay_signature,
             } = response;
             const orderData = {
+              isWallet: wallet ? 1 : 0,
+              walletAmount:userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
@@ -204,6 +206,8 @@ const Payment: React.FC<PaymentProps> = ({
         setLoading(true);
         // Prepare the data to be sent to the API
         const orderData = {
+          isWallet: wallet ? 1 : 0,
+          walletAmount:userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,
@@ -245,6 +249,11 @@ const Payment: React.FC<PaymentProps> = ({
             discountedTotal: (totalCart - totalDiscount).toString(),
             shippingCharges: "10",
           },
+          paymentDetails: {
+            paymentId: "0",
+            orderId: "0",
+            signature: "0",
+          },
         };
 
         console.log(orderData, "orderData");
@@ -259,11 +268,11 @@ const Payment: React.FC<PaymentProps> = ({
 
         // Call the onOrderComplete function after the API call is successful
         onOrderComplete(setCartItems);
+        router.push("/profile");
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
         setLoading(false);
-        router.push("/profile");
       }
     } catch (error) {
       console.error(error);
@@ -293,10 +302,10 @@ const Payment: React.FC<PaymentProps> = ({
     <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[50rem]">
       <h1 className="text-2xl">Payment Method</h1>
       <div className="flex flex-col gap-3">
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
           <label
             htmlFor="razorpayPayment"
-            className="flex gap-2 cursor-pointer font-medium"
+            className="flex cursor-pointer gap-2 font-medium"
           >
             <Image
               src="/images/other/upi-icon.png"
@@ -304,6 +313,7 @@ const Payment: React.FC<PaymentProps> = ({
               width={30}
               height={30}
               objectFit="fill"
+              unoptimized
             />
             Cash On Delivery(COD)
           </label>
@@ -312,11 +322,11 @@ const Payment: React.FC<PaymentProps> = ({
             id="razorpayPayment"
             name="paymentOption"
             value="COD"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
+            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
             checked={selectedPaymentMethod === "COD"}
             onChange={handlePaymentMethodChange}
           />
-        </div> */}
+        </div>
         <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
           <label
             htmlFor="razorpayPayment"

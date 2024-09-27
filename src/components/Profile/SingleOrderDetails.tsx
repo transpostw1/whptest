@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
@@ -74,7 +74,13 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   if (loading) {
     return (
       <div className="loading-container flex h-full items-center justify-center">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+        <Image
+          src="/dummy/loader.gif"
+          alt={"loader"}
+          height={50}
+          width={50}
+          unoptimized
+        />
       </div>
     );
   }
@@ -95,39 +101,42 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         </div>
       </div>
       {singleOrder?.map((items: any, index: any) => (
-  <div key={index} className="border-gray items-center border p-4">
-    {items.productDetails.map((product: any, index: any) => (
-      <div className="flex items-center justify-start py-2" key={index}>
-        <div className="flex flex-1">
-          <div className="mr-3">
-            <Image
-              src={product?.imageDetails[0].image_path}
-              alt={"image"}
-              width={85}
-              height={85}
-              className="bg-[#f7f7f7]"
-              unoptimized
-            />
-          </div>
-          <div className="flex flex-col content-start justify-center">
-            <p className="font-semibold">{product?.displayTitle}</p>
-            <p>
-              {product?.metalType}-{product?.metalWeight}
-            </p>
-          </div>
+        <div key={index} className="border-gray items-center border p-4">
+          {items.productDetails.map((product: any, index: any) => (
+            <div className="flex items-center justify-start py-2" key={index}>
+              <div className="flex flex-1">
+                <div className="mr-3">
+                  <Image
+                    src={product?.imageDetails[0].image_path}
+                    alt={"image"}
+                    width={85}
+                    height={85}
+                    className="bg-[#f7f7f7]"
+                    unoptimized
+                  />
+                </div>
+                <div className="flex flex-col content-start justify-center">
+                  <p className="font-semibold">{product?.displayTitle}</p>
+                  <p>
+                    {product?.metalType}-{product?.metalWeight}
+                  </p>
+                </div>
+              </div>
+              <p className="w-20 text-center">
+                {formatPrice(product?.discountedTotal)}
+              </p>
+              <p className="w-12 text-center">{product?.quantity}</p>
+              <div className="w-20 text-right font-semibold">
+                {formatPrice(
+                  parseInt(product?.discountedTotal) *
+                    parseInt(product?.quantity),
+                )}
+              </div>
+            </div>
+          ))}
+          {items?.isReturnable && <button>Return Here</button>}
         </div>
-        <p className="w-20 text-center">{formatPrice(product?.discountedTotal)}</p>
-        <p className="w-12 text-center">{product?.quantity}</p>
-        <div className="w-20 text-right font-semibold">
-          {formatPrice(
-            parseInt(product?.discountedTotal) * parseInt(product?.quantity),
-          )}
-        </div>
-      </div>
-    ))}
-    {items?.isReturnable && <button>Return Here</button>}
-  </div>
-))}
+      ))}
       <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
         Discount Amount:
         {formatPrice(singleOrder[0]?.productDetails[0]?.discountAmount)}
@@ -191,80 +200,83 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </span>
           </p>
         </div>
-        <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
-          <p className="border-gray mb-2 border-b p-2 font-semibold">
-            Order Tracking
-          </p>
-          <div className="relative p-4">
-            <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.orderTracking.map((track: any, index: any) => (
-              <div key={index} className="relative mb-8 flex items-start">
-                <div className="z-10 mr-4">
-                  <div
-                    className={`h-4 w-4 rounded-full ${
-                      index === singleOrder[0].orderTracking.length - 1
-                        ? "bg-green-500"
-                        : "bg-blue-500"
-                    }`}
-                  ></div>
+        {singleOrder[0]?.orderTracking.length > 0 && (
+          <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
+            <p className="border-gray mb-2 border-b p-2 font-semibold">
+              Order Tracking
+            </p>
+            <div className="relative p-4">
+              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+              {singleOrder[0]?.orderTracking.map((track: any, index: any) => (
+                <div key={index} className="relative mb-8 flex items-start">
+                  <div className="z-10 mr-4">
+                    <div
+                      className={`h-4 w-4 rounded-full ${
+                        index === singleOrder[0].orderTracking.length - 1
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {track.trackingOrderStatusName}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(track.created_at).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        // hour: '2-digit',
+                        // minute: '2-digit',
+                        // hour12: false
+                      })}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold">
-                    {track.trackingOrderStatusName}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(track.created_at).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      // hour: '2-digit',
-                      // minute: '2-digit',
-                      // hour12: false
-                    })}
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
-          <p className="border-gray mb-2 border-b p-2 font-semibold">
-            E-ship Tracking
-          </p>
-          <div className="relative p-4">
-            <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
-              <div key={index} className="relative mb-8 flex items-start">
-                <div className="z-10 mr-4">
-                  <div
-                    className={`h-4 w-4 rounded-full ${
-                      index === singleOrder[0].eshipTracking.length - 1
-                        ? "bg-green-500"
-                        : "bg-blue-500"
-                    }`}
-                  ></div>
+        )}
+        {singleOrder[0]?.eshipTracking.length > 0 && (
+          <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
+            <p className="border-gray mb-2 border-b p-2 font-semibold">
+              E-ship Tracking
+            </p>
+            <div className="relative p-4">
+              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+              {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
+                <div key={index} className="relative mb-8 flex items-start">
+                  <div className="z-10 mr-4">
+                    <div
+                      className={`h-4 w-4 rounded-full ${
+                        index === singleOrder[0].eshipTracking.length - 1
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {track.trackingOrderStatusName}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(track.created_at).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        // hour: '2-digit',
+                        // minute: '2-digit',
+                        // hour12: false
+                      })}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold">
-                    {track.trackingOrderStatusName}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(track.created_at).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      // hour: '2-digit',
-                      // minute: '2-digit',
-                      // hour12: false
-                    })}
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}  
       </div>
-    
 
       {singleOrder[0]?.orderStatus === "4" ||
       singleOrder[0]?.orderStatus === "5" ? null : (

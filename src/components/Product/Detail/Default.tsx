@@ -34,7 +34,6 @@ import ZoomableImage from "./ZoomableImage";
 import { useCurrency } from "@/context/CurrencyContext";
 import { IoCameraOutline } from "react-icons/io5";
 
-
 interface Props {
   productId: string | number | any;
 }
@@ -180,13 +179,17 @@ const Default: React.FC<Props> = ({ productId }) => {
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
-      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+      if (
+        document.querySelector(
+          `script[src="https://camweara.com/integrations/camweara_api.js"]`,
+        )
+      ) {
         resolve(); // Script already loaded
         return;
       }
 
       // Create the script tag
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
         // Give some time for the function to be available
@@ -208,7 +211,9 @@ const Default: React.FC<Props> = ({ productId }) => {
   const fetchSkusList = async () => {
     try {
       await loadScript(); // Ensure the script is loaded
-      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      const skus = await window.getSkusListWithTryOn({
+        companyName: "whpjewellers",
+      });
       setSkuList(skus); // Update SKU list state
       console.log(skuList);
     } catch (error) {
@@ -216,7 +221,10 @@ const Default: React.FC<Props> = ({ productId }) => {
     }
   };
 
-  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+  const loadTryOnButton = async (
+    sku: string,
+    productId: string,
+  ): Promise<void> => {
     return new Promise<void>(async (resolve, reject) => {
       const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
 
@@ -225,24 +233,38 @@ const Default: React.FC<Props> = ({ productId }) => {
           try {
             window.loadTryOnButton({
               psku: sku,
-              page: 'product',
-              company: 'whpjewellers',
-              buynow: { enable: 'false' },
-              prependButton: { class: `try_on`, id: `product-form-${productId}` },
-              styles: {
-                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px', display: 'none' }, // Hide the auto-loaded button
-                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
-                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              page: "product",
+              company: "whpjewellers",
+              buynow: { enable: "false" },
+              prependButton: {
+                class: `try_on`,
+                id: `product-form-${productId}`,
               },
-
+              styles: {
+                tryonbutton: {
+                  backgroundColor: "white",
+                  color: "white",
+                  border: "1px solid #white",
+                  borderRadius: "25px",
+                  display: "none",
+                }, // Hide the auto-loaded button
+                tryonbuttonHover: {
+                  backgroundColor: "#white",
+                  color: "white",
+                  borderRadius: "25px",
+                },
+                MBtryonbutton: { width: "50%", borderRadius: "25px" },
+              },
             });
             console.log("Button Created");
             // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
-              const tryonButton = document.getElementById('tryonButton') || document.getElementById('MB_tryonButton');
+              const tryonButton =
+                document.getElementById("tryonButton") ||
+                document.getElementById("MB_tryonButton");
               if (tryonButton) {
                 // Hide the button
-                tryonButton.style.display = 'none';
+                tryonButton.style.display = "none";
                 console.log("Button Clicked");
                 // Automatically click the button
                 tryonButton.click();
@@ -254,37 +276,39 @@ const Default: React.FC<Props> = ({ productId }) => {
               }
             }, 100); // Check every 100ms for the button
           } catch (error) {
-            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+            reject(
+              new Error(
+                `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
+              ),
+            );
           }
         });
       };
 
       // Check if the script is already loaded
-      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      const existingScript = document.querySelector(
+        `script[src="${scriptSrc}"]`,
+      );
       if (existingScript) {
         await loadButton(); // Await the button loading if script is already loaded
       } else {
         // Append the script and load the button after it's loaded
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.src = scriptSrc;
         script.onload = async () => {
           await loadButton(); // Await loading the button after the script is loaded
         };
-        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        script.onerror = () =>
+          reject(new Error("Failed to load Camweara script"));
         document.body.appendChild(script);
       }
     });
   };
 
-
-
-
   useEffect(() => {
     fetchSkusList();
     singleProduct();
   }, []);
-
-
 
   const handleNewVariant = async (newUrl: string) => {
     try {
@@ -376,13 +400,17 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
-            <div className="bg-[#f7f7f7] relative"> {/* Make this div relative */}
-              {/* Try ON Button positioned in the top right corner of the slider */}
+            <div className="relative bg-[#f7f7f7]">
               {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
-                  className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
-                  onClick={() => loadTryOnButton(data?.productDetails.SKU, data?.productDetails.productId)} // Uncomment if you want to enable button click
+                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                  onClick={() =>
+                    loadTryOnButton(
+                      data?.productDetails.SKU,
+                      data?.productDetails.productId.toString(),
+                    )
+                  } // Uncomment if you want to enable button click
                 >
                   <div className="flex items-center justify-between">
                     <IoCameraOutline />
@@ -391,16 +419,27 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </div>
               )}
               <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                  <div key={index} className="flex h-full items-center justify-center">
-                    <div className="h-[600px] max-w-full max-md:h-[300px]">
-                      <ZoomableImage src={image.image_path} alt="Product Image" />
+                {data?.productDetails?.imageDetails.map(
+                  (image: any, index: any) => (
+                    <div
+                      key={index}
+                      className="flex h-full items-center justify-center"
+                    >
+                      <div className="h-[600px] max-w-full max-md:h-[300px]">
+                        <ZoomableImage
+                          src={image.image_path}
+                          alt="Product Image"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ),
+                )}
                 {data?.productDetails?.videoDetails?.length > 0 &&
                   data.productDetails.videoDetails.map((item: any) => (
-                    <div key={item.order} className="flex h-full items-center justify-center">
+                    <div
+                      key={item.order}
+                      className="flex h-full items-center justify-center"
+                    >
                       <video
                         className="max-h-full max-w-full object-contain"
                         src={item.video_path}
@@ -411,7 +450,6 @@ const Default: React.FC<Props> = ({ productId }) => {
                     </div>
                   ))}
               </Slider>
-
               <div className="relative m-auto h-full w-3/5">
                 <Slider
                   {...settingsThumbnails}
@@ -420,19 +458,20 @@ const Default: React.FC<Props> = ({ productId }) => {
                     setNav2(slider);
                   }}
                 >
-                  {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                    <div key={index}>
-                      <Image
-                        src={image?.image_path}
-                        alt={data?.productDetails?.title}
-                        width={100}
-                        height={100}
-                        unoptimized
-                        className="mx-3 cursor-pointer border"
-                        
-                      />
-                    </div>
-                  ))}
+                  {data?.productDetails?.imageDetails.map(
+                    (image: any, index: any) => (
+                      <div key={index}>
+                        <Image
+                          src={image?.image_path}
+                          alt={data?.productDetails?.title}
+                          width={100}
+                          height={100}
+                          unoptimized
+                          className="mx-3 cursor-pointer border"
+                        />
+                      </div>
+                    ),
+                  )}
                   {data?.productDetails?.videoDetails?.length > 0 &&
                     data.productDetails.videoDetails.map((item: any) => (
                       <video
@@ -445,14 +484,19 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </Slider>
 
                 <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
-                  <Icon.CaretRight onClick={() => sliderRef.slickNext()} size={25} />
+                  <Icon.CaretRight
+                    onClick={() => sliderRef.slickNext()}
+                    size={25}
+                  />
                 </div>
                 <div className="absolute -left-12 top-6 cursor-pointer">
-                  <Icon.CaretLeft onClick={() => sliderRef.slickPrev()} size={25} />
+                  <Icon.CaretLeft
+                    onClick={() => sliderRef.slickPrev()}
+                    size={25}
+                  />
                 </div>
               </div>
             </div>
-
           )}
         </div>
         <div className="p-4 sm:w-full lg:ml-6 lg:w-1/2">
@@ -460,8 +504,8 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex justify-between w-full">
-                <p className="font-[500] text-3xl">
+              <div className="flex w-full justify-between">
+                <p className="text-3xl font-[500]">
                   {data?.productDetails.displayTitle}
                 </p>
 
@@ -511,9 +555,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               )}
             </div>
-
           )}
-
 
           {data?.productDetails?.variantId !== "" && (
             <DropDown
@@ -522,15 +564,21 @@ const Default: React.FC<Props> = ({ productId }) => {
             />
           )}
           {data?.productDetails?.productQty !== null &&
-            data?.productDetails?.productQty < 5 && (
-              <p className="mt-2">
-                Only{" "}
-                <span className="text-[#e26178]">
-                  {data?.productDetails?.productQty} pieces
-                </span>{" "}
-                left!
+            (data?.productDetails?.productQty === 0 ? (
+              <p className="mt-2 text-[#e26178]">
+                This product is out of stock.
               </p>
-            )}
+            ) : (
+              data?.productDetails?.productQty < 5 && (
+                <p className="mt-2">
+                  Only{" "}
+                  <span className="text-[#e26178]">
+                    {data?.productDetails?.productQty} pieces
+                  </span>{" "}
+                  left!
+                </p>
+              )
+            ))}
           <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">

@@ -15,7 +15,7 @@ import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql,  HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
   AddressBook,

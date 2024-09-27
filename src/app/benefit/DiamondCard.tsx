@@ -8,6 +8,8 @@ import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
 import axios from "axios";
 import { baseUrl2 } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 interface DiamondCardProps {
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
@@ -66,18 +68,33 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     if (monthlyDeposit < 500) {
       setShowModal(true);
     } else {
-      const dateOfBirth = new Date(userDetails?.dob);
       console.log("Enrolling with amount:", monthlyDeposit);
       try {
-        const response = await axios.post(
-          `${baseUrl2}/verify-pan`,
-          {
-            name: `${userDetails?.firstname} ${userDetails?.lastname}`,
-            dob: dateOfBirth.toLocaleDateString("en-GB"),
-            pan_number: `bxzpt2731c`,
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+
+        const VERIFY_PAN = gql`
+          mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
+            verifyPAN(verifyPanInput: $verifyPanInput) {
+              success
+              message
+            }
+          }
+        `;
+        const { data } = await client.mutate({
+          mutation: VERIFY_PAN,
+          variables: {
+            verifyPanInput: {  
+              pan_number: "EDWPP8777C",
+              name: "Rutuja Parab"
+            },
           },
-        );
-        console.log("REsponse from pan verification",response);
+          fetchPolicy: "no-cache",
+        });
+      
+        console.log(data);
         const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
 
         if (enrollmentId) {

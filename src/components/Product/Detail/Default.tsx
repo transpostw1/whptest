@@ -565,13 +565,13 @@ const Default: React.FC<Props> = ({ productId }) => {
               )}
             </div>
           )}
-          <div>
-            <div>
-              <p>SKU:</p>
-              <p>{data?.productDetails?.SKU}</p>
+          <div className="flex">
+            <div className="p-2 border-r-2">
+              <p className="font-bold text-lg">SKU:</p>
+              <p className="uppercase">{data?.productDetails?.SKU}</p>
             </div>
-            <div>
-              <p>Availability</p>
+            <div className="p-2">
+              <p className="font-bold text-lg">Availability:</p>
               {data?.productDetails?.productQty > 1 ? (
                 <p>In Stock</p>
               ) : (

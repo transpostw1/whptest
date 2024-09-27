@@ -35,7 +35,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
-
+  //function to handle the toggle of the accordian every section is handle by this function
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };

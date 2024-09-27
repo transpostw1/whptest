@@ -593,7 +593,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="mt-2">
                   Only{" "}
                   <span className="text-[#e26178]">
-                    {data?.productDetails?.productQty} pieces
+                    {data?.productDetails?.productQty} Pieces
                   </span>{" "}
                   left!
                 </p>

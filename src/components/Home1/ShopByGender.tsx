@@ -25,6 +25,7 @@ const ShopByGender = () => {
           alt="womengender"
           width={500}
           height={500}
+          unoptimized
         />
       ),
     },
@@ -41,6 +42,7 @@ const ShopByGender = () => {
           alt="mensgender"
           width={500}
           height={1000}
+          unoptimized
         />
       ),
     },
@@ -56,6 +58,7 @@ const ShopByGender = () => {
           alt="kidsgender"
           width={500}
           height={1000}
+          unoptimized
         />
       ),
     },

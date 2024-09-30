@@ -11,7 +11,7 @@ import { useCategory } from "@/context/CategoryContex";
 
 const ShopByGender = () => {
   const { setCustomcategory } = useCategory();
-  const swiperRef = useRef<any>();//ref for silder info
+  const swiperRef = useRef<any>();
   let categories = [
     {
       id: 1,

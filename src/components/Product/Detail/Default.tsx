@@ -567,12 +567,12 @@ const Default: React.FC<Props> = ({ productId }) => {
           )}
           <div className="flex">
             <div className="p-2 border-r-2">
-              <p className="font-bold text-lg">SKU:</p>
+              <p className="font-semibold text-lg">SKU:</p>
               <p className="uppercase">{data?.productDetails?.SKU}</p>
             </div>
             <div className="p-2">
-              <p className="font-bold text-lg">Availability:</p>
-              {data?.productDetails?.productQty > 1 ? (
+              <p className="font-semibold text-lg">Availability:</p>
+              {data?.productDetails?.productQty > 0 ? (
                 <p>In Stock</p>
               ) : (
                 <p>Make To Order</p>

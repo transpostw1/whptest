@@ -43,10 +43,13 @@ interface Job {
 interface BlogContextType {
   blogData: Blog[];
   aboutusData: Showcase | null;
-  termsData:Showcase|null;
-  diamondData:Showcase|null;
-  gemstoneData:Showcase|null;
-  preciousmetalData:Showcase|null;
+  termsData: Showcase | null;
+  diamondData: Showcase | null;
+  gemstoneData: Showcase | null;
+  preciousmetalData: Showcase | null;
+  ringSizeGuide: any;
+  bangleSizeGuide: any;
+  chainSizeGuide: any;
   careersData: Job[];
   jobCategories: string[];
   loading: boolean;
@@ -115,9 +118,14 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   const [jobCategories, setJobCategories] = useState<string[]>([]);
   const [aboutusData, setAboutusData] = useState<Showcase | null>(null);
   const [termsData, setTermsData] = useState<Showcase | null>(null);
-  const [diamondData,setDiamondData]=useState<Showcase|null>(null);
-  const [gemstoneData,setGemstoneData]=useState<Showcase|null>(null);
-  const [preciousmetalData,setPreciousmetalData]=useState<Showcase|null>(null);
+  const [diamondData, setDiamondData] = useState<Showcase | null>(null);
+  const [gemstoneData, setGemstoneData] = useState<Showcase | null>(null);
+  const [preciousmetalData, setPreciousmetalData] = useState<Showcase | null>(
+    null,
+  );
+  const [ringSizeGuide, setRingSizeGuide] = useState<Showcase | null>(null);
+  const [bangleSizeGuide, setBangleSizeGuide] = useState<Showcase | null>(null);
+  const [chainSizeGuide, setChainSizeGuide] = useState<Showcase | null>(null);
 
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -146,51 +154,63 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-  
+
       const { data } = await client.query({
         query: GetAllShowCase,
       });
-  
+
       const aboutUsShowcase = data.getAllShowCase.find(
-        (showcase: Showcase) => showcase.url === "about-whpjewellers"
+        (showcase: Showcase) => showcase.url === "about-whpjewellers",
       );
-  
+
       const DiamondShowcase = data.getAllShowCase.find(
         (showcase: Showcase) => showcase.url === "diamond-guide",
       );
+      const RingSizeGuide = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "ring-size-guide",
+      );
+      const ChainSizeGuide = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "chain-size-guide",
+      );
+      const BangleSizeGuide = data.getAllShowCase.find(
+        (showcase: Showcase) => showcase.url === "bangle-size-guide",
+      );
       const GemsShowcase = data.getAllShowCase.find(
-        (showcase: Showcase) => showcase.url ==="gemstone-guide",
+        (showcase: Showcase) => showcase.url === "gemstone-guide",
       );
       const PreciousShowcase = data.getAllShowCase.find(
-        (showcase: Showcase) => showcase.url ==="precious-metal-guide",
+        (showcase: Showcase) => showcase.url === "precious-metal-guide",
       );
-  
-      
+
       const termsShowcase = data.getAllShowCase.find(
-        (showcase: Showcase) => showcase.url === "terms-and-condition"
+        (showcase: Showcase) => showcase.url === "terms-and-condition",
       );
-  
+
       if (aboutUsShowcase) {
         setAboutusData(aboutUsShowcase);
       }
-  
+
       if (termsShowcase) {
         setTermsData(termsShowcase);
       }
-      if(DiamondShowcase){
-        setDiamondData(DiamondShowcase)
+      if (DiamondShowcase) {
+        setDiamondData(DiamondShowcase);
       }
-      if(GemsShowcase){
-        setGemstoneData(GemsShowcase)
+      if (GemsShowcase) {
+        setGemstoneData(GemsShowcase);
       }
-      if (PreciousShowcase){
+      if (PreciousShowcase) {
         setPreciousmetalData(PreciousShowcase);
       }
-
-
-
-
-
+      if (RingSizeGuide) {
+        setRingSizeGuide(RingSizeGuide);
+      }
+      if (ChainSizeGuide) {
+        setChainSizeGuide(ChainSizeGuide);
+      }
+      if (BangleSizeGuide) {
+        setBangleSizeGuide(BangleSizeGuide);
+      }
     } catch (error) {
       console.error("Error fetching showcase data", error);
     }
@@ -207,7 +227,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
       setCareersData(data.getAllJobs);
       const categories = data.getAllJobs.map((job: Job) => job.category);
       setJobCategories(categories);
-      console.log(data.getAllJobs)
+      console.log(data.getAllJobs);
       console.log(careersData, "careers data");
       console.log(jobCategories, "job categories");
     } catch (error) {
@@ -226,7 +246,25 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   }, [jobCategories]);
 
   return (
-    <BlogContext.Provider value={{ blogData, aboutusData,termsData, careersData,diamondData,gemstoneData,preciousmetalData, jobCategories, loading, selectedUrl, setSelectedUrl, fetchBlogData }}>
+    <BlogContext.Provider
+      value={{
+        blogData,
+        aboutusData,
+        termsData,
+        careersData,
+        diamondData,
+        gemstoneData,
+        preciousmetalData,
+        ringSizeGuide,
+        chainSizeGuide,
+        bangleSizeGuide,
+        jobCategories,
+        loading,
+        selectedUrl,
+        setSelectedUrl,
+        fetchBlogData,
+      }}
+    >
       {children}
     </BlogContext.Provider>
   );

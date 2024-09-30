@@ -398,13 +398,105 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
         {showAccordian === 3 ? (
           <>
-            {isMobile ? (
-              <>
-                <MobileSizeGuide />
-              </>
-            ) : (
-              <div className="w-[80%] rounded-md text-center">
-                <table className="mt-5 bg-[#f7f7f7]">
+            <div className="w-[100%] rounded-md text-center">
+              {product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("ring") ? (
+                <>
+                  <h3 className="text-lg text-center">
+                    Discover your perfect ring size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm text-center">
+                    Our guide helps you find the perfect ring size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your ring.
+                  </p>
+                </>
+              ) : product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("chain") ? (
+                <>
+                  <h3 className="text-lg">
+                    Discover your perfect chain size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm">
+                    Our guide helps you find the perfect chain size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your chain.
+                  </p>
+                </>
+              ) : product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bracelet") ||
+                product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bangle") ? (
+                <>
+                  <h3 className="text-lg">
+                    Discover your perfect bangle size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm">
+                    Our guide helps you find the perfect bangle size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your bangle.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-lg">
+                    Discover your perfect ring size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm">
+                    Our guide helps you find the perfect ring size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your ring.
+                  </p>
+                </>
+              )}
+              {product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("ring") && (
+                <Link
+                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
+                  href={"/ring-size-guide"}
+                >
+                  <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                    Know More
+                  </button>
+                </Link>
+              )}
+              {product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("chain") && (
+                <Link
+                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
+                  href={"/chain-size-guide"}
+                >
+                  <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                    Know More
+                  </button>
+                </Link>
+              )}
+              {(product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("bracelet") ||
+                product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bangle")) && (
+                <Link
+                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
+                  href={"/bangle-size-guide"}
+                >
+                  <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                    Know More
+                  </button>
+                </Link>
+              )}
+              {/* <table className="mt-5 bg-[#f7f7f7]">
                   <tr className="">
                     <td className="border-b-2 border-r-2 border-[#F0ECED] p-4">
                       Size
@@ -445,9 +537,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     <td className="border-r-2 border-[#F0ECED] p-2">6.5</td>
                     <td className="rounded-b-lg p-2">7.85</td>
                   </tr>
-                </table>
-              </div>
-            )}
+                </table> */}
+            </div>
           </>
         ) : null}
       </div>
@@ -481,7 +572,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>Diamond ({diamond.diamondColor}-{diamond.diamondClarity})</p>
+                          <p>
+                            Diamond ({diamond.diamondColor}-
+                            {diamond.diamondClarity})
+                          </p>
                         </div>
                       ),
                     )}
@@ -508,7 +602,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       (diamond: any, index: number) => (
                         <div key={index}>
                           <p>
-                            {diamond.caratWeight} ct ({diamond.diamondQuantity} Qty)
+                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
+                            Qty)
                           </p>
                         </div>
                       ),

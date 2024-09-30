@@ -275,7 +275,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 buttonResolve(); // Resolve after the button is clicked
               }
             }, 100); // Check every 100ms for the button
-          } catch (error) {
+          } catch (error: any) {
             reject(
               new Error(
                 `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
@@ -400,19 +400,19 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
-            <div className="relative bg-[#f7f7f7]">
+            <div className="relative">
               {skuList.includes(data?.productDetails.SKU) && (
                 <div
-                  id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
-                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                  id={`product-form-${data?.productDetails.productId}`}
+                  className="try_on flex w-full cursor-pointer items-center justify-between"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
                       data?.productDetails.productId.toString(),
                     )
-                  } // Uncomment if you want to enable button click
+                  }
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
                     <p className="ps-1 text-sm">Virtually Try On</p>
                   </div>
@@ -566,13 +566,13 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
           <div className="flex">
-            <div className="p-2 border-r-2">
-              <p className="font-semibold text-lg">SKU:</p>
+            <div className="border-r-2 p-2">
+              <p className="text-lg font-bold">SKU:</p>
               <p className="uppercase">{data?.productDetails?.SKU}</p>
             </div>
             <div className="p-2">
-              <p className="font-semibold text-lg">Availability:</p>
-              {data?.productDetails?.productQty > 0 ? (
+              <p className="text-lg font-bold">Availability:</p>
+              {data?.productDetails?.productQty > 1 ? (
                 <p>In Stock</p>
               ) : (
                 <p>Make To Order</p>

@@ -90,7 +90,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "EDWPP8777C",
+              pan_number: "BXZPT2731C",
               name: "Rutuja Parab"
             },
           },
@@ -99,10 +99,12 @@ const GoldCard: React.FC<GoldCardProps> = ({
       
         console.log(data);
         setResponseFromPanVerificationApi(data.verifyPAN.success);
-      
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
+
         if (enrollmentId && data.verifyPAN.success) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
+        }else{
+          setShowModal(true);
         }
       } catch (error) {
         setShowModal(true);

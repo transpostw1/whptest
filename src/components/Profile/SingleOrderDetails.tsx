@@ -278,8 +278,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         )}  
       </div>
 
-      {singleOrder[0]?.orderStatus === "4" ||
-      singleOrder[0]?.orderStatus === "5" ? null : (
+      {parseInt(singleOrder[0]?.orderStatus) > 3 ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="rounded-sm bg-[#e26178] px-3 py-2 text-white">
             Order Cancel

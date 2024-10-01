@@ -11,7 +11,9 @@ import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-
+import { useCurrency } from "@/context/CurrencyContext";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react";
 interface PaymentProps {
   wallet: any;
   orderPlaced: boolean;
@@ -49,14 +51,31 @@ const Payment: React.FC<PaymentProps> = ({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { removeFromCart } = useCart();
+  const { formatPrice } = useCurrency();
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
   const handleWalletPayment = () => {
     setWalletPayment("whp_Wallet");
   };
   const closeModal = () => {
     setIsOpen(false);
-    router.push("/profile");
   };
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -172,7 +191,6 @@ const Payment: React.FC<PaymentProps> = ({
             console.error("Error placing order:", error);
           } finally {
             setLoading(false);
-            router.push("/profile");
           }
         },
         prefill: {
@@ -455,6 +473,24 @@ const Payment: React.FC<PaymentProps> = ({
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+      {isMobile && component=="Payment" && (
+        <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
+          <div>
+            <p className="text-[18px] font-medium">{formatPrice(totalCart - totalDiscount)}</p>
+            <Link href="#order-summary">
+              <p className="cursor-pointer text-[12px] font-medium text-[#e26178]">
+                View Order Summary
+              </p>
+            </Link>
+          </div>
+          <div className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white">
+            <button className="">Pay Now</button>
+            <span>
+              <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
+            </span>
           </div>
         </div>
       )}

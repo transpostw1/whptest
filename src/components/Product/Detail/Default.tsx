@@ -47,7 +47,11 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const { formatPrice } = useCurrency();
   const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
   // const { recentlyViewedProducts, saveToRecentlyViewed } =
   //   useRecentlyViewedProducts();
 
@@ -529,6 +533,27 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
+              <p
+                className={`text-[#e26178] ${isExpanded ? "" : "line-clamp-2"}`}
+              >
+                {data?.productDetails?.shortDesc}
+              </p>
+              {!isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#E26178]"
+                >
+                  ...read more
+                </span>
+              )}
+              {isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#e26178] hover:text-black"
+                >
+                  show less
+                </span>
+              )}
               {data?.productDetails?.review.length !== 0 && (
                 <div className="mb-2 flex flex-wrap">
                   <div>
@@ -553,10 +578,11 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <span className="ml-3 text-[#aa9e9e] line-through">
                     {formatPrice(parseInt(data?.productDetails?.productPrice))}
                   </span>
+                  {parseInt(data?.productDetails?.discountValue)>0&&(
                   <span className="ml-3 text-[#e26178] underline">
                     {data?.productDetails.discountValue}% OFF on{" "}
                     {data?.productDetails.discountCategory}
-                  </span>
+                  </span>)}
                 </>
               ) : (
                 <span className="text-2xl font-extrabold">
@@ -572,7 +598,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
             <div className="p-2">
               <p className="text-lg font-bold">Availability:</p>
-              {data?.productDetails?.productQty > 1 ? (
+              {data?.productDetails?.productQty > 0 ? (
                 <p>In Stock</p>
               ) : (
                 <p>Make To Order</p>

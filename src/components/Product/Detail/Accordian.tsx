@@ -119,6 +119,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         {showAccordian === 2 ? (
           <div>
             <div className="mt-5">{product?.productDetails?.longDesc}</div>
+            {/* <div className="mt-5">{product?.productDetails?.shortDesc}</div> */}
             {/* <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
               <div className="flex flex-col items-center p-2 text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
@@ -401,13 +402,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <div className="w-[100%] rounded-md text-center">
               {product.productDetails.displayTitle
                 .toLowerCase()
-                .includes("ring") ? (
+                .includes("ring") &&
+              !product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("earrings") ? (
                 <>
-                  <h3 className="text-lg text-center">
+                  <h3 className="text-center text-lg">
                     Discover your perfect ring size with our easy-to-follow
                     guide
                   </h3>
-                  <p className="mt-2 text-sm text-center">
+                  <p className="mt-2 text-center text-sm">
                     Our guide helps you find the perfect ring size for your
                     unique needs. Simply click on Know More to find the right
                     size for your ring.
@@ -446,34 +450,29 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </>
               ) : (
                 <>
-                  <h3 className="text-lg">
-                    Discover your perfect ring size with our easy-to-follow
-                    guide
-                  </h3>
-                  <p className="mt-2 text-sm">
-                    Our guide helps you find the perfect ring size for your
-                    unique needs. Simply click on Know More to find the right
-                    size for your ring.
-                  </p>
+                  
                 </>
               )}
               {product.productDetails.displayTitle
                 .toLowerCase()
-                .includes("ring") && (
-                <Link
-                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
-                  href={"/ring-size-guide"}
-                >
-                  <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                    Know More
-                  </button>
-                </Link>
-              )}
+                .includes("ring") &&
+                !product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("earrings") && (
+                  <Link
+                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                    href={"/ring-size-guide"}
+                  >
+                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                      Know More
+                    </button>
+                  </Link>
+                )}
               {product.productDetails.displayTitle
                 .toLowerCase()
                 .includes("chain") && (
                 <Link
-                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
+                  className="mt-2 cursor-pointer rounded-xl text-start text-sm"
                   href={"/chain-size-guide"}
                 >
                   <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
@@ -488,7 +487,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   .toLowerCase()
                   .includes("bangle")) && (
                 <Link
-                  className="cursor-pointer rounded-xl text-start text-sm mt-2"
+                  className="mt-2 cursor-pointer rounded-xl text-start text-sm"
                   href={"/bangle-size-guide"}
                 >
                   <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">

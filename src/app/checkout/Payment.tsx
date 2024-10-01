@@ -18,6 +18,7 @@ interface PaymentProps {
   wallet: any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
+  component: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
   onOrderComplete: (items: any) => void;
@@ -36,6 +37,7 @@ const Payment: React.FC<PaymentProps> = ({
   selectedPaymentMethod,
   handlePaymentMethodChange,
   totalCart,
+  component,
   onOrderComplete,
   selectedShippingAddress,
   selectedBillingAddress,
@@ -318,59 +320,60 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;
   return (
-    <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[50rem]">
-      <h1 className="text-2xl">Payment Method</h1>
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
-          <label
-            htmlFor="razorpayPayment"
-            className="flex cursor-pointer gap-2 font-medium"
-          >
-            <Image
-              src="/images/other/upi-icon.png"
-              alt="upi"
-              width={30}
-              height={30}
-              objectFit="fill"
-              unoptimized
+    <div>
+      <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[41rem]">
+        <h1 className="text-2xl">Payment Method</h1>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+            <label
+              htmlFor="razorpayPayment"
+              className="flex cursor-pointer gap-2 font-medium"
+            >
+              <Image
+                src="/images/other/cash_on_delivery2.png"
+                alt="upi"
+                width={50}
+                height={30}
+                objectFit="fill"
+                unoptimized
+              />
+              Cash On Delivery(COD)
+            </label>
+            <input
+              type="radio"
+              id="razorpayPayment"
+              name="paymentOption"
+              value="COD"
+              className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
+              checked={selectedPaymentMethod === "COD"}
+              onChange={handlePaymentMethodChange}
             />
-            Cash On Delivery(COD)
-          </label>
-          <input
-            type="radio"
-            id="razorpayPayment"
-            name="paymentOption"
-            value="COD"
-            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
-            checked={selectedPaymentMethod === "COD"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div>
-        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
-          <label
-            htmlFor="razorpayPayment"
-            className="flex cursor-pointer gap-2 font-medium"
-          >
-            <Image
-              src="/images/other/upi-icon.png"
-              alt="upi"
-              width={30}
-              height={30}
-              unoptimized
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+            <label
+              htmlFor="razorpayPayment"
+              className="flex cursor-pointer gap-2 font-medium"
+            >
+              <Image
+                src="/images/other/upi-icon.png"
+                alt="upi"
+                width={30}
+                height={30}
+                unoptimized
+              />
+              Razorpay (UPI, Cards)
+            </label>
+            <input
+              type="radio"
+              id="razorpayPayment"
+              name="paymentOption"
+              value="razorpay"
+              className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
+              checked={selectedPaymentMethod === "razorpay"}
+              onChange={handlePaymentMethodChange}
             />
-            Razorpay (UPI, Cards)
-          </label>
-          <input
-            type="radio"
-            id="razorpayPayment"
-            name="paymentOption"
-            value="razorpay"
-            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
-            checked={selectedPaymentMethod === "razorpay"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div>
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+          </div>
+          {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="otherPaymentGateway"
             className="flex gap-2 cursor-pointer font-medium"
@@ -388,7 +391,7 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+          {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="paypalPayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -412,7 +415,7 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+          {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="stripePayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -436,8 +439,8 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-      </div>
-      {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
+        </div>
+        {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
       <div>
         <div>
           -10% off on HDFC Bank Credit Card. Use{" "}
@@ -450,19 +453,21 @@ const Payment: React.FC<PaymentProps> = ({
           <span className="text-red-600 underline">View more Offers</span>
         </div>
       </div> */}
-      <button
-        onClick={handlePayment}
-        className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white"
-        disabled={
-          !selectedShippingAddress ||
-          !selectedBillingAddress ||
-          !isValidTotalCart ||
-          !selectedPaymentMethod
-        }
-      >
-        Place Order
-      </button>
-      {isOpen && (
+        {!isMobile && (
+          <button
+            onClick={handlePayment}
+            className="cursor-pointer rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+            disabled={
+              !selectedShippingAddress ||
+              !selectedBillingAddress ||
+              !isValidTotalCart ||
+              !selectedPaymentMethod
+            }
+          >
+            Place Order
+          </button>
+        )}
+        {/* {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
             <h2 className="mb-4 text-2xl font-semibold">Thank you!</h2>
@@ -475,19 +480,35 @@ const Payment: React.FC<PaymentProps> = ({
             </button>
           </div>
         </div>
-      )}
-      {isMobile && component=="Payment" && (
+      )} */}
+      </div>
+      {isMobile && component == "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
-            <p className="text-[18px] font-medium">{formatPrice(totalCart - totalDiscount)}</p>
+            <p className="text-[18px] font-medium">
+              {formatPrice(totalCart - totalDiscount)}
+            </p>
             <Link href="#order-summary">
               <p className="cursor-pointer text-[12px] font-medium text-[#e26178]">
                 View Order Summary
               </p>
             </Link>
           </div>
-          <div className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white">
-            <button className="">Pay Now</button>
+          <div
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            onClick={handlePayment}
+          >
+            <button
+              className=""
+              disabled={
+                !selectedShippingAddress ||
+                !selectedBillingAddress ||
+                !isValidTotalCart ||
+                !selectedPaymentMethod
+              }
+            >
+              Pay Now
+            </button>
             <span>
               <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
             </span>

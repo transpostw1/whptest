@@ -711,6 +711,7 @@ const Checkout: React.FC = () => {
                   onOrderComplete={(setCartItems) =>
                     handleOrderComplete(setCartItems, removeFromCart)
                   }
+                  component={selectedComponent}
                   wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}

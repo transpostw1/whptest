@@ -42,9 +42,9 @@ const ProductSlider = () => {
           link,
           cache: new InMemoryCache(),
         });
-        const Buy_Again = gql`
-          query GetBuyAgainProducts {
-            getBuyAgainProducts {
+        const Recetly_View_Products = gql`
+          query GetRecentProducts {
+            getRecentProducts {
               productId
               url
               SKU
@@ -64,11 +64,9 @@ const ProductSlider = () => {
           }
         `;
         const { data } = await client.query({
-          query: Buy_Again,
+          query: Recetly_View_Products,
         });
-        // const response = await axios.get(`${baseUrl}/best-sellers`);
-        setData(await data.getBuyAgainProducts);
-        console.log("BUY_AGAIN", data.getBuyAgainProducts);
+        setData(await data.getRecentProducts);
       } catch (error) {
         console.log();
       } finally {

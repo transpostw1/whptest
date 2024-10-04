@@ -95,6 +95,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           productQty
           attributeId
           preSalesProductQueries
+          makeToOrder
           isReplaceable
           isReturnable
           isInternationalShippingAvailable

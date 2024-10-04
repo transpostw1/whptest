@@ -124,6 +124,7 @@ interface ProductDetails {
   preSalesProductQueries: string | null;
   isReplaceable: number;
   isReturnable: number;
+  makeToOrder:boolean;
   isInternationalShippingAvailable: number;
   customizationAvailability: number;
   fastDelivery: number;

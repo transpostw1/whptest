@@ -390,16 +390,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      {(product?.productDetails?.displayTitle.toLowerCase().includes("ring") ||
-        !product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("earrings") ||
-        !product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("earring") ||
-        product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("bangles") ||
+      {(product?.productDetails?.displayTitle
+        .toLowerCase()
+        .includes("bangles") ||
         product?.productDetails?.displayTitle
           .toLowerCase()
           .includes("bangle") ||

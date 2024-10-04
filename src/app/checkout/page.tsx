@@ -738,7 +738,7 @@ const Checkout: React.FC = () => {
                             width={25}
                             unoptimized
                           />
-                          <h3>Apply Coupon</h3>
+                          <h3>Apply Coupon/Gift Voucher</h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"

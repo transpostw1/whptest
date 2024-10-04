@@ -66,7 +66,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   useEffect(() => {
     fetchSkusList();
   }, []);
-
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);

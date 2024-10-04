@@ -1,5 +1,5 @@
 "use client";
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -22,12 +22,10 @@ import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts"
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import StickyNav from "@/components/Header/StickyNav";
 
-
 export default function Home() {
-
   let logged = null;
   if (typeof window !== "undefined") {
-    logged = localStorage.getItem("isLoggedIn>>>>>>>>>");
+    logged = localStorage.getItem("isLoggedIn");
   }
   const heatmapData = [
     { x: 100, y: 150, value: 50 },
@@ -44,16 +42,16 @@ export default function Home() {
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
-      
+
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
         <Explore />
         {/* <Collection /> */}
         <ProductSlider />
-        {logged === "true" && <BuyAgain />}
+        <BuyAgain />
         {/* <WhpTv products={products} /> */}
-        <Whptv2/>
+        <Whptv2 />
         <RoseGold />
         <Category />
         <GetFastDeliveryProducts />

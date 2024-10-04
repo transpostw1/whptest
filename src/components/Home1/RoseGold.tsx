@@ -70,6 +70,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -78,6 +79,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -86,6 +88,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
         </div>
@@ -112,6 +115,7 @@ const RoseGold = () => {
           width={bannerwidth}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
 
         <Image
@@ -119,6 +123,7 @@ const RoseGold = () => {
           width={width}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
       </div>
       {width < 170 && (

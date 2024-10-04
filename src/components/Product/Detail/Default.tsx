@@ -163,6 +163,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       productUrl = productId[1];
     }
 
+
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
       variables: { productUrl: productUrl },
@@ -179,7 +180,9 @@ const Default: React.FC<Props> = ({ productId }) => {
     setData(product);
     setLoading(false);
   }
-
+  const handleOptionSelected = (option: any) => {
+    console.log("Option selected:", option);
+  };
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
@@ -395,6 +398,23 @@ const Default: React.FC<Props> = ({ productId }) => {
       console.log("Share API not supported");
     }
   };
+  const descRef = useRef(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const element = descRef.current;
+    if (element) {
+      const lineHeight = parseInt(window.getComputedStyle(element).lineHeight);
+      const maxLines = 2;
+      const maxHeight = lineHeight * maxLines;
+
+      if (element.scrollHeight > maxHeight) {
+        setIsTruncated(true);
+      }
+    }
+  }, [data?.productDetails?.shortDesc]);
+  
+
   return (
     <>
       <StickyNavProductPage />
@@ -534,11 +554,12 @@ const Default: React.FC<Props> = ({ productId }) => {
                 </span>
               </div>
               <p
-                className={`text-[#e26178] ${isExpanded ? "" : "line-clamp-2"}`}
+                ref={descRef}
+                className={`text-[#e26178] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
               </p>
-              {!isExpanded && (
+              {isTruncated && !isExpanded && (
                 <span
                   onClick={toggleExpansion}
                   className="cursor-pointer text-[#E26178]"
@@ -578,11 +599,12 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <span className="ml-3 text-[#aa9e9e] line-through">
                     {formatPrice(parseInt(data?.productDetails?.productPrice))}
                   </span>
-                  {parseInt(data?.productDetails?.discountValue)>0&&(
-                  <span className="ml-3 text-[#e26178] underline">
-                    {data?.productDetails.discountValue}% OFF on{" "}
-                    {data?.productDetails.discountCategory}
-                  </span>)}
+                  {parseInt(data?.productDetails?.discountValue) > 0 && (
+                    <span className="ml-3 text-[#e26178] underline">
+                      {data?.productDetails.discountValue}% OFF on{" "}
+                      {data?.productDetails.discountCategory}
+                    </span>
+                  )}
                 </>
               ) : (
                 <span className="text-2xl font-extrabold">
@@ -644,7 +666,10 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget accesskey="ZCUzmW" amount={5000} />
+          <AffordabilityWidget
+            accesskey="ZCUzmW"
+            amount={1000}
+          />
           <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>

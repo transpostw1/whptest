@@ -12,6 +12,7 @@ import { useCategory } from "@/context/CategoryContex";
 const ShopByGender = () => {
   const { setCustomcategory } = useCategory();
   const swiperRef = useRef<any>();//ref for silder info
+  //Static data for cards in shop by gender;
   let categories = [
     {
       id: 1,
@@ -112,7 +113,7 @@ const ShopByGender = () => {
               >
                 <Link
                   href={`/products?url=${category.url}`}
-                  className="h-[80%]"
+                  className=""
                   onClick={() => setCustomcategory(category.categoryUrl)}
                 >
                   <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg">

@@ -43,24 +43,24 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   return (
     <div className="">
       <OrderSummaryProducts cartItems={cartItems} isBuyNow={isBuyNow} />
-      {component == "Payment" && (
-        <div className="flex justify-between border p-2">
-          <div className="flex items-center gap-2 font-medium">
-            <input
-              type="checkbox"
-              value="whp_Wallet"
-              checked={wallet == "whp_Wallet"}
-              onChange={handleWhpWallet}
-            />
-            <h3>Whp Wallet</h3>
-          </div>
-          <div className="font-bold">
-            {wallet == "whp_Wallet"
-              ? `${formatPrice(0)}`
-              : `${formatPrice(userDetails?.wallet_amount)}`}
-          </div>
+
+      <div className="flex justify-between border p-2">
+        <div className="flex items-center gap-2 font-medium">
+          <input
+            type="checkbox"
+            value="whp_Wallet"
+            checked={wallet == "whp_Wallet"}
+            onChange={handleWhpWallet}
+          />
+          <h3>Whp Wallet</h3>
         </div>
-      )}
+        <div className="font-bold">
+          {wallet == "whp_Wallet"
+            ? `${formatPrice(0)}`
+            : `${formatPrice(userDetails?.wallet_amount)}`}
+        </div>
+      </div>
+
       <div className="mt-2 bg-gray-100 p-2">
         <div className="">
           <div className="flex justify-between font-medium">
@@ -76,7 +76,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <h3>{formatPrice(price)}</h3>
           </div>
           <div className="flex justify-between font-medium">
-            <h3>Discount</h3>
+            <h3>Coupon Discount</h3>
             <h3>-{formatPrice(totalDiscount)}</h3>
           </div>
           <div className="flex justify-between font-medium">

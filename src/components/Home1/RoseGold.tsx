@@ -51,7 +51,7 @@ const RoseGold = () => {
   }, []);
   return (
     <div className="mt-5 flex flex-wrap justify-between bg-[#f7f5f6] lg:py-[90px]">
-      <div className="md:w-[40%] lg:w-[30%] lg:pl-[65px] sm:pt-[36px]">
+      <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[65px] sm:pt-[36px]">
         <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
         <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
           ROSE GOLD RANGE
@@ -70,6 +70,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -78,6 +79,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -86,6 +88,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
         </div>
@@ -112,6 +115,7 @@ const RoseGold = () => {
           width={bannerwidth}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
 
         <Image
@@ -119,6 +123,7 @@ const RoseGold = () => {
           width={width}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
       </div>
       {width < 170 && (

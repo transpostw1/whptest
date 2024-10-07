@@ -117,7 +117,6 @@ const Buttons: React.FC<Props> = ({ product }) => {
         quantityleft:product.productDetails.productQty,
         makeToOrder:product.productDetails.makeToOrder,
         image_path: product.productDetails.imageDetails[0].image_path,
-
         url: product.productDetails.url,
       };
       setIsProductInWishlist(true);

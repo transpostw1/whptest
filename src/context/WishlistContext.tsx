@@ -257,6 +257,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   url: product.url,
                 },
               ];
+              console.log(updatedWishlistItems,"UPDATEEEDD")
 
               localStorage.setItem(
                 "wishlistItems",

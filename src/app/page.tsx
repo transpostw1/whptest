@@ -20,6 +20,7 @@ import WhpApp from "@/components/Home1/WhpApp";
 import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
+import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 
 export default function Home() {
@@ -47,10 +48,9 @@ export default function Home() {
         <MobileMainCategorySwiper />
         <MainCarousel />
         <Explore />
-        {/* <Collection /> */}
         <ProductSlider />
         <BuyAgain />
-        {/* <WhpTv products={products} /> */}
+        <RecetlyViewProduct />
         <Whptv2 />
         <RoseGold />
         <Category />
@@ -65,7 +65,6 @@ export default function Home() {
         <Reviews />
         {/* <WhpApp /> */}
       </div>
-      {/* <WhpApp /> */}
       <StickyNav />
     </>
   );

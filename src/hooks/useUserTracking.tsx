@@ -69,9 +69,6 @@ const useUserTracking = () => {
           window.localStorage.getItem("activity_ids") || "[]",
         );
         setCurrentPage(window.location.href);
-        // const header = Helmet.peek();
-        // setPageHeader(header.title);
-
         setTimeOnPage((prevTimeOnPage) => {
           const postData = {
             user_email: userDetails?.email || null,

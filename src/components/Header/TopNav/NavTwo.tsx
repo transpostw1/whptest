@@ -270,7 +270,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         }`}
                       >
                         <Icon.Newspaper size={30} />
-                        <p className="text-sm">Blog</p>
+                        <p className="text-sm">Blogs</p>
                       </div>
                     </Link>
                     <div
@@ -342,7 +342,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           }`}
                         >
                           <Icon.Heart size={28} />
-                          <p className="text-sm">Wishlist</p>
+                          <p className="text-sm">Wishlists</p>
                         </div>
                         {wishlistItems.length > 0 && (
                           <span className="quantity cart-quantity absolute -top-1.5 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">

@@ -13,7 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 
-const ProductSlider = () => {
+const BuyAgain = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
@@ -21,13 +21,12 @@ const ProductSlider = () => {
 
   useEffect(() => {
     const getData = async () => {
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       try {
-        const cookieToken =
-          typeof window !== "undefined"
-            ? localStorage.getItem("localtoken")
-            : null;
         setLoading(true);
-
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
@@ -68,7 +67,6 @@ const ProductSlider = () => {
         });
         // const response = await axios.get(`${baseUrl}/best-sellers`);
         setData(await data.getBuyAgainProducts);
-        console.log("BUY_AGAIN", data.getBuyAgainProducts);
       } catch (error) {
         console.log();
       } finally {
@@ -78,14 +76,13 @@ const ProductSlider = () => {
     getData();
   }, []);
 
-  if (!data || data.length == 0) return null;
 
   return (
     <>
-      {products.length > 0 && (
+      {data.length > 0 && (
         <div className="tab-features-block pt-10">
           <div className="container">
-            {products.length > 0 && (
+            {data.length > 0 && (
               <div className="flex justify-between">
                 <div>
                   <p className="text-[1.5rem] font-semibold uppercase">
@@ -181,4 +178,4 @@ const ProductSlider = () => {
   );
 };
 
-export default ProductSlider;
+export default BuyAgain;

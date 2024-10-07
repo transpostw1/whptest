@@ -802,7 +802,7 @@ const Checkout: React.FC = () => {
                           checked={whpWallet == "whp_Wallet"}
                           onChange={handleWhpWallet}
                         />
-                        <h3>Whp Wallet</h3>
+                        <h3>WHP Wallet</h3>
                       </div>
                       <div className="font-bold">
                         {whpWallet == "whp_Wallet"
@@ -872,7 +872,7 @@ const Checkout: React.FC = () => {
                 </div>
               )}
               {(selectedComponent === "DeliveryDetails" ||
-                selectedComponent === "Payment") && (
+                (selectedComponent === "Payment" && !isOrderPlaced)) && (
                 <div id="order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary

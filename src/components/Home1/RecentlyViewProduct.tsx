@@ -7,13 +7,12 @@ import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 
-const ProductSlider = () => {
+const RecentlyViewProduct = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
@@ -80,14 +79,14 @@ const ProductSlider = () => {
 
   return (
     <>
-      {products.length > 0 && (
+      {data.length > 0 && (
         <div className="tab-features-block pt-10">
           <div className="container">
-            {products.length > 0 && (
+            {data.length > 0 && (
               <div className="flex justify-between">
                 <div>
                   <p className="text-[1.5rem] font-semibold uppercase">
-                    Buy Again
+                    Recently Viewed Products
                   </p>
                 </div>
                 <div className="flex">
@@ -179,4 +178,4 @@ const ProductSlider = () => {
   );
 };
 
-export default ProductSlider;
+export default RecentlyViewProduct;

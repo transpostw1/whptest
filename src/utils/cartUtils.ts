@@ -56,6 +56,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
             url
             displayTitle
             quantity
+            makeToOrder
             productPrice
             discountPrice
             imageDetails {
@@ -85,6 +86,8 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
     const cartItemsData = data.getCustomerCart.map((item: any) => {
       const imagePath = item.productDetails[0].imageDetails[0].image_path;
       const discountPrice = parseInt(item.productDetails[0].discountPrice);
+      const quantityleft = item.productDetails[0].quantity;
+      const makeToOrder = parseInt(item.productDetails[0].makeToOrder);
       const productPrice = parseInt(item.productDetails[0].productPrice);
       const price = isNaN(discountPrice) ? productPrice : discountPrice;
 
@@ -92,6 +95,8 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         productId: item.productId,
         quantity: item.quantity,
         name: item.productDetails[0].displayTitle,
+        quantityleft:quantityleft,
+        makeToOrder:makeToOrder,
         price: price,
         productPrice : productPrice,
         image: imagePath,

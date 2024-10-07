@@ -18,6 +18,7 @@ interface CartItemProps {
     discountPrice: any | string;
     discountValue: string;
     quantityleft: number;
+    makeToOrder:number | boolean;
     name: string;
     price: number;
     image: string;
@@ -37,15 +38,19 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
-  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false); // New state for out-of-stock modal
+  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
   const [isloading, setLoading] = useState(true);
   const { formatPrice } = useCurrency();
 
   useEffect(() => {
-    if (product && (product.quantityleft === 0 || product.quantityleft === null)) {
-      setShowOutOfStockModal(true);
-    } else {
-      setLoading(false);
+    if (product) {
+      const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+      if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+        console.log("Out of stock - Make to order status:", product.makeToOrder);
+        setShowOutOfStockModal(true);
+      } else {
+        setLoading(false);
+      }
     }
   }, [product]);
 
@@ -63,6 +68,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,
       };
@@ -81,7 +87,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     }
     
   };
-
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;
 
@@ -103,6 +108,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,
       };
@@ -192,7 +198,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         </div>
       )}
 
-      {/* Modal for remove confirmation */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div

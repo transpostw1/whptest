@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 import PhoneInput from "react-phone-input-2";
+import Link from "next/link";
 import "react-phone-input-2/lib/style.css";
 import OtpVerification from "../OtpVerification";
 import { useFormik } from "formik";
@@ -145,6 +146,14 @@ const Register = () => {
                 </div>
               </div>
             )}
+            {!isOtpVerified && (
+              <h2 className="text-center">
+                Already have an account?{" "}
+                <span className="cursor-pointer text-red-700 hover:underline">
+                  <Link href={"/login"}>Login</Link>
+                </span>
+              </h2>
+            )}
 
             {isOtpVerified && (
               <form onSubmit={formik.handleSubmit} className="mt-4 md:mt-7">
@@ -205,9 +214,13 @@ const Register = () => {
                 >
                   {loading ? <Preloader /> : <span>SIGN UP</span>}
                 </button>
-                {Error && (
-                  <div className="mt-4 text-red-500">{Error}</div>
-                )}
+                {Error && <div className="mt-4 text-red-500">{Error}</div>}
+                <h2 className="text-center">
+                  Already have an account?{" "}
+                  <span className="cursor-pointer text-red-700 hover:underline">
+                    <Link href={"/login"}>Login</Link>
+                  </span>
+                </h2>
               </form>
             )}
           </div>

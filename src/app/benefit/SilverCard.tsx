@@ -11,12 +11,14 @@ import { baseUrl2 } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 interface SilverCardProps {
+  percentage:number;
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
   setFlashType: (type: "success" | "error" | "info") => void;
 }
 
 const SilverCard: React.FC<SilverCardProps> = ({
+  percentage,
   setBackendMessage,
   setBackendError,
   setFlashType,
@@ -27,7 +29,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
-  const redemptionAmount = totalAmount + monthlyDeposit * 0.8;
+  const redemptionAmount = totalAmount + monthlyDeposit 
+  const discountAmount = monthlyDeposit * (percentage / 100);
   const { formatPrice } = useCurrency();
   const { userDetails } = useUser();
   const router = useRouter();
@@ -182,10 +185,10 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>80% Discount on 12th installment</h1>
+              <h1>{percentage}% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>{formatPrice(monthlyDeposit * 0.8)}</h1>
+              <h1>{formatPrice(discountAmount)}</h1>
             </div>
           </div>
           <div className="flex justify-between">

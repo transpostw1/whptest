@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import OtpVerification from "../OtpVerification";
+import Link from "next/link";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -75,8 +76,17 @@ const Login = () => {
                     isRegisterPage={false}
                   />
                 </div>
+                <h2 className="text-center">Do not have an account? <span className="text-red-700 hover:underline cursor-pointer ">
+                <Link
+                href={"/register"}
+              >
+               Sign Up
+              </Link>
+                  </span></h2>
               </form>
+             
             </div>
+            
           </div>
         </div>
       </div>

@@ -8,15 +8,23 @@ import DiamondCard from "./DiamondCard";
 import SilverCard from "./SilverCard";
 import FlashAlert from "@/components/Other/FlashAlert";
 
-const MobileBenefits: React.FC = () => {
+interface GmsROI {
+  id: string;
+  type: string;
+  percentage: number;
+}
+interface MobileBenefitsProps {
+  ROIData: GmsROI[] | null;
+}
+
+const MobileBenefits: React.FC = ({ ROIData }) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
   const [flashType, setFlashType] = useState<"success" | "error" | "info">(
-    "info"
+    "info",
   );
-   const [activeSlide, setActiveSlide] = useState<number>(0);
-
+  const [activeSlide, setActiveSlide] = useState<number>(0);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
@@ -59,11 +67,18 @@ const MobileBenefits: React.FC = () => {
     afterChange: (currentSlide: number) => setActiveSlide(currentSlide),
   };
 
+  const getPercentageByType = (type: string) => {
+    if (!ROIData) return 0;
+    const roiItem = ROIData.find((item:any) => item.type === type);
+    return roiItem ? roiItem.percentage : 0;
+  };
+
   const cards = [
     {
       id: 1,
       component: (
         <GoldCard
+          percentage={getPercentageByType("Gold")}
           setBackendMessage={setBackendMessage}
           setBackendError={setBackendError}
           setFlashType={setFlashType}
@@ -74,6 +89,7 @@ const MobileBenefits: React.FC = () => {
       id: 2,
       component: (
         <DiamondCard
+          percentage={getPercentageByType("Diamond")}
           setBackendMessage={setBackendMessage}
           setBackendError={setBackendError}
           setFlashType={setFlashType}
@@ -84,6 +100,7 @@ const MobileBenefits: React.FC = () => {
       id: 3,
       component: (
         <SilverCard
+          percentage={getPercentageByType("Silver")}
           setBackendMessage={setBackendMessage}
           setBackendError={setBackendError}
           setFlashType={setFlashType}
@@ -91,30 +108,29 @@ const MobileBenefits: React.FC = () => {
       ),
     },
   ];
-     useEffect(() => {
-       if (backendMessage || backendError) {
-         const timer = setTimeout(() => {
-           setBackendMessage(null);
-           setBackendError(null);
-         }, 3000);
-         return () => clearTimeout(timer);
-       }
-     }, [backendMessage, backendError]);
+  useEffect(() => {
+    if (backendMessage || backendError) {
+      const timer = setTimeout(() => {
+        setBackendMessage(null);
+        setBackendError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [backendMessage, backendError]);
 
-
-    const handleButtonClick = (slideIndex: number) => {
-      setActiveSlide(slideIndex);
-      sliderRef.current?.slickGoTo(slideIndex);
-    };
+  const handleButtonClick = (slideIndex: number) => {
+    setActiveSlide(slideIndex);
+    sliderRef.current?.slickGoTo(slideIndex);
+  };
 
   return isMobile ? (
-    <div className="lg:hidden py-5 px-6">
-      <div className="flex items-center justify-evenly mb-2">
+    <div className="px-6 py-5 lg:hidden">
+      <div className="mb-2 flex items-center justify-evenly">
         <button
-          className={` w-24 rounded-lg font-semibold ${
+          className={`w-24 rounded-lg font-semibold ${
             activeSlide === 0
               ? "bg-[#ebe3d5]"
-              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
+              : "bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white"
           }`}
           onClick={() => handleButtonClick(0)}
         >
@@ -122,10 +138,10 @@ const MobileBenefits: React.FC = () => {
         </button>
 
         <button
-          className={` w-24 rounded-lg font-semibold ${
+          className={`w-24 rounded-lg font-semibold ${
             activeSlide === 1
               ? "bg-[#d0e1e2]"
-              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
+              : "bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white"
           }`}
           onClick={() => handleButtonClick(1)}
         >
@@ -135,7 +151,7 @@ const MobileBenefits: React.FC = () => {
           className={`w-24 rounded-lg font-semibold ${
             activeSlide === 2
               ? "bg-[#edebed]"
-              : " bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white"
+              : "bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white"
           }`}
           onClick={() => handleButtonClick(2)}
         >

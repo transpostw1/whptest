@@ -308,6 +308,7 @@ const Checkout: React.FC = () => {
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
       quantityleft:item?.productDetails?.quantity,
+      makeToOrder:item?.productDetails?.makeToOrder,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -315,10 +316,9 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
-
-    console.log(mappedCartItems,"MAINNNCARTITEMS")
+  console.log(mappedCartItems,"LoggedOutCartItems")
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  console.log(MainCart,"MAINNNNNNNNNN")
+  console.log(cartItems,"MAINNNNNNNNNN")
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))

@@ -5,12 +5,11 @@ import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
-import axios from "axios";
 import { useUser } from "@/context/UserContext";
-import { baseUrl2 } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 interface GoldCardProps {
+  percentage: number;
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
   setFlashType: (type: "success" | "error" | "info") => void;
@@ -20,6 +19,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   setBackendMessage,
   setBackendError,
   setFlashType,
+  percentage,
 }) => {
   const { formatPrice } = useCurrency();
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
@@ -30,7 +30,8 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
-  const redemptionAmount = totalAmount + monthlyDeposit * 0.5;
+  const discountAmount = monthlyDeposit * (percentage / 100);
+  const redemptionAmount = totalAmount + discountAmount;
   const { userDetails } = useUser();
   const router = useRouter();
 
@@ -76,7 +77,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           uri: graphqlbaseUrl,
           cache: new InMemoryCache(),
         });
-      
+
         const VERIFY_PAN = gql`
           mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
             verifyPAN(verifyPanInput: $verifyPanInput) {
@@ -85,21 +86,21 @@ const GoldCard: React.FC<GoldCardProps> = ({
             }
           }
         `;
-      
+
         const { data } = await client.mutate({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
               pan_number: "EDWPP8777C",
-              name: "Rutuja Parab"
+              name: "Rutuja Parab",
             },
           },
           fetchPolicy: "no-cache",
         });
-      
+
         console.log(data);
         setResponseFromPanVerificationApi(data.verifyPAN.success);
-      
+
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
         if (enrollmentId && data.verifyPAN.success) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
@@ -186,10 +187,10 @@ const GoldCard: React.FC<GoldCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>50% Discount on 12th installment</h1>
+              <h1>{percentage}% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>{formatPrice(monthlyDeposit * 0.5)}</h1>
+              <h1>{formatPrice(discountAmount)}</h1>
             </div>
           </div>
           <div className="flex justify-between">

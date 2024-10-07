@@ -52,7 +52,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             checked={wallet == "whp_Wallet"}
             onChange={handleWhpWallet}
           />
-          <h3>Whp Wallet</h3>
+          <h3>WHP Wallet</h3>
         </div>
         <div className="font-bold">
           {wallet == "whp_Wallet"

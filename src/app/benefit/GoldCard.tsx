@@ -22,7 +22,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   percentage,
 }) => {
   const { formatPrice } = useCurrency();
-  const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
+  const [monthlyDeposit, setMonthlyDeposit] = useState<any>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
@@ -91,7 +91,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "EDWPP8777C",
+              pan_number: "BXZPT2731C",
               name: "Rutuja Parab",
             },
           },
@@ -105,7 +105,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
 
         if (enrollmentId && data.verifyPAN.success) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
-        }else{
+        } else {
           setShowModal(true);
         }
       } catch (error) {
@@ -120,7 +120,11 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
+    const rawValue: any = event.target.value.replace(/,/g, "");
 
+    if (parseInt(rawValue) >= 500 && parseInt(rawValue) <= 50000) {
+      setMonthlyDeposit(new Intl.NumberFormat().format(rawValue));
+    }
     const parsedValue = parseInt(value, 10);
     if (isNaN(parsedValue)) {
       setError("Invalid input. Please enter a number.");

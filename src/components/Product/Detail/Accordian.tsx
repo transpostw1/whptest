@@ -71,7 +71,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <span className="text-center">
                   <Icon.SketchLogo size={30} weight="thin" />
                 </span>
-                <span>10000+ Designs</span>
+                <span>10,000+ Designs</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -89,7 +89,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <span>
                   <Icon.Truck size={30} weight="thin" color="#00000" />
                 </span>
-                <span>Pan India Delivery</span>
+                <span>Pan-India Delivery</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -390,16 +390,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      {(product?.productDetails?.displayTitle.toLowerCase().includes("ring") ||
-        !product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("earrings") ||
-        !product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("earring") ||
-        product?.productDetails?.displayTitle
-          .toLowerCase()
-          .includes("bangles") ||
+      {(product?.productDetails?.displayTitle
+        .toLowerCase()
+        .includes("bangles") ||
         product?.productDetails?.displayTitle
           .toLowerCase()
           .includes("bangle") ||
@@ -643,7 +636,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div>
                 {parseInt(product.productDetails?.metalRate) > 0 && (
-                  <p>
+                  <p className="text-right">
                     {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>
                 )}
@@ -652,14 +645,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>{formatPrice(parseInt(diamond?.diamondCost))}</p>
+                          <p className="text-right">
+                            {formatPrice(parseInt(diamond?.diamondCost))}
+                          </p>
                         </div>
                       ),
                     )}
                   </div>
                 )}
                 {product.productDetails.stoneDetails != null && (
-                  <p>
+                  <p className="text-right">
                     {formatPrice(
                       parseInt(
                         product?.productDetails?.stoneDetails[0]?.stoneCost,
@@ -667,19 +662,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </p>
                 )}
-                <p>{formatPrice(parseInt(makingCharges))}</p>
+                <p className="text-right">
+                  {formatPrice(parseInt(makingCharges))}
+                </p>
                 {parseInt(product?.productDetails?.discountValue) > 0 && (
                   <div>
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      <p>
+                      <p className="text-right">
                         -
                         {formatPrice(
                           parseInt(product?.productDetails?.discountAmount),
                         )}
                       </p>
                     ) : (
-                      <p>
+                      <p className="text-right">
                         -
                         {formatPrice(
                           parseInt(product?.productDetails?.discountValue),
@@ -688,7 +685,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-                <p>{formatPrice(parseInt(product?.productDetails?.gst))}</p>
+                <p className="text-right">
+                  {formatPrice(parseInt(product?.productDetails?.gst))}
+                </p>
               </div>
             </div>
             <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">

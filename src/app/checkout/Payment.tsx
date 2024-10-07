@@ -14,7 +14,8 @@ import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react";
-import PaymentForm from "./Payment2";
+import { TbTruckDelivery } from "react-icons/tb";
+import { SiRazorpay } from "react-icons/si";
 interface PaymentProps {
   wallet: any;
   orderPlaced: boolean;
@@ -335,17 +336,10 @@ const Payment: React.FC<PaymentProps> = ({
             <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
               <label
                 htmlFor="razorpayPayment"
-                className="flex cursor-pointer gap-2 font-medium"
+                className="flex cursor-pointer items-center gap-2 font-medium"
               >
-                <Image
-                  src="/images/other/cash_on_delivery2.png"
-                  alt="upi"
-                  width={50}
-                  height={30}
-                  objectFit="fill"
-                  unoptimized
-                />
-                Cash On Delivery(COD)
+                <TbTruckDelivery />
+                Cash On Delivery (COD)
               </label>
               <input
                 type="radio"
@@ -360,15 +354,9 @@ const Payment: React.FC<PaymentProps> = ({
             <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
               <label
                 htmlFor="razorpayPayment"
-                className="flex cursor-pointer gap-2 font-medium"
+                className="flex cursor-pointer items-center gap-2 font-medium"
               >
-                <Image
-                  src="/images/other/upi-icon.png"
-                  alt="upi"
-                  width={30}
-                  height={30}
-                  unoptimized
-                />
+                <SiRazorpay />
                 Razorpay (UPI, Cards)
               </label>
               <input
@@ -493,13 +481,13 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <div className="mb-4 rounded-lg border border-gray-200">
-          <div className="flex justify-between border-b-2 p-4 border-t-0">
+          <div className="flex justify-between border-b-2 border-t-0 p-4">
             <div className="">
-              <span className="font-semibold">Order Id:</span>
+              <span className="font-semibold">Order Id: </span>
               {orderResponse.order.orderNo}
             </div>
             <div className="">
-              <span className="font-semibold">Order No.:</span>
+              <span className="font-semibold">Order No.: </span>
               {new Date(orderResponse.order.created_at).toLocaleDateString(
                 "en-US",
                 {
@@ -531,7 +519,7 @@ const Payment: React.FC<PaymentProps> = ({
                       {/* <p>
                       {product?.metalType}-{product?.metalWeight}
                     </p> */}
-                      <p>Quantity:{product?.quantity}</p>
+                      <p>Quantity: {product?.quantity}</p>
                     </div>
                   </div>
                   <div className="font-semibold">

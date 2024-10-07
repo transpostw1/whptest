@@ -7,13 +7,12 @@ import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 
-const BuyAgain = () => {
+const RecentlyViewProduct = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
@@ -21,12 +20,13 @@ const BuyAgain = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const cookieToken =
-        typeof window !== "undefined"
-          ? localStorage.getItem("localtoken")
-          : null;
       try {
+        const cookieToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("localtoken")
+            : null;
         setLoading(true);
+
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
@@ -41,9 +41,9 @@ const BuyAgain = () => {
           link,
           cache: new InMemoryCache(),
         });
-        const Buy_Again = gql`
-          query GetBuyAgainProducts {
-            getBuyAgainProducts {
+        const Recetly_View_Products = gql`
+          query GetRecentProducts {
+            getRecentProducts {
               productId
               url
               SKU
@@ -63,10 +63,9 @@ const BuyAgain = () => {
           }
         `;
         const { data } = await client.query({
-          query: Buy_Again,
+          query: Recetly_View_Products,
         });
-        // const response = await axios.get(`${baseUrl}/best-sellers`);
-        setData(await data.getBuyAgainProducts);
+        setData(await data.getRecentProducts);
       } catch (error) {
         console.log();
       } finally {
@@ -76,6 +75,7 @@ const BuyAgain = () => {
     getData();
   }, []);
 
+  if (!data || data.length == 0) return null;
 
   return (
     <>
@@ -86,7 +86,7 @@ const BuyAgain = () => {
               <div className="flex justify-between">
                 <div>
                   <p className="text-[1.5rem] font-semibold uppercase">
-                    Buy Again
+                    Recently Viewed Products
                   </p>
                 </div>
                 <div className="flex">
@@ -178,4 +178,4 @@ const BuyAgain = () => {
   );
 };
 
-export default BuyAgain;
+export default RecentlyViewProduct;

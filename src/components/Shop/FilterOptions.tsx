@@ -24,7 +24,7 @@ const Filter: Filter[] = [
     labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"],
   },
   {
-    title: "Gender",
+    title: "Shop For",
     options: ["Men", "Women", "Kids"],
     labels: ["Men", "Women", "Kids"],
   },

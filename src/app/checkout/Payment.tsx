@@ -11,11 +11,15 @@ import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-
+import { useCurrency } from "@/context/CurrencyContext";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react";
+import PaymentForm from "./Payment2";
 interface PaymentProps {
   wallet: any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
+  component: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
   onOrderComplete: (items: any) => void;
@@ -34,6 +38,7 @@ const Payment: React.FC<PaymentProps> = ({
   selectedPaymentMethod,
   handlePaymentMethodChange,
   totalCart,
+  component,
   onOrderComplete,
   selectedShippingAddress,
   selectedBillingAddress,
@@ -49,14 +54,38 @@ const Payment: React.FC<PaymentProps> = ({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { removeFromCart } = useCart();
+  const { formatPrice } = useCurrency();
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [orderResponse, setOrderResponse] = useState<any>();
+  const handleSubmit = (e: any) => {
+    e.preventDefault(); // Prevent default form submission
+    // You can add any validation or logic here if needed
+    console.log("formData from PayU", e.target.value);
+    e.target.submit(); // Manually submit the form
+  };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
   const handleWalletPayment = () => {
     setWalletPayment("whp_Wallet");
   };
   const closeModal = () => {
     setIsOpen(false);
-    router.push("/profile");
   };
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -165,14 +194,13 @@ const Payment: React.FC<PaymentProps> = ({
             );
             console.log(apiResponse.data);
             // Handle the response as needed
-
+            setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
             onOrderComplete(setCartItems);
           } catch (error) {
             console.error("Error placing order:", error);
           } finally {
             setLoading(false);
-            router.push("/profile");
           }
         },
         prefill: {
@@ -187,7 +215,6 @@ const Payment: React.FC<PaymentProps> = ({
           color: "#fb7185",
         },
       };
-
       const rzp1 = new (window as any).Razorpay(options);
       rzp1.open();
     } catch (error) {
@@ -266,7 +293,7 @@ const Payment: React.FC<PaymentProps> = ({
           },
         });
         // Handle the response as needed
-
+        setOrderResponse(apiResponse.data.data);
         // Call the onOrderComplete function after the API call is successful
         onOrderComplete(setCartItems);
       } catch (error) {
@@ -300,59 +327,61 @@ const Payment: React.FC<PaymentProps> = ({
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;
   return (
-    <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[50rem]">
-      <h1 className="text-2xl">Payment Method</h1>
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
-          <label
-            htmlFor="razorpayPayment"
-            className="flex cursor-pointer gap-2 font-medium"
-          >
-            <Image
-              src="/images/other/upi-icon.png"
-              alt="upi"
-              width={30}
-              height={30}
-              objectFit="fill"
-              unoptimized
-            />
-            Cash On Delivery(COD)
-          </label>
-          <input
-            type="radio"
-            id="razorpayPayment"
-            name="paymentOption"
-            value="COD"
-            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
-            checked={selectedPaymentMethod === "COD"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div>
-        <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
-          <label
-            htmlFor="razorpayPayment"
-            className="flex cursor-pointer gap-2 font-medium"
-          >
-            <Image
-              src="/images/other/upi-icon.png"
-              alt="upi"
-              width={30}
-              height={30}
-              unoptimized
-            />
-            Razorpay (UPI, Cards)
-          </label>
-          <input
-            type="radio"
-            id="razorpayPayment"
-            name="paymentOption"
-            value="razorpay"
-            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
-            checked={selectedPaymentMethod === "razorpay"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div>
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+    <div>
+      {!orderPlaced && (
+        <div className="flex flex-col gap-5 sm:w-[30rem] md:w-[30rem] lg:w-[41rem]">
+          <h1 className="text-2xl">Payment Method</h1>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+              <label
+                htmlFor="razorpayPayment"
+                className="flex cursor-pointer gap-2 font-medium"
+              >
+                <Image
+                  src="/images/other/cash_on_delivery2.png"
+                  alt="upi"
+                  width={50}
+                  height={30}
+                  objectFit="fill"
+                  unoptimized
+                />
+                Cash On Delivery(COD)
+              </label>
+              <input
+                type="radio"
+                id="razorpayPayment"
+                name="paymentOption"
+                value="COD"
+                className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-[#e26178] focus:bg-[#e26178] focus:outline-none"
+                checked={selectedPaymentMethod === "COD"}
+                onChange={handlePaymentMethodChange}
+              />
+            </div>
+            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+              <label
+                htmlFor="razorpayPayment"
+                className="flex cursor-pointer gap-2 font-medium"
+              >
+                <Image
+                  src="/images/other/upi-icon.png"
+                  alt="upi"
+                  width={30}
+                  height={30}
+                  unoptimized
+                />
+                Razorpay (UPI, Cards)
+              </label>
+              <input
+                type="radio"
+                id="razorpayPayment"
+                name="paymentOption"
+                value="razorpay"
+                className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-[#e26178] focus:bg-[#e26178] focus:outline-none"
+                checked={selectedPaymentMethod === "razorpay"}
+                onChange={handlePaymentMethodChange}
+              />
+            </div>
+            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="otherPaymentGateway"
             className="flex gap-2 cursor-pointer font-medium"
@@ -370,7 +399,7 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="paypalPayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -394,7 +423,7 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-        {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
+            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
           <label
             htmlFor="stripePayment"
             className="flex gap-2 cursor-pointer font-medium"
@@ -418,8 +447,8 @@ const Payment: React.FC<PaymentProps> = ({
             onChange={handlePaymentMethodChange}
           />
         </div> */}
-      </div>
-      {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
+          </div>
+          {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
       <div>
         <div>
           -10% off on HDFC Bank Credit Card. Use{" "}
@@ -432,19 +461,21 @@ const Payment: React.FC<PaymentProps> = ({
           <span className="text-red-600 underline">View more Offers</span>
         </div>
       </div> */}
-      <button
-        onClick={handlePayment}
-        className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white"
-        disabled={
-          !selectedShippingAddress ||
-          !selectedBillingAddress ||
-          !isValidTotalCart ||
-          !selectedPaymentMethod
-        }
-      >
-        Place Order
-      </button>
-      {isOpen && (
+          {!isMobile && (
+            <button
+              onClick={handlePayment}
+              className="cursor-pointer rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+              disabled={
+                !selectedShippingAddress ||
+                !selectedBillingAddress ||
+                !isValidTotalCart ||
+                !selectedPaymentMethod
+              }
+            >
+              Place Order
+            </button>
+          )}
+          {/* {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
             <h2 className="mb-4 text-2xl font-semibold">Thank you!</h2>
@@ -457,7 +488,124 @@ const Payment: React.FC<PaymentProps> = ({
             </button>
           </div>
         </div>
+      )} */}
+        </div>
       )}
+      {orderPlaced && (
+        <div className="mb-4 rounded-lg border border-gray-200">
+          <div className="flex justify-between border-b-2 p-4 border-t-0">
+            <div className="">
+              <span className="font-semibold">Order Id:</span>
+              {orderResponse.order.orderNo}
+            </div>
+            <div className="">
+              <span className="font-semibold">Order No.:</span>
+              {new Date(orderResponse.order.created_at).toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                },
+              )}
+            </div>
+          </div>
+          <div>
+            {orderResponse.productDetails.products.map(
+              (product: any, index: any) => (
+                <div className="flex justify-between p-4" key={index}>
+                  <div className="flex">
+                    <div className="mr-3">
+                      <Image
+                        src={product?.imageDetails[0]?.image_path}
+                        alt={"image"}
+                        width={85}
+                        height={85}
+                        className="bg-[#f7f7f7]"
+                        unoptimized
+                      />
+                    </div>
+                    <div>
+                      <p className="text-xl font-semibold">{product?.title}</p>
+                      {/* <p>
+                      {product?.metalType}-{product?.metalWeight}
+                    </p> */}
+                      <p>Quantity:{product?.quantity}</p>
+                    </div>
+                  </div>
+                  <div className="font-semibold">
+                    {formatPrice(product?.discountedTotal)}
+                  </div>
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+      )}
+      {isMobile && component == "Payment" && (
+        <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
+          <div>
+            <p className="text-[18px] font-medium">
+              {formatPrice(totalCart - totalDiscount)}
+            </p>
+            <Link href="#order-summary">
+              <p className="cursor-pointer text-[12px] font-medium text-[#e26178]">
+                View Order Summary
+              </p>
+            </Link>
+          </div>
+          <div
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            onClick={handlePayment}
+          >
+            <button
+              className=""
+              disabled={
+                !selectedShippingAddress ||
+                !selectedBillingAddress ||
+                !isValidTotalCart ||
+                !selectedPaymentMethod
+              }
+            >
+              Pay Now
+            </button>
+            <span>
+              <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
+            </span>
+          </div>
+        </div>
+      )}
+      {/* <form
+        action="https://test.payu.in/_payment"
+        method="post"
+        onSubmit={handleSubmit}
+      >
+        <input type="hidden" name="key" value="BHvL8K" />
+        <input type="hidden" name="txnid" value="t6svtqtjRdl4ws" />
+        <input type="hidden" name="productinfo" value="iPhone" />
+        <input type="hidden" name="amount" value="10" />
+        <input type="hidden" name="email" value="test@gmail.com" />
+        <input type="hidden" name="firstname" value="Ashish" />
+        <input type="hidden" name="lastname" value="Kumar" />
+        <input
+          type="hidden"
+          name="surl"
+          value="https://apiplayground-response.herokuapp.com/"
+        />
+        <input
+          type="hidden"
+          name="furl"
+          value="https://apiplayground-response.herokuapp.com/"
+        />
+        <input type="hidden" name="phone" value="9988776655" />
+        <input
+          type="hidden"
+          name="hash"
+          value="eabec285da28fd0e3054d41a4d24fe9f7599c9d0b66646f7a9984303fd6124044b6206daf831e9a8bda28a6200d318293a13d6c193109b60bd4b4f8b09c90972"
+        />
+        <input type="submit" value="Submit" />
+      </form> */}
     </div>
   );
 };

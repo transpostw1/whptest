@@ -174,7 +174,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               htmlFor="date"
               className="block text-sm font-medium text-gray-700"
             >
-              Select Date:
+              Appointment Date:
             </label>
             <input
               type="date"

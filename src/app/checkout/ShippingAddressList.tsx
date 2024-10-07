@@ -146,7 +146,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
               key={address.address_id}
               className={`border rounded-lg p-4 mb-4 flex items-center justify-between ${
                 selectedAddress?.address_id === address.address_id
-                  ? "bg-rose-200"
+                  ? "bg-green-100"
                   : "bg-gray-100 opacity-50" // Apply faded style to unselected addresses
               } cursor-pointer`}
               onClick={() => handleAddressSelect(address)}
@@ -157,7 +157,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
                     {address.full_address.split(",")[0]}
                   </h3>
                   {selectedAddress?.address_id === address.address_id && (
-                    <FaCheckCircle className="text-rose-800 text-xl" />
+                    <FaCheckCircle className="text-green-700 text-xl" />
                   )}
                 </div>
                 <p>{address.full_address.split(",").slice(1).join(", ")}</p>

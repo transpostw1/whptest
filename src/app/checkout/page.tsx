@@ -15,7 +15,7 @@ import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { ApolloClient, InMemoryCache, gql,  HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
   AddressBook,
@@ -297,7 +297,7 @@ const Checkout: React.FC = () => {
         item?.productId ||
         item?.quantity ||
         item?.productDetails?.title ||
-        item?.productDetails?.quantity||
+        item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails,
     )
@@ -307,7 +307,7 @@ const Checkout: React.FC = () => {
       name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
-      quantityleft:item?.productDetails?.quantity,
+      quantityleft: item?.productDetails?.quantity,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -646,7 +646,6 @@ const Checkout: React.FC = () => {
                     <h1 className="text-3xl font-semibold text-red-700">
                       Order Placed!!
                     </h1>
-                    <h1>ID-#32432</h1>
                   </div>
                 </div>
               ) : (
@@ -711,10 +710,10 @@ const Checkout: React.FC = () => {
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  // onOrderComplete={handleOrderComplete}
                   onOrderComplete={(setCartItems) =>
                     handleOrderComplete(setCartItems, removeFromCart)
                   }
+                  component={selectedComponent}
                   wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
@@ -797,6 +796,24 @@ const Checkout: React.FC = () => {
                       </div>
                     )}
                   </div>
+                  {!isOrderPlaced && (
+                    <div className="mt-2 flex justify-between border border-gray-400 p-2">
+                      <div className="flex items-center gap-2 font-medium">
+                        <input
+                          type="checkbox"
+                          value="whp_Wallet"
+                          checked={whpWallet == "whp_Wallet"}
+                          onChange={handleWhpWallet}
+                        />
+                        <h3>Whp Wallet</h3>
+                      </div>
+                      <div className="font-bold">
+                        {whpWallet == "whp_Wallet"
+                          ? `${formatPrice(0)}`
+                          : `${formatPrice(userDetails?.wallet_amount)}`}
+                      </div>
+                    </div>
+                  )}
                   <p className="mt-2 text-lg font-bold">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
@@ -818,7 +835,7 @@ const Checkout: React.FC = () => {
                           <h3>{formatPrice(parseInt(formattedPrice))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
-                          <h3>Discount</h3>
+                          <h3>Coupon Discount</h3>
                           <h3>
                             -{formatPrice(parseInt(totalDiscount.toString()))}
                           </h3>
@@ -889,7 +906,7 @@ const Checkout: React.FC = () => {
         </div>
       </div>
 
-      {isMobile && (
+      {isMobile && selectedComponent !== "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
             <p className="text-[18px] font-medium">{formatPrice(totalPrice)}</p>
@@ -900,7 +917,7 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex w-[170px] h-[58px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

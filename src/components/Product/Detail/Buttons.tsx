@@ -24,6 +24,7 @@ interface ProductForWishlistLoggedOut {
   discountPrice: string;
   discountValue: string;
   quantityleft:number;
+  makeToOrder:number|boolean;
   image_path: string;
   url: string;
 }
@@ -59,29 +60,32 @@ const Buttons: React.FC<Props> = ({ product }) => {
     fetchWishlist();
   }, []);
 
-  const isOutOfStock = (productQty: number | null | undefined) => {
+  // const isOutOfStock = (productQty: number | null | undefined) => {
+  //   return productQty === 0 || productQty === null;
+  // };
+  const isOutOfStock = (productQty: number | null | undefined, makeToOrder: boolean | undefined) => {
+    if (makeToOrder) {
+      return false;
+    }
     return productQty === 0 || productQty === null;
   };
 
   const handleAddToCart = (productItem: ProductData) => {
-    
-
-    if (isOutOfStock(productItem.productDetails?.productQty)) {
+    const { productQty, makeToOrder } = productItem.productDetails?.productQty;
+    if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
-
+  
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
+  
     if (productAlreadyExists) {
-      updateCartQuantity(
-        productItem.productDetails?.productId,
-        updatedQuantity
-      );
+      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
     } else {
       addToCart(
         {
@@ -93,6 +97,8 @@ const Buttons: React.FC<Props> = ({ product }) => {
       );
     }
   };
+  
+
 
   const HandleaddToWishlist = () => {
     if (isLoggedIn) {
@@ -109,6 +115,7 @@ const Buttons: React.FC<Props> = ({ product }) => {
         discountPrice: product.productDetails.discountPrice,
         discountValue: product.productDetails.discountValue,
         quantityleft:product.productDetails.productQty,
+        makeToOrder:product.productDetails.makeToOrder,
         image_path: product.productDetails.imageDetails[0].image_path,
 
         url: product.productDetails.url,
@@ -123,28 +130,35 @@ const Buttons: React.FC<Props> = ({ product }) => {
     setIsProductInWishlist(false);
   };
 
-const handleBuyNow = () => {
-  if (isOutOfStock(product.productDetails?.productQty)) {
-    setModalMessage("This product is out of stock.");
-    setShowModal(true);
-    return;
-  }
-  const productAlreadyExists = cartItems.find(
-    (item) => item.productId === product.productDetails.productId
-  );
-  if (!productAlreadyExists) {
-    addToCart(
-      {
-        productDetails: {
-          ...product.productDetails,
-        },
-        productId: product.productDetails.productId,
-      },
-      1
+  const handleBuyNow = () => {
+    const { productQty, makeToOrder } =product.productDetails?.productQty;
+  
+    
+    if (isOutOfStock(productQty, makeToOrder)) {
+      setModalMessage("This product is out of stock.");
+      setShowModal(true);
+      return;
+    }
+  
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productDetails.productId
     );
-  }
-  router.push(`/checkout?buyNow=${product.productDetails.productId}`);
-};
+  
+    if (!productAlreadyExists) {
+      addToCart(
+        {
+          productDetails: {
+            ...product.productDetails,
+          },
+          productId: product.productDetails.productId,
+        },
+        1
+      );
+    }
+  
+    router.push(`/checkout?buyNow=${product.productDetails.productId}`);
+  };
+  
 
   if (isLoading) {
     return (

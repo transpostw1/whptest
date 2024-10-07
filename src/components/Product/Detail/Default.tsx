@@ -78,6 +78,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           isParent
           title
           displayTitle
+          makeToOrder
           shortDesc
           longDesc
           url

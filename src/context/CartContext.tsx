@@ -16,6 +16,7 @@ interface CartItem {
     imageDetails: any;
     productPrice: string;
     quantityleft:number;
+    makeToOrder: number,
     discountValue: string;
     url: string;
   };
@@ -217,10 +218,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const syncCartWithServer = async (cartItems: CartItem[]) => {
     try {
       setLoading(true);
+    
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
+      console.log(cartItems,"CARTCONTEXT")
 
       const getAuthHeaders: any = () => {
         if (!cookieToken) return null;

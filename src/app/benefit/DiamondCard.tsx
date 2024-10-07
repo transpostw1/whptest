@@ -6,11 +6,10 @@ import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
-import axios from "axios";
-import { baseUrl2 } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 interface DiamondCardProps {
+  percentage: number;
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
   setFlashType: (type: "success" | "error" | "info") => void;
@@ -20,6 +19,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   setBackendMessage,
   setBackendError,
   setFlashType,
+  percentage,
 }) => {
   const { formatPrice } = useCurrency();
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
@@ -34,7 +34,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const { userDetails } = useUser();
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
-  const redemptionAmount = totalAmount + monthlyDeposit * 1;
+  const redemptionAmount = totalAmount + monthlyDeposit;
+  const discountAmount = monthlyDeposit * (percentage / 100);
 
   const router = useRouter();
 
@@ -90,13 +91,13 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "BXZPT2731C",
-              name: "Rutuja Parab"
+              pan_number: "EDWPP8777C",
+              name: "Rutuja Parab",
             },
           },
           fetchPolicy: "no-cache",
         });
-      
+
         console.log(data);
         setResponseFromPanVerificationApi(data.verifyPAN.success);
       
@@ -192,10 +193,10 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>100% Discount on 12th installment</h1>
+              <h1>{percentage}% Discount on 12th installment</h1>
             </div>
             <div>
-              <h1>{formatPrice(monthlyDeposit * 1)}</h1>
+              <h1>{formatPrice(discountAmount)}</h1>{" "}
             </div>
           </div>
           <div className="flex justify-between">

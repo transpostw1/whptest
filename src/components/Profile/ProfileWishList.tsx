@@ -47,8 +47,9 @@ const ProfileWishList = () => {
   });
 
   const handleAddToCart = (product: any) => {
-       if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock !');
+    const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+    if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+      showModal('Product is out of stock!');
       return;
     }
     const productAlreadyExists = cartItems.find(
@@ -75,8 +76,9 @@ const ProfileWishList = () => {
   };
 
   const handleBuyNow = (product: any) => {
-    if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock !');
+    const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+    if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+      showModal('Product is out of stock!');
       return;
     }
 

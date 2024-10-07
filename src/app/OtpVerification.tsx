@@ -70,7 +70,7 @@ const OtpVerification = ({
       setFirebaseError(null);
       const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
       setVerificationId(result.verificationId);
-      setIsOtpSent(true); // Update state to indicate OTP has been sent
+      setIsOtpSent(true); 
       setErrorMessage(null);
       console.log("OTP sent successfully");
     } catch (error: any) {
@@ -103,8 +103,6 @@ const OtpVerification = ({
         localStorage.setItem("firebaseToken", tokenn);
         console.log("Token saved to local storage:", tokenn);
       }
-
-
 
       const client = new ApolloClient({
         uri: graphqlbaseUrl,

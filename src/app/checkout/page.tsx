@@ -106,7 +106,6 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    // console.log("value", value);
     setCouponCode(value);
   };
   const removeCoupon = (value: string) => {
@@ -290,7 +289,7 @@ const Checkout: React.FC = () => {
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-
+  console.log(cartItems,"OOOOOOOOOO")
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -299,7 +298,9 @@ const Checkout: React.FC = () => {
         item?.productDetails?.title ||
         item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
-        item?.productDetails?.imageDetails,
+        item?.productDetails?.imageDetails||
+        item?.productDetails?.quantity||
+        item?.productDetails?.makeToOrder,
     )
     .map((item: any) => ({
       productId: item?.productId,
@@ -309,6 +310,7 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       quantityleft:item?.productDetails?.quantity,
       makeToOrder:item?.productDetails?.makeToOrder,
+      url:item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -523,7 +525,6 @@ const Checkout: React.FC = () => {
       typeof window !== "undefined"
         ? localStorage.setItem("redirectPath", window.location.href)
         : null;
-
       router.push("/login");
       return;
     }

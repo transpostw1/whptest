@@ -91,7 +91,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       redirectPath = "/";
     }
     router.push(redirectPath);
-    localStorage.removeItem("redirectPath");
+    // localStorage.removeItem("redirectPath");
   };
 
   const logOut = () => {

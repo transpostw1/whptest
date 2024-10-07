@@ -16,7 +16,6 @@ interface CartItem {
     imageDetails: any;
     productPrice: string;
     quantityleft:number;
-    makeToOrder: number,
     discountValue: string;
     url: string;
   };
@@ -185,7 +184,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           updatedCartFromServer.length === 1 &&
           updatedCartFromServer[0].productId === productId
         ) {
-          // If the server returned only the removed item, fetch the updated cart from the server
           const cartItemsFromServer = await fetchCartItemsFromServer();
           setCartItems(cartItemsFromServer);
         } else {
@@ -218,13 +216,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const syncCartWithServer = async (cartItems: CartItem[]) => {
     try {
       setLoading(true);
-    
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
-      console.log(cartItems,"CARTCONTEXT")
-
+       console.log(cartData,"CARTDATA on synccartwith server")
       const getAuthHeaders: any = () => {
         if (!cookieToken) return null;
         return {

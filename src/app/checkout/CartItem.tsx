@@ -44,6 +44,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   useEffect(() => {
     if (product) {
+      console.log(product,"huuuuuuuuu")
       const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
       if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
         console.log("Out of stock - Make to order status:", product.makeToOrder);
@@ -108,6 +109,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        quantityleft:product.quantityleft,
         makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,

@@ -270,7 +270,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         }`}
                       >
                         <Icon.Newspaper size={30} />
-                        <p className="text-sm">Blogs</p>
+                        <p className="text-sm">Blog</p>
                       </div>
                     </Link>
                     <div

@@ -218,6 +218,7 @@ export interface ProductForWishlistLoggedOut {
   productPrice: string;
   discountPrice: string|number;
   discountValue: string;
+  quantityleft:number,
   makeToOrder:number|boolean,
   image_path: string;
   url: string;

@@ -740,15 +740,16 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-2/6">
+            <div className="mt-5 w-full lg:w-2/5">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="w-full border border-gray-400 p-3">
-                    <div className="flex justify-between items-start">
+                    <div className="flex w-full items-start justify-between">
                       <>
-                        <div className="w-full">
-                          <div className="flex items-center gap-2 font-medium">
+                        <div className="w-full flex flex-col">
+                          <div className="flex items-center justify-between font-medium">
+                            <div className="flex gap-2">
                             <Image
                               src={"/images/icons/coupon.png"}
                               alt={"coupons"}
@@ -757,8 +758,9 @@ const Checkout: React.FC = () => {
                               unoptimized
                             />
                             <h3>
-                              {voucherCode ? (
-                                <span className="flex items-center gap-2">
+                              {voucherCode &&
+                              dataAfterCouponCode.code === 200 ? (
+                                <span className="flex items-center gap-2 w-full">
                                   Applied Coupon:{" "}
                                   <span className="text-red-600">
                                     {voucherCode}
@@ -768,8 +770,23 @@ const Checkout: React.FC = () => {
                                 "Available Coupons/Vouchers"
                               )}
                             </h3>
+
+                            </div>
+                           
+                            <h3
+                          className="cursor-pointer text-red-600 underline"
+                          onClick={() =>
+                            voucherCode ? removeCoupon() : handleCouponsModal()
+                          }
+                        >
+                          {couponCode && dataAfterCouponCode.code === 200
+                            ? voucherCode
+                              ? "Remove"
+                              : ""
+                            : ""}
+                        </h3>
                           </div>
-                          <div className="mt-2 flex gap-2 w-full">
+                          <div className="mt-2 flex w-full gap-2 ">
                             <input
                               type="text"
                               value={couponCode}
@@ -785,14 +802,8 @@ const Checkout: React.FC = () => {
                             </button>
                           </div>
                         </div>
-                        <h3
-                          className="cursor-pointer text-red-600 underline"
-                          onClick={() =>
-                            voucherCode ? removeCoupon() : handleCouponsModal()
-                          }
-                        >
-                          {voucherCode ? "Remove" : ""}
-                        </h3>
+
+                       
                       </>
                     </div>
                     <div className="relative w-full pt-2">
@@ -855,16 +866,16 @@ const Checkout: React.FC = () => {
                         ))}
                       </Swiper>
                     </div>
-                    {couponCode && dataAfterCouponCode.code === 200 && (
+                    {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
                         <p>
-                          {/* <span className="font-bold">Coupon Code:</span> */}
-                          {couponCode}{" "}
+                       
+                          {voucherCode}{" "}
                           <span className="text-red-600"> applied </span>
                         </p>
-                        {/* <div  onClick={() =>removeCoupon("")}>remove api not implemented</div> */}
+                       
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {couponsModal && (
                     <CouponsModal

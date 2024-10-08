@@ -531,7 +531,7 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
         </div>
       )}
-      {isMobile && component == "Payment" && (
+      {isMobile && component === "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
             <p className="text-[18px] font-medium">

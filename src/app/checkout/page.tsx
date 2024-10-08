@@ -299,6 +299,7 @@ const Checkout: React.FC = () => {
         item?.productDetails?.title ||
         item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
+        item?.productDetails?.url ||
         item?.productDetails?.imageDetails,
     )
     .map((item: any) => ({
@@ -308,6 +309,7 @@ const Checkout: React.FC = () => {
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
       quantityleft: item?.productDetails?.quantity,
+      url: item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -426,6 +428,7 @@ const Checkout: React.FC = () => {
           }
         }
       `;
+      
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {
@@ -831,12 +834,14 @@ const Checkout: React.FC = () => {
                           <h3>Subtotal</h3>
                           <h3>{formatPrice(parseInt(formattedPrice))}</h3>
                         </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>Coupon Discount</h3>
-                          <h3>
-                            -{formatPrice(parseInt(totalDiscount.toString()))}
-                          </h3>
-                        </div>
+                        {totalDiscount > 0 && dataAfterCouponCode && (
+                          <div className="flex justify-between font-medium">
+                            <h3>Coupon Discount</h3>
+                            <h3>
+                              -{formatPrice(parseInt(totalDiscount.toString()))}
+                            </h3>
+                          </div>
+                        )}
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (

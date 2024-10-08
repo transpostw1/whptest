@@ -75,10 +75,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <h3>Subtotal</h3>
             <h3>{formatPrice(price)}</h3>
           </div>
-          <div className="flex justify-between font-medium">
-            <h3>Coupon Discount</h3>
-            <h3>-{formatPrice(totalDiscount)}</h3>
-          </div>
+          {totalDiscount > 0 && (
+            <div className="flex justify-between font-medium">
+              <h3>Coupon Discount</h3>
+              <h3>-{formatPrice(totalDiscount)}</h3>
+            </div>
+          )}
           <div className="flex justify-between font-medium">
             <h3>Wallet</h3>
             {wallet === "whp_Wallet" &&

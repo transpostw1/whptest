@@ -9,7 +9,7 @@ import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 import Skeleton from "react-loading-skeleton";
 import Loader from "../blog/loading";
 import { useCurrency } from "@/context/CurrencyContext";
-
+import { useRouter } from "next/navigation";
 interface CartItemProps {
   product: {
     productId: number;
@@ -40,9 +40,13 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const [showOutOfStockModal, setShowOutOfStockModal] = useState(false); // New state for out-of-stock modal
   const [isloading, setLoading] = useState(true);
   const { formatPrice } = useCurrency();
+  const router = useRouter();
 
   useEffect(() => {
-    if (product && (product.quantityleft === 0 || product.quantityleft === null)) {
+    if (
+      product &&
+      (product.quantityleft === 0 || product.quantityleft === null)
+    ) {
       setShowOutOfStockModal(true);
     } else {
       setLoading(false);
@@ -50,7 +54,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   }, [product]);
 
   const handleOutOfStockConfirm = () => {
-    removeFromCart(product.productId); 
+    removeFromCart(product.productId);
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
@@ -67,8 +71,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         url: product.url,
       };
       addToWishlist(productToAdd);
-    } 
-    setShowOutOfStockModal(false); 
+    }
+    setShowOutOfStockModal(false);
   };
 
   const handleQuantityChange = (newQuantity: number) => {
@@ -79,9 +83,10 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     } else {
       removeFromCart(product.productId);
     }
-    
   };
-
+  useEffect(()=>{
+    console.log("cart Product url",product.url)
+  },[product])
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;
 
@@ -112,6 +117,10 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     setShowModal(false);
   };
 
+  const handleProductDetailsLink = (productUrl: any, productId: any) => {
+    router.push(`/products/${productUrl}/${productId}`);
+  };
+
   const handleJustRemove = () => {
     let discount = 0;
     removeFromCart(product.productId);
@@ -121,9 +130,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   return (
     <div>
       {isloading ? (
-        <div className="justify-between p-4 border rounded-lg border-gray-400 flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-400 p-4 md:w-full md:flex-row lg:w-full lg:flex-row">
           <Skeleton height={100} width={100} />
-          <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
+          <div className="flex flex-col md:flex-row lg:w-2/3 lg:flex-row">
             <div className="py-4">
               <Skeleton width={200} height={20} />
               <div className="flex">
@@ -131,9 +140,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center md:w-1/6">
             <Skeleton width={100} height={20} />
-            <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
+            <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
               <Skeleton width={28} height={28} />
               <Skeleton width={28} height={28} />
               <Skeleton width={28} height={28} />
@@ -141,21 +150,31 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="justify-between p-4 border-b flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
+        <div className="mb-4 flex items-center justify-between border-b p-4 md:w-full md:flex-row lg:w-full lg:flex-row">
           <Image
             src={product?.image}
             width={100}
             height={200}
             alt="image"
-            className="object-cover bg-[#f7f7f7] mr-2"
+            className="mr-2 cursor-pointer bg-[#f7f7f7] object-cover"
             unoptimized
+            onClick={() =>
+              handleProductDetailsLink(product.productId, product.url)
+            }
           />
-          <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
+          <div className="flex flex-col md:flex-row lg:w-2/3 lg:flex-row">
             <div className="py-4">
-              <div className="text-title">{product.name}</div>
+              <div
+                className="text-title cursor-pointer"
+                onClick={() =>
+                  handleProductDetailsLink(product.productId, product.url)
+                }
+              >
+                {product.name}
+              </div>
               <div className="flex">
                 <div
-                  className="text-sm max-md:text-base text-red-600 cursor-pointer hover:text-black duration-500"
+                  className="cursor-pointer text-sm text-red-600 duration-500 hover:text-black max-md:text-base"
                   onClick={handleRemoveFromCart}
                 >
                   Remove
@@ -163,26 +182,26 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center md:w-1/6">
             <div className="text-title text-center"> {formatPrice(price)} </div>
-            <div className="line-through text-[#beb3b3]">
+            <div className="text-[#beb3b3] line-through">
               {formatPrice(productPrice)}
             </div>
-            <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
+            <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
               <Icon.Minus
                 size={28}
                 onClick={() => handleQuantityChange(product.quantity - 1)}
-                className={`text-base max-md:text-sm text-black border p-1 hover:bg-[#e26178] hover:text-white ${
+                className={`border p-1 text-base text-black hover:bg-[#e26178] hover:text-white max-md:text-sm ${
                   product.quantity === 1 ? "disabled" : ""
                 }`}
               />
-              <div className="text-button quantity mr-1 ml-1">
+              <div className="text-button quantity ml-1 mr-1">
                 {product.quantity}
               </div>
               <Icon.Plus
                 size={28}
                 onClick={() => handleQuantityChange(product.quantity + 1)}
-                className={`text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white ${
+                className={`border p-1 text-base hover:bg-[#e26178] hover:text-white max-md:text-sm ${
                   product.quantity >= 5 ? "disabled cursor-not-allowed" : ""
                 }`}
                 disabled={product.quantity >= 5}
@@ -199,22 +218,22 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             className="fixed inset-0 bg-black opacity-50"
             onClick={() => setShowModal(false)}
           />
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto relative">
+          <div className="relative mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
             <div className="float-right" onClick={() => setShowModal(false)}>
               <Icon.X />
             </div>
             <div className="mb-4">
-              <h2 className="text-xl font-bold text-center">Remove Item?</h2>
+              <h2 className="text-center text-xl font-bold">Remove Item?</h2>
             </div>
-            <div className="flex gap-2 justify-center">
+            <div className="flex justify-center gap-2">
               <button
-                className="px-2 py-2 text-[#E26178] border border-[#E26178] rounded-xl hover:bg-[#E26178] hover:text-white"
+                className="rounded-xl border border-[#E26178] px-2 py-2 text-[#E26178] hover:bg-[#E26178] hover:text-white"
                 onClick={handleJustRemove}
               >
                 Remove Item
               </button>
               <button
-                className="px-2 py-2 text-[#E26178] border border-[#E26178] rounded-xl hover:bg-[#E26178] hover:text-white"
+                className="rounded-xl border border-[#E26178] px-2 py-2 text-[#E26178] hover:bg-[#E26178] hover:text-white"
                 onClick={handleAddToWishlist}
               >
                 Move to Wishlist
@@ -225,27 +244,28 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       )}
 
       {showOutOfStockModal && (
-               <div className="fixed inset-0 z-50 flex items-center justify-center">
-               <div
-                 className="fixed inset-0 bg-black opacity-50"
-                 onClick={() => setShowModal(false)}
-               />
-               <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto relative">
-                 <div className="mb-4">
-                   <h2 className="text-xl font-bold text-center">Out of Stock</h2>
-                   <p className="text-center">Some items are out of stock and will be moved to wishlist.</p>
-                 </div>
-                 <div className="flex gap-2 justify-center">
-                   <button
-                     className="px-4 py-2 text-white  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] rounded-xl hover:bg-[#bb547d]"
-                     onClick={handleOutOfStockConfirm}
-                   >
-                     Okay
-                   </button>
-                 </div>
-               </div>
-             </div>
-       
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={() => setShowModal(false)}
+          />
+          <div className="relative mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
+            <div className="mb-4">
+              <h2 className="text-center text-xl font-bold">Out of Stock</h2>
+              <p className="text-center">
+                Some items are out of stock and will be moved to wishlist.
+              </p>
+            </div>
+            <div className="flex justify-center gap-2">
+              <button
+                className="rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white hover:bg-[#bb547d]"
+                onClick={handleOutOfStockConfirm}
+              >
+                Okay
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -103,11 +103,11 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (couponCode) {
-      handleCouponCheck();
-    }
-  }, [couponCode]);
+  // useEffect(() => {
+  //   if (couponCode) {
+  //     handleCouponCheck();
+  //   }
+  // }, [couponCode]);
 
   const handleCouponModalClose = () => {
     setCouponsModal(false);
@@ -115,7 +115,8 @@ const Checkout: React.FC = () => {
   const handleCouponCode = (value: string) => {
     setCouponCode("");
     setCouponCode(value);
-    // handleCouponCheck();
+    setVoucherCode(value)
+    handleCouponCheck();
   };
   const removeCoupon = () => {
     setCouponCode("");
@@ -739,12 +740,12 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-3/4">
+            <div className="mt-5 w-full lg:w-2/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="w-full border border-gray-400 p-3">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-start">
                       <>
                         <div className="w-full">
                           <div className="flex items-center gap-2 font-medium">
@@ -756,11 +757,11 @@ const Checkout: React.FC = () => {
                               unoptimized
                             />
                             <h3>
-                              {couponCode ? (
+                              {voucherCode ? (
                                 <span className="flex items-center gap-2">
                                   Applied Coupon:{" "}
                                   <span className="text-red-600">
-                                    {couponCode}
+                                    {voucherCode}
                                   </span>
                                 </span>
                               ) : (
@@ -771,13 +772,13 @@ const Checkout: React.FC = () => {
                           <div className="mt-2 flex gap-2 w-full">
                             <input
                               type="text"
-                              value={voucherCode}
-                              onChange={(e) => setVoucherCode(e.target.value)}
+                              value={couponCode}
+                              onChange={(e) => setCouponCode(e.target.value)}
                               placeholder="Enter Coupon Code"
                               className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
                             />
                             <button
-                              onClick={() => handleCouponCode(voucherCode)}
+                              onClick={() => handleCouponCode(couponCode)}
                               className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply
@@ -787,16 +788,16 @@ const Checkout: React.FC = () => {
                         <h3
                           className="cursor-pointer text-red-600 underline"
                           onClick={() =>
-                            couponCode ? removeCoupon() : handleCouponsModal()
+                            voucherCode ? removeCoupon() : handleCouponsModal()
                           }
                         >
-                          {couponCode ? "Remove" : ""}
+                          {voucherCode ? "Remove" : ""}
                         </h3>
                       </>
                     </div>
                     <div className="relative w-full pt-2">
                       <Swiper
-                        spaceBetween={4}
+                        spaceBetween={2}
                         slidesPerView="auto"
                         modules={[Navigation]}
                         navigation={{

@@ -16,7 +16,7 @@ import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,30 +30,32 @@ const ProductSlider = () => {
         });
 
         const BEST_SELLER = gql`
-        query BestSeller {
-          bestSeller {
-            productId
-            url
-            title
-            productPrice
-            discountPrice
-            typeOfDiscount
-            discountValue
-            rating
-            imageDetails {
-              image_path
-            }
-            videoDetails {
-              video_path
+          query BestSeller {
+            bestSeller {
+              productId
+              url
+              SKU
+              title
+              productPrice
+              discountPrice
+              typeOfDiscount
+              discountValue
+              rating
+              imageDetails {
+                image_path
+              }
+              videoDetails {
+                video_path
+              }
             }
           }
-        }
-`;
-const { data } = await client.query({
-  query: BEST_SELLER,
-});
+        `;
+        const { data } = await client.query({
+          query: BEST_SELLER,
+        });
         // const response = await axios.get(`${baseUrl}/best-sellers`);
         setData(await data.bestSeller);
+        console.log("BEST SELLer", data.bestSeller);
       } catch (error) {
         console.log();
       } finally {
@@ -62,14 +64,16 @@ const { data } = await client.query({
     };
     getData();
   }, []);
-
+  if (!data || data.length == 0) return null;
   return (
     <>
       <div className="tab-features-block pt-10">
         <div className="container">
           <div className="flex justify-between">
             <div>
-              <p className="font-semibold text-[1.5rem] uppercase">Best Sellers</p>
+              <p className="text-[1.5rem] font-semibold uppercase">
+                Best Sellers
+              </p>
             </div>
             <div className="flex">
               <button onClick={() => swiperRef.current.slidePrev()}>
@@ -93,7 +97,7 @@ const { data } = await client.query({
               zoom
               breakpoints={{
                 576: {
-                  slidesPerView: 1.5,
+                  slidesPerView: 1.3,
                   spaceBetween: 12,
                 },
                 768: {
@@ -106,10 +110,10 @@ const { data } = await client.query({
                 },
               }}
             >
-              <SwiperSlide className="mr-4 ">
+              <SwiperSlide className="mr-4">
                 <Skeleton height={300} width={200} />
               </SwiperSlide>
-              <SwiperSlide className="mr-4 ">
+              <SwiperSlide className="mr-4">
                 <Skeleton height={300} width={200} />
               </SwiperSlide>
               <SwiperSlide className="mr-4">
@@ -120,7 +124,7 @@ const { data } = await client.query({
               </SwiperSlide>
             </Swiper>
           ) : (
-            <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+            <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
               <Swiper
                 spaceBetween={12}
                 slidesPerView={1.5}

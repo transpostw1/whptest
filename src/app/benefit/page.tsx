@@ -1,18 +1,37 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import GoldCard from "./GoldCard";
 import DiamondCard from "./DiamondCard";
 import SilverCard from "./SilverCard";
 import FlashAlert from "@/components/Other/FlashAlert";
 import MobileBenefits from "./mobileBenefits";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
+
+interface GmsROI {
+  id: string;
+  type: string;
+  percentage: number;
+}
+
+const GET_GMS_ROI = gql`
+  query GetGmsROI {
+    getGmsROI {
+      id
+      type
+      percentage
+    }
+  }
+`;
 
 const Benefit: React.FC = () => {
   const [cardArray, setCardArray] = useState<number[]>([1, 2, 3]);
   const [backendMessage, setBackendMessage] = useState<string | null>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
   const [flashType, setFlashType] = useState<"success" | "error" | "info">(
-    "success"
+    "success",
   );
+  const [ROIData, setROIData] = useState<GmsROI[] | null>(null);
 
   const nextCard = (index: number): void => {
     setCardArray((prevArray) => {
@@ -23,12 +42,18 @@ const Benefit: React.FC = () => {
       return newArray;
     });
   };
+  const getPercentageByType = (type: string) => {
+    if (!ROIData) return 0;
+    const roiItem = ROIData.find((item: any) => item.type === type);
+    return roiItem ? roiItem.percentage : 0;
+  };
 
   const getCard = (card: number) => {
     switch (card) {
       case 1:
         return (
           <GoldCard
+            percentage={getPercentageByType("Gold")}
             setBackendMessage={setBackendMessage}
             setBackendError={setBackendError}
             setFlashType={setFlashType}
@@ -37,6 +62,7 @@ const Benefit: React.FC = () => {
       case 2:
         return (
           <DiamondCard
+            percentage={getPercentageByType("Diamond")}
             setBackendMessage={setBackendMessage}
             setBackendError={setBackendError}
             setFlashType={setFlashType}
@@ -45,6 +71,7 @@ const Benefit: React.FC = () => {
       case 3:
         return (
           <SilverCard
+            percentage={getPercentageByType("Silver")}
             setBackendMessage={setBackendMessage}
             setBackendError={setBackendError}
             setFlashType={setFlashType}
@@ -54,6 +81,28 @@ const Benefit: React.FC = () => {
         return null;
     }
   };
+
+  const fetchGmsROIData = async () => {
+    try {
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+      const { data } = await client.query({
+        query: GET_GMS_ROI,
+      });
+
+      setROIData(data.getGmsROI);
+      console.log(data.getGmsROI, "GMS ROI data fetched");
+    } catch (error) {
+      console.error("Error fetching GMS ROI data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGmsROIData();
+  }, []);
 
   useEffect(() => {
     if (backendMessage || backendError) {
@@ -67,7 +116,7 @@ const Benefit: React.FC = () => {
 
   return (
     <>
-      <div className="hidden lg:block lg:h-[600px] md:h-[900px] px-40 md:px-10">
+      <div className="hidden px-40 md:h-[900px] md:px-10 lg:block lg:h-[600px]">
         <div className="card-stack">
           {cardArray.map((card, index) => (
             <div
@@ -80,7 +129,12 @@ const Benefit: React.FC = () => {
           ))}
         </div>
       </div>
-      <MobileBenefits />
+      <MobileBenefits
+        ROIData={ROIData} 
+        setBackendMessage={setBackendMessage}
+        setBackendError={setBackendError}
+        setFlashType={setFlashType}
+      />
       {(backendMessage || backendError) && (
         <FlashAlert message={backendMessage || backendError} type={flashType} />
       )}

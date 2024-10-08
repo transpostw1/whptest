@@ -10,7 +10,6 @@ import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 
-
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
@@ -22,17 +21,17 @@ export default function RootLayout({
 }) {
   return (
     <GlobalProvider>
-     
       <html lang="en">
         <head>
           <link rel="icon" href="/images/other/logo2.png" />
+          <meta name="whp" content="Welcome to WHP jewellers" />
         </head>
         <Suspense>
         <body className={instrument.className}>
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />
-          <div id="header" className="w-full ">
+          <div id="header" className="w-full">
             <NavHoverMenu props="bg-white" />
           </div>
           {children}
@@ -43,4 +42,3 @@ export default function RootLayout({
     </GlobalProvider>
   );
 }
-

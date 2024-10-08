@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -11,7 +12,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import * as Yup from "yup";
 import FlashAlert from "@/components/Other/FlashAlert";
-import axios from "axios";
 import { graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Extendedfooter from "./Extendedfooter";
@@ -66,9 +66,9 @@ const Footer = () => {
       if (data.StoreCustomerSubscription.code == 200) {
         setMessage(data.StoreCustomerSubscription.message);
         setType("success");
-      }else{
+      } else {
         setMessage(data.StoreCustomerSubscription.message);
-        setType("error")
+        setType("error");
       }
     } catch (error) {
       console.log("Error From Subscription", error);
@@ -91,12 +91,20 @@ const Footer = () => {
     },
   });
 
+  const pathname = usePathname();
+  if (pathname == "/checkout")
+    return (
+      <>
+        <div id="footer" className="footer h-20 text-rose-950"></div>
+      </>
+    );
+
   return (
     <>
-      <div id="footer" className="footer  text-rose-950 ">
-        <div className="footer-main  bg-gray-50">
-          <div className="container py-4 ">
-            <div className="flex flex-col justify-center items-center lg:justify-between lg:flex-row ">
+      <div id="footer" className="footer text-rose-950">
+        <div className="footer-main bg-gray-50">
+          <div className="container py-4">
+            <div className="flex flex-col items-center justify-center lg:flex-row lg:justify-between">
               <div className="flex items-center">
                 <Link href={"/"}>
                   <Image
@@ -104,7 +112,7 @@ const Footer = () => {
                     width={40}
                     height={40}
                     alt="80x80"
-                    className=" object-cover"
+                    className="object-cover"
                   />
                 </Link>
                 <div>
@@ -114,23 +122,23 @@ const Footer = () => {
                       width={170}
                       height={80}
                       alt="80x80"
-                      className=" object-cover"
+                      className="object-cover"
                     />
                   </Link>
                 </div>
               </div>
-              <div className=" ">
-                <p>Crafting Timeless Elegance,One Jewel at a </p>{" "}
+              <div className="">
+                <p>Crafting Timeless Elegance,One Jewel at a </p>
                 <p> Time.Discover Your Statement Piece Today.</p>
               </div>
             </div>
-            <div className="py-[60px] flex lg:flex-row flex-col justify-between gap-4 border-t">
+            <div className="flex flex-col justify-between gap-4 border-t py-[60px] lg:flex-row">
               <div className="company-infor">
-                <div className="newsletter ">
-                  <div className="caption1  font-semibold text-center lg:text-start">
+                <div className="newsletter">
+                  <div className="caption1 text-center font-semibold lg:text-start">
                     Subscribe for WhatsApp updates
                   </div>
-                  <div className="input-block h-[52px] mt-2 relative">
+                  <div className="input-block relative mt-2 h-[52px]">
                     <form
                       className="flex justify-center lg:justify-start"
                       action="post"
@@ -150,14 +158,14 @@ const Footer = () => {
                       </div>
 
                       <button
-                        className=" flex items-center justify-center relative ms-[-2rem] "
+                        className="relative ms-[-2rem] flex items-center justify-center"
                         type="submit"
                       >
                         <Icon.ArrowRight size={24} color="#e26178" />
                       </button>
                     </form>
                   </div>
-                  <div className="list-social flex items-center lg:justify-start justify-center gap-6 mt-4">
+                  <div className="list-social mt-4 flex items-center justify-center gap-6 lg:justify-start">
                     <Link
                       href={"https://www.facebook.com/whpjewellers.india/"}
                       target="_blank"
@@ -191,16 +199,16 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row w-full justify-center">
-                <div className="list-nav flex flex-col lg:flex-row w-full justify-between gap-5 ">
-                  <div className="flex flex-col w-full items-center lg:items-start ">
-                    <div className="font-semibold ">Know WHP</div>
-                    <div
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      onClick={() => setCareerModal(true)}
+              <div className="flex w-full flex-col justify-center lg:flex-row">
+                <div className="list-nav flex w-full flex-col justify-between gap-5 lg:flex-row">
+                  <div className="flex w-full flex-col items-center lg:items-start">
+                    <div className="font-semibold">Know WHP</div>
+                    <Link
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
+                      href="/careers"
                     >
-                      Career
-                    </div>
+                      Careers
+                    </Link>
                     {careerModal && (
                       <BookExchangeModal
                         title={"Careers"}
@@ -209,14 +217,14 @@ const Footer = () => {
                     )}
                     {isLoggedIn ? (
                       <Link
-                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        className="caption1 has-line-before w-fit pt-2 duration-300"
                         href={"/profile"}
                       >
                         My Account
                       </Link>
                     ) : (
                       <Link
-                        className="caption1 has-line-before duration-300 w-fit pt-2"
+                        className="caption1 has-line-before w-fit pt-2 duration-300"
                         href={"/login"}
                       >
                         My Account
@@ -224,29 +232,29 @@ const Footer = () => {
                     )}
 
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/profile"}
                     >
                       Order & Returns
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
                     >
                       About-Us
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/faqs"}
                     >
                       FAQs
                     </Link>
                   </div>
 
-                  <div className="item flex flex-col w-full items-center lg:items-start ">
+                  <div className="item flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Quick Shop</div>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit"
+                      className="caption1 has-line-before w-fit duration-300"
                       href={{
                         pathname: "/products",
                         query: { url: "c-chain" },
@@ -256,7 +264,7 @@ const Footer = () => {
                       Chains
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{
                         pathname: "/products",
                         query: { url: "c-bangle" },
@@ -266,14 +274,14 @@ const Footer = () => {
                       Bangles
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{ pathname: "/products", query: { url: "c-ring" } }}
                       onClick={() => setCustomcategory("ring")}
                     >
                       Rings
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{
                         pathname: "/products",
                         query: { url: "necklace" },
@@ -283,17 +291,17 @@ const Footer = () => {
                       Necklaces
                     </Link>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{ pathname: "/products", query: { url: "stone" } }}
                       onClick={() => setCustomcategory("stone")}
                     >
                       Stones
                     </Link>
                   </div>
-                  <div className="item flex flex-col items-center lg:items-start w-full">
-                    <div className="font-semibold ">Customer Services</div>
+                  <div className="item flex w-full flex-col items-center lg:items-start">
+                    <div className="font-semibold">Customer Services</div>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit"
+                      className="caption1 has-line-before w-fit duration-300"
                       href={"/terms-and-condition"}
                     >
                       Terms & Conditions
@@ -305,19 +313,19 @@ const Footer = () => {
                       Shipping
                     </Link> */}
                     <a
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/terms-and-condition#privacyPolicy"}
                     >
                       Privacy Policy
                     </a>
                     <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/terms-and-condition#returnandRefund"}
                     >
                       Return & Refund
                     </Link>
                     <div
-                      className="caption1 has-line-before duration-300 w-fit pt-2 cursor-pointer"
+                      className="caption1 has-line-before w-fit cursor-pointer pt-2 duration-300"
                       onClick={() => setAppointmentModal(true)}
                     >
                       Book,Exchange and BuyBack
@@ -329,8 +337,27 @@ const Footer = () => {
                       />
                     )}
                   </div>
-                  <div className="item flex flex-col items-center lg:items-start w-full">
-                    <div className="font-semibold ">Contact</div>
+                  <div className="item flex w-full flex-col items-center lg:items-start">
+                    <div className="font-semibold">User Guide</div>
+                    <Link
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
+                      href={"/diamondguide"}
+                    >
+                      Diamond Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
+                      href={"/gemstoneguide"}
+                    >
+                      Gemstone Guide
+                    </Link>
+                    <Link
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
+                      href={"/preciousmetal"}
+                    >
+                      Precious Metal Guide
+                    </Link>
+                    <div className="mt-4 font-semibold">Contact</div>
                     <Link
                       href="tel:+91 1800-222-225"
                       target="_blank"
@@ -374,10 +401,11 @@ const Footer = () => {
                 </div> */}
               </div>
             </div>
-            <div className="py-3 flex items-center justify-center gap-5 max-lg:justify-center max-lg:flex-col border-t border-line ">
+            <div className="border-line flex items-center justify-center gap-5 border-t py-3 max-lg:flex-col max-lg:justify-center">
               <div className="left flex items-center gap-8">
-                <div className="copyright caption1 text-secondary">
-                  ©2023 WHP Jewellers Ecommerce Pvt.Ltd.All Rights Reserved.
+                <div className="copyright caption1 text-secondary text-center">
+                  ©2024 WHP Jewellers Ecommerce Private Limited.All Rights
+                  Reserved.
                 </div>
                 <div className="select-block flex items-center gap-5 max-md:hidden"></div>
               </div>

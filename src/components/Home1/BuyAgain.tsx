@@ -10,39 +10,82 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { baseUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 
-const ProductSlider = () => {
+const BuyAgain = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<any>([]);
   const swiperRef = useRef<any>();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-
-      const response = await axios.get(`${baseUrl}/buyAgain`, {
-        headers: { Authorization: `Bearer ${cookieToken}` },
-      });
-      setProducts(response.data);
-      setLoading(false);
+    const getData = async () => {
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
+      try {
+        setLoading(true);
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
+        const link = new HttpLink({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+        });
+        const client = new ApolloClient({
+          link,
+          cache: new InMemoryCache(),
+        });
+        const Buy_Again = gql`
+          query GetBuyAgainProducts {
+            getBuyAgainProducts {
+              productId
+              url
+              SKU
+              title
+              productPrice
+              discountPrice
+              typeOfDiscount
+              discountValue
+              rating
+              imageDetails {
+                image_path
+              }
+              videoDetails {
+                video_path
+              }
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: Buy_Again,
+        });
+        // const response = await axios.get(`${baseUrl}/best-sellers`);
+        setData(await data.getBuyAgainProducts);
+      } catch (error) {
+        console.log();
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchProduct();
+    getData();
   }, []);
 
-  const filteredProducts = products;
 
   return (
     <>
-      {products.length > 0 && (
+      {data.length > 0 && (
         <div className="tab-features-block pt-10">
           <div className="container">
-            {products.length > 0 && (
+            {data.length > 0 && (
               <div className="flex justify-between">
                 <div>
-                  <p className="font-semibold text-[1.5rem] uppercase">
+                  <p className="text-[1.5rem] font-semibold uppercase">
                     Buy Again
                   </p>
                 </div>
@@ -82,10 +125,10 @@ const ProductSlider = () => {
                   },
                 }}
               >
-                <SwiperSlide className="mr-4 ">
+                <SwiperSlide className="mr-4">
                   <Skeleton height={300} width={200} />
                 </SwiperSlide>
-                <SwiperSlide className="mr-4 ">
+                <SwiperSlide className="mr-4">
                   <Skeleton height={300} width={200} />
                 </SwiperSlide>
                 <SwiperSlide className="mr-4">
@@ -96,7 +139,7 @@ const ProductSlider = () => {
                 </SwiperSlide>
               </Swiper>
             ) : (
-              <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+              <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
                 <Swiper
                   spaceBetween={12}
                   slidesPerView={1.5}
@@ -120,7 +163,7 @@ const ProductSlider = () => {
                     },
                   }}
                 >
-                  {filteredProducts.map((prd: any, index: any) => (
+                  {data.map((prd: any, index: any) => (
                     <SwiperSlide key={index}>
                       <DummyProduct data={prd} />
                     </SwiperSlide>
@@ -135,4 +178,4 @@ const ProductSlider = () => {
   );
 };
 
-export default ProductSlider;
+export default BuyAgain;

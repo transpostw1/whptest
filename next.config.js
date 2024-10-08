@@ -1,6 +1,9 @@
+
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = ({
   reactStrictMode: false,
+  productionBrowserSourceMaps: false,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -23,6 +26,6 @@ const nextConfig = {
       },
     ],
   },
-};
+});
 
 module.exports = nextConfig;

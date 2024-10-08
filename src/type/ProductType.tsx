@@ -101,6 +101,7 @@ interface ProductDetails {
   isParent: number;
   title: string;
   displayTitle: string;
+  makeToOrder:boolean;
   shortDesc: string | null;
   longDesc: string | null;
   url: string;
@@ -124,6 +125,7 @@ interface ProductDetails {
   preSalesProductQueries: string | null;
   isReplaceable: number;
   isReturnable: number;
+  makeToOrder:boolean;
   isInternationalShippingAvailable: number;
   customizationAvailability: number;
   fastDelivery: number;
@@ -216,6 +218,8 @@ export interface ProductForWishlistLoggedOut {
   productPrice: string;
   discountPrice: string|number;
   discountValue: string;
+  quantityleft:number,
+  makeToOrder:number|boolean,
   image_path: string;
   url: string;
 }

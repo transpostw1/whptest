@@ -5,7 +5,10 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useWishlist } from "@/context/WishlistContext";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { useCurrency } from "@/context/CurrencyContext";
 import StarRating from "./StarRating";
+import { IoCameraOutline } from "react-icons/io5";
+
 
 interface ProductProps {
   data: any;
@@ -32,20 +35,29 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     useWishlist();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
-
+  const { formatPrice } = useCurrency();
   const router = useRouter();
+  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
 
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
-      (item) => item.productId === data.productId
+      (item) => item.productId === data.productId,
     );
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
+  useEffect(() => {
+    fetchSkusList();
+  }, []);
+
+  useEffect(() => {
+    console.log("BuyAgain Products",data);
+  }, [data]);
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
+        
         if (isLoggedIn) {
           const productToAdd: ProductForWishlistLoggedIn = {
             productId: data.productId,
@@ -61,6 +73,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             discountValue: data.discountValue,
             image_path: data?.imageDetails[0].image_path,
             url: data.url,
+            
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
@@ -81,18 +94,112 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productId}/${productUrl}`);
   };
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.discountPrice ?? 0))
-  );
 
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN").format(
-    Math.round(parseFloat(data?.productPrice ?? 0))
-  );
+  const loadScript = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // Check if the script is already loaded
+      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+        resolve(); // Script already loaded
+        return;
+      }
+
+      // Create the script tag
+      const script = document.createElement('script');
+      script.src = "https://camweara.com/integrations/camweara_api.js";
+      script.onload = () => {
+        // Give some time for the function to be available
+        setTimeout(() => {
+          if (typeof window.getSkusListWithTryOn === "function") {
+            resolve(); // Function is ready
+          } else {
+            reject(new Error("getSkusListWithTryOn is not defined"));
+          }
+        }, 1000);
+      };
+      script.onerror = () => reject(new Error("Failed to load script"));
+
+      // Append the script to the body
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchSkusList = async () => {
+    try {
+      await loadScript(); // Ensure the script is loaded
+      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      setSkuList(skus); // Update SKU list state
+      // console.log(skuList);
+    } catch (error) {
+      console.error("Error fetching SKU list:", error);
+    }
+  };
+
+  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+    return new Promise<void>(async (resolve, reject) => {
+      const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
+
+      const loadButton = async () => {
+        return new Promise<void>((buttonResolve) => {
+          try {
+            window.loadTryOnButton({
+              psku: sku,
+              page: 'product',
+              company: 'whpjewellers',
+              buynow: { enable: 'false' },
+              prependButton: { class: `try_on`, id: `product-form-${productId}` },
+              styles: {
+                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px' }, // Hide the auto-loaded button
+                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
+                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              },
+
+            });
+            console.log("Button Created");
+            // After loading, wait for the button to appear in the DOM
+            const buttonInterval = setInterval(() => {
+              const tryonButton = document.getElementById('tryonButton') || document.getElementById('MB_tryonButton');
+
+              if (tryonButton) {
+                // Hide the button
+                tryonButton.style.display = 'none';
+                console.log("Button Clicked");
+                // Automatically click the button
+                tryonButton.click();
+
+                // Stop the interval once the button is clicked
+                clearInterval(buttonInterval);
+
+                buttonResolve(); // Resolve after the button is clicked
+              }
+            }, 100); // Check every 100ms for the button
+          } catch (error) {
+            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+          }
+        });
+      };
+
+      // Check if the script is already loaded
+      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      if (existingScript) {
+        await loadButton(); // Await the button loading if script is already loaded
+      } else {
+        // Append the script and load the button after it's loaded
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = async () => {
+          await loadButton(); // Await loading the button after the script is loaded
+        };
+        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        document.body.appendChild(script);
+      }
+    });
+  };
+
 
   return (
     <>
-      <div className="product-item grid-type ">
-        <div className="product-main cursor-pointer block">
+      <div className="product-item grid-type">
+        <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
             {/* {data?.videoDetails != null ? (
               <div
@@ -139,14 +246,27 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 )}
               </div>
             ) : ( */}
-            <div className="relative ">
+            <div className="relative">
+              {skuList.includes(data.SKU) && (
+                <div
+                  id={`product-form-${data.productId}`} 
+                  className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
+                  onClick={() => loadTryOnButton(data.SKU, data.productId)} 
+                >
+                  <div className="flex items-center justify-between">
+                    <IoCameraOutline />
+                    <p className="ps-1 text-sm">Try On</p>
+                  </div>
+                </div>
+              )}
               <Image
                 onClick={() => handleDetailProduct(data.productId, data.url)}
-                className="w-[95%] duration-700  m-auto"
+                className="m-auto w-[95%] duration-700"
                 src={data?.imageDetails[0].image_path}
                 width={400}
                 height={400}
                 alt="This image is temporarry"
+                unoptimized
               />
 
               {/* <div className="relative">
@@ -154,7 +274,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     <Icon.Heart size={25} weight="light" />
                   </div>
                 </div> */}
-              <div className=" absolute flex justify-between bottom-0 right-0 z-0 hover:z-50 p-2">
+              <div className="absolute bottom-0 right-0 z-0 flex justify-between p-2 hover:z-50">
                 {isProductInWishlist ? (
                   <Icon.Heart
                     size={25}
@@ -168,8 +288,8 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className=" mt-4 lg:mb-7" onClick={() => handleDetailProduct()}>
-            <div className="product-name text-title duration-300 text-xl">
+          <div className="mt-4 lg:mb-7" onClick={() => handleDetailProduct}>
+            <div className="product-name text-title text-xl duration-300">
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
@@ -177,26 +297,22 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               <StarRating stars={data?.rating} />
             </div>
 
-            <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
+            <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
               {data?.discountPrice && (
-                <div className="product-price text-title text-lg">
-                  ₹{formattedDiscountedPrice}
-                </div>
-              )}
-              {data?.discountPrice && (
-                <div className="line-through text-[#beb3b3]">
-                  ₹{formattedOriginalPrice}
-                </div>
-              )}
-              {/* {data?.discountPrice && (
-                <p className="text-[#c95d71]">
-                  {data && data?.discountValue}%OFF
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.discountPrice))}
                 </p>
-              )} */}
+              )}
+              {data?.discountPrice && (
+                <p className="text-[#beb3b3] line-through">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
+              )}
+
               {data?.discountValue == null && (
-                <div className="product-price text-title text-lg">
-                  ₹{formattedOriginalPrice}
-                </div>
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
               )}
             </div>
           </div>

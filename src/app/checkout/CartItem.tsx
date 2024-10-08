@@ -8,6 +8,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import { ProductForWishlistLoggedOut } from "@/type/ProductType";
 import Skeleton from "react-loading-skeleton";
 import Loader from "../blog/loading";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface CartItemProps {
   product: {
@@ -16,6 +17,8 @@ interface CartItemProps {
     productPrice: any | string;
     discountPrice: any | string;
     discountValue: string;
+    quantityleft: number;
+    makeToOrder:number | boolean;
     name: string;
     price: number;
     image: string;
@@ -31,48 +34,29 @@ interface ProductForWishlistLoggedIn {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { updateCartQuantity, removeFromCart, loading } = useCart();
-  const { totalDiscount, updateTotalDiscount } = useCouponContext();
+  const { totalDiscount, updateDiscount } = useCouponContext();
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
+  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
   const [isloading, setLoading] = useState(true);
+  const { formatPrice } = useCurrency();
 
   useEffect(() => {
     if (product) {
-      setLoading(false);
+      console.log(product,"huuuuuuuuu")
+      const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+      if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+        console.log("Out of stock - Make to order status:", product.makeToOrder);
+        setShowOutOfStockModal(true);
+      } else {
+        setLoading(false);
+      }
     }
   }, [product]);
 
-  const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity >= 1) {
-      let discount = 0;
-      updateTotalDiscount(discount);
-      updateCartQuantity(product.productId, newQuantity);
-    } else {
-      removeFromCart(product.productId);
-    }
-  };
-
-  console.log("Product", product);
-
-  const price = product.price * product.quantity;
-  const productPrice = product.productPrice * product.quantity;
-
-  const formattedPrice = new Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(Math.round(parseInt(price.toString())));
-
-  const formattedProductPrice = new Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(Math.round(parseInt(productPrice.toString())));
-
-  const handleRemoveFromCart = () => {
-    setShowModal(true);
-  };
-
-  const handleAddToWishlist = () => {
-    let discount = 0;
-    updateTotalDiscount(discount);
+  const handleOutOfStockConfirm = () => {
+    removeFromCart(product.productId); 
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
@@ -85,19 +69,59 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        makeToOrder:product.makeToOrder,
+        image_path: product.image,
+        url: product.url,
+      };
+      addToWishlist(productToAdd);
+    } 
+    setShowOutOfStockModal(false); 
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    if (newQuantity >= 1) {
+      let discount = 0;
+      updateDiscount(discount);
+      updateCartQuantity(product.productId, newQuantity);
+    } else {
+      removeFromCart(product.productId);
+    }
+    
+  };
+  const price = product.price * product.quantity;
+  const productPrice = product.productPrice * product.quantity;
+
+  const handleRemoveFromCart = () => {
+    setShowModal(true);
+  };
+
+  const handleAddToWishlist = () => {
+    let discount = 0;
+    if (isLoggedIn) {
+      const productToAdd: ProductForWishlistLoggedIn = {
+        productId: product.productId,
+      };
+      addToWishlist(productToAdd);
+    } else {
+      const productToAdd: ProductForWishlistLoggedOut = {
+        productId: product.productId,
+        title: product.name,
+        productPrice: product.productPrice,
+        discountPrice: product.price,
+        discountValue: product.discountValue,
+        quantityleft:product.quantityleft,
+        makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,
       };
       addToWishlist(productToAdd);
     }
-
     removeFromCart(product.productId);
     setShowModal(false);
   };
 
   const handleJustRemove = () => {
     let discount = 0;
-    updateTotalDiscount(discount);
     removeFromCart(product.productId);
     setShowModal(false);
   };
@@ -131,9 +155,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             width={100}
             height={200}
             alt="image"
-            className=" object-cover bg-[#f7f7f7] mr-2"
-            // placeholder="blur"
-            // blurDataURL="/images/other/Logo.png"
+            className="object-cover bg-[#f7f7f7] mr-2"
+            unoptimized
           />
           <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
             <div className="py-4">
@@ -149,9 +172,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             </div>
           </div>
           <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
-            <div className="text-title text-center"> ₹{formattedPrice} </div>
+            <div className="text-title text-center"> {formatPrice(price)} </div>
             <div className="line-through text-[#beb3b3]">
-              ₹{formattedProductPrice}
+              {formatPrice(productPrice)}
             </div>
             <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between md:w-[100px] flex-shrink-0 w-20">
               <Icon.Minus
@@ -167,7 +190,10 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               <Icon.Plus
                 size={28}
                 onClick={() => handleQuantityChange(product.quantity + 1)}
-                className="text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white"
+                className={`text-base max-md:text-sm border p-1 hover:bg-[#e26178] hover:text-white ${
+                  product.quantity >= 5 ? "disabled cursor-not-allowed" : ""
+                }`}
+                disabled={product.quantity >= 5}
               />
             </div>
           </div>
@@ -186,7 +212,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             </div>
             <div className="mb-4">
               <h2 className="text-xl font-bold text-center">Remove Item?</h2>
-              {/* <p>Do you want to add this item to your wishlist?</p> */}
             </div>
             <div className="flex gap-2 justify-center">
               <button
@@ -204,6 +229,30 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {showOutOfStockModal && (
+               <div className="fixed inset-0 z-50 flex items-center justify-center">
+               <div
+                 className="fixed inset-0 bg-black opacity-50"
+                 onClick={() => setShowModal(false)}
+               />
+               <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto relative">
+                 <div className="mb-4">
+                   <h2 className="text-xl font-bold text-center">Out of Stock</h2>
+                   <p className="text-center">Some items are out of stock and will be moved to wishlist.</p>
+                 </div>
+                 <div className="flex gap-2 justify-center">
+                   <button
+                     className="px-4 py-2 text-white  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] rounded-xl hover:bg-[#bb547d]"
+                     onClick={handleOutOfStockConfirm}
+                   >
+                     Okay
+                   </button>
+                 </div>
+               </div>
+             </div>
+       
       )}
     </div>
   );

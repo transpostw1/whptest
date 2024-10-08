@@ -1,17 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import axios from "axios";
 import FlashAlert from "../Other/FlashAlert";
-import Cookie from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
+import { useCurrency } from "@/context/CurrencyContext";
 interface Props {
   singleOrder: any;
 }
 
 const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
+  const { formatPrice } = useCurrency();
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
   const [type, setType] = useState<any>("");
@@ -19,7 +18,10 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const handleOrderCancel = async (id: any) => {
     try {
       setLoading(true);
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {
@@ -68,38 +70,41 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       setLoading(false);
     }
   };
-
   console.log(singleOrder);
-
   if (loading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      <div className="loading-container flex h-full items-center justify-center">
+        <Image
+          src="/dummy/loader.gif"
+          alt={"loader"}
+          height={50}
+          width={50}
+          unoptimized
+        />
       </div>
     );
   }
   return (
     <div>
-      <div className="flex justify-between mb-3">
+      <div className="mb-3 flex justify-between">
         <div>
           <p>
             Order No.:{" "}
-            <span className="font-bold text-lg">{singleOrder[0].orderNo}</span>
+            <span className="text-lg font-bold">{singleOrder[0].orderNo}</span>
           </p>
         </div>
         <div className="flex">
           <p className="mr-1">Tracking Status:</p>
-          <p className="text-green-600 font-bold text-lg">
+          <p className="text-lg font-bold text-green-600">
             {singleOrder[0]?.orderStatus}
           </p>
         </div>
       </div>
-
       {singleOrder?.map((items: any, index: any) => (
-        <div key={index} className="p-4 border border-gray items-center">
+        <div key={index} className="border-gray items-center border p-4">
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex justify-between items-center py-2" key={index}>
-              <div className="flex">
+            <div className="flex items-center justify-start py-2" key={index}>
+              <div className="flex flex-1">
                 <div className="mr-3">
                   <Image
                     src={product?.imageDetails[0].image_path}
@@ -107,31 +112,24 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                     width={85}
                     height={85}
                     className="bg-[#f7f7f7]"
+                    unoptimized
                   />
                 </div>
-                <div className="flex justify-center flex-col content-start ">
-                  <p className=" font-semibold">{product?.displayTitle}</p>
+                <div className="flex flex-col content-start justify-center">
+                  <p className="font-semibold">{product?.displayTitle}</p>
                   <p>
                     {product?.metalType}-{product?.metalWeight}
                   </p>
                 </div>
               </div>
-              <p>
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(Math.round(parseInt(product?.discountedTotal)))}
+              <p className="w-20 text-center">
+                {formatPrice(product?.discountedTotal)}
               </p>
-              <p>{product?.quantity}</p>
-              <div className="font-semibold">
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(
-                  Math.round(
-                    parseInt(product?.discountedTotal) *
-                      parseInt(product?.quantity)
-                  )
+              <p className="w-12 text-center">{product?.quantity}</p>
+              <div className="w-20 text-right font-semibold">
+                {formatPrice(
+                  parseInt(product?.discountedTotal) *
+                    parseInt(product?.quantity),
                 )}
               </div>
             </div>
@@ -139,27 +137,25 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
-        Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
+      <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
+        Discount Amount:
+        {formatPrice(singleOrder[0]?.productDetails[0]?.discountAmount)}
       </div>
-      <div className="flex justify-end border-gray border border-b-0 border-t-0 pr-14">
-        Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
+      <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
+        Shipping Charges:{formatPrice(0)}
       </div>
-      <div className="flex justify-end border-gray border rounded-b-md p-2">
+      <div className="border-gray flex justify-end rounded-b-md border p-2">
         <p>Total Amount: </p>
-        <span className="font-semibold text-md">
-          ₹
-          {Intl.NumberFormat("en-IN", {
-            minimumFractionDigits: 2,
-          }).format(Math.round(singleOrder[0]?.productTotal))}
+        <span className="text-md font-semibold">
+          {formatPrice(singleOrder[0]?.productTotal)}
         </span>
       </div>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2">
-        <div className="border border-gray mb-2 mt-4 rounded-md ">
-          <p className=" border-gray border-b p-2 font-semibold">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3">
+        <div className="border-gray mb-2 mt-4 rounded-md border">
+          <p className="border-gray border-b p-2 font-semibold">
             Billing Address
           </p>
-          <p className="w-full border-gray border-b p-2 break-words">
+          <p className="border-gray w-full break-words border-b p-2">
             {singleOrder[0]?.billingAddressId[0]?.full_address},
             {singleOrder[0]?.billingAddressId[0]?.landmark},
             {singleOrder[0]?.billingAddressId[0]?.pincode},
@@ -172,7 +168,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           <p className="border-gray border-b p-2 font-semibold">
             Shipping Address
           </p>
-          <p className="p-2 break-words">
+          <p className="break-words p-2">
             {singleOrder[0]?.shippingAddressId[0].full_address},
             {singleOrder[0]?.shippingAddressId[0]?.landmark},
             {singleOrder[0]?.shippingAddressId[0]?.pincode},
@@ -183,41 +179,108 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             </p>
           </p>
         </div>
-        <div className="border border-gray mb-2 mt-4 ml-2 rounded-md">
-          <p className=" border-gray border-b font-semibold p-2 mb-2">
+        <div className="border-gray mb-2 ml-2 mt-4 rounded-md border">
+          <p className="border-gray mb-2 border-b p-2 font-semibold">
             Payment Details
           </p>
-          <p className="px-2">Order Date:{singleOrder[0]?.payments[0]?.date}</p>
-          <p className="px-2">
-            Payment Method: {singleOrder[0]?.payments[0]?.paymentMethod}
-          </p>
-          <p className="px-2 break-words">
-            Transaction No.: {singleOrder[0]?.payments[0]?.transactionNo}
-          </p>
-          <p className="px-2">
-            Amount: ₹
-            {Intl.NumberFormat("en-IN", {
-              minimumFractionDigits: 2,
-            }).format(Math.round(singleOrder[0]?.payments[0]?.amount))}
-          </p>
+          {singleOrder[0].payments.map((payment: any, index: any) => (
+            <div key={index}>
+              <p className="px-2">Order Date:{payment?.date}</p>
+              <p className="px-2">Payment Method: {payment?.paymentMethod}</p>
+              <p className="break-words px-2">
+                Transaction No.: {payment?.transactionNo}
+              </p>
+              <p className="px-2">Amount: {formatPrice(payment?.amount)}</p>
+            </div>
+          ))}
           <p className="px-2">
             Payment Status:{" "}
-            <span className="font-bold text-md">
+            <span className="text-md font-bold">
               {singleOrder[0]?.paymentStatus}
             </span>
           </p>
         </div>
-        <div className="border border-gray mb-2 mt-4 ml-2 rounded-md max-md:col-span-2">
-          <p className=" border-gray border-b font-semibold p-2 mb-2">
-            Order Tracking
-          </p>
-        </div>
+        {singleOrder[0]?.orderTracking.length > 0 && (
+          <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
+            <p className="border-gray mb-2 border-b p-2 font-semibold">
+              Order Tracking
+            </p>
+            <div className="relative p-4">
+              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+              {singleOrder[0]?.orderTracking.map((track: any, index: any) => (
+                <div key={index} className="relative mb-8 flex items-start">
+                  <div className="z-10 mr-4">
+                    <div
+                      className={`h-4 w-4 rounded-full ${
+                        index === singleOrder[0].orderTracking.length - 1
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {track.trackingOrderStatusName}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(track.created_at).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        // hour: '2-digit',
+                        // minute: '2-digit',
+                        // hour12: false
+                      })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {singleOrder[0]?.eshipTracking.length > 0 && (
+          <div className="border-gray mb-2 ml-2 mt-4 rounded-md border max-md:col-span-2">
+            <p className="border-gray mb-2 border-b p-2 font-semibold">
+              E-ship Tracking
+            </p>
+            <div className="relative p-4">
+              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+              {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
+                <div key={index} className="relative mb-8 flex items-start">
+                  <div className="z-10 mr-4">
+                    <div
+                      className={`h-4 w-4 rounded-full ${
+                        index === singleOrder[0].eshipTracking.length - 1
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {track.trackingOrderStatusName}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(track.created_at).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        // hour: '2-digit',
+                        // minute: '2-digit',
+                        // hour12: false
+                      })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}  
       </div>
 
-      {singleOrder[0]?.orderStatus === "4" ||
-      singleOrder[0]?.orderStatus === "5" ? null : (
+      {parseInt(singleOrder[0]?.orderStatus) > 3 ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
-          <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
+          <button className="rounded-sm bg-[#e26178] px-3 py-2 text-white">
             Order Cancel
           </button>
         </div>

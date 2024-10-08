@@ -1,14 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { useUser } from "./UserContext";
-import {
-  baseUrl,
-  addwishlist,
-  removewishlist,
-  getwishlisted,
-} from "@/utils/constants";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
@@ -23,6 +16,8 @@ interface WishlistItem {
   productPrice: string;
   discountPrice: string;
   discountValue: string;
+  quantityleft:number;
+  makeToOrder:number;
   image_path: string;
   imageDetails: any;
   url: string;
@@ -132,15 +127,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               },
               fetchPolicy: "no-cache",
             });
-            // const addPromises = itemsToAdd.map((item: any) =>
-            //   instance.get(`${baseUrl}${addwishlist}`, {
-            //     params: { productId: item.productId },
-            //     headers: {
-            //       Authorization: `Bearer ${cookieToken}`,
-            //     },
-            //   })
-            // );
-            // await Promise.all(addPromises);
             localStorage.removeItem("wishlistItems");
           }
         }
@@ -187,25 +173,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 (dbItem) => dbItem.productId === item.productId
               )
           );
-
-          // const promises = localItemsToAdd.map((item: any) =>
-          //   instance.get(`${baseUrl}${addwishlist}`, {
-          //     params: { productId: item.productId },
-          //     headers: {
-          //       Authorization: `Bearer ${cookieToken}`,
-          //     },
-          //   })
-          // );
-
-          // await Promise.all(promises);
-          // await instance.get(`${baseUrl}${addwishlist}`, {
-          //   params: { productId: product.productId },
-          //   headers: {
-          //     Authorization: `Bearer ${cookieToken}`,
-          //   },
-          // });
-          console.log(product, "product");
-
           console.log(product, "product");
 
           const getAuthHeaders: any = () => {
@@ -284,10 +251,13 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   productPrice: product.productPrice,
                   discountPrice: product.discountPrice,
                   discountValue: product.discountValue,
+                  quantityleft:product.quantityleft,
+                  makeToOrder:product.makeToOrder,
                   image_path: normalizeImagePath(product.image_path),
                   url: product.url,
                 },
               ];
+              console.log(updatedWishlistItems,"UPDATEEEDD")
 
               localStorage.setItem(
                 "wishlistItems",
@@ -397,6 +367,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productId
             productAmount
             quantity
+            makeToOrder
             url
             SKU
             variantId
@@ -442,6 +413,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           productPrice: item.productPrice,
           discountPrice: item.discountPrice,
           discountValue: item.discountValue,
+          quantityleft:item.quantity,
+          makeToOrder:parseInt(item.makeToOrder),
           image_path: item.imageDetails[0]?.image_path || "",
           url: item.url,
         }));

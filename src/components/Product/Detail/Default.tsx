@@ -19,7 +19,7 @@ import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl, graphqlProductUrl } from "@/utils/constants";
-import Buttons from "./Buttons"; 
+import Buttons from "./Buttons";
 import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
@@ -31,6 +31,8 @@ import AffordabilityWidget from "./AffordabilityWidget";
 import CtaButtonsMobile from "./CtaButtonsMobile";
 import ReactImageMagnify from "react-image-magnify";
 import ZoomableImage from "./ZoomableImage";
+import { useCurrency } from "@/context/CurrencyContext";
+import { IoCameraOutline } from "react-icons/io5";
 
 interface Props {
   productId: string | number | any;
@@ -43,7 +45,13 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [variant, setVariant] = useState<string>("");
   const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const { formatPrice } = useCurrency();
+  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
   // const { recentlyViewedProducts, saveToRecentlyViewed } =
   //   useRecentlyViewedProducts();
 
@@ -70,6 +78,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           isParent
           title
           displayTitle
+          makeToOrder
           shortDesc
           longDesc
           url
@@ -87,6 +96,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           productQty
           attributeId
           preSalesProductQueries
+          makeToOrder
           isReplaceable
           isReturnable
           isInternationalShippingAvailable
@@ -155,6 +165,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       productUrl = productId[1];
     }
 
+
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
       variables: { productUrl: productUrl },
@@ -171,8 +182,140 @@ const Default: React.FC<Props> = ({ productId }) => {
     setData(product);
     setLoading(false);
   }
+  const handleOptionSelected = (option: any) => {
+    console.log("Option selected:", option);
+  };
+  const loadScript = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // Check if the script is already loaded
+      if (
+        document.querySelector(
+          `script[src="https://camweara.com/integrations/camweara_api.js"]`,
+        )
+      ) {
+        resolve(); // Script already loaded
+        return;
+      }
+
+      // Create the script tag
+      const script = document.createElement("script");
+      script.src = "https://camweara.com/integrations/camweara_api.js";
+      script.onload = () => {
+        // Give some time for the function to be available
+        setTimeout(() => {
+          if (typeof window.getSkusListWithTryOn === "function") {
+            resolve(); // Function is ready
+          } else {
+            reject(new Error("getSkusListWithTryOn is not defined"));
+          }
+        }, 1000);
+      };
+      script.onerror = () => reject(new Error("Failed to load script"));
+
+      // Append the script to the body
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchSkusList = async () => {
+    try {
+      await loadScript(); // Ensure the script is loaded
+      const skus = await window.getSkusListWithTryOn({
+        companyName: "whpjewellers",
+      });
+      setSkuList(skus); // Update SKU list state
+      console.log(skuList);
+    } catch (error) {
+      console.error("Error fetching SKU list:", error);
+    }
+  };
+
+  const loadTryOnButton = async (
+    sku: string,
+    productId: string,
+  ): Promise<void> => {
+    return new Promise<void>(async (resolve, reject) => {
+      const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
+
+      const loadButton = async () => {
+        return new Promise<void>((buttonResolve) => {
+          try {
+            window.loadTryOnButton({
+              psku: sku,
+              page: "product",
+              company: "whpjewellers",
+              buynow: { enable: "false" },
+              prependButton: {
+                class: `try_on`,
+                id: `product-form-${productId}`,
+              },
+              styles: {
+                tryonbutton: {
+                  backgroundColor: "white",
+                  color: "white",
+                  border: "1px solid #white",
+                  borderRadius: "25px",
+                  display: "none",
+                }, // Hide the auto-loaded button
+                tryonbuttonHover: {
+                  backgroundColor: "#white",
+                  color: "white",
+                  borderRadius: "25px",
+                },
+                MBtryonbutton: { width: "50%", borderRadius: "25px" },
+              },
+            });
+            console.log("Button Created");
+            // After loading, wait for the button to appear in the DOM
+            const buttonInterval = setInterval(() => {
+              const tryonButton =
+                document.getElementById("tryonButton") ||
+                document.getElementById("MB_tryonButton");
+              if (tryonButton) {
+                // Hide the button
+                tryonButton.style.display = "none";
+                console.log("Button Clicked");
+                // Automatically click the button
+                tryonButton.click();
+
+                // Stop the interval once the button is clicked
+                clearInterval(buttonInterval);
+
+                buttonResolve(); // Resolve after the button is clicked
+              }
+            }, 100); // Check every 100ms for the button
+          } catch (error: any) {
+            reject(
+              new Error(
+                `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
+              ),
+            );
+          }
+        });
+      };
+
+      // Check if the script is already loaded
+      const existingScript = document.querySelector(
+        `script[src="${scriptSrc}"]`,
+      );
+      if (existingScript) {
+        await loadButton(); // Await the button loading if script is already loaded
+      } else {
+        // Append the script and load the button after it's loaded
+        const script = document.createElement("script");
+        script.src = scriptSrc;
+        script.onload = async () => {
+          await loadButton(); // Await loading the button after the script is loaded
+        };
+        script.onerror = () =>
+          reject(new Error("Failed to load Camweara script"));
+        document.body.appendChild(script);
+      }
+    });
+  };
 
   useEffect(() => {
+    fetchSkusList();
     singleProduct();
   }, []);
 
@@ -194,7 +337,7 @@ const Default: React.FC<Props> = ({ productId }) => {
 
   const slidesToShow = Math.min(
     3,
-    data?.productDetails?.imageDetails?.length || 0
+    data?.productDetails?.imageDetails?.length || 0,
   );
 
   let sliderRef = useRef<any>(null);
@@ -216,7 +359,7 @@ const Default: React.FC<Props> = ({ productId }) => {
         settings: {
           slidesToShow: Math.min(
             3,
-            data?.productDetails?.imageDetails?.length || 0
+            data?.productDetails?.imageDetails?.length || 0,
           ),
           centerPadding: "5px",
         },
@@ -234,13 +377,13 @@ const Default: React.FC<Props> = ({ productId }) => {
   const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(
-    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0))
+    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0)),
   );
 
   const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
   }).format(
-    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0))
+    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0)),
   );
   const handleShareClick = () => {
     if (navigator.share) {
@@ -257,98 +400,152 @@ const Default: React.FC<Props> = ({ productId }) => {
       console.log("Share API not supported");
     }
   };
+  const descRef = useRef(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const element = descRef.current;
+    if (element) {
+      const lineHeight = parseInt(window.getComputedStyle(element).lineHeight);
+      const maxLines = 2;
+      const maxHeight = lineHeight * maxLines;
+
+      if (element.scrollHeight > maxHeight) {
+        setIsTruncated(true);
+      }
+    }
+  }, [data?.productDetails?.shortDesc]);
+  
+
   return (
     <>
       <StickyNavProductPage />
       <CtaButtonsMobile product={data} />
       <div className="lg:flex">
-        <div className="lg:w-1/2 sm:w-full">
+        <div className="sm:w-full lg:w-1/2">
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
-            <div className="bg-[#f7f7f7]">
-              <Slider {...settingsMain} ref={(slider: any) => setNav1(slider)}>
-                {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                  <div key={index} className="flex justify-center items-center h-full">
-                    <div className="max-w-full max-md:h-[300px] h-[600px]">
-                      <ZoomableImage
-                        src={image.image_path}
-                        alt="Product Image"
+            <div className="relative">
+              {skuList.includes(data?.productDetails.SKU) && (
+                <div
+                  id={`product-form-${data?.productDetails.productId}`}
+                  className="try_on flex w-full cursor-pointer items-center justify-between"
+                  onClick={() =>
+                    loadTryOnButton(
+                      data?.productDetails.SKU,
+                      data?.productDetails.productId.toString(),
+                    )
+                  }
+                >
+                  <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
+                    <IoCameraOutline />
+                    <p className="ps-1 text-sm">Virtually Try On</p>
+                  </div>
+                </div>
+              )}
+              <div className="flex flex-col justify-center">
+                <div>
+                  <Slider
+                    {...settingsMain}
+                    ref={(slider: any) => setNav1(slider)}
+                  >
+                    {data?.productDetails?.imageDetails.map(
+                      (image: any, index: any) => (
+                        <div
+                          key={index}
+                          className="flex h-full items-center justify-center"
+                        >
+                          <div className="h-[600px] max-w-full max-md:h-[300px]">
+                            <ZoomableImage
+                              src={image.image_path}
+                              alt="Product Image"
+                            />
+                          </div>
+                        </div>
+                      ),
+                    )}
+                    {data?.productDetails?.videoDetails?.length > 0 &&
+                      data.productDetails.videoDetails.map((item: any) => (
+                        <div
+                          key={item.order}
+                          className="flex h-full items-center justify-center"
+                        >
+                          <video
+                            className="max-h-full max-w-full object-contain"
+                            src={item.video_path}
+                            loop
+                            autoPlay
+                            muted
+                          />
+                        </div>
+                      ))}
+                  </Slider>
+                </div>
+                <div>
+                  <div className="relative m-auto h-full w-3/5">
+                    <Slider
+                      {...settingsThumbnails}
+                      ref={(slider: any) => {
+                        sliderRef = slider;
+                        setNav2(slider);
+                      }}
+                    >
+                      {data?.productDetails?.imageDetails.map(
+                        (image: any, index: any) => (
+                          <div key={index}>
+                            <Image
+                              src={image?.image_path}
+                              alt={data?.productDetails?.title}
+                              width={100}
+                              height={100}
+                              unoptimized
+                              className="mx-3 cursor-pointer border"
+                            />
+                          </div>
+                        ),
+                      )}
+                      {data?.productDetails?.videoDetails?.length > 0 &&
+                        data.productDetails.videoDetails.map((item: any) => (
+                          <video
+                            key={item.order}
+                            className="mx-3 cursor-pointer border"
+                            src={item.video_path}
+                            muted
+                          />
+                        ))}
+                    </Slider>
+
+                    <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
+                      <Icon.CaretRight
+                        onClick={() => sliderRef.slickNext()}
+                        size={25}
+                      />
+                    </div>
+                    <div className="absolute -left-12 top-6 cursor-pointer">
+                      <Icon.CaretLeft
+                        onClick={() => sliderRef.slickPrev()}
+                        size={25}
                       />
                     </div>
                   </div>
-                ))}
-                {data?.productDetails?.videoDetails?.length > 0 &&
-                  data.productDetails.videoDetails.map((item: any) => (
-                    <div key={item.order} className="flex justify-center items-center h-full">
-                      <video
-                        className="max-w-full max-h-full object-contain"
-                        src={item.video_path}
-                        loop
-                        autoPlay
-                        muted
-                      />
-                    </div>
-                  ))}
-              </Slider>
-              <div className="m-auto w-3/5 h-full relative">
-                <>
-                  <Slider
-                    {...settingsThumbnails}
-                    ref={(slider: any) => {
-                      sliderRef = slider;
-                      setNav2(slider);
-                    }}
-                  >
-                    {data?.productDetails?.imageDetails.map((image: any, index: any) => (
-                      <div key={index}>
-                        <Image
-                          src={image?.image_path}
-                          alt={data?.productDetails?.title}
-                          width={100}
-                          height={100}
-                          className="cursor-pointer mx-3 border"
-                        />
-                      </div>
-                    ))}
-                    {data?.productDetails?.videoDetails?.length > 0 &&
-                      data.productDetails.videoDetails.map((item: any) => (
-                        <video
-                          key={item.order}
-                          className="cursor-pointer mx-3 border"
-                          src={item.video_path}
-                          muted
-                        />
-                      ))}
-                  </Slider>
-                </>
-                <div className="absolute top-6 -right-2 max-sm:-right-10 cursor-pointer">
-                  <Icon.CaretRight
-                    onClick={() => sliderRef.slickNext()}
-                    size={25}
-                  />
-                </div>
-                <div className="absolute top-6 -left-12 cursor-pointer">
-                  <Icon.CaretLeft
-                    onClick={() => sliderRef.slickPrev()}
-                    size={25}
-                  />
                 </div>
               </div>
             </div>
           )}
         </div>
-        <div className="lg:w-1/2 sm:w-full lg:ml-6 p-4">
+        <div className="p-4 sm:w-full lg:ml-6 lg:w-1/2">
           {loading ? (
             <Skeleton height={30} />
           ) : (
             <>
-              <div className="flex justify-between w-full">
-                <p className="font-semibold text-3xl">
+              <div className="flex w-full justify-between">
+                <p className="text-3xl font-[500]">
                   {data?.productDetails.displayTitle}
                 </p>
+
                 <span
-                  className="rounded-full bg-[#e26178] px-2 py-2 mr-2 h-9 w-9 flex justify-center items-center cursor-pointer"
+                  className="mr-2 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#e26178] px-2 py-2"
                   onClick={handleShareClick}
                 >
                   <Icon.ShareFat
@@ -358,10 +555,32 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
+              <p
+                ref={descRef}
+                className={`text-[#e26178] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+              >
+                {data?.productDetails?.shortDesc}
+              </p>
+              {isTruncated && !isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#E26178]"
+                >
+                  ...read more
+                </span>
+              )}
+              {isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#e26178] hover:text-black"
+                >
+                  show less
+                </span>
+              )}
               {data?.productDetails?.review.length !== 0 && (
-                <div className="flex flex-wrap mb-2">
+                <div className="mb-2 flex flex-wrap">
                   <div>
-                    <span className="underline mr-2 cursor-pointer">
+                    <span className="mr-2 cursor-pointer underline">
                       {data?.productDetails?.review.length} Review
                     </span>
                   </div>
@@ -376,40 +595,60 @@ const Default: React.FC<Props> = ({ productId }) => {
             <div className="mb-5">
               {data?.productDetails?.discountPrice ? (
                 <>
-                  <span className="font-extrabold text-2xl">
-                    ₹{formattedDiscountedPrice}
+                  <span className="text-2xl font-extrabold">
+                    {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
-                  <span className="line-through ml-3 text-[#aa9e9e]">
-                    ₹{formattedOriginalPrice}
+                  <span className="ml-3 text-[#aa9e9e] line-through">
+                    {formatPrice(parseInt(data?.productDetails?.productPrice))}
                   </span>
-                  <span className="ml-3 text-[#e26178] underline">
-                    {data?.productDetails.discountValue}% OFF on {data?.productDetails.discountCategory}
-                  </span>
+                  {parseInt(data?.productDetails?.discountValue) > 0 && (
+                    <span className="ml-3 text-[#e26178] underline">
+                      {data?.productDetails.discountValue}% OFF on{" "}
+                      {data?.productDetails.discountCategory}
+                    </span>
+                  )}
                 </>
               ) : (
-                <span className="font-extrabold text-2xl">
-                  ₹{formattedOriginalPrice}
+                <span className="text-2xl font-extrabold">
+                  {formatPrice(parseInt(data?.productDetails?.productPrice))}
                 </span>
               )}
             </div>
           )}
-
-          {data?.productDetails?.variantId !== null && (
+          <div className="flex">
+            <div className="border-r-2 p-2">
+              <p className="text-lg font-bold">SKU:</p>
+              <p className="uppercase">{data?.productDetails?.SKU}</p>
+            </div>
+            <div className="p-2">
+              <p className="text-lg font-bold">Availability:</p>
+              {data?.productDetails?.productQty > 0 ? (
+                <p>In Stock</p>
+              ) : (
+                <p>Make To Order</p>
+              )}
+            </div>
+          </div>
+          {data?.productDetails?.variantId !== "" && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
             />
           )}
           {data?.productDetails?.productQty !== null &&
-            data?.productDetails?.productQty < 5 && (
-              <p className="mt-2">
-                Only{" "}
-                <span className="text-[#e26178]">
-                  {data?.productDetails?.productQty} pieces
-                </span>{" "}
-                left!
-              </p>
-            )}
+            (data?.productDetails?.productQty === 0 ? (
+              <p className="mt-2 text-[#e26178]">Make To Order</p>
+            ) : (
+              data?.productDetails?.productQty < 5 && (
+                <p className="mt-2">
+                  Only{" "}
+                  <span className="text-[#e26178]">
+                    {data?.productDetails?.productQty} Pieces
+                  </span>{" "}
+                  left!
+                </p>
+              )
+            ))}
           <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">
@@ -429,17 +668,20 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget key="ZCUzmW" amount={5000} />
+          <AffordabilityWidget
+            accesskey="ZCUzmW"
+            amount={1000}
+          />
           <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>
           {data?.productDetails?.tryAtHome === 1 && (
             <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
-              <span className="underline text-[#e26178] cursor-pointer ">
+              <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>
               <span> or </span>
-              <span className="underline text-[#e26178] cursor-pointer">
+              <span className="cursor-pointer text-[#e26178] underline">
                 Try at Home
               </span>
               <span> today!</span>

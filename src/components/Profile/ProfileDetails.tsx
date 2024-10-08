@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
@@ -11,6 +11,8 @@ import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
+import { IoMdLogOut } from "react-icons/io";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const ProfileDetails = () => {
@@ -24,6 +26,8 @@ const ProfileDetails = () => {
   const [allAddress, setallAddress] = useState<Address[]>();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
+  const { formatPrice } = useCurrency();
+  console.log("Usererrerer",userDetails?.dob)
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -33,7 +37,6 @@ const ProfileDetails = () => {
 
   const handleLogOut = () => {
     if (typeof window !== "undefined") {
-      // localStorage.remove("localtoken");
       logOut();
       router.push("/");
     }
@@ -46,7 +49,10 @@ const ProfileDetails = () => {
     setIsLoading(true);
     setallAddress(allAddress?.filter((item) => item.address_id != id));
     try {
-      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieTokenn =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
 
       const getAuthHeaders: any = () => {
         if (!cookieTokenn) return null;
@@ -81,8 +87,6 @@ const ProfileDetails = () => {
         },
         fetchPolicy: "no-cache",
       });
-      setMessage(data.DeleteCustomerAddresses.message);
-      setType("success");
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {
@@ -91,7 +95,10 @@ const ProfileDetails = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieTokenn =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
 
       const getAuthHeaders = () => {
         if (!cookieTokenn) return null;
@@ -133,31 +140,6 @@ const ProfileDetails = () => {
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   const fetchAddresses = async () => {
-  //     setIsLoading(true);
-  // const cookieTokenn = localStorage.getItem("localtoken");
-  //     try {
-
-  //       const response = await axios.get<{ customerAddress?: Address[] }>(
-  //         `${baseUrl}/customer/getAddresses`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${cookieTokenn}`,
-  //           },
-  //         }
-  //       );
-
-  //       setallAddress(response.data.customerAddress);
-  //     } catch (error) {
-  //       console.error("Error fetching addresses:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchAddresses();
-  // }, []);
   const handleEditAddress = (addressId: any) => {
     const addressToEdit =
       allAddress &&
@@ -173,74 +155,136 @@ const ProfileDetails = () => {
   };
   if (isLoading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
+      <div className="loading-container flex h-full items-center justify-center">
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
   }
+
+  const formattedWalletAmount = Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+  }).format(
+    Math.round(parseFloat((userDetails && userDetails?.wallet_amount) ?? 0)),
+  );
+
   return (
-    <div className="mt-10 m-24">
+    <div className="m-24 mt-10">
       <div className="flex justify-between">
         <div>
-          <p className="font-bold text-xl">Personal Information</p>
+          <p className="text-xl font-semibold">Personal Information</p>
           <p className="text-[#cfcdcd]">Manage your profile</p>
         </div>
         <div className="flex">
-          <Icon.SignOut className="mt-1" />
+          <IoMdLogOut size={20} className="me-1 mt-1" />
           <p className="cursor-pointer" onClick={() => handleLogOut()}>
             Logout
           </p>
         </div>
       </div>
       <div className="flex justify-end">
-        <p className="font-bold">
-          Wallet Balance:{userDetails?.customer?.wallet_amount}
+        <p className="font-semibold">
+          Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
         </p>
       </div>
       <form>
-        <div className="grid gap-7 md:grid-cols-2 items-center justify-center">
+        <div className="grid items-center justify-center gap-7 md:grid-cols-2">
           <div>
             <label
               htmlFor="first_name"
-              className="block text-md font-medium text-black"
+              className="text-md mb-1 block font-normal text-black"
             >
               First name
             </label>
-            {userDetails?.firstname}
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.firstname}
+              </span>
+            </div>
           </div>
           <div>
             <label
               htmlFor="last_name"
-              className="block text-md font-medium text-black"
+              className="text-md mb-1 block font-normal text-black"
             >
               Last name
             </label>
-            {userDetails?.lastname}
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.lastname}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="last_name"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              Date of Birth
+            </label>
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.dob}
+              </span>
+            </div>
           </div>
           <div>
             <label
               htmlFor="phone"
-              className="block text-md font-medium text-black"
+              className="text-md mb-1 block font-normal text-black"
             >
               Phone number
             </label>
-            {userDetails?.mobile_no}
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.mobile_no}
+              </span>
+            </div>
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-md font-medium text-black"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              PAN ID
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">{userDetails?.pan}</span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              GST No.
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.gst_no}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-md mb-1 block font-normal text-black"
             >
               Email address
             </label>
-            {userDetails?.email}
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.email}
+              </span>
+            </div>
           </div>
+        
         </div>
       </form>
-      <div className="flex justify-between px-[15px]">
-        <h2 className="text-xl font-semibold mb-3 mt-4">My Addresses</h2>
+      <hr className="mt-3" />
+      <div className="flex justify-between mb-2">
+        <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
-          className="text-xl  text-[#e26178] mb-3 mt-4 cursor-pointer"
+          className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
           onClick={() => setShowAddressModal(true)}
         >
           Add Address
@@ -251,28 +295,26 @@ const ProfileDetails = () => {
           allAddress.map((address: any) => (
             <div
               key={address.address_id}
-              className="flex rounded-lg shadow-md mr-2"
+              className="relative mr-4 flex rounded-lg border bg-white"
             >
-              <div className=" bg-white p-4 mt-6 w-[250px] h-[130px] ">
+              <div className="h-[130px] w-[250px] p-4">
                 <p>
                   {address.full_address}, {address.city}, {address.pincode},{" "}
                   {address.address_type}
                 </p>
               </div>
-              <div className="flex flex-col">
-                <button className="hover:text-[#E26178] flex justify-center">
-                  <Icon.PencilSimple
-                    size={25}
-                    onClick={() => handleEditAddress(address.address_id)}
-                  />
-                </button>
-                <button className="p-2 text-sm text-black hover:text-[#E26178]">
-                  <Icon.X
-                    size={25}
-                    onClick={() => handleRemoveAddress(address.address_id)}
-                  />
-                </button>
-              </div>
+              <button
+                className="absolute -right-4 -top-4 inline-flex items-center justify-center rounded-full bg-[#E26178] p-2"
+                onClick={() => handleEditAddress(address.address_id)}
+              >
+                <Icon.PencilSimple size={15} className="text-white" />
+              </button>
+              <button
+                className="absolute -right-4 top-4 inline-flex items-center justify-center rounded-full bg-[#E26178] p-2"
+                onClick={() => handleRemoveAddress(address.address_id)}
+              >
+                <Icon.X size={15} className="text-white" />
+              </button>
               {showModal &&
                 selectedAddress?.address_id === address.address_id && (
                   <EditAddressModal

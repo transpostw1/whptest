@@ -26,7 +26,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
   closeModal,
   isModalOpen,
 }) => {
-  // const {recentlyViewedProducts}=useRecentlyViewedProducts()
+  const {recentlyViewedProducts}=useRecentlyViewedProducts()
   const { category, setCustomcategory } = useCategory();
   const [keywords, setKeyWords] = useState("");
   const router = useRouter();
@@ -131,7 +131,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-bangle");
+                handleSearch("bangle");
               }}
             >
               <div className="flex items-center">
@@ -143,7 +143,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-earring");
+                handleSearch("earring");
               }}
             >
               <div className="flex items-center">
@@ -155,7 +155,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-chain");
+                handleSearch("chain");
               }}
             >
               <div className="flex items-center">
@@ -177,7 +177,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-necklace");
+                handleSearch("necklace");
               }}
             >
               <div className="flex items-center">
@@ -189,7 +189,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-silver");
+                handleSearch("silver");
               }}
             >
               <div className="flex items-center">
@@ -201,7 +201,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             <div
               className="item px-4 py-1.5 border border-line rounded-full cursor-pointer duration-300 hover:bg-black hover:text-white"
               onClick={() => {
-                handleSearch("c-gold_coin");
+                handleSearch("gold_coin");
               }}
             >
               <div className="flex items-center">
@@ -211,7 +211,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             </div>
           </div>
 
-          {/* <div className="list-recent mt-8">
+          <div className="list-recent mt-8">
             <div className="heading5">Continue Browsing...</div>
             <div className="list-product pb-5 hide-product-sold grid xl:grid-cols-4 sm:grid-cols-2 gap-7 mt-4">
                 {recentlyViewedProducts.map((product:any) => (
@@ -220,7 +220,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
                 ) : null
                 ))}
             </div>
-           </div> */}
+           </div>
 
           {/* <div className="heading5 mt-8">Top Collections</div>
           <div className="list-keyword grid grid-cols-3 gap-6 mt-4">

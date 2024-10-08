@@ -245,6 +245,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                         onClick={() => handleProductClick(item.id)}
                       >
                         <Image
+                        unoptimized
                           src={item.thumbImage[0]}
                           width={300}
                           height={500}
@@ -280,6 +281,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                           height={1000}
                           alt="prd-img"
                           className="w-full aspect-[3/4] object-cover"
+                          unoptimized
                         />
                       </SwiperSlide>
                     ))}
@@ -301,6 +303,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                           height={1300}
                           alt="prd-img"
                           className="w-full aspect-[3/4] object-cover rounded-xl"
+                          unoptimized
                         />
                       </SwiperSlide>
                     ))}
@@ -385,6 +388,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                               height={100}
                               alt="color"
                               className="rounded-xl"
+                              unoptimized
                             />
                             <div className="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">
                               {item.color}

@@ -11,35 +11,38 @@ import { ModalQuickviewProvider } from "@/context/ModalQuickviewContext";
 import { CouponCodeProvider } from "@/context/CouponContext";
 import { CategoryProvider } from "@/context/CategoryContex";
 import { AllCategoryProvider } from "@/context/AllCategoryContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
     <BlogProvider>
-      <ProductProvider>
-        <UserProvider>
-          <AllCategoryProvider>
-            <CategoryProvider>
-              <CouponCodeProvider>
-                <CartProvider>
-                  <ModalCartProvider>
-                    <WishlistProvider>
-                      <CompareProvider>
-                        <ModalSearchProvider>
-                          <ModalQuickviewProvider>
-                            {children}
-                          </ModalQuickviewProvider>
-                        </ModalSearchProvider>
-                      </CompareProvider>
-                    </WishlistProvider>
-                  </ModalCartProvider>
-                </CartProvider>
-              </CouponCodeProvider>
-            </CategoryProvider>
-          </AllCategoryProvider>
-        </UserProvider>
-      </ProductProvider>
+      <CurrencyProvider>
+        <CouponCodeProvider>
+          <ProductProvider>
+            <UserProvider>
+              <AllCategoryProvider>
+                <CategoryProvider>
+                  <CartProvider>
+                    <ModalCartProvider>
+                      <WishlistProvider>
+                        <CompareProvider>
+                          <ModalSearchProvider>
+                            <ModalQuickviewProvider>
+                              {children}
+                            </ModalQuickviewProvider>
+                          </ModalSearchProvider>
+                        </CompareProvider>
+                      </WishlistProvider>
+                    </ModalCartProvider>
+                  </CartProvider>
+                </CategoryProvider>
+              </AllCategoryProvider>
+            </UserProvider>
+          </ProductProvider>
+        </CouponCodeProvider>
+      </CurrencyProvider>
     </BlogProvider>
   );
 };

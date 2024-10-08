@@ -9,13 +9,13 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { AnyARecord } from "dns";
-
 interface CartItem {
   productDetails: {
     displayTitle: string;
     discountPrice: any;
     imageDetails: any;
     productPrice: string;
+    quantityleft:number;
     discountValue: string;
     url: string;
   };
@@ -45,7 +45,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { totalDiscount, updateTotalDiscount } = useCouponContext();
+  const { totalDiscount ,updateDiscount} = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [loading, setLoading] = useState(true);
@@ -108,6 +108,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
+      console.log("loggeddd")
       syncCartWithServer([newItem]);
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
@@ -115,6 +116,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   };
   const removeFromCart = async (productId: number) => {
+    let discount=0;
+    updateDiscount(discount);
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== productId
     );
@@ -181,7 +184,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           updatedCartFromServer.length === 1 &&
           updatedCartFromServer[0].productId === productId
         ) {
-          // If the server returned only the removed item, fetch the updated cart from the server
           const cartItemsFromServer = await fetchCartItemsFromServer();
           setCartItems(cartItemsFromServer);
         } else {
@@ -212,15 +214,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const syncCartWithServer = async (cartItems: CartItem[]) => {
-    let discount: number = 0;
-    updateTotalDiscount(discount);
     try {
       setLoading(true);
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
-
+       console.log(cartData,"CARTDATA on synccartwith server")
       const getAuthHeaders: any = () => {
         if (!cookieToken) return null;
         return {

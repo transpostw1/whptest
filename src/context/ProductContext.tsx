@@ -6,7 +6,7 @@ import React, {
   useContext,
   ReactNode,
 } from "react";
-import { baseUrl, category,getProducts } from "@/utils/constants";
+import { baseUrl,getProducts } from "@/utils/constants";
 import axios from "axios";
 
 interface ProductContextType {

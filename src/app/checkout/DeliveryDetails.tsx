@@ -72,7 +72,7 @@ interface DeliveryDetailsProps {
     } else {
       setSelectedBillingAddress(address);
       setBillingAddressSelected(true);
-      props.onBillingAddressSelected(); // Call the prop function
+      onBillingAddressSelected(); // Call the prop function
       console.log('billingAddressSelected set to true');
   
       if (!useSameAsBillingAddress) {
@@ -122,7 +122,7 @@ interface DeliveryDetailsProps {
   };
 
   return (
-    <div className="lg:w-[50rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
+    <div className="lg:w-[41rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
       <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
       <ShippingAddressList
         onAddressSelect={handleShippingAddressSelect}

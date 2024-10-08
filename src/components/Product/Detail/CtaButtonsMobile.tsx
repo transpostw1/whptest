@@ -58,7 +58,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         await getWishlist();
         // Check if the current product is in the fetched wishlist items
         const isInWishlist = wishlistItems.some(
-          (item) => item.productId === product.productDetails.productId
+          (item) => item.productId === product.productDetails.productId,
         );
         setIsProductInWishlist(isInWishlist);
       } catch (error) {
@@ -73,14 +73,14 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
 
   const handleAddToCart = (productItem: ProductData) => {
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === productItem.productDetails.productId
+      (item) => item.productId === productItem.productDetails.productId,
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
     if (productAlreadyExists) {
       updateCartQuantity(
         productItem.productDetails?.productId,
-        updatedQuantity
+        updatedQuantity,
       );
     } else {
       addToCart(
@@ -89,7 +89,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
           quantity: 1,
           productId: productItem.productDetails.productId,
         },
-        1
+        1,
       );
     }
   };
@@ -131,7 +131,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         },
         productId: product.productDetails.productId,
       },
-      1
+      1,
     );
     router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
   };
@@ -140,8 +140,8 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
     return null;
   }
   return (
-    <div className=" flex fixed bottom-9  py-2 px-4 w-full bg-white z-10 ">
-      <div className=" flex justify-center mt-[2px] text-[#e26178] mr-[10px] outline outline-[#e26178] outline-1 w-[56px] items-center cursor-pointer">
+    <div className="fixed bottom-9 z-10 flex w-full bg-white px-4 py-2">
+      <div className="mr-[10px] mt-[2px] flex w-[56px] cursor-pointer items-center justify-center text-[#e26178] outline outline-1 outline-[#e26178]">
         {isProductInWishlist ? (
           <Icon.Heart
             size={32}
@@ -159,11 +159,11 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         )}
       </div>
       <div
-        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-[#e26178]  w-[20%] text-center mr-[10px] cursor-pointer h-[41px]"
+        className="mr-[10px] h-[41px] w-[20%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178]"
         onClick={() => handleAddToCart(product)}
       >
-        <div className=" m-[2px] mb-[2px] bg-white h-[91%]">
-          <span className="flex justify-center h-[91%] items-center">
+        <div className="m-[2px] mb-[2px] h-[91%] bg-white">
+          <span className="flex h-[91%] items-center justify-center">
             <span className="mt-1">
               <Icon.ShoppingCart size={25} />
             </span>
@@ -171,7 +171,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         </div>
       </div>
       <div
-        className="cursor-pointer bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white w-[56%] text-center h-[41px]"
+        className="flex h-[41px] w-[56%] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-white"
         onClick={handleBuyNow}
       >
         Buy Now

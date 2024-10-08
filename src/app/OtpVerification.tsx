@@ -5,14 +5,14 @@ import {
   signInWithPhoneNumber,
   FirebaseError,
 } from "firebase/auth";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "./config";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 import OTPInput from "react-otp-input";
-import { BsFillShieldLockFill } from "react-icons/bs";
-import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
-import { signup, login } from "@/utils/constants";
+import {  login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import Preloader from "@/components/Other/Preloader";
 
@@ -32,6 +32,7 @@ const OtpVerification = ({
   formikValues,
   onSubmit,
   isRegisterPage,
+  onOtpVerified,
 }: OtpVerificationProps) => {
   const router = useRouter();
 
@@ -50,7 +51,7 @@ const OtpVerification = ({
       "recaptcha-container",
       {
         size: "invisible",
-      }
+      },
     );
   };
 
@@ -62,31 +63,74 @@ const OtpVerification = ({
     if (!window.recaptchaVerifier) {
       setUpRecaptcha();
     }
+    const appVerifier = window.recaptchaVerifier;
+    const formatPh = "+" + formikValues.phoneNumber;
     try {
       setLoading(true);
       setFirebaseError(null);
-      const result = await signInWithPhoneNumber(
-        auth,
-        '+'+formikValues.phoneNumber,
-        window.recaptchaVerifier
-      );
+      const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
       setVerificationId(result.verificationId);
-      setIsOtpSent(true); // Update state to indicate OTP has been sent
+      setIsOtpSent(true); 
       setErrorMessage(null);
       console.log("OTP sent successfully");
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Error sending OTP:", error);
+      console.error(FirebaseError, error.message, "FIREE");
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
       } else {
         setErrorMessage("Invalid Number or Try again");
       }
-
       //  setFirebaseError(error.message);
     }
   };
-  const onVerify = async (action: string) => {
+
+  const verifySignin = async () => {
+    if (!verificationId || !otp) {
+      console.error("Invalid verification ID or OTP");
+      return;
+    }
+    try {
+      setVerifying(true);
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      await signInWithCredential(auth, credential);
+      console.log("Successfully signed in with OTP");
+      const phoneNumber = auth?.currentUser?.phoneNumber;
+      const tokenn = auth?.currentUser?.accessToken;
+      const userId = auth?.currentUser?.uid;
+      if (tokenn) {
+        localStorage.setItem("firebaseToken", tokenn);
+        console.log("Token saved to local storage:", tokenn);
+      }
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+  
+      const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
+        mutation Mutation($phoneNumber: String) {
+          storeRegistrationAttempts(phoneNumber: $phoneNumber) {
+            message
+            code
+          }
+        }
+      `;
+       const { data } = await client.mutate({
+        mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
+        variables: {
+          phoneNumber, 
+        },
+      });
+  
+      console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const onVerify = async () => {
     if (!verificationId || !otp) {
       console.error("Invalid verification ID or OTP");
       return;
@@ -99,9 +143,8 @@ const OtpVerification = ({
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
 
-      let endpoint = action === "login" ? login : signup;
       const response = await axios.post(
-        endpoint,
+        login,
         {
           ...formikValues,
         },
@@ -109,12 +152,13 @@ const OtpVerification = ({
           headers: {
             Authorization: `Bearer ${tokenn}`,
           },
-        }
+        },
       );
-      logIn(); 
+      logIn();
       const localToken = response.data.token;
-       typeof window !== "undefined" ?localStorage.setItem("localtoken", localToken): null;
-      // localStorage.setItem("localtoken", localToken);
+      typeof window !== "undefined"
+        ? localStorage.setItem("localtoken", localToken)
+        : null;
       console.log("intial token", localStorage.getItem("localtoken"));
       router.push("/");
     } catch (error: any) {
@@ -136,7 +180,6 @@ const OtpVerification = ({
       } else {
         console.error("Request setup error:", error.message);
       }
-      // }
     }
   };
   useEffect(() => {
@@ -150,15 +193,16 @@ const OtpVerification = ({
   };
   const handleCombinedClick = () => {
     if (isRegisterPage) {
-      onVerify("signup");
-      onSubmit(formikValues);
+      verifySignin();
+      onOtpVerified();
+      // onSubmit(formikValues);
     } else {
-      onVerify("login");
+      onVerify();
     }
   };
   const handleLoginSubmit = () => {
     if (isRegisterPage) {
-      onSubmit(formikValues);
+      // onSubmit(formikValues);
       onSendOtp();
     }
     onSendOtp();
@@ -167,12 +211,12 @@ const OtpVerification = ({
   return (
     <div className="otpVerification">
       {isOtpSent ? (
-        <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h1 className="text-center text-xl font-normal mb-2">
+        <div className="rounded-lg bg-gray-100 p-4 shadow-md">
+          <h1 className="mb-4 text-center text-2xl font-semibold text-gray-800">
             Enter Verification Code
           </h1>
           <div
-            className="flex justify-center items-center mb-6"
+            className="mb-6 flex items-center justify-center"
             onKeyDown={handleCombinedClick2}
           >
             <OTPInput
@@ -186,7 +230,7 @@ const OtpVerification = ({
             />
           </div>
           <button
-            className="w-full bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 rounded-lg font-medium hover:bg-[#e26178] transition duration-300"
+            className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-medium text-white transition duration-300 hover:bg-[#e26178]"
             onClick={handleCombinedClick}
           >
             {verifying ? (
@@ -201,7 +245,7 @@ const OtpVerification = ({
             )}
           </button>
           {errorMessage && (
-            <p className="text-center text-red-500 mt-3">{errorMessage}</p>
+            <p className="mt-3 text-center text-red-500">{errorMessage}</p>
           )}
         </div>
       ) : (
@@ -215,13 +259,13 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] p-3 w-full rounded-lg text-white font-medium flex items-center justify-center mb-4"
+            className="mb-4 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 font-medium text-white"
             // className="button-main"
             onClick={handleLoginSubmit}
           >
             {loading ? (
               <>
-                <div className="flex ">
+                <div className="flex">
                   {/* <span>Sending OTP</span> */}
                   {/* <CgSpinner size={20} className="animate-spin" /> */}
                   <Preloader />

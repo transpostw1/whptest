@@ -8,7 +8,6 @@ import {
   ProductForWishlistLoggedOut,
 } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { useModalCartContext } from "@/context/ModalCartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
 import StarRating from "../Other/StarRating";
@@ -32,9 +31,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      // Get the current viewport width
       const viewportWidth = window.innerWidth;
-
       if (viewportWidth < 768) {
         // Small screens
         setWidth(5);
@@ -166,6 +163,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                       width={400}
                       height={400}
                       alt="This image is temporarry"
+                      unoptimized
                     />
 
                     <div
@@ -219,6 +217,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
                   width={400}
                   height={400}
                   alt="This image is temporarry"
+                  unoptimized
                 />
                 <div className="relative">
                   <div className="float-right absolute flex justify-between bottom-0 right-0 z-0 hover:z-50">

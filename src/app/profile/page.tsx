@@ -56,10 +56,13 @@ const ProfilePage = () => {
       getUser();
     }
   }, []);
-  
+
   const handleOrders = async () => {
     try {
-       const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {
@@ -77,69 +80,102 @@ const ProfilePage = () => {
       });
 
       const GET_ORDER = gql`
-      query GetCustomerOrder($token: String!) {
-        getCustomerOrder(token: $token) {
-          id
-          customerId
-          couponId
-          created_at
-          orderNo
-          razorpayOrderNo
-          productTotal
-          discountedTotal
-          balanceAmount
-          paymentStatus
-          orderStatus
-          productDetails {
-            productId
-            productAmount
-            quantity
-            productTotal
-            discountAmount
-            discountedTotal
-            displayTitle
-            productPrice
-            discountPrice
-            metalType
-            metalWeight
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-          }
-          billingAddressId {
-            address_id
-            customer_id
-            address_type
-            full_address
-            country
-            state
-            city
-            landmark
-            pincode
-          }
-          shippingAddressId {
-            address_id
-            customer_id
-            address_type
-            full_address
-            country
-            state
-            city
-            landmark
-            pincode
-          }
-          payments {
-            paymentId
-            orderId
-            date
-            paymentMethod
-            transactionNo
-            amount
-          }
-        }
+        query GetCustomerOrder($token: String!) {
+          getCustomerOrder(token: $token) {
+    id
+    productDetails {
+      productId
+      productAmount
+      quantity
+      url
+      SKU
+      variantId
+      productTotal
+      metalType
+      metalWeight
+      discountAmount
+      discountValue
+      typeOfDiscount
+      discountedTotal
+      displayTitle
+      productPrice
+      discountPrice
+      mediaId
+      imageDetails {
+        image_path
+        order
+        alt_text
       }
+      videoDetails {
+        video_path
+        order
+        alt_text
+      }
+      rating
+    }
+    customerId
+    billingAddressId {
+      address_id
+      customer_id
+      address_type
+      full_address
+      country
+      state
+      city
+      landmark
+      pincode
+    }
+    shippingAddressId {
+      address_id
+      customer_id
+      address_type
+      full_address
+      country
+      state
+      city
+      landmark
+      pincode
+    }
+    couponId
+    orderNo
+    razorpayOrderNo
+    productTotal
+    discountedTotal
+    balanceAmount
+    paymentStatus
+    orderStatus
+    payments {
+      paymentId
+      orderId
+      date
+      paymentMethod
+      transactionNo
+      amount
+    }
+    created_at
+    orderTracking {
+      id
+      orderId
+      customerId
+      orderStatus
+      created_at
+      updated_at
+      trackingOrderStatusName
+    }
+    trackingNo
+    eshipTracking {
+      id
+      orderId
+      trackingId
+      trackingNumber
+      deliveryDate
+      expectedDeliveryDate
+      shipmentStatus
+      tag
+      checkpoints
+    }
+  }
+}
       `;
 
       const variables = { token: cookieToken };
@@ -187,14 +223,14 @@ const ProfilePage = () => {
     <>
       <ProtectedRoute>
         <div className="flex">
-          <div className="lg:w-96 md:w-56">
+          <div className="md:w-56 lg:w-96">
             <ProfileSidebar
               handleComponent={handleComponentToRender}
               componentName={componentToRender}
               handleOrder={handleOrders}
             />
           </div>
-          <div className="w-screen ">
+          <div className="w-screen">
             {componentToRender === "personalInfo" && <ProfileDetails />}
             {componentToRender === "orders" && (
               <ProfileOrders orders={ordersData} />

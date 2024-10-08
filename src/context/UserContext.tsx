@@ -1,5 +1,4 @@
 "use client";
-
 import React, {
   createContext,
   useContext,
@@ -10,7 +9,6 @@ import React, {
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl, baseUrl, updateProfile } from "@/utils/constants";
 import instance from "@/utils/axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 interface UserState {
@@ -28,19 +26,23 @@ interface UserContextProps {
   userDetails: UserDetails | null;
   getUser: () => Promise<void>;
 }
-
 interface UserDetails {
+  customer_id: any;
   firstname: string;
   lastname: string;
   email: string;
   mobile_no: string;
-  alternatePhone: string;
+  altPhone: string;
   gender: string;
-  dateOfBirth: string;
+  gstNum: string;
+  panNum: string;
+  dob: string;
+  wallet_amount: any;
   profile_picture: File | null;
   customer: any;
+  pan: any;
+  gst_no: any;
 }
-
 type UserDetailsKeys = keyof UserDetails;
 
 const initialState: UserState = {
@@ -67,8 +69,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   // const [cookieToken, setCookieToken] = useState<string | null>(null);
   const router = useRouter();
- const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-   useEffect(() => {
+  const cookieToken =
+    typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
       // setCookieToken(token);
@@ -82,10 +86,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("isLoggedIn", "true");
     }
     await getUser();
-
-    const redirectPath = localStorage.getItem("redirectPath") || "/";
+    let redirectPath = localStorage.getItem("redirectPath") || "/";
+    if (redirectPath === "/login"||"/register") {
+      redirectPath = "/";
+    }
     router.push(redirectPath);
-    localStorage.removeItem("redirectPath");
+    // localStorage.removeItem("redirectPath");
   };
 
   const logOut = () => {
@@ -126,6 +132,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           gender
           profile_picture
           wallet_amount
+          status
+          created_at
+          pan
+          gst_no
         }
       }
     `;
@@ -158,7 +168,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
             Authorization: `Bearer ${cookieToken}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       await getUser();
       return response.data;
@@ -167,6 +177,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       throw error;
     }
   };
+  useEffect(() => {
+    console.log(userDetails,"Customer details");
+  }, [userDetails]);
 
   return (
     <UserContext.Provider

@@ -32,7 +32,7 @@ const Templates: React.FC<TemplatesProps> = ({
   }
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-1 gap-2 mt-4 w-full">
+    <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mt-4 w-full">
       {selectedVoucher.templateImage.map(
         (templateImageUrl: string, index: number) => (
           <div
@@ -48,6 +48,7 @@ const Templates: React.FC<TemplatesProps> = ({
               className="w-full h-[250px] object-fill object-center"
               src={templateImageUrl}
               alt={`Template ${index + 1}`}
+              unoptimized
             />
             <div className="p-6">
               <h3 className="text-xl font-semibold">{selectedVoucher.name}</h3>

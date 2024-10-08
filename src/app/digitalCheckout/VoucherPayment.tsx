@@ -4,9 +4,15 @@ import axios from "axios";
 import Loader from "@/components/Other/Loader";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
-import { DownloadSimple, User, ShareNetwork, WhatsappLogo } from "@phosphor-icons/react";
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { Image as NextImage } from "next/image";
+import { graphqlbaseUrl } from "@/utils/constants";
+import {
+  DownloadSimple,
+  User,
+  ShareNetwork,
+  WhatsappLogo,
+} from "@phosphor-icons/react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+// import { Image as NextImage } from "next/image";
 
 interface VoucherPaymentProps {
   orderPlaced: boolean;
@@ -37,8 +43,8 @@ interface VoucherTransactionResponse {
 }
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql', // Replace with your actual GraphQL endpoint
-  cache: new InMemoryCache()
+  uri: graphqlbaseUrl,
+  cache: new InMemoryCache(),
 });
 
 const CREATE_GIFT_VOUCHER = gql`
@@ -60,7 +66,6 @@ const CREATE_GIFT_VOUCHER = gql`
     }
   }
 `;
-
 const VoucherPayment: React.FC<VoucherPaymentProps> = ({
   orderPlaced,
   selectedPaymentMethod,
@@ -71,7 +76,8 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
   selectedScheme,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [transactionDetails, setTransactionDetails] = useState<VoucherTransactionResponse | null>(null);
+  const [transactionDetails, setTransactionDetails] =
+    useState<VoucherTransactionResponse | null>(null);
   const cookieToken = localStorage.getItem("localtoken");
   const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -93,9 +99,41 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
   useEffect(() => {
     if (transactionDetails) {
       generateVoucherImage();
+      handleWhatsappShare();
     }
   }, [transactionDetails]);
 
+  const handleWhatsappShare = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.interakt.ai/v1/public/message/",
+        {
+          countryCode: "+91",
+          phoneNumber: selectedScheme.recipientMobile,
+          callbackData: "some text here",
+          type: "Template",
+          template: {
+            name: "gift_voucher",
+            languageCode: "en",
+            headerValues: [selectedScheme.iconUrl],
+            bodyValues: [
+              transactionDetails && transactionDetails?.code,
+              selectedScheme.totalAmount,
+              selectedScheme.recipientName,
+            ],
+          },
+        },
+        {
+          headers: {
+            Authorization:
+              "Basic V01sZ3EzMF94Q2Y5VkFnd0E5amZRMlR1Y2d4OFFqXzVROFRyR19ncGxaazo=",
+          },
+        },
+      );
+    } catch (error) {
+      console.log("Error occured while sending Vocuher WhatsApp", error);
+    }
+  };
   const handleRazorpayPayment = async () => {
     setLoading(true);
     try {
@@ -131,21 +169,21 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
                   recipientMobile: selectedScheme.recipientMobile,
                   senderName: selectedScheme.senderName,
                   message: selectedScheme.message,
-                  templateUrl: selectedScheme.iconUrl
-                }
+                  templateUrl: selectedScheme.iconUrl,
+                },
               },
               context: {
                 headers: {
-                  Authorization: `Bearer ${cookieToken}`
-                }
-              }
+                  Authorization: `Bearer ${cookieToken}`,
+                },
+              },
             });
 
-            console.log('Gift voucher created:', data.createGiftVoucher);
+            console.log("Gift voucher created:", data.createGiftVoucher);
             setTransactionDetails({
               ...data.createGiftVoucher,
               razorpayPaymentNo: razorpay_payment_id,
-              paymentMethod: 'Razorpay'
+              paymentMethod: "Razorpay",
             });
 
             onOrderComplete();
@@ -189,91 +227,99 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
 
   const generateVoucherImage = async () => {
     if (!transactionDetails || !canvasRef.current) return;
-  
+
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
-  
+
     const imageUrl = selectedScheme.iconUrl || "";
-  
+
     // Load the voucher template image
     const img = new window.Image(); // Use the built-in Image constructor
-    img.crossOrigin = "anonymous";  // This is needed if the image is hosted on a different domain
+    img.crossOrigin = "anonymous"; // This is needed if the image is hosted on a different domain
     img.src = imageUrl;
-  
+
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
     });
-  
+
     // Set canvas size
     canvas.width = img.width;
-    canvas.height = img.height + 60;  // Extra space for the voucher code
-  
+    canvas.height = img.height + 60; // Extra space for the voucher code
+
     // Draw the original image
     ctx.drawImage(img, 0, 0);
-  
+
     // Add a semi-transparent background for the text
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
     ctx.fillRect(0, img.height, canvas.width, 60);
-  
+
     // Add the voucher code
-    ctx.fillStyle = 'black';
-    ctx.font = 'bold 24px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(`Voucher Code: ${transactionDetails.code}`, canvas.width / 2, img.height + 35);
-  
+    ctx.fillStyle = "black";
+    ctx.font = "bold 24px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      `Voucher Code: ${transactionDetails.code}`,
+      canvas.width / 2,
+      img.height + 35,
+    );
+
     // Convert canvas to blob
-    const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve));
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve),
+    );
     if (!blob) {
-      console.error('Failed to create image blob');
+      console.error("Failed to create image blob");
       return null;
     }
-  
+
     return URL.createObjectURL(blob);
   };
 
-const handleShareImage = async () => {
-  const imageUrl = await generateVoucherImage();
-  if (!imageUrl) {
-    alert('Failed to generate voucher image');
-    return;
-  }
+  const handleShareImage = async () => {
+    const imageUrl = await generateVoucherImage();
+    if (!imageUrl) {
+      alert("Failed to generate voucher image");
+      return;
+    }
 
-  // Convert blob URL to actual blob
-  const blob = await fetch(imageUrl).then(r => r.blob());
+    // Convert blob URL to actual blob
+    const blob = await fetch(imageUrl).then((r) => r.blob());
 
-  // Create a File from the Blob
-  const file = new File([blob], "voucher.png", { type: "image/png" });
+    // Create a File from the Blob
+    const file = new File([blob], "voucher.png", { type: "image/png" });
 
-  if (navigator.share && navigator.canShare({ files: [file] })) {
-    try {
-      await navigator.share({
-        title: 'My Gift Voucher',
-        text: 'Check out my gift voucher!',
-        files: [file]
-      });
-    } catch (error) {
-      console.error('Error sharing:', error);
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          title: "My Gift Voucher",
+          text: "Check out my gift voucher!",
+          files: [file],
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+        fallbackShare(imageUrl);
+      }
+    } else {
       fallbackShare(imageUrl);
     }
-  } else {
-    fallbackShare(imageUrl);
-  }
-};
+  };
 
-const fallbackShare = (imageUrl: string) => {
-  // Create a temporary anchor element
-  const a = document.createElement('a');
-  a.href = imageUrl;
-  a.download = 'voucher.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const fallbackShare = (imageUrl: string) => {
+    // Create a temporary anchor element
+    const a = document.createElement("a");
+    a.href = imageUrl;
+    a.download = "voucher.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
-  // Provide instructions for manual sharing
-  alert('The voucher image has been downloaded. You can now manually share this image on WhatsApp or any other platform.');
-};
+    // Provide instructions for manual sharing
+    alert(
+      "The voucher image has been downloaded. You can now manually share this image on WhatsApp or any other platform.",
+    );
+  };
 
   const handleDownloadReceipt = () => {
     if (!transactionDetails) return;
@@ -294,7 +340,7 @@ const fallbackShare = (imageUrl: string) => {
       (pageWidth - 20) / 2,
       10,
       20,
-      20
+      20,
     );
 
     // Add title
@@ -309,7 +355,7 @@ const fallbackShare = (imageUrl: string) => {
       `Date: ${new Date(transactionDetails.createdAt).toLocaleDateString()}`,
       pageWidth / 2,
       48,
-      { align: "center" }
+      { align: "center" },
     );
 
     // Add company info
@@ -345,8 +391,14 @@ const fallbackShare = (imageUrl: string) => {
       { label: "Recipient Mobile:", value: transactionDetails.recipientMobile },
       { label: "Sender:", value: transactionDetails.senderName },
       { label: "Status:", value: transactionDetails.status },
-      { label: "Payment Method:", value: transactionDetails.paymentMethod || "N/A" },
-      { label: "Transaction ID:", value: transactionDetails.razorpayPaymentNo || "N/A" },
+      {
+        label: "Payment Method:",
+        value: transactionDetails.paymentMethod || "N/A",
+      },
+      {
+        label: "Transaction ID:",
+        value: transactionDetails.razorpayPaymentNo || "N/A",
+      },
     ];
 
     details.forEach((detail, index) => {
@@ -355,7 +407,7 @@ const fallbackShare = (imageUrl: string) => {
         `${detail.value}`,
         pageWidth - 15,
         detailsStart + index * detailsGap,
-        { align: "right" }
+        { align: "right" },
       );
     });
 
@@ -373,7 +425,7 @@ const fallbackShare = (imageUrl: string) => {
     if (!transactionDetails) return null;
 
     return (
-      <div className="bg-white p-6 rounded-lg shadow-md max-w-sm mx-auto text-center">
+      <div className="mx-auto max-w-sm rounded-lg bg-white p-6 text-center shadow-md">
         <div className="mb-4">
           <Image
             src="/images/other/logo2.png"
@@ -383,7 +435,7 @@ const fallbackShare = (imageUrl: string) => {
             objectFit="contain"
             className="mx-auto"
           />
-          <h2 className="text-xl font-bold text-gray-800 mt-2">
+          <h2 className="mt-2 text-xl font-bold text-gray-800">
             Gift Voucher Receipt
           </h2>
           <p className="text-sm text-gray-600">
@@ -397,114 +449,134 @@ const fallbackShare = (imageUrl: string) => {
           <p className="text-sm text-gray-600">Email: info@whpjewellers.com</p>
         </div>
 
-        <div className="mb-4 bg-gray-100 p-4 rounded-md">
-          <h4 className="text-md font-semibold text-gray-800 mb-2">
+        <div className="mb-4 rounded-md bg-gray-100 p-4">
+          <h4 className="text-md mb-2 font-semibold text-gray-800">
             Voucher Details
           </h4>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <p className="text-gray-600 text-right">Voucher Code:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.code}</p>
-            <p className="text-gray-600 text-right">Occasion:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.occasion}</p>
-            <p className="text-gray-600 text-right">Amount:</p>
-            <p className="text-gray-800 font-medium text-left">₹{transactionDetails.amount.toFixed(2)}</p>
-            <p className="text-gray-600 text-right">Recipient:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.recipientName}</p>
-            <p className="text-gray-600 text-right">Recipient Email:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.recipientEmail}</p>
-            <p className="text-gray-600 text-right">Recipient Mobile:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.recipientMobile}</p>
-            <p className="text-gray-600 text-right">Sender:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.senderName}</p>
-            <p className="text-gray-600 text-right">Status:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.status}</p>
-            <p className="text-gray-600 text-right">Payment Method:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.paymentMethod || "N/A"}</p>
-            <p className="text-gray-600 text-right">Transaction ID:</p>
-            <p className="text-gray-800 font-medium text-left">{transactionDetails.razorpayPaymentNo || "N/A"}</p>
-            </div>
-          </div>
-  
-          <p className="text-sm text-gray-600 mb-4">
-            Thank you for your purchase!
-          </p>
-          <div className="flex justify-center space-x-4 flex-wrap">
-            <button
-              onClick={handleDownloadReceipt}
-              className="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 transition duration-300 flex items-center m-2"
-            >
-              <DownloadSimple size={20} className="mr-2" />
-              Download Receipt
-            </button>
-            <button
-              onClick={handleShareImage}
-              className="bg-green-500 text-white px-4 py-2 rounded text-sm hover:bg-green-600 transition duration-300 flex items-center m-2"
-            >
-              <ShareNetwork size={20} className="mr-2" />
-              Share Voucher Image
-            </button>
-            <button
-              onClick={() => router.push("/profile")}
-              className="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600 transition duration-300 flex items-center m-2"
-            >
-              <User size={20} className="mr-2" />
-              Profile
-            </button>
+            <p className="text-right text-gray-600">Voucher Code:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.code}
+            </p>
+            <p className="text-right text-gray-600">Occasion:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.occasion}
+            </p>
+            <p className="text-right text-gray-600">Amount:</p>
+            <p className="text-left font-medium text-gray-800">
+              ₹{transactionDetails.amount}
+            </p>
+            <p className="text-right text-gray-600">Recipient:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.recipientName}
+            </p>
+            <p className="text-right text-gray-600">Recipient Email:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.recipientEmail}
+            </p>
+            <p className="text-right text-gray-600">Recipient Mobile:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.recipientMobile}
+            </p>
+            <p className="text-right text-gray-600">Sender:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.senderName}
+            </p>
+            <p className="text-right text-gray-600">Status:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.status}
+            </p>
+            <p className="text-right text-gray-600">Payment Method:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.paymentMethod || "N/A"}
+            </p>
+            <p className="text-right text-gray-600">Transaction ID:</p>
+            <p className="text-left font-medium text-gray-800">
+              {transactionDetails.razorpayPaymentNo || "N/A"}
+            </p>
           </div>
         </div>
-      );
-    };
-  
-    const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
-  
-    if (loading) return <Loader />;
-  
-    return (
-      <div className="flex flex-col gap-5">
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-        {!transactionDetails ? (
-          <>
-            <h1 className="text-xl font-semibold mb-2">Payment Method</h1>
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-                <label
-                  htmlFor="razorpayPayment"
-                  className="flex gap-2 cursor-pointer font-medium"
-                >
-                  <Image
-                    src="/images/other/upi-icon.png"
-                    alt="upi"
-                    width={24}
-                    height={24}
-                    objectFit="fill"
-                  />
-                  Razorpay (UPI, Cards)
-                </label>
-                <input
-                  type="radio"
-                  id="razorpayPayment"
-                  name="paymentOption"
-                  value="razorpay"
-                  className="appearance-none w-4 h-4 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-                  checked={selectedPaymentMethod === "razorpay"}
-                  onChange={handlePaymentMethodChange}
-                />
-              </div>
-            </div>
-  
-            <button
-              onClick={handlePayment}
-              className="bg-red-600 text-white px-4 py-2 rounded mt-4"
-              disabled={!isValidTotalCart || !selectedPaymentMethod}
-            >
-              Place Order
-            </button>
-          </>
-        ) : (
-          renderReceipt()
-        )}
+
+        <p className="mb-4 text-sm text-gray-600">
+          Thank you for your purchase!
+        </p>
+        <div className="flex flex-wrap justify-center space-x-4">
+          <button
+            onClick={handleDownloadReceipt}
+            className="m-2 flex items-center rounded bg-blue-500 px-4 py-2 text-sm text-white transition duration-300 hover:bg-blue-600"
+          >
+            <DownloadSimple size={20} className="mr-2" />
+            Download Receipt
+          </button>
+          <button
+            onClick={handleShareImage}
+            className="m-2 flex items-center rounded bg-green-500 px-4 py-2 text-sm text-white transition duration-300 hover:bg-green-600"
+          >
+            <ShareNetwork size={20} className="mr-2" />
+            Share Voucher Image
+          </button>
+          <button
+            onClick={() => router.push("/profile")}
+            className="m-2 flex items-center rounded bg-gray-500 px-4 py-2 text-sm text-white transition duration-300 hover:bg-gray-600"
+          >
+            <User size={20} className="mr-2" />
+            Profile
+          </button>
+        </div>
       </div>
     );
   };
-  
-  export default VoucherPayment;
+
+  const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
+
+  if (loading) return <Loader />;
+
+  return (
+    <div className="flex flex-col gap-5">
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+      {!transactionDetails ? (
+        <>
+          <h1 className="mb-2 text-xl font-semibold">Payment Method</h1>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+              <label
+                htmlFor="razorpayPayment"
+                className="flex cursor-pointer gap-2 font-medium"
+              >
+                <Image
+                  src="/images/other/upi-icon.png"
+                  alt="upi"
+                  width={24}
+                  height={24}
+                  objectFit="fill"
+                />
+                Razorpay (UPI, Cards)
+              </label>
+              <input
+                type="radio"
+                id="razorpayPayment"
+                name="paymentOption"
+                value="razorpay"
+                className="h-4 w-4 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
+                checked={selectedPaymentMethod === "razorpay"}
+                onChange={handlePaymentMethodChange}
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={handlePayment}
+            className="mt-4 rounded bg-red-600 px-4 py-2 text-white"
+            disabled={!isValidTotalCart || !selectedPaymentMethod}
+          >
+            Place Order
+          </button>
+        </>
+      ) : (
+        renderReceipt()
+      )}
+    </div>
+  );
+};
+
+export default VoucherPayment;

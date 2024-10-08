@@ -59,6 +59,7 @@ const MobileMainCategorySwiper = () => {
                     width={65}
                     className="rounded-full"
                     height={65}
+                    unoptimized
                   />
                 </div>
               </Link>

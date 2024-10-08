@@ -9,17 +9,19 @@ import { GiCargoShip } from "react-icons/gi";
 import { VscTools } from "react-icons/vsc";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
+import { BiTargetLock } from "react-icons/bi";
 import { TbHomeCheck } from "react-icons/tb";
 import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
 import Link from "next/link";
+import { useCurrency } from "@/context/CurrencyContext";
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
   const [isMobile, setIsMobile] = useState(false);
-
+  const { formatPrice } = useCurrency();
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
     const handleChange = (e: any) => {
@@ -33,7 +35,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
-
+  //function to handle the toggle of the accordian every section is handle by this function
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
   };
@@ -41,8 +43,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
     parseFloat(product?.productDetails?.makingCharges) +
     parseFloat(product?.productDetails?.additionalCost);
   return (
-    <div className="mt-7 ">
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+    <div className="mt-7">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"
@@ -64,12 +66,12 @@ const Accordian: React.FC<Props> = ({ product }) => {
               timeless elegance, ensuring every piece exudes sophistication and
               allure, setting you apart in style.
             </div>
-            <div className="grid grid-cols-4 max-sm:grid-cols-3 justify-items-center mt-5 gap-4">
+            <div className="mt-5 grid grid-cols-4 justify-items-center gap-4 max-sm:grid-cols-3">
               <div className="flex flex-col items-center text-center">
                 <span className="text-center">
                   <Icon.SketchLogo size={30} weight="thin" />
                 </span>
-                <span>10000+ Designs</span>
+                <span>10,000+ Designs</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -87,7 +89,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <span>
                   <Icon.Truck size={30} weight="thin" color="#00000" />
                 </span>
-                <span>Pan India Delivery</span>
+                <span>Pan-India Delivery</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -99,7 +101,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"
@@ -116,16 +118,17 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
         {showAccordian === 2 ? (
           <div>
-            <div className="mt-5 ">{product?.productDetails?.longDesc}</div>
-            <div className="grid grid-cols-4 max-sm:grid-cols-3 mt-4">
-              <div className="p-2 flex flex-col items-center text-center">
+            <div className="mt-5">{product?.productDetails?.longDesc}</div>
+            {/* <div className="mt-5">{product?.productDetails?.shortDesc}</div> */}
+            {/* <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
+              <div className="flex flex-col items-center p-2 text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails?.metalWeight}gms,{" "}
                   {product?.productDetails?.metalType}
                 </p>
               </div>
-              <div className="p-2 flex flex-col items-center text-center">
+              <div className="flex flex-col items-center p-2 text-center">
                 <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
                 <p>
                   {product?.productDetails.metalPurity}{" "}
@@ -133,7 +136,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </p>
               </div>
               {product?.productDetails?.isReturnable == 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <Icon.ArrowsLeftRight
                     className="mr-1 mt-1"
                     size={27}
@@ -143,111 +146,421 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </div>
               )}
               {product?.productDetails?.isReplaceable === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <TbReplace className="mr-1 mt-1" size={27} />
                   <p>7 days easy replaceable</p>
                 </div>
               )}
               {product?.productDetails?.isInternationalShippingAvailable ===
                 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <GiCargoShip className="mr-1 mt-1" size={27} />
                   <p>Delivered Internationally</p>
                 </div>
               )}
               {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <VscTools className="mr-1 mt-1" size={27} />
                   <p>Customization Available</p>
                 </div>
               )}
               {product?.productDetails?.fastDelivery === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <FaShippingFast className="mr-1 mt-1" size={27} />
                   <p>Fast Delivery</p>
                 </div>
               )}
               {product?.productDetails?.tryAtHome === 1 && (
-                <div className="p-2 flex flex-col items-center text-center">
+                <div className="flex flex-col items-center p-2 text-center">
                   <TbHomeCheck className="mr-1 mt-1" size={27} />
                   <p>Try At Home</p>
                 </div>
               )}
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Color:
+                    {product?.productDetails?.diamondDetails[0].diamondColor}
+                  </p>
+                </div>
+              )}
+              {product.productDetails?.diamondDetails?.length > 0 && (
+                <div className="flex">
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div
+                        key={index}
+                        className="flex flex-col items-center p-2 text-center"
+                      >
+                        <Icon.Diamond />
+                        <p>
+                          Diamond Color:{diamond.diamondColor}(
+                          {index === 0
+                            ? "Primary"
+                            : index === 1
+                              ? "Secondary"
+                              : index === 2
+                                ? "Tertiary"
+                                : `Diamond ${index + 1}`}
+                          )
+                        </p>
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
+
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Clarity:
+                    {product?.productDetails?.diamondDetails[0].diamondClarity}
+                  </p>
+                </div>
+              )}
+              {product?.productDetails?.diamondDetails[0] && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    Diamond Color:
+                    {product?.productDetails?.diamondDetails[0].diamondColor}
+                  </p>
+                </div>
+              )}
+            </div> */}
+            <div className="mt-4 grid grid-cols-4 gap-4 max-sm:grid-cols-3">
+              {parseInt(product?.productDetails?.metalWeight) > 0 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
+                  <p>
+                    {product?.productDetails?.metalWeight}gms,{" "}
+                    {product?.productDetails?.metalType}
+                  </p>
+                </div>
+              )}
+
+              {product?.productDetails?.metalPurity && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.HandCoins
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    {product?.productDetails.metalPurity}{" "}
+                    {product?.productDetails.metalType}
+                  </p>
+                </div>
+              )}
+
+              {product?.productDetails?.isReturnable == 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.ArrowsLeftRight
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>7 days easy returns</p>
+                </div>
+              )}
+
+              {product?.productDetails?.isReplaceable === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <TbReplace className="mr-1 mt-1" size={27} />
+                  <p>7 days easy replacement</p>
+                </div>
+              )}
+
+              {product?.productDetails?.isInternationalShippingAvailable ===
+                1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <GiCargoShip className="mr-1 mt-1" size={27} />
+                  <p>Delivered Internationally</p>
+                </div>
+              )}
+
+              {product?.productDetails?.customizationAvailability === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <VscTools className="mr-1 mt-1" size={27} />
+                  <p>Customization Available</p>
+                </div>
+              )}
+
+              {product?.productDetails?.fastDelivery === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <FaShippingFast className="mr-1 mt-1" size={27} />
+                  <p>Fast Delivery</p>
+                </div>
+              )}
+
+              {product?.productDetails?.tryAtHome === 1 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <TbHomeCheck className="mr-1 mt-1" size={27} />
+                  <p>Try At Home</p>
+                </div>
+              )}
+
+              {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <Icon.SketchLogo size={22} weight="thin" />
+                          <p>
+                            Diamond Color: {diamond.diamondColor} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )}
+              {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <BiTargetLock size={22} />
+                          <p>
+                            Diamond Clarity: {diamond.diamondClarity} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )}
+              {/* {product?.productDetails?.diamondDetails?.length > 0 && (
+                <>
+                  {product.productDetails.diamondDetails.map(
+                    (diamond: any, index: number) => (
+                      <div key={index}>
+                        <span className="flex flex-col items-center p-2 text-center">
+                          <Icon.SketchLogo />
+                          <p>
+                            Diamond Color: {diamond.diamondColor} (
+                            {index === 0
+                              ? "Primary"
+                              : index === 1
+                                ? "Secondary"
+                                : index === 2
+                                  ? "Tertiary"
+                                  : `Diamond ${index + 1}`}
+                            )
+                          </p>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </>
+              )} */}
             </div>
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
-        <h2>
-          <button
-            className="flex w-full justify-between text-xl"
-            onClick={() => handleToggle(3)}
-          >
-            Size Guide
-            <span className="right-0">
-              <Icon.CaretDown
-                size={25}
-                className={`${showAccordian === 3 ? "rotate-180" : null}`}
-              />
-            </span>
-          </button>
-        </h2>
-        {showAccordian === 3 ? (
-          <>
-            {isMobile ? (
-              <>
-                <MobileSizeGuide />
-              </>
-            ) : (
-              <div className="text-center rounded-md w-[80%]">
-                <table className="mt-5 bg-[#f7f7f7]">
+      {(product?.productDetails?.displayTitle
+        .toLowerCase()
+        .includes("bangles") ||
+        product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("bangle") ||
+        product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("chain")) && (
+        <div className="border-t-2 border-[#f7f7f7] p-4">
+          <h2>
+            <button
+              className="flex w-full justify-between text-xl"
+              onClick={() => handleToggle(3)}
+            >
+              Size Guide
+              <span className="right-0">
+                <Icon.CaretDown
+                  size={25}
+                  className={`${showAccordian === 3 ? "rotate-180" : null}`}
+                />
+              </span>
+            </button>
+          </h2>
+          {showAccordian === 3 ? (
+            <>
+              <div className="w-[100%] rounded-md text-center">
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("ring") &&
+                !product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("earrings") ? (
+                  <>
+                    <h3 className="text-center text-lg">
+                      Discover your perfect ring size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-center text-sm">
+                      Our guide helps you find the perfect ring size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your ring.
+                    </p>
+                  </>
+                ) : product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("chain") ? (
+                  <>
+                    <h3 className="text-lg">
+                      Discover your perfect chain size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-sm">
+                      Our guide helps you find the perfect chain size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your chain.
+                    </p>
+                  </>
+                ) : product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bracelet") ||
+                  product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bangle") ? (
+                  <>
+                    <h3 className="text-lg">
+                      Discover your perfect bangle size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-sm">
+                      Our guide helps you find the perfect bangle size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your bangle.
+                    </p>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("ring") &&
+                  !product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("earrings") &&
+                  !product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("earring") && (
+                    <Link
+                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                      href={"/ring-size-guide"}
+                    >
+                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                        Know More
+                      </button>
+                    </Link>
+                  )}
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("chain") && (
+                  <Link
+                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                    href={"/chain-size-guide"}
+                  >
+                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                      Know More
+                    </button>
+                  </Link>
+                )}
+                {(product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bracelet") ||
+                  product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bangle")) && (
+                  <Link
+                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                    href={"/bangle-size-guide"}
+                  >
+                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                      Know More
+                    </button>
+                  </Link>
+                )}
+                {/* <table className="mt-5 bg-[#f7f7f7]">
                   <tr className="">
-                    <td className="border-r-2 border-[#F0ECED] border-b-2 p-4">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] p-4">
                       Size
                     </td>
-                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] max-sm:p-4">
                       Diameter(inch)
                     </td>
-                    <td className="max-sm:p-4 border-r-2 border-[#F0ECED] border-b-2">
+                    <td className="border-b-2 border-r-2 border-[#F0ECED] max-sm:p-4">
                       Diameter(cms)
                     </td>
-                    <td className="max-sm:p-4 border-b-2 border-[#F0ECED]">
+                    <td className="border-b-2 border-[#F0ECED] max-sm:p-4">
                       Circumference(inch)
                     </td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED]">2.2</td>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.125</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">5.4</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">5.4</td>
                     <td className="">6.67</td>
                   </tr>
                   <tr>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.4</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.25</td>
-                    <td className="max-sm:p-2 border-r-2 border-[#F0ECED]">
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.4</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.25</td>
+                    <td className="border-r-2 border-[#F0ECED] max-sm:p-2">
                       5.7
                     </td>
                     <td className="p-2">7.06</td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.6</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">2.375</td>
-                    <td className="p-2 border-r-2 border-[#F0ECED]">6</td>
-                    <td className=" p-2">7.46</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.375</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">6</td>
+                    <td className="p-2">7.46</td>
                   </tr>
                   <tr>
                     <td className="border-r-2 border-[#F0ECED] p-2">2.8</td>
-                    <td className=" border-r-2 border-[#F0ECED] p-2">2.5</td>
-                    <td className=" border-r-2 border-[#F0ECED] p-2">6.5</td>
-                    <td className=" p-2 rounded-b-lg">7.85</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">2.5</td>
+                    <td className="border-r-2 border-[#F0ECED] p-2">6.5</td>
+                    <td className="rounded-b-lg p-2">7.85</td>
                   </tr>
-                </table>
+                </table> */}
               </div>
-            )}
-          </>
-        ) : null}
-      </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+            </>
+          ) : null}
+        </div>
+      )}
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between justify-items-center text-xl"
@@ -263,18 +576,30 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian === 4 ? (
-          <div className="lg:w-[100%] sm:w-[100%] p-4">
+          <div className="p-4 sm:w-[100%] lg:w-[100%]">
             <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>Component</div>
               <div>Weight</div>
               <div>Value</div>
             </div>
-            <div className="flex justify-between p-2 border border-[#ebe7e7]">
+            <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>
                 <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails != null && (
-                  <p>Diamond</p>
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>
+                            Diamond ({diamond.diamondColor}-
+                            {diamond.diamondClarity})
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
+
                 {product.productDetails?.stoneDetails != null && (
                   <p>Stone Cost</p>
                 )}
@@ -288,11 +613,22 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 {parseInt(product.productDetails.metalWeight) > 0 && (
                   <p>{product.productDetails?.metalWeight} gms</p>
                 )}
-                {product.productDetails?.diamondDetails && (
-                  <p>
-                    {product.productDetails?.diamondDetails[0]?.diamondClarity}
-                  </p>
+
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>
+                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
+                            Qty)
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
+
                 {product.productDetails.stoneDetails && <p>-</p>}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountValue && <p>-</p>}
@@ -300,86 +636,76 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div>
                 {parseInt(product.productDetails?.metalRate) > 0 && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product.productDetails?.metalRate))}
+                  <p className="text-right">
+                    {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>
                 )}
-                {product.productDetails?.diamondDetails != null && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(
-                      parseInt(
-                        product.productDetails?.diamondDetails[0]?.diamondCost
-                      )
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p className="text-right">
+                            {formatPrice(parseInt(diamond?.diamondCost))}
+                          </p>
+                        </div>
+                      ),
                     )}
-                  </p>
+                  </div>
                 )}
                 {product.productDetails.stoneDetails != null && (
-                  <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(
-                      parseFloat(
-                        product?.productDetails?.stoneDetails[0]?.stoneCost
-                      )
+                  <p className="text-right">
+                    {formatPrice(
+                      parseInt(
+                        product?.productDetails?.stoneDetails[0]?.stoneCost,
+                      ),
                     )}
                   </p>
                 )}
-                <p>
-                  ₹
-                  {new Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(makingCharges)}
+                <p className="text-right">
+                  {formatPrice(parseInt(makingCharges))}
                 </p>
                 {parseInt(product?.productDetails?.discountValue) > 0 && (
                   <div>
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      <p>
-                        -₹
-                        {new Intl.NumberFormat("en-IN", {
-                          minimumFractionDigits: 2,
-                        }).format(
-                          parseFloat(product?.productDetails?.discountAmount)
+                      <p className="text-right">
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountAmount),
                         )}
                       </p>
                     ) : (
-                      <p>-₹{product.productDetails?.discountValue}</p>
+                      <p className="text-right">
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountValue),
+                        )}
+                      </p>
                     )}
                   </div>
                 )}
-                <p>
-                  ₹
-                  {new Intl.NumberFormat("en-IN", {
-                    minimumFractionDigits: 2,
-                  }).format(parseInt(product?.productDetails?.gst))}
+                <p className="text-right">
+                  {formatPrice(parseInt(product?.productDetails?.gst))}
                 </p>
               </div>
             </div>
-            <div className="flex justify-between px-2 border border-[#ebe7e7] border-t-0">
+            <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
               <div className="text-md font-semibold">
                 <p>Total</p>
               </div>
               <div className="text-md font-semibold">
                 {product?.productDetails?.discountPrice !== null ? (
                   <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product?.productDetails?.discountPrice))}
+                    {formatPrice(
+                      parseInt(product?.productDetails?.discountPrice),
+                    )}
                   </p>
                 ) : (
                   <p>
-                    ₹
-                    {new Intl.NumberFormat("en-IN", {
-                      minimumFractionDigits: 2,
-                    }).format(parseInt(product?.productDetails?.productPrice))}
+                    {formatPrice(
+                      parseInt(product?.productDetails?.productPrice),
+                    )}
                   </p>
                 )}
               </div>
@@ -387,7 +713,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      <div className="p-4 border-t-2 border-[#f7f7f7]">
+      <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
             className="flex w-full justify-between text-xl"

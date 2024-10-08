@@ -7,13 +7,14 @@ import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useCategory } from "@/context/CategoryContex";
 
 const RoseGold = () => {
+  const { setCustomcategory } = useCategory();
   const [width, setWidth] = useState<number>(300);
   const [height, setHeight] = useState<number>(200);
   const [bannerwidth, setBannerWidth] = useState<number>(300);
   const [bannerheight, setBannerHeight] = useState<number>(200);
-
   useEffect(() => {
     const handleResize = () => {
       // Get the current viewport width
@@ -49,26 +50,27 @@ const RoseGold = () => {
     };
   }, []);
   return (
-    <div className="flex flex-wrap p-5 bg-[#f7f5f6] mt-5 justify-between">
-      <div className="lg:w-[30%] mr-6 md:w-[40%]">
-        <p className="max-sm:text-center md:mb-3 font-semibold">Explore</p>
-        <p className="lg:text-4xl max-sm:text-[1.5rem] max-sm:text-center lg:text-start lg:leading-[50px] sm:leading-4 md:text-[1.5rem] md:mb-3">
+    <div className="mt-5 flex flex-wrap justify-between bg-[#f7f5f6] lg:py-[90px]">
+      <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[65px] sm:pt-[36px]">
+        <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
+        <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
           ROSE GOLD RANGE
         </p>
-        <div className="lg:text-start lg:text-[1rem] max-sm:text-center md:text-[0.5rem] max-sm:text-xs">
+        <div className="max-sm:text-center max-sm:text-xs md:text-[0.5rem] lg:text-start lg:text-[1rem]">
           <p>
             Elevate your style with the warm, rosy embrace of rose gold
             jewellery. Its timeless elegance adds a touch of sophistication to
             every look.
           </p>
         </div>
-        <div className="flex mt-7 max-sm:justify-center mb-5 ">
+        <div className="mb-5 mt-7 flex max-sm:justify-center">
           <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants1.png"}
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -77,6 +79,7 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
           <div className="mr-2 cursor-pointer">
@@ -85,15 +88,20 @@ const RoseGold = () => {
               alt={"roseGoldVariants"}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
         </div>
+        
         {width > 135 && (
-          <Link href={{ pathname: "/products", query: { url: "c-rose_gold" } }}>
-            <div className="flex justify-normal mt-auto flex-end">
-              <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[60%]  px-6 py-2 text-white">
+          <Link
+            href={{ pathname: "/products", query: { url: "c-rose_gold" } }}
+            onClick={() => setCustomcategory("rose_gold")}
+          >
+            <div className="flex-end mt-auto flex justify-normal">
+              <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[60%]">
                 Shop All
-                <span className="mt-1 ml-2">
+                <span className="ml-2 mt-1">
                   <Icon.ArrowRight />
                 </span>
               </span>
@@ -101,12 +109,13 @@ const RoseGold = () => {
           </Link>
         )}
       </div>
-      <div className="flex sm:justify-center max-sm:justify-center max-sm:w-full">
+      <div className="flex max-sm:w-full max-sm:justify-center sm:justify-center">
         <Image
           src={"/images/roseGoldImages/roseGoldRingBanner.png"}
           width={bannerwidth}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
 
         <Image
@@ -114,14 +123,18 @@ const RoseGold = () => {
           width={width}
           height={height}
           alt={"the rose gold section"}
+          unoptimized
         />
       </div>
       {width < 170 && (
-        <div className="flex justify-center w-full mt-5">
-          <Link href={{ pathname: "/products", query: { url: "c-rose_gold" } }}>
-            <span className="flex justify-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] lg:w-[37%] px-6 py-2 text-white">
+        <div className="mt-5 flex w-full justify-center">
+          <Link
+            href={{ pathname: "/products", query: { url: "c-rose_gold" } }}
+            onClick={() => setCustomcategory("rose_gold")}
+          >
+            <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[37%]">
               Shop All
-              <span className="mt-1 ml-2">
+              <span className="ml-2 mt-1">
                 <Icon.ArrowRight />
               </span>
             </span>

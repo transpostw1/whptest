@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
+import { useCurrency } from "@/context/CurrencyContext";
 interface OrderSummaryProductsProps {
   cartItems: any[];
   isBuyNow: boolean;
@@ -12,6 +12,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
   isBuyNow,
 
 }) => {
+  const { formatPrice } = useCurrency();
   const displayedItems = isBuyNow ? cartItems.slice(0, 1) : cartItems;
 
 
@@ -33,16 +34,14 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
               height={200}
               alt={product.name}
               className="rounded-lg object-cover"
+              unoptimized
             />
             <div className="p-4 flex flex-col">
               <div className="text-title">
-                {product.name} X {product.quantity}
+                {product.name} <span className="font-normal lowercase">x {product.quantity}</span>
               </div>
               <div className="text-title text-start">
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(Math.round(parseInt(product.price.toString())))}
+                {formatPrice(product.price)}
               </div>
               <h3>Estimated Delivery Date: 29/2/2024</h3>
             </div>

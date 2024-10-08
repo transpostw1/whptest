@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Loader from "@/components/Other/Loader"
 import { useUser } from "@/context/UserContext";
 
@@ -17,6 +16,8 @@ interface FormValues {
   phone: string;
   altPhone: string;
   gender: string;
+  gst_no:string;
+  pan:string;
   dobDay: string;
   dobMonth: string;
   dobYear: string;
@@ -33,52 +34,86 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   }, []);
 
-  const handleSubmit = async (values: FormValues) => {
-    setIsLoading(true);
-    setFormError("");
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      altPhone: "",
+      gender: "",
+      gst_no: "",
+      pan: "",
+      dobDay: "",
+      dobMonth: "",
+      dobYear: "",
+      profilePicture: null,
+    },
+    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    onSubmit: async (values: FormValues) => {
+      setIsLoading(true);
+      setFormError("");
 
-    const formattedValues = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone,
-      altPhone: values.altPhone,
-      gender: values.gender,
-      dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
-      // ...(values.profilePicture && { profile_picture: values.profilePicture }),
-      profile_picture: values.profilePicture,
-    };
-    try {
-      await addUserDetails(formattedValues);
-      handleClose();
-    } catch (error) {
-      setFormError(
-        "An error occurred while submitting the form. Please try again later."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      let dob = null; 
+
+      if (values.dobYear && values.dobMonth && values.dobDay) {
+        dob = `${values.dobYear}-${values.dobMonth}-${values.dobDay}`;
+      }
+
+      const formattedValues = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        altPhone: values.altPhone,
+        gender: values.gender,
+        gst_no: values.gst_no,
+        pan: values.pan,
+        dob,
+        profile_picture: values.profilePicture,
+      };
+
+      try {
+        await addUserDetails(formattedValues);
+        handleClose();
+      } catch (error) {
+        setFormError(
+          "An error occurred while submitting the form. Please try again later."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
+
 
   const dob = userDetails?.dob;
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: userDetails?.firstname || "",
-      lastName: userDetails?.lastname || "",
-      email: userDetails?.email || "",
-      phone: userDetails?.mobile_no || "",
-      altPhone: userDetails?.altPhone || "",
-      gender: userDetails?.gender || "",
-      dobDay,
-      dobMonth,
-      dobYear,
-      profilePicture: null,
-    },
-    // validationSchema,
-    onSubmit: handleSubmit,
-  });
+  
+
+  useEffect(() => {
+    if (userDetails && isOpen) {
+      const dob = userDetails?.dob;
+      const [dobYear = "", dobMonth = "", dobDay = ""] = dob?.split("-") || [];
+
+      formik.setValues({
+        firstName: userDetails.firstname || "",
+        lastName: userDetails.lastname || "",
+        email: userDetails.email || "",
+        phone: userDetails.mobile_no || "",
+        altPhone: userDetails.altPhone || "",
+        gender: userDetails.gender || "",
+        gst_no: userDetails.gst_no || "",
+        pan: userDetails.pan || "",
+        dobDay,
+        dobMonth,
+        dobYear,
+        profilePicture: null,
+      });
+    }
+  }, [isOpen, userDetails]);
+
 
   if (!isOpen) return null;
 
@@ -133,18 +168,17 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <input
                   id="firstName"
                   type="text"
-                  {...formik.getFieldProps("firstName")}
-                  value={formik.initialValues.firstName}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                    formik.errors.firstName
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                />
-                <label
-                  htmlFor="lastName"
-                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
+                {...formik.getFieldProps("firstName")} // Bind values properly
+                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  formik.errors.firstName
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+              />
+              <label
+                htmlFor="firstName"
+                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+              >
                   First Name
                 </label>
               </div>
@@ -187,6 +221,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   type="text"
                   {...formik.getFieldProps("email")}
                   value={formik.values.email}
+                  readOnly
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
                     formik.errors.email ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
@@ -275,10 +310,64 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="text-red-500 mt-1">{formik.errors.gender}</div>
               )}
             </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="mb-4">
               <div className="relative">
+                <input
+                  id="gst_no"
+                  type="text"
+                  {...formik.getFieldProps("gst_no")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.gst_no
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="gst_no"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                 GST Number
+                </label>
+              </div>
+              {formik.errors.gst_no && (
+                <div className="text-red-500 mt-1">
+                  {formik.errors.gst_no}
+                </div>
+              )}
+            </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="pan"
+                  type="text"
+                  {...formik.getFieldProps("pan")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                    formik.errors.pan
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="pan"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  PAN Number
+                </label>
+              </div>
+              {formik.errors.pan && (
+                <div className="text-red-500 mt-1">
+                  {formik.errors.pan}
+                </div>
+              )}
+            </div>
+          </div>
+          <p className="my-4">Date of Birth</p>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            
+            <div className="mb-4">
+              
+              <div className="relative">
+                
                 <input
                   id="dobDay"
                   type="text"
@@ -297,8 +386,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               {formik.errors.dobDay && (
                 <div className="text-red-500 mt-1">{formik.errors.dobDay}</div>
               )}
+              
             </div>
+            
             <div className="mb-4">
+              
               <div className="relative">
                 <input
                   id="dobMonth"

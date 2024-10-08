@@ -1,32 +1,48 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { useCategory } from "@/context/CategoryContex";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const Category = () => {
   const router = useRouter();
   const { categories } = useAllCategoryContext();
   const { setCustomcategory } = useCategory();
 
+  // State to track the number of items to display
+  const [visibleItems, setVisibleItems] = useState(8);
+
+  // Function to show more items
+  const showMoreItems = () => {
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 8);
+  };
+
+  // Function to show less items
+  const showLessItems = () => {
+    setVisibleItems(8); // Reset to initial visible item count
+  };
+
   return (
     <>
-      <div className="w-full px-8 my-16 font-[500]  text-[#39161C]">
+      <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="font-semibold text-[1.5rem] uppercase pb-2">SHOP BY CATEGORY</h1>
-          <p className="">
+          <h1 className="pb-2 text-[1.13rem] font-medium uppercase">
+            SHOP BY CATEGORY
+          </h1>
+          <p className="font-light md:w-[50%]">
             Effortlessly find your perfect piece by exploring our jewellery
-            categories. <br />
+            categories.
             From stunning necklaces to exquisite rings, our collections cater to
             every style and taste.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-3 items-center ">
-          {categories.map((category) => (
+        <div className="mt-3 grid grid-cols-2 items-center gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
-              className="flex flex-col relative items-start justify-between "
+              className="relative flex flex-col items-start justify-between"
             >
               <Link
                 href={`/products?url=${category.url}`}
@@ -38,17 +54,23 @@ const Category = () => {
                     alt={category.url}
                     width={400}
                     height={400}
+                    unoptimized
                   />
                 </div>
               </Link>
 
               <div>
-                <h1 className="text-xl font-semibold uppercase break-word">{category.name}</h1>
-                <a className="inline-flex items-center" onClick={() => {
-                  router.push(`/products?url=${category.url}`);
-                  setCustomcategory(category.url);
-                }}>
-                  <span className="me-2 text-[#E26178] underline cursor-pointer text-sm">
+                <h1 className="break-word sm:text-lg font-semibold uppercase">
+                  {category.name}
+                </h1>
+                <a
+                  className="inline-flex items-center"
+                  onClick={() => {
+                    router.push(`/products?url=${category.url}`);
+                    setCustomcategory(category.url);
+                  }}
+                >
+                  <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
                     View All
                   </span>
                   <span className="flex items-center">
@@ -60,19 +82,29 @@ const Category = () => {
                     />
                   </span>
                 </a>
-                {/* <p className="text-sm font-medium">{category.description}</p> */}
-                {/* <h3
-                  className="text-red-600 underline font-bold cursor-pointer"
-                  onClick={() => {
-                    router.push(`/products?url=${category.url}`);
-                    setCustomcategory(category.url);
-                  }}
-                >
-                  VIEW ALL
-                </h3> */}
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-4 flex justify-center">
+          {visibleItems < categories.length && (
+            <div
+              className="mx-2 flex cursor-pointer rounded text-[#e26178]"
+              onClick={showMoreItems}
+            >
+              Show More
+              <Icon.CaretDown className="ml-1 mt-1" />
+            </div>
+          )}
+          {visibleItems > 8 && (
+            <div
+              className="mx-2 flex cursor-pointer rounded text-[#e26178]"
+              onClick={showLessItems}
+            >
+              Show Less
+              <Icon.CaretUp className="ml-1 mt-1" />
+            </div>
+          )}
         </div>
       </div>
     </>

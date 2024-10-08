@@ -85,12 +85,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("isLoggedIn", "true");
     }
     await getUser();
-    let redirectPath = localStorage.getItem("redirectPath") || "/";
-    if (redirectPath === "/login"||"/register") {
+    let redirectPath = localStorage.getItem("redirectPath");
+    if (redirectPath === "/login" || redirectPath === "/register") {
       redirectPath = "/";
     }
     router.push(redirectPath);
-    // localStorage.removeItem("redirectPath");
+    localStorage.removeItem("redirectPath");
   };
 
   const logOut = () => {
@@ -101,7 +101,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getUser = async () => {
     const getAuthHeaders = () => {
-      if (!cookieToken) return null;
+      if (!cookieToken) return undefined;
       return {
         authorization: `Bearer ${cookieToken}`,
       };

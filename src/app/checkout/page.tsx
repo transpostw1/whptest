@@ -1,12 +1,16 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "swiper/css/bundle";
+import "swiper/css/navigation";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import { useSearchParams, usePathname } from "next/navigation";
-import StickyNav from "@/components/Header/StickyNav";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
 import Payment from "./Payment";
@@ -15,7 +19,7 @@ import ProceedButton from "./ProceedButton";
 import Link from "next/link";
 import CouponsModal from "@/components/Other/CouponsModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { ApolloClient, InMemoryCache, gql,  HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 import {
   AddressBook,
@@ -36,7 +40,7 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
-  const { totalDiscount, updateDiscount } = useCouponContext();
+  const { coupons, totalDiscount, updateDiscount } = useCouponContext();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
@@ -74,6 +78,24 @@ const Checkout: React.FC = () => {
   const pathname = usePathname();
 
   const [showAllItems, setShowAllItems] = useState(true);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const slideLeft = () => {
+    const slider = document.getElementById("coupon-slider");
+    if (slider) {
+      slider.scrollLeft = slider.scrollLeft - 200;
+      setScrollPosition(slider.scrollLeft);
+    }
+  };
+
+  const slideRight = () => {
+    const slider = document.getElementById("coupon-slider");
+    if (slider) {
+      slider.scrollLeft = slider.scrollLeft + 200;
+      setScrollPosition(slider.scrollLeft);
+    }
+  };
+  const sliderRef = useRef(null);
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -102,13 +124,20 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (couponCode) {
+      handleCouponCheck();
+    }
+  }, [couponCode]);
+  
   const handleCouponModalClose = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
     setCouponCode(value);
+    handleCouponCheck();
   };
-  const removeCoupon = (value: string) => {
+  const removeCoupon = () => {
     setCouponCode("");
   };
 
@@ -289,18 +318,19 @@ const Checkout: React.FC = () => {
   const toggleShowAllItems = () => {
     setShowAllItems((prevState) => !prevState);
   };
-  console.log(cartItems,"OOOOOOOOOO")
+
+  console.log(cartItems, "OOOOOOOOOO");
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
         item?.productId ||
         item?.quantity ||
         item?.productDetails?.title ||
-        item?.productDetails?.quantity||
+        item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails||
-        item?.productDetails?.quantity||
-        item?.productDetails?.makeToOrder,
+      item?.productDetails?.quantity||
+      item?.productDetails?.makeToOrder,
     )
     .map((item: any) => ({
       productId: item?.productId,
@@ -318,9 +348,9 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
-  console.log(mappedCartItems,"LoggedOutCartItems")
+  console.log(mappedCartItems, "LoggedOutCartItems");
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  console.log(cartItems,"MAINNNNNNNNNN")
+  console.log(cartItems, "MAINNNNNNNNNN");
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
@@ -683,8 +713,8 @@ const Checkout: React.FC = () => {
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-          <div className="flex flex-col justify-between md:flex-row lg:flex-row">
-            <div className="mt-5 w-full sm:mt-7 md:w-[2000px] md:pr-5">
+          <div className="flex flex-col justify-between w-full lg:flex-row">
+            <div className="mt-5 w-full sm:mt-7 lg:w-[2000px] md:pr-5">
               <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
               {selectedComponent === "CartItems" && (
                 <CartItems
@@ -732,7 +762,7 @@ const Checkout: React.FC = () => {
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
-                  <div className="border border-gray-400 p-3">
+                  <div className="border border-gray-400 p-3 w-full">
                     <div className="flex justify-between">
                       <>
                         <div className="flex items-center gap-2 font-medium">
@@ -741,17 +771,102 @@ const Checkout: React.FC = () => {
                             alt={"coupons"}
                             height={25}
                             width={25}
-                            unoptimized
                           />
-                          <h3>Apply Coupon</h3>
+                          <h3>
+                            {couponCode ? (
+                              <span className="flex items-center gap-2">
+                                Applied:{" "}
+                                <span className="text-red-600">
+                                  {couponCode}
+                                </span>
+                              </span>
+                            ) : (
+                              "Coupons/Gift Vouchers"
+                            )}
+                          </h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
-                          onClick={() => handleCouponsModal()}
+                          onClick={() =>
+                            couponCode
+                              ? removeCoupon()
+                              : handleCouponsModal()
+                          }
                         >
-                          Apply
+                          {couponCode ? "Remove" : ""}
                         </h3>
                       </>
+                    </div>
+                    <div className="relative w-full pt-2">
+                      <Swiper
+                        spaceBetween={2}
+                        slidesPerView={1.5}
+                        modules={[Navigation]}
+                        navigation={{
+                          prevEl: ".swiper-button-prev",
+                          nextEl: ".swiper-button-next",
+                        }}
+                        className="py-4"
+                      >
+                        {coupons.map((coupon, index) => (
+                          <SwiperSlide
+                            key={index}
+                            className="!w-auto max-w-[calc(100vw-48px)] md:max-w-full"
+                          >
+                            <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
+                                    {coupon.discountType === "Amount"
+                                      ? `₹${coupon.discountValue}`
+                                      : `${coupon.discountValue}%`}{" "}
+                                    OFF
+                                  </div>
+                                </div>
+                                <button
+                                  className="text-sm font-medium text-red-600 hover:text-red-700"
+                                  onClick={() => handleCouponCode(coupon.code)}
+                                >
+                                  Apply
+                                </button>
+                              </div>
+                              <p className="mt-2 text-sm text-gray-600">
+                                Get{" "}
+                                {coupon.discountType === "Amount"
+                                  ? "flat "
+                                  : ""}
+                                {coupon.discountType === "Amount"
+                                  ? `₹${coupon.discountValue}`
+                                  : `${coupon.discountValue}%`}{" "}
+                                off on minimum purchase of ₹
+                                {coupon.discountMinAmount}
+                              </p>
+                              <div className="mt-2 flex items-center justify-between">
+                                <span className="text-xs text-gray-500">
+                                  Code: {coupon.code}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  Valid till{" "}
+                                  {new Date(
+                                    coupon.discountEndDate,
+                                  ).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+
+                      {/* <button 
+        className="swiper-button-prev absolute left-0 top-1/2 z-10 flex h-full -translate-y-1/2 items-center bg-gradient-to-r from-white px-2 hover:from-gray-50"
+      >
+        <ChevronLeft className="h-6 w-6 text-gray-600" />
+      </button>
+      <button 
+        className="swiper-button-next absolute right-0 top-1/2 z-10 flex h-full -translate-y-1/2 items-center bg-gradient-to-l from-white px-2 hover:from-gray-50"
+      >
+        <ChevronRight className="h-6 w-6 text-gray-600" />
+      </button> */}
                     </div>
                     {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
@@ -901,7 +1016,7 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex w-[170px] h-[58px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

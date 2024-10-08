@@ -149,7 +149,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="justify-between p-4 border-b flex md:flex-row lg:flex-row lg:w-full md:w-full items-center mb-4">
+        <div className="justify-between p-4 border-b flex md:flex-row w-full items-center mb-4">
           <Image
             src={product?.image}
             width={100}
@@ -158,7 +158,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             className="object-cover bg-[#f7f7f7] mr-2"
             unoptimized
           />
-          <div className="flex flex-col md:flex-row lg:flex-row lg:w-2/3 ">
+          <div className="flex flex-col md:flex-row w-full  lg:w-2/3 ">
             <div className="py-4">
               <div className="text-title">{product.name}</div>
               <div className="flex">
@@ -171,7 +171,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/6 flex flex-col items-center justify-center">
+          <div className="w-full lg:w-1/6 flex flex-col items-center justify-between">
             <div className="text-title text-center"> {formatPrice(price)} </div>
             <div className="line-through text-[#beb3b3]">
               {formatPrice(productPrice)}

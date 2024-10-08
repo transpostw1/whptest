@@ -184,7 +184,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           updatedCartFromServer.length === 1 &&
           updatedCartFromServer[0].productId === productId
         ) {
-          // If the server returned only the removed item, fetch the updated cart from the server
           const cartItemsFromServer = await fetchCartItemsFromServer();
           setCartItems(cartItemsFromServer);
         } else {
@@ -221,8 +220,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
-
+       console.log(cartData,"CARTDATA on synccartwith server")
       const getAuthHeaders: any = () => {
+        const cookieToken = localStorage.getItem("localtoken")
         if (!cookieToken) return null;
         return {
           authorization: `Bearer ${cookieToken}`,
@@ -236,6 +236,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       console.log(typeof cartData, "CartData");
+      console.log("tokennn",cookieToken)
       const SYNC_CART = gql`
         mutation CartSync($cartItems: [CartItemInput!]!) {
           cartSync(cartItems: $cartItems) {
@@ -256,6 +257,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       const cartItemsFromServer = await fetchCartItemsFromServer();
+      console.log(cartData,"CARTDATAAA")
+      console.log(cartItems,"CArtItmes")
+      console.log("fetchedddd",cartItemsFromServer);
+      console.log("tokennn",cookieToken);
       setCartItems(cartItemsFromServer);
       setLoading(false);
     } catch (error) {

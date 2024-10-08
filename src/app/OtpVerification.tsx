@@ -160,7 +160,7 @@ const OtpVerification = ({
         ? localStorage.setItem("localtoken", localToken)
         : null;
       console.log("intial token", localStorage.getItem("localtoken"));
-      router.push("/");
+      // router.push("/");
     } catch (error: any) {
       setVerifying(false);
       console.error("Error signing in with OTP:", error);

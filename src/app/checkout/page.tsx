@@ -43,6 +43,7 @@ const Checkout: React.FC = () => {
   const { formatPrice } = useCurrency();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
+  const [voucherCode, setVoucherCode] = useState<string>("");
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState("CartItems");
@@ -75,7 +76,6 @@ const Checkout: React.FC = () => {
   const buyNow = searchParams.get("buyNow");
   const [showAllItems, setShowAllItems] = useState(true);
 
-
   const handleCouponsModal = () => {
     setCouponsModal(true);
   };
@@ -103,11 +103,11 @@ const Checkout: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (couponCode) {
-      handleCouponCheck();
-    }
-  }, [couponCode]);
+  // useEffect(() => {
+  //   if (couponCode) {
+  //     handleCouponCheck();
+  //   }
+  // }, [couponCode]);
 
   const handleCouponModalClose = () => {
     setCouponsModal(false);
@@ -115,10 +115,12 @@ const Checkout: React.FC = () => {
   const handleCouponCode = (value: string) => {
     setCouponCode("");
     setCouponCode(value);
-    // handleCouponCheck();
+    setVoucherCode(value)
+    handleCouponCheck();
   };
   const removeCoupon = () => {
     setCouponCode("");
+    setVoucherCode("");
     setDataAfterCouponCode([]);
   };
 
@@ -738,48 +740,65 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-3/4">
+            <div className="mt-5 w-full lg:w-2/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
                   <div className="w-full border border-gray-400 p-3">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-start">
                       <>
-                        <div className="flex items-center gap-2 font-medium">
-                          <Image
-                            src={"/images/icons/coupon.png"}
-                            alt={"coupons"}
-                            height={25}
-                            width={25}
-                            unoptimized
-                          />
-                          <h3>
-                            {couponCode ? (
-                              <span className="flex items-center gap-2">
-                                Applied Coupon:{" "}
-                                <span className="text-red-600">
-                                  {couponCode}
+                        <div className="w-full">
+                          <div className="flex items-center gap-2 font-medium">
+                            <Image
+                              src={"/images/icons/coupon.png"}
+                              alt={"coupons"}
+                              height={25}
+                              width={25}
+                              unoptimized
+                            />
+                            <h3>
+                              {voucherCode ? (
+                                <span className="flex items-center gap-2">
+                                  Applied Coupon:{" "}
+                                  <span className="text-red-600">
+                                    {voucherCode}
+                                  </span>
                                 </span>
-                              </span>
-                            ) : (
-                              "Available Coupons"
-                            )}
-                          </h3>
+                              ) : (
+                                "Available Coupons/Vouchers"
+                              )}
+                            </h3>
+                          </div>
+                          <div className="mt-2 flex gap-2 w-full">
+                            <input
+                              type="text"
+                              value={couponCode}
+                              onChange={(e) => setCouponCode(e.target.value)}
+                              placeholder="Enter Coupon Code"
+                              className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
+                            />
+                            <button
+                              onClick={() => handleCouponCode(couponCode)}
+                              className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                            >
+                              Apply
+                            </button>
+                          </div>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
                           onClick={() =>
-                            couponCode ? removeCoupon() : handleCouponsModal()
+                            voucherCode ? removeCoupon() : handleCouponsModal()
                           }
                         >
-                          {couponCode ? "Remove" : ""}
+                          {voucherCode ? "Remove" : ""}
                         </h3>
                       </>
                     </div>
                     <div className="relative w-full pt-2">
                       <Swiper
-                        spaceBetween={4}
-                        slidesPerView='auto'
+                        spaceBetween={2}
+                        slidesPerView="auto"
                         modules={[Navigation]}
                         navigation={{
                           prevEl: ".swiper-button-prev",
@@ -835,17 +854,6 @@ const Checkout: React.FC = () => {
                           </SwiperSlide>
                         ))}
                       </Swiper>
-
-                      {/* <button 
-        className="swiper-button-prev absolute left-0 top-1/2 z-10 flex h-full -translate-y-1/2 items-center bg-gradient-to-r from-white px-2 hover:from-gray-50"
-      >
-        <ChevronLeft className="h-6 w-6 text-gray-600" />
-      </button>
-      <button 
-        className="swiper-button-next absolute right-0 top-1/2 z-10 flex h-full -translate-y-1/2 items-center bg-gradient-to-l from-white px-2 hover:from-gray-50"
-      >
-        <ChevronRight className="h-6 w-6 text-gray-600" />
-      </button> */}
                     </div>
                     {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">

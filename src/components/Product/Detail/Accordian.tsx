@@ -71,7 +71,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <span className="text-center">
                   <Icon.SketchLogo size={30} weight="thin" />
                 </span>
-                <span>10000+ Designs</span>
+                <span>10,000+ Designs</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -89,7 +89,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <span>
                   <Icon.Truck size={30} weight="thin" color="#00000" />
                 </span>
-                <span>Pan India Delivery</span>
+                <span>Pan-India Delivery</span>
               </div>
               <div className="flex flex-col items-center text-center">
                 <span>
@@ -119,6 +119,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         {showAccordian === 2 ? (
           <div>
             <div className="mt-5">{product?.productDetails?.longDesc}</div>
+            {/* <div className="mt-5">{product?.productDetails?.shortDesc}</div> */}
             {/* <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
               <div className="flex flex-col items-center p-2 text-center">
                 <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
@@ -242,21 +243,29 @@ const Accordian: React.FC<Props> = ({ product }) => {
               )}
             </div> */}
             <div className="mt-4 grid grid-cols-4 gap-4 max-sm:grid-cols-3">
-              <div className="flex flex-col items-center p-2 text-center">
-                <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
-                <p>
-                  {product?.productDetails?.metalWeight}gms,{" "}
-                  {product?.productDetails?.metalType}
-                </p>
-              </div>
+              {parseInt(product?.productDetails?.metalWeight) > 0 && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
+                  <p>
+                    {product?.productDetails?.metalWeight}gms,{" "}
+                    {product?.productDetails?.metalType}
+                  </p>
+                </div>
+              )}
 
-              <div className="flex flex-col items-center p-2 text-center">
-                <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
-                <p>
-                  {product?.productDetails.metalPurity}{" "}
-                  {product?.productDetails.metalType}
-                </p>
-              </div>
+              {product?.productDetails?.metalPurity && (
+                <div className="flex flex-col items-center p-2 text-center">
+                  <Icon.HandCoins
+                    className="mr-1 mt-1"
+                    size={27}
+                    weight="thin"
+                  />
+                  <p>
+                    {product?.productDetails.metalPurity}{" "}
+                    {product?.productDetails.metalType}
+                  </p>
+                </div>
+              )}
 
               {product?.productDetails?.isReturnable == 1 && (
                 <div className="flex flex-col items-center p-2 text-center">
@@ -381,30 +390,130 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      <div className="border-t-2 border-[#f7f7f7] p-4">
-        <h2>
-          <button
-            className="flex w-full justify-between text-xl"
-            onClick={() => handleToggle(3)}
-          >
-            Size Guide
-            <span className="right-0">
-              <Icon.CaretDown
-                size={25}
-                className={`${showAccordian === 3 ? "rotate-180" : null}`}
-              />
-            </span>
-          </button>
-        </h2>
-        {showAccordian === 3 ? (
-          <>
-            {isMobile ? (
-              <>
-                <MobileSizeGuide />
-              </>
-            ) : (
-              <div className="w-[80%] rounded-md text-center">
-                <table className="mt-5 bg-[#f7f7f7]">
+      {(product?.productDetails?.displayTitle
+        .toLowerCase()
+        .includes("bangles") ||
+        product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("bangle") ||
+        product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("chain")) && (
+        <div className="border-t-2 border-[#f7f7f7] p-4">
+          <h2>
+            <button
+              className="flex w-full justify-between text-xl"
+              onClick={() => handleToggle(3)}
+            >
+              Size Guide
+              <span className="right-0">
+                <Icon.CaretDown
+                  size={25}
+                  className={`${showAccordian === 3 ? "rotate-180" : null}`}
+                />
+              </span>
+            </button>
+          </h2>
+          {showAccordian === 3 ? (
+            <>
+              <div className="w-[100%] rounded-md text-center">
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("ring") &&
+                !product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("earrings") ? (
+                  <>
+                    <h3 className="text-center text-lg">
+                      Discover your perfect ring size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-center text-sm">
+                      Our guide helps you find the perfect ring size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your ring.
+                    </p>
+                  </>
+                ) : product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("chain") ? (
+                  <>
+                    <h3 className="text-lg">
+                      Discover your perfect chain size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-sm">
+                      Our guide helps you find the perfect chain size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your chain.
+                    </p>
+                  </>
+                ) : product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bracelet") ||
+                  product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bangle") ? (
+                  <>
+                    <h3 className="text-lg">
+                      Discover your perfect bangle size with our easy-to-follow
+                      guide
+                    </h3>
+                    <p className="mt-2 text-sm">
+                      Our guide helps you find the perfect bangle size for your
+                      unique needs. Simply click on Know More to find the right
+                      size for your bangle.
+                    </p>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("ring") &&
+                  !product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("earrings") &&
+                  !product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("earring") && (
+                    <Link
+                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                      href={"/ring-size-guide"}
+                    >
+                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                        Know More
+                      </button>
+                    </Link>
+                  )}
+                {product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("chain") && (
+                  <Link
+                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                    href={"/chain-size-guide"}
+                  >
+                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                      Know More
+                    </button>
+                  </Link>
+                )}
+                {(product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bracelet") ||
+                  product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("bangle")) && (
+                  <Link
+                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                    href={"/bangle-size-guide"}
+                  >
+                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                      Know More
+                    </button>
+                  </Link>
+                )}
+                {/* <table className="mt-5 bg-[#f7f7f7]">
                   <tr className="">
                     <td className="border-b-2 border-r-2 border-[#F0ECED] p-4">
                       Size
@@ -445,12 +554,12 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     <td className="border-r-2 border-[#F0ECED] p-2">6.5</td>
                     <td className="rounded-b-lg p-2">7.85</td>
                   </tr>
-                </table>
+                </table> */}
               </div>
-            )}
-          </>
-        ) : null}
-      </div>
+            </>
+          ) : null}
+        </div>
+      )}
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
@@ -481,7 +590,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>Diamond ({diamond.diamondColor}-{diamond.diamondClarity})</p>
+                          <p>
+                            Diamond ({diamond.diamondColor}-
+                            {diamond.diamondClarity})
+                          </p>
                         </div>
                       ),
                     )}
@@ -508,7 +620,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       (diamond: any, index: number) => (
                         <div key={index}>
                           <p>
-                            {diamond.caratWeight} ct ({diamond.diamondQuantity} Qty)
+                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
+                            Qty)
                           </p>
                         </div>
                       ),
@@ -523,7 +636,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div>
                 {parseInt(product.productDetails?.metalRate) > 0 && (
-                  <p>
+                  <p className="text-right">
                     {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>
                 )}
@@ -532,14 +645,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     {product.productDetails.diamondDetails.map(
                       (diamond: any, index: number) => (
                         <div key={index}>
-                          <p>{formatPrice(parseInt(diamond?.diamondCost))}</p>
+                          <p className="text-right">
+                            {formatPrice(parseInt(diamond?.diamondCost))}
+                          </p>
                         </div>
                       ),
                     )}
                   </div>
                 )}
                 {product.productDetails.stoneDetails != null && (
-                  <p>
+                  <p className="text-right">
                     {formatPrice(
                       parseInt(
                         product?.productDetails?.stoneDetails[0]?.stoneCost,
@@ -547,19 +662,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </p>
                 )}
-                <p>{formatPrice(parseInt(makingCharges))}</p>
+                <p className="text-right">
+                  {formatPrice(parseInt(makingCharges))}
+                </p>
                 {parseInt(product?.productDetails?.discountValue) > 0 && (
                   <div>
                     {product?.productDetails &&
                     product?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      <p>
+                      <p className="text-right">
                         -
                         {formatPrice(
                           parseInt(product?.productDetails?.discountAmount),
                         )}
                       </p>
                     ) : (
-                      <p>
+                      <p className="text-right">
                         -
                         {formatPrice(
                           parseInt(product?.productDetails?.discountValue),
@@ -568,7 +685,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-                <p>{formatPrice(parseInt(product?.productDetails?.gst))}</p>
+                <p className="text-right">
+                  {formatPrice(parseInt(product?.productDetails?.gst))}
+                </p>
               </div>
             </div>
             <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">

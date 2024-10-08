@@ -25,7 +25,7 @@ const SpecialOccasion = () => {
         {/* <div className="heading3 text-center">Special Occasion</div> */}
         <div className="flex flex-col justify-between px-8 text-red-950 gap-2">
           <p className="text-[24px] sm:w-[100%] sm:leading-[18px] md:w-[57%] md:text-3xl lg:w-[71%] lg:text-[62px] lg:leading-[86px]">
-            Something special for Every Occasion
+            Something special for Every Occasions
           </p>
           <p className="font-light text-gray-700 sm:text-[12px] md:w-[60%] lg:w-[65%] lg:text-[16px]">
             Crafted to add a touch of elegance and charm to every occasion. From

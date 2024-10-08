@@ -393,7 +393,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         : ""
                     }`}
                   >
-                    New Arrival
+                    New Arrivals
                   </Link>
                 </li>
                 <li
@@ -473,7 +473,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         : ""
                     }`}
                   >
-                    Bracelet
+                    Bracelets
                   </Link>
                 </li>
                 <li
@@ -492,7 +492,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                         : ""
                     }`}
                   >
-                    Necklace
+                    Necklaces
                   </Link>
                 </li>
                 <li className={`relative h-full`}>

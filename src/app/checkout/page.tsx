@@ -677,7 +677,6 @@ const Checkout: React.FC = () => {
                     <h1 className="text-3xl font-semibold text-red-700">
                       Order Placed!!
                     </h1>
-                    <h1>ID-#32432</h1>
                   </div>
                 </div>
               ) : (
@@ -742,10 +741,10 @@ const Checkout: React.FC = () => {
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  // onOrderComplete={handleOrderComplete}
                   onOrderComplete={(setCartItems) =>
                     handleOrderComplete(setCartItems, removeFromCart)
                   }
+                  component={selectedComponent}
                   wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
@@ -771,19 +770,9 @@ const Checkout: React.FC = () => {
                             alt={"coupons"}
                             height={25}
                             width={25}
+                            unoptimized
                           />
-                          <h3>
-                            {couponCode ? (
-                              <span className="flex items-center gap-2">
-                                Applied:{" "}
-                                <span className="text-red-600">
-                                  {couponCode}
-                                </span>
-                              </span>
-                            ) : (
-                              "Coupons/Gift Vouchers"
-                            )}
-                          </h3>
+                          <h3>Apply Coupon/Gift Voucher</h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
@@ -913,6 +902,24 @@ const Checkout: React.FC = () => {
                       </div>
                     )}
                   </div>
+                  {!isOrderPlaced && (
+                    <div className="mt-2 flex justify-between border border-gray-400 p-2">
+                      <div className="flex items-center gap-2 font-medium">
+                        <input
+                          type="checkbox"
+                          value="whp_Wallet"
+                          checked={whpWallet == "whp_Wallet"}
+                          onChange={handleWhpWallet}
+                        />
+                        <h3>WHP Wallet</h3>
+                      </div>
+                      <div className="font-bold">
+                        {whpWallet == "whp_Wallet"
+                          ? `${formatPrice(0)}`
+                          : `${formatPrice(userDetails?.wallet_amount)}`}
+                      </div>
+                    </div>
+                  )}
                   <p className="mt-2 text-lg font-bold">ORDER SUMMARY</p>
                   {loading ? (
                     <Skeleton height={150} />
@@ -934,7 +941,7 @@ const Checkout: React.FC = () => {
                           <h3>{formatPrice(parseInt(formattedPrice))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
-                          <h3>Discount</h3>
+                          <h3>Coupon Discount</h3>
                           <h3>
                             -{formatPrice(parseInt(totalDiscount.toString()))}
                           </h3>
@@ -974,7 +981,7 @@ const Checkout: React.FC = () => {
                 </div>
               )}
               {(selectedComponent === "DeliveryDetails" ||
-                selectedComponent === "Payment") && (
+                (selectedComponent === "Payment" && !isOrderPlaced)) && (
                 <div id="order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
@@ -1005,7 +1012,7 @@ const Checkout: React.FC = () => {
         </div>
       </div>
 
-      {isMobile && (
+      {isMobile && selectedComponent !== "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
             <p className="text-[18px] font-medium">{formatPrice(totalPrice)}</p>

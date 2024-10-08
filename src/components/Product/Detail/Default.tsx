@@ -47,7 +47,11 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const { formatPrice } = useCurrency();
   const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
   // const { recentlyViewedProducts, saveToRecentlyViewed } =
   //   useRecentlyViewedProducts();
 
@@ -92,6 +96,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           productQty
           attributeId
           preSalesProductQueries
+          makeToOrder
           isReplaceable
           isReturnable
           isInternationalShippingAvailable
@@ -160,6 +165,7 @@ const Default: React.FC<Props> = ({ productId }) => {
       productUrl = productId[1];
     }
 
+
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
       variables: { productUrl: productUrl },
@@ -176,7 +182,9 @@ const Default: React.FC<Props> = ({ productId }) => {
     setData(product);
     setLoading(false);
   }
-
+  const handleOptionSelected = (option: any) => {
+    console.log("Option selected:", option);
+  };
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
@@ -276,7 +284,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 buttonResolve(); // Resolve after the button is clicked
               }
             }, 100); // Check every 100ms for the button
-          } catch (error) {
+          } catch (error: any) {
             reject(
               new Error(
                 `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
@@ -392,6 +400,23 @@ const Default: React.FC<Props> = ({ productId }) => {
       console.log("Share API not supported");
     }
   };
+  const descRef = useRef(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const element = descRef.current;
+    if (element) {
+      const lineHeight = parseInt(window.getComputedStyle(element).lineHeight);
+      const maxLines = 2;
+      const maxHeight = lineHeight * maxLines;
+
+      if (element.scrollHeight > maxHeight) {
+        setIsTruncated(true);
+      }
+    }
+  }, [data?.productDetails?.shortDesc]);
+  
+
   return (
     <>
       <StickyNavProductPage />
@@ -401,19 +426,19 @@ const Default: React.FC<Props> = ({ productId }) => {
           {loading ? (
             <Skeleton height={500} width={550} />
           ) : (
-            <div className="relative bg-[#f7f7f7]">
+            <div className="relative">
               {skuList.includes(data?.productDetails.SKU) && (
                 <div
-                  id={`product-form-${data?.productDetails.productId}`} // Fixed template string syntax
-                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                  id={`product-form-${data?.productDetails.productId}`}
+                  className="try_on flex w-full cursor-pointer items-center justify-between"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
                       data?.productDetails.productId.toString(),
                     )
-                  } // Uncomment if you want to enable button click
+                  }
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
                     <p className="ps-1 text-sm">Virtually Try On</p>
                   </div>
@@ -530,6 +555,28 @@ const Default: React.FC<Props> = ({ productId }) => {
                   />
                 </span>
               </div>
+              <p
+                ref={descRef}
+                className={`text-[#e26178] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+              >
+                {data?.productDetails?.shortDesc}
+              </p>
+              {isTruncated && !isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#E26178]"
+                >
+                  ...read more
+                </span>
+              )}
+              {isExpanded && (
+                <span
+                  onClick={toggleExpansion}
+                  className="cursor-pointer text-[#e26178] hover:text-black"
+                >
+                  show less
+                </span>
+              )}
               {data?.productDetails?.review.length !== 0 && (
                 <div className="mb-2 flex flex-wrap">
                   <div>
@@ -554,10 +601,12 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <span className="ml-3 text-[#aa9e9e] line-through">
                     {formatPrice(parseInt(data?.productDetails?.productPrice))}
                   </span>
-                  <span className="ml-3 text-[#e26178] underline">
-                    {data?.productDetails.discountValue}% OFF on{" "}
-                    {data?.productDetails.discountCategory}
-                  </span>
+                  {parseInt(data?.productDetails?.discountValue) > 0 && (
+                    <span className="ml-3 text-[#e26178] underline">
+                      {data?.productDetails.discountValue}% OFF on{" "}
+                      {data?.productDetails.discountCategory}
+                    </span>
+                  )}
                 </>
               ) : (
                 <span className="text-2xl font-extrabold">
@@ -567,13 +616,13 @@ const Default: React.FC<Props> = ({ productId }) => {
             </div>
           )}
           <div className="flex">
-            <div className="p-2 border-r-2">
-              <p className="font-bold text-lg">SKU:</p>
+            <div className="border-r-2 p-2">
+              <p className="text-lg font-bold">SKU:</p>
               <p className="uppercase">{data?.productDetails?.SKU}</p>
             </div>
             <div className="p-2">
-              <p className="font-bold text-lg">Availability:</p>
-              {data?.productDetails?.productQty > 1 ? (
+              <p className="text-lg font-bold">Availability:</p>
+              {data?.productDetails?.productQty > 0 ? (
                 <p>In Stock</p>
               ) : (
                 <p>Make To Order</p>
@@ -594,7 +643,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                 <p className="mt-2">
                   Only{" "}
                   <span className="text-[#e26178]">
-                    {data?.productDetails?.productQty} pieces
+                    {data?.productDetails?.productQty} Pieces
                   </span>{" "}
                   left!
                 </p>
@@ -619,7 +668,10 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget accesskey="ZCUzmW" amount={5000} />
+          <AffordabilityWidget
+            accesskey="ZCUzmW"
+            amount={1000}
+          />
           <div className="hidden sm:block">
             {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
           </div>

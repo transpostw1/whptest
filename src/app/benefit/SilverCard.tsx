@@ -26,6 +26,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
+    useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
@@ -78,28 +80,35 @@ const SilverCard: React.FC<SilverCardProps> = ({
           uri: graphqlbaseUrl,
           cache: new InMemoryCache(),
         });
-
+      
         const VERIFY_PAN = gql`
-          mutation Mutation($input: CheckCustomerVerifiedInput) {
-            verifyPAN(input: $input) {
+          mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
+            verifyPAN(verifyPanInput: $verifyPanInput) {
               success
               message
             }
           }
         `;
+      
         const { data } = await client.mutate({
           mutation: VERIFY_PAN,
           variables: {
-            pan_number: "BXZPT2731C",
-            name: "Rutuja Parab",
-            dob: null,
+            verifyPanInput: {
+              pan_number: "BXZPT2731C",
+              name: "Rutuja Parab"
+            },
           },
           fetchPolicy: "no-cache",
         });
-
+      
+        console.log(data);
+        setResponseFromPanVerificationApi(data.verifyPAN.success);
         const enrollmentId = await handleEnroll("silver", monthlyDeposit);
-        if (enrollmentId) {
+        
+        if (enrollmentId && data.verifyPAN.success) {
           handleEnrollSuccess(enrollmentId, "silver", monthlyDeposit);
+        }else{
+          setShowModal(true);
         }
       } catch (error) {
         setShowModal(true);

@@ -25,6 +25,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(500);
   const [error, setError] = useState<string | null>(null);
   // const [errorModal, setErrorModal] = useState(false);
+  const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
+    useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [responsefromPanVerfication, setResponsefromPanVerfication] =
@@ -75,7 +77,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           uri: graphqlbaseUrl,
           cache: new InMemoryCache(),
         });
-
+      
         const VERIFY_PAN = gql`
           mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
             verifyPAN(verifyPanInput: $verifyPanInput) {
@@ -84,6 +86,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             }
           }
         `;
+      
         const { data } = await client.mutate({
           mutation: VERIFY_PAN,
           variables: {
@@ -96,13 +99,19 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         });
 
         console.log(data);
-        const enrollmentId = await handleEnroll("diamond", monthlyDeposit);
-
-        if (enrollmentId) {
-          handleEnrollSuccess(enrollmentId, "diamond", monthlyDeposit);
+        setResponseFromPanVerificationApi(data.verifyPAN.success);
+      
+        const enrollmentId = await handleEnroll("gold", monthlyDeposit);
+        if (enrollmentId && data.verifyPAN.success) {
+          handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
+        }else{
+          setShowModal(true);
         }
       } catch (error) {
         setShowModal(true);
+        console.error("Error during enrollment:", error);
+        setBackendError("Failed to enroll. Please try again.");
+        setFlashType("error");
       }
     }
   };

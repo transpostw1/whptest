@@ -39,23 +39,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const router = useRouter();
   const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
 
-  // useEffect(() => {
-  //   const updateCurrency = () => {
-  //     const currentCurrency = localStorage.getItem("currency");
-  //     if (currentCurrency) {
-  //       handleCurrencyChange(currentCurrency);
-  //     }
-  //   };
-
-  //   window.addEventListener("storage", updateCurrency);
-
-  //   updateCurrency();
-
-  //   return () => {
-  //     window.removeEventListener("storage", updateCurrency);
-  //   };
-  // }, []);
-
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
       (item) => item.productId === data.productId,
@@ -67,6 +50,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     fetchSkusList();
   }, []);
 
+  useEffect(() => {
+    console.log("BuyAgain Products",data);
+  }, [data]);
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);
@@ -262,9 +248,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             <div className="relative">
               {skuList.includes(data.SKU) && (
                 <div
-                  id={`product-form-${data.productId}`} // Fixed template string syntax
+                  id={`product-form-${data.productId}`} 
                   className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
-                  onClick={() => loadTryOnButton(data.SKU, data.productId)} // Uncomment if you want to enable button click
+                  onClick={() => loadTryOnButton(data.SKU, data.productId)} 
                 >
                   <div className="flex items-center justify-between">
                     <IoCameraOutline />

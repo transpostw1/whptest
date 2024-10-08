@@ -6,12 +6,16 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import ReactPaginate from "react-paginate";
 
 const ProfileGMS = () => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [showAccordian, setShowAccordian] = useState<number | null>(null);
   const [error, setError] = useState<any>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const itemsPerPage = 5;
+
   const router = useRouter();
 
   const handleToggle = (number: number) => {
@@ -79,6 +83,14 @@ const ProfileGMS = () => {
     fetchData();
   }, []);
 
+  const handlePageClick = (event: { selected: number }) => {
+    setCurrentPage(event.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = data.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(data.length / itemsPerPage);
+
   const handlePayNow = (gms: any) => {
     const amountPaid = gms.transactionDetails.reduce(
       (sum: number, transaction: any) => sum + transaction.amount,
@@ -123,8 +135,8 @@ const ProfileGMS = () => {
       </div>
       <div></div>
       <div>
-        {data && data.length > 0 ? (
-          data.map((gms: any, index: number) => (
+        {currentItems && currentItems.length > 0 ? (
+          currentItems.map((gms: any, index: number) => (
             <div key={index} className="mb-3 border">
               <div className="flex justify-between border-b px-2">
                 <div>Date: {new Date(gms.enrollDate).toLocaleDateString()}</div>
@@ -197,6 +209,21 @@ const ProfileGMS = () => {
           </div>
         )}
       </div>
+      {pageCount > 1 && (
+        <div className="list-pagination mb-4 mt-7 flex items-center justify-center md:mt-10">
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination flex justify-center mt-5"}
+            activeClassName={"active"}
+          />
+        </div>
+      )}
     </div>
   );
 };

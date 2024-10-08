@@ -82,26 +82,27 @@ const Reviews: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center md:mb-16 mt-28 pl-8">
-        <div className="w-full md:w-[40%] flex flex-col items-start">
-          <h2 className="font-semibold text-[1.5rem] uppercase mb-5">
+      <div className="mt-28 flex flex-col items-center pl-8 md:mb-16 md:flex-row">
+        <div className="flex w-full flex-col items-start md:w-[40%]">
+          <h2 className="mb-5 text-[1.5rem] font-semibold uppercase">
             TESTIMONIALS
           </h2>
-          <div className="flex w-100 justify-between pe-2  md:block md:w-auto">
-            <h1 className="text-2xl md:text-5xl mb-8 text-red-950">
+          <div className="w-100 flex justify-between pe-2 md:block md:w-auto">
+            <h1 className="mb-8 text-2xl text-red-950 md:text-5xl">
               Hear from our <br /> customers
             </h1>
-            <div className="hidden md:flex -space-x-4 rtl:space-x-reverse mb-8">
+            <div className="mb-8 hidden -space-x-4 md:flex rtl:space-x-reverse">
               {[...Array(3)].map((_, index) => (
                 <div
                   key={index}
-                  className="w-20 h-20 border-2 border-gray-300 rounded-full overflow-hidden"
+                  className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
                 >
                   <Image
                     src="/images/other/userimage.jpg"
                     alt="User"
                     width={80}
                     height={80}
+                    unoptimized
                   />
                 </div>
               ))}
@@ -112,18 +113,18 @@ const Reviews: React.FC = () => {
               +99
             </a> */}
             </div>
-            <div className="flex items-center gap-8 cursor-pointer">
+            <div className="flex cursor-pointer items-center gap-8">
               <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
               <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
             </div>
           </div>
         </div>
-        <div className="w-full md:w-[60%] m-0 md:mt-8 items-center h-full">
+        <div className="m-0 h-full w-full items-center md:mt-8 md:w-[60%]">
           <Slider {...settings} ref={sliderRef}>
             {TestimonialData.map((testimonial, index) => (
               <div key={index} className="p-2">
-                <div className="bg-white border border-gray-200 flex flex-col h-full p-4 text-red-950">
-                  <p className="text-sm mb-32">{testimonial.content}</p>
+                <div className="flex h-full flex-col border border-gray-200 bg-white p-4 text-red-950">
+                  <p className="mb-32 text-sm">{testimonial.content}</p>
                   <h1 className="text-lg font-bold">{testimonial.author}</h1>
                 </div>
               </div>

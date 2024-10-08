@@ -66,16 +66,13 @@ const useUserTracking = () => {
     const updatePageTimer = () => {
       if (window.location.href !== currentPage) {
         const array = JSON.parse(
-          window.localStorage.getItem("activity_ids") || "[]"
+          window.localStorage.getItem("activity_ids") || "[]",
         );
         setCurrentPage(window.location.href);
-        // const header = Helmet.peek();
-        // setPageHeader(header.title);
-
         setTimeOnPage((prevTimeOnPage) => {
           const postData = {
             user_email: userDetails?.email || null,
-            // header: pageHeader,
+            user_id:parseInt(userDetails?.customer_id)|| null,
             current_url: currentPage,
             time_spend: prevTimeOnPage,
             no_of_clicks: clicksOnPage,
@@ -87,7 +84,7 @@ const useUserTracking = () => {
           setPost(postData);
 
           console.log(
-            `Time spent on ${currentPage} page is ${prevTimeOnPage} second`
+            `Time spent on ${currentPage} page is ${prevTimeOnPage} second`,
           );
           console.log("Clicks on Page", clicksOnPage, clickHistory);
           callTrackingApi(postData);
@@ -122,11 +119,11 @@ const useUserTracking = () => {
   useEffect(() => {
     if (isIdle && !apiCalled) {
       const array = JSON.parse(
-        window.localStorage.getItem("activity_ids") || "[]"
+        window.localStorage.getItem("activity_ids") || "[]",
       );
       const postData = {
         user_email: userDetails?.email || null,
-        user_id: null,
+        user_id: userDetails?.customer_id,
         current_url: currentPage,
         time_spend: timeOnPage,
         no_of_clicks: clicksOnPage,

@@ -27,20 +27,21 @@ interface UserContextProps {
   getUser: () => Promise<void>;
 }
 interface UserDetails {
+  customer_id: any;
   firstname: string;
   lastname: string;
   email: string;
   mobile_no: string;
   altPhone: string;
   gender: string;
-  gstNum:string;
-  panNum:string;
+  gstNum: string;
+  panNum: string;
   dob: string;
-  wallet_amount:any;
+  wallet_amount: any;
   profile_picture: File | null;
   customer: any;
-  pan:any;
-  gst_no:any;
+  pan: any;
+  gst_no: any;
 }
 type UserDetailsKeys = keyof UserDetails;
 
@@ -176,6 +177,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       throw error;
     }
   };
+  useEffect(() => {
+    console.log(userDetails,"Customer details");
+  }, [userDetails]);
 
   return (
     <UserContext.Provider

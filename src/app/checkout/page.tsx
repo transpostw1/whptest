@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css/bundle";
 import "swiper/css/navigation";
 import { useCart } from "@/context/CartContext";
@@ -32,7 +31,6 @@ import {
 import Image from "next/image";
 import { useCouponContext } from "@/context/CouponContext";
 import FlashAlert from "../../components/Other/FlashAlert";
-import { baseUrl, syncCart, coupon } from "@/utils/constants";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
@@ -41,6 +39,8 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();
+  const { userState, isLoggedIn, userDetails } = useUser();
+  const { formatPrice } = useCurrency();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
@@ -49,7 +49,6 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState, isLoggedIn, userDetails } = useUser();
   const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
@@ -71,31 +70,11 @@ const Checkout: React.FC = () => {
     useState<Address | null>(null);
   const [loading, setLoading] = useState(false);
   const [buyNowItems, setBuyNowItems] = useState<any[]>([]);
-  const { formatPrice } = useCurrency();
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNow = searchParams.get("buyNow");
-  const pathname = usePathname();
-
   const [showAllItems, setShowAllItems] = useState(true);
-  const [scrollPosition, setScrollPosition] = useState(0);
 
-  const slideLeft = () => {
-    const slider = document.getElementById("coupon-slider");
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft - 200;
-      setScrollPosition(slider.scrollLeft);
-    }
-  };
-
-  const slideRight = () => {
-    const slider = document.getElementById("coupon-slider");
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft + 200;
-      setScrollPosition(slider.scrollLeft);
-    }
-  };
-  const sliderRef = useRef(null);
 
   const handleCouponsModal = () => {
     setCouponsModal(true);
@@ -134,11 +113,13 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
+    setCouponCode("");
     setCouponCode(value);
-    handleCouponCheck();
+    // handleCouponCheck();
   };
   const removeCoupon = () => {
     setCouponCode("");
+    setDataAfterCouponCode([]);
   };
 
   const handleCouponCheck = () => {
@@ -797,8 +778,8 @@ const Checkout: React.FC = () => {
                     </div>
                     <div className="relative w-full pt-2">
                       <Swiper
-                        spaceBetween={2}
-                        slidesPerView={1.5}
+                        spaceBetween={4}
+                        slidesPerView='auto'
                         modules={[Navigation]}
                         navigation={{
                           prevEl: ".swiper-button-prev",

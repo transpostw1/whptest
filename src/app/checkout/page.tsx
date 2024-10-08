@@ -129,7 +129,7 @@ const Checkout: React.FC = () => {
       handleCouponCheck();
     }
   }, [couponCode]);
-  
+
   const handleCouponModalClose = () => {
     setCouponsModal(false);
   };
@@ -328,9 +328,9 @@ const Checkout: React.FC = () => {
         item?.productDetails?.title ||
         item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
-        item?.productDetails?.imageDetails||
-      item?.productDetails?.quantity||
-      item?.productDetails?.makeToOrder,
+        item?.productDetails?.imageDetails ||
+        item?.productDetails?.quantity ||
+        item?.productDetails?.makeToOrder,
     )
     .map((item: any) => ({
       productId: item?.productId,
@@ -338,9 +338,9 @@ const Checkout: React.FC = () => {
       name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
-      quantityleft:item?.productDetails?.quantity,
-      makeToOrder:item?.productDetails?.makeToOrder,
-      url:item?.productDetails?.url,
+      quantityleft: item?.productDetails?.quantity,
+      makeToOrder: item?.productDetails?.makeToOrder,
+      url: item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
         item?.productDetails?.imageDetails.length > 0
@@ -712,8 +712,8 @@ const Checkout: React.FC = () => {
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
-          <div className="flex flex-col justify-between w-full lg:flex-row">
-            <div className="mt-5 w-full sm:mt-7 lg:w-[2000px] md:pr-5">
+          <div className="flex w-full flex-col justify-between lg:flex-row">
+            <div className="mt-5 w-full sm:mt-7 md:pr-5 lg:w-[2000px]">
               <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
               {selectedComponent === "CartItems" && (
                 <CartItems
@@ -761,7 +761,7 @@ const Checkout: React.FC = () => {
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
-                  <div className="border border-gray-400 p-3 w-full">
+                  <div className="w-full border border-gray-400 p-3">
                     <div className="flex justify-between">
                       <>
                         <div className="flex items-center gap-2 font-medium">
@@ -772,14 +772,23 @@ const Checkout: React.FC = () => {
                             width={25}
                             unoptimized
                           />
-                          <h3>Apply Coupon/Gift Voucher</h3>
+                          <h3>
+                            {couponCode ? (
+                              <span className="flex items-center gap-2">
+                                Applied Coupon:{" "}
+                                <span className="text-red-600">
+                                  {couponCode}
+                                </span>
+                              </span>
+                            ) : (
+                              "Available Coupons"
+                            )}
+                          </h3>
                         </div>
                         <h3
                           className="cursor-pointer text-red-600 underline"
                           onClick={() =>
-                            couponCode
-                              ? removeCoupon()
-                              : handleCouponsModal()
+                            couponCode ? removeCoupon() : handleCouponsModal()
                           }
                         >
                           {couponCode ? "Remove" : ""}

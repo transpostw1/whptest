@@ -8,6 +8,7 @@ interface CartItem {
     discountPrice: any;
     productPrice: any;
     imageDetails: any;
+    url:any;
   };
   gst?: any;
   displayTitle?: string;
@@ -87,10 +88,13 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
       const imagePath = item.productDetails[0].imageDetails[0].image_path;
       const discountPrice = parseInt(item.productDetails[0].discountPrice);
       const productPrice = parseInt(item.productDetails[0].productPrice);
+      const quantityleft = item.productDetails[0].quantity;
+      const url=item.productDetails[0].url;
       const price = isNaN(discountPrice) ? productPrice : discountPrice;
 
       return {
         productId: item.productId,
+        url:url,
         quantity: item.quantity,
         name: item.productDetails[0].displayTitle,
         price: price,

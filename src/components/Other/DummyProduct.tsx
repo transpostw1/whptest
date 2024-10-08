@@ -70,8 +70,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);
-      if (data && data.productId) {
-        
+      if (data && data.productId) { 
         if (isLoggedIn) {
           const productToAdd: ProductForWishlistLoggedIn = {
             productId: data.productId,

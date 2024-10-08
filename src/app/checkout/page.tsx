@@ -444,6 +444,7 @@ const Checkout: React.FC = () => {
           }
         }
       `;
+      
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {
@@ -949,12 +950,14 @@ const Checkout: React.FC = () => {
                           <h3>Subtotal</h3>
                           <h3>{formatPrice(parseInt(formattedPrice))}</h3>
                         </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>Coupon Discount</h3>
-                          <h3>
-                            -{formatPrice(parseInt(totalDiscount.toString()))}
-                          </h3>
-                        </div>
+                        {totalDiscount > 0 && dataAfterCouponCode && (
+                          <div className="flex justify-between font-medium">
+                            <h3>Coupon Discount</h3>
+                            <h3>
+                              -{formatPrice(parseInt(totalDiscount.toString()))}
+                            </h3>
+                          </div>
+                        )}
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (

@@ -202,7 +202,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   //     loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
   //   }
   // }, [data.SKU, hover, isMobile]); // Dependencies to run effect when hover state changes
-
+  
 
   const sortedImages = data?.imageDetails
     ?.filter(
@@ -235,6 +235,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = (productId: any, productUrl: any) => {
+
     router.push(`/products/${productUrl}/${productId}`);
   };
 

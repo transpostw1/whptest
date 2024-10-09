@@ -345,7 +345,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           <p className="text-sm">Wishlists</p>
                         </div>
                         {wishlistItems.length > 0 && (
-                          <span className="quantity cart-quantity absolute -top-1.5 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                          <span className="quantity cart-quantity absolute -top-1 right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                             {wishlistItems.length}
                           </span>
                         )}
@@ -363,7 +363,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <p className="text-sm">Cart</p>
                       </div>
                       {cartLength > 0 && (
-                        <span className="quantity cart-quantity absolute right-0 top-0 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                        <span className="quantity cart-quantity absolute right-0 top-1 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                           {cartLength}
                         </span>
                       )}

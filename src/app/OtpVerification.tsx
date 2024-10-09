@@ -123,7 +123,6 @@ const OtpVerification = ({
           phoneNumber, 
         },
       });
-  
       console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
     } catch (error) {
       console.log(error)

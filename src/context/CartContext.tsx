@@ -5,10 +5,9 @@ import { baseUrl, syncCart, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
-import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
-import { AnyARecord } from "dns";
+
 interface CartItem {
   productDetails: {
     displayTitle: string;

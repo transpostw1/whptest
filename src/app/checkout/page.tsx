@@ -113,11 +113,20 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    setCouponCode("");
+    setFlashMessage(""); 
+    setFlashType("");    
     setCouponCode(value);
-    setVoucherCode(value)
-    handleCouponCheck();
+    setVoucherCode(value);
   };
+  
+  
+  useEffect(() => {
+    if (couponCode !== "") {
+      handleCouponCheck();
+    }
+  }, [couponCode]);
+
+
   const removeCoupon = () => {
     setCouponCode("");
     setVoucherCode("");
@@ -125,6 +134,11 @@ const Checkout: React.FC = () => {
   };
 
   const handleCouponCheck = () => {
+    if(couponCode===""){
+      return null
+    }
+
+
     const products = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -834,12 +848,21 @@ const Checkout: React.FC = () => {
                                     OFF
                                   </div>
                                 </div>
+                            {voucherCode &&
+                              dataAfterCouponCode.code === 200 && couponCode===coupon.code? (
+                                <span className=" text-sm font-medium text-red-600">
+                                  Applied
+                                </span>
+                              ) :(
                                 <button
                                   className="text-sm font-medium text-red-600 hover:text-red-700"
-                                  onClick={() => handleCouponCode(coupon.code)}
+                                  onClick={() => {
+                                    handleCouponCode(coupon.code)
+                                  }}
                                 >
                                   Apply
                                 </button>
+                              )}
                               </div>
                               <p className="mt-2 text-sm text-gray-600">
                                 Get{" "}
@@ -879,13 +902,13 @@ const Checkout: React.FC = () => {
                       </div>
                     )} */}
                   </div>
-                  {couponsModal && (
+                  {/* {couponsModal && (
                     <CouponsModal
                       handleCouponCheck={handleCouponCheck}
                       onClose={handleCouponModalClose}
                       couponCode={handleCouponCode}
                     />
-                  )}
+                  )} */}
                   <div className="mt-3 border border-gray-400">
                     <div className="flex justify-between p-3">
                       <div className="flex items-center gap-2 font-medium">

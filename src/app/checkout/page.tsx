@@ -113,11 +113,20 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    setCouponCode("");
+    setFlashMessage(""); 
+    setFlashType("");    
     setCouponCode(value);
-    setVoucherCode(value)
-    handleCouponCheck();
+    setVoucherCode(value);
   };
+  
+  
+  useEffect(() => {
+    if (couponCode !== "") {
+      handleCouponCheck();
+    }
+  }, [couponCode]);
+
+
   const removeCoupon = () => {
     setCouponCode("");
     setVoucherCode("");
@@ -125,6 +134,11 @@ const Checkout: React.FC = () => {
   };
 
   const handleCouponCheck = () => {
+    if(couponCode===""){
+      return null
+    }
+
+
     const products = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -197,6 +211,7 @@ const Checkout: React.FC = () => {
   typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
   useEffect(() => {
+    console.log(userDetails,"USERDDDEETSS")
     const fetchCouponData = async () => {
       const products = cartItems.map((item: any) => ({
         productId: item.productId,
@@ -741,7 +756,7 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-2/6">
+            <div className="mt-5 w-full lg:w-5/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
@@ -821,7 +836,7 @@ const Checkout: React.FC = () => {
                         {coupons.map((coupon, index) => (
                           <SwiperSlide
                             key={index}
-                            className="!w-auto max-w-[calc(100vw-48px)] md:max-w-full"
+                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full "
                           >
                             <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
                               <div className="flex items-center justify-between">
@@ -833,12 +848,21 @@ const Checkout: React.FC = () => {
                                     OFF
                                   </div>
                                 </div>
+                            {voucherCode &&
+                              dataAfterCouponCode.code === 200 && couponCode===coupon.code? (
+                                <span className=" text-sm font-medium text-red-600">
+                                  Applied
+                                </span>
+                              ) :(
                                 <button
                                   className="text-sm font-medium text-red-600 hover:text-red-700"
-                                  onClick={() => handleCouponCode(coupon.code)}
+                                  onClick={() => {
+                                    handleCouponCode(coupon.code)
+                                  }}
                                 >
                                   Apply
                                 </button>
+                              )}
                               </div>
                               <p className="mt-2 text-sm text-gray-600">
                                 Get{" "}
@@ -878,13 +902,13 @@ const Checkout: React.FC = () => {
                       </div>
                     )} */}
                   </div>
-                  {couponsModal && (
+                  {/* {couponsModal && (
                     <CouponsModal
                       handleCouponCheck={handleCouponCheck}
                       onClose={handleCouponModalClose}
                       couponCode={handleCouponCode}
                     />
-                  )}
+                  )} */}
                   <div className="mt-3 border border-gray-400">
                     <div className="flex justify-between p-3">
                       <div className="flex items-center gap-2 font-medium">

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
 import Loader from "@/components/Other/Loader"
@@ -49,7 +51,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       dobYear: "",
       profilePicture: null,
     },
-    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    enableReinitialize: true, 
     onSubmit: async (values: FormValues) => {
       setIsLoading(true);
       setFormError("");
@@ -437,6 +439,14 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               )}
             </div>
           </div>
+          {/* <DatePicker
+        selected={selectedDate}
+        onChange={date => setSelectedDate(date)}
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        placeholderText="Select your date of birth"
+      /> */}
           <button
             type="submit"
             disabled={isLoading}

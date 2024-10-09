@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -26,7 +24,7 @@ const Wishlist = () => {
     setModalMessage(message);
     setIsOutOfStock(true);
   };
-  
+
   const closeModal = () => {
     setIsOutOfStock(false);
   };
@@ -71,10 +69,15 @@ const Wishlist = () => {
   });
 
   const handleAddToCart = (product: any) => {
-    // if (product.quantityleft === 0 || product.quantityleft === null) {
-    //   showModal('Product is out of stock !');
-    //   return;
-    // }
+    const isMakeToOrder =
+      product.makeToOrder === 1 || product.makeToOrder === true;
+    if (
+      (product.quantityleft === 0 || product.quantityleft === null) &&
+      !isMakeToOrder
+    ) {
+      showModal("Product is out of stock!");
+      return;
+    }
     const productAlreadyExists = cartItems.find(
       (item: any) => item.productId === product.productId,
     );
@@ -89,6 +92,9 @@ const Wishlist = () => {
           discountPrice: product.discountPrice,
           imageDetails: [{ image_path: product.image_path }],
           productPrice: product.productPrice,
+          quantityleft:product.quantityleft,
+          makeToOrder:product.makeToOrder,
+          url:product.url,
         },
         productId: product.productId,
         quantity: 1,
@@ -99,9 +105,14 @@ const Wishlist = () => {
   };
 
   const handleBuyNow = (product: any) => {
-    if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock');
-      return; 
+    const isMakeToOrder =
+      product.makeToOrder === 1 || product.makeToOrder === true;
+    if (
+      (product.quantityleft === 0 || product.quantityleft === null) &&
+      !isMakeToOrder
+    ) {
+      showModal("Product is out of stock!");
+      return;
     }
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === product.productId,
@@ -114,6 +125,7 @@ const Wishlist = () => {
           discountPrice: product.discountPrice,
           imageDetails: [{ image_path: product.image_path }],
           productPrice: product.productPrice,
+          url:product.url,
         },
         productId: product.productId,
         quantity: 1,
@@ -177,6 +189,7 @@ const Wishlist = () => {
                       ) : isLoggedIn ? (
                         <div className="relative">
                           <Image
+                            unoptimized
                             src={product?.image_path}
                             alt={product.title}
                             width={300}
@@ -208,6 +221,7 @@ const Wishlist = () => {
                       ) : (
                         <div className="relative">
                           <Image
+                            unoptimized
                             src={product.image_path}
                             alt={product.title}
                             width={300}
@@ -291,18 +305,18 @@ const Wishlist = () => {
           )}
         </div>
         {isOutOfStock && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
-          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
-            <p>{modalMessage}</p>
-            <button
-              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
-              onClick={() => closeModal()}
-            >
-              Close
-            </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
+            <div className="flex flex-col items-center rounded-lg bg-white p-6">
+              <p>{modalMessage}</p>
+              <button
+                className="mt-4 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                onClick={() => closeModal()}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

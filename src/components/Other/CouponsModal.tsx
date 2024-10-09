@@ -54,7 +54,6 @@ const CouponsModal: React.FC<Props> = ({ handleCouponCheck, onClose, couponCode 
       onClose();
     }
   };
-
   return (
     <div
       id="container"

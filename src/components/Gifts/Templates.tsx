@@ -32,7 +32,7 @@ const Templates: React.FC<TemplatesProps> = ({
   }
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-1 gap-2 mt-4 w-full">
+    <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mt-4 w-full">
       {selectedVoucher.templateImage.map(
         (templateImageUrl: string, index: number) => (
           <div

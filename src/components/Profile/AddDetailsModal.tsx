@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useFormik } from "formik";
 import Loader from "@/components/Other/Loader"
@@ -49,10 +51,16 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       dobYear: "",
       profilePicture: null,
     },
-    enableReinitialize: true, // allows reinitializing values when userDetails updates
+    enableReinitialize: true, 
     onSubmit: async (values: FormValues) => {
       setIsLoading(true);
       setFormError("");
+
+      let dob = null; 
+
+      if (values.dobYear && values.dobMonth && values.dobDay) {
+        dob = `${values.dobYear}-${values.dobMonth}-${values.dobDay}`;
+      }
 
       const formattedValues = {
         firstName: values.firstName,
@@ -63,7 +71,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         gender: values.gender,
         gst_no: values.gst_no,
         pan: values.pan,
-        dob: `${values.dobYear}-${values.dobMonth}-${values.dobDay}`,
+        dob,
         profile_picture: values.profilePicture,
       };
 
@@ -355,9 +363,13 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               )}
             </div>
           </div>
+          <p className="my-4">Date of Birth</p>
           <div className="grid grid-cols-3 gap-4 mb-4">
+            
             <div className="mb-4">
+              
               <div className="relative">
+                
                 <input
                   id="dobDay"
                   type="text"
@@ -376,8 +388,11 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               {formik.errors.dobDay && (
                 <div className="text-red-500 mt-1">{formik.errors.dobDay}</div>
               )}
+              
             </div>
+            
             <div className="mb-4">
+              
               <div className="relative">
                 <input
                   id="dobMonth"
@@ -424,6 +439,14 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               )}
             </div>
           </div>
+          {/* <DatePicker
+        selected={selectedDate}
+        onChange={date => setSelectedDate(date)}
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        placeholderText="Select your date of birth"
+      /> */}
           <button
             type="submit"
             disabled={isLoading}

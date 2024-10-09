@@ -18,6 +18,7 @@ interface CartItemProps {
     discountPrice: any | string;
     discountValue: string;
     quantityleft: number;
+    makeToOrder:number | boolean;
     name: string;
     price: number;
     image: string;
@@ -37,19 +38,21 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { addToWishlist } = useWishlist();
   const { isLoggedIn } = useUser();
   const [showModal, setShowModal] = useState(false);
-  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false); // New state for out-of-stock modal
+  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
   const [isloading, setLoading] = useState(true);
   const { formatPrice } = useCurrency();
   const router = useRouter();
 
   useEffect(() => {
-    if (
-      product &&
-      (product.quantityleft === 0 || product.quantityleft === null)
-    ) {
-      setShowOutOfStockModal(true);
-    } else {
-      setLoading(false);
+    if (product) {
+      console.log(product,"huuuuuuuuu")
+      const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+      if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+        console.log("Out of stock - Make to order status:", product.makeToOrder);
+        setShowOutOfStockModal(true);
+      } else {
+        setLoading(false);
+      }
     }
   }, [product]);
 
@@ -67,6 +70,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,
       };
@@ -84,9 +88,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
       removeFromCart(product.productId);
     }
   };
-  useEffect(()=>{
-    console.log("cart Product url",product.url)
-  },[product])
   const price = product.price * product.quantity;
   const productPrice = product.productPrice * product.quantity;
 
@@ -108,6 +109,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
+        quantityleft:product.quantityleft,
+        makeToOrder:product.makeToOrder,
         image_path: product.image,
         url: product.url,
       };
@@ -150,7 +153,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="mb-4 flex items-center justify-between border-b p-4 md:w-full md:flex-row lg:w-full lg:flex-row">
+        <div className="justify-between p-4 border-b flex md:flex-row w-full items-center mb-4">
           <Image
             src={product?.image}
             width={100}
@@ -162,7 +165,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               handleProductDetailsLink(product.productId, product.url)
             }
           />
-          <div className="flex flex-col md:flex-row lg:w-2/3 lg:flex-row">
+          <div className="flex flex-col md:flex-row w-full  lg:w-2/3 ">
             <div className="py-4">
               <div
                 className="text-title cursor-pointer"
@@ -182,7 +185,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               </div>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center justify-center md:w-1/6">
+          <div className="w-full lg:w-1/6 flex flex-col items-center justify-between">
             <div className="text-title text-center"> {formatPrice(price)} </div>
             <div className="text-[#beb3b3] line-through">
               {formatPrice(productPrice)}
@@ -211,7 +214,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         </div>
       )}
 
-      {/* Modal for remove confirmation */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div

@@ -48,8 +48,9 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   });
 
   const handleAddToCart = (product: any) => {
-    if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock !');
+    const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+    if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+      showModal('Product is out of stock!');
       return;
     }
     const productAlreadyExists = cartItems.find(
@@ -76,9 +77,10 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   };
 
   const handleBuyNow = (product: any) => {
-    if (product.quantityleft === 0 || product.quantityleft === null) {
-      showModal('Product is out of stock');
-      return; 
+    const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
+    if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
+      showModal('Product is out of stock!');
+      return;
     }
     const productDetails = {
       productId: product.productId,
@@ -129,7 +131,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
             <Icon.CaretLeft size={22} />
           </div>
           <div>
-            <p className="font-bold text-xl">WishList</p>
+            <p className="font-bold text-xl">Wishlist</p>
           </div>
         </div>
         <div className="list-product-block relative">

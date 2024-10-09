@@ -11,8 +11,7 @@ import { useCategory } from "@/context/CategoryContex";
 
 const ShopByGender = () => {
   const { setCustomcategory } = useCategory();
-  const swiperRef = useRef<any>();//ref for silder info
-  //Static data for cards in shop by gender;
+  const swiperRef = useRef<any>();
   let categories = [
     {
       id: 1,
@@ -26,6 +25,7 @@ const ShopByGender = () => {
           alt="womengender"
           width={500}
           height={500}
+          unoptimized
         />
       ),
     },
@@ -42,6 +42,7 @@ const ShopByGender = () => {
           alt="mensgender"
           width={500}
           height={1000}
+          unoptimized
         />
       ),
     },
@@ -57,6 +58,7 @@ const ShopByGender = () => {
           alt="kidsgender"
           width={500}
           height={1000}
+          unoptimized
         />
       ),
     },
@@ -116,7 +118,7 @@ const ShopByGender = () => {
                   <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg">
                     {category.image}
                     <div className="overlay">
-                      <p className="xs:text-lg md:text-[24px]  text-center ">
+                      <p className="xs:text-lg md:text-[24px]  text-center">
                         {category.type}
                       </p>
                     </div>

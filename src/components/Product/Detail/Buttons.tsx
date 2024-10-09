@@ -1,6 +1,4 @@
-"use client"; // Add this line
-
-import Link from "next/link";
+"use client";
 import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
@@ -26,7 +24,8 @@ interface ProductForWishlistLoggedOut {
   productPrice: string;
   discountPrice: string;
   discountValue: string;
-  quantityleft: number;
+  quantityleft:number;
+  makeToOrder:number|boolean;
   image_path: string;
   url: string;
 }
@@ -61,30 +60,32 @@ const Buttons: React.FC<Props> = ({ product }) => {
     fetchWishlist();
   }, []);
 
-  const isOutOfStock = (productQty: number | null | undefined) => {
+  // const isOutOfStock = (productQty: number | null | undefined) => {
+  //   return productQty === 0 || productQty === null;
+  // };
+  const isOutOfStock = (productQty: number | null | undefined, makeToOrder: boolean | undefined) => {
+    if (makeToOrder) {
+      return false;
+    }
     return productQty === 0 || productQty === null;
   };
 
   const handleAddToCart = (productItem: ProductData) => {
-    if (
-      isOutOfStock(productItem.productDetails?.productQty) &&
-      !productItem?.productDetails?.makeToOrder
-    ) {
+    const { productQty, makeToOrder } = productItem.productDetails?.productQty;
+    if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
-
+  
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
+  
     if (productAlreadyExists) {
-      updateCartQuantity(
-        productItem.productDetails?.productId,
-        updatedQuantity,
-      );
+      updateCartQuantity(productItem.productDetails?.productId, updatedQuantity);
     } else {
       addToCart(
         {
@@ -96,6 +97,8 @@ const Buttons: React.FC<Props> = ({ product }) => {
       );
     }
   };
+  
+
 
   const HandleaddToWishlist = () => {
     if (isLoggedIn) {
@@ -111,9 +114,9 @@ const Buttons: React.FC<Props> = ({ product }) => {
         productPrice: product.productDetails.productPrice,
         discountPrice: product.productDetails.discountPrice,
         discountValue: product.productDetails.discountValue,
-        quantityleft: product.productDetails.productQty,
+        quantityleft:product.productDetails.productQty,
+        makeToOrder:product.productDetails.makeToOrder,
         image_path: product.productDetails.imageDetails[0].image_path,
-
         url: product.productDetails.url,
       };
       setIsProductInWishlist(true);
@@ -127,17 +130,19 @@ const Buttons: React.FC<Props> = ({ product }) => {
   };
 
   const handleBuyNow = () => {
-    if (
-      isOutOfStock(product.productDetails?.productQty) &&
-      !product?.productDetails?.makeToOrder
-    ) {
+    const { productQty, makeToOrder } =product.productDetails?.productQty;
+  
+    
+    if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
+  
     const productAlreadyExists = cartItems.find(
-      (item) => item.productId === product.productDetails.productId,
+      (item) => item.productId === product.productDetails.productId
     );
+  
     if (!productAlreadyExists) {
       addToCart(
         {
@@ -146,11 +151,13 @@ const Buttons: React.FC<Props> = ({ product }) => {
           },
           productId: product.productDetails.productId,
         },
-        1,
+        1
       );
     }
+  
     router.push(`/checkout?buyNow=${product.productDetails.productId}`);
   };
+  
 
   if (isLoading) {
     return (

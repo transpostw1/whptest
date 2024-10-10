@@ -18,6 +18,7 @@ const Gifts = () => {
           alt=""
           height={400}
           width={400}
+          unoptimized
         />
       ),
     },
@@ -32,6 +33,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -46,6 +48,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -60,6 +63,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -74,6 +78,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -88,6 +93,7 @@ const Gifts = () => {
           alt=" "
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -102,6 +108,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -116,6 +123,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },

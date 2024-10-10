@@ -263,10 +263,10 @@ const Wishlist = () => {
                       <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
-                      <div>
+                      {/* <div>
                       <h3 className="font-medium">Diamond:FG-VVS</h3>
                       <h3 className="font-medium">Size:11</h3>
-                      </div>
+                      </div> */}
                     
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">

@@ -39,7 +39,7 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();
-  const { userState, isLoggedIn, userDetails } = useUser();
+  const { isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
@@ -201,6 +201,7 @@ const Checkout: React.FC = () => {
         console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
         setFlashType("error");
+        removeCoupon() 
       } finally {
         setLoading(false);
       }
@@ -774,12 +775,12 @@ const Checkout: React.FC = () => {
                               unoptimized
                             />
                             <h3>
-                              {voucherCode &&
+                              {couponCode &&
                               dataAfterCouponCode.code === 200 ? (
                                 <span className="flex items-center gap-2 w-full">
                                   Applied Coupon:{" "}
                                   <span className="text-red-600">
-                                    {voucherCode}
+                                    {couponCode}
                                   </span>
                                 </span>
                               ) : (
@@ -796,7 +797,7 @@ const Checkout: React.FC = () => {
                           }
                         >
                           {couponCode && dataAfterCouponCode.code === 200
-                            ? voucherCode
+                            ? couponCode
                               ? "Remove"
                               : ""
                             : ""}
@@ -805,13 +806,13 @@ const Checkout: React.FC = () => {
                           <div className="mt-2 flex w-full gap-2 ">
                             <input
                               type="text"
-                              value={couponCode}
-                              onChange={(e) => setCouponCode(e.target.value)}
+                              value={voucherCode}
+                              onChange={(e) => setVoucherCode(e.target.value)}
                               placeholder="Enter Coupon Code"
                               className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
                             />
                             <button
-                              onClick={() => handleCouponCode(couponCode)}
+                              onClick={() => handleCouponCode(voucherCode)}
                               className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply

@@ -86,7 +86,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
                 imageDetails: [],
               },
             };
-            console.log("this running");
             setCartItems([mockCartItem]);
           }
         }
@@ -107,7 +106,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCartItemsToStorage([...cartItems, newItem]);
 
     if (isLoggedIn) {
-      console.log("loggeddd")
       syncCartWithServer([newItem]);
       // const cartItemsFromServer = await fetchCartItemsFromServer();
       // setCartItems(cartItemsFromServer)
@@ -141,8 +139,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           headers: getAuthHeaders(),
           cache: new InMemoryCache(),
         });
-
-        console.log(typeof cartData, "CartData");
         const SYNC_CART = gql`
           mutation CartSync($cartItems: [CartItemInput!]!) {
             cartSync(cartItems: $cartItems) {
@@ -219,7 +215,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || 0,
       }));
-       console.log(cartData,"CARTDATA on synccartwith server")
       const getAuthHeaders: any = () => {
         const cookieToken = localStorage.getItem("localtoken")
         if (!cookieToken) return null;
@@ -233,9 +228,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         headers: getAuthHeaders(),
         cache: new InMemoryCache(),
       });
-
-      console.log(typeof cartData, "CartData");
-      console.log("tokennn",cookieToken)
       const SYNC_CART = gql`
         mutation CartSync($cartItems: [CartItemInput!]!) {
           cartSync(cartItems: $cartItems) {
@@ -256,10 +248,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       const cartItemsFromServer = await fetchCartItemsFromServer();
-      console.log(cartData,"CARTDATAAA")
-      console.log(cartItems,"CArtItmes")
-      console.log("fetchedddd",cartItemsFromServer);
-      console.log("tokennn",cookieToken);
       setCartItems(cartItemsFromServer);
       setLoading(false);
     } catch (error) {

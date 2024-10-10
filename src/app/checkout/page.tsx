@@ -820,80 +820,91 @@ const Checkout: React.FC = () => {
                       </>
                     </div>
                     <div className="relative w-full pt-2">
-                      <Swiper
-                        spaceBetween={2}
-                        slidesPerView="auto"
-                        modules={[Navigation]}
-                        navigation={{
-                          prevEl: ".swiper-button-prev",
-                          nextEl: ".swiper-button-next",
-                        }}
-                        className="py-4"
-                      >
-                        {coupons.map((coupon, index) => (
-                          <SwiperSlide
-                            key={index}
-                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
-                          >
-                            <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
-                                    {coupon.discountType === "Amount"
-                                      ? `₹${coupon.discountValue}`
-                                      : `${coupon.discountValue}%`}{" "}
-                                    OFF
-                                  </div>
-                                  {coupon.isExclusive === true && (
-                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-xs text-white">
-                                      Only for you
+                      {isLoggedIn ? (
+                        <Swiper
+                          spaceBetween={2}
+                          slidesPerView="auto"
+                          modules={[Navigation]}
+                          navigation={{
+                            prevEl: ".swiper-button-prev",
+                            nextEl: ".swiper-button-next",
+                          }}
+                          className="py-4"
+                        >
+                          {coupons.map((coupon, index) => (
+                            <SwiperSlide
+                              key={index}
+                              className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
+                            >
+                              <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
+                                      {coupon.discountType === "Amount"
+                                        ? `₹${coupon.discountValue}`
+                                        : `${coupon.discountValue}%`}{" "}
+                                      OFF
                                     </div>
+                                    {coupon.isExclusive === true && (
+                                      <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-xs text-white">
+                                        Only for you
+                                      </div>
+                                    )}
+                                  </div>
+                                  {voucherCode &&
+                                  dataAfterCouponCode.code === 200 &&
+                                  couponCode === coupon.code ? (
+                                    <span className="text-sm font-medium text-red-600">
+                                      Applied
+                                    </span>
+                                  ) : (
+                                    <button
+                                      className="text-sm font-medium text-red-600 hover:text-red-700"
+                                      onClick={() => {
+                                        handleCouponCode(coupon.code);
+                                      }}
+                                    >
+                                      Apply
+                                    </button>
                                   )}
                                 </div>
-                                {voucherCode &&
-                                dataAfterCouponCode.code === 200 &&
-                                couponCode === coupon.code ? (
-                                  <span className="text-sm font-medium text-red-600">
-                                    Applied
+                                <p className="mt-2 text-sm text-gray-600">
+                                  Get{" "}
+                                  {coupon.discountType === "Amount"
+                                    ? "flat "
+                                    : ""}
+                                  {coupon.discountType === "Amount"
+                                    ? `₹${coupon.discountValue}`
+                                    : `${coupon.discountValue}%`}{" "}
+                                  off on minimum purchase of ₹
+                                  {coupon.discountMinAmount}
+                                </p>
+                                <div className="mt-2 flex items-center justify-between">
+                                  <span className="text-xs text-gray-500">
+                                    Code: {coupon.code}
                                   </span>
-                                ) : (
-                                  <button
-                                    className="text-sm font-medium text-red-600 hover:text-red-700"
-                                    onClick={() => {
-                                      handleCouponCode(coupon.code);
-                                    }}
-                                  >
-                                    Apply
-                                  </button>
-                                )}
+                                  <span className="text-xs text-gray-500">
+                                    Valid till{" "}
+                                    {new Date(
+                                      coupon.discountEndDate,
+                                    ).toLocaleDateString()}
+                                  </span>
+                                </div>
                               </div>
-                              <p className="mt-2 text-sm text-gray-600">
-                                Get{" "}
-                                {coupon.discountType === "Amount"
-                                  ? "flat "
-                                  : ""}
-                                {coupon.discountType === "Amount"
-                                  ? `₹${coupon.discountValue}`
-                                  : `${coupon.discountValue}%`}{" "}
-                                off on minimum purchase of ₹
-                                {coupon.discountMinAmount}
-                              </p>
-                              <div className="mt-2 flex items-center justify-between">
-                                <span className="text-xs text-gray-500">
-                                  Code: {coupon.code}
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  Valid till{" "}
-                                  {new Date(
-                                    coupon.discountEndDate,
-                                  ).toLocaleDateString()}
-                                </span>
-                              </div>
-                            </div>
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      ) : (
+                        <div className="py-4 text-center text-gray-600">
+                          <span className="text-[#E26178]">
+                            <Link href={"/login"}>
+                            Login
+                            </Link>
+                            </span> to unlock coupons
+                        </div>
+                      )}
                     </div>
+
                     {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
                         <p>

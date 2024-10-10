@@ -845,7 +845,7 @@ const Checkout: React.FC = () => {
                                     OFF
                                   </div>
                                   {coupon.isExclusive === true && (
-                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-xs text-white">
+                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-white">
                                       Only for you
                                     </div>
                                   )}

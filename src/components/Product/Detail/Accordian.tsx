@@ -80,6 +80,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     alt={"Hall Mark Symbol"}
                     width={40}
                     height={40}
+                    unoptimized
                   />
                   {/* <Icon.CrownSimple size={30} weight="thin" /> */}
                 </span>

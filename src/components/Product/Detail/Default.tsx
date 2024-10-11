@@ -171,7 +171,6 @@ const Default: React.FC<Props> = ({ productId }) => {
       variables: { productUrl: productUrl },
     });
 
-    // const res = await axios.get(`${baseUrl}/products/${productId}`);
     setLoading(true);
     return data;
   }

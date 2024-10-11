@@ -47,8 +47,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   // const [skulist, setSkuList] = useState<string[]>([]); // Initialize skuList state
   // const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
 
-
-
   // const fetchSkusList = async () => {
   //   try {
   //     await loadScript(); // Ensure the script is loaded
@@ -62,9 +60,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   //   }
   // };
 
-
-
-  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+  const loadTryOnButton = async (
+    sku: string,
+    productId: string,
+  ): Promise<void> => {
     return new Promise<void>(async (resolve, reject) => {
       const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
 
@@ -73,23 +72,37 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
           try {
             window.loadTryOnButton({
               psku: sku,
-              page: 'product',
-              company: 'whpjewellers',
-              buynow: { enable: 'false' },
-              prependButton: { class: `try_on`, id: `product-form-${productId}` },
-              styles: {
-                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px', display: 'none' }, // Hide the auto-loaded button
-                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
-                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              page: "product",
+              company: "whpjewellers",
+              buynow: { enable: "false" },
+              prependButton: {
+                class: `try_on`,
+                id: `product-form-${productId}`,
               },
-
+              styles: {
+                tryonbutton: {
+                  backgroundColor: "white",
+                  color: "white",
+                  border: "1px solid #white",
+                  borderRadius: "25px",
+                  display: "none",
+                }, // Hide the auto-loaded button
+                tryonbuttonHover: {
+                  backgroundColor: "#white",
+                  color: "white",
+                  borderRadius: "25px",
+                },
+                MBtryonbutton: { width: "50%", borderRadius: "25px" },
+              },
             });
             console.log("Button Created");
             const buttonInterval = setInterval(() => {
-              const tryonButton = document.getElementById('tryonButton') ||  document.getElementById('MB_tryonButton') ;
+              const tryonButton =
+                document.getElementById("tryonButton") ||
+                document.getElementById("MB_tryonButton");
               if (tryonButton) {
                 // Hide the button
-                tryonButton.style.display = 'none';
+                tryonButton.style.display = "none";
                 console.log("Button Clicked");
                 tryonButton.click();
                 clearInterval(buttonInterval);
@@ -98,27 +111,31 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
               }
             }, 100);
           } catch (error) {
-            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+            reject(
+              new Error(
+                `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
+              ),
+            );
           }
         });
       };
-      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      const existingScript = document.querySelector(
+        `script[src="${scriptSrc}"]`,
+      );
       if (existingScript) {
         await loadButton();
       } else {
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.src = scriptSrc;
         script.onload = async () => {
-          await loadButton(); 
+          await loadButton();
         };
-        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        script.onerror = () =>
+          reject(new Error("Failed to load Camweara script"));
         document.body.appendChild(script);
       }
     });
   };
-
-
-
 
   // useEffect(() => {
   //   // Fetch SKU list only once on component mount
@@ -202,7 +219,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   //     loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
   //   }
   // }, [data.SKU, hover, isMobile]); // Dependencies to run effect when hover state changes
-  
 
   const sortedImages = data?.imageDetails
     ?.filter(
@@ -235,7 +251,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const selectedVideo = sortedVideos?.[0];
 
   const handleDetailProduct = (productId: any, productUrl: any) => {
-
     router.push(`/products/${productUrl}/${productId}`);
   };
 
@@ -274,7 +289,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
   };
-  
+
   return (
     <>
       <div
@@ -331,11 +346,13 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       <div
                         id={`product-form-${data.productId}`}
                         className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
-                        onClick={() => loadTryOnButton(data.SKU, data.productId)}
+                        onClick={() =>
+                          loadTryOnButton(data.SKU, data.productId)
+                        }
                       >
                         <div className="flex items-center justify-between">
                           <IoCameraOutline />
-                          <p className="font-semibold ps-1">Try ON</p>
+                          <p className="ps-1 font-semibold">Try ON</p>
                         </div>
                       </div>
                     )}
@@ -393,7 +410,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   >
                     <div className="flex items-center justify-between">
                       <IoCameraOutline />
-                      <p className="font-semibold ps-1">Try ON</p>
+                      <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
                 )}
@@ -405,12 +422,12 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute bottom-1  z-999 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on z-999 absolute bottom-1 float-left flex justify-between rounded-lg border border-[#e26178] text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between">
                       <IoCameraOutline />
-                      <p className="font-semibold ps-1">Try ON</p>
+                      <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
                 )}
@@ -462,7 +479,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 </p>
               )}
 
-              {data?.discountValue == null && (
+              {!data?.discountPrice && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>

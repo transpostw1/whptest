@@ -124,6 +124,7 @@ interface DeliveryDetailsProps {
   return (
     <div className="lg:w-[41rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
       <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+      <h2 className="mb-4 text-xl">Shipping Address</h2>
       <ShippingAddressList
         onAddressSelect={handleShippingAddressSelect}
         selectedAddress={selectedShippingAddress}
@@ -172,11 +173,13 @@ interface DeliveryDetailsProps {
           </label>
         </div>
         {useSameAsBillingAddress && selectedShippingAddress && (
+          <>
+          <h2 className="mb-4 text-xl">Billing Address</h2>
           <ShippingAddressList
             onAddressSelect={handleBillingAddressSelect}
             selectedAddress={selectedShippingAddress}
             readOnly
-          />
+          /></>
         )}
         {!useSameAsBillingAddress && (
           <>

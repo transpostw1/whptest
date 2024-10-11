@@ -629,18 +629,17 @@ const Default: React.FC<Props> = ({ productId }) => {
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
                 <div
-                  className="relative ml-1 mt-1"
+                  className="relative"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
                 >
                   <Icon.CopySimple
                     size={17}
                     onClick={handleCopy}
-                    className="cursor-pointer text-sm text-[#e26178] underline"
+                    className="cursor-pointer ml-1 text-sm text-[#e26178] underline"
                   />
-                  {/* Tooltip */}
                   {showTooltip && (
-                    <div className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform rounded bg-white px-2 py-1 text-xs text-black shadow-md">
+                    <div className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform rounded bg-white px-2 py-1 text-xs text-black font-semibold shadow-md">
                       {tooltipText}
                     </div>
                   )}

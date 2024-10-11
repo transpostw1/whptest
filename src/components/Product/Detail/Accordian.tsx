@@ -397,124 +397,126 @@ const Accordian: React.FC<Props> = ({ product }) => {
         product?.productDetails?.displayTitle
           .toLowerCase()
           .includes("bangle") ||
-        product?.productDetails?.displayTitle
+        product?.productDetails?.displayTitle.toLowerCase().includes("chain") ||
+        product?.productDetails?.displayTitle.toLowerCase().includes("ring")) &&
+        !product?.productDetails?.displayTitle
           .toLowerCase()
-          .includes("chain")) && (
-        <div className="border-t-2 border-[#f7f7f7] p-4">
-          <h2>
-            <button
-              className="flex w-full justify-between text-xl"
-              onClick={() => handleToggle(3)}
-            >
-              Size Guide
-              <span className="right-0">
-                <Icon.CaretDown
-                  size={25}
-                  className={`${showAccordian === 3 ? "rotate-180" : null}`}
-                />
-              </span>
-            </button>
-          </h2>
-          {showAccordian === 3 ? (
-            <>
-              <div className="w-[100%] rounded-md text-center">
-                {product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("ring") &&
-                !product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("earrings") ? (
-                  <>
-                    <h3 className="text-center text-lg">
-                      Discover your perfect ring size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-center text-sm">
-                      Our guide helps you find the perfect ring size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your ring.
-                    </p>
-                  </>
-                ) : product.productDetails.displayTitle
+          .includes("earrings") && (
+          <div className="border-t-2 border-[#f7f7f7] p-4">
+            <h2>
+              <button
+                className="flex w-full justify-between text-xl"
+                onClick={() => handleToggle(3)}
+              >
+                Size Guide
+                <span className="right-0">
+                  <Icon.CaretDown
+                    size={25}
+                    className={`${showAccordian === 3 ? "rotate-180" : null}`}
+                  />
+                </span>
+              </button>
+            </h2>
+            {showAccordian === 3 ? (
+              <>
+                <div className="w-[100%] rounded-md text-center">
+                  {product.productDetails.displayTitle
                     .toLowerCase()
-                    .includes("chain") ? (
-                  <>
-                    <h3 className="text-lg">
-                      Discover your perfect chain size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-sm">
-                      Our guide helps you find the perfect chain size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your chain.
-                    </p>
-                  </>
-                ) : product.productDetails.displayTitle
-                    .toLowerCase()
-                    .includes("bracelet") ||
-                  product.productDetails.displayTitle
-                    .toLowerCase()
-                    .includes("bangle") ? (
-                  <>
-                    <h3 className="text-lg">
-                      Discover your perfect bangle size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-sm">
-                      Our guide helps you find the perfect bangle size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your bangle.
-                    </p>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("ring") &&
+                    .includes("ring") &&
                   !product.productDetails.displayTitle
                     .toLowerCase()
-                    .includes("earrings") &&
-                  !product.productDetails.displayTitle
+                    .includes("earrings") ? (
+                    <>
+                      <h3 className="text-center text-lg">
+                        Discover your perfect ring size with our easy-to-follow
+                        guide
+                      </h3>
+                      <p className="mt-2 text-center text-sm">
+                        Our guide helps you find the perfect ring size for your
+                        unique needs. Simply click on Know More to find the
+                        right size for your ring.
+                      </p>
+                    </>
+                  ) : product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("chain") ? (
+                    <>
+                      <h3 className="text-lg">
+                        Discover your perfect chain size with our easy-to-follow
+                        guide
+                      </h3>
+                      <p className="mt-2 text-sm">
+                        Our guide helps you find the perfect chain size for your
+                        unique needs. Simply click on Know More to find the
+                        right size for your chain.
+                      </p>
+                    </>
+                  ) : product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("bracelet") ||
+                    product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("bangle") ? (
+                    <>
+                      <h3 className="text-lg">
+                        Discover your perfect bangle size with our
+                        easy-to-follow guide
+                      </h3>
+                      <p className="mt-2 text-sm">
+                        Our guide helps you find the perfect bangle size for
+                        your unique needs. Simply click on Know More to find the
+                        right size for your bangle.
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {product.productDetails.displayTitle
                     .toLowerCase()
-                    .includes("earring") && (
+                    .includes("ring") &&
+                    !product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("earrings") &&
+                    !product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("earring") && (
+                      <Link
+                        className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                        href={"/ring-size-guide"}
+                      >
+                        <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                          Know More
+                        </button>
+                      </Link>
+                    )}
+                  {product.productDetails.displayTitle
+                    .toLowerCase()
+                    .includes("chain") && (
                     <Link
                       className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/ring-size-guide"}
+                      href={"/chain-size-guide"}
                     >
                       <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
                         Know More
                       </button>
                     </Link>
                   )}
-                {product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("chain") && (
-                  <Link
-                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                    href={"/chain-size-guide"}
-                  >
-                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                      Know More
-                    </button>
-                  </Link>
-                )}
-                {(product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("bracelet") ||
-                  product.productDetails.displayTitle
+                  {(product.productDetails.displayTitle
                     .toLowerCase()
-                    .includes("bangle")) && (
-                  <Link
-                    className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                    href={"/bangle-size-guide"}
-                  >
-                    <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                      Know More
-                    </button>
-                  </Link>
-                )}
-                {/* <table className="mt-5 bg-[#f7f7f7]">
+                    .includes("bracelet") ||
+                    product.productDetails.displayTitle
+                      .toLowerCase()
+                      .includes("bangle")) && (
+                    <Link
+                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
+                      href={"/bangle-size-guide"}
+                    >
+                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
+                        Know More
+                      </button>
+                    </Link>
+                  )}
+                  {/* <table className="mt-5 bg-[#f7f7f7]">
                   <tr className="">
                     <td className="border-b-2 border-r-2 border-[#F0ECED] p-4">
                       Size
@@ -556,11 +558,11 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     <td className="rounded-b-lg p-2">7.85</td>
                   </tr>
                 </table> */}
-              </div>
-            </>
-          ) : null}
-        </div>
-      )}
+                </div>
+              </>
+            ) : null}
+          </div>
+        )}
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button

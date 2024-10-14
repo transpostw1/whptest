@@ -674,7 +674,7 @@ const Checkout: React.FC = () => {
                 <div className="mt-2 flex w-full items-center justify-evenly p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className="max-sm:w-25 max-md:w-25 flex items-center gap-1 lg:w-40"
+                      className=" flex items-center gap-1"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)

@@ -46,9 +46,20 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [data, setData] = useState<ProductData>({});
   const [loading, setLoading] = useState<boolean>(true);
   const { formatPrice } = useCurrency();
-  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [skuList, setSkuList] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [size, setSize] = useState(0);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipText, setTooltipText] = useState("Copy");
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(data?.productDetails?.SKU);
+    setTooltipText("Copied!");
+    setTimeout(() => setTooltipText("Copy"), 1500); // Reset tooltip text after 1.5 seconds
+  };
+  const handleSelectSize = (s: any) => {
+    setSize(s);
+  };
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
@@ -165,13 +176,11 @@ const Default: React.FC<Props> = ({ productId }) => {
       productUrl = productId[1];
     }
 
-
     const { data } = await client.query({
       query: GET_SINGLE_PRODUCT,
       variables: { productUrl: productUrl },
     });
 
-    // const res = await axios.get(`${baseUrl}/products/${productId}`);
     setLoading(true);
     return data;
   }
@@ -415,7 +424,6 @@ const Default: React.FC<Props> = ({ productId }) => {
       }
     }
   }, [data?.productDetails?.shortDesc]);
-  
 
   return (
     <>
@@ -557,7 +565,7 @@ const Default: React.FC<Props> = ({ productId }) => {
               </div>
               <p
                 ref={descRef}
-                className={`text-[#e26178] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+                className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
               </p>
@@ -618,7 +626,25 @@ const Default: React.FC<Props> = ({ productId }) => {
           <div className="flex">
             <div className="border-r-2 p-2">
               <p className="text-lg font-bold">SKU:</p>
-              <p className="uppercase">{data?.productDetails?.SKU}</p>
+              <div className="flex items-center">
+                <p className="uppercase">{data?.productDetails?.SKU}</p>
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <Icon.CopySimple
+                    size={17}
+                    onClick={handleCopy}
+                    className="cursor-pointer ml-1 text-sm text-[#e26178] underline"
+                  />
+                  {showTooltip && (
+                    <div className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform rounded bg-white px-2 py-1 text-xs text-black font-semibold shadow-md">
+                      {tooltipText}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             <div className="p-2">
               <p className="text-lg font-bold">Availability:</p>
@@ -633,6 +659,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
+              handleSelectSize={handleSelectSize}
             />
           )}
           {data?.productDetails?.productQty !== null &&
@@ -668,12 +695,13 @@ const Default: React.FC<Props> = ({ productId }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget
-            accesskey="ZCUzmW"
-            amount={1000}
-          />
+          <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
           <div className="hidden sm:block">
-            {loading ? <Skeleton height={70} /> : <Buttons product={data} />}
+            {loading ? (
+              <Skeleton height={70} />
+            ) : (
+              <Buttons product={data} size={size} />
+            )}
           </div>
           {data?.productDetails?.tryAtHome === 1 && (
             <div className="mt-4 border border-[#f7f7f7] p-1 text-center">

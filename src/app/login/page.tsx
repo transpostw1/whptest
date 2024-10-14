@@ -14,7 +14,7 @@ import * as Yup from "yup";
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const validationSchema = Yup.object({
-    phoneNumber: Yup.string().required("Phone number is required"),
+    phoneNumber: Yup.string().required("Phone number is required")
     // .matches(/^\+[1-9]\d{1,14}$/, "Invalid phone number"),
   });
   const formik = useFormik({
@@ -51,29 +51,7 @@ const Login = () => {
                      LOGIN TO WHP
                     </h1>
                   </div>
-                  <div className="mb-4">
-                    {/* <PhoneInput
-                    country={"in"}
-                    value={formik.values.phoneNumber}
-                      //  containerClass="border h-full w-full rounded-xl"
-                       inputStyle={{
-                        marginTop: "1rem",
-                        width: "100%",
-                        height: "3rem",
-                      }}
-                      containerStyle={{
-                        height: "3rem",
-                        width: "100%",
-                      }}
-                      buttonStyle={{
-                        height: "3rem",
-                      }}
-                    onChange={(value) => {
-                      setPhoneNumber(value);
-                      formik.handleChange("phoneNumber")(value);
-                    }}
-                  /> */}
-
+                  <div className="mb-4">                   
                     <PhoneInput
                       defaultCountry="in"
                       value={formik.values.phoneNumber}

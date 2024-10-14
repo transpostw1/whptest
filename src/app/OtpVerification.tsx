@@ -93,6 +93,7 @@ const OtpVerification = ({
       return;
     }
     try {
+
       setVerifying(true);
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
@@ -125,8 +126,26 @@ const OtpVerification = ({
         },
       });
       console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
-    } catch (error) {
-      console.log(error)
+      onOtpVerified();
+    } catch (error:any) {
+      setVerifying(false);
+      console.error("Error signing in with OTP:", error);
+      if (error.code === "auth/invalid-verification-code") {
+        setErrorMessage("Invalid OTP. Please try again.");
+      } else if (error.response) {
+        const errorMsg =
+          typeof error.response.data === "string"
+            ? error.response.data.error
+            : JSON.stringify(error.response.data.error);
+        setErrorMessage(errorMsg);
+        console.error("Backend error data will show:", error.response.data);
+        console.error("Backend error status:", error.response.status);
+        console.error("Backend error headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("Request setup error:", error.message);
+      }
     }
   };
 
@@ -194,7 +213,7 @@ const OtpVerification = ({
   const handleCombinedClick = () => {
     if (isRegisterPage) {
       verifySignin();
-      onOtpVerified();
+      
       // onSubmit(formikValues);
     } else {
       onVerify();
@@ -236,9 +255,6 @@ const OtpVerification = ({
             {verifying ? (
               <>
                 <Preloader />
-                {/* Verifying OTP... */}
-                {/* <span>Verifying OTP</span>
-                <CgSpinner size={20} className="animate-spin"/> */}
               </>
             ) : (
               <span>Verify</span>

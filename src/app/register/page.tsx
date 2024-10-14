@@ -198,7 +198,7 @@ const Register = () => {
                   {loading ? <Preloader /> : <span>SIGN UP</span>}
                 </button>
                 {Error && <div className="mt-4 text-red-500">{Error}</div>}
-                <h2 className="text-center text-xs">
+                <h2 className="text-center text-xs mt-2">
                   Already have an account?{" "}
                   <span className="cursor-pointer text-sm text-[#E26178] hover:underline">
                     <Link href={"/login"}>Login</Link>

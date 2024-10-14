@@ -244,12 +244,13 @@ const OtpVerification = ({
               numInputs={6}
               renderSeparator={<span className="mx-2">-</span>}
               renderInput={(props) => (
-                <input {...props} placeholder="0" className="otpInput" />
+                <input {...props} placeholder="0"       className="otpInput w-14 h-10 text-center border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#E26178] transition duration-200 ease-in-out"
+ />
               )}
             />
           </div>
           <button
-            className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-medium text-white transition duration-300 hover:bg-[#e26178]"
+            className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
             onClick={handleCombinedClick}
           >
             {verifying ? (

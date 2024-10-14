@@ -224,7 +224,7 @@ const Gifts = () => {
               </div>
             </div>
 
-            <div className="flex gap-2 pr-36">
+            <div className="flex gap-2">
               {currentStep > 0 && (
                 <button
                   className="bg-gray-500 px-2 py-2 text-white md:px-4"

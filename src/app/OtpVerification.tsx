@@ -93,6 +93,7 @@ const OtpVerification = ({
       return;
     }
     try {
+
       setVerifying(true);
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
@@ -125,8 +126,26 @@ const OtpVerification = ({
         },
       });
       console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
-    } catch (error) {
-      console.log(error)
+      onOtpVerified();
+    } catch (error:any) {
+      setVerifying(false);
+      console.error("Error signing in with OTP:", error);
+      if (error.code === "auth/invalid-verification-code") {
+        setErrorMessage("Invalid OTP. Please try again.");
+      } else if (error.response) {
+        const errorMsg =
+          typeof error.response.data === "string"
+            ? error.response.data.error
+            : JSON.stringify(error.response.data.error);
+        setErrorMessage(errorMsg);
+        console.error("Backend error data will show:", error.response.data);
+        console.error("Backend error status:", error.response.status);
+        console.error("Backend error headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("Request setup error:", error.message);
+      }
     }
   };
 
@@ -160,7 +179,7 @@ const OtpVerification = ({
         ? localStorage.setItem("localtoken", localToken)
         : null;
       console.log("intial token", localStorage.getItem("localtoken"));
-      // router.push("/");
+      router.push("/");
     } catch (error: any) {
       setVerifying(false);
       console.error("Error signing in with OTP:", error);
@@ -194,7 +213,7 @@ const OtpVerification = ({
   const handleCombinedClick = () => {
     if (isRegisterPage) {
       verifySignin();
-      onOtpVerified();
+      
       // onSubmit(formikValues);
     } else {
       onVerify();
@@ -212,7 +231,7 @@ const OtpVerification = ({
     <div className="otpVerification">
       {isOtpSent ? (
         <div className="rounded-lg bg-gray-100 p-4 shadow-md">
-          <h1 className="mb-4 text-center text-2xl font-semibold text-gray-800">
+          <h1 className="mb-4 text-center text-xl font-normal text-[#E26178]">
             Enter Verification Code
           </h1>
           <div
@@ -236,9 +255,6 @@ const OtpVerification = ({
             {verifying ? (
               <>
                 <Preloader />
-                {/* Verifying OTP... */}
-                {/* <span>Verifying OTP</span>
-                <CgSpinner size={20} className="animate-spin"/> */}
               </>
             ) : (
               <span>Verify</span>
@@ -259,7 +275,7 @@ const OtpVerification = ({
                 handleLoginSubmit();
               }
             }}
-            className="mb-4 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 font-medium text-white"
+            className="mb-4 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
             // className="button-main"
             onClick={handleLoginSubmit}
           >

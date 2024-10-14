@@ -11,6 +11,7 @@ const dummyData = [
         alt={"Gold Icon"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Gold",
@@ -22,6 +23,7 @@ const dummyData = [
         alt={"Icon Gemstone"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Gemstones",
@@ -33,6 +35,7 @@ const dummyData = [
         alt={"Icon Coin"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Coin",
@@ -44,6 +47,7 @@ const dummyData = [
         alt={"Icon Women"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Women",
@@ -55,6 +59,7 @@ const dummyData = [
         alt={"Icon Men"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Men",
@@ -66,6 +71,7 @@ const dummyData = [
         alt={"Icon Festive"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Festive",
@@ -77,6 +83,7 @@ const dummyData = [
         alt={"Icon Cards"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Cards",
@@ -96,50 +103,51 @@ const OfferBanners = [
 const Offers = () => {
   return (
     <>
-    <StickyNav/>
-    <div className="p-6">
-      <div className="lg:w-[50%] md:w-[60%] ">
-        <p className="text-2xl font-semibold">OFFERS</p>
-        <p>
-          Indulge in exclusive offers. Unlock savings and special perks that
-          make your experience with us even more memorable.
-        </p>
-      </div>
-      <div className="mt-4">
-        <Swiper
-          slidesPerView={3.5}
-          spaceBetween={10}
-          breakpoints={{
-            768: {
-              slidesPerView: 6.5,
-              spaceBetween: 20,
-            },
-          }}
-        >
-          {dummyData.map((data, index) => (
-            <SwiperSlide key={index}>
-              <div className="flex flex-col justify-center items-center">
-                <div>{data.image}</div>
-                <p className="text-center">{data.title}</p>
-              </div>
-            </SwiperSlide>
+      <StickyNav />
+      <div className="p-6">
+        <div className="md:w-[60%] lg:w-[50%]">
+          <p className="text-2xl font-semibold">OFFERS</p>
+          <p>
+            Indulge in exclusive offers. Unlock savings and special perks that
+            make your experience with us even more memorable.
+          </p>
+        </div>
+        <div className="mt-4">
+          <Swiper
+            slidesPerView={3.5}
+            spaceBetween={10}
+            breakpoints={{
+              768: {
+                slidesPerView: 6.5,
+                spaceBetween: 20,
+              },
+            }}
+          >
+            {dummyData.map((data, index) => (
+              <SwiperSlide key={index}>
+                <div className="flex flex-col items-center justify-center">
+                  <div>{data.image}</div>
+                  <p className="text-center">{data.title}</p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+        <div className="mt-5 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {OfferBanners.map((images, index) => (
+            <div key={index}>
+              <Image
+                src={images}
+                alt={"the offer banner"}
+                width={400}
+                height={400}
+                unoptimized
+              />
+            </div>
           ))}
-        </Swiper>
+        </div>
       </div>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-8 mt-5">
-        {OfferBanners.map((images, index) => (
-          <div key={index}>
-            <Image
-              src={images}
-              alt={"the offer banner"}
-              width={400}
-              height={400}
-              unoptimized
-            />
-          </div>
-        ))}
-      </div>
-    </div></>
+    </>
   );
 };
 

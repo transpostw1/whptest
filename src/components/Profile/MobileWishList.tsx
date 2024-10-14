@@ -169,6 +169,18 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                       <h3 className="product-name text-title text-xl truncate">
                         {product.title}
                       </h3>
+                      {product.variants && product.variants.length > 0 && (
+                        <div>
+                          <h3 className="font-medium">
+                            {product.variants[0].variantType}:{" "}
+                            {product.variants[0].variantName}
+                          </h3>
+                          <h3 className="font-medium">
+                            {product.variants[1].variantType}:{" "}
+                            {product.variants[1].variantName}
+                          </h3>
+                        </div>
+                      )}
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">

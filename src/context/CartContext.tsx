@@ -265,7 +265,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
           await syncCartWithServer([item]);
         }
         localStorage.removeItem("cartItems");
-        console.log("Added Local items to Server");
+        // console.log("Added Local items to Server");
       }
     }
     } catch (error) {

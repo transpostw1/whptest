@@ -134,7 +134,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
 
   return (
     <div>
-      <h2 className="mb-4 text-xl">Shipping Address</h2>
+      
       {isLoading ? (
         <Loading />
       ) : addresses.length === 0 ? (

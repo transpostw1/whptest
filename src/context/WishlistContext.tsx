@@ -17,6 +17,7 @@ interface WishlistItem {
   discountPrice: string;
   discountValue: string;
   quantityleft:number;
+  variants:Array;
   makeToOrder:number;
   image_path: string;
   imageDetails: any;
@@ -167,7 +168,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 (dbItem) => dbItem.productId === item.productId
               )
           );
-          console.log(product, "product");
+          // console.log(product, "product");
 
           const getAuthHeaders: any = () => {
             if (!cookieToken) return null;
@@ -410,6 +411,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           discountPrice: item.discountPrice,
           discountValue: item.discountValue,
           quantityleft:item.quantity,
+          variants:item.variants,
           makeToOrder:parseInt(item.makeToOrder),
           image_path: item.imageDetails[0]?.image_path || "",
           url: item.url,

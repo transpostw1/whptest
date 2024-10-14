@@ -11,6 +11,7 @@ const dummyData = [
         alt={"Gold Icon"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Gold",
@@ -22,6 +23,7 @@ const dummyData = [
         alt={"Icon Gemstone"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Gemstones",
@@ -33,6 +35,7 @@ const dummyData = [
         alt={"Icon Coin"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Coin",
@@ -44,6 +47,7 @@ const dummyData = [
         alt={"Icon Women"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Women",
@@ -55,6 +59,7 @@ const dummyData = [
         alt={"Icon Men"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Men",
@@ -66,6 +71,7 @@ const dummyData = [
         alt={"Icon Festive"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Festive",
@@ -77,6 +83,7 @@ const dummyData = [
         alt={"Icon Cards"}
         width={80}
         height={80}
+        unoptimized
       />
     ),
     title: "Cards",

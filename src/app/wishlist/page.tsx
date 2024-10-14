@@ -92,9 +92,9 @@ const Wishlist = () => {
           discountPrice: product.discountPrice,
           imageDetails: [{ image_path: product.image_path }],
           productPrice: product.productPrice,
-          quantityleft:product.quantityleft,
-          makeToOrder:product.makeToOrder,
-          url:product.url,
+          quantityleft: product.quantityleft,
+          makeToOrder: product.makeToOrder,
+          url: product.url,
         },
         productId: product.productId,
         quantity: 1,
@@ -125,7 +125,7 @@ const Wishlist = () => {
           discountPrice: product.discountPrice,
           imageDetails: [{ image_path: product.image_path }],
           productPrice: product.productPrice,
-          url:product.url,
+          url: product.url,
         },
         productId: product.productId,
         quantity: 1,
@@ -253,7 +253,7 @@ const Wishlist = () => {
                       )}
                     </div>
                     <div
-                      className="product-details mt-4"
+                      className="product-details mt-4 "
                       onClick={() =>
                         router.push(
                           `/products/${product.productId}/${product.url}`,
@@ -263,11 +263,23 @@ const Wishlist = () => {
                       <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
-                      <div>
+                      {/* <div>
                       <h3 className="font-medium">Diamond:FG-VVS</h3>
                       <h3 className="font-medium">Size:11</h3>
-                      </div>
-                    
+                      </div> */}
+                      {product.variants && product.variants.length > 0 && (
+                        <div>
+                          <h3 className="font-medium">
+                            {product.variants[0].variantType}:{" "}
+                            {product.variants[0].variantName}
+                          </h3>
+                          <h3 className="font-medium">
+                            {product.variants[1].variantType}:{" "}
+                            {product.variants[1].variantName}
+                          </h3>
+                        </div>
+                      )}
+
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
                           <span className="discounted-price text-title text-lg">
@@ -281,7 +293,7 @@ const Wishlist = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="mt-3 flex flex-col flex-wrap items-center justify-between gap-2 lg:flex-row lg:max-xl:flex-row">
+                    <div className="mt-3 flex flex-col flex-wrap justify-between gap-2 lg:flex-row lg:max-xl:flex-row">
                       <div
                         className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleBuyNow(product)}

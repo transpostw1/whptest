@@ -227,9 +227,6 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
       setCareersData(data.getAllJobs);
       const categories = data.getAllJobs.map((job: Job) => job.category);
       setJobCategories(categories);
-      console.log(data.getAllJobs);
-      console.log(careersData, "careers data");
-      console.log(jobCategories, "job categories");
     } catch (error) {
       console.log(error);
     }
@@ -242,7 +239,6 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    console.log(jobCategories, "job categories");
   }, [jobCategories]);
 
   return (

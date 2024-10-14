@@ -130,7 +130,7 @@ const Register = () => {
               </div>
             )}
             {!isOtpVerified && (
-              <h2 className="text-center text-xs">
+              <h2 className="text-center text-xs mt-3">
                 Already have an account?{" "}
                 <span className="cursor-pointer text-sm text-[#E26178] hover:underline">
                   <Link href={"/login"}>Login</Link>

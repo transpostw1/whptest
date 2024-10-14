@@ -1,43 +1,55 @@
 "use client";
-
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ArrowRight, ArrowLeft } from "@phosphor-icons/react";
 import Image from "next/image";
+import { graphqlbaseUrl } from "@/utils/constants"; // Assuming you have a base URL defined
 
 interface Testimonial {
-  content: string;
-  author: string;
+  id: string;
+  name: string;
+  feedback: string;
+  image: string;
 }
 
-const TestimonialData: Testimonial[] = [
-  {
-    content:
-      "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Amrutha Joshi",
-  },
-  {
-    content:
-      "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Christian Bale",
-  },
-  {
-    content:
-      "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Ryan Gosling",
-  },
-  {
-    content:
-      "WHP is a great shop for jewellery purchases not only is this shop located at prime destination but it also has a large premise making it easy for the customers to move across the various options of jewellery. If one thing I should tell you is that the gold quality of Waman Hari Pethe is excellent",
-    author: "Christian Bale",
-  },
-];
+const GET_TESTIMONIALS = gql`
+  query GetAllTestimonials {
+    getAllTestimonials {
+      id
+      name
+      feedback
+      image
+    }
+  }
+`;
 
 const Reviews: React.FC = () => {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const sliderRef = useRef<Slider>(null);
+
+  const fetchTestimonials = async () => {
+    try {
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+      const { data } = await client.query({
+        query: GET_TESTIMONIALS,
+      });
+
+      setTestimonials(data.getAllTestimonials);
+    } catch (error) {
+      console.error("Error fetching testimonials:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
 
   const CustomPrevArrow: React.FC<{ onClick: () => void }> = (props) => (
     <div className="custom-arrow prev" onClick={props.onClick}>
@@ -92,27 +104,23 @@ const Reviews: React.FC = () => {
               Hear from our <br /> customers
             </h1>
             <div className="mb-8 hidden -space-x-4 md:flex rtl:space-x-reverse">
-              {[...Array(3)].map((_, index) => (
+              {testimonials.slice(0, 3).map((testimonial, index) => (
                 <div
                   key={index}
                   className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
                 >
                   <Image
-                    src="/images/other/userimage.jpg"
-                    alt="User"
+                    src={testimonial.image}
+                    alt={testimonial.name}
                     width={80}
                     height={80}
                     unoptimized
+                    className="object-cover"
                   />
                 </div>
               ))}
-              {/* <a
-              className="flex items-center justify-center w-20 h-20 text-xs font-medium text-white bg-gray-700 border-2 border-gray-300 rounded-full hover:bg-gray-600"
-              href="#"
-            >
-              +99
-            </a> */}
             </div>
+
             <div className="flex cursor-pointer items-center gap-8">
               <CustomPrevArrow onClick={() => sliderRef.current?.slickPrev()} />
               <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
@@ -121,11 +129,22 @@ const Reviews: React.FC = () => {
         </div>
         <div className="m-0 h-full w-full items-center md:mt-8 md:w-[60%]">
           <Slider {...settings} ref={sliderRef}>
-            {TestimonialData.map((testimonial, index) => (
-              <div key={index} className="p-2">
-                <div className="flex h-full flex-col border border-gray-200 bg-white p-4 text-red-950">
-                  <p className="mb-32 text-sm">{testimonial.content}</p>
-                  <h1 className="text-lg font-bold">{testimonial.author}</h1>
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="p-2 h-80">
+                <div className="flex h-full flex-col border gap-5 border-gray-200 bg-white p-4 text-red-950">
+                  <p className=" mb-4 text-sm">{testimonial.feedback}</p>
+                 <div>  
+                  {testimonial.image && (
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                  )}
+                   <h1 className="text-lg font-bold">{testimonial.name}</h1>
+                 </div>
                 </div>
               </div>
             ))}

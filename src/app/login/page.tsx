@@ -75,7 +75,7 @@ const Login = () => {
                     isRegisterPage={false}
                   />
                 </div>
-                <h2 className="text-center text-xs">
+                <h2 className="text-center text-xs mt-3">
                   New to WHP?{" "}
                   <span className="cursor-pointer text-[#E26178] text-sm hover:underline ">
                     <Link href={"/register"}>Create an Account</Link>

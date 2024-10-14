@@ -31,7 +31,7 @@ const ShopBreadCrumb1 = () => {
   const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
   const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
 
-  const productsPerPage = 15;
+  const productsPerPage = 50;
   const pagesVisited = pageNumber * productsPerPage;
   const searchParams = useSearchParams();
   const [initialOptions, setInitialOptions] = useState<any>({});
@@ -65,7 +65,6 @@ const ShopBreadCrumb1 = () => {
       combinedOptions.occasion.length > 0
     ) {
       try {
-        console.log("Received filter options:", combinedOptions);
         setIsLoading(false);
         const client = new ApolloClient({
           uri: graphqlProductUrl,
@@ -73,113 +72,113 @@ const ShopBreadCrumb1 = () => {
           cache: new InMemoryCache(),
         });
         const GET_PRODUCTS = gql`
-        query Products(
-          $category: [CategoryArrayInput!]
-          $search: [SearchArrayInput!]
-          $priceFilter: [PriceArrayInput!]
-          $gender: [GenderArrayInput!]
-          $karat: [KaratArrayInput!]
-          $metal: [MetalArrayInput!]
-          $weightRange: [WeightRangeArrayInput!]
-          $occasion: [OccasionArrayInput!]
-          $sortBy: String
-          $sortOrder: String
-        ) {
-          products(
-            category: $category
-            search: $search
-            priceFilter: $priceFilter
-            gender: $gender
-            karat: $karat
-            metal: $metal
-            weightRange: $weightRange
-            occasion: $occasion
-            sortBy: $sortBy
-            sortOrder: $sortOrder
+          query Products(
+            $category: [CategoryArrayInput!]
+            $search: [SearchArrayInput!]
+            $priceFilter: [PriceArrayInput!]
+            $gender: [GenderArrayInput!]
+            $karat: [KaratArrayInput!]
+            $metal: [MetalArrayInput!]
+            $weightRange: [WeightRangeArrayInput!]
+            $occasion: [OccasionArrayInput!]
+            $sortBy: String
+            $sortOrder: String
           ) {
-            productId
-            SKU
-            variantId
-            isParent
-            title
-            displayTitle
-            shortDesc
-            longDesc
-            url
-            tags
-            collectionName
-            shopFor
-            occasion
-            theme
-            length
-            breadth
-            height
-            addDate
-            lastModificationDate
-            productSize
-            productQty
-            attributeId
-            preSalesProductQueries
-            isReplaceable
-            weightRange
-            isReturnable
-            isInternationalShippingAvailable
-            customizationAvailability
-            fastDelivery
-            tryAtHome
-            isActive
-            grossWeight
-            netWeight
-            discountId
-            discountCategory
-            discountActive
-            typeOfDiscount
-            discountValue
-            discountAmount
-            discountPrice
-            offerStartDate
-            offerEndDate
-            mediaId
-            metalType
-            metalPurity
-            metalWeight
-            metalRate
-            makingType
-            makingChargesPerGrams
-            makingCharges
-            gst
-            additionalCost
-            productPrice
-            discountPrice
-            rating
-            imageDetails {
-              image_path
-              order
-              alt_text
-            }
-            videoDetails {
-              video_path
-              order
-              alt_text
-            }
-            productAttributes {
-              goldDetails {
-                goldCertifiedBy
-                goldSetting
+            products(
+              category: $category
+              search: $search
+              priceFilter: $priceFilter
+              gender: $gender
+              karat: $karat
+              metal: $metal
+              weightRange: $weightRange
+              occasion: $occasion
+              sortBy: $sortBy
+              sortOrder: $sortOrder
+            ) {
+              productId
+              SKU
+              variantId
+              isParent
+              title
+              displayTitle
+              shortDesc
+              longDesc
+              url
+              tags
+              collectionName
+              shopFor
+              occasion
+              theme
+              length
+              breadth
+              height
+              addDate
+              lastModificationDate
+              productSize
+              productQty
+              attributeId
+              preSalesProductQueries
+              isReplaceable
+              weightRange
+              isReturnable
+              isInternationalShippingAvailable
+              customizationAvailability
+              fastDelivery
+              tryAtHome
+              isActive
+              grossWeight
+              netWeight
+              discountId
+              discountCategory
+              discountActive
+              typeOfDiscount
+              discountValue
+              discountAmount
+              discountPrice
+              offerStartDate
+              offerEndDate
+              mediaId
+              metalType
+              metalPurity
+              metalWeight
+              metalRate
+              makingType
+              makingChargesPerGrams
+              makingCharges
+              gst
+              additionalCost
+              productPrice
+              discountPrice
+              rating
+              imageDetails {
+                image_path
+                order
+                alt_text
               }
-              gemstoneDetails
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                gemstoneDetails
+                diamondDetails
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+              }
+              stoneDetails
               diamondDetails
-              silverDetails {
-                poojaArticle
-                utensils
-                silverWeight
-              }
             }
-            stoneDetails
-            diamondDetails
           }
-        }
-      `;
+        `;
         let variables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {
@@ -563,13 +562,17 @@ const ShopBreadCrumb1 = () => {
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
-      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+      if (
+        document.querySelector(
+          `script[src="https://camweara.com/integrations/camweara_api.js"]`,
+        )
+      ) {
         resolve(); // Script already loaded
         return;
       }
 
       // Create the script tag
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
         // Give some time for the function to be available
@@ -591,7 +594,9 @@ const ShopBreadCrumb1 = () => {
   const fetchSkusList = async () => {
     try {
       await loadScript(); // Ensure the script is loaded
-      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      const skus = await window.getSkusListWithTryOn({
+        companyName: "whpjewellers",
+      });
       setSkuList(skus); // Update SKU list state
       setIsSkuListLoaded(true);
     } catch (error) {
@@ -602,10 +607,7 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     // Fetch SKU list only once on component mount
     fetchSkusList();
-
   }, []); // Empty dependency array ensures this runs only on mount
-
-
 
   return (
     <div className="shop-product breadcrumb1">
@@ -689,7 +691,7 @@ const ShopBreadCrumb1 = () => {
                   .map((item: any) => {
                     return (
                       <div key={item.productId}>
-                        <Product data={item} skuList = {skuList} />
+                        <Product data={item} skuList={skuList} />
                       </div>
                     );
                   })}

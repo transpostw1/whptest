@@ -65,7 +65,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
             {
               name: formData.name,
               email: formData.email,
-              number: phone,
+              number: "+" + phone,
               message: formData.message,
               date: formData.date,
             },
@@ -92,7 +92,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
   if (isLoading) {
     return <Loader />;
   }
-0
+  0;
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-5 backdrop-blur-sm"

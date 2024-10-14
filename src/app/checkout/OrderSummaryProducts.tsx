@@ -14,6 +14,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
 }) => {
   const { formatPrice } = useCurrency();
   const displayedItems = isBuyNow ? cartItems.slice(0, 1) : cartItems;
+  console.log(displayedItems);
 
 
   return (
@@ -43,7 +44,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
               <div className="text-title text-start">
                 {formatPrice(product.price)}
               </div>
-              <h3>Estimated Delivery Date: 29/2/2024</h3>
+              {/* <h3>Estimated Delivery Date: 29/2/2024</h3> */}
             </div>
           </div>
         ))

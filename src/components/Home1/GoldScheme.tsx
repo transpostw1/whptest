@@ -118,7 +118,7 @@ const GoldScheme = () => {
           />
           {isMobile && (
             <div className="bg-[#FFFAF9] p-0">
-              <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
+              <div className="mx-auto flex flex-col items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
                 <Image
                   src={"/images/other/BenefitBangle.jpg"}
                   alt="Benefit"
@@ -126,7 +126,7 @@ const GoldScheme = () => {
                   height={241}
                   className="h-auto w-full sm:w-auto"
                 />
-                <div className="flex flex-col justify-between gap-3 pt-3 md:pt-0">
+                <div className="flex flex-col justify-between gap-3 pt-3 md:pt-0 mx-8 sm:mx-0">
                   <div>
                     <h1 className="pb-2 text-xl font-semibold">GOLD ACCOUNT</h1>
                     <p className="pe-2 text-sm">

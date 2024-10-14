@@ -39,7 +39,7 @@ import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();
-  const { userState, isLoggedIn, userDetails } = useUser();
+  const { isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [couponCode, setCouponCode] = useState<string>("");
@@ -113,11 +113,18 @@ const Checkout: React.FC = () => {
     setCouponsModal(false);
   };
   const handleCouponCode = (value: string) => {
-    setCouponCode("");
+    setFlashMessage("");
+    setFlashType("");
     setCouponCode(value);
-    setVoucherCode(value)
-    handleCouponCheck();
+    setVoucherCode(value);
   };
+
+  useEffect(() => {
+    if (couponCode !== "") {
+      handleCouponCheck();
+    }
+  }, [couponCode]);
+
   const removeCoupon = () => {
     setCouponCode("");
     setVoucherCode("");
@@ -125,6 +132,10 @@ const Checkout: React.FC = () => {
   };
 
   const handleCouponCheck = () => {
+    if (couponCode === "") {
+      return null;
+    }
+
     const products = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -187,6 +198,7 @@ const Checkout: React.FC = () => {
         console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
         setFlashType("error");
+        removeCoupon();
       } finally {
         setLoading(false);
       }
@@ -197,7 +209,7 @@ const Checkout: React.FC = () => {
   typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
   useEffect(() => {
-    console.log(userDetails,"USERDDDEETSS")
+    console.log(userDetails, "USERDDDEETSS");
     const fetchCouponData = async () => {
       const products = cartItems.map((item: any) => ({
         productId: item.productId,
@@ -445,7 +457,7 @@ const Checkout: React.FC = () => {
           }
         }
       `;
-      
+
       const { data } = await client.mutate({
         mutation: SYNC_CART,
         variables: {
@@ -676,7 +688,7 @@ const Checkout: React.FC = () => {
                     >
                       <div
                         className={`rounded-full border border-gray-300 p-2 ${
-                          selectedStep >= index ? "bg-rose-400" : "bg-white"
+                          selectedStep >= index ? "bg-[#E26178]" : "bg-white"
                         }`}
                       >
                         {step.icon}
@@ -745,67 +757,66 @@ const Checkout: React.FC = () => {
             <div className="mt-5 w-full lg:w-5/6">
               {selectedComponent === "CartItems" && (
                 <div>
-                  <h1 className="my-5 text-2xl text-rose-600">Coupons</h1>
+                  <h1 className="my-5 text-2xl text-[#E26178]">Coupons</h1>
                   <div className="w-full border border-gray-400 p-3">
                     <div className="flex w-full items-start justify-between">
                       <>
-                        <div className="w-full flex flex-col">
+                        <div className="flex w-full flex-col">
                           <div className="flex items-center justify-between font-medium">
                             <div className="flex gap-2">
-                            <Image
-                              src={"/images/icons/coupon.png"}
-                              alt={"coupons"}
-                              height={25}
-                              width={25}
-                              unoptimized
-                            />
-                            <h3>
-                              {voucherCode &&
-                              dataAfterCouponCode.code === 200 ? (
-                                <span className="flex items-center gap-2 w-full">
-                                  Applied Coupon:{" "}
-                                  <span className="text-red-600">
-                                    {voucherCode}
+                              <Image
+                                src={"/images/icons/coupon.png"}
+                                alt={"coupons"}
+                                height={25}
+                                width={25}
+                                unoptimized
+                              />
+                              <h3>
+                                {couponCode &&
+                                dataAfterCouponCode.code === 200 ? (
+                                  <span className="flex w-full items-center gap-2">
+                                    Applied Coupon:{" "}
+                                    <span className="text-red-600">
+                                      {couponCode}
+                                    </span>
                                   </span>
-                                </span>
-                              ) : (
-                                "Available Coupons/Vouchers"
-                              )}
-                            </h3>
-
+                                ) : (
+                                  "Available Coupons/Vouchers"
+                                )}
+                              </h3>
                             </div>
-                           
+
                             <h3
-                          className="cursor-pointer text-red-600 underline"
-                          onClick={() =>
-                            voucherCode ? removeCoupon() : handleCouponsModal()
-                          }
-                        >
-                          {couponCode && dataAfterCouponCode.code === 200
-                            ? voucherCode
-                              ? "Remove"
-                              : ""
-                            : ""}
-                        </h3>
+                              className="cursor-pointer text-red-600 underline"
+                              onClick={() =>
+                                voucherCode
+                                  ? removeCoupon()
+                                  : handleCouponsModal()
+                              }
+                            >
+                              {couponCode && dataAfterCouponCode.code === 200
+                                ? couponCode
+                                  ? "Remove"
+                                  : ""
+                                : ""}
+                            </h3>
                           </div>
-                          <div className="mt-2 flex w-full gap-2 ">
+                          <div className="mt-2 flex w-full gap-2">
                             <input
                               type="text"
-                              value={couponCode}
-                              onChange={(e) => setCouponCode(e.target.value)}
+                              value={voucherCode}
+                              onChange={(e) => setVoucherCode(e.target.value)}
                               placeholder="Enter Coupon Code"
                               className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
                             />
                             <button
-                              onClick={() => handleCouponCode(couponCode)}
+                              onClick={() => handleCouponCode(voucherCode)}
                               className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply
                             </button>
                           </div>
                         </div>
-
-                       
                       </>
                     </div>
                     <div className="relative w-full pt-2">
@@ -822,7 +833,7 @@ const Checkout: React.FC = () => {
                         {coupons.map((coupon, index) => (
                           <SwiperSlide
                             key={index}
-                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full "
+                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
                           >
                             <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
                               <div className="flex items-center justify-between">
@@ -833,13 +844,28 @@ const Checkout: React.FC = () => {
                                       : `${coupon.discountValue}%`}{" "}
                                     OFF
                                   </div>
+                                  {coupon.isExclusive === true && (
+                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-white">
+                                      Only for you
+                                    </div>
+                                  )}
                                 </div>
-                                <button
-                                  className="text-sm font-medium text-red-600 hover:text-red-700"
-                                  onClick={() => handleCouponCode(coupon.code)}
-                                >
-                                  Apply
-                                </button>
+                                {voucherCode &&
+                                dataAfterCouponCode.code === 200 &&
+                                couponCode === coupon.code ? (
+                                  <span className="text-sm font-medium text-red-600">
+                                    Applied
+                                  </span>
+                                ) : (
+                                  <button
+                                    className="text-sm font-medium text-red-600 hover:text-red-700"
+                                    onClick={() => {
+                                      handleCouponCode(coupon.code);
+                                    }}
+                                  >
+                                    Apply
+                                  </button>
+                                )}
                               </div>
                               <p className="mt-2 text-sm text-gray-600">
                                 Get{" "}
@@ -879,13 +905,13 @@ const Checkout: React.FC = () => {
                       </div>
                     )} */}
                   </div>
-                  {couponsModal && (
+                  {/* {couponsModal && (
                     <CouponsModal
                       handleCouponCheck={handleCouponCheck}
                       onClose={handleCouponModalClose}
                       couponCode={handleCouponCode}
                     />
-                  )}
+                  )} */}
                   <div className="mt-3 border border-gray-400">
                     <div className="flex justify-between p-3">
                       <div className="flex items-center gap-2 font-medium">

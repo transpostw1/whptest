@@ -67,8 +67,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   // }, [isLoggedIn]);
 
   useEffect(() => {
-    console.log("useEffect hook called");
-
     const fetchWishlistItems = async () => {
       try {
         let localWishlistItems = [];
@@ -79,8 +77,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
         }
 
         const wishlistData = await getWishlist();
-        console.log("wishlistData:", wishlistData);
-
         if (isLoggedIn && localWishlistItems.length > 0) {
           const serverProductIds = wishlistData.map(
             (item: any) => item.productId
@@ -114,9 +110,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 AddOrUpdateWishlist(wishlist: $wishlist) {
                   message
                 }
-              }
-            `;
-
+              }`;
             const { data } = await client.mutate({
               mutation: SYNC_WISHLIST,
               variables: {
@@ -257,8 +251,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   url: product.url,
                 },
               ];
-              console.log(updatedWishlistItems,"UPDATEEEDD")
-
               localStorage.setItem(
                 "wishlistItems",
                 JSON.stringify(updatedWishlistItems)
@@ -382,6 +374,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productPrice
             discountPrice
             mediaId
+            variants{
+             variantType 
+             variantName
+          }
             imageDetails {
               image_path
               order

@@ -79,7 +79,8 @@ const OtpVerification = ({
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
-      } else {
+      } 
+      else {
         setErrorMessage("Invalid Number or Try again");
       }
       //  setFirebaseError(error.message);

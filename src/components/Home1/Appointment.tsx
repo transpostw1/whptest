@@ -82,6 +82,7 @@ const Appointment = () => {
                     alt=""
                     width={500}
                     height={500}
+                    unoptimized
                   />
                 </div>
                 <div className="relative h-full w-full">
@@ -90,6 +91,7 @@ const Appointment = () => {
                     alt=""
                     width={500}
                     height={500}
+                    unoptimized
                   />
                 </div>
               </div>
@@ -130,6 +132,7 @@ const Appointment = () => {
               alt=""
               fill
               style={{ objectFit: "cover" }}
+              unoptimized
             />
           </div>
           <div className="relative h-full w-full">
@@ -138,6 +141,7 @@ const Appointment = () => {
               alt=""
               fill
               style={{ objectFit: "cover" }}
+              unoptimized
             />
           </div>
         </div>

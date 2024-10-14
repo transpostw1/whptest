@@ -18,6 +18,7 @@ const Gifts = () => {
           alt=""
           height={400}
           width={400}
+          unoptimized
         />
       ),
     },
@@ -32,6 +33,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -46,6 +48,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -60,6 +63,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -74,6 +78,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -88,6 +93,7 @@ const Gifts = () => {
           alt=" "
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -102,6 +108,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -116,6 +123,7 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
+          unoptimized
         />
       ),
     },
@@ -139,7 +147,7 @@ const Gifts = () => {
     <>
       <div className="my-16 w-full px-8 text-rose-950">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-2 text-[18px] font-medium uppercase">
+          <h1 className="font-medium sm:text-[18px] lg:text-[32px] uppercase pb-2">
             GIFTS
           </h1>
           <p className="w-[100%] lg:w-[50%] text-[16px] font-light">
@@ -177,6 +185,7 @@ const Gifts = () => {
                       alt="Right Arrow"
                       width={20}
                       height={20}
+                      unoptimized
                     />
                   </span>
                 </div>

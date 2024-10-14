@@ -93,7 +93,6 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [dobYear, dobMonth, dobDay] = dob?.split("-") ?? ["", "", ""];
 
   
-
   useEffect(() => {
     if (userDetails && isOpen) {
       const dob = userDetails?.dob;

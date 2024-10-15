@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   product: ProductType | ProductDetails;
-  size: any;
+
+  variants: any;
 }
 
 interface ProductForWishlistLoggedIn {
@@ -30,7 +31,7 @@ interface ProductForWishlistLoggedOut {
   image_path: string;
   url: string;
 }
-const Buttons: React.FC<Props> = ({ product, size }) => {
+const Buttons: React.FC<Props> = ({ product, variants }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -41,9 +42,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
-  useEffect(() => {
-    console.log("Selected Size", size);
-  }, [size]);
+ 
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -62,7 +61,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
 
     fetchWishlist();
   }, []);
-
+  console.log("Variants", variants);
   // const isOutOfStock = (productQty: number | null | undefined) => {
   //   return productQty === 0 || productQty === null;
   // };

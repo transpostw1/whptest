@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProductData, ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
@@ -9,11 +9,25 @@ interface Props {
 }
 
 const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
+  const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
   const handleNewVariants = (e: any) => {
     console.log("Dropping variants", e.target.value);
     handleVariant(e.target.value);
   };
-  console.log(product, "product");
+  useEffect(() => {
+    const trueVariants: string[] = [];
+    product?.variants?.forEach((item) => {
+      item?.VariantOption?.forEach((options) => {
+        const productId = Number(product.productId);
+        const isSelected = options.ProductId.some((id: any) => id === productId);
+        if (isSelected) {
+          trueVariants.push(options.VariantName); 
+        }
+      });
+    });
+    setSelectedVariants(trueVariants); 
+  }, [product]);
+  console.log("Selected Variant Names: ", selectedVariants); 
   return (
     <div className="flex border border-[#f3f3f3] lg:w-[75%] sm:w-[100%] md:w-[65%] p-3">
       {product?.variants?.map((item, index) => (
@@ -27,11 +41,8 @@ const DropDown: React.FC<Props> = ({ product, handleVariant }) => {
               }}
             >
               {item?.VariantOption?.map((options, index) => {
-                // Convert product.productId to number if necessary
                 const productId = Number(product.productId);
-
-                // Check if product.productId exists in any of the ProductId array elements
-                const isSelected = options.ProductId.some((id:any) => id === productId);
+                const isSelected = options.ProductId.some((id: any) => id === productId);
 
                 return (
                   <option

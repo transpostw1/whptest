@@ -23,7 +23,7 @@ interface PaymentProps {
   component: string;
   handlePaymentMethodChange: (event: ChangeEvent<HTMLInputElement>) => void;
   totalCart: number;
-  onOrderComplete: (items: any) => void;
+  onOrderComplete: () => void;
   selectedShippingAddress: Address | null;
   selectedBillingAddress: Address | null;
   handleProceed: () => void;
@@ -197,7 +197,7 @@ const Payment: React.FC<PaymentProps> = ({
             // Handle the response as needed
             setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
-            onOrderComplete(setCartItems);
+            onOrderComplete();
           } catch (error) {
             console.error("Error placing order:", error);
           } finally {
@@ -295,8 +295,7 @@ const Payment: React.FC<PaymentProps> = ({
         });
         // Handle the response as needed
         setOrderResponse(apiResponse.data.data);
-        // Call the onOrderComplete function after the API call is successful
-        onOrderComplete(setCartItems);
+        onOrderComplete();
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
@@ -324,7 +323,6 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
-  // Check if totalCart is a valid number
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;
   return (

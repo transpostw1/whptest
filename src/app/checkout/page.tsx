@@ -398,7 +398,7 @@ const Checkout: React.FC = () => {
   let discountDifference: any =
     parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
 
-  const handleOrderComplete = async (items: any, items2: any) => {
+  const handleOrderComplete = async () => {
     try {
       const cookieToken =
         typeof window !== "undefined"
@@ -680,7 +680,7 @@ const Checkout: React.FC = () => {
                 <div className="mt-2 flex w-full items-center justify-evenly p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className=" flex items-center gap-1"
+                      className="flex items-center gap-1"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -738,9 +738,7 @@ const Checkout: React.FC = () => {
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  onOrderComplete={(setCartItems) =>
-                    handleOrderComplete(setCartItems, removeFromCart)
-                  }
+                  onOrderComplete={handleOrderComplete}
                   component={selectedComponent}
                   wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}

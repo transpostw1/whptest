@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import Payment from "./Payment";
 import VoucherPayment from "./VoucherPayment";
-
 import { CurrencyCircleDollar, Gift } from "@phosphor-icons/react";
 
 interface SelectedScheme {

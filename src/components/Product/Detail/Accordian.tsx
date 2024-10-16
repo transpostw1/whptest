@@ -391,17 +391,23 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         ) : null}
       </div>
-      {(product?.productDetails?.displayTitle
+      {((product?.productDetails?.displayTitle
         .toLowerCase()
         .includes("bangles") ||
         product?.productDetails?.displayTitle
           .toLowerCase()
           .includes("bangle") ||
         product?.productDetails?.displayTitle.toLowerCase().includes("chain") ||
-        product?.productDetails?.displayTitle.toLowerCase().includes("ring")) &&
+        product?.productDetails?.displayTitle.toLowerCase().includes("ring") ||
+        product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("rings")) &&
         !product?.productDetails?.displayTitle
           .toLowerCase()
-          .includes("earrings") && (
+          .includes("earrings")) ||
+        (!product?.productDetails?.displayTitle
+          .toLowerCase()
+          .includes("earring") && (
           <div className="border-t-2 border-[#f7f7f7] p-4">
             <h2>
               <button
@@ -562,7 +568,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </>
             ) : null}
           </div>
-        )}
+        ))}
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button

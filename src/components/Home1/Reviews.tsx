@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ArrowRight, ArrowLeft } from "@phosphor-icons/react";
 import Image from "next/image";
-import { graphqlbaseUrl } from "@/utils/constants"; // Assuming you have a base URL defined
+import { graphqlbaseUrl } from "@/utils/constants"; 
 
 interface Testimonial {
   id: string;
@@ -28,6 +28,7 @@ const GET_TESTIMONIALS = gql`
 
 const Reviews: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [activeSlide, setActiveSlide] = useState(0); 
   const sliderRef = useRef<Slider>(null);
 
   const fetchTestimonials = async () => {
@@ -75,6 +76,7 @@ const Reviews: React.FC = () => {
     nextArrow: (
       <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
     ),
+    beforeChange: (current, next) => setActiveSlide(next),
     arrows: false,
     responsive: [
       {
@@ -104,7 +106,7 @@ const Reviews: React.FC = () => {
               Hear from our <br /> customers
             </h1>
             <div className="mb-8 hidden -space-x-4 md:flex rtl:space-x-reverse">
-              {testimonials.slice(0, 3).map((testimonial, index) => (
+              {testimonials.slice(activeSlide, activeSlide + 2).map((testimonial, index) => (
                 <div
                   key={index}
                   className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
@@ -141,6 +143,7 @@ const Reviews: React.FC = () => {
                       width={50}
                       height={50}
                       className="rounded-full"
+                      unoptimized
                     />
                   )}
                    <h1 className="text-lg font-bold">{testimonial.name}</h1>

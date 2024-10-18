@@ -131,7 +131,7 @@ const GoldScheme = () => {
                     <h1 className="pb-2 text-xl font-semibold">GOLD ACCOUNT</h1>
                     <p className="pe-2 text-sm">
                       Open a WHP Gold Scheme account with an amount as low as
-                      ₹2000. Make regular installments and get discounts.
+                      ₹500. Make regular installments and get discounts.
                     </p>
                   </div>
                   <div className="flex w-full">

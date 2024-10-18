@@ -58,12 +58,12 @@ const WhatWeOffer = () => {
         <div className="flex flex-wrap lg:flex-row">
           <div className="max-sm:w-full md:w-[50%] lg:w-[50%]">
             <Image
-              src={"/images/other/whatweoffer.jpg"}
+              src={"/images/other/whatweoffer(1).png"}
               className="h-auto w-full"
               alt="What We Offer"
               width={width}
               height={height}
-            />
+            />  
           </div>
           <div className="flex w-full flex-col sm:w-[50%] sm:p-[4rem] md:mt-2 md:p-8">
             {width > 160 && (

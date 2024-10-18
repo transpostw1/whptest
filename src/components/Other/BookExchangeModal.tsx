@@ -63,7 +63,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
         variables: {
           customerQueries: [
             {
-              name: formData.name,
+              customerName: formData.name,
               email: formData.email,
               number: "+" + phone,
               message: formData.message,

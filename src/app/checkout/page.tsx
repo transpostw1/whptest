@@ -115,13 +115,8 @@ const Checkout: React.FC = () => {
   const handleCouponCode = (value: string) => {
     setFlashMessage("");
     setFlashType("");
-    if (couponCode) {
-      removeCoupon()
-    }else{
-      setCouponCode(value);
-      setVoucherCode(value);
-    }
-    setFlashType("error");
+    setCouponCode(value);
+    setVoucherCode(value);
   };
 
   useEffect(() => {
@@ -139,9 +134,6 @@ const Checkout: React.FC = () => {
   const handleCouponCheck = () => {
     if (couponCode === "") {
       return null;
-    }
-    if (dataAfterCouponCode.length > 0) {
-      return;
     }
 
     const products = cartItems.map((item) => ({
@@ -266,7 +258,7 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-
+        
         if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
@@ -285,7 +277,7 @@ const Checkout: React.FC = () => {
     setTimeout(() => {
       fetchCouponData();
     }, 1450);
-  }, [couponCode, isLoggedIn]);
+  }, [coupon, isLoggedIn]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -296,7 +288,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
-
+    
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -322,6 +314,7 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
+  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -350,7 +343,9 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
+  
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
+  
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
@@ -446,10 +441,6 @@ const Checkout: React.FC = () => {
                 productImage
                 productPrice
                 quantity
-                variants{
-             variantType 
-             variantName
-          }
               }
               failed {
                 productId
@@ -661,7 +652,7 @@ const Checkout: React.FC = () => {
     <>
       {/* <ProtectedRoute> */}
       <div className="cart-block mb-8 flex-wrap">
-        <div className="content-main flex flex-col justify-between px-5 lg:px-10">
+        <div className="content-main flex flex-col justify-between px-5 lg:px-14">
           <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">
             <div className="flex gap-3">
               {isOrderPlaced ? (

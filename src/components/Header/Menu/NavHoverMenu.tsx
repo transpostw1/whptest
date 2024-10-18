@@ -426,7 +426,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "c-pendant" },
+                      query: { url: "c-pendants" },
                     }}
                     className={`text-button-uppercase flex h-full items-center justify-center duration-300 ${
                       pathname.includes("/products") &&
@@ -440,7 +440,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("bangle")}
+                  onClick={() => setCustomcategory("bangles")}
                 >
                   <Link
                     href={{
@@ -459,7 +459,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("Bracelet")}
+                  onClick={() => setCustomcategory("Bracelets")}
                 >
                   <Link
                     href={{
@@ -478,7 +478,7 @@ const NavHoverMenu: React.FC<Props> = ({ props }) => {
                 </li>
                 <li
                   className="h-full"
-                  onClick={() => setCustomcategory("necklace")}
+                  onClick={() => setCustomcategory("necklaces")}
                 >
                   <Link
                     href={{

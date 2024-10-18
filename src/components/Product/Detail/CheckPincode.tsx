@@ -60,7 +60,7 @@ export default function CheckPincode() {
   return (
     <div className="bg-[#f7f7f7] lg:w-[65%] p-4 mt-4">
       <p className="mb-3">Enter pincode to check delivery</p>
-      <div className="flex bg-white border border-gray-400 justify-between p-2">
+      <div className="flex bg-white border border-gray-400 justify-between p-2 mb-3">
         <input
           value={pincode}
           onChange={(e) => setPincode(e.target.value)}
@@ -73,10 +73,6 @@ export default function CheckPincode() {
           Check
         </p>
       </div>
-      <ul className="mt-3">
-        <li>Same day delivery available. Extra Charge- ₹99</li>
-        <li>Free delivery in 2 days.</li>
-      </ul>
       {savedPincode && (
         <p className="font-bold">{savedPincode}</p>
       )}

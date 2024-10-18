@@ -125,7 +125,6 @@ interface ProductDetails {
   preSalesProductQueries: string | null;
   isReplaceable: number;
   isReturnable: number;
-  makeToOrder:boolean;
   isInternationalShippingAvailable: number;
   customizationAvailability: number;
   fastDelivery: number;
@@ -196,17 +195,13 @@ interface VariantOption {
   ProductId: any;
 }
 
-interface Variant {
-  VariantType: string;
-  VariantOption: VariantOption[];
-}
+
 
 export interface ProductData {
   productId: number;
   productDetails: ProductDetails;
-  variants: Variant[];
+  variants: any;
 }
-
 
 export interface ProductForWishlistLoggedIn {
   productId: number;
@@ -222,4 +217,5 @@ export interface ProductForWishlistLoggedOut {
   makeToOrder:number|boolean,
   image_path: string;
   url: string;
+  variants:any;
 }

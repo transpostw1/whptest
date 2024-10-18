@@ -11,9 +11,19 @@ import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
+
+type InputVariant = {
+  __typename: string;
+  variantType: string;
+  variantName: string;
+};
+
+type OutputVariant = {
+  variantType: string;
+  variantName: string;
+};
 const Wishlist = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
-  const {} = useWishlist();
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState<{ [key: number]: boolean }>(
     {},
@@ -67,8 +77,9 @@ const Wishlist = () => {
       return true;
     }
   });
-
   const handleAddToCart = (product: any) => {
+    console.log(product, "ADDTocartwhslistproductconsole");
+
     const isMakeToOrder =
       product.makeToOrder === 1 || product.makeToOrder === true;
     if (
@@ -78,14 +89,27 @@ const Wishlist = () => {
       showModal("Product is out of stock!");
       return;
     }
+
     const productAlreadyExists = cartItems.find(
       (item: any) => item.productId === product.productId,
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
+
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
+      const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
+        return variants?.map(({ __typename, ...rest }) => rest);
+      };
+
+      const variantss = Array.isArray(product.variants)
+        ? transformVariants(product.variants)
+        : [];
+
+      console.log("Original variants:", product.variants);
+      console.log("Transformed variants:", variantss);
+
       const newProduct: any = {
         productDetails: {
           title: product.title,
@@ -95,11 +119,18 @@ const Wishlist = () => {
           quantityleft: product.quantityleft,
           makeToOrder: product.makeToOrder,
           url: product.url,
+          productId: product.productId,
         },
         productId: product.productId,
         quantity: 1,
+        variants: variantss,
       };
-      addToCart(newProduct, 1);
+
+      console.log("New product objec", newProduct);
+      console.log("Variants in new produt", newProduct.variants);
+      const variantsToPass = variantss.length > 0 ? variantss : undefined;
+
+      addToCart(newProduct, 1, variantsToPass);
       removeFromWishlist(product.productId);
     }
   };
@@ -117,6 +148,16 @@ const Wishlist = () => {
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === product.productId,
     );
+    const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
+      return variants?.map(({ __typename, ...rest }) => rest);
+    };
+
+    const variantss = Array.isArray(product.variants)
+      ? transformVariants(product.variants)
+      : [];
+
+    console.log("Original variants:", product.variants);
+    console.log("Transformed variants:", variantss);
 
     if (!productAlreadyExists) {
       const newProduct: any = {
@@ -129,8 +170,14 @@ const Wishlist = () => {
         },
         productId: product.productId,
         quantity: 1,
+        variants: variantss,
       };
-      addToCart(newProduct, 1, true);
+
+      console.log("New product objec", newProduct);
+      console.log("Variants in new produt", newProduct.variants);
+      const variantsToPass = variantss.length > 0 ? variantss : undefined;
+  
+      addToCart(newProduct, 1,variantsToPass, true);
     }
 
     removeFromWishlist(product.productId);
@@ -253,7 +300,7 @@ const Wishlist = () => {
                       )}
                     </div>
                     <div
-                      className="product-details mt-4 "
+                      className="product-details mt-4"
                       onClick={() =>
                         router.push(
                           `/products/${product.productId}/${product.url}`,
@@ -263,6 +310,7 @@ const Wishlist = () => {
                       <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
+                      {/* <div>
                       {/* <div>
                       <h3 className="font-medium">Diamond:FG-VVS</h3>
                       <h3 className="font-medium">Size:11</h3>
@@ -287,9 +335,11 @@ const Wishlist = () => {
                               ? formatPrice(parseInt(product.discountPrice))
                               : formatPrice(parseInt(product.productPrice))}
                           </span>
-                          <span className="original-price text-[#beb3b3] line-through">
-                            {formatPrice(parseInt(product.productPrice))}
-                          </span>
+                          {product.discountPrice && (
+                            <span className="original-price text-[#beb3b3] line-through">
+                              {formatPrice(parseInt(product.productPrice))}
+                            </span>
+                          )}
                         </p>
                       </div>
                     </div>

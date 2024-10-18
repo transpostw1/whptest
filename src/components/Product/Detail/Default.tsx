@@ -20,8 +20,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 import Buttons from "./Buttons";
+import Coupons from "./Coupons";
 import Skeleton from "react-loading-skeleton";
-import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
@@ -51,6 +51,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   const [size, setSize] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipText, setTooltipText] = useState("Copy");
+  const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(data?.productDetails?.SKU);
@@ -60,11 +61,12 @@ const Default: React.FC<Props> = ({ productId }) => {
   const handleSelectSize = (s: any) => {
     setSize(s);
   };
+  const handleSelectedVariants = (value: any) => {
+    setSelectedVariants(value);
+  };
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
-  // const { recentlyViewedProducts, saveToRecentlyViewed } =
-  //   useRecentlyViewedProducts();
 
   const settingsMain = {
     dots: false,
@@ -166,6 +168,21 @@ const Default: React.FC<Props> = ({ productId }) => {
           diamondDetails
           review
           variants
+          bestSeller
+          buyAgain
+          coupons {
+            id
+            name
+            code
+            discountOn
+            discountType
+            discountValue
+            discountMinAmount
+            discountMaxAmount
+            discountStartDate
+            discountEndDate
+            isExclusive
+          }
         }
       }
     `;
@@ -191,9 +208,6 @@ const Default: React.FC<Props> = ({ productId }) => {
     setData(product);
     setLoading(false);
   }
-  const handleOptionSelected = (option: any) => {
-    console.log("Option selected:", option);
-  };
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
@@ -377,23 +391,6 @@ const Default: React.FC<Props> = ({ productId }) => {
     asNavFor: nav1,
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     saveToRecentlyViewed(data);
-  //   }
-  // }, [data, saveToRecentlyViewed]);
-
-  const formattedDiscountedPrice = Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(
-    Math.round(parseFloat((data && data?.productDetails?.discountPrice) ?? 0)),
-  );
-
-  const formattedOriginalPrice = Intl.NumberFormat("en-IN", {
-    minimumFractionDigits: 2,
-  }).format(
-    Math.round(parseFloat((data && data?.productDetails?.productPrice) ?? 0)),
-  );
   const handleShareClick = () => {
     if (navigator.share) {
       navigator
@@ -428,7 +425,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   return (
     <>
       <StickyNavProductPage />
-      <CtaButtonsMobile product={data} />
+      <CtaButtonsMobile product={data} variants={selectedVariants} />
       <div className="lg:flex">
         <div className="sm:w-full lg:w-1/2">
           {loading ? (
@@ -636,10 +633,10 @@ const Default: React.FC<Props> = ({ productId }) => {
                   <Icon.CopySimple
                     size={17}
                     onClick={handleCopy}
-                    className="cursor-pointer ml-1 text-sm text-[#e26178] underline"
+                    className="ml-1 cursor-pointer text-sm text-[#e26178] underline"
                   />
                   {showTooltip && (
-                    <div className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform rounded bg-white px-2 py-1 text-xs text-black font-semibold shadow-md">
+                    <div className="absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform rounded bg-white px-2 py-1 text-xs font-semibold text-black shadow-md">
                       {tooltipText}
                     </div>
                   )}
@@ -659,7 +656,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
-              handleSelectSize={handleSelectSize}
+              handleSelectSize={handleSelectedVariants}
             />
           )}
           {data?.productDetails?.productQty !== null &&
@@ -696,11 +693,12 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
+          <Coupons product={data}/>
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
             ) : (
-              <Buttons product={data} size={size} />
+              <Buttons product={data} variants={selectedVariants} />
             )}
           </div>
           {data?.productDetails?.tryAtHome === 1 && (

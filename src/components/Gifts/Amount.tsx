@@ -1,34 +1,56 @@
 import React, { useEffect, useState, ChangeEvent, FC } from "react";
 import { useCurrency } from "@/context/CurrencyContext";
+
 interface AmountProps {
   onAmountChange: (amount: number) => void;
 }
 
 const Amount: FC<AmountProps> = ({ onAmountChange }) => {
-  const [amount, setAmount] = useState<any>("");
-  const [value, setValue] = useState<any>(0);
+  const [amount, setAmount] = useState<string>(""); // Store formatted amount
+  const [rawAmount, setRawAmount] = useState<number>(0); // Store raw number without commas
   const { formatPrice, currency } = useCurrency();
+
+  // Helper function to format numbers with commas
+  const formatWithCommas = (value: string | number): string => {
+    return Number(value).toLocaleString("en-IN");
+  };
+
+  // Remove commas before converting back to number
+  const parseRawAmount = (value: string): number => {
+    return Number(value.replace(/,/g, ""));
+  };
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setAmount(value);
-    onAmountChange(parseInt(value, 10));
+
+    // Format input value with commas
+    const formattedValue = formatWithCommas(value.replace(/,/g, ""));
+    setAmount(formattedValue);
+
+    // Update raw amount without commas
+    const rawValue = parseRawAmount(value);
+    setRawAmount(rawValue);
+    onAmountChange(rawValue);
   };
+
   useEffect(() => {
-    handleButtonClick(value);
+    handleButtonClick(rawAmount); // Apply exchange rate when currency changes
   }, [currency]);
+
   const handleButtonClick = (value: number) => {
-    if (currency == "USD") {
-      setAmount(value * 0.012);
-      onAmountChange(value * 0.012);
-    } else if (currency == "EUR") {
-      setAmount(value * 0.011);
-      onAmountChange(value * 0.011);
-    } else {
-      setAmount(value);
-      onAmountChange(value);
+    let convertedValue = value;
+    if (currency === "USD") {
+      convertedValue = value * 0.012;
+    } else if (currency === "EUR") {
+      convertedValue = value * 0.011;
     }
+
+    // Format the converted value with commas
+    setAmount(formatWithCommas(convertedValue));
+    setRawAmount(convertedValue);
+    onAmountChange(convertedValue);
   };
+
   return (
     <div className="flex flex-col items-center justify-evenly space-y-4 p-4 py-6 md:flex-row md:space-x-4 md:space-y-0">
       <div className="flex flex-col items-center">
@@ -40,11 +62,11 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
         </label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-700">
-            {currency == "INR" ? "₹" : currency == "USD" ? "$" : "€"}
+            {currency === "INR" ? "₹" : currency === "USD" ? "$" : "€"}
           </span>
           <input
             id="amount"
-            type="number"
+            type="text" // Change input type to text to allow formatting
             value={amount}
             onChange={handleAmountChange}
             className="w-48 rounded-lg border border-black py-2 pl-8 pr-4 md:w-64"
@@ -63,10 +85,7 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
           {[1000, 2000, 5000, 10000].map((value) => (
             <button
               key={value}
-              onClick={() => {
-                handleButtonClick(value);
-                setValue(value);
-              }}
+              onClick={() => handleButtonClick(value)}
               className="rounded-lg bg-[#e26178] px-4 py-2 text-white hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
               {formatPrice(value)}

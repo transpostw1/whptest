@@ -17,7 +17,7 @@ interface WishlistItem {
   discountPrice: string;
   discountValue: string;
   quantityleft:number;
-  variants:Array;
+  variants:any;
   makeToOrder:number;
   image_path: string;
   imageDetails: any;
@@ -117,6 +117,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               variables: {
                 wishlist: productWishlistIds,
               },
+              
               context: {
                 headers: getAuthHeaders(),
               },
@@ -197,7 +198,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               wishlist: [
                 {
                   productId: product.productId,
-                },
+                  variants: product.variants,
+                }
               ],
             },
             context: {
@@ -250,6 +252,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   makeToOrder:product.makeToOrder,
                   image_path: normalizeImagePath(product.image_path),
                   url: product.url,
+                  variants:product.variants,
                 },
               ];
               localStorage.setItem(
@@ -360,6 +363,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productId
             productAmount
             quantity
+            variants{
+             variantType 
+             variantName
+          }
             makeToOrder
             url
             SKU
@@ -375,10 +382,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productPrice
             discountPrice
             mediaId
-            variants{
-             variantType 
-             variantName
-          }
             imageDetails {
               image_path
               order

@@ -19,7 +19,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <BlogProvider>
       <CurrencyProvider>
-       
           <ProductProvider>
             <UserProvider>
             <CouponCodeProvider>
@@ -43,7 +42,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
               </CouponCodeProvider>
             </UserProvider>
           </ProductProvider>
-        
       </CurrencyProvider>
     </BlogProvider>
   );

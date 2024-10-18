@@ -25,10 +25,13 @@ interface ProductForWishlistLoggedOut {
   productPrice: string;
   discountPrice: string;
   discountValue: string;
+  quantityleft: number;
+  makeToOrder: number | boolean;
   image_path: string;
   url: string;
+  variants:[];
 }
-const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
+const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -37,6 +40,8 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
   const { isLoggedIn } = useUser();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("Out Of Stock");
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 500px)");
     const handleChange = (e: any) => {
@@ -71,12 +76,42 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
     fetchWishlist();
   }, []);
 
+  const formattedVariants = [
+    {
+      variantType: variants[2],  
+      variantName: variants[1],  
+    },
+    {
+      variantType: "Size",      
+      variantName: variants[0],  
+    }
+  ];
+  console.log("formattedVariants", formattedVariants);
+
+  const isOutOfStock = (
+    productQty: number | null | undefined,
+    makeToOrder: boolean | undefined,
+  ) => {
+    if (makeToOrder) {
+      return false;
+    }
+    return productQty === 0 || productQty === null;
+  };
+
+  
   const handleAddToCart = (productItem: ProductData) => {
+    const { productQty, makeToOrder } = productItem.productDetails?.productQty;
+    if (isOutOfStock(productQty, makeToOrder)) {
+      setModalMessage("This product is out of stock.");
+      setShowModal(true);
+      return;
+    }
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
+
     if (productAlreadyExists) {
       updateCartQuantity(
         productItem.productDetails?.productId,
@@ -90,6 +125,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
           productId: productItem.productDetails.productId,
         },
         1,
+        formattedVariants
       );
     }
   };
@@ -98,6 +134,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productDetails.productId,
+        variants: formattedVariants, 
       };
       addToWishlist(productToAdd);
       setIsProductInWishlist(true);
@@ -108,13 +145,14 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
         productPrice: product.productDetails.productPrice,
         discountPrice: product.productDetails.discountPrice,
         discountValue: product.productDetails.discountValue,
+        quantityleft: product.productDetails.productQty,
+        makeToOrder: product.productDetails.makeToOrder,
         image_path: product.productDetails.imageDetails[0].image_path,
-
         url: product.productDetails.url,
+        variants: formattedVariants,
       };
-
-      addToWishlist(productToAdd);
       setIsProductInWishlist(true);
+      addToWishlist(productToAdd);
     }
   };
 
@@ -124,17 +162,34 @@ const CtaButtonsMobile: React.FC<Props> = ({ product }) => {
   };
 
   const handleBuyNow = () => {
-    addToCart(
-      {
-        productDetails: {
-          ...product.productDetails,
-        },
-        productId: product.productDetails.productId,
-      },
-      1,
+    const { productQty, makeToOrder } = product.productDetails?.productQty;
+
+    if (isOutOfStock(productQty, makeToOrder)) {
+      setModalMessage("This product is out of stock.");
+      setShowModal(true);
+      return;
+    }
+
+    const productAlreadyExists = cartItems.find(
+      (item) => item.productId === product.productDetails.productId,
     );
-    router.push(`/checkout?buyNow=${product.productDetails?.productId}`);
+
+    if (!productAlreadyExists) {
+      addToCart(
+        {
+          productDetails: {
+            ...product.productDetails,
+          },
+          productId: product.productDetails.productId,
+        },
+        1,
+        formattedVariants
+      );
+    }
+
+    router.push(`/checkout?buyNow=${product.productDetails.productId}`);
   };
+
 
   if (!isMobile) {
     return null;

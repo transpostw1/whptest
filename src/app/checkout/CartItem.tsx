@@ -10,6 +10,18 @@ import Skeleton from "react-loading-skeleton";
 import Loader from "../blog/loading";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useRouter } from "next/navigation";
+
+type InputVariant = {
+  __typename: string;
+  variantType: string;
+  variantName: string;
+};
+
+type OutputVariant = {
+  variantType: string;
+  variantName: string;
+};
+
 interface CartItemProps {
   product: {
     productId: number;
@@ -18,11 +30,12 @@ interface CartItemProps {
     discountPrice: any | string;
     discountValue: string;
     quantityleft: number;
-    makeToOrder:number | boolean;
+    makeToOrder: number | boolean;
     name: string;
     price: number;
     image: string;
     url: string;
+    variants:any;
   };
   handleQuantityChange: (productId: number, newQuantity: number) => void;
   removeFromCart: (productId: number, quantity: number) => void;
@@ -30,6 +43,7 @@ interface CartItemProps {
 
 interface ProductForWishlistLoggedIn {
   productId: number;
+  variants:any;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
@@ -43,12 +57,26 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { formatPrice } = useCurrency();
   const router = useRouter();
 
+
+  const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
+    return variants?.map(({ __typename, ...rest }) => rest);
+  };
+
+  const variants = transformVariants(product.variants)
+
   useEffect(() => {
     if (product) {
-      console.log(product,"huuuuuuuuu")
-      const isMakeToOrder = product.makeToOrder === 1 || product.makeToOrder === true;
-      if ((product.quantityleft === 0 || product.quantityleft === null) && !isMakeToOrder) {
-        console.log("Out of stock - Make to order status:", product.makeToOrder);
+      console.log(product, "huuuuuuuuu");
+      const isMakeToOrder =
+        product.makeToOrder === 1 || product.makeToOrder === true;
+      if (
+        (product.quantityleft === 0 || product.quantityleft === null) &&
+        !isMakeToOrder
+      ) {
+        console.log(
+          "Out of stock - Make to order status:",
+          product.makeToOrder,
+        );
         setShowOutOfStockModal(true);
       } else {
         setLoading(false);
@@ -70,9 +98,10 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
-        makeToOrder:product.makeToOrder,
+        makeToOrder: product.makeToOrder,
         image_path: product.image,
         url: product.url,
+        variants:product.variants,
       };
       addToWishlist(productToAdd);
     }
@@ -100,7 +129,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
+        variants:variants,
       };
+      console.log(productToAdd,"CARTITEM PRODUCT TO ADD")
       addToWishlist(productToAdd);
     } else {
       const productToAdd: ProductForWishlistLoggedOut = {
@@ -109,10 +140,11 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productPrice: product.productPrice,
         discountPrice: product.price,
         discountValue: product.discountValue,
-        quantityleft:product.quantityleft,
-        makeToOrder:product.makeToOrder,
+        quantityleft: product.quantityleft,
+        makeToOrder: product.makeToOrder,
         image_path: product.image,
         url: product.url,
+        variants:product.variants,
       };
       addToWishlist(productToAdd);
     }
@@ -153,7 +185,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="justify-between p-4 border-b flex md:flex-row w-full items-center mb-4">
+        <div className="mb-4 flex w-full items-center justify-between border-b p-4 md:flex-row">
           <Image
             src={product?.image}
             width={100}
@@ -165,7 +197,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               handleProductDetailsLink(product.productId, product.url)
             }
           />
-          <div className="flex flex-col md:flex-row w-full  lg:w-2/3 ">
+          <div className="flex w-full flex-col md:flex-row lg:w-2/3">
             <div className="py-4">
               <div
                 className="text-title cursor-pointer"
@@ -175,6 +207,21 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               >
                 {product.name}
               </div>
+              {/* <div> */}
+              {product.variants && product.variants.length > 0 && (
+                <div>
+                  {product.variants.map(
+                    (variant:any, index:number) =>
+                      variant.variantType &&
+                      variant.variantName && (
+                        <h3 key={index} className="text-sm font-normal">
+                          {variant.variantType}: {variant.variantName}
+                        </h3>
+                      ),
+                  )}
+                </div>
+              )}
+              {/* </div> */}
               <div className="flex">
                 <div
                   className="cursor-pointer text-sm text-red-600 duration-500 hover:text-black max-md:text-base"
@@ -185,7 +232,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               </div>
             </div>
           </div>
-          <div className="w-full lg:w-1/6 flex flex-col items-center justify-between">
+          <div className="flex w-full flex-col items-center justify-between lg:w-1/6">
             <div className="text-title text-center"> {formatPrice(price)} </div>
             <div className="text-[#beb3b3] line-through">
               {formatPrice(productPrice)}

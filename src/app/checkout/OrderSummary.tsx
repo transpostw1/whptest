@@ -94,7 +94,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <h3>Shipping Charges</h3>
             <h3> {formatPrice(0)}</h3>
           </div>
-          <div className="flex justify-between font-bold">
+          <div className="flex justify-between font-bold border-t-rose-400 border-t-2 p-1 px-0">
             <h3 className="text-gray-800">Total Price</h3>
             {wallet === "whp_Wallet" &&
             userDetails?.wallet_amount < totalPrice ? (

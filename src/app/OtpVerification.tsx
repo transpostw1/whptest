@@ -230,9 +230,9 @@ const OtpVerification = ({
   return (
     <div className="otpVerification">
       {isOtpSent ? (
-        <div className="rounded-lg bg-gray-100 p-4 shadow-md">
+        <div className="rounded-lg bg-white p-4 shadow-md">
           <h1 className="mb-4 text-center text-xl font-normal text-[#E26178]">
-            Enter Verification Code
+            Verification Code
           </h1>
           <div
             className="mb-6 flex items-center justify-center"

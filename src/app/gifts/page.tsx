@@ -6,10 +6,8 @@ import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
 import Delivery from "@/components/Gifts/Delivery";
 import Preview from "@/components/Gifts/Preview";
-import Stepper from "./Stepper";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { baseUrl, voucher, graphqlbaseUrl } from "@/utils/constants";
-import axios from "axios";
 import { useCurrency } from "@/context/CurrencyContext";
 
 const steps = [
@@ -115,36 +113,35 @@ const Gifts = () => {
   };
 
   const handleNext = () => {
-    if (!isStepValid()) {
-      setError("Please fill in all the details correctly.");
-    } else if (currentStep === 0 && !isOccasionSelected) {
+    if (currentStep === 0 && !isOccasionSelected) {
       setError("Please select an occasion.");
     } else if (currentStep === 1 && !isTemplateSelected) {
-      setError("Please select an Template.");
+      setError("Please select a template.");
+    } else if (currentStep === 2 && (formData.amount <= 0 || !isAmountSelected)) {
+      setError("Please enter a valid amount.");
+    } else if (currentStep === 3 && !isStepValid()) {
+      setError("Please fill in all the details correctly.");
     } else {
       setError("");
       setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
     }
   };
-
   const handlePrevious = () => {
     setError("");
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
   const handleStepClick = (index: number) => {
-    if (!isStepValid()) {
-      setError("Please fill in all the details correctly.");
-    } else if (currentStep === 0 && !isOccasionSelected) {
+    if (currentStep === 0 && !isOccasionSelected) {
       setError("Please select an occasion.");
-    } else if (currentStep === 0 && !isTemplateSelected) {
-      setError("Please select a Template.");
-      setCurrentStep(1);
     } else if (currentStep === 1 && !isTemplateSelected) {
-      setError("Please select an Template.");
-    }else if (currentStep <= 3 &&! isAmountSelected) {
-      setError("Please Enter Amount.");
-      setCurrentStep(2)
+      setError("Please select a template.");
+    } else if (currentStep === 2 && (formData.amount <= 0 || !isAmountSelected)) {
+      setError("Please enter a valid amount.");
+    } else if (currentStep === 3 && !isStepValid()) {
+      setError("Please fill in all the details correctly.");
+    } else if (index > currentStep + 1) {
+      setError("Please complete the current step first.");
     } else {
       setError("");
       setCurrentStep(index);
@@ -185,7 +182,7 @@ const Gifts = () => {
   };
 
   const handleAmountChange = (amount: number) => {
-    setIsAmountSelected(true)
+    setIsAmountSelected(true);
     setFormData((prevData) => ({ ...prevData, amount }));
   };
 
@@ -201,7 +198,7 @@ const Gifts = () => {
           For what your loved ones Love!
         </h3>
       </div>
-      <div className="flex lg:mx-32">
+      <div className="flex lg:mx-48">
         <div className="hidden p-4 lg:block">
           <div className="h-full w-0.5 bg-red-500"></div>
         </div>
@@ -227,7 +224,7 @@ const Gifts = () => {
             <div className="flex gap-2">
               {currentStep > 0 && (
                 <button
-                  className="bg-gray-500 px-2 py-2 text-white md:px-4"
+                  className="bg-[#e8798b] px-2 py-2 text-white md:px-4"
                   onClick={handlePrevious}
                 >
                   PREVIOUS
@@ -235,7 +232,7 @@ const Gifts = () => {
               )}
               {currentStep < steps.length - 1 ? (
                 <button
-                  className="bg-blue-950 px-2 py-2 text-white md:px-4"
+                  className="bg-[#e26178] px-2 py-2 text-white md:px-4"
                   onClick={handleNext}
                 >
                   NEXT

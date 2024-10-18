@@ -115,8 +115,13 @@ const Checkout: React.FC = () => {
   const handleCouponCode = (value: string) => {
     setFlashMessage("");
     setFlashType("");
-    setCouponCode(value);
-    setVoucherCode(value);
+    if (couponCode) {
+      removeCoupon()
+    }else{
+      setCouponCode(value);
+      setVoucherCode(value);
+    }
+    setFlashType("error");
   };
 
   useEffect(() => {
@@ -134,6 +139,9 @@ const Checkout: React.FC = () => {
   const handleCouponCheck = () => {
     if (couponCode === "") {
       return null;
+    }
+    if (dataAfterCouponCode.length > 0) {
+      return;
     }
 
     const products = cartItems.map((item) => ({
@@ -258,7 +266,7 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-        
+
         if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
@@ -277,7 +285,7 @@ const Checkout: React.FC = () => {
     setTimeout(() => {
       fetchCouponData();
     }, 1450);
-  }, [coupon, isLoggedIn]);
+  }, [couponCode, isLoggedIn]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -288,7 +296,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
-    
+
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -314,7 +322,6 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -343,9 +350,7 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
-  
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
@@ -397,7 +402,7 @@ const Checkout: React.FC = () => {
   let discountDifference: any =
     parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
 
-  const handleOrderComplete = async (items: any, items2: any) => {
+  const handleOrderComplete = async () => {
     try {
       const cookieToken =
         typeof window !== "undefined"
@@ -441,6 +446,10 @@ const Checkout: React.FC = () => {
                 productImage
                 productPrice
                 quantity
+                variants{
+             variantType 
+             variantName
+          }
               }
               failed {
                 productId
@@ -652,7 +661,7 @@ const Checkout: React.FC = () => {
     <>
       {/* <ProtectedRoute> */}
       <div className="cart-block mb-8 flex-wrap">
-        <div className="content-main flex flex-col justify-between px-5 lg:px-14">
+        <div className="content-main flex flex-col justify-between px-5 lg:px-10">
           <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">
             <div className="flex gap-3">
               {isOrderPlaced ? (
@@ -674,7 +683,7 @@ const Checkout: React.FC = () => {
                 <div className="mt-2 flex w-full items-center justify-evenly p-2 sm:mr-1 lg:mr-3">
                   {steps.map((step, index) => (
                     <div
-                      className=" flex items-center gap-1"
+                      className="flex items-center gap-1"
                       key={index}
                       onClick={() =>
                         handleStepClick(index, useSameAsBillingAddress)
@@ -732,9 +741,7 @@ const Checkout: React.FC = () => {
                   selectedPaymentMethod={selectedPaymentMethod}
                   handlePaymentMethodChange={handlePaymentMethodChange}
                   totalCart={totalCart}
-                  onOrderComplete={(setCartItems) =>
-                    handleOrderComplete(setCartItems, removeFromCart)
-                  }
+                  onOrderComplete={handleOrderComplete}
                   component={selectedComponent}
                   wallet={whpWallet}
                   selectedShippingAddress={selectedShippingAddress}
@@ -748,7 +755,7 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-5/6">
+            <div className="mt-5 w-full lg:w-3/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-[#E26178]">Coupons</h1>
@@ -814,91 +821,80 @@ const Checkout: React.FC = () => {
                       </>
                     </div>
                     <div className="relative w-full pt-2">
-                      {isLoggedIn ? (
-                        <Swiper
-                          spaceBetween={2}
-                          slidesPerView="auto"
-                          modules={[Navigation]}
-                          navigation={{
-                            prevEl: ".swiper-button-prev",
-                            nextEl: ".swiper-button-next",
-                          }}
-                          className="py-4"
-                        >
-                          {coupons.map((coupon, index) => (
-                            <SwiperSlide
-                              key={index}
-                              className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
-                            >
-                              <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-2">
-                                    <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
-                                      {coupon.discountType === "Amount"
-                                        ? `₹${coupon.discountValue}`
-                                        : `${coupon.discountValue}%`}{" "}
-                                      OFF
-                                    </div>
-                                    {coupon.isExclusive === true && (
-                                      <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-xs text-white">
-                                        Only for you
-                                      </div>
-                                    )}
+                      <Swiper
+                        spaceBetween={2}
+                        slidesPerView="auto"
+                        modules={[Navigation]}
+                        navigation={{
+                          prevEl: ".swiper-button-prev",
+                          nextEl: ".swiper-button-next",
+                        }}
+                        className="py-4"
+                      >
+                        {coupons.map((coupon, index) => (
+                          <SwiperSlide
+                            key={index}
+                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
+                          >
+                            <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
+                                    {coupon.discountType === "Amount"
+                                      ? `₹${coupon.discountValue}`
+                                      : `${coupon.discountValue}%`}{" "}
+                                    OFF
                                   </div>
-                                  {voucherCode &&
-                                  dataAfterCouponCode.code === 200 &&
-                                  couponCode === coupon.code ? (
-                                    <span className="text-sm font-medium text-red-600">
-                                      Applied
-                                    </span>
-                                  ) : (
-                                    <button
-                                      className="text-sm font-medium text-red-600 hover:text-red-700"
-                                      onClick={() => {
-                                        handleCouponCode(coupon.code);
-                                      }}
-                                    >
-                                      Apply
-                                    </button>
+                                  {coupon.isExclusive === true && (
+                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-white">
+                                      Only for you
+                                    </div>
                                   )}
                                 </div>
-                                <p className="mt-2 text-sm text-gray-600">
-                                  Get{" "}
-                                  {coupon.discountType === "Amount"
-                                    ? "flat "
-                                    : ""}
-                                  {coupon.discountType === "Amount"
-                                    ? `₹${coupon.discountValue}`
-                                    : `${coupon.discountValue}%`}{" "}
-                                  off on minimum purchase of ₹
-                                  {coupon.discountMinAmount}
-                                </p>
-                                <div className="mt-2 flex items-center justify-between">
-                                  <span className="text-xs text-gray-500">
-                                    Code: {coupon.code}
+                                {voucherCode &&
+                                dataAfterCouponCode.code === 200 &&
+                                couponCode === coupon.code ? (
+                                  <span className="text-sm font-medium text-red-600">
+                                    Applied
                                   </span>
-                                  <span className="text-xs text-gray-500">
-                                    Valid till{" "}
-                                    {new Date(
-                                      coupon.discountEndDate,
-                                    ).toLocaleDateString()}
-                                  </span>
-                                </div>
+                                ) : (
+                                  <button
+                                    className="text-sm font-medium text-red-600 hover:text-red-700"
+                                    onClick={() => {
+                                      handleCouponCode(coupon.code);
+                                    }}
+                                  >
+                                    Apply
+                                  </button>
+                                )}
                               </div>
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
-                      ) : (
-                        <div className="py-4 text-center text-gray-600">
-                          <span className="text-[#E26178]">
-                            <Link href={"/login"}>
-                            Login
-                            </Link>
-                            </span> to unlock coupons
-                        </div>
-                      )}
+                              <p className="mt-2 text-sm text-gray-600">
+                                Get{" "}
+                                {coupon.discountType === "Amount"
+                                  ? "flat "
+                                  : ""}
+                                {coupon.discountType === "Amount"
+                                  ? `₹${coupon.discountValue}`
+                                  : `${coupon.discountValue}%`}{" "}
+                                off on minimum purchase of ₹
+                                {coupon.discountMinAmount}
+                              </p>
+                              <div className="mt-2 flex items-center justify-between">
+                                <span className="text-xs text-gray-500">
+                                  Code: {coupon.code}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  Valid till{" "}
+                                  {new Date(
+                                    coupon.discountEndDate,
+                                  ).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
                     </div>
-
                     {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
                         <p>

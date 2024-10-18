@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
-import { ProductData, ProductType } from "@/type/ProductType";
+import { ProductData, ProductType  } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import Skeleton from "react-loading-skeleton";
@@ -12,11 +12,12 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   product: ProductType | ProductDetails;
-  size: any;
+  variants: [];
 }
 
 interface ProductForWishlistLoggedIn {
   productId: number;
+  variants:[],
 }
 
 interface ProductForWishlistLoggedOut {
@@ -29,8 +30,9 @@ interface ProductForWishlistLoggedOut {
   makeToOrder: number | boolean;
   image_path: string;
   url: string;
+  variants:[];
 }
-const Buttons: React.FC<Props> = ({ product, size }) => {
+const Buttons: React.FC<Props> = ({ product, variants }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
   const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
     useWishlist();
@@ -41,9 +43,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
-  useEffect(() => {
-    console.log("Selected Size", size);
-  }, [size]);
+ 
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -62,7 +62,26 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
 
     fetchWishlist();
   }, []);
+  console.log("Variants", variants);
+  // const formattedVariants = (variantValues: string[]): Array<{ variantType: string; variantName: string }> => {
+  //   return variants.map(value => ({
+  //     variantType: value,
+  //     variantName: value
+  //   }));
+  // }
 
+
+  const formattedVariants = [
+    {
+      variantType: variants[2],  
+      variantName: variants[1],  
+    },
+    {
+      variantType: "Size",      
+      variantName: variants[0],  
+    }
+  ];
+  console.log("formattedVariants", formattedVariants);
   // const isOutOfStock = (productQty: number | null | undefined) => {
   //   return productQty === 0 || productQty === null;
   // };
@@ -83,7 +102,6 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
       setShowModal(true);
       return;
     }
-
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -103,6 +121,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
           productId: productItem.productDetails.productId,
         },
         1,
+        formattedVariants
       );
     }
   };
@@ -111,6 +130,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productDetails.productId,
+        variants: formattedVariants, 
       };
       addToWishlist(productToAdd);
       setIsProductInWishlist(true);
@@ -125,6 +145,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
         makeToOrder: product.productDetails.makeToOrder,
         image_path: product.productDetails.imageDetails[0].image_path,
         url: product.productDetails.url,
+        variants: formattedVariants,
       };
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
@@ -158,6 +179,7 @@ const Buttons: React.FC<Props> = ({ product, size }) => {
           productId: product.productDetails.productId,
         },
         1,
+        formattedVariants
       );
     }
 

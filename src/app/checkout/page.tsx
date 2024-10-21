@@ -320,6 +320,7 @@ const Checkout: React.FC = () => {
       (item: any) =>
         item?.productId ||
         item?.quantity ||
+        item?.variants||
         item?.productDetails?.title ||
         item?.productDetails?.quantity ||
         item?.productDetails?.discountPrice ||
@@ -330,6 +331,7 @@ const Checkout: React.FC = () => {
     .map((item: any) => ({
       productId: item?.productId,
       quantity: item?.quantity,
+      variants:item?.variants,
       name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,

@@ -35,6 +35,10 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const { userDetails } = useUser();
   const router = useRouter();
 
+  const formatWithCommas = (value) => {
+    return Number(value).toLocaleString("en-IN");
+  };
+
   const handleEnrollSuccess = useCallback(
     (enrollmentId: number, schemeType: string, amount: number) => {
       // console.log(
@@ -121,7 +125,6 @@ const GoldCard: React.FC<GoldCardProps> = ({
     const value = event.target.value;
     setInputValue(value);
     const rawValue: any = event.target.value.replace(/,/g, "");
-
     if (parseInt(rawValue) >= 500 && parseInt(rawValue) <= 50000) {
       setMonthlyDeposit(new Intl.NumberFormat().format(rawValue));
     }

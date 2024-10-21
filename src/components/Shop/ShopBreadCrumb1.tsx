@@ -1,8 +1,8 @@
 "use Client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 import "rc-slider/assets/index.css";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
@@ -10,7 +10,7 @@ import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
-import BreadCrumb from "@/components/Shop/BreadCrumb"
+import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
@@ -58,8 +58,8 @@ const ShopBreadCrumb1 = () => {
       combinedOptions.gender.length > 0 ||
       combinedOptions.karat.length > 0 ||
       combinedOptions.metal.length > 0 ||
-      combinedOptions.occasion.length > 0||
-      combinedOptions.productCategory.length>0
+      combinedOptions.occasion.length > 0 ||
+      combinedOptions.productCategory.length > 0
     ) {
       try {
         setIsLoading(false);
@@ -240,6 +240,7 @@ const ShopBreadCrumb1 = () => {
 
         if (data && data.products) {
           setFilteredProducts(data.products);
+          setSelectedSortOption("All");
           setPageNumber(0);
           setIsLoading(false);
         } else {
@@ -319,7 +320,7 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.productCategory || []),
       ...(selectedOptions.productCategory || []),
     ];
-      console.log(combinedOptions, "COMBINEDDDDD");
+    console.log(combinedOptions, "COMBINEDDDDD");
     return combinedOptions;
   };
 
@@ -440,6 +441,7 @@ const ShopBreadCrumb1 = () => {
       }
       console.log(filtered, "FILTEREDDDD");
       setFilteredProducts(filtered);
+      setSelectedSortOption("All");
       setPageNumber(0);
     };
     applyFilters();
@@ -622,6 +624,8 @@ const ShopBreadCrumb1 = () => {
     fetchSkusList();
   }, []);
 
+
+
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -646,7 +650,7 @@ const ShopBreadCrumb1 = () => {
               <div className="sm:w-[100%] lg:w-[70%]">
                 {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                  {/* <BreadCrumb/> */}
+                <BreadCrumb/>
                 <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                   {Object.entries(selectedOptions).flatMap(
                     ([category, options]) =>
@@ -671,6 +675,7 @@ const ShopBreadCrumb1 = () => {
               <div className="relative hidden lg:block">
                 <label className="font-semibold">Sort By: </label>
                 <select
+                  value={selectedSortOption}
                   onChange={(e) => handleSortOptionChange(e.target.value)}
                   className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
                 >

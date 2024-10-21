@@ -35,7 +35,7 @@ interface CartItemProps {
     price: number;
     image: string;
     url: string;
-    variants:any;
+    variants: any;
   };
   handleQuantityChange: (productId: number, newQuantity: number) => void;
   removeFromCart: (productId: number, quantity: number) => void;
@@ -43,7 +43,7 @@ interface CartItemProps {
 
 interface ProductForWishlistLoggedIn {
   productId: number;
-  variants:any;
+  variants: any;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
@@ -57,12 +57,11 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const { formatPrice } = useCurrency();
   const router = useRouter();
 
-
   const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
     return variants?.map(({ __typename, ...rest }) => rest);
   };
 
-  const variants = transformVariants(product.variants)
+  const variants = transformVariants(product.variants);
 
   useEffect(() => {
     if (product) {
@@ -101,7 +100,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         makeToOrder: product.makeToOrder,
         image_path: product.image,
         url: product.url,
-        variants:product.variants,
+        variants: product.variants,
       };
       addToWishlist(productToAdd);
     }
@@ -129,9 +128,9 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productId,
-        variants:variants,
+        variants: variants,
       };
-      console.log(productToAdd,"CARTITEM PRODUCT TO ADD")
+      console.log(productToAdd, "CARTITEM PRODUCT TO ADD");
       addToWishlist(productToAdd);
     } else {
       const productToAdd: ProductForWishlistLoggedOut = {
@@ -144,7 +143,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         makeToOrder: product.makeToOrder,
         image_path: product.image,
         url: product.url,
-        variants:product.variants,
+        variants: product.variants,
       };
       addToWishlist(productToAdd);
     }
@@ -211,7 +210,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               {product.variants && product.variants.length > 0 && (
                 <div>
                   {product.variants.map(
-                    (variant:any, index:number) =>
+                    (variant: any, index: number) =>
                       variant.variantType &&
                       variant.variantName && (
                         <h3 key={index} className="text-sm font-normal">
@@ -234,9 +233,11 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
           <div className="flex w-full flex-col items-center justify-between lg:w-1/6">
             <div className="text-title text-center"> {formatPrice(price)} </div>
-            <div className="text-[#beb3b3] line-through">
-              {formatPrice(productPrice)}
-            </div>
+            {productPrice !== price && (
+              <div className="text-[#beb3b3] line-through">
+                {formatPrice(productPrice)}
+              </div>
+            )}
             <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
               <Icon.Minus
                 size={28}

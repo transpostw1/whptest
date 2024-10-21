@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 import Occasion from "@/components/Gifts/Occasion";
 import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
@@ -21,6 +22,7 @@ const steps = [
 const Gifts = () => {
   const router = useRouter();
   const { currency } = useCurrency();
+  const { isLoggedIn } = useUser();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     recipientName: "",
@@ -117,7 +119,10 @@ const Gifts = () => {
       setError("Please select an occasion.");
     } else if (currentStep === 1 && !isTemplateSelected) {
       setError("Please select a template.");
-    } else if (currentStep === 2 && (formData.amount <= 0 || !isAmountSelected)) {
+    } else if (
+      currentStep === 2 &&
+      (formData.amount <= 0 || !isAmountSelected)
+    ) {
       setError("Please enter a valid amount.");
     } else if (currentStep === 3 && !isStepValid()) {
       setError("Please fill in all the details correctly.");
@@ -136,7 +141,10 @@ const Gifts = () => {
       setError("Please select an occasion.");
     } else if (currentStep === 1 && !isTemplateSelected) {
       setError("Please select a template.");
-    } else if (currentStep === 2 && (formData.amount <= 0 || !isAmountSelected)) {
+    } else if (
+      currentStep === 2 &&
+      (formData.amount <= 0 || !isAmountSelected)
+    ) {
       setError("Please enter a valid amount.");
     } else if (currentStep === 3 && !isStepValid()) {
       setError("Please fill in all the details correctly.");
@@ -149,13 +157,18 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
+    console.log(isLoggedIn,"ISSSLOOGGEDD")
+    if (!isLoggedIn) {
+      router.push("/login");
+      return; 
+    }
     let payableAmount;
     if (currency == "USD") {
       payableAmount = Math.round(formData.amount * 83.7);
     } else if (currency == "EUR") {
       payableAmount = Math.round(formData.amount * 90.7);
-    } else{
-      payableAmount=formData.amount;
+    } else {
+      payableAmount = formData.amount;
     }
     const voucherDetails = {
       enrollmentId: null,

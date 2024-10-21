@@ -16,7 +16,7 @@ interface SelectedScheme {
   monthlyAmount: number | null;
   totalAmount: number;
   iconUrl: string;
-  schemeType: 'gms' | 'voucher';
+  schemeType: "gms" | "voucher";
   recipientName?: string;
   recipientEmail?: string;
   recipientMobile?: string;
@@ -25,13 +25,16 @@ interface SelectedScheme {
 }
 
 const DigitalCheckout: React.FC = () => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("razorpay");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<string>("razorpay");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const { userState,isLoggedIn } = useUser();
+  const { userState, isLoggedIn } = useUser();
   const [flashMessage, setFlashMessage] = useState("");
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
-  const [selectedScheme, setSelectedScheme] = useState<SelectedScheme | null>(null);
+  const [selectedScheme, setSelectedScheme] = useState<SelectedScheme | null>(
+    null,
+  );
 
   // const isLoggedIn = userState.isLoggedIn;
   const router = useRouter();
@@ -43,7 +46,9 @@ const DigitalCheckout: React.FC = () => {
     }
   }, []);
 
-  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePaymentMethodChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setSelectedPaymentMethod(event.target.value);
   };
 
@@ -62,20 +67,24 @@ const DigitalCheckout: React.FC = () => {
 
     try {
       const cookieToken = Cookies.get("localtoken");
-      const endpoint = selectedScheme?.schemeType === 'voucher' ? 'place-voucher-order' : 'place-order';
-      const payload = selectedScheme?.schemeType === 'voucher' 
-        ? {
-            amount: selectedScheme.totalAmount,
-            recipientName: selectedScheme.recipientName,
-            recipientEmail: selectedScheme.recipientEmail,
-            recipientMobile: selectedScheme.recipientMobile,
-            message: selectedScheme.message,
-            senderName: selectedScheme.senderName,
-          }
-        : {
-            schemeType: selectedScheme?.planName.toLowerCase(),
-            amount: selectedScheme?.monthlyAmount,
-          };
+      const endpoint =
+        selectedScheme?.schemeType === "voucher"
+          ? "place-voucher-order"
+          : "place-order";
+      const payload =
+        selectedScheme?.schemeType === "voucher"
+          ? {
+              amount: selectedScheme.totalAmount,
+              recipientName: selectedScheme.recipientName,
+              recipientEmail: selectedScheme.recipientEmail,
+              recipientMobile: selectedScheme.recipientMobile,
+              message: selectedScheme.message,
+              senderName: selectedScheme.senderName,
+            }
+          : {
+              schemeType: selectedScheme?.planName.toLowerCase(),
+              amount: selectedScheme?.monthlyAmount,
+            };
 
       const response = await instance.post(
         `${baseUrl}${gms}/${endpoint}`,
@@ -84,7 +93,7 @@ const DigitalCheckout: React.FC = () => {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
           },
-        }
+        },
       );
 
       console.log("Order placed successfully", response.data);
@@ -103,63 +112,63 @@ const DigitalCheckout: React.FC = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="max-w-lg w-full p-6 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4">Digital Checkout</h2>
+      <div className="w-full max-w-lg rounded-md bg-white p-6 shadow-md">
+        <h2 className="mb-4 text-2xl font-semibold">Digital Checkout</h2>
         <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
         <div className="mb-6">
-          <div className="flex items-center mb-4">
-            {selectedScheme.schemeType === 'voucher' ? (
-              <Gift size={32} className="text-blue-500 mr-2" />
+          <div className="mb-4 flex items-center">
+            {selectedScheme.schemeType === "voucher" ? (
+              <Gift size={32} className="mr-2 text-blue-500" />
             ) : (
-              <CurrencyCircleDollar size={32} className="text-blue-500 mr-2" />
+              <CurrencyCircleDollar size={32} className="mr-2 text-blue-500" />
             )}
             <div>
               <h3 className="text-xl font-semibold">
                 {selectedScheme.planName}
               </h3>
-              {selectedScheme.schemeType === 'gms' && (
+              {selectedScheme.schemeType === "gms" && (
                 <p className="text-gray-600">
                   Monthly Installment: ₹{selectedScheme.monthlyAmount}
                 </p>
               )}
               <p className="text-gray-600">
-                Total Amount: ₹{selectedScheme.totalAmount}
+                Total Amount{" "}:{" "}₹{selectedScheme.totalAmount.toLocaleString("en-IN")}
               </p>
             </div>
           </div>
         </div>
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
-          <div className="bg-gray-100 p-4 rounded">
-            <div className="flex justify-between mb-2">
-              <p>Plan Name:</p>
+          <h3 className="mb-2 text-lg font-semibold">Order Summary</h3>
+          <div className="rounded bg-gray-100 p-4">
+            <div className="mb-2 flex justify-between">
+              <p>Plan Name :</p>
               <p>{selectedScheme.planName}</p>
             </div>
-            {selectedScheme.schemeType =='gms ' && (
-              <div className="flex justify-between mb-2">
-                <p>Monthly Installment:</p>
+            {selectedScheme.schemeType == "gms " && (
+              <div className="mb-2 flex justify-between">
+                <p>Monthly Installment :</p>
                 <p>₹{selectedScheme.monthlyAmount}</p>
               </div>
             )}
-            <div className="flex justify-between mb-2">
-              <p>Total Amount:</p>
-              <p>₹{selectedScheme.totalAmount}</p>
+            <div className="mb-2 flex justify-between">
+              <p>Total Amount :</p>
+              <p>₹{selectedScheme.totalAmount.toLocaleString("en-IN")}</p>
             </div>
-            {selectedScheme.schemeType === 'voucher' && (
+            {selectedScheme.schemeType === "voucher" && (
               <>
-                <div className="flex justify-between mb-2">
-                  <p>Recipient:</p>
+                <div className="mb-2 flex justify-between">
+                  <p>Recipient :</p>
                   <p>{selectedScheme.recipientName}</p>
                 </div>
-                <div className="flex justify-between mb-2">
-                  <p>Recipient Email:</p>
+                <div className="mb-2 flex justify-between">
+                  <p>Recipient Email :</p>
                   <p>{selectedScheme.recipientEmail}</p>
                 </div>
               </>
             )}
           </div>
         </div>
-        {selectedScheme.schemeType === 'gms' ? (
+        {selectedScheme.schemeType === "gms" ? (
           <Payment
             orderPlaced={isOrderPlaced}
             selectedPaymentMethod={selectedPaymentMethod}
@@ -179,7 +188,6 @@ const DigitalCheckout: React.FC = () => {
             selectedScheme={selectedScheme}
           />
         )}
-
       </div>
     </div>
   );

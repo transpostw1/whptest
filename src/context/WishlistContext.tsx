@@ -17,6 +17,7 @@ interface WishlistItem {
   discountPrice: string;
   discountValue: string;
   quantityleft:number;
+  variants:any;
   makeToOrder:number;
   image_path: string;
   imageDetails: any;
@@ -116,6 +117,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               variables: {
                 wishlist: productWishlistIds,
               },
+              
               context: {
                 headers: getAuthHeaders(),
               },
@@ -167,7 +169,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 (dbItem) => dbItem.productId === item.productId
               )
           );
-          console.log(product, "product");
+          // console.log(product, "product");
 
           const getAuthHeaders: any = () => {
             if (!cookieToken) return null;
@@ -196,7 +198,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
               wishlist: [
                 {
                   productId: product.productId,
-                },
+                  variants: product.variants,
+                }
               ],
             },
             context: {
@@ -249,6 +252,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                   makeToOrder:product.makeToOrder,
                   image_path: normalizeImagePath(product.image_path),
                   url: product.url,
+                  variants:product.variants,
                 },
               ];
               localStorage.setItem(
@@ -359,6 +363,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productId
             productAmount
             quantity
+            variants{
+             variantType 
+             variantName
+          }
             makeToOrder
             url
             SKU
@@ -374,10 +382,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productPrice
             discountPrice
             mediaId
-            variants{
-             variantType 
-             variantName
-          }
             imageDetails {
               image_path
               order
@@ -410,6 +414,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
           discountPrice: item.discountPrice,
           discountValue: item.discountValue,
           quantityleft:item.quantity,
+          variants:item.variants,
           makeToOrder:parseInt(item.makeToOrder),
           image_path: item.imageDetails[0]?.image_path || "",
           url: item.url,

@@ -19,6 +19,7 @@ interface CartItem {
   name?: string;
   price?: number;
   image?: string;
+  variants?: { variantType: string; variantName: string }[];
 }
 
 export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
@@ -104,6 +105,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         price: price,
         productPrice : productPrice,
         image: imagePath,
+        variants:item.variants,
       };
     });
 

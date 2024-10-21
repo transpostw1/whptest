@@ -20,8 +20,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
 import { baseUrl, graphqlProductUrl } from "@/utils/constants";
 import Buttons from "./Buttons";
+import Coupons from "./Coupons";
 import Skeleton from "react-loading-skeleton";
-import axios from "axios";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import DropDown from "./DropDown";
@@ -168,6 +168,21 @@ const Default: React.FC<Props> = ({ productId }) => {
           diamondDetails
           review
           variants
+          bestSeller
+          buyAgain
+          coupons {
+            id
+            name
+            code
+            discountOn
+            discountType
+            discountValue
+            discountMinAmount
+            discountMaxAmount
+            discountStartDate
+            discountEndDate
+            isExclusive
+          }
         }
       }
     `;
@@ -410,7 +425,7 @@ const Default: React.FC<Props> = ({ productId }) => {
   return (
     <>
       <StickyNavProductPage />
-      <CtaButtonsMobile product={data} />
+      <CtaButtonsMobile product={data} variants={selectedVariants} />
       <div className="lg:flex">
         <div className="sm:w-full lg:w-1/2">
           {loading ? (
@@ -678,6 +693,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
+          <Coupons product={data}/>
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />

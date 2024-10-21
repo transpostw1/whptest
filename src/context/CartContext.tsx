@@ -2,7 +2,6 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import { baseUrl, syncCart, graphqlbaseUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
 import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
 import { useUser } from "@/context/UserContext";
@@ -14,7 +13,7 @@ interface CartItem {
     discountPrice: any;
     imageDetails: any;
     productPrice: string;
-    quantityleft:number;
+    quantityleft: number;
     discountValue: string;
     url: string;
   };
@@ -28,11 +27,17 @@ interface CartItem {
   price?: number;
   image?: string;
   isBuyNow?: boolean;
+  variants?: { variantType: string; variantName: string }[];
 }
 
 interface CartContextProps {
   cartItems: CartItem[];
-  addToCart: (item: CartItem, quantity: number, isBuyNow?: boolean) => void;
+  addToCart: (
+    item: CartItem,
+    quantity: number,
+    variants: any,
+    isBuyNow?: boolean,
+  ) => void;
   removeFromCart: (productId: number) => void;
   updateCartQuantity: (productId: number, newQuantity: number) => void;
   setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
@@ -44,7 +49,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { totalDiscount ,updateDiscount} = useCouponContext();
+  const { totalDiscount, updateDiscount } = useCouponContext();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [loading, setLoading] = useState(true);
@@ -53,14 +58,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isLoggedIn) {
       if (typeof window != undefined) {
-      const userToken = localStorage.getItem("localtoken");
-      
-      if (userToken) {
-        setCookieToken(userToken);
+        const userToken = localStorage.getItem("localtoken");
+
+        if (userToken) {
+          setCookieToken(userToken);
+        }
       }
     }
-  }
-}, [isLoggedIn]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -98,10 +103,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const addToCart = async (
     item: CartItem,
     quantity: number,
-    isBuyNow?: boolean
+    variants: any,
+    isBuyNow?: boolean,
   ) => {
     setLoading(true);
-    const newItem = { ...item, quantity, isBuyNow };
+    const newItem = { ...item, quantity, isBuyNow, variants };
     setCartItems((prevCartItems) => [...prevCartItems, newItem]);
     saveCartItemsToStorage([...cartItems, newItem]);
 
@@ -113,10 +119,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   };
   const removeFromCart = async (productId: number) => {
-    let discount=0;
+    let discount = 0;
     updateDiscount(discount);
     const updatedCartItems = cartItems.filter(
-      (item) => item.productId !== productId
+      (item) => item.productId !== productId,
     );
     setCartItems(updatedCartItems);
     saveCartItemsToStorage(updatedCartItems);
@@ -192,7 +198,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateCartQuantity = (productId: number, newQuantity: number) => {
     const updatedCartItems = cartItems.map((item) =>
-      item.productId === productId ? { ...item, quantity: newQuantity } : item
+      item.productId === productId ? { ...item, quantity: newQuantity } : item,
     );
     setCartItems(updatedCartItems);
     saveCartItemsToStorage(updatedCartItems);
@@ -214,9 +220,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       const cartData = cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity || 0,
-      }));
+        variants: item.variants
+        ? item.variants.map(({ __typename, ...rest }) => rest) 
+        : [], 
+    }));
+      console.log(cartData,"CARTDATATATATATTa")
       const getAuthHeaders: any = () => {
-        const cookieToken = localStorage.getItem("localtoken")
+        const cookieToken = localStorage.getItem("localtoken");
         if (!cookieToken) return null;
         return {
           authorization: `Bearer ${cookieToken}`,
@@ -258,16 +268,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const addLocalItemsToServerCart = async () => {
     try {
       if (typeof window != undefined) {
-      const cartItemsFromStorage = localStorage.getItem("cartItems");
-      if (cartItemsFromStorage) {
-        const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
-        for (const item of parsedCartItems) {
-          await syncCartWithServer([item]);
+        const cartItemsFromStorage = localStorage.getItem("cartItems");
+        if (cartItemsFromStorage) {
+          const parsedCartItems: CartItem[] = JSON.parse(cartItemsFromStorage);
+          for (const item of parsedCartItems) {
+            await syncCartWithServer([item]);
+          }
+          localStorage.removeItem("cartItems");
+          // console.log("Added Local items to Server");
         }
-        localStorage.removeItem("cartItems");
-        console.log("Added Local items to Server");
       }
-    }
     } catch (error) {
       console.error("Error adding local items to server cart:", error);
     }

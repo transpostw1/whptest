@@ -209,7 +209,6 @@ const Checkout: React.FC = () => {
   typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
   useEffect(() => {
-    console.log(userDetails, "USERDDDEETSS");
     const fetchCouponData = async () => {
       const products = cartItems.map((item: any) => ({
         productId: item.productId,
@@ -259,7 +258,7 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-        console.log("DAta", data.Coupon);
+        
         if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
@@ -289,7 +288,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
-    console.log("total calculated Discount", totalCartDiscount);
+    
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -315,7 +314,7 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  console.log(cartItems, "OOOOOOOOOO");
+  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
@@ -344,9 +343,9 @@ const Checkout: React.FC = () => {
           : "",
     }));
 
-  console.log(mappedCartItems, "LoggedOutCartItems");
+  
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  console.log(cartItems, "MAINNNNNNNNNN");
+  
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
@@ -407,17 +406,15 @@ const Checkout: React.FC = () => {
       let cartData;
 
       if (buyNow) {
-        console.log("Removing buy now items from cart:", finalBuyNowItems);
+        // console.log("Removing buy now items from cart:", finalBuyNowItems);
         for (const item of finalBuyNowItems) {
           await removeFromCart(item.productId);
         }
       } else {
-        console.log("Removing all items from cart:", MainCart);
         cartData = MainCart.map((item) => ({
           productId: item.productId,
           quantity: 0,
         }));
-        console.log(cartData, "cartDATTAA");
       }
 
       const getAuthHeaders: any = () => {
@@ -471,7 +468,6 @@ const Checkout: React.FC = () => {
       typeof window !== "undefined"
         ? localStorage.removeItem("cartItems")
         : null;
-      console.log("API response:", data);
 
       setCartItems([]);
       setIsOrderPlaced(true);
@@ -481,8 +477,6 @@ const Checkout: React.FC = () => {
       setFlashMessage("Your order has been placed successfully!");
       setFlashType("success");
       setFlashKey((prevKey) => prevKey + 1);
-
-      console.log("Order placed, cart cleared, flash message set");
     } catch (error) {
       console.error("Error completing order:", error);
       setFlashMessage("There was an error placing your order.");
@@ -752,7 +746,7 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-5/6">
+            <div className="mt-5 w-full lg:w-3/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-[#E26178]">Coupons</h1>

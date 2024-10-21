@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useCurrency } from "@/context/CurrencyContext";
+
 interface PreviewProps {
   recipientName: string;
   recipientEmail: string;
@@ -25,60 +26,76 @@ const Preview: React.FC<PreviewProps> = ({
   selectedTemplateUrl,
 }) => {
   const { currency } = useCurrency();
+
   return (
-    <>
-      <div className="flex justify-center">
-        <div className="my-4 flex w-full justify-between overflow-hidden rounded-lg bg-pink-100 shadow-md md:w-[700px]">
-          <div className="flex w-full flex-col items-start md:flex-row md:items-center">
-            <div className="flex w-full items-center justify-center bg-blue-950 p-4">
-              <div className="text-4xl text-white">
-                {selectedTemplateUrl ? (
-                  <Image
-                    width={400}
-                    height={300}
-                    className="h-[250px] w-full object-fill object-center"
-                    src={selectedTemplateUrl}
-                    alt="Selected Template"
-                    unoptimized
-                  />
-                ) : (
-                  <Image
-                    width={400}
-                    height={300}
-                    className="h-[250px] w-full object-fill object-center"
-                    src="/images/other/GemStone1.png"
-                    alt="Default Image"
-                  />
-                )}
-                <div className="bg-blue-100 p-2 text-center">
-                  <p className="text-lg font-semibold text-black">
-                    {occasion || "Occasion"}
-                  </p>
-                </div>
+    <div className="flex justify-center">
+      <div className="relative my-6 w-full overflow-hidden rounded-lg bg-white shadow-xl md:w-[700px]">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] opacity-30"></div>
+        <div className="relative flex flex-col md:flex-row">
+          {/* Left Image Section */}
+          <div className="flex w-full md:w-1/2 items-center">
+            {selectedTemplateUrl ? (
+              <Image
+                width={400}
+                height={300}
+                className="h-[250px] w-full object-cover object-center transition-transform duration-300 ease-in-out hover:scale-105"
+                src={selectedTemplateUrl}
+                alt="Selected Template"
+                unoptimized
+              />
+            ) : (
+              <Image
+                width={400}
+                height={300}
+                className="h-[250px] w-full object-cover object-center transition-transform duration-300 ease-in-out hover:scale-105"
+                src="/images/other/GemStone1.png"
+                alt="Default Image"
+                unoptimized
+              />
+            )}
+          </div>
+
+          {/* Right Content Section */}
+          <div className="flex flex-col justify-between p-6 space-y-6 md:w-1/2">
+            <div>
+              <div className="bg-blue-50 py-2 text-center rounded-md shadow-sm">
+                <p className="text-lg font-semibold text-purple-800">
+                  {occasion || "Occasion"}
+                </p>
+              </div>
+
+              <div className="mt-4">
+                <p className="text-sm font-semibold text-gray-500">FOR</p>
+                <p className="text-lg font-bold text-gray-800">{recipientName}</p>
+                <p className="text-sm text-gray-500">{recipientEmail}</p>
+                <p className="text-sm text-gray-500">{recipientMobile}</p>
+              </div>
+
+              <div className="mt-4">
+                <p className="text-sm font-semibold text-gray-500">Worth</p>
+                <p className="text-2xl font-extrabold text-red-600">
+                  {currency === "INR"
+                    ? `₹${amount.toLocaleString("en-IN")}`
+                    : currency === "USD"
+                    ? `$${amount.toLocaleString("en-US")}`
+                    : `€${amount.toLocaleString("en-IN")}`}
+                </p>
               </div>
             </div>
-            <div className="p-4">
-              <p className="text-sm text-red-500">FOR</p>
-              <p className="text-lg font-semibold">{recipientName}</p>
-              <p className="text-sm">{recipientEmail}</p>
-              <p className="text-sm">{recipientMobile}</p>
-              <p className="mt-4 text-sm text-red-500">Worth</p>
-              <p className="text-lg font-semibold text-red-500">
-                {currency == "INR"
-                  ? `₹${amount}`
-                  : currency == "USD"
-                    ? `$${amount}`
-                    : `€${amount}`}
-              </p>
-              <p className="mt-4 text-sm text-red-500">MESSAGE</p>
-              <p className="text-sm italic">"{message}"</p>
-              <p className="mt-4 text-sm text-red-500">FROM</p>
-              <p className="text-lg font-semibold">{senderName}</p>
+
+            <div>
+              <p className="text-sm font-semibold text-gray-500">MESSAGE</p>
+              <p className="text-sm italic text-gray-700">"{message}"</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-gray-500">FROM</p>
+              <p className="text-lg font-bold text-gray-800">{senderName}</p>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

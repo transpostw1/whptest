@@ -178,7 +178,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
   useEffect(() => {
-    console.log(userDetails,"Customer details");
   }, [userDetails]);
 
   return (

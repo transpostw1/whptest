@@ -1,32 +1,46 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
+import { usePathname, useSearchParams } from "next/navigation";
+import * as Icon from "@phosphor-icons/react/dist/ssr";
 const Breadcrumb: React.FC = () => {
-  const router = useRouter();
-  const { url, pc } = router.query;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const generateBreadcrumbs = () => {
     const breadcrumbs = [];
 
+    // Add Home
     breadcrumbs.push({ label: "Home", href: "/" });
 
-    breadcrumbs.push({ label: "Products", href: "/products" });
-
-    if (url && typeof url === "string") {
-      const category = url.split("-")[1]; // Assuming format is always 'c-category'
+    // Add Products
+    // if (pathname.startsWith("/products")) {
+    //   breadcrumbs.push({ label: "Products", href: "/products" });
+    // }
+    breadcrumbs.push({
+      label: "Products",
+      href: "/products?url=c-new_Arrival",
+    });
+    // Add Category
+    const url = searchParams.get("url");
+    console.log("url", url);
+    if (url) {
+      const category = url.split("-")[1];
       if (category) {
         breadcrumbs.push({
           label: category.charAt(0).toUpperCase() + category.slice(1),
           href: `/products?url=${url}`,
         });
       }
-    }
-    if (pc && typeof pc === "string") {
+    } 
+    // Add Collection
+    const pc = searchParams.get("pc");
+    if (pc) {
       const collection = pc.replace("_", " ");
       breadcrumbs.push({
         label: collection.charAt(0).toUpperCase() + collection.slice(1),
-        href: router.asPath,
+        href: pathname + "?" + searchParams.toString(),
       });
     }
 
@@ -40,13 +54,17 @@ const Breadcrumb: React.FC = () => {
       <ol className="flex space-x-2">
         {breadcrumbs.map((breadcrumb, index) => (
           <li key={breadcrumb.href} className="flex items-center">
-            {index > 0 && <span className="mx-2">/</span>}
+            {index > 0 && (
+              <span className="mx-2">
+                <Icon.CaretRight size={20} />
+              </span>
+            )}
             {index === breadcrumbs.length - 1 ? (
               <span className="text-gray-500">{breadcrumb.label}</span>
             ) : (
               <Link
                 href={breadcrumb.href}
-                className="text-blue-500 hover:underline"
+                className="text-[#e26178] hover:underline"
               >
                 {breadcrumb.label}
               </Link>

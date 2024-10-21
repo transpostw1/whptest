@@ -40,7 +40,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
-
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
  
@@ -63,6 +62,8 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     fetchWishlist();
   }, []);
   console.log("Variants", variants);
+
+
   // const formattedVariants = (variantValues: string[]): Array<{ variantType: string; variantName: string }> => {
   //   return variants.map(value => ({
   //     variantType: value,
@@ -81,10 +82,15 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       variantName: variants[0],  
     }
   ];
+
   console.log("formattedVariants", formattedVariants);
+
+
   // const isOutOfStock = (productQty: number | null | undefined) => {
   //   return productQty === 0 || productQty === null;
   // };
+
+
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,

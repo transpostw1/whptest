@@ -15,6 +15,7 @@ import PreciousGems from "@/components/Home1/PreciousGems";
 import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
 import WhpTv from "@/components/Home1/WhpTv";
+import Genders from "@/components/Home1/Genders";
 import Whptv2 from "@/components/Home1/WhpTv2";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
@@ -55,6 +56,7 @@ export default function Home() {
         <GetFastDeliveryProducts />
         <WhatWeOffer />
         <ShopByGender />
+        <Genders />
         {/* <PreciousGems /> */}
         <Appointment />
         <Gifts />

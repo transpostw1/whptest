@@ -576,17 +576,16 @@ const ShopBreadCrumb1 = () => {
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already loaded
+      
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
         )
       ) {
-        resolve(); // Script already loaded
+        resolve(); 
         return;
       }
 
-      // Create the script tag
       const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
@@ -601,7 +600,6 @@ const ShopBreadCrumb1 = () => {
       };
       script.onerror = () => reject(new Error("Failed to load script"));
 
-      // Append the script to the body
       document.body.appendChild(script);
     });
   };

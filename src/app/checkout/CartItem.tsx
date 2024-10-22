@@ -237,7 +237,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
               <div className="text-[#beb3b3] line-through">
                 {formatPrice(productPrice)}
               </div>
-            )}
+            )} */}
             <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
               <Icon.Minus
                 size={28}

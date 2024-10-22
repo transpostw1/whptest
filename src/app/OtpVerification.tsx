@@ -79,7 +79,9 @@ const OtpVerification = ({
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
-      } 
+      } else if (error?.code === 400 && error.message?.includes("CAPTCHA_CHECK_FAILED")) {
+        console.log("Ignoring CAPTCHA_CHECK_FAILED error");
+      }
       else {
         setErrorMessage("Invalid Number or Try again");
       }

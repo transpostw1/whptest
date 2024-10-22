@@ -233,11 +233,11 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
           <div className="flex w-full flex-col items-center justify-between lg:w-1/6">
             <div className="text-title text-center"> {formatPrice(price)} </div>
-            {productPrice !== price && (
+            {/* {productPrice !== price && (
               <div className="text-[#beb3b3] line-through">
                 {formatPrice(productPrice)}
               </div>
-            )}
+            )} */}
             <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
               <Icon.Minus
                 size={28}

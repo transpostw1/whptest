@@ -60,46 +60,37 @@ const onSendOtp = async () => {
     console.error("Invalid phone number");
     return;
   }
+  if (!window.recaptchaVerifier) {
+    setUpRecaptcha();
+  }
+  const appVerifier = window.recaptchaVerifier;
+  const formatPh = "+" + formikValues.phoneNumber;
 
   try {
-    if (!window.recaptchaVerifier) {
-      setUpRecaptcha();
-    } else {
-      // If reCAPTCHA exists, reset it before setting it up again
-      window.recaptchaVerifier.reset();
-    }
-
-    const appVerifier = window.recaptchaVerifier;
-    const formatPh = "+" + formikValues.phoneNumber;
-
     setLoading(true);
     setFirebaseError(null);
-
     const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
     setVerificationId(result.verificationId);
-    setIsOtpSent(true); 
+    setIsOtpSent(true);
     setErrorMessage(null);
     console.log("OTP sent successfully");
-
   } catch (error: any) {
     console.error("Error sending OTP:", error);
+    console.error(FirebaseError, error.message, "FIREE");
 
-    setLoading(false); // Ensure loading stops after failure
+    setLoading(false); 
 
-    // Handle reCAPTCHA-specific issues
-    if (error?.message?.includes("reCAPTCHA has already been rendered")) {
+    
+    if (error.message.includes("reCAPTCHA has already been rendered")) {
       window.location.href = location.pathname;
-      return; // Prevent further execution
-    } else if (error?.code === 'auth/captcha-check-failed') {
+      return;
+    } else if (error?.code === 400 && error.message?.includes("CAPTCHA_CHECK_FAILED")) {
       console.log("Ignoring CAPTCHA_CHECK_FAILED error");
-      return; // Early exit
+      return;
     }
-
-    // Handle general errors and set error message for user
     setErrorMessage("Invalid Number or Try again");
   }
 };
-
 
 
   const verifySignin = async () => {

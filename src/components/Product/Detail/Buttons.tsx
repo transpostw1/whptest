@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
 import { ProductData, ProductType  } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -62,15 +61,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  console.log("Variants", variants);
-  // const formattedVariants = (variantValues: string[]): Array<{ variantType: string; variantName: string }> => {
-  //   return variants.map(value => ({
-  //     variantType: value,
-  //     variantName: value
-  //   }));
-  // }
-
-
   const formattedVariants = [
     {
       variantType: variants[2],  
@@ -82,9 +72,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     }
   ];
   console.log("formattedVariants", formattedVariants);
-  // const isOutOfStock = (productQty: number | null | undefined) => {
-  //   return productQty === 0 || productQty === null;
-  // };
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,

@@ -232,33 +232,35 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             </div>
           </div>
           <div className="flex w-full flex-col items-center justify-between lg:w-1/6">
-            <div className="text-title text-center">   {formatPrice(price || productPrice)} </div>
-            {productPrice > price && (
-              <div className="text-[#beb3b3] line-through">
-                {formatPrice(productPrice)}
-              </div>
-            )} */}
-            <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
-              <Icon.Minus
-                size={28}
-                onClick={() => handleQuantityChange(product.quantity - 1)}
-                className={`border p-1 text-base text-black hover:bg-[#e26178] hover:text-white max-md:text-sm ${
-                  product.quantity === 1 ? "disabled" : ""
-                }`}
-              />
-              <div className="text-button quantity ml-1 mr-1">
-                {product.quantity}
-              </div>
-              <Icon.Plus
-                size={28}
-                onClick={() => handleQuantityChange(product.quantity + 1)}
-                className={`border p-1 text-base hover:bg-[#e26178] hover:text-white max-md:text-sm ${
-                  product.quantity >= 5 ? "disabled cursor-not-allowed" : ""
-                }`}
-                disabled={product.quantity >= 5}
-              />
-            </div>
-          </div>
+  <div className="text-title text-center">
+    {price === 0 ? formatPrice(productPrice) : formatPrice(price)}
+  </div>
+  {productPrice > price && price !== 0 && (
+    <div className="text-[#beb3b3] line-through">
+      {formatPrice(productPrice)}
+    </div>
+  )}
+  <div className="quantity-block bg-surface flex w-20 flex-shrink-0 items-center justify-between p-2 md:w-[100px] md:p-3">
+    <Icon.Minus
+      size={28}
+      onClick={() => handleQuantityChange(product.quantity - 1)}
+      className={`border p-1 text-base text-black hover:bg-[#e26178] hover:text-white max-md:text-sm ${
+        product.quantity === 1 ? "disabled" : ""
+      }`}
+    />
+    <div className="text-button quantity ml-1 mr-1">
+      {product.quantity}
+    </div>
+    <Icon.Plus
+      size={28}
+      onClick={() => handleQuantityChange(product.quantity + 1)}
+      className={`border p-1 text-base hover:bg-[#e26178] hover:text-white max-md:text-sm ${
+        product.quantity >= 5 ? "disabled cursor-not-allowed" : ""
+      }`}
+      disabled={product.quantity >= 5}
+    />
+  </div>
+</div>
         </div>
       )}
 

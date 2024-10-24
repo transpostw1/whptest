@@ -201,7 +201,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       >
         Buy Now
       </div>
-
       <div
         className="mx-10 h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178] max-sm:h-full max-sm:w-[35%]"
         onClick={() => handleAddToCart(product)}

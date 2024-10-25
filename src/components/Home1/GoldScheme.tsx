@@ -8,19 +8,15 @@ import { useRouter } from "next/navigation";
 const GoldScheme = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1000px)");
-
     const handleChange = (e: MediaQueryListEvent) => {
       setIsMobile(e.matches);
     };
-
     setIsMobile(mediaQuery.matches);
     mediaQuery.addEventListener("change", handleChange);
-
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };

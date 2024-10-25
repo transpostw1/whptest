@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-
 import { ProductData, ProductType  } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -9,6 +8,8 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { showCustomToast } from "@/components/Other/CustomToast";
+
 
 interface Props {
   product: ProductType | ProductDetails;
@@ -61,17 +62,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  console.log("Variants", variants);
-
-
-  // const formattedVariants = (variantValues: string[]): Array<{ variantType: string; variantName: string }> => {
-  //   return variants.map(value => ({
-  //     variantType: value,
-  //     variantName: value
-  //   }));
-  // }
-
-
   const formattedVariants = [
     {
       variantType: variants[2],  
@@ -82,15 +72,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       variantName: variants[0],  
     }
   ];
-
-  console.log("formattedVariants", formattedVariants);
-
-
-  // const isOutOfStock = (productQty: number | null | undefined) => {
-  //   return productQty === 0 || productQty === null;
-  // };
-
-
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,
@@ -102,12 +83,14 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   };
 
   const handleAddToCart = (productItem: ProductData) => {
+
     const { productQty, makeToOrder } = productItem.productDetails?.productQty;
     if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
+    showCustomToast('Item successfully added to cart!');
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -115,6 +98,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
+      showCustomToast('Product Quantity Updated!');
       updateCartQuantity(
         productItem.productDetails?.productId,
         updatedQuantity,
@@ -156,11 +140,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
     }
+    showCustomToast('Item Wishilisted!');
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
     setIsProductInWishlist(false);
+    showCustomToast('Removed from wishlist');
   };
 
   const handleBuyNow = () => {

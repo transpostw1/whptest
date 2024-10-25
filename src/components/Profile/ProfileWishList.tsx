@@ -7,6 +7,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import {useCurrency} from "@/context/CurrencyContext"
 import { useCart } from "@/context/CartContext";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 const ProfileWishList = () => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
@@ -64,9 +65,10 @@ const ProfileWishList = () => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-
+    showCustomToast('Item successfully added to cart!');
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
+      showCustomToast('Product Quantity Updated!');
     } else {
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);

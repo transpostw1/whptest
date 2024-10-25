@@ -9,6 +9,7 @@ import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
+import { Toaster } from 'react-hot-toast';
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           </div>
           {children}
           <Footer />
+          <Toaster position="top-right" reverseOrder={false} />
         </body>
         {/* </Suspense> */}
       </html>

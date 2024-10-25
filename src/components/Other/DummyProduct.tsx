@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import StarRating from "./StarRating";
 import { IoCameraOutline } from "react-icons/io5";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 
 interface ProductProps {
@@ -77,6 +78,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
         }
+        showCustomToast('Item Wishilisted!');
       } else {
         console.error("Invalid product data:", data);
       }

@@ -13,7 +13,7 @@ interface Props {
 
 const Coupons: React.FC<Props> = ({ product }) => {
   const coupons = product.productDetails?.coupons;
-  console.log(product.productDetails,"PRODDDETS IN COUPONS")
+  // console.log(product.productDetails,"PRODDDETS IN COUPONS")
   const [copiedCoupon, setCopiedCoupon] = useState<string | null>(null);
 
   const handleCopyToClipboard = (couponCode: string) => {

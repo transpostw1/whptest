@@ -10,6 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 interface Props {
   product: ProductType | ProductDetails;
@@ -106,6 +107,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
       setShowModal(true);
       return;
     }
+  
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -117,6 +119,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         productItem.productDetails?.productId,
         updatedQuantity,
       );
+      showCustomToast('Product Quantity Updated!');
     } else {
       addToCart(
         {
@@ -128,6 +131,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         formattedVariants
       );
     }
+    showCustomToast('Item successfully added to cart!');
   };
 
   const HandleaddToWishlist = () => {
@@ -154,10 +158,12 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
     }
+    showCustomToast('Item Wishilisted!');
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
+    showCustomToast('Removed from wishilist');
     setIsProductInWishlist(false);
   };
 

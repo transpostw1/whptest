@@ -8,6 +8,8 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { showCustomToast } from "@/components/Other/CustomToast";
+
 
 interface Props {
   product: ProductType | ProductDetails;
@@ -71,7 +73,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       variantName: variants[0],  
     }
   ];
-  console.log("formattedVariants", formattedVariants);
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,
@@ -83,12 +84,14 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   };
 
   const handleAddToCart = (productItem: ProductData) => {
+
     const { productQty, makeToOrder } = productItem.productDetails?.productQty;
     if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
+    showCustomToast('Item successfully added to cart!');
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -96,6 +99,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
+      showCustomToast('Product Quantity Updated!');
       updateCartQuantity(
         productItem.productDetails?.productId,
         updatedQuantity,
@@ -137,11 +141,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
     }
+    showCustomToast('Item Wishilisted!');
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
     setIsProductInWishlist(false);
+    showCustomToast('Removed from wishlist');
   };
 
   const handleBuyNow = () => {

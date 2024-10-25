@@ -11,6 +11,7 @@ import Loader from "../blog/loading";
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 type InputVariant = {
   __typename: string;
@@ -95,9 +96,10 @@ const Wishlist = () => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-
+    showCustomToast('Item successfully added to cart!');
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
+      showCustomToast('Product Quantity Updated!');
     } else {
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);
@@ -133,6 +135,7 @@ const Wishlist = () => {
       addToCart(newProduct, 1, variantsToPass);
       removeFromWishlist(product.productId);
     }
+    
   };
 
   const handleBuyNow = (product: any) => {

@@ -6,6 +6,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 
 type InputVariant = {
@@ -77,8 +78,10 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
+      showCustomToast('Product Quantity Updated!');
       updateCartQuantity(product.productId, updatedQuantity);
     } else {
+      showCustomToast('Item successfully added to cart!');
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);
       };

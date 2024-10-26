@@ -37,7 +37,7 @@ export default function RootLayout({
           </div>
           {children}
           <Footer />
-          <Toaster position="top-right" reverseOrder={false} />
+          <Toaster position="top-center" reverseOrder={false} />
         </body>
         </Suspense>
       </html>

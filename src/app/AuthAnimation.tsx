@@ -41,7 +41,7 @@ const AuthAnimation = () => {
             />
           </div>
         ))}
-        <div className="absolute w-14 h-14 rounded-full border-2 border-[#E26178] animate-pulse" />
+        <div className="absolute w-14 h-14 rounded-full border-2 border-[#E26178] animate-pulse"/>
       </div>
     </div>
   );

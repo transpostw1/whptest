@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import { ProductData, ProductType  } from "@/type/ProductType";
+import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import Skeleton from "react-loading-skeleton";
@@ -10,7 +10,6 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { showCustomToast } from "@/components/Other/CustomToast";
 
-
 interface Props {
   product: ProductType | ProductDetails;
   variants: [];
@@ -18,7 +17,7 @@ interface Props {
 
 interface ProductForWishlistLoggedIn {
   productId: number;
-  variants:[],
+  variants: [];
 }
 
 interface ProductForWishlistLoggedOut {
@@ -31,7 +30,7 @@ interface ProductForWishlistLoggedOut {
   makeToOrder: number | boolean;
   image_path: string;
   url: string;
-  variants:[];
+  variants: [];
 }
 const Buttons: React.FC<Props> = ({ product, variants }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
@@ -44,7 +43,20 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
- 
+
+  const createRipple = (event: MouseEvent<HTMLDivElement>) => {
+    const button = event.currentTarget;
+    const ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+    const rect = button.getBoundingClientRect();
+    ripple.style.left = `${event.clientX - rect.left - 50}px`;
+    ripple.style.top = `${event.clientY - rect.top - 50}px`;
+    button.appendChild(ripple);
+    ripple.addEventListener("animationend", () => {
+      ripple.remove();
+    });
+  };
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -65,13 +77,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   }, []);
   const formattedVariants = [
     {
-      variantType: variants[2],  
-      variantName: variants[1],  
+      variantType: variants[2],
+      variantName: variants[1],
     },
     {
-      variantType: "Size",      
-      variantName: variants[0],  
-    }
+      variantType: "Size",
+      variantName: variants[0],
+    },
   ];
   const isOutOfStock = (
     productQty: number | null | undefined,
@@ -84,14 +96,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   };
 
   const handleAddToCart = (productItem: ProductData) => {
-
     const { productQty, makeToOrder } = productItem.productDetails?.productQty;
     if (isOutOfStock(productQty, makeToOrder)) {
       setModalMessage("This product is out of stock.");
       setShowModal(true);
       return;
     }
-    showCustomToast('Item successfully added to cart!');
+    showCustomToast("Item successfully added to cart!");
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -99,7 +110,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      showCustomToast('Product Quantity Updated!');
+      showCustomToast("Product Quantity Updated!");
       updateCartQuantity(
         productItem.productDetails?.productId,
         updatedQuantity,
@@ -112,7 +123,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
           productId: productItem.productDetails.productId,
         },
         1,
-        formattedVariants
+        formattedVariants,
       );
     }
   };
@@ -121,7 +132,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     if (isLoggedIn) {
       const productToAdd: ProductForWishlistLoggedIn = {
         productId: product.productDetails.productId,
-        variants: formattedVariants, 
+        variants: formattedVariants,
       };
       addToWishlist(productToAdd);
       setIsProductInWishlist(true);
@@ -141,13 +152,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
     }
-    showCustomToast('Item Wishilisted!');
+    showCustomToast("Item Wishilisted!");
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
     setIsProductInWishlist(false);
-    showCustomToast('Removed from wishlist');
+    showCustomToast("Removed from wishlist");
   };
 
   const handleBuyNow = () => {
@@ -172,7 +183,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
           productId: product.productDetails.productId,
         },
         1,
-        formattedVariants
+        formattedVariants,
       );
     }
 
@@ -195,8 +206,11 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         Buy Now
       </div>
       <div
-        className="mx-10 h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178] max-sm:h-full max-sm:w-[35%]"
-        onClick={() => handleAddToCart(product)}
+        className="ripple-container mx-10 h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178] max-sm:h-full max-sm:w-[35%]"
+        onClick={(e) => {
+          createRipple(e);
+          handleAddToCart(product);
+        }}
       >
         <div className="m-[2px] mb-[2px] bg-white">
           <span className="flex justify-center py-[14px] max-sm:py-[10px]">
@@ -207,23 +221,23 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
           </span>
         </div>
       </div>
-      <div className="flex h-[58px] w-[56px] cursor-pointer items-center justify-center text-[#e26178] outline outline-1 outline-[#e26178] max-sm:h-[45px]">
+      <div
+        className="flex h-[58px] w-[56px] cursor-pointer items-center justify-center text-[#e26178] outline outline-1 outline-[#e26178] max-sm:h-[45px]"
+        onClick={() => {
+          if (isProductInWishlist) {
+            HandleremoveFromWishlist();
+          } else {
+            HandleaddToWishlist();
+          }
+        }}
+      >
         {isProductInWishlist ? (
-          <Icon.Heart
-            size={32}
-            color="#fa0000"
-            weight="fill"
-            onClick={() => HandleremoveFromWishlist()}
-          />
+          <Icon.Heart size={32} color="#fa0000" weight="fill" />
         ) : (
-          <Icon.Heart
-            size={32}
-            weight="thin"
-            color="#e26178"
-            onClick={() => HandleaddToWishlist()}
-          />
+          <Icon.Heart size={32} weight="thin" color="#e26178" />
         )}
       </div>
+
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
           <div className="flex flex-col items-center rounded-lg bg-white p-6">

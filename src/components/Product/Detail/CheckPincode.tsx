@@ -25,7 +25,6 @@ export default function CheckPincode() {
       //     },
       //   }
       // );
-
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
@@ -56,7 +55,6 @@ export default function CheckPincode() {
       console.error("Error making the request:", error);
     }
   };
-
   return (
     <div className="bg-white lg:w-[65%] p-4 mt-4">
       <p className="mb-3">Enter pincode to check delivery</p>

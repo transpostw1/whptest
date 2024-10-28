@@ -21,6 +21,8 @@ import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 
+
+
 export default function Home() {
   let logged = null;
   if (typeof window !== "undefined") {

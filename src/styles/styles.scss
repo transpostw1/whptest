@@ -13,6 +13,8 @@
 @import 'compare.scss';
 @import 'blur.scss';
 @import 'hover.css';
+@import 'ripple.css';
+@import 'button.scss';
 @import 'benefit.scss';
 @import 'layout/category.scss';
 @import 'layout/category-active.scss';
@@ -26,6 +28,7 @@
 @import 'layout/otpinput.scss';
 @import 'layout/newsletter.scss';
 @import 'layout/featured-product.scss';
+@import 'layout/button.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

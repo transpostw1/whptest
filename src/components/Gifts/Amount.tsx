@@ -6,16 +6,15 @@ interface AmountProps {
 }
 
 const Amount: FC<AmountProps> = ({ onAmountChange }) => {
-  const [amount, setAmount] = useState<string>(""); // Store formatted amount
-  const [rawAmount, setRawAmount] = useState<number>(0); // Store raw number without commas
+  const [amount, setAmount] = useState<string>(""); 
+  const [rawAmount, setRawAmount] = useState<number>(0);
   const { formatPrice, currency } = useCurrency();
 
-  // Helper function to format numbers with commas
+
   const formatWithCommas = (value: string | number): string => {
     return Number(value).toLocaleString("en-IN");
   };
 
-  // Remove commas before converting back to number
   const parseRawAmount = (value: string): number => {
     return Number(value.replace(/,/g, ""));
   };
@@ -23,18 +22,17 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Format input value with commas
     const formattedValue = formatWithCommas(value.replace(/,/g, ""));
     setAmount(formattedValue);
 
-    // Update raw amount without commas
+    
     const rawValue = parseRawAmount(value);
     setRawAmount(rawValue);
     onAmountChange(rawValue);
   };
 
   useEffect(() => {
-    handleButtonClick(rawAmount); // Apply exchange rate when currency changes
+    handleButtonClick(rawAmount); 
   }, [currency]);
 
   const handleButtonClick = (value: number) => {
@@ -45,7 +43,7 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
       convertedValue = value * 0.011;
     }
 
-    // Format the converted value with commas
+  
     setAmount(formatWithCommas(convertedValue));
     setRawAmount(convertedValue);
     onAmountChange(convertedValue);

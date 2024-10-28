@@ -1,7 +1,7 @@
 "use client"; // Add this line
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,MouseEvent } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { ProductData, ProductType } from "@/type/ProductType";
 import { useCart } from "@/context/CartContext";
@@ -10,6 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { showCustomToast } from "@/components/Other/CustomToast";
 
 interface Props {
   product: ProductType | ProductDetails;
@@ -42,6 +43,20 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
+  const createRipple = (event: MouseEvent<HTMLDivElement>) => {
+    const button = event.currentTarget;
+    const ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+    const rect = button.getBoundingClientRect();
+    ripple.style.left = `${event.clientX - rect.left - 50}px`;
+    ripple.style.top = `${event.clientY - rect.top - 50}px`;  
+    button.appendChild(ripple);
+    ripple.addEventListener("animationend", () => {
+      ripple.remove();
+    });
+  };
+
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 500px)");
     const handleChange = (e: any) => {
@@ -55,7 +70,6 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
       mediaQuery.removeListener(handleChange);
     };
   }, []);
-
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -106,6 +120,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
       setShowModal(true);
       return;
     }
+  
     const productAlreadyExists = cartItems.find(
       (item) => item.productId === productItem.productDetails.productId,
     );
@@ -117,6 +132,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         productItem.productDetails?.productId,
         updatedQuantity,
       );
+      showCustomToast('Product Quantity Updated!');
     } else {
       addToCart(
         {
@@ -128,6 +144,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         formattedVariants
       );
     }
+    showCustomToast('Item successfully added to cart!');
   };
 
   const HandleaddToWishlist = () => {
@@ -154,10 +171,12 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
       setIsProductInWishlist(true);
       addToWishlist(productToAdd);
     }
+    showCustomToast('Item Wishilisted!');
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(product.productDetails.productId);
+    showCustomToast('Removed from wishilist');
     setIsProductInWishlist(false);
   };
 
@@ -214,8 +233,11 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         )}
       </div>
       <div
-        className="mr-[10px] h-[41px] w-[20%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178]"
-        onClick={() => handleAddToCart(product)}
+        className="ripple-container mr-[10px] h-[41px] w-[20%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178]"
+        onClick={(e) => {
+          createRipple(e);
+          handleAddToCart(product);
+        }}
       >
         <div className="m-[2px] mb-[2px] h-[91%] bg-white">
           <span className="flex h-[91%] items-center justify-center">

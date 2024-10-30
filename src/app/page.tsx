@@ -16,8 +16,6 @@ import SpecialOccasion from "@/components/Home1/SpecialOccasion";
 import Reviews from "@/components/Home1/Reviews";
 import WhpTv from "@/components/Home1/WhpTv";
 import Whptv2 from "@/components/Home1/WhpTv2";
-import WhpApp from "@/components/Home1/WhpApp";
-import { useProductContext } from "@/context/ProductContext";
 import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";

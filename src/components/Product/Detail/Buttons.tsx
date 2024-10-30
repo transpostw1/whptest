@@ -40,7 +40,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const router = useRouter();
-
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("Out Of Stock");
 

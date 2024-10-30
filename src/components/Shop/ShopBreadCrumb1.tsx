@@ -1,15 +1,16 @@
-"Use Client";
-import React, { useState, useEffect, useRef } from "react";
+"use Client";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
-import "rc-slider/assets/index.css";
 import ReactPaginate from "react-paginate";
+import "rc-slider/assets/index.css";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
+import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
@@ -22,22 +23,17 @@ const ShopBreadCrumb1 = () => {
   const [mobileFilter, setMobileFilter] = useState<boolean>(false);
   const [data, setData] = useState<ProductType[]>([]);
   const productsListRef = useRef<HTMLDivElement>(null);
-
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-
-  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [skuList, setSkuList] = useState<string[]>([]);
   const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
-
   const productsPerPage = 50;
   const pagesVisited = pageNumber * productsPerPage;
   const searchParams = useSearchParams();
   const [initialOptions, setInitialOptions] = useState<any>({});
-
   const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
-
   const router = useRouter();
 
   const changePage = ({ selected }: any) => {
@@ -62,7 +58,8 @@ const ShopBreadCrumb1 = () => {
       combinedOptions.gender.length > 0 ||
       combinedOptions.karat.length > 0 ||
       combinedOptions.metal.length > 0 ||
-      combinedOptions.occasion.length > 0
+      combinedOptions.occasion.length > 0 ||
+      combinedOptions.productCategory.length > 0
     ) {
       try {
         setIsLoading(false);
@@ -82,6 +79,7 @@ const ShopBreadCrumb1 = () => {
             $weightRange: [WeightRangeArrayInput!]
             $occasion: [OccasionArrayInput!]
             $sortBy: String
+            $productCategory: String
             $sortOrder: String
           ) {
             products(
@@ -92,6 +90,7 @@ const ShopBreadCrumb1 = () => {
               karat: $karat
               metal: $metal
               weightRange: $weightRange
+              productCategory: $productCategory
               occasion: $occasion
               sortBy: $sortBy
               sortOrder: $sortOrder
@@ -202,6 +201,7 @@ const ShopBreadCrumb1 = () => {
             })),
             sortBy: "addDate",
             sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
           };
         } else {
           variables = {
@@ -229,6 +229,7 @@ const ShopBreadCrumb1 = () => {
             })),
             sortBy: "addDate",
             sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
           };
         }
         console.log("Variables passed for api call", variables);
@@ -239,6 +240,7 @@ const ShopBreadCrumb1 = () => {
 
         if (data && data.products) {
           setFilteredProducts(data.products);
+          setSelectedSortOption("All");
           setPageNumber(0);
           setIsLoading(false);
         } else {
@@ -253,6 +255,7 @@ const ShopBreadCrumb1 = () => {
       }
     }
   };
+
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
 
@@ -313,6 +316,11 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Occasion || []),
       ...(selectedOptions.Occasion || []),
     ];
+    combinedOptions.productCategory = [
+      ...(initialOptions.productCategory || []),
+      ...(selectedOptions.productCategory || []),
+    ];
+    console.log(combinedOptions, "COMBINEDDDDD");
     return combinedOptions;
   };
 
@@ -348,7 +356,9 @@ const ShopBreadCrumb1 = () => {
     if (options.Occasion && options.Occasion.length > 0) {
       urlParts.push(`o-${options.Occasion.join(",")}`);
     }
-
+    if (options.productCategory) {
+      urlParts.push(`pc-${options.productCategory}`);
+    }
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
     router.push(url);
   };
@@ -424,15 +434,21 @@ const ShopBreadCrumb1 = () => {
           selectedOptions.Color.includes(product.color),
         );
       }
-
+      if (selectedOptions.productCategory) {
+        filtered = filtered.filter((product: any) =>
+          selectedOptions.productCategory.includes(product.productCategory),
+        );
+      }
+      console.log(filtered, "FILTEREDDDD");
       setFilteredProducts(filtered);
+      setSelectedSortOption("All");
       setPageNumber(0);
     };
     applyFilters();
     console.log("useEffect - selectedOptions:", selectedOptions);
 
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    // console.log("Combined Options",combinedOptions)
+    console.log("Combined Options", combinedOptions);
     fetchData(combinedOptions);
     updateURL(selectedOptions);
   }, [selectedOptions]);
@@ -472,8 +488,10 @@ const ShopBreadCrumb1 = () => {
       if (key === "o") {
         initialOptions.Occasion = value.split(",");
       }
+      if (key === "pc") {
+        initialOptions.productCategory = value.split(",");
+      }
     });
-
     setSelectedOptions(initialOptions);
     console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
@@ -497,9 +515,6 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
-
-  //  console.log("selected options",selectedOptions)
-  // console.log("Selected Options", selectedOptions);
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";
@@ -551,8 +566,9 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/c-|_/g, " "); // Replace underscores with spaces
+    return str.replace(/(c-|s-|g-|p-|m-|_)/g, " ");
   };
+  
 
   // Modified string
   const modifiedString = removeUnderscores(category);
@@ -561,17 +577,16 @@ const ShopBreadCrumb1 = () => {
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already loaded
+      
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
         )
       ) {
-        resolve(); // Script already loaded
+        resolve(); 
         return;
       }
 
-      // Create the script tag
       const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
@@ -586,7 +601,6 @@ const ShopBreadCrumb1 = () => {
       };
       script.onerror = () => reject(new Error("Failed to load script"));
 
-      // Append the script to the body
       document.body.appendChild(script);
     });
   };
@@ -607,7 +621,9 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     // Fetch SKU list only once on component mount
     fetchSkusList();
-  }, []); // Empty dependency array ensures this runs only on mount
+  }, []);
+
+
 
   return (
     <div className="shop-product breadcrumb1">
@@ -633,6 +649,7 @@ const ShopBreadCrumb1 = () => {
               <div className="sm:w-[100%] lg:w-[70%]">
                 {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
+                <BreadCrumb/>
                 <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                   {Object.entries(selectedOptions).flatMap(
                     ([category, options]) =>
@@ -657,6 +674,7 @@ const ShopBreadCrumb1 = () => {
               <div className="relative hidden lg:block">
                 <label className="font-semibold">Sort By: </label>
                 <select
+                  value={selectedSortOption}
                   onChange={(e) => handleSortOptionChange(e.target.value)}
                   className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
                 >

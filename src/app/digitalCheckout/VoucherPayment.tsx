@@ -549,6 +549,7 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
                   width={24}
                   height={24}
                   objectFit="fill"
+                  unoptimized
                 />
                 Razorpay (UPI, Cards)
               </label>

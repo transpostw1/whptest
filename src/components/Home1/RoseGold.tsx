@@ -111,7 +111,7 @@ const RoseGold = () => {
       </div>
       <div className="flex max-sm:w-full max-sm:justify-center sm:justify-center">
         <Image
-          src={"/images/roseGoldImages/roseGoldRingBanner.png"}
+          src={"/images/roseGoldImages/roseGoldRing.png"}
           width={bannerwidth}
           height={height}
           alt={"the rose gold section"}

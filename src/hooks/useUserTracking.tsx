@@ -123,7 +123,7 @@ const useUserTracking = () => {
       );
       const postData = {
         user_email: userDetails?.email || null,
-        user_id: userDetails?.customer_id,
+        user_id:parseInt(userDetails?.customer_id)|| null,
         current_url: currentPage,
         time_spend: timeOnPage,
         no_of_clicks: clicksOnPage,

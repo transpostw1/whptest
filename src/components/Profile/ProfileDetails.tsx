@@ -9,6 +9,7 @@ import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
 import axios from "axios";
 import AddAddressModal from "@/app/checkout/AddAddressModal";
+import ProfileAddAddressModal from "@/components/Profile/ProfileAddAddressModal"
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
 import { IoMdLogOut } from "react-icons/io";
@@ -27,7 +28,7 @@ const ProfileDetails = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
-  console.log("Usererrerer",userDetails?.dob)
+  console.log("Usererrerer", userDetails?.dob);
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -43,6 +44,7 @@ const ProfileDetails = () => {
   };
   const closeModal = () => {
     setShowAddressModal(false);
+    window.location.reload();
   };
 
   const handleRemoveAddress = async (id: any) => {
@@ -222,9 +224,7 @@ const ProfileDetails = () => {
               Date of Birth
             </label>
             <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
-              <span className="text-md font-semibold">
-                {userDetails?.dob}
-              </span>
+              <span className="text-md font-semibold">{userDetails?.dob}</span>
             </div>
           </div>
           <div>
@@ -277,11 +277,10 @@ const ProfileDetails = () => {
               </span>
             </div>
           </div>
-        
         </div>
       </form>
       <hr className="mt-3" />
-      <div className="flex justify-between mb-2">
+      <div className="mb-2 flex justify-between">
         <h2 className="mb-1 mt-4 text-xl font-semibold">My Addresses</h2>
         <h2
           className="mb-1 mt-4 cursor-pointer text-xl text-[#e26178]"
@@ -326,7 +325,7 @@ const ProfileDetails = () => {
           ))}
       </div>
       {showAddressModal && (
-        <AddAddressModal
+        <ProfileAddAddressModal
           closeModal={closeModal}
           isForBillingAddress={false}
           onAddressAdded={function (isBillingAddress: boolean): void {

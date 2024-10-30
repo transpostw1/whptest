@@ -408,7 +408,6 @@ const Checkout: React.FC = () => {
       let cartData;
 
       if (buyNow) {
-        // console.log("Removing buy now items from cart:", finalBuyNowItems);
         for (const item of finalBuyNowItems) {
           await removeFromCart(item.productId);
         }
@@ -417,7 +416,7 @@ const Checkout: React.FC = () => {
           productId: item.productId,
           quantity: 0,
         }));
-      }
+      
 
       const getAuthHeaders: any = () => {
         if (!cookieToken) return null;
@@ -470,7 +469,7 @@ const Checkout: React.FC = () => {
       typeof window !== "undefined"
         ? localStorage.removeItem("cartItems")
         : null;
-
+    }
       setCartItems([]);
       setIsOrderPlaced(true);
       setSelectedShippingAddress(null);

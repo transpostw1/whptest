@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";

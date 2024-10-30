@@ -520,7 +520,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian === 4 ? (
-          <div className="p-4 sm:w-[100%] lg:w-[100%]">
+          <div className="p-2 sm:w-[100%] lg:w-[100%]">
             <div className="flex justify-between border border-[#ebe7e7] p-2">
               <div>Component</div>
               <div>Weight</div>

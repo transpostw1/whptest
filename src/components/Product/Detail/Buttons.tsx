@@ -244,7 +244,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         </div>
       </div>
       <div
-        className="flex h-[58px] w-[56px] cursor-pointer items-center justify-center text-[#e26178] outline outline-1 outline-[#e26178] max-sm:h-[45px]"
+        className="flex h-[58px] w-[56px] cursor-pointer items-center justify-center c outline outline-1 outline-[#e26178] max-sm:h-[45px]"
         onClick={() => {
           if (isProductInWishlist) {
             HandleremoveFromWishlist();

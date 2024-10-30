@@ -693,7 +693,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             </ul>
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
-          <Coupons product={data}/>
+          <Coupons product={data} />
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
@@ -717,13 +717,7 @@ const Default: React.FC<Props> = ({ productId }) => {
           <Accordian product={data} />
         </div>
       </div>
-
-      {data?.productDetails?.review.length !== 0 && (
-        <div className="">
-          <ReviewsAndRatings product={data} />
-        </div>
-      )}
-
+      <ReviewsAndRatings product={data} />
       <div>
         {data && (
           <SimilarProducts productId={data?.productDetails?.productId} />

@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import Hotjar from "@hotjar/browser";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -21,8 +22,6 @@ import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 
-
-
 export default function Home() {
   let logged = null;
   if (typeof window !== "undefined") {
@@ -34,6 +33,15 @@ export default function Home() {
     { x: 300, y: 350, value: 70 },
     { x: 300, y: 2550, value: 70 },
   ];
+
+  const siteId = 5191013;
+  const hotjarVersion = 6;
+  useEffect(() => {
+    console.log("HOTJARUSEFFECT")
+    if (typeof window !== 'undefined') {
+      Hotjar.init(siteId, hotjarVersion);
+    }
+  }, []);
   return (
     <>
       {/* <Head>

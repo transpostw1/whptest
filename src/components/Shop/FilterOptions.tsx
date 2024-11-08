@@ -11,7 +11,7 @@ const Filter: Filter[] = [
   {
     title: "Price",
     options: ["0to10000", "10000to20000", "20000to30000", "30000to30000000"],
-    labels: ["Less than 10K", "10K to 20K", "20K to 30K", "30K and Above"],
+    labels: ["Less than 10K (200)", "10K to 20K", "20K to 30K", "30K and Above"],
   },
   {
     title: "Karat",
@@ -24,7 +24,7 @@ const Filter: Filter[] = [
     labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"],
   },
   {
-    title: "Shop For",
+    title: "Shop_For",
     options: ["Men", "Women", "Kids"],
     labels: ["Men", "Women", "Kids"],
   },

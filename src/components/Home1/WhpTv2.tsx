@@ -10,7 +10,7 @@ import VideoFeed from "@/components/Video/VideoFeed";
 import { ProductType } from "@/type/ProductType";
 import axios from "axios";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
-import { baseUrl2,graphqlbaseUrl, getAllReels } from "@/utils/constants";
+import { baseUrl2, graphqlbaseUrl, getAllReels } from "@/utils/constants";
 interface PlayList {
   sequence: number;
   name: string;
@@ -22,24 +22,24 @@ interface PlayList {
 const GET_ALL_REELS = gql`
   query Query {
     getAllReels {
-    id
-    name
-    thumbnail
-    video
-    productDetails {
-      productId
-      displayTitle
-      url
-      imageDetails {
-        image_path
-        order
-        alt_text
+      id
+      name
+      thumbnail
+      video
+      productDetails {
+        productId
+        displayTitle
+        url
+        imageDetails {
+          image_path
+          order
+          alt_text
+        }
+        productPrice
+        discountPrice
       }
-      productPrice
-      discountPrice
     }
   }
-}
 `;
 
 // import Fade from 'react-reveal'
@@ -83,7 +83,6 @@ const Whptv2 = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-    
 
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
@@ -95,20 +94,20 @@ const Whptv2 = () => {
       });
       const fetchedData = data.getAllReels;
       setPlayList(fetchedData);
-  
+
       // Assuming fetchedData is an array of objects
       const mappedData = fetchedData.map((item: any) => ({
         reelId: item.id, // Replace 'key1' with the actual key you want to map
-        video: item.video,  // Replace 'key2' with the actual key you want to map
+        video: item.video,
       }));
-      setVideos(mappedData); // setVideos with the mapped data
+      setVideos(mappedData); 
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -117,12 +116,13 @@ const Whptv2 = () => {
     const sortedPlayList = [...videos];
     if (currentVideo) {
       const currentVideoIndex = sortedPlayList.findIndex(
-        (video) => video.reelId === currentVideo.reelId
+        (video) => video.reelId === currentVideo.reelId,
       );
       sortedPlayList.splice(currentVideoIndex, 1);
       sortedPlayList.unshift(currentVideo);
     }
     setVideos(sortedPlayList);
+    console.log("Sorted PlayList", sortedPlayList);
   }, [currentVideo, playList]);
 
   useEffect(() => {
@@ -144,8 +144,8 @@ const Whptv2 = () => {
   if (loading) return null;
   return (
     <>
-      <div className="collection-block md:pt-20 pt-10">
-        <div className="flex flex-col justify-between text-red-950 gap-8 px-8">
+      <div className="collection-block pt-10 md:pt-20">
+        <div className="flex flex-col justify-between gap-8 px-8 text-red-950">
           <h1 className="text-5xl">
             Shop with <br /> WHP TV
           </h1>
@@ -154,7 +154,7 @@ const Whptv2 = () => {
             occasion. Find the piece that speaks to your style and story.
           </p>
         </div>
-        <div className="list-collection section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4">
+        <div className="list-collection section-swiper-navigation mt-6 px-4 sm:px-5 md:mt-10">
           <Swiper
             spaceBetween={12}
             slidesPerView={2}
@@ -179,7 +179,7 @@ const Whptv2 = () => {
             {playList.map((video: any, index: any) => (
               <SwiperSlide key={index}>
                 <div
-                  className="collection-item block relative overflow-hidden cursor-pointer"
+                  className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => handleOpenModal(video)}
                 >
                   <div className="bg-img">
@@ -191,7 +191,7 @@ const Whptv2 = () => {
                       unoptimized
                     />
                   </div>
-                  <div className="collection-name bg-[#f7f7ff7] heading7 text-center sm:bottom-8  lg:w-[150px] md:w-[160px] w-[100px] md:py-3 py-1.5 duration-500">
+                  <div className="collection-name heading7 w-[100px] bg-[#f7f7ff7] py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[150px]">
                     <span className="flex justify-center">
                       <span>Watch</span>
                       <span className="">
@@ -222,11 +222,11 @@ const Whptv2 = () => {
           >
             <button
               onClick={handleCloseModal}
-              className="fixed top-5 right-5 bg-white text-black p-2 rounded-full z-50"
+              className="fixed right-5 top-5 z-50 rounded-full bg-white p-2 text-black"
             >
               <Icon.X size={25} />
             </button>
-            <VideoFeed videos={videos} playList={playList}/>
+            <VideoFeed videos={videos} playList={playList} />
           </div>
         )}
       </div>

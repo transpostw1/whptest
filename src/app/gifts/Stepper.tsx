@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const Stepper = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <div></div>
+  );
+};
 
-export default Stepper
+export default Stepper;

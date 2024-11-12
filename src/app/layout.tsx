@@ -28,7 +28,7 @@ export default function RootLayout({
           <link rel="icon" href="/images/other/logo2.png" />
           <meta name="whp" content="Welcome to WHP jewellers" />
         </head>
-        {/* <Suspense> */}
+        <Suspense>
         <body className={instrument.className}>
           <UserTracking />
           <TopNavOne textColor="text-white" />
@@ -40,7 +40,7 @@ export default function RootLayout({
           <Footer />
           <Toaster position="top-center" reverseOrder={false} />
         </body>
-        {/* </Suspense> */}
+        </Suspense>
       </html>
     </GlobalProvider>
   );

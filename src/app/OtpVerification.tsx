@@ -12,7 +12,7 @@ import { graphqlbaseUrl } from "@/utils/constants";
 import OTPInput from "react-otp-input";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
-import {  login } from "@/utils/constants";
+import { login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import Preloader from "@/components/Other/Preloader";
 
@@ -65,27 +65,32 @@ const OtpVerification = ({
     }
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + formikValues.phoneNumber;
+
     try {
       setLoading(true);
       setFirebaseError(null);
       const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
       setVerificationId(result.verificationId);
-      setIsOtpSent(true); 
+      setIsOtpSent(true);
       setErrorMessage(null);
       console.log("OTP sent successfully");
     } catch (error: any) {
       console.error("Error sending OTP:", error);
       console.error(FirebaseError, error.message, "FIREE");
+
       setLoading(false);
+
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
-      } else if (error?.code === 400 && error.message?.includes("CAPTCHA_CHECK_FAILED")) {
+        return;
+      } else if (
+        error?.code === 400 &&
+        error.message?.includes("CAPTCHA_CHECK_FAILED")
+      ) {
         console.log("Ignoring CAPTCHA_CHECK_FAILED error");
+        return;
       }
-      else {
-        setErrorMessage("Invalid Number or Try again");
-      }
-      //  setFirebaseError(error.message);
+      setErrorMessage("Invalid Number or Try again");
     }
   };
 
@@ -95,7 +100,6 @@ const OtpVerification = ({
       return;
     }
     try {
-
       setVerifying(true);
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
@@ -112,7 +116,7 @@ const OtpVerification = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-  
+
       const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
         mutation Mutation($phoneNumber: String) {
           storeRegistrationAttempts(phoneNumber: $phoneNumber) {
@@ -121,15 +125,18 @@ const OtpVerification = ({
           }
         }
       `;
-       const { data } = await client.mutate({
+      const { data } = await client.mutate({
         mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
         variables: {
-          phoneNumber, 
+          phoneNumber,
         },
       });
-      console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
+      console.log(
+        "Registration attempt stored successfully:",
+        data.storeRegistrationAttempts.message,
+      );
       onOtpVerified();
-    } catch (error:any) {
+    } catch (error: any) {
       setVerifying(false);
       console.error("Error signing in with OTP:", error);
       if (error.code === "auth/invalid-verification-code") {
@@ -215,18 +222,19 @@ const OtpVerification = ({
   const handleCombinedClick = () => {
     if (isRegisterPage) {
       verifySignin();
-      
+
       // onSubmit(formikValues);
     } else {
       onVerify();
     }
   };
   const handleLoginSubmit = () => {
-    if (isRegisterPage) {
+    // if (isRegisterPage) {
       // onSubmit(formikValues);
       onSendOtp();
-    }
-    onSendOtp();
+    // } else {
+      // onSendOtp();
+    // }
   };
 
   return (
@@ -246,8 +254,11 @@ const OtpVerification = ({
               numInputs={6}
               renderSeparator={<span className="mx-2">-</span>}
               renderInput={(props) => (
-                <input {...props} placeholder="0"       className="otpInput w-14 h-10 text-center border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#E26178] transition duration-200 ease-in-out"
- />
+                <input
+                  {...props}
+                  placeholder="0"
+                  className="otpInput h-10 w-14 rounded-full border border-gray-300 text-center transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#E26178]"
+                />
               )}
             />
           </div>

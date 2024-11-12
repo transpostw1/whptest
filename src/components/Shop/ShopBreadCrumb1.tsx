@@ -35,6 +35,7 @@ const ShopBreadCrumb1 = () => {
   const [initialOptions, setInitialOptions] = useState<any>({});
   const [fetchProducts, setFetchProducts] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
+  const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
 
   const handleProducts = () => {
@@ -47,7 +48,6 @@ const ShopBreadCrumb1 = () => {
     if (isLoadMore) {
       setOffset((prevOffset) => prevOffset + productsPerPage);
       triggerFetchData();
-      setIsLoadMore(false); // Reset isLoadMore here
     }
   }, [isLoadMore]);
   useEffect(() => {
@@ -60,16 +60,6 @@ const ShopBreadCrumb1 = () => {
       setFetchProducts(false); // Reset to prevent unnecessary fetches
     }
   }, [fetchProducts, offset]); // Add offset dependency
-
-  const handleSortOptionChange = (option: string) => {
-    setSelectedSortOption(option);
-  };
-
-  // const handleFilterChange = (filteredProducts: ProductType[]) => {
-  //   setFilteredProducts(filteredProducts);
-  //   setIsLoading(false);
-  //   setPageNumber(0);
-  // };
 
   const fetchData = async (combinedOptions: any) => {
     if (
@@ -208,8 +198,8 @@ const ShopBreadCrumb1 = () => {
             category: [{ value: "" }],
             search: [{ value: "" }],
             priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((gender: string) => ({
-              value: gender,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
             })),
             karat: combinedOptions.karat.map((karat: string) => ({
               value: karat,
@@ -238,8 +228,8 @@ const ShopBreadCrumb1 = () => {
               value: search,
             })),
             priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((gender: string) => ({
-              value: gender,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
             })),
             karat: combinedOptions.karat.map((karat: string) => ({
               value: karat,
@@ -265,21 +255,23 @@ const ShopBreadCrumb1 = () => {
           query: GET_PRODUCTS,
           variables,
         });
-        if (data && data.products && isLoadMore) {
-          console.log("AAditya", isLoadMore, offset);
+        if (data && data.products) {
           setFilteredProducts((prevProducts) =>
             isLoadMore ? [...prevProducts, ...data.products] : data.products,
           );
           setSelectedSortOption("All");
-        } else if (data && data.products && !isLoadMore) {
-          console.log("telange", isLoadMore, offset);
-          setFilteredProducts((prevProducts) => [
-            ...prevProducts,
-            ...data.products,
-          ]);
-          setSelectedSortOption("All");
-          setIsLoading(false);
-        } else {
+          setIsLoadMore(false);
+        }
+        //else if (data && data.products && !isLoadMore) {
+        //   console.log("oooooooooooooooooooooooooooofffffffffffffffffffffffffsettttttttttt",offset,isLoadMore)
+        //   setFilteredProducts((prevProducts) => [
+        //     ...prevProducts,
+        //     ...data.products,
+        //   ]);
+        //   setSelectedSortOption("All");
+        //   setIsLoading(false);
+        // }
+        else {
           setIsLoading(true);
           console.error("Error: No products data received");
         }
@@ -290,6 +282,136 @@ const ShopBreadCrumb1 = () => {
         setIsLoading(true);
       }
     }
+  };
+
+  const fetchFilter = async (combinedOptions: any) => {
+    if (
+      combinedOptions.category.length > 0 ||
+      combinedOptions.search.length > 0 ||
+      combinedOptions.priceFilter.length > 0 ||
+      combinedOptions.shop_for.length > 0 ||
+      combinedOptions.karat.length > 0 ||
+      combinedOptions.metal.length > 0 ||
+      combinedOptions.occasion.length > 0 ||
+      combinedOptions.productCategory.length > 0
+    ) {
+      try {
+        setIsLoading(false);
+        const client = new ApolloClient({
+          uri: graphqlProductUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_FILTERS = gql`
+          query FilterProducts(
+            $category: [CategoryArrayInput!]
+            $search: [SearchArrayInput!]
+            $priceFilter: [PriceArrayInput!]
+            $gender: [GenderArrayInput!]
+            $karat: [KaratArrayInput!]
+            $metal: [MetalArrayInput!]
+            $weightRange: [WeightRangeArrayInput!]
+            $occasion: [OccasionArrayInput!]
+            $sortBy: String
+            $productCategory: String
+            $sortOrder: String
+          ) {
+            filterProducts(
+              category: $category
+              search: $search
+              priceFilter: $priceFilter
+              gender: $gender
+              karat: $karat
+              metal: $metal
+              weightRange: $weightRange
+              productCategory: $productCategory
+              occasion: $occasion
+              sortBy: $sortBy
+              sortOrder: $sortOrder
+            ) {
+              title
+              options
+              labels
+            }
+          }
+        `;
+        let variables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          variables = {
+            category: [{ value: "" }],
+            search: [{ value: "" }],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
+          };
+        } else {
+          variables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            search: combinedOptions.search.map((search: string) => ({
+              value: search,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
+          };
+        }
+        console.log("Variables passed for api call", variables);
+        const { data } = await client.query({
+          query: GET_FILTERS,
+          variables,
+        });
+        if (data && data.filterProducts) {
+          setFilters(data.filterProducts);
+          setSelectedSortOption("All");
+          setIsLoadMore(false);
+        } else {
+          setIsLoading(true);
+          console.error("Error: No Filters received");
+        }
+      } catch (error) {
+        setIsLoading(true);
+        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+      } finally {
+        setIsLoading(true);
+      }
+    }
+  };
+
+  const handleSortOptionChange = (option: string) => {
+    setSelectedSortOption(option);
   };
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
@@ -328,8 +450,8 @@ const ShopBreadCrumb1 = () => {
     });
 
     combinedOptions.shop_for = [
-      ...(initialOptions.Shop_for || []),
-      ...(selectedOptions.Shop_for || []),
+      ...(initialOptions.Shop_For || []),
+      ...(selectedOptions.Shop_For || []),
     ];
 
     // Combine karat options
@@ -371,8 +493,8 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`s-${options.Search.join(",")}`);
     }
 
-    if (options.Shop_for && options.Shop_for.length > 0) {
-      urlParts.push(`g-${options.Shop_for.join(",")}`);
+    if (options.Shop_For && options.Shop_For.length > 0) {
+      urlParts.push(`g-${options.Shop_For.join(",")}`);
     }
 
     if (options.Karat && options.Karat.length > 0) {
@@ -417,9 +539,9 @@ const ShopBreadCrumb1 = () => {
       }
 
       // Apply gender filter
-      if (selectedOptions.Shop_for && selectedOptions.Shop_for.length > 0) {
+      if (selectedOptions.Shop_For && selectedOptions.Shop_For.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Shop_for.includes(product.shop_for),
+          selectedOptions.Shop_For.includes(product.shop_for),
         );
       }
 
@@ -484,6 +606,7 @@ const ShopBreadCrumb1 = () => {
     console.log("useEffect - selectedOptions:", selectedOptions);
     setOffset(0);
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
+    fetchFilter(combinedOptions);
     fetchData(combinedOptions);
     console.log("Combined Options", combinedOptions);
     updateURL(selectedOptions);
@@ -653,14 +776,9 @@ const ShopBreadCrumb1 = () => {
   };
 
   useEffect(() => {
-    // Fetch SKU list only once on component mount
     fetchSkusList();
   }, []);
 
-  useEffect(() => {
-    // Fetch SKU list only once on component mount
-    console.log("filteredProducts", filteredProducts);
-  }, [filteredProducts]);
   return (
     <div className="shop-product breadcrumb1">
       <div className="container">
@@ -668,6 +786,7 @@ const ShopBreadCrumb1 = () => {
         <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
           <FilterSidebar
             data={data}
+            filters={filters}
             filteredProducts={filteredProducts}
             onFilterChange={(options) => setSelectedOptions(options)}
             mobileFilter={mobileFilter}

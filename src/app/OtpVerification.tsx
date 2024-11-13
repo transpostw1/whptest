@@ -22,6 +22,7 @@ interface OtpVerificationProps {
   onSubmit: (values: any) => void;
   isRegisterPage: boolean;
   errorMessage: string | any;
+  onOtpVerified: () => void;
 }
 
 // class Token {

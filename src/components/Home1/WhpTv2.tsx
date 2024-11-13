@@ -7,9 +7,9 @@ import "swiper/css/bundle";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import VideoFeed from "@/components/Video/VideoFeed";
 import { ProductType } from "@/type/ProductType";
-import { ApolloClient, InMemoryCache, gql  , HttpLink } from "@apollo/client";
+import axios from "axios";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { baseUrl2, graphqlbaseUrl, getAllReels } from "@/utils/constants";
-
 interface PlayList {
   sequence: number;
   name: string;
@@ -97,9 +97,9 @@ const Whptv2 = () => {
       // Assuming fetchedData is an array of objects
       const mappedData = fetchedData.map((item: any) => ({
         reelId: item.id, // Replace 'key1' with the actual key you want to map
-        video: item.video, // Replace 'key2' with the actual key you want to map
+        video: item.video,
       }));
-      setVideos(mappedData); // setVideos with the mapped data
+      setVideos(mappedData); 
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -121,6 +121,7 @@ const Whptv2 = () => {
       sortedPlayList.unshift(currentVideo);
     }
     setVideos(sortedPlayList);
+    console.log("Sorted PlayList", sortedPlayList);
   }, [currentVideo, playList]);
 
   useEffect(() => {

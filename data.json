@@ -1,202 +1,320 @@
-[
-  {
-      "reelId": 4,
-      "name": "Rose Gold Pendants",
-      "thumbnail": "https://wamanharipethe.s3.amazonaws.com/reels/1711624313_4.jpg",
-      "video": "https://wamanharipethe.s3.amazonaws.com/reels/1711624318_4.mp4",
-      "products": [
+{
+  "data": {
+    "getAllMenus": [
+      {
+        "id": "54",
+        "name": "All Jewellery",
+        "url": "",
+        "image": "",
+        "parent_id": null,
+        "subCategory": [
           {
-              "productId": 169,
-              "SKU": "gpnstD21001741",
-              "displayTitle": "Rose Gold Pendent For Women",
-              "url": "rose-gold-pendent-for-women",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/169/1711623867_210818_033649_396_371_0_1.png",
-              "discountPrice": "38150.42",
-              "productPrice": "39596.5341",
-              "rating": "0.0"
+            "name": "Explore Category",
+            "url": "",
+            "parent_id": "54",
+            "image": "",
+            "id": "55",
+            "subCategory": [
+              {
+                "url": "c-ring",
+                "parent_id": "55",
+                "name": "Rings",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720505743_ringss.png",
+                "id": "56"
+              },
+              {
+                "url": "c-earring",
+                "parent_id": "55",
+                "name": "Earrings",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720508823_earrings.png",
+                "id": "57"
+              },
+              {
+                "url": "c-pendant",
+                "parent_id": "55",
+                "name": "Pendants",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720516610_pendants.png",
+                "id": "58"
+              },
+              {
+                "url": "c-bangle",
+                "parent_id": "55",
+                "name": "Bangles",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720516190_bangle.png",
+                "id": "59"
+              },
+              {
+                "url": "c-mangalsutra",
+                "parent_id": "55",
+                "name": "Mangalsutra",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720509716_mangalsutra.png",
+                "id": "60"
+              },
+              {
+                "url": "c-chain",
+                "parent_id": "55",
+                "name": "Chains",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720510497_chain.png",
+                "id": "61"
+              },
+              {
+                "url": "c-necklace",
+                "parent_id": "55",
+                "name": "Necklaces",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720511440_necklace.png",
+                "id": "62"
+              },
+              {
+                "url": "c-bracelet",
+                "parent_id": "55",
+                "name": "Bracelets",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720512043_bracelets.png",
+                "id": "63"
+              },
+              {
+                "url": "c-nosepin",
+                "parent_id": "55",
+                "name": "Nose Pin",
+                "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720516093_nosepin%20(2).png",
+                "id": "64"
+              }
+            ]
           },
           {
-              "productId": 163,
-              "SKU": "dltd19047569",
-              "displayTitle": "Diamond Pendant",
-              "url": "diamond-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/163/1711609110_dltd19047569_1.png",
-              "discountPrice": "20815.81",
-              "productPrice": "22620.8147",
-              "rating": "0.0"
+            "name": "Shop For",
+            "url": "",
+            "parent_id": "54",
+            "image": "",
+            "id": "67",
+            "subCategory": [
+              {
+                "url": "g-men",
+                "parent_id": "67",
+                "name": "Men",
+                "image": "",
+                "id": "68"
+              },
+              {
+                "url": "g-women",
+                "parent_id": "67",
+                "name": "Women",
+                "image": "",
+                "id": "69"
+              },
+              {
+                "url": "g-kids",
+                "parent_id": "67",
+                "name": "Kids",
+                "image": "",
+                "id": "70"
+              }
+            ]
           },
           {
-              "productId": 162,
-              "SKU": "LP13711",
-              "displayTitle": "Diamond Pendant For Women",
-              "url": "diamond-pendant-for-women",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/162/1711608783_LP13711_1.png",
-              "discountPrice": "15452.52",
-              "productPrice": "17007.5207",
-              "rating": "0.0"
+            "name": "Shop By Type",
+            "url": "",
+            "parent_id": "54",
+            "image": "",
+            "id": "71",
+            "subCategory": [
+              {
+                "url": "m-gold",
+                "parent_id": "71",
+                "name": "Gold",
+                "image": "",
+                "id": "72"
+              },
+              {
+                "url": "m-rose_gold",
+                "parent_id": "71",
+                "name": "Rose Gold",
+                "image": "",
+                "id": "74"
+              },
+              {
+                "url": "m-white_gold",
+                "parent_id": "71",
+                "name": "White Gold",
+                "image": "",
+                "id": "75"
+              },
+              {
+                "url": "m-diamond",
+                "parent_id": "71",
+                "name": "Diamond",
+                "image": "",
+                "id": "76"
+              },
+              {
+                "url": "m-gemstone",
+                "parent_id": "71",
+                "name": "Gemstone",
+                "image": "",
+                "id": "77"
+              }
+            ]
+          },
+          {
+            "name": "Shop By Price",
+            "url": "",
+            "parent_id": "54",
+            "image": "",
+            "id": "78",
+            "subCategory": [
+              {
+                "url": "p-0to10000",
+                "parent_id": "78",
+                "name": "Less than 10K",
+                "image": "",
+                "id": "79"
+              },
+              {
+                "url": "p-10000to20000",
+                "parent_id": "78",
+                "name": "10K To 20K",
+                "image": "",
+                "id": "80"
+              },
+              {
+                "url": "p-20000to30000",
+                "parent_id": "78",
+                "name": "20K To 30K",
+                "image": "",
+                "id": "81"
+              },
+              {
+                "url": "p-30000to40000",
+                "parent_id": "78",
+                "name": "30K To 40K",
+                "image": "",
+                "id": "82"
+              },
+              {
+                "url": "p-40000to50000",
+                "parent_id": "78",
+                "name": "40K To 50K",
+                "image": "",
+                "id": "83"
+              },
+              {
+                "url": "p-50000to1000000000",
+                "parent_id": "78",
+                "name": "50K And Above",
+                "image": "",
+                "id": "84"
+              }
+            ]
+          },
+          {
+            "name": "Shop By Karat",
+            "url": "",
+            "parent_id": "54",
+            "image": "",
+            "id": "85",
+            "subCategory": [
+              {
+                "url": "k-14KT",
+                "parent_id": "85",
+                "name": "14KT",
+                "image": "",
+                "id": "86"
+              },
+              {
+                "url": "k-18KT",
+                "parent_id": "85",
+                "name": "18KT",
+                "image": "",
+                "id": "87"
+              },
+              {
+                "url": "k-22KT",
+                "parent_id": "85",
+                "name": "22KT",
+                "image": "",
+                "id": "88"
+              },
+              {
+                "url": "k-23KT",
+                "parent_id": "85",
+                "name": "23KT",
+                "image": "",
+                "id": "89"
+              },
+              {
+                "url": "k-24KT",
+                "parent_id": "85",
+                "name": "24KT",
+                "image": "",
+                "id": "90"
+              }
+            ]
           }
-      ]
-  },
-  {
-      "reelId": 5,
-      "name": "Gold Ring",
-      "thumbnail": "https://wamanharipethe.s3.amazonaws.com/reels/1711624419_5.jpg",
-      "video": "https://wamanharipethe.s3.amazonaws.com/reels/1711624424_5.mp4",
-      "products": [
-          {
-              "productId": 149,
-              "SKU": "GRG0002",
-              "displayTitle": "Gold Ring",
-              "url": "gold-ring",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/149/1711604076_GRG0002_1.png",
-              "discountPrice": "26213.22",
-              "productPrice": "27148.6885",
-              "rating": "0.0"
-          },
-          {
-              "productId": 152,
-              "SKU": "PGR1058",
-              "displayTitle": "Gold Ring",
-              "url": "gold-ring",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/152/1711604803_PGR1058_1.png",
-              "discountPrice": "85138.23",
-              "productPrice": "88122.8654",
-              "rating": "0.0"
-          },
-          {
-              "productId": 148,
-              "SKU": "GRGD23024803",
-              "displayTitle": "Gold Ring",
-              "url": "gold-ring",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/148/1711603608_GRGD23024803_1.png",
-              "discountPrice": "17413.19",
-              "productPrice": "18042.6315",
-              "rating": "0.0"
-          },
-          {
-              "productId": 147,
-              "SKU": "GRGD22140600",
-              "displayTitle": "Gold Ring",
-              "url": "gold-ring",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/147/1711602786_GRGD22140600_1.png",
-              "discountPrice": "10493.30",
-              "productPrice": "10941.7879",
-              "rating": "0.0"
-          },
-          {
-              "productId": 146,
-              "SKU": "GRGD22075946",
-              "displayTitle": "The Only One Gold Ring",
-              "url": "the-only-one-gold-ring",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/146/1711602527_GRGD22075946_1.png",
-              "discountPrice": "8582.30",
-              "productPrice": "8904.6394",
-              "rating": "0.0"
-          }
-      ]
-  },
-  {
-      "reelId": 6,
-      "name": "Gold Pendant",
-      "thumbnail": "https://wamanharipethe.s3.amazonaws.com/reels/1711624606_9.jpg",
-      "video": "https://wamanharipethe.s3.amazonaws.com/reels/1711624612_9.mp4",
-      "products": [
-          {
-              "productId": 170,
-              "SKU": "GCHD23054678",
-              "displayTitle": "Gold Pendant with Chain for Kids",
-              "url": "gold-locket-with-chain-for-kids",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/170/1711624140_231017_112216_745_932_0_1.png",
-              "discountPrice": "96064.44",
-              "productPrice": "99429.0467",
-              "rating": "0.0"
-          },
-          {
-              "productId": 168,
-              "SKU": "GLTD23024117",
-              "displayTitle": "Gold Pendant",
-              "url": "gold-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/168/1711623559_GLTD23024117_1.png",
-              "discountPrice": "28059.69",
-              "productPrice": "29059.3746",
-              "rating": "0.0"
-          }
-      ]
-  },
-  {
-      "reelId": 7,
-      "name": "Silver Pendant",
-      "thumbnail": "https://wamanharipethe.s3.amazonaws.com/reels/1711646647_10.jpg",
-      "video": "https://wamanharipethe.s3.amazonaws.com/reels/1711646653_10.mp4",
-      "products": [
-          {
-              "productId": 143,
-              "SKU": "dpnd19052032",
-              "displayTitle": "Diamond Pendant",
-              "url": "diamond-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/143/1710930800_dpnd19052032.png",
-              "discountPrice": "42645.35",
-              "productPrice": "45852.8540",
-              "rating": "1.8"
-          },
-          {
-              "productId": 168,
-              "SKU": "GLTD23024117",
-              "displayTitle": "Gold Pendant",
-              "url": "gold-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/168/1711623559_GLTD23024117_1.png",
-              "discountPrice": "28059.69",
-              "productPrice": "29059.3746",
-              "rating": "0.0"
-          }
-      ]
-  },
-  {
-      "reelId": 9,
-      "name": "Mangalsutra",
-      "thumbnail": "https://wamanharipethe.s3.amazonaws.com/reels/1720592476_11.jpg",
-      "video": "https://wamanharipethe.s3.amazonaws.com/reels/1720592477_11.mp4",
-      "products": [
-          {
-              "productId": 198,
-              "SKU": "DLN19023",
-              "displayTitle": "Fancy Mangalsutra",
-              "url": "fancy-mangalsutra",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/198/1711956853_210320_025101_688_469_0_1.png",
-              "discountPrice": "28540.10",
-              "productPrice": "32015.0986",
-              "rating": "0.0"
-          },
-          {
-              "productId": 195,
-              "SKU": "GMGND17023436",
-              "displayTitle": "Gold Mangalsutra",
-              "url": "gold-mangalsutra",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/195/1711956103_220408_105206_153_229_0_2.png",
-              "discountPrice": "66265.41",
-              "productPrice": "68748.9414",
-              "rating": "0.0"
-          },
-          {
-              "productId": 142,
-              "SKU": "DPND23022639",
-              "displayTitle": "Diamond Mangalsutra Pendant",
-              "url": "diamond-mangalsutra-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/142/1710928726_DPND23022639_1.png",
-              "discountPrice": "38104.94",
-              "productPrice": "40324.9367",
-              "rating": "0.0"
-          },
-          {
-              "productId": 196,
-              "SKU": "DPND22081350",
-              "displayTitle": "Kausha Diamond Mangalsutra Pendant",
-              "url": "kausha-diamond-mangalsutra-pendant",
-              "image": "https://wamanharipethe.s3.amazonaws.com/products/images/196/1711956445_DPND22081350_1.png",
-              "discountPrice": "17330.79",
-              "productPrice": "18905.7942",
-              "rating": "0.0"
-          }
-      ]
+        ]
+      },
+      {
+        "id": "65",
+        "name": "New Arrivals",
+        "url": "c-new_Arrival",
+        "image": "",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "91",
+        "name": "Rings",
+        "url": "c-ring",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720505743_ringss.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "93",
+        "name": "Earrings",
+        "url": "c-earring",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720508823_earrings.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "94",
+        "name": "Pendants",
+        "url": "c-pendant",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720516610_pendants.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "96",
+        "name": "Mangalsutra",
+        "url": "c-mangalsutra",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720509716_mangalsutra.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "98",
+        "name": "Necklaces",
+        "url": "c-necklace",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720511440_necklace.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "101",
+        "name": "Chains",
+        "url": "c-chain",
+        "image": "https://wamanharipethe.s3.amazonaws.com/menu_images/1720510497_chain.png",
+        "parent_id": null,
+        "subCategory": []
+      },
+      {
+        "id": "102",
+        "name": "Bracelets & Bangles",
+        "url": "c-bracelet",
+        "image": "",
+        "parent_id": null,
+        "subCategory": []
+      }
+    ]
   }
-]
+}

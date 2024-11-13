@@ -95,7 +95,7 @@ const RoseGold = () => {
         
         {width > 135 && (
           <Link
-            href={{ pathname: "/products", query: { url: "c-rose_gold" } }}
+            href={{ pathname: "/products", query: { url: "m-rose_gold" } }}
             onClick={() => setCustomcategory("rose_gold")}
           >
             <div className="flex-end mt-auto flex justify-normal">

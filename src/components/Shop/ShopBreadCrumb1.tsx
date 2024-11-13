@@ -1,5 +1,5 @@
 "use Client";
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
 import ReactPaginate from "react-paginate";
@@ -17,7 +17,7 @@ import { graphqlProductUrl } from "@/utils/constants";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
-  const { category, setCustomcategory } = useCategory();
+  const { category } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [mobileFilter, setMobileFilter] = useState<boolean>(false);
@@ -26,36 +26,47 @@ const ShopBreadCrumb1 = () => {
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
-  const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
+  const [isLoadMore, setIsLoadMore] = useState<boolean>(false);
   const [skuList, setSkuList] = useState<string[]>([]);
   const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
   const productsPerPage = 50;
   const pagesVisited = pageNumber * productsPerPage;
   const searchParams = useSearchParams();
   const [initialOptions, setInitialOptions] = useState<any>({});
-  const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
+  const [fetchProducts, setFetchProducts] = useState<boolean>(false);
+  const [offset, setOffset] = useState<number>(0);
+  const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
 
-  const changePage = ({ selected }: any) => {
-    setPageNumber(selected);
+  const handleProducts = () => {
+    setIsLoadMore(true);
   };
-
-  const handleSortOptionChange = (option: string) => {
-    setSelectedSortOption(option);
+  const triggerFetchData = () => {
+    setFetchProducts(true);
   };
-
-  // const handleFilterChange = (filteredProducts: ProductType[]) => {
-  //   setFilteredProducts(filteredProducts);
-  //   setIsLoading(false);
-  //   setPageNumber(0);
-  // };
+  useEffect(() => {
+    if (isLoadMore) {
+      setOffset((prevOffset) => prevOffset + productsPerPage);
+      triggerFetchData();
+    }
+  }, [isLoadMore]);
+  useEffect(() => {
+    if (fetchProducts) {
+      const combinedOptions = getCombinedOptions(
+        initialOptions,
+        selectedOptions,
+      );
+      fetchData(combinedOptions);
+      setFetchProducts(false); // Reset to prevent unnecessary fetches
+    }
+  }, [fetchProducts, offset]); // Add offset dependency
 
   const fetchData = async (combinedOptions: any) => {
     if (
       combinedOptions.category.length > 0 ||
       combinedOptions.search.length > 0 ||
       combinedOptions.priceFilter.length > 0 ||
-      combinedOptions.gender.length > 0 ||
+      combinedOptions.shop_for.length > 0 ||
       combinedOptions.karat.length > 0 ||
       combinedOptions.metal.length > 0 ||
       combinedOptions.occasion.length > 0 ||
@@ -65,7 +76,6 @@ const ShopBreadCrumb1 = () => {
         setIsLoading(false);
         const client = new ApolloClient({
           uri: graphqlProductUrl,
-          // uri: "http://localhost:8080/",
           cache: new InMemoryCache(),
         });
         const GET_PRODUCTS = gql`
@@ -81,6 +91,8 @@ const ShopBreadCrumb1 = () => {
             $sortBy: String
             $productCategory: String
             $sortOrder: String
+            $limit: Int
+            $offset: Int
           ) {
             products(
               category: $category
@@ -94,6 +106,8 @@ const ShopBreadCrumb1 = () => {
               occasion: $occasion
               sortBy: $sortBy
               sortOrder: $sortOrder
+              limit: $limit
+              offset: $offset
             ) {
               productId
               SKU
@@ -184,8 +198,150 @@ const ShopBreadCrumb1 = () => {
             category: [{ value: "" }],
             search: [{ value: "" }],
             priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.gender.map((gender: string) => ({
-              value: gender,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
+            limit: productsPerPage,
+            offset: offset,
+          };
+        } else {
+          variables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            search: combinedOptions.search.map((search: string) => ({
+              value: search,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
+            sortBy: "addDate",
+            sortOrder: "DESC",
+            productCategory: combinedOptions.productCategory[0],
+            limit: productsPerPage,
+            offset: offset,
+          };
+        }
+        console.log("Variables passed for api call", variables);
+        const { data } = await client.query({
+          query: GET_PRODUCTS,
+          variables,
+        });
+        if (data && data.products) {
+          setFilteredProducts((prevProducts) =>
+            isLoadMore ? [...prevProducts, ...data.products] : data.products,
+          );
+          setSelectedSortOption("All");
+          setIsLoadMore(false);
+        }
+        //else if (data && data.products && !isLoadMore) {
+        //   console.log("oooooooooooooooooooooooooooofffffffffffffffffffffffffsettttttttttt",offset,isLoadMore)
+        //   setFilteredProducts((prevProducts) => [
+        //     ...prevProducts,
+        //     ...data.products,
+        //   ]);
+        //   setSelectedSortOption("All");
+        //   setIsLoading(false);
+        // }
+        else {
+          setIsLoading(true);
+          console.error("Error: No products data received");
+        }
+      } catch (error) {
+        setIsLoading(true);
+        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+      } finally {
+        setIsLoading(true);
+      }
+    }
+  };
+
+  const fetchFilter = async (combinedOptions: any) => {
+    if (
+      combinedOptions.category.length > 0 ||
+      combinedOptions.search.length > 0 ||
+      combinedOptions.priceFilter.length > 0 ||
+      combinedOptions.shop_for.length > 0 ||
+      combinedOptions.karat.length > 0 ||
+      combinedOptions.metal.length > 0 ||
+      combinedOptions.occasion.length > 0 ||
+      combinedOptions.productCategory.length > 0
+    ) {
+      try {
+        setIsLoading(false);
+        const client = new ApolloClient({
+          uri: graphqlProductUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_FILTERS = gql`
+          query FilterProducts(
+            $category: [CategoryArrayInput!]
+            $search: [SearchArrayInput!]
+            $priceFilter: [PriceArrayInput!]
+            $gender: [GenderArrayInput!]
+            $karat: [KaratArrayInput!]
+            $metal: [MetalArrayInput!]
+            $weightRange: [WeightRangeArrayInput!]
+            $occasion: [OccasionArrayInput!]
+            $sortBy: String
+            $productCategory: String
+            $sortOrder: String
+          ) {
+            filterProducts(
+              category: $category
+              search: $search
+              priceFilter: $priceFilter
+              gender: $gender
+              karat: $karat
+              metal: $metal
+              weightRange: $weightRange
+              productCategory: $productCategory
+              occasion: $occasion
+              sortBy: $sortBy
+              sortOrder: $sortOrder
+            ) {
+              title
+              options
+              labels
+            }
+          }
+        `;
+        let variables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          variables = {
+            category: [{ value: "" }],
+            search: [{ value: "" }],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
             })),
             karat: combinedOptions.karat.map((karat: string) => ({
               value: karat,
@@ -212,8 +368,8 @@ const ShopBreadCrumb1 = () => {
               value: search,
             })),
             priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.gender.map((gender: string) => ({
-              value: gender,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
             })),
             karat: combinedOptions.karat.map((karat: string) => ({
               value: karat,
@@ -234,18 +390,16 @@ const ShopBreadCrumb1 = () => {
         }
         console.log("Variables passed for api call", variables);
         const { data } = await client.query({
-          query: GET_PRODUCTS,
+          query: GET_FILTERS,
           variables,
         });
-
-        if (data && data.products) {
-          setFilteredProducts(data.products);
+        if (data && data.filterProducts) {
+          setFilters(data.filterProducts);
           setSelectedSortOption("All");
-          setPageNumber(0);
-          setIsLoading(false);
+          setIsLoadMore(false);
         } else {
           setIsLoading(true);
-          console.error("Error: No products data received");
+          console.error("Error: No Filters received");
         }
       } catch (error) {
         setIsLoading(true);
@@ -254,6 +408,10 @@ const ShopBreadCrumb1 = () => {
         setIsLoading(true);
       }
     }
+  };
+
+  const handleSortOptionChange = (option: string) => {
+    setSelectedSortOption(option);
   };
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
@@ -291,9 +449,9 @@ const ShopBreadCrumb1 = () => {
       }
     });
 
-    combinedOptions.gender = [
-      ...(initialOptions.Gender || []),
-      ...(selectedOptions.Gender || []),
+    combinedOptions.shop_for = [
+      ...(initialOptions.Shop_For || []),
+      ...(selectedOptions.Shop_For || []),
     ];
 
     // Combine karat options
@@ -335,8 +493,8 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`s-${options.Search.join(",")}`);
     }
 
-    if (options.Gender && options.Gender.length > 0) {
-      urlParts.push(`g-${options.Gender.join(",")}`);
+    if (options.Shop_For && options.Shop_For.length > 0) {
+      urlParts.push(`g-${options.Shop_For.join(",")}`);
     }
 
     if (options.Karat && options.Karat.length > 0) {
@@ -381,9 +539,9 @@ const ShopBreadCrumb1 = () => {
       }
 
       // Apply gender filter
-      if (selectedOptions.Gender && selectedOptions.Gender.length > 0) {
+      if (selectedOptions.Shop_For && selectedOptions.Shop_For.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Gender.includes(product.gender),
+          selectedOptions.Shop_For.includes(product.shop_for),
         );
       }
 
@@ -446,10 +604,11 @@ const ShopBreadCrumb1 = () => {
     };
     applyFilters();
     console.log("useEffect - selectedOptions:", selectedOptions);
-
+    setOffset(0);
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    console.log("Combined Options", combinedOptions);
+    fetchFilter(combinedOptions);
     fetchData(combinedOptions);
+    console.log("Combined Options", combinedOptions);
     updateURL(selectedOptions);
   }, [selectedOptions]);
 
@@ -471,7 +630,7 @@ const ShopBreadCrumb1 = () => {
         initialOptions.Search = value.split(",");
       }
       if (key === "g") {
-        initialOptions.Gender = value.split(",");
+        initialOptions.Shop_For = value.split(",");
       }
       if (key === "k") {
         initialOptions.Karat = value.split(",");
@@ -568,7 +727,6 @@ const ShopBreadCrumb1 = () => {
   const removeUnderscores = (str: any) => {
     return str.replace(/(c-|s-|g-|p-|m-|_)/g, " ");
   };
-  
 
   // Modified string
   const modifiedString = removeUnderscores(category);
@@ -577,13 +735,12 @@ const ShopBreadCrumb1 = () => {
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
         )
       ) {
-        resolve(); 
+        resolve();
         return;
       }
 
@@ -619,11 +776,8 @@ const ShopBreadCrumb1 = () => {
   };
 
   useEffect(() => {
-    // Fetch SKU list only once on component mount
     fetchSkusList();
   }, []);
-
-
 
   return (
     <div className="shop-product breadcrumb1">
@@ -632,6 +786,7 @@ const ShopBreadCrumb1 = () => {
         <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
           <FilterSidebar
             data={data}
+            filters={filters}
             filteredProducts={filteredProducts}
             onFilterChange={(options) => setSelectedOptions(options)}
             mobileFilter={mobileFilter}
@@ -649,7 +804,7 @@ const ShopBreadCrumb1 = () => {
               <div className="sm:w-[100%] lg:w-[70%]">
                 {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                <BreadCrumb/>
+                <BreadCrumb />
                 <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                   {Object.entries(selectedOptions).flatMap(
                     ([category, options]) =>
@@ -704,15 +859,13 @@ const ShopBreadCrumb1 = () => {
                 className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                 ref={productsListRef}
               >
-                {filteredProducts
-                  .slice(pagesVisited, pagesVisited + productsPerPage)
-                  .map((item: any) => {
-                    return (
-                      <div key={item.productId}>
-                        <Product data={item} skuList={skuList} />
-                      </div>
-                    );
-                  })}
+                {filteredProducts.map((item: any) => {
+                  return (
+                    <div key={item.productId}>
+                      <Product data={item} skuList={skuList} />
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <>
@@ -743,27 +896,15 @@ const ShopBreadCrumb1 = () => {
                 )}
               </>
             )}
+            <button
+              onClick={handleProducts}
+              className="bg-[#e26178] px-3 py-2 text-white"
+            >
+              Load More
+            </button>
           </div>
         </div>
-        <div className="flex justify-center">
-          {pageCount > 1 && (
-            <div className="list-pagination mb-4 mt-7 flex items-center md:mt-10">
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel="..."
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={2}
-                pageCount={pageCount}
-                onPageChange={changePage}
-                containerClassName={"pagination"}
-                activeClassName={"active"}
-              />
-            </div>
-          )}
-        </div>
       </div>
-
       <div className="fixed bottom-0 left-0 z-10 h-[52px] w-[100%] bg-[#e26178] sm:block md:hidden lg:hidden">
         <div className="mt-4 flex justify-center align-middle text-white">
           <div className="mr-5" onClick={() => setSortOption(!sortOption)}>

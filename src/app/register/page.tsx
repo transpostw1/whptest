@@ -100,23 +100,23 @@ const Register = () => {
           <div className="border-line md:pr-[40px] lg:pr-[60px]">
             <div className="heading4 text-center text-[#e26178]">
               <AuthAnimation />
+
               <h1 className="mb-5 text-center text-lg font-normal text-[#E26178]">
                 SIGNUP TO WHP
               </h1>
             </div>
 
             {!isOtpVerified && (
-              <div className="flex flex-col items-center"> 
-              <div className="">
+              <div className="flex flex-col items-center ">
                 <PhoneInput
                   defaultCountry="in"
                   value={phoneNumber}
-                  inputClassName="border h-full w-[250px] rounded-xl "
+                  inputClassName="border h-full w-[250px] rounded-xl"
                   placeholder="Enter your mobile number"
                   onChange={handlePhoneChange}
                 />
-                <div className="block-button mt-4 md:mt-7">
-                  <div className="mt-4">
+                <div className="block-button mt-4 md:mt-7 w-full">
+                  <div className="">
                     <OtpVerification
                       phoneNumber={phoneNumber}
                       formikValues={formik.values}
@@ -127,7 +127,6 @@ const Register = () => {
                     />
                   </div>
                 </div>
-              </div>
               </div>
             )}
             {!isOtpVerified && (
@@ -142,9 +141,9 @@ const Register = () => {
             {isOtpVerified && (
               <form onSubmit={formik.handleSubmit} className="mt-4 md:mt-7">
                 <div className="firstname">
-                  {/* <label htmlFor="firstName" className="font-medium">
+                  <label htmlFor="firstName" className="font-medium">
                     First Name
-                  </label> */}
+                  </label>
                   <input
                     className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="First Name"
@@ -160,9 +159,9 @@ const Register = () => {
                   ) : null}
                 </div>
                 <div className="lastname mt-5">
-                  {/* <label htmlFor="lastName" className="font-medium">
+                  <label htmlFor="lastName" className="font-medium">
                     Last Name
-                  </label> */}
+                  </label>
                   <input
                     className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="Last Name"
@@ -176,9 +175,9 @@ const Register = () => {
                   ) : null}
                 </div>
                 <div className="email mt-5">
-                  {/* <label htmlFor="email" className="font-medium">
+                  <label htmlFor="email" className="font-medium">
                     Email Address
-                  </label> */}
+                  </label>
                   <input
                     className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="Email"

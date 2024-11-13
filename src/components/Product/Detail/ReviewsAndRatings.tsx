@@ -21,7 +21,7 @@ const CustomStar: React.FC<{
   hoverRating: number | null;
   onMouseMove: (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    index: number
+    index: number,
   ) => void;
   onMouseLeave: () => void;
   onClick: (e: React.MouseEvent<SVGElement, MouseEvent>, index: number) => void;
@@ -94,7 +94,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
     const imageFiles = event.target.files;
     if (imageFiles) {
       const selectedImagesArray = Array.from(imageFiles).map((file: any) =>
-        URL.createObjectURL(file)
+        URL.createObjectURL(file),
       );
       setSelectedImages((prevImages) => [
         ...prevImages,
@@ -117,7 +117,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   };
   const handleMouseMove = (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    index: number
+    index: number,
   ) => {
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - left;
@@ -128,7 +128,10 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleReviews = async (e: any) => {
     e?.preventDefault();
     try {
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       const getAuthHeaders = () => {
         if (!cookieToken) return null;
         return {
@@ -183,7 +186,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
 
   const handleClick = (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    index: number
+    index: number,
   ) => {
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - left;
@@ -200,21 +203,24 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleMouseLeave = () => {
     setHoverRating(null);
   };
+  const [showAll, setShowAll] = useState(false);
+  const reviews = product?.productDetails?.review || [];
+  const reviewsToShow = showAll ? reviews : reviews.slice(0, 5);
 
   return (
-    <div className="mt-7 mb-7">
-      <div className="flex bg-[#E1DCDD29] p-2 mx-4 mb-3">
+    <div className="mb-7 mt-7">
+      <div className="mx-4 mb-3 flex bg-[#E1DCDD29] p-2">
         <div
-          className={`px-4 py-2 cursor-pointer text-lg ${
-            activeTab === "tab1" ? "underline font-bold" : ""
+          className={`cursor-pointer px-4 py-2 text-lg ${
+            activeTab === "tab1" ? "font-bold underline" : ""
           }`}
           onClick={() => setActiveTab("tab1")}
         >
           Reviews
         </div>
         <div
-          className={`px-4 py-2 cursor-pointer text-lg ${
-            activeTab === "tab2" ? "underline font-bold " : ""
+          className={`cursor-pointer px-4 py-2 text-lg ${
+            activeTab === "tab2" ? "font-bold underline" : ""
           }`}
           onClick={() => setActiveTab("tab2")}
         >
@@ -223,9 +229,9 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
       </div>
       <div>
         {activeTab === "tab1" && (
-          <div className="flex flex-wrap justify-between mx-4">
-            <div className="lg:w-[40%] max-sm:w-[100%] max-md:w-[60%] h-[55%] ">
-              {product?.productDetails?.review?.map((item: any) => (
+          <div className="mx-4 flex flex-wrap justify-between">
+            <div className="h-[55%] max-md:w-[60%] max-sm:w-[100%] lg:w-[40%]">
+              {reviewsToShow.map((item: any) => (
                 <div
                   className="mt-4 rounded-3xl bg-[#faf9f9] p-6"
                   key={item.id}
@@ -242,16 +248,24 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                       />
                     </div>
                     <div className="ml-2">
-                      <p className="">{item?.customer?.fullname}</p>
+                      <p>{item?.customer?.fullname}</p>
                       <StarRating stars={item.rate} />
                       <p>{item.review}</p>
                     </div>
                   </div>
                 </div>
               ))}
+              {product?.productDetails?.review.length > 5 && (
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="mt-4 text-[#e26178] border border-[#e26178] p-3"
+                >
+                  {showAll ? "View Less" : "View More"}
+                </button>
+              )}
             </div>
-            <div className="mt-4 lg:w-[35%] max-sm:w-[100%]">
-              <div className="flex justify-between items-center">
+            <div className="mt-4 max-sm:w-[100%] lg:w-[35%]">
+              <div className="flex items-center justify-between">
                 <div className="">
                   <p>Write a Review</p>
                 </div>
@@ -276,7 +290,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     placeholder="Enter your text here"
                     id="name"
                     name="name"
-                    className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm bg-[#E1DCDD29] h-[150px] rounded-md"
+                    className="mt-1 block h-[150px] w-full rounded-md bg-[#E1DCDD29] p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
                     required
                     onChange={(e) => handleReveiwChange(e)}
                   />
@@ -293,18 +307,18 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                 </div> */}
                 <div className="flex flex-wrap">
                   {selectedImages.map((image, index) => (
-                    <div key={index} className="relative mr-4 mb-4">
+                    <div key={index} className="relative mb-4 mr-4">
                       <Image
                         src={image}
                         alt={`Preview ${index}`}
-                        className="max-w-xs max-h-48 rounded-md"
+                        className="max-h-48 max-w-xs rounded-md"
                         height={100}
                         width={100}
                         unoptimized
                       />
                       <button
                         onClick={() => removeImage(index)}
-                        className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full -mt-1 -mr-1"
+                        className="absolute right-0 top-0 -mr-1 -mt-1 rounded-full bg-red-500 p-1 text-white"
                       >
                         <Icon.X />
                       </button>
@@ -315,7 +329,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={(e) => handleReviews(e)}
-                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d]  hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Submit
                   </button>
@@ -323,7 +337,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={() => handleLogIn()}
-                    className="w-[50%] mt-3 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="mt-3 w-[50%] rounded-md border border-transparent bg-[#e26178] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Please LogIn
                   </button>

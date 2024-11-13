@@ -1,11 +1,8 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
-
-// Define the type for the setter function
 type SetCategoryType = (category: string | any) => void;
 type SetCategoryType2 = (newState: string | any) => void;
 
-// Creating a context for setting a string state
 interface ContextType {
   setCustomcategory: SetCategoryType2;
   category: string | any;
@@ -13,7 +10,6 @@ interface ContextType {
 
 const CategoryContext = createContext<ContextType | undefined>(undefined);
 
-// Custom hook to use the set string state context
 export const useCategory = (): ContextType => {
   const context = useContext(CategoryContext);
 
@@ -23,12 +19,10 @@ export const useCategory = (): ContextType => {
   return context;
 };
 
-// Define props for SetStateProvider
 type CategoryProviderProps = {
   children: ReactNode;
 };
 
-// Provider component to wrap around components that need to set state
 export const CategoryProvider: React.FC<CategoryProviderProps> = ({
   children,
 }) => {

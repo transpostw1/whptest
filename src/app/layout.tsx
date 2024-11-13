@@ -5,6 +5,7 @@ import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
 import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
+import NavHoverMenu2 from "@/components/Header/Menu/NavHoverMenu2"
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
 import Footer from "@/components/Footer/Footer";
@@ -33,7 +34,7 @@ export default function RootLayout({
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />
           <div id="header" className="w-full">
-            <NavHoverMenu props="bg-white" />
+            <NavHoverMenu2 />
           </div>
           {children}
           <Footer />

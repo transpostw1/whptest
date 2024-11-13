@@ -10,61 +10,83 @@ interface Filter {
 const Filter: Filter[] = [
   {
     title: "Price",
-    options: ["0to10000", "10000to20000", "20000to30000", "30000to30000000"],
-    labels: ["Less than 10K", "10K to 20K", "20K to 30K", "30K and Above"],
+    options: [
+      "0to10000",
+      "10000to20000",
+      "20000to30000",
+      "30000to40000",
+      "40000to50000",
+      "50000to10000000",
+    ],
+    labels: [
+      "Less than 10K (18)",
+      "10K to 20K (13)",
+      "20K to 30K (17)",
+      "30K to 40K (16)",
+      "40K to 50K (25)",
+      "50K and above (194)",
+    ],
   },
   {
     title: "Karat",
-    options: ["14KT", "18KT", "22KT", "23KT", "24KT"],
-    labels: ["14 Karat", "18 Karat", "22 Karat", "23 Karat", "24 Karat"],
+    options: ["950", "14KT", "22KT", "18KT", "92.5", "SILVER"],
+    labels: [
+      "950 (1)",
+      "14KT (2)",
+      "22KT (217)",
+      "18KT (44)",
+      "92.5 (11)",
+      "SILVER (8)",
+    ],
   },
   {
     title: "Weight",
-    options: ["0to2gms", "2to5gms", "5to10gms", "10to20gms"],
-    labels: ["0-2 grams", "2-5 grams", "5-10 grams", "10-20 grams"],
+    options: ["0to2gms", "10gmsandabove", "2to5gms", "5to10gms"],
+    labels: [
+      "0-2 gms grams (7)",
+      "2-5 gms grams (46)",
+      "5-10 gms grams (80)",
+      "10gms and above grams (150)",
+    ],
   },
   {
-    title: "Shop For",
-    options: ["Men", "Women", "Kids"],
-    labels: ["Men", "Women", "Kids"],
+    title: "Shop_For",
+    options: ["men", "women", "kids", "unisex"],
+    labels: ["Men (71)", "Women (253)", "Kids (49)", "Unisex (45)"],
   },
   {
     title: "Metal",
-    options: ["Rose_Gold", "White_Gold", "Gold", "Diamond", "Silver"],
-    labels: ["Rose Gold", "White Gold", "Gold", "Diamond", "Silver"],
+    options: ["gold", "platinum", "silver", "sterling_silver"],
+    labels: [
+      "Gold (263)",
+      "Platinum (1)",
+      "Silver (11)",
+      "Sterling silver (8)",
+    ],
   },
   {
     title: "Occasion",
     options: [
-      "Birth",
-      "Casual_Wear",
-      "Daily_Indian",
-      "Engagement",
-      "Festive",
-      "Everyday",
-      "Work_Wear",
-      "Wedding",
-      "Desk_to_Dinner",
-      "Evening",
-      "Party_Wear",
+      "casual_wear",
+      "party_wear",
+      "work_wear",
+      "wedding_wear",
+      "everyday",
+      "engagement",
     ],
     labels: [
-      "Birth",
-      "Casual Wear",
-      "Daily Indian",
-      "Engagement",
-      "Festive",
-      "Everyday",
-      "Work Wear",
-      "Wedding",
-      "Desk to Dinner",
-      "Evening",
-      "Party Wear",
+      "Casual Wear (92)",
+      "Party Wear (58)",
+      "Work Wear (37)",
+      "Wedding Wear (28)",
+      "Everyday (1)",
+      "Engagement (1)",
     ],
   },
 ];
 
 interface Props {
+  filters:any;
   filterDropDown: string;
   handleMobileFilter: () => void;
   handleFilterDropdown: (arg: string) => void;
@@ -73,6 +95,7 @@ interface Props {
 }
 
 const FilterOptions: React.FC<Props> = ({
+  filters,
   filterDropDown,
   handleMobileFilter,
   handleFilterDropdown,
@@ -81,7 +104,7 @@ const FilterOptions: React.FC<Props> = ({
 }) => {
   return (
     <>
-      {Filter.map((item: Filter, index: number) => (
+      {filters.map((item: Filter, index: number) => (
         <div
           key={index}
           className="item cursor-pointer"

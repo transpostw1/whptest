@@ -6,6 +6,7 @@ import { ProductType } from "@/type/ProductType";
 
 interface Props {
   data: any;
+  filters: any;
   filteredProducts: ProductType[];
   onFilterChange: (options: any) => void;
   mobileFilter: boolean;
@@ -18,6 +19,7 @@ interface Props {
 
 const FilterSidebar: React.FC<Props> = ({
   filteredProducts,
+  filters,
   onFilterChange,
   mobileFilter,
   setMobileFilter,
@@ -114,6 +116,7 @@ const FilterSidebar: React.FC<Props> = ({
           </div>
           <div className="list-type mt-4">
             <FilterOptions
+              filters={filters}
               handleMobileFilter={handleMobileFilter}
               filterDropDown={filterDropDown}
               handleFilterDropdown={handleFilterDropdown}
@@ -133,6 +136,7 @@ const FilterSidebar: React.FC<Props> = ({
               </div>
               <div className="list-type mt-4">
                 <FilterOptions
+                  filters={filters}
                   handleMobileFilter={handleMobileFilter}
                   filterDropDown={filterDropDown}
                   handleFilterDropdown={handleFilterDropdown}

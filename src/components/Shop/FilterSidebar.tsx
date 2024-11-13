@@ -27,7 +27,7 @@ const FilterSidebar: React.FC<Props> = ({
   handleOptionSelect,
   productsListRef,
 }) => {
-  const [filterDropDown, setFilterDropDown] = useState<string>("Price");
+  const [filterDropDown, setFilterDropDown] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
 
@@ -98,7 +98,7 @@ const FilterSidebar: React.FC<Props> = ({
           </div>
           <div className="flex flex-wrap">
             {Object.entries(selectedOptions).flatMap(([category, options]) =>
-              options.map((option: string, index: number) => (
+              (options as string[]).map((option: string, index: number) => (
                 <div
                   key={`${category}-${index}`}
                   className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"

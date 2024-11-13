@@ -115,9 +115,9 @@ const NavHoverMenu2 = () => {
                       href={item.url}
                       onClick={(e) => {
                         if (item.name.toLowerCase() === "all jewellery") {
-                          e.preventDefault(); // Prevent navigation
+                          e.preventDefault();
                         } else {
-                          setCustomcategory(item.label); // Set custom category only when condition is not met
+                          setCustomcategory(item.label);
                         }
                       }}
                       className={`text-button-uppercase flex h-full items-center justify-center gap-1 duration-300`}
@@ -127,57 +127,56 @@ const NavHoverMenu2 = () => {
 
                     {item.subCategory.length > 0 && (
                       <div
-                        className={`mega-menu absolute left-0 top-[36px] flex w-screen bg-white`}
+                        className={`mega-menu absolute left-0 top-[36px] grid w-screen grid-cols-7 gap-1 bg-white p-3`}
                       >
-                        <div className="grid grid-cols-5 gap-8 p-3">
-                          {item.subCategory.map((item: any, index: any) => (
-                            <ul key={index}>
-                              <p className="font-semibold text-black">
-                                {item.name}
-                              </p>
-                              {item.subCategory.map(
-                                (subItem: any, subIndex: any) => (
-                                  <li key={subIndex}>
-                                    <Link
-                                      href={subItem.url}
-                                      className="text-secondary duration-300"
-                                      onClick={() =>
-                                        setCustomcategory(subItem.label)
-                                      }
-                                    >
-                                      <div className="text-secondary flex cursor-pointer duration-300">
-                                        {subItem.image && (
-                                          <div>
-                                            <Image
-                                              src={subItem.image}
-                                              alt={subItem.name}
-                                              height={25}
-                                              width={25}
-                                              className="mr-1"
-                                              style={{
-                                                width: "auto",
-                                                height: "auto",
-                                              }}
-                                            />
-                                          </div>
-                                        )}
-                                        <div>{subItem.name}</div>
-                                      </div>
-                                    </Link>
-                                  </li>
-                                ),
-                              )}
-                            </ul>
-                          ))}
-                        </div>
-                        <div className="flex">
+                        {item.subCategory.map((item: any, index: any) => (
+                          <ul key={index}>
+                            <p className="font-semibold text-black">
+                              {item.name}
+                            </p>
+                            {item.subCategory.map(
+                              (subItem: any, subIndex: any) => (
+                                <li key={subIndex}>
+                                  <Link
+                                    href={subItem.url}
+                                    className="text-secondary duration-300"
+                                    onClick={() =>
+                                      setCustomcategory(subItem.label)
+                                    }
+                                  >
+                                    <div className="text-secondary flex cursor-pointer duration-300">
+                                      {subItem.image && (
+                                        <div>
+                                          <Image
+                                            src={subItem.image}
+                                            alt={subItem.name}
+                                            height={25}
+                                            width={25}
+                                            className="mr-1"
+                                            style={{
+                                              width: "auto",
+                                              height: "auto",
+                                            }}
+                                          />
+                                        </div>
+                                      )}
+                                      <div>{subItem.name}</div>
+                                    </div>
+                                  </Link>
+                                </li>
+                              ),
+                            )}
+                          </ul>
+                        ))}
+
+                        <div className=" w-full col-span-2 ">
                           {item.image && (
                             <Image
+                              className=" h-auto w-full"
                               src={item.image}
                               alt={item.name}
                               width={145}
                               height={145}
-                              style={{ width: "auto", height: "auto" }}
                             />
                           )}
                         </div>

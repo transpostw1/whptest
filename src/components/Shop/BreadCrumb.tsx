@@ -26,8 +26,11 @@ const Breadcrumb: React.FC = () => {
     const url = searchParams.get("url");
     console.log("url", url);
     if (url) {
-      const category = url.split("-")[1];
-      if (category) {
+      let category = url.split("-")[1];
+      if (category.includes(" ")) {
+        category = category.split(" ")[0];
+      }
+      if (category && !/^\d/.test(category)) {
         breadcrumbs.push({
           label: category.charAt(0).toUpperCase() + category.slice(1),
           href: `/products?url=${url}`,
@@ -48,6 +51,7 @@ const Breadcrumb: React.FC = () => {
   };
 
   const breadcrumbs = generateBreadcrumbs();
+  
 
   return (
     <nav aria-label="breadcrumb">

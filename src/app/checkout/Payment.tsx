@@ -485,7 +485,7 @@ const Payment: React.FC<PaymentProps> = ({
               {orderResponse.order.orderNo}
             </div>
             <div className="">
-              <span className="font-semibold">Order No.: </span>
+              <span className="font-semibold">Order Date: </span>
               {new Date(orderResponse.order.created_at).toLocaleDateString(
                 "en-US",
                 {
@@ -529,7 +529,7 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
         </div>
       )}
-      {isMobile && component === "Payment" && (
+      {!orderPlaced && isMobile && component === "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
             <p className="text-[18px] font-medium">

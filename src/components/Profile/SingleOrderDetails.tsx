@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
@@ -118,8 +119,13 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                 <div className="flex flex-col content-start justify-center">
                   <p className="font-semibold">{product?.displayTitle}</p>
                   <p>
-                    {product?.metalType}-{product?.metalWeight}
+                    {product.SKU}-{product?.metalType}-{product?.metalWeight}
                   </p>
+                  <Link href={`/products/${product.productId}/${product.url}`}>
+                    <p className="cursor-pointer hover:text-[#e26178]">
+                      Buy Again
+                    </p>
+                  </Link>
                 </div>
               </div>
               <p className="w-20 text-center">
@@ -275,7 +281,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               ))}
             </div>
           </div>
-        )}  
+        )}
       </div>
 
       {parseInt(singleOrder[0]?.orderStatus) > 3 ? null : (

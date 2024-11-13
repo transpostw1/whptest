@@ -76,11 +76,7 @@ const OtpVerification = ({
       setErrorMessage(null);
       console.log("OTP sent successfully");
     } catch (error: any) {
-      console.error("Error sending OTP:", error);
-      console.error(FirebaseError, error.message, "FIREE");
-
       setLoading(false);
-
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
         return;

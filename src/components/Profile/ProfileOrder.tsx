@@ -129,7 +129,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                           {product?.displayTitle}
                         </p>
                         <p>
-                          {product?.metalType}-{product?.metalWeight}
+                          {product?.SKU}-{product?.metalType}-{product?.metalWeight}
                         </p>
                         <p>Quantity:{product?.quantity}</p>
                       </div>

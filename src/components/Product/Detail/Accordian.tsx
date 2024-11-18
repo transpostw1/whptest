@@ -663,7 +663,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
             className="flex w-full justify-between text-xl"
             onClick={() => handleToggle(5)}
           >
-            Assitance
+            Assistance
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
@@ -680,7 +680,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               call away
             </div>
             <div className="flex">
-              <Link href={"#!"}>
+              <Link href="https://wa.me/911800-222-225" target="_blank" rel="noopener noreferrer">
                 <div className="mr-5 mt-5 text-center">
                   <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
                   <p>Whatsapp</p>
@@ -696,7 +696,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <p>Call</p>
                 </div>
               </Link>
-              <Link href={"#!"}>
+              <Link  href="sms:+91 1800-222-225" target="_blank" rel="noopener noreferrer">
                 <div className="mr-5 mt-5">
                   <Icon.ChatTeardropDots
                     className="ml-4"

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
@@ -16,6 +17,16 @@ const serverTimeLeft: CountdownTimeType = countdownTime();
 
 const instrument = Montserrat({ subsets: ["latin"] });
 
+
+export const metadata: Metadata = {
+  title: {
+    default: 'WHP Jewellers',
+  },
+  description: 'Welcome to WHP Jewellers',
+  icons: {
+    icon: '/images/other/logo2.png',
+  },
+};
 export default function RootLayout({
   children,
 }: {
@@ -24,10 +35,6 @@ export default function RootLayout({
   return (
     <GlobalProvider>
       <html lang="en">
-        <head>
-          <link rel="icon" href="/images/other/logo2.png" />
-          <meta name="whp" content="Welcome to WHP jewwellers" />
-        </head>
         {/* <Suspense> */}
         <body className={instrument.className}>
           <UserTracking />
@@ -45,3 +52,5 @@ export default function RootLayout({
     </GlobalProvider>
   );
 }
+
+

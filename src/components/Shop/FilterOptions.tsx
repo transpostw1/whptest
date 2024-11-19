@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 interface Filter {
@@ -86,7 +86,7 @@ const Filter: Filter[] = [
 ];
 
 interface Props {
-  filters:any;
+  filters: any;
   filterDropDown: string;
   handleMobileFilter: () => void;
   handleFilterDropdown: (arg: string) => void;
@@ -102,6 +102,10 @@ const FilterOptions: React.FC<Props> = ({
   handleOptionSelect,
   selectedOptions,
 }) => {
+  useEffect(() => {
+    handleFilterDropdown("");
+  }, [filters]);
+
   return (
     <>
       {filters.map((item: Filter, index: number) => (
@@ -111,7 +115,9 @@ const FilterOptions: React.FC<Props> = ({
           onClick={() => handleFilterDropdown(item.title)}
         >
           <div className="text-secondary has-line-before flex cursor-pointer justify-between capitalize hover:text-black">
-            <p className="text-lg font-semibold">{item.title}</p>
+            <p className="text-lg font-semibold">
+              {item.title.replace(/_/g, " ")}
+            </p>
 
             <p className="mt-1">
               <Icon.CaretDown weight="fill" />

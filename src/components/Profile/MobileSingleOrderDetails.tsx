@@ -84,7 +84,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       {singleOrder?.map((items: any, index: any) => (
         <div key={index} className="border-gray items-center border p-4">
           {items.productDetails.map((product: any, index: any) => (
-            <div className="flex justify-between border-b" key={index}>
+            <div className="flex justify-between" key={index}>
               <div className="flex">
                 <div className="mr-3">
                   <Image
@@ -188,7 +188,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
           <div className="relative p-4">
             <div className="absolute left-[1.37rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.orderTracking.map((track, index) => (
+            {singleOrder[0]?.orderTracking.map((track:any, index:any) => (
               <div key={index} className="relative mb-8 flex items-start">
                 <div className="z-10 mr-4">
                   <div
@@ -224,7 +224,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
           <div className="relative p-4">
             <div className="absolute left-[1.37rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.orderTracking.map((track, index) => (
+            {singleOrder[0]?.orderTracking.map((track:any, index:any) => (
               <div key={index} className="relative mb-8 flex items-start">
                 <div className="z-10 mr-4">
                   <div

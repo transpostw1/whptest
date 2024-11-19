@@ -301,32 +301,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
+                        <Link
+                        href={"/register"}
+                        >
                           <div
-                            onClick={handleLoginDrop}
-                            className="flex flex-col items-center"
-                          >
-                            <Icon.User size={28} />
-                            <p className="text-sm">Login</p>
-                          </div>
-                          <div
-                            className={`login-popup bg-surface box-shadow-small absolute top-[114px] z-10 w-[320px] rounded-xl bg-white p-7 ${openLoginPopup ? "open" : ""}`}
-                          >
-                            <Link
-                              href={"/login"}
-                              className="button-main w-full text-center"
-                            >
-                              Login With OTP
-                            </Link>
-                            <div className="text-secondary mt-3 pb-4 text-center">
-                              Don’t have an account?
-                              <Link
-                                href={"/register"}
-                                className="pl-1 text-black hover:underline"
-                              >
-                                Signup
-                              </Link>
-                            </div>
-                          </div>
+                          onClick={handleLoginDrop}
+                          className="flex flex-col items-center"
+                        >
+                          <Icon.User size={28} />
+                          <p className="text-sm">Login</p>
+                        </div>
+                        </Link>
                         </>
                       )}
                     </div>
@@ -416,7 +401,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 ) : (
                   <div onClick={handleMenuMobile} className="flex items-center">
                     <Link href={"/register"}>
-                      <p className="text-lg font-semibold">Register</p>
+                      <p className="text-lg font-semibold">Signup</p>
                     </Link>
                     <div
                       onClick={handleMenuMobile}

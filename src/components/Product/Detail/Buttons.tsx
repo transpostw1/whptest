@@ -74,17 +74,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  console.log("Variants", variants);
-
-
-  // const formattedVariants = (variantValues: string[]): Array<{ variantType: string; variantName: string }> => {
-  //   return variants.map(value => ({
-  //     variantType: value,
-  //     variantName: value
-  //   }));
-  // }
-
-
   const formattedVariants = [
     {
       variantType: variants[2],
@@ -95,15 +84,6 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
       variantName: variants[0],
     },
   ];
-
-  console.log("formattedVariants", formattedVariants);
-
-
-  // const isOutOfStock = (productQty: number | null | undefined) => {
-  //   return productQty === 0 || productQty === null;
-  // };
-
-
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,

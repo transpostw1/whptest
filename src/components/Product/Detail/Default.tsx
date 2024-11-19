@@ -38,6 +38,8 @@ interface Props {
   productId: string | number | any;
 }
 
+
+
 const Default: React.FC<Props> = ({ productId }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
@@ -210,7 +212,6 @@ const Default: React.FC<Props> = ({ productId }) => {
   }
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already loaded
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,

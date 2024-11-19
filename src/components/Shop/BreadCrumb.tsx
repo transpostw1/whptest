@@ -22,7 +22,7 @@ const Breadcrumb: React.FC = () => {
       label: "Products",
       href: "/products?url=c-new_Arrival",
     });
-    // Add Category
+  
     const url = searchParams.get("url");
     console.log("url", url);
     if (url) {

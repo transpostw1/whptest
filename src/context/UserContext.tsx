@@ -28,6 +28,7 @@ interface UserContextProps {
 }
 interface UserDetails {
   customer_id: any;
+  fullname:any;
   firstname: string;
   lastname: string;
   email: string;
@@ -36,6 +37,7 @@ interface UserDetails {
   gender: string;
   gstNum: string;
   panNum: string;
+  is_verified:any;
   dob: string;
   wallet_amount: any;
   profile_picture: File | null;
@@ -129,6 +131,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
           mobile_no
           altPhone
           dob
+          is_verified
           gender
           profile_picture
           wallet_amount

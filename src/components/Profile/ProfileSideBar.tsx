@@ -6,6 +6,7 @@ import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MdVerified } from "react-icons/md";
 
 const ProfileSidebar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -32,9 +33,16 @@ const ProfileSidebar = () => {
           )}
         </div>
         <div>
-          <p className="mt-2 text-xl font-semibold">
-            {userDetails?.fullname ? userDetails.fullname : "Add Details"}
-          </p>
+          <div className="flex">
+            <div>
+              <p className="mt-2 text-xl font-semibold">
+                {userDetails?.fullname ? userDetails.fullname : "Add Details"}
+              </p>
+            </div>
+            <div className="mt-3 ml-2">
+              {userDetails?.is_verified==0?<MdVerified  size={23} color="#808080"/>:<MdVerified  size={23} color="#0099ff"/>}
+            </div>
+          </div>
           <span
             className="mt-2 flex cursor-pointer text-[#e26178]"
             onClick={openModal}

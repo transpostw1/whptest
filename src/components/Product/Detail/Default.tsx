@@ -432,7 +432,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={500} width={550} />
           ) : (
             <div className="relative">
-              {skuList.includes(data?.productDetails.SKU) && (
+              {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
                   className="try_on flex w-full cursor-pointer items-center justify-end"

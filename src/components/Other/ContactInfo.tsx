@@ -6,12 +6,12 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const ContactInfo = () => {
   return (
-    <div className="absolute top-[100px] w-[250px] left-[70px] p-7 rounded-xl bg-surface box-shadow-small bg-white">
+    <div className="bg-surface box-shadow-small absolute left-[70px] top-[100px] w-[250px] rounded-xl bg-white p-7">
       <p className="text-xl font-semibold">Get in Touch with us</p>
       <p className="mt-3">
         Connect with us and we will assist you with all your needs
       </p>
-      <p className="font-semibold mt-5">Contact us on :(10:30AM -7:30PM)</p>
+      <p className="mt-5 font-semibold">Contact us on :(10:30AM -7:30PM)</p>
 
       <Link
         href="tel:+91 1800-222-225"
@@ -20,7 +20,7 @@ const ContactInfo = () => {
       >
         <div className="mt-1 flex">
           <span className="mr-2">
-            <Icon.Phone size={24}/>
+            <Icon.Phone size={24} />
             {/* <Image
               src="/images/icons/phone.png"
               alt="phone_image"
@@ -38,7 +38,7 @@ const ContactInfo = () => {
       >
         <div className="mt-1 flex">
           <span className="mr-2">
-            <Icon.EnvelopeSimple size={24}/>
+            <Icon.EnvelopeSimple size={24} />
             {/* <Image
               src="/images/icons/Email.png"
               alt="Email_image"
@@ -49,7 +49,7 @@ const ContactInfo = () => {
           <span>care@whpjewellers.in</span>
         </div>
       </Link>
-      <div className="flex mt-4 items-center">
+      <div className="mt-4 flex items-center">
         <div className="mr-3">
           <Link href={"https://www.facebook.com/whpjewellers.india/"}>
             <Icon.FacebookLogo size={34} weight="light" color="#e26178" />
@@ -68,7 +68,7 @@ const ContactInfo = () => {
           </Link>
         </div>
         <div className="mr-3">
-          <Link href={"https://www.instagram.com/whpjewellers/?hl=en"}>
+          <Link href={"https://wa.me/918828324464"} target="_blank">
             <Icon.WhatsappLogo size={34} weight="light" color="#e26178" />
           </Link>
         </div>

@@ -36,9 +36,10 @@ import { IoCameraOutline } from "react-icons/io5";
 
 interface Props {
   productId: string | number | any;
+  onDataFetched: (data: any) => void;
 }
 
-const Default: React.FC<Props> = ({ productId }) => {
+const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -205,12 +206,12 @@ const Default: React.FC<Props> = ({ productId }) => {
   async function singleProduct() {
     console.log("Single Product");
     const product = await getData();
+    onDataFetched(product);
     setData(product);
     setLoading(false);
   }
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already loaded
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
@@ -432,7 +433,7 @@ const Default: React.FC<Props> = ({ productId }) => {
             <Skeleton height={500} width={550} />
           ) : (
             <div className="relative">
-              {skuList?.includes(data?.productDetails.SKU) && (
+              {/* {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
                   className="try_on flex w-full cursor-pointer items-center justify-end"
@@ -448,7 +449,7 @@ const Default: React.FC<Props> = ({ productId }) => {
                     <p className="ps-1 text-sm">Virtually Try On</p>
                   </div>
                 </div>
-              )}
+              )} */}
               <div className="flex flex-col justify-center">
                 <div>
                   <Slider

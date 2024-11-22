@@ -768,7 +768,7 @@ const ShopBreadCrumb1 = () => {
       const skus = await window.getSkusListWithTryOn({
         companyName: "whpjewellers",
       });
-      setSkuList(skus); // Update SKU list state
+      setSkuList(skus); 
       setIsSkuListLoaded(true);
     } catch (error) {
       console.error("Error fetching SKU list:", error);
@@ -780,6 +780,7 @@ const ShopBreadCrumb1 = () => {
   }, []);
 
   return (
+    <>
     <div className="shop-product breadcrumb1">
       <div className="container">
         <MobileMainCategorySwiper />
@@ -923,6 +924,7 @@ const ShopBreadCrumb1 = () => {
         />
       )}
     </div>
+    </>
   );
 };
 export default ShopBreadCrumb1;

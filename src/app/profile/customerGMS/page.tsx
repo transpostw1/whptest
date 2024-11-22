@@ -40,6 +40,10 @@ const CustomerGMS = () => {
   }
   return (
     <ProtectedRoute>
+      <head>
+        <title>GMS</title>
+        <meta name="description" content="GMS details" />
+      </head>
       <div className="flex">
         <div>
           <ProfileSidebar />

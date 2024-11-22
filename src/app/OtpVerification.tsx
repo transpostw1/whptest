@@ -12,7 +12,7 @@ import { graphqlbaseUrl } from "@/utils/constants";
 import OTPInput from "react-otp-input";
 import { useRouter } from "next/navigation";
 import axios from "../utils/axios";
-import {  login } from "@/utils/constants";
+import { login } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import Preloader from "@/components/Other/Preloader";
 
@@ -22,6 +22,7 @@ interface OtpVerificationProps {
   onSubmit: (values: any) => void;
   isRegisterPage: boolean;
   errorMessage: string | any;
+  onOtpVerified: () => void;
 }
 
 // class Token {
@@ -65,89 +66,28 @@ const OtpVerification = ({
     }
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + formikValues.phoneNumber;
+
     try {
       setLoading(true);
       setFirebaseError(null);
       const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
       setVerificationId(result.verificationId);
-      setIsOtpSent(true); 
+      setIsOtpSent(true);
       setErrorMessage(null);
       console.log("OTP sent successfully");
     } catch (error: any) {
-      console.error("Error sending OTP:", error);
-      console.error(FirebaseError, error.message, "FIREE");
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
         window.location.href = location.pathname;
-      } else if (error?.code === 400 && error.message?.includes("CAPTCHA_CHECK_FAILED")) {
+        return;
+      } else if (
+        error?.code === 400 &&
+        error.message?.includes("CAPTCHA_CHECK_FAILED")
+      ) {
         console.log("Ignoring CAPTCHA_CHECK_FAILED error");
+        return;
       }
-      else {
-        setErrorMessage("Invalid Number or Try again");
-      }
-      //  setFirebaseError(error.message);
-    }
-  };
-
-  const verifySignin = async () => {
-    if (!verificationId || !otp) {
-      console.error("Invalid verification ID or OTP");
-      return;
-    }
-    try {
-
-      setVerifying(true);
-      const credential = PhoneAuthProvider.credential(verificationId, otp);
-      await signInWithCredential(auth, credential);
-      console.log("Successfully signed in with OTP");
-      const phoneNumber = auth?.currentUser?.phoneNumber;
-      const tokenn = auth?.currentUser?.accessToken;
-      const userId = auth?.currentUser?.uid;
-      if (tokenn) {
-        localStorage.setItem("firebaseToken", tokenn);
-        console.log("Token saved to local storage:", tokenn);
-      }
-
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        cache: new InMemoryCache(),
-      });
-  
-      const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
-        mutation Mutation($phoneNumber: String) {
-          storeRegistrationAttempts(phoneNumber: $phoneNumber) {
-            message
-            code
-          }
-        }
-      `;
-       const { data } = await client.mutate({
-        mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
-        variables: {
-          phoneNumber, 
-        },
-      });
-      console.log("Registration attempt stored successfully:", data.storeRegistrationAttempts.message);
-      onOtpVerified();
-    } catch (error:any) {
-      setVerifying(false);
-      console.error("Error signing in with OTP:", error);
-      if (error.code === "auth/invalid-verification-code") {
-        setErrorMessage("Invalid OTP. Please try again.");
-      } else if (error.response) {
-        const errorMsg =
-          typeof error.response.data === "string"
-            ? error.response.data.error
-            : JSON.stringify(error.response.data.error);
-        setErrorMessage(errorMsg);
-        console.error("Backend error data will show:", error.response.data);
-        console.error("Backend error status:", error.response.status);
-        console.error("Backend error headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Request setup error:", error.message);
-      }
+      setErrorMessage("Invalid Number or Try again");
     }
   };
 
@@ -161,39 +101,67 @@ const OtpVerification = ({
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
       console.log("Successfully signed in with OTP");
+      const phoneNumber = auth?.currentUser?.phoneNumber;
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
-
+      if (tokenn) {
+        localStorage.setItem("firebaseToken", tokenn);
+        console.log("Token saved to local storage:", tokenn);
+      }
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+  
+      // Define the GraphQL mutation for registration attempts
+      const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
+        mutation Mutation($phoneNumber: String) {
+          storeRegistrationAttempts(phoneNumber: $phoneNumber) {
+            message
+            code
+          }
+        }
+      `;
+  
+      await client.mutate({
+        mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
+        variables: { phoneNumber },
+      });
+      console.log("Store registration attempt mutation called successfully.");
       const response = await axios.post(
         login,
+        { phoneNumber },
         {
-          ...formikValues,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${tokenn}`,
-          },
-        },
+          headers: { Authorization: `Bearer ${tokenn}` },
+        }
       );
       logIn();
       const localToken = response.data.token;
-      typeof window !== "undefined"
-        ? localStorage.setItem("localtoken", localToken)
-        : null;
-      console.log("intial token", localStorage.getItem("localtoken"));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("localtoken", localToken);
+      }
+      console.log("Initial token saved:", localStorage.getItem("localtoken"));
       router.push("/");
-    } catch (error: any) {
+  
+    } catch (error:any) {
       setVerifying(false);
-      console.error("Error signing in with OTP:", error);
+      console.error("Error during verification and registration:", error);
+  
       if (error.code === "auth/invalid-verification-code") {
         setErrorMessage("Invalid OTP. Please try again.");
       } else if (error.response) {
+        const errorData = error.response.data;
         const errorMsg =
-          typeof error.response.data === "string"
-            ? error.response.data.error
-            : JSON.stringify(error.response.data.error);
-        setErrorMessage(errorMsg);
-        console.error("Backend error data will show:", error.response.data);
+          typeof errorData === "string"
+            ? errorData
+            : errorData.error || JSON.stringify(errorData);
+        if (errorMsg.includes("User Not Found")) {
+          onOtpVerified(); 
+        } else {
+          setErrorMessage(errorMsg);
+          console.error("Backend error data will show:", errorData);
+        }
+  
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
       } else if (error.request) {
@@ -203,6 +171,8 @@ const OtpVerification = ({
       }
     }
   };
+  
+
   useEffect(() => {
     setUpRecaptcha();
   }, []);
@@ -213,20 +183,10 @@ const OtpVerification = ({
     }
   };
   const handleCombinedClick = () => {
-    if (isRegisterPage) {
-      verifySignin();
-      
-      // onSubmit(formikValues);
-    } else {
       onVerify();
-    }
   };
   const handleLoginSubmit = () => {
-    if (isRegisterPage) {
-      // onSubmit(formikValues);
       onSendOtp();
-    }
-    onSendOtp();
   };
 
   return (
@@ -246,14 +206,17 @@ const OtpVerification = ({
               numInputs={6}
               renderSeparator={<span className="mx-2">-</span>}
               renderInput={(props) => (
-                <input {...props} placeholder="0"       className="otpInput w-14 h-10 text-center border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#E26178] transition duration-200 ease-in-out"
- />
+                <input
+                  {...props}
+                  placeholder="0"
+                  className="otpInput h-10 w-14 rounded-full border border-gray-300 text-center transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#E26178]"
+                />
               )}
             />
           </div>
           <button
             className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
-            onClick={handleCombinedClick}
+            onClick={handleCombinedClick2}
           >
             {verifying ? (
               <>

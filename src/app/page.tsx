@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import Hotjar from "@hotjar/browser";
 import ProductSlider from "@/components/Home1/ProductSlider";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
@@ -20,6 +21,8 @@ import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts"
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
+import { NextSeo } from "next-seo";
+import SEO from "../../next-seo.config"
 
 
 
@@ -34,6 +37,29 @@ export default function Home() {
     { x: 300, y: 350, value: 70 },
     { x: 300, y: 2550, value: 70 },
   ];
+
+  const siteId = 5191013;
+  const hotjarVersion = 6;
+  useEffect(() => {
+    console.log("HOTJARUSEFFECT");
+    if (typeof window !== "undefined") {
+      Hotjar.init(siteId, hotjarVersion);
+    }
+  }, []);
+  useEffect(() => {
+    if (!document.getElementById("kenyt-chatbot-script")) {
+      const script = document.createElement("script");
+      script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
+      script.type = "text/javascript";
+      script.dataset.bot = "11799060"; 
+      script.id = "kenyt-chatbot-script"; 
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        console.log("Kenyt.ai Chatbot script loaded!");
+      };
+    }
+  }, []); 
   return (
     <>
       {/* <Head>
@@ -43,6 +69,7 @@ export default function Home() {
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
+      
 
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />

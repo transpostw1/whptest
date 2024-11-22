@@ -7,6 +7,7 @@ import Templates from "@/components/Gifts/Templates";
 import Amount from "@/components/Gifts/Amount";
 import Delivery from "@/components/Gifts/Delivery";
 import Preview from "@/components/Gifts/Preview";
+import Loader from "@/components/Other/Loader";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { baseUrl, voucher, graphqlbaseUrl } from "@/utils/constants";
 import { useCurrency } from "@/context/CurrencyContext";
@@ -35,6 +36,7 @@ const Gifts = () => {
     senderName: "",
   });
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [isOccasionSelected, setIsOccasionSelected] = useState<boolean>(false);
   const [isTemplateSelected, setIsTemplateSelected] = useState<boolean>(false);
@@ -157,10 +159,11 @@ const Gifts = () => {
   };
 
   const handleProceedToPay = () => {
-    console.log(isLoggedIn,"ISSSLOOGGEDD")
+    setIsLoading(true);
     if (!isLoggedIn) {
       router.push("/login");
-      return; 
+      setIsLoading(false);
+      return;
     }
     let payableAmount;
     if (currency == "USD") {
@@ -184,9 +187,9 @@ const Gifts = () => {
       message: formData.message,
       senderName: formData.senderName,
     };
-
     sessionStorage.setItem("selectedScheme", JSON.stringify(voucherDetails));
     router.push("/digitalCheckout");
+    setIsLoading(false);
   };
 
   const handleTemplateSelect = (templateUrl: string) => {
@@ -204,6 +207,16 @@ const Gifts = () => {
   const stepCount = currentStep + 1;
 
   return (
+<>
+<head>
+    <title>Gifts</title>
+    <meta
+          name="description"
+          content={
+           "Gifting WHP"
+          }
+        />
+    </head>
     <div className="mx-2 md:mx-1">
       <div className="bg-[#f8a4b4] py-10 text-center">
         <h1 className="py-2 font-medium">GIFT CARDS</h1>
@@ -211,109 +224,115 @@ const Gifts = () => {
           For what your loved ones Love!
         </h3>
       </div>
-      <div className="flex lg:mx-48">
-        <div className="hidden p-4 lg:block">
-          <div className="h-full w-0.5 bg-red-500"></div>
-        </div>
-        <div className="mt-3 flex w-full flex-col justify-between">
-          <div className="flex items-end justify-between gap-1">
-            <div>
-              <div className="flex flex-col items-start">
-                {completedSteps.map((step, index) => (
-                  <div
-                    key={index}
-                    className="mb-2 flex gap-3 py-2 text-green-600"
-                  >
-                    <div className="font-bold">{index + 1}</div>
-                    {step}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex lg:mx-48">
+          <div className="hidden p-4 lg:block">
+            <div className="h-full w-0.5 bg-red-500"></div>
+          </div>
+          <div className="mt-3 flex w-full flex-col justify-between">
+            <div className="flex items-end justify-between gap-1">
+              <div>
+                <div className="flex flex-col items-start">
+                  {completedSteps.map((step, index) => (
+                    <div
+                      key={index}
+                      className="mb-2 flex gap-3 py-2 text-green-600"
+                    >
+                      <div className="font-bold">{index + 1}</div>
+                      {step}
+                    </div>
+                  ))}
+                  <div className="bg-[#e26178] p-1 text-white md:px-4">
+                    {steps[currentStep]}
                   </div>
-                ))}
-                <div className="bg-[#e26178] p-1 text-white md:px-4">
-                  {steps[currentStep]}
                 </div>
+              </div>
+              <div className="flex gap-2">
+                {currentStep > 0 && (
+                  <button
+                    className="bg-[#e8798b] px-2 py-2 text-white md:px-4"
+                    onClick={handlePrevious}
+                  >
+                    PREVIOUS
+                  </button>
+                )}
+                {currentStep < steps.length - 1 ? (
+                  <button
+                    className="bg-[#e26178] px-2 py-2 text-white md:px-4"
+                    onClick={handleNext}
+                  >
+                    NEXT
+                  </button>
+                ) : (
+                  <button
+                    className="bg-[#e26178] text-white md:px-4 md:py-2"
+                    onClick={handleProceedToPay}
+                  >
+                    PROCEED TO PAY
+                  </button>
+                )}
               </div>
             </div>
 
-            <div className="flex gap-2">
-              {currentStep > 0 && (
-                <button
-                  className="bg-[#e8798b] px-2 py-2 text-white md:px-4"
-                  onClick={handlePrevious}
-                >
-                  PREVIOUS
-                </button>
-              )}
-              {currentStep < steps.length - 1 ? (
-                <button
-                  className="bg-[#e26178] px-2 py-2 text-white md:px-4"
-                  onClick={handleNext}
-                >
-                  NEXT
-                </button>
-              ) : (
-                <button
-                  className="bg-[#e26178] text-white md:px-4 md:py-2"
-                  onClick={handleProceedToPay}
-                >
-                  PROCEED TO PAY
-                </button>
-              )}
+            {error && (
+              <div className="mt-2 text-center text-red-500">{error}</div>
+            )}
+
+            {currentStep === 0 && (
+              <Occasion
+                onSelectOccasion={handleOccasionSelect}
+                voucherData={voucherData}
+              />
+            )}
+            {currentStep === 1 && (
+              <Templates
+                selectedOccasion={selectedOccasion}
+                selectedTemplateId={selectedTemplateId}
+                voucherData={voucherData}
+                onTemplateSelect={handleTemplateSelect}
+              />
+            )}
+            {currentStep === 2 && (
+              <Amount onAmountChange={handleAmountChange} />
+            )}
+            {currentStep === 3 && (
+              <Delivery formData={formData} handleChange={handleChange} />
+            )}
+            {currentStep === 4 && (
+              <Preview
+                recipientName={formData.recipientName}
+                recipientEmail={formData.recipientEmail}
+                recipientMobile={formData.recipientMobile}
+                confirmEmail={formData.confirmEmail}
+                message={formData.message}
+                senderName={formData.senderName}
+                amount={formData.amount}
+                occasion={formData.occasion}
+                selectedTemplateUrl={selectedTemplateUrl}
+              />
+            )}
+
+            <div className="flex items-center justify-between">
+              <div className="mt-2 flex flex-col justify-start text-sm">
+                {remainingSteps.map((step, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer px-2 py-1 font-normal text-gray-400"
+                    onClick={() => handleStepClick(currentStep + index + 1)}
+                  >
+                    {step}
+                  </div>
+                ))}
+              </div>
+              <h1 className="text-xs">Terms & Conditions</h1>
             </div>
-          </div>
-
-          {error && (
-            <div className="mt-2 text-center text-red-500">{error}</div>
-          )}
-
-          {currentStep === 0 && (
-            <Occasion
-              onSelectOccasion={handleOccasionSelect}
-              voucherData={voucherData}
-            />
-          )}
-          {currentStep === 1 && (
-            <Templates
-              selectedOccasion={selectedOccasion}
-              selectedTemplateId={selectedTemplateId}
-              voucherData={voucherData}
-              onTemplateSelect={handleTemplateSelect}
-            />
-          )}
-          {currentStep === 2 && <Amount onAmountChange={handleAmountChange} />}
-          {currentStep === 3 && (
-            <Delivery formData={formData} handleChange={handleChange} />
-          )}
-          {currentStep === 4 && (
-            <Preview
-              recipientName={formData.recipientName}
-              recipientEmail={formData.recipientEmail}
-              recipientMobile={formData.recipientMobile}
-              confirmEmail={formData.confirmEmail}
-              message={formData.message}
-              senderName={formData.senderName}
-              amount={formData.amount}
-              occasion={formData.occasion}
-              selectedTemplateUrl={selectedTemplateUrl}
-            />
-          )}
-
-          <div className="flex items-center justify-between">
-            <div className="mt-2 flex flex-col justify-start text-sm">
-              {remainingSteps.map((step, index) => (
-                <div
-                  key={index}
-                  className="cursor-pointer px-2 py-1 font-normal text-gray-400"
-                  onClick={() => handleStepClick(currentStep + index + 1)}
-                >
-                  {step}
-                </div>
-              ))}
-            </div>
-            <h1 className="text-xs">Terms & Conditions</h1>
           </div>
         </div>
-      </div>
+      )}
     </div>
+</>
   );
 };
 

@@ -16,6 +16,10 @@ const Blogs: React.FC = () => {
 
   return (
     <div>
+      <head>
+        <title>Blogs</title>
+        <meta name="description" content={"WHP Blogs."} />
+      </head>
       <Trending blogData={blogData} />
       <Latest blogData={blogData} />
       <Card />

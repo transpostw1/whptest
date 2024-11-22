@@ -16,6 +16,15 @@ const Gemguide: React.FC  = () => {
 
   return (
     <>
+        <head>
+    <title>Gemstone Guide</title>
+    <meta
+          name="description"
+          content={
+           "Gemstone Guide."
+          }
+        />
+    </head>
       <div className="mx-5">
         <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">
           {gemstoneData.name}

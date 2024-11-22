@@ -36,13 +36,13 @@ const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize })
     handleSelectSize(trueVariants);
   };
   return (
-    <div className="flex border border-[#f3f3f3] w-full mt-3">
+    <div className="flex  w-full mt-3">
       {product?.variants?.map((item, index) => (
-        <div key={index} className="flex flex-col items-center justify-between w-full">
-          <p className="underline">{item.VariantType}</p>
+        <div key={index} className="flex flex-col items-start justify-between w-full">
+          <p className="underline font-semibold">{item.VariantType}</p>
           <div className="relative">
             <select
-              className="block appearance-auto p-4"
+              className="block appearance-auto py-4"
               onChange={(e) => {
                 handleNewVariants(e);
               }}

@@ -189,7 +189,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       href={
-                        "https://wa.me/911800-222-225"
+                        "https://wa.me/918828324464"
                       }
                       target="_blank"
                     >

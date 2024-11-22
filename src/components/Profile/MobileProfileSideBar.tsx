@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { setSourceMapsEnabled } from "process";
 import UpdateProfile from "./UpdateProfile";
-
+import { MdVerified } from "react-icons/md";
 
 const MobileProfileSideBar = () => {
   const router = useRouter();
@@ -37,10 +37,16 @@ const MobileProfileSideBar = () => {
           )}
         </div>
         <div>
-          <p className="mt-2 text-xl font-semibold">
-            {" "}
-            {userDetails?.firstname} {userDetails?.lastname}
-          </p>
+        <div className="flex">
+            <div>
+              <p className="mt-2 text-xl font-semibold">
+                {userDetails?.fullname ? userDetails.fullname : "Add Details"}
+              </p>
+            </div>
+            <div className="mt-2 ml-2">
+              {userDetails?.is_verified==0?<MdVerified  size={22} color="#808080"/>:<MdVerified  size={22} color="#0099ff"/>}
+            </div>
+          </div>
           <span
             className="mt-2 flex justify-center text-[#e26178]"
             onClick={() => setOpen(true)}

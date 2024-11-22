@@ -96,10 +96,10 @@ const Wishlist = () => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-    showCustomToast('Item successfully added to cart!');
+    showCustomToast("Item successfully added to cart!");
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
-      showCustomToast('Product Quantity Updated!');
+      showCustomToast("Product Quantity Updated!");
     } else {
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);
@@ -135,7 +135,6 @@ const Wishlist = () => {
       addToCart(newProduct, 1, variantsToPass);
       removeFromWishlist(product.productId);
     }
-    
   };
 
   const handleBuyNow = (product: any) => {
@@ -179,8 +178,8 @@ const Wishlist = () => {
       console.log("New product objec", newProduct);
       console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
-  
-      addToCart(newProduct, 1,variantsToPass, true);
+
+      addToCart(newProduct, 1, variantsToPass, true);
     }
 
     removeFromWishlist(product.productId);
@@ -212,6 +211,10 @@ const Wishlist = () => {
 
   return (
     <div className="shop-product breadcrumb1">
+      <head>
+        <title>Wishlists</title>
+        <meta name="description" content={"Your wishlisted items."} />
+      </head>
       <StickyNav />
       <div className="container">
         <div className="list-product-block relative">

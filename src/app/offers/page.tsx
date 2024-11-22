@@ -4,7 +4,18 @@ import Offers from '@/components/Offers/Offers'
 
 const page = () => {
   return (
-    <><Offers/></>
+    <>
+        <head>
+    <title>Offers @ WHP</title>
+    <meta
+          name="description"
+          content={
+           "Sign Up to WHP."
+          }
+        />
+    </head>
+    <Offers/>
+    </>
   )
 }
 

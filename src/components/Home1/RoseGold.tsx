@@ -50,8 +50,8 @@ const RoseGold = () => {
     };
   }, []);
   return (
-    <div className="mt-5 flex flex-wrap justify-evenly bg-[#f7f5f6] lg:py-[90px]">
-      <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[65px] sm:pt-[36px]">
+    <div className="mt-5 flex flex-wrap justify-evenly bg-[#f7f5f6] py-5  ">
+      <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[] sm:pt-[36px]">
         <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
         <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
           ROSE GOLD RANGE
@@ -109,7 +109,7 @@ const RoseGold = () => {
           </Link>
         )}
       </div>
-      <div className="flex max-sm:w-full max-sm:justify-center sm:justify-center">
+      <div className="flex max-sm:w-full max-sm:justify-end sm:justify-center">
         <Image
           src={"/images/roseGoldImages/roseGoldRing.png"}
           width={bannerwidth}

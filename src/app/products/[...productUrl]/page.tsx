@@ -1,5 +1,6 @@
-import React from "react";
-import { useSearchParams } from "next/navigation";
+"use client";
+import React, { useState } from "react";
+import { Metadata } from "next";
 import Default from "@/components/Product/Detail/Default";
 
 interface PageProps {
@@ -7,11 +8,32 @@ interface PageProps {
     productUrl: number;
   };
 }
-const page: React.FC<PageProps> = ({ params }) => {
+
+const Page: React.FC<PageProps> = ({ params }) => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  const handleApiData = (data: any) => {
+    setApiData(data);
+  };
+  console.log(apiData,"APDATA")
+
+
+
   return (
     <div>
-      <Default productId={params.productUrl} />
+      {/* Main content */}
+      <head>
+        <title>{apiData?.productDetails?.title || "Details"}</title>
+        <meta
+          name="description"
+          content={
+            apiData?.productDetails?.description || "Discover our amazing products at WHP Jewellers."
+          }
+        />
+      </head>
+      <Default productId={params.productUrl} onDataFetched={handleApiData} />
     </div>
   );
 };
-export default page;
+
+export default Page;

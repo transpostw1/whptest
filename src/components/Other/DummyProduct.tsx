@@ -248,7 +248,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             ) : ( */}
             <div className="relative">
-              {skuList.includes(data.SKU) && (
+              {/* {skuList.includes(data.SKU) && (
                 <div
                   id={`product-form-${data.productId}`} 
                   className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
@@ -259,7 +259,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     <p className="ps-1 text-sm">Try On</p>
                   </div>
                 </div>
-              )}
+              )} */}
               <Image
                 onClick={() => handleDetailProduct(data.productId, data.url)}
                 className="m-auto w-[95%] duration-700"

@@ -113,6 +113,11 @@ const FAQs = () => {
     setAccordian(number === accordian ? null : number);
   };
   return (
+   <>
+    <head>
+    <title>FAQ's</title>
+    <meta name="description" content={"Frequently Asked Questions."} />
+  </head>
     <div>
       <div className="w-full text-center text-[40px] text-[#e26178]">
         <p>FREQUENTLY ASKED QUESTIONS</p>
@@ -135,6 +140,7 @@ const FAQs = () => {
         ))}
       </div>
     </div>
+   </>
   );
 };
 

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { CreditCard } from "@phosphor-icons/react";
 import axios from "axios";
 import { Address } from "@/type/AddressType";
+import BuyAgain from "@/components/Home1/BuyAgain";
 import { useCart } from "@/context/CartContext";
 import ReactLoading from "react-loading";
 import Loader from "@/components/Other/Loader";
@@ -18,6 +19,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { SiRazorpay } from "react-icons/si";
 interface PaymentProps {
   wallet: any;
+  giftWrap:any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
   component: string;
@@ -35,6 +37,7 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = ({
   wallet,
+  giftWrap,
   orderPlaced,
   selectedPaymentMethod,
   handlePaymentMethodChange,
@@ -133,6 +136,8 @@ const Payment: React.FC<PaymentProps> = ({
             } = response;
             const orderData = {
               isWallet: wallet ? 1 : 0,
+              isWrap:giftWrap.wrapOption?1:0,
+              message:giftWrap.wrapOption?giftWrap.name:"",
               walletAmount: userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
@@ -240,6 +245,8 @@ const Payment: React.FC<PaymentProps> = ({
         // Prepare the data to be sent to the API
         const orderData = {
           isWallet: wallet ? 1 : 0,
+          isWrap:giftWrap.wrapOption?1:0,
+          message:giftWrap.wrapOption?giftWrap.name:"",
           walletAmount: userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
@@ -478,56 +485,61 @@ const Payment: React.FC<PaymentProps> = ({
         </div>
       )}
       {orderPlaced && (
-        <div className="mb-4 rounded-lg border border-gray-200">
-          <div className="flex justify-between border-b-2 border-t-0 p-4">
-            <div className="">
-              <span className="font-semibold">Order Id: </span>
-              {orderResponse.order.orderNo}
+        <>
+          <div className="mb-4 rounded-lg border border-gray-200 w-[90%]">
+            <div className="flex justify-between border-b-2 border-t-0 p-4">
+              <div className="">
+                <span className="font-semibold">Order Id: </span>
+                {orderResponse.order.orderNo}
+              </div>
+              <div className="">
+                <span className="font-semibold">Order Date: </span>
+                {new Date(orderResponse.order.created_at).toLocaleDateString(
+                  "en-US",
+                  {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  },
+                )}
+              </div>
             </div>
-            <div className="">
-              <span className="font-semibold">Order Date: </span>
-              {new Date(orderResponse.order.created_at).toLocaleDateString(
-                "en-US",
-                {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                },
+            <div>
+              {orderResponse.productDetails.products.map(
+                (product: any, index: any) => (
+                  <div className="flex justify-between p-4" key={index}>
+                    <div className="flex">
+                      <div className="mr-3">
+                        <Image
+                          src={product?.imageDetails[0]?.image_path}
+                          alt={"image"}
+                          width={85}
+                          height={85}
+                          className="bg-[#f7f7f7]"
+                          unoptimized
+                        />
+                      </div>
+                      <div>
+                        <p className="text-xl font-semibold">
+                          {product?.title}
+                        </p>
+                        {/* <p>
+                      {product?.metalType}-{product?.metalWeight}
+                    </p> */}
+                        <p>Quantity: {product?.quantity}</p>
+                      </div>
+                    </div>
+                    <div className="font-semibold">
+                      {formatPrice(product?.discountedTotal)}
+                    </div>
+                  </div>
+                ),
               )}
             </div>
           </div>
-          <div>
-            {orderResponse.productDetails.products.map(
-              (product: any, index: any) => (
-                <div className="flex justify-between p-4" key={index}>
-                  <div className="flex">
-                    <div className="mr-3">
-                      <Image
-                        src={product?.imageDetails[0]?.image_path}
-                        alt={"image"}
-                        width={85}
-                        height={85}
-                        className="bg-[#f7f7f7]"
-                        unoptimized
-                      />
-                    </div>
-                    <div>
-                      <p className="text-xl font-semibold">{product?.title}</p>
-                      {/* <p>
-                      {product?.metalType}-{product?.metalWeight}
-                    </p> */}
-                      <p>Quantity: {product?.quantity}</p>
-                    </div>
-                  </div>
-                  <div className="font-semibold">
-                    {formatPrice(product?.discountedTotal)}
-                  </div>
-                </div>
-              ),
-            )}
-          </div>
-        </div>
+          <BuyAgain />
+        </>
       )}
       {!orderPlaced && isMobile && component === "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">

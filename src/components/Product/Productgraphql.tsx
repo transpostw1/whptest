@@ -342,7 +342,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         />
                       </div>
                     )}
-                    {skuList.includes(data.SKU) && !isMobile && (
+                    {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
                         className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
@@ -402,7 +402,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   alt="This image is temporarry"
                   unoptimized
                 />
-                {/* {skuList.includes(data.SKU) && !isMobile && (
+                {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
                     className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
@@ -413,13 +413,13 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
-                )} */}
+                )} 
                 {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )}
-                {/* {skuList.includes(data.SKU) && isMobile && (
+                {skuList?.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
                     className="try_on z-999 absolute bottom-1 float-left flex justify-between rounded-lg border border-[#e26178] text-center hover:bg-[#e26178] hover:text-white"
@@ -430,7 +430,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
-                )} */}
+                )}
                 {!isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />

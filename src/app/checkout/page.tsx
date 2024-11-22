@@ -745,6 +745,7 @@ const Checkout: React.FC = () => {
                   onOrderComplete={handleOrderComplete}
                   component={selectedComponent}
                   wallet={whpWallet}
+                  giftWrap={GiftWrapformData}
                   selectedShippingAddress={selectedShippingAddress}
                   selectedBillingAddress={selectedBillingAddress}
                   placeOrder={handleProceed}

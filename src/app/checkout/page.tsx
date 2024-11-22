@@ -652,6 +652,15 @@ const Checkout: React.FC = () => {
   return (
     <>
       {/* <ProtectedRoute> */}
+      <head>
+    <title>Cart</title>
+    <meta
+          name="description"
+          content={
+           "Your WHP Cart."
+          }
+        />
+    </head>
       <div className="cart-block mb-8 flex-wrap">
         <div className="content-main flex flex-col justify-between px-5 lg:px-14">
           <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">
@@ -747,7 +756,7 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-3/6">
+            <div className="mt-5 w-full lg:w-4/6">
               {selectedComponent === "CartItems" && (
                 <div>
                   <h1 className="my-5 text-2xl text-[#E26178]">Coupons</h1>
@@ -757,14 +766,14 @@ const Checkout: React.FC = () => {
                         <div className="flex w-full flex-col">
                           <div className="flex items-center justify-between font-medium">
                             <div className="flex gap-2">
-                              <Image
+                              {/* <Image
                                 src={"/images/icons/coupon.png"}
                                 alt={"coupons"}
                                 height={25}
                                 width={25}
                                 unoptimized
-                              />
-                              <h3>
+                              /> */}
+                              <h3 className="text-[#E26178]">
                                 {couponCode &&
                                 dataAfterCouponCode.code === 200 ? (
                                   <span className="flex w-full items-center gap-2">

@@ -16,6 +16,10 @@ const About = () => {
 
   return (
     <>
+       <head>
+        <title>About Us</title>
+        <meta name="description" content={"All about WHP."} />
+      </head>
     <div className="mx-5">
     <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">{aboutusData.name}</h1>
       {/* <Image

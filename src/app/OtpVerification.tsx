@@ -91,7 +91,7 @@ const OtpVerification = ({
     }
   };
 
-  const verifySignin = async () => {
+  const onVerify = async () => {
     if (!verificationId || !otp) {
       console.error("Invalid verification ID or OTP");
       return;
@@ -108,12 +108,12 @@ const OtpVerification = ({
         localStorage.setItem("firebaseToken", tokenn);
         console.log("Token saved to local storage:", tokenn);
       }
-
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-
+  
+      // Define the GraphQL mutation for registration attempts
       const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
         mutation Mutation($phoneNumber: String) {
           storeRegistrationAttempts(phoneNumber: $phoneNumber) {
@@ -122,82 +122,46 @@ const OtpVerification = ({
           }
         }
       `;
-      const { data } = await client.mutate({
+  
+      await client.mutate({
         mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
-        variables: {
-          phoneNumber,
-        },
+        variables: { phoneNumber },
       });
-      console.log(
-        "Registration attempt stored successfully:",
-        data.storeRegistrationAttempts.message,
-      );
-      onOtpVerified();
-    } catch (error: any) {
-      setVerifying(false);
-      console.error("Error signing in with OTP:", error);
-      if (error.code === "auth/invalid-verification-code") {
-        setErrorMessage("Invalid OTP. Please try again.");
-      } else if (error.response) {
-        const errorMsg =
-          typeof error.response.data === "string"
-            ? error.response.data.error
-            : JSON.stringify(error.response.data.error);
-        setErrorMessage(errorMsg);
-        console.error("Backend error data will show:", error.response.data);
-        console.error("Backend error status:", error.response.status);
-        console.error("Backend error headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Request setup error:", error.message);
-      }
-    }
-  };
-
-  const onVerify = async () => {
-    if (!verificationId || !otp) {
-      console.error("Invalid verification ID or OTP");
-      return;
-    }
-    try {
-      setVerifying(true);
-      const credential = PhoneAuthProvider.credential(verificationId, otp);
-      await signInWithCredential(auth, credential);
-      console.log("Successfully signed in with OTP");
-      const tokenn = auth?.currentUser?.accessToken;
-      const userId = auth?.currentUser?.uid;
-
+      console.log("Store registration attempt mutation called successfully.");
       const response = await axios.post(
         login,
+        { phoneNumber },
         {
-          ...formikValues,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${tokenn}`,
-          },
-        },
+          headers: { Authorization: `Bearer ${tokenn}` },
+        }
       );
       logIn();
       const localToken = response.data.token;
-      typeof window !== "undefined"
-        ? localStorage.setItem("localtoken", localToken)
-        : null;
-      console.log("intial token", localStorage.getItem("localtoken"));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("localtoken", localToken);
+      }
+      console.log("Initial token saved:", localStorage.getItem("localtoken"));
       router.push("/");
-    } catch (error: any) {
+  
+    } catch (error:any) {
       setVerifying(false);
-      console.error("Error signing in with OTP:", error);
+      console.error("Error during verification and registration:", error);
+  
       if (error.code === "auth/invalid-verification-code") {
         setErrorMessage("Invalid OTP. Please try again.");
       } else if (error.response) {
+        const errorData = error.response.data;
         const errorMsg =
-          typeof error.response.data === "string"
-            ? error.response.data.error
-            : JSON.stringify(error.response.data.error);
-        setErrorMessage(errorMsg);
-        console.error("Backend error data will show:", error.response.data);
+          typeof errorData === "string"
+            ? errorData
+            : errorData.error || JSON.stringify(errorData);
+        if (errorMsg.includes("User Not Found")) {
+          onOtpVerified(); 
+        } else {
+          setErrorMessage(errorMsg);
+          console.error("Backend error data will show:", errorData);
+        }
+  
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
       } else if (error.request) {
@@ -207,6 +171,8 @@ const OtpVerification = ({
       }
     }
   };
+  
+
   useEffect(() => {
     setUpRecaptcha();
   }, []);
@@ -217,21 +183,10 @@ const OtpVerification = ({
     }
   };
   const handleCombinedClick = () => {
-    if (isRegisterPage) {
-      verifySignin();
-
-      // onSubmit(formikValues);
-    } else {
       onVerify();
-    }
   };
   const handleLoginSubmit = () => {
-    // if (isRegisterPage) {
-      // onSubmit(formikValues);
       onSendOtp();
-    // } else {
-      // onSendOtp();
-    // }
   };
 
   return (
@@ -261,7 +216,7 @@ const OtpVerification = ({
           </div>
           <button
             className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
-            onClick={handleCombinedClick}
+            onClick={handleCombinedClick2}
           >
             {verifying ? (
               <>

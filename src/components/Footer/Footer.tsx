@@ -175,7 +175,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       href={
-                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                        "https://www.youtube.com/@whpjewellers"
                       }
                       target="_blank"
                     >
@@ -189,7 +189,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       href={
-                        "https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"
+                        "https://wa.me/911800-222-225"
                       }
                       target="_blank"
                     >

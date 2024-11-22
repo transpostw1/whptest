@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import StickyNav from "../Header/StickyNav";
-
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import Link from 'next/link'
 const dummyData = [
   {
     image: (
@@ -101,6 +103,40 @@ const OfferBanners = [
   "/images/offers/banner_3_offer.png",
 ];
 const Offers = () => {
+  const [offerBanners, setOfferBanners] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchSubBanners = async () => {
+      try {
+        setLoading(true);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_ALLOFFERS = gql`
+          query GetAllOffers {
+            getAllOffers {
+              id
+              title
+              url
+              img
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GET_ALLOFFERS,
+        });
+
+        setOfferBanners(data.getAllOffers);
+      } catch (error) {
+        console.log("Error in fetching SubBanners", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubBanners();
+  }, []);
+
   return (
     <>
       <StickyNav />
@@ -134,15 +170,22 @@ const Offers = () => {
           </Swiper>
         </div>
         <div className="mt-5 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {OfferBanners.map((images, index) => (
+          {offerBanners.map((item: any, index: any) => (
             <div key={index}>
-              <Image
-                src={images}
-                alt={"the offer banner"}
-                width={400}
-                height={400}
-                unoptimized
-              />
+              <Link href={{
+                pathname:"/products",
+                query:{
+                  url:item.url
+                }
+              }}>
+                <Image
+                  src={item.img}
+                  alt={"the offer banner"}
+                  width={400}
+                  height={400}
+                  unoptimized
+                />
+              </Link>
             </div>
           ))}
         </div>

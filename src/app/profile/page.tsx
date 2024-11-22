@@ -3,37 +3,12 @@ import React, { useEffect, useState } from "react";
 import StickyNav from "@/components/Header/StickyNav";
 import ProfileSidebar from "@/components/Profile/ProfileSideBar";
 import ProfileDetails from "@/components/Profile/ProfileDetails";
-import ProfileOrders from "@/components/Profile/ProfileOrder";
-import ProfileWishList from "@/components/Profile/ProfileWishList";
-import ProfileGMS from "@/components/Profile/ProfileGMS";
 import MobileProfileSideBar from "@/components/Profile/MobileProfileSideBar";
-import MobilePersonalInformation from "@/components/Profile/MobilePersonalInformation";
-import MobileWishList from "@/components/Profile/MobileWishList";
-import MobileOrders from "@/components/Profile/MobileOrders";
-import MobileGms from "@/components/Profile/MobileGms";
-import axios from "axios";
-import Cookie from "js-cookie";
-import { baseUrl, getOrders, graphqlbaseUrl } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import ProtectedRoute from "../ProtectedRoute";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
-interface OrdersResponse {
-  customerOrders: any;
-  data: any;
-}
 const ProfilePage = () => {
-  const [componentToRender, setComponentToRender] =
-    useState<string>("personalInfo");
-  const [component, setComponent] = useState<string>("");
-  const [ordersData, setOrdersData] = useState<any>();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const handleComponentToRender = (component: string) => {
-    setComponentToRender(component);
-  };
-  const handleComponent = (component: string) => {
-    setComponent(component);
-  };
   const { isLoggedIn, getUser } = useUser();
 
   useEffect(() => {
@@ -50,171 +25,19 @@ const ProfilePage = () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
-
+  
   useEffect(() => {
     if (isLoggedIn) {
       getUser();
     }
   }, []);
 
-  const handleOrders = async () => {
-    try {
-      const cookieToken =
-        typeof window !== "undefined"
-          ? localStorage.getItem("localtoken")
-          : null;
-      const getAuthHeaders = () => {
-        if (!cookieToken) return null;
-        return {
-          authorization: `Bearer ${cookieToken}`,
-        };
-      };
-      const link = new HttpLink({
-        uri: graphqlbaseUrl,
-        headers: getAuthHeaders(),
-      });
-
-      const client = new ApolloClient({
-        link,
-        cache: new InMemoryCache(),
-      });
-
-      const GET_ORDER = gql`
-        query GetCustomerOrder($token: String!) {
-          getCustomerOrder(token: $token) {
-    id
-    productDetails {
-      productId
-      productAmount
-      quantity
-      url
-      SKU
-      variantId
-      productTotal
-      metalType
-      metalWeight
-      discountAmount
-      discountValue
-      typeOfDiscount
-      discountedTotal
-      displayTitle
-      productPrice
-      discountPrice
-      mediaId
-      imageDetails {
-        image_path
-        order
-        alt_text
-      }
-      videoDetails {
-        video_path
-        order
-        alt_text
-      }
-      rating
-    }
-    customerId
-    billingAddressId {
-      address_id
-      customer_id
-      address_type
-      full_address
-      country
-      state
-      city
-      landmark
-      pincode
-    }
-    shippingAddressId {
-      address_id
-      customer_id
-      address_type
-      full_address
-      country
-      state
-      city
-      landmark
-      pincode
-    }
-    couponId
-    orderNo
-    razorpayOrderNo
-    productTotal
-    discountedTotal
-    balanceAmount
-    paymentStatus
-    orderStatus
-    payments {
-      paymentId
-      orderId
-      date
-      paymentMethod
-      transactionNo
-      amount
-    }
-    created_at
-    orderTracking {
-      id
-      orderId
-      customerId
-      orderStatus
-      created_at
-      updated_at
-      trackingOrderStatusName
-    }
-    trackingNo
-    eshipTracking {
-      id
-      orderId
-      trackingId
-      trackingNumber
-      deliveryDate
-      expectedDeliveryDate
-      shipmentStatus
-      tag
-      checkpoints
-    }
-  }
-}
-      `;
-
-      const variables = { token: cookieToken };
-      const { data } = await client.query({
-        query: GET_ORDER,
-        variables,
-      });
-      setOrdersData(data.getCustomerOrder);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
   if (isMobile) {
     return (
       <ProtectedRoute>
         <div>
           <StickyNav />
-          {component === "" && (
-            <MobileProfileSideBar
-              handleComponent={handleComponent}
-              componentName={component}
-              handleOrder={handleOrders}
-            />
-          )}
-          {component === "personalInfo" && (
-            <MobilePersonalInformation handleComponent={handleComponent} />
-          )}
-          {component === "orders" && (
-            <MobileOrders
-              orders={ordersData}
-              handleComponent={handleComponent}
-            />
-          )}
-          {component === "wishlist" && (
-            <MobileWishList handleComponent={handleComponent} />
-          )}
-          {component === "gms" && (
-            <MobileGms handleComponent={handleComponent} />
-          )}
+          <MobileProfileSideBar />
         </div>
       </ProtectedRoute>
     );
@@ -224,19 +47,10 @@ const ProfilePage = () => {
       <ProtectedRoute>
         <div className="flex">
           <div className="md:w-56 lg:w-96">
-            <ProfileSidebar
-              handleComponent={handleComponentToRender}
-              componentName={componentToRender}
-              handleOrder={handleOrders}
-            />
+            <ProfileSidebar />
           </div>
           <div className="w-screen">
-            {componentToRender === "personalInfo" && <ProfileDetails />}
-            {componentToRender === "orders" && (
-              <ProfileOrders orders={ordersData} />
-            )}
-            {componentToRender === "wishlist" && <ProfileWishList />}
-            {componentToRender === "gms" && <ProfileGMS />}
+            <ProfileDetails />
           </div>
         </div>
       </ProtectedRoute>

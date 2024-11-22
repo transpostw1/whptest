@@ -181,7 +181,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   };
 
   const handleBackButton = (args: string) => {
-    handleComponent(args);
+    router.push("/profile")
   };
   return (
     <div className="shop-product breadcrumb1">

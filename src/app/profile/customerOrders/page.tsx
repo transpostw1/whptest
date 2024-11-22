@@ -172,6 +172,10 @@ const CustomerOrders = () => {
   }
   return (
     <ProtectedRoute>
+       <head>
+        <title>Your Orders</title>
+        <meta name="description" content={"profile details"} />
+      </head>
       <div className="flex">
         <div>
           <ProfileSidebar />

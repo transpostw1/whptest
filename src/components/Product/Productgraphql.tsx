@@ -413,7 +413,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
-                )}
+                )} 
                 {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />

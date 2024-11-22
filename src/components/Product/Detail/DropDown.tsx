@@ -36,13 +36,13 @@ const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize })
     handleSelectSize(trueVariants);
   };
   return (
-    <div className="flex border border-[#f3f3f3] p-3 sm:w-[100%] md:w-[65%] lg:w-[75%]">
+    <div className="flex border border-[#f3f3f3] w-full mt-3">
       {product?.variants?.map((item, index) => (
-        <div key={index} className="mr-3">
-          <p>{item.VariantType}</p>
+        <div key={index} className="flex flex-col items-center justify-between w-full">
+          <p className="underline">{item.VariantType}</p>
           <div className="relative">
             <select
-              className="mr-2 block appearance-none bg-[#faf9f9] p-4 pb-2 pt-2 sm:w-20 md:w-[7.5rem] lg:w-36"
+              className="block appearance-auto p-4"
               onChange={(e) => {
                 handleNewVariants(e);
               }}
@@ -65,9 +65,9 @@ const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize })
                 );
               })}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center px-2 text-gray-700">
+            {/* <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center px-2 text-gray-700">
               <Icon.CaretDown size={20} weight="fill" />
-            </div>
+            </div> */}
           </div>
         </div>
       ))}

@@ -37,6 +37,10 @@ const CustomerWishList = () => {
   }
   return (
     <ProtectedRoute>
+       <head>
+        <title>Your wishlist</title>
+        <meta name="description" content={"wishlisted items"} />
+      </head>
       <div className="flex">
         <div>
           <ProfileSidebar />

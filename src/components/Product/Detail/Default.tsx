@@ -622,7 +622,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </div>
           )}
           <div className="flex">
-            <div className="border-r-2 p-2">
+            <div className="border-r-2 pr-2 py-2">
               <p className="text-lg font-bold">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>

@@ -48,7 +48,7 @@ export default function CheckPincode() {
   
   if (loading) return <Loader />;
   return (
-    <div className="mt-4 bg-white p-4 lg:w-[65%]">
+    <div className="mt-4 bg-white py-4 lg:w-[65%]">
       <p className="mb-3">Enter pincode to check delivery</p>
       <div className="mb-3 flex justify-between border border-gray-400 bg-white p-2">
         <input

@@ -27,7 +27,7 @@ interface FormValues {
   profilePicture: File | null;
 }
 
-const MobilePersonalInformation= () => {
+const MobilePersonalInformation = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -134,6 +134,7 @@ const MobilePersonalInformation= () => {
           ) {
             DeleteCustomerAddresses(customerAddresses: $customerAddresses) {
               message
+              code
             }
           }
         `;
@@ -149,8 +150,13 @@ const MobilePersonalInformation= () => {
           },
           fetchPolicy: "no-cache",
         });
-        setMessage(data.DeleteCustomerAddresses.message);
-        setType("success");
+        if (data.DeleteCustomerAddresses.code == 200) {
+          setMessage(data.DeleteCustomerAddresses.message);
+          setType("success");
+        } else {
+          setMessage(data.DeleteCustomerAddresses.message);
+          setType("error");
+        }
       }
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -210,7 +216,7 @@ const MobilePersonalInformation= () => {
     setShowModal(false);
   };
   const handleBackButton = (args: string) => {
-    router.push("/profile")
+    router.push("/profile");
   };
   if (isLoading) {
     return (
@@ -258,7 +264,7 @@ const MobilePersonalInformation= () => {
             htmlFor="first_name"
             className="text-md mb-1 block font-normal text-black"
           >
-            First name 
+            First name
           </label>
           <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
             <span className="text-md font-semibold">

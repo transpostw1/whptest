@@ -29,6 +29,7 @@ const ProfileDetails = () => {
   const { logOut, isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
   console.log("Usererrerer", userDetails?.dob);
+  
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
@@ -49,7 +50,7 @@ const ProfileDetails = () => {
 
   const handleRemoveAddress = async (id: any) => {
     setIsLoading(true);
-    setallAddress(allAddress?.filter((item) => item.address_id != id));
+    
     try {
       const cookieTokenn =
         typeof window !== "undefined"
@@ -74,6 +75,7 @@ const ProfileDetails = () => {
         ) {
           DeleteCustomerAddresses(customerAddresses: $customerAddresses) {
             message
+            code
           }
         }
       `;
@@ -89,6 +91,14 @@ const ProfileDetails = () => {
         },
         fetchPolicy: "no-cache",
       });
+      if (data.DeleteCustomerAddresses.code == 200) {
+        setallAddress(allAddress?.filter((item) => item.address_id != id));
+        setMessage(data.DeleteCustomerAddresses.message);
+        setType("success");
+      } else {
+        setMessage(data.DeleteCustomerAddresses.message);
+        setType("error");
+      }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     } finally {

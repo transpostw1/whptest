@@ -19,6 +19,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { SiRazorpay } from "react-icons/si";
 interface PaymentProps {
   wallet: any;
+  giftWrap:any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
   component: string;
@@ -36,6 +37,7 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = ({
   wallet,
+  giftWrap,
   orderPlaced,
   selectedPaymentMethod,
   handlePaymentMethodChange,
@@ -134,6 +136,8 @@ const Payment: React.FC<PaymentProps> = ({
             } = response;
             const orderData = {
               isWallet: wallet ? 1 : 0,
+              isWrap:giftWrap.wrapOption?1:0,
+              message:giftWrap.wrapOption?giftWrap.name:"",
               walletAmount: userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
@@ -241,6 +245,8 @@ const Payment: React.FC<PaymentProps> = ({
         // Prepare the data to be sent to the API
         const orderData = {
           isWallet: wallet ? 1 : 0,
+          isWrap:giftWrap.wrapOption?1:0,
+          message:giftWrap.wrapOption?giftWrap.name:"",
           walletAmount: userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
@@ -480,7 +486,7 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <>
-          <div className="mb-4 rounded-lg border border-gray-200">
+          <div className="mb-4 rounded-lg border border-gray-200 w-[90%]">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
                 <span className="font-semibold">Order Id: </span>

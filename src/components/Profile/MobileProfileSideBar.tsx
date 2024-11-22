@@ -1,31 +1,24 @@
-import React ,{useState}from "react";
+import React, { useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { setSourceMapsEnabled } from "process";
 import UpdateProfile from "./UpdateProfile";
-interface Props {
-  handleComponent: (args: string) => void;
-  componentName: string;
-  handleOrder: () => void;
-}
 
-const MobileProfileSideBar: React.FC<Props> = ({
-  handleComponent,
-  componentName,
-  handleOrder,
-}) => {
+
+const MobileProfileSideBar = () => {
   const router = useRouter();
   const { logOut, userDetails } = useUser();
-  const [open,setOpen]=useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
   const handleLogOut = () => {
     logOut();
     router.push("/");
   };
-  const closeUpdateProfile =()=>{
-    setOpen(false)
-  }
+  const closeUpdateProfile = () => {
+    setOpen(false);
+  };
   return (
     <div className="flex flex-col justify-center p-3">
       <div className="flex w-full flex-col items-center justify-center">
@@ -48,70 +41,80 @@ const MobileProfileSideBar: React.FC<Props> = ({
             {" "}
             {userDetails?.firstname} {userDetails?.lastname}
           </p>
-          <span className="mt-2 flex justify-center text-[#e26178]" onClick={()=>setOpen(true)}>
+          <span
+            className="mt-2 flex justify-center text-[#e26178]"
+            onClick={() => setOpen(true)}
+          >
             Edit Profile
             <span className="mt-1">
               <Icon.PencilSimple />
             </span>
           </span>
-          <UpdateProfile isOpen={open} isClose={closeUpdateProfile}/>
+          <UpdateProfile isOpen={open} isClose={closeUpdateProfile} />
         </div>
       </div>
       <div>
-        <div
-          className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
-          onClick={() => handleComponent("personalInfo")}
-        >
-          <div className="flex">
-            <span className="mr-1">
-              <Icon.UserCircle size={22} />
-            </span>
-            <p>Personal Information</p>
-          </div>
-          <div>
-            <Icon.CaretRight weight="fill" />
-          </div>
-        </div>
-        <div onClick={() => handleOrder()}>
+        <Link href={"/profile/customerInfo"}>
           <div
             className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
-            onClick={() => handleComponent("orders")}
           >
             <div className="flex">
               <span className="mr-1">
-                <Icon.Cube size={22} />
+                <Icon.UserCircle size={22} />
               </span>
-              <p>Orders</p>
+              <p>Personal Information</p>
             </div>
             <div>
               <Icon.CaretRight weight="fill" />
             </div>
           </div>
+        </Link>
+        <div>
+          <Link href={"/profile/customerOrders"}>
+            <div
+              className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
+            >
+              <div className="flex">
+                <span className="mr-1">
+                  <Icon.Cube size={22} />
+                </span>
+                <p>Orders</p>
+              </div>
+              <div>
+                <Icon.CaretRight weight="fill" />
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div>
+          <Link href={"/profile/customerWishlist"}>
+            <div
+              className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
+            >
+              <div className="flex">
+                <span className="mr-1">
+                  <Icon.Heart size={22} />
+                </span>
+                <p>Wishlist</p>
+              </div>
+
+              <div>
+                <Icon.CaretRight weight="fill" />
+              </div>
+            </div>
+          </Link>
         </div>
         <div
           className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
-          onClick={() => handleComponent("wishlist")}
         >
-          <div className="flex">
-            <span className="mr-1">
-              <Icon.Heart size={22} />
-            </span>
-            <p>Wishlist</p>
-          </div>
-          <div>
-            <Icon.CaretRight weight="fill" />
-          </div>
-        </div>
-        <div
-          className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
-          onClick={() => handleComponent("gms")}
-        >
-          <div className="flex">
-            <span className="mr-1">
-              <Icon.UserCircle size={22} />
-            </span>
-            <p>GMS</p>
-          </div>
+          <Link href={"/profile/customerGMS"}>
+            <div className="flex">
+              <span className="mr-1">
+                <Icon.UserCircle size={22} />
+              </span>
+              <p>GMS</p>
+            </div>
+          </Link>
           <div>
             <Icon.CaretRight weight="fill" />
           </div>

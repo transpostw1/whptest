@@ -10,7 +10,6 @@ import StarRating from "./StarRating";
 import { IoCameraOutline } from "react-icons/io5";
 import { showCustomToast } from "@/components/Other/CustomToast";
 
-
 interface ProductProps {
   data: any;
 }
@@ -38,7 +37,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const { isLoggedIn } = useUser();
   const { formatPrice } = useCurrency();
   const router = useRouter();
-  const [skuList, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  const [skuList, setSkuList] = useState<any>([]); // Initialize skuList state
 
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
@@ -52,12 +51,12 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   }, []);
 
   useEffect(() => {
-    console.log("BuyAgain Products",data);
+    console.log("BuyAgain Products", data);
   }, [data]);
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);
-      if (data && data.productId) { 
+      if (data && data.productId) {
         if (isLoggedIn) {
           const productToAdd: ProductForWishlistLoggedIn = {
             productId: data.productId,
@@ -73,12 +72,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             discountValue: data.discountValue,
             image_path: data?.imageDetails[0].image_path,
             url: data.url,
-            
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
         }
-        showCustomToast('Item Wishilisted!');
+        showCustomToast("Item Wishilisted!");
       } else {
         console.error("Invalid product data:", data);
       }
@@ -99,13 +97,17 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       // Check if the script is already loaded
-      if (document.querySelector(`script[src="https://camweara.com/integrations/camweara_api.js"]`)) {
+      if (
+        document.querySelector(
+          `script[src="https://camweara.com/integrations/camweara_api.js"]`,
+        )
+      ) {
         resolve(); // Script already loaded
         return;
       }
 
       // Create the script tag
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
         // Give some time for the function to be available
@@ -127,7 +129,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const fetchSkusList = async () => {
     try {
       await loadScript(); // Ensure the script is loaded
-      const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+      const skus = await window.getSkusListWithTryOn({
+        companyName: "whpjewellers",
+      });
       setSkuList(skus); // Update SKU list state
       // console.log(skuList);
     } catch (error) {
@@ -135,7 +139,10 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     }
   };
 
-  const loadTryOnButton = async (sku: string, productId: string): Promise<void> => {
+  const loadTryOnButton = async (
+    sku: string,
+    productId: string,
+  ): Promise<void> => {
     return new Promise<void>(async (resolve, reject) => {
       const scriptSrc = "https://cdn.camweara.com/integrations/camweara_api.js";
 
@@ -144,25 +151,38 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
           try {
             window.loadTryOnButton({
               psku: sku,
-              page: 'product',
-              company: 'whpjewellers',
-              buynow: { enable: 'false' },
-              prependButton: { class: `try_on`, id: `product-form-${productId}` },
-              styles: {
-                tryonbutton: { backgroundColor: 'white', color: 'white', border: '1px solid #white', borderRadius: '25px' }, // Hide the auto-loaded button
-                tryonbuttonHover: { backgroundColor: '#white', color: 'white', borderRadius: '25px' },
-                MBtryonbutton: { width: '50%', borderRadius: '25px' },
+              page: "product",
+              company: "whpjewellers",
+              buynow: { enable: "false" },
+              prependButton: {
+                class: `try_on`,
+                id: `product-form-${productId}`,
               },
-
+              styles: {
+                tryonbutton: {
+                  backgroundColor: "white",
+                  color: "white",
+                  border: "1px solid #white",
+                  borderRadius: "25px",
+                }, // Hide the auto-loaded button
+                tryonbuttonHover: {
+                  backgroundColor: "#white",
+                  color: "white",
+                  borderRadius: "25px",
+                },
+                MBtryonbutton: { width: "50%", borderRadius: "25px" },
+              },
             });
             console.log("Button Created");
             // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
-              const tryonButton = document.getElementById('tryonButton') || document.getElementById('MB_tryonButton');
+              const tryonButton =
+                document.getElementById("tryonButton") ||
+                document.getElementById("MB_tryonButton");
 
               if (tryonButton) {
                 // Hide the button
-                tryonButton.style.display = 'none';
+                tryonButton.style.display = "none";
                 console.log("Button Clicked");
                 // Automatically click the button
                 tryonButton.click();
@@ -174,28 +194,31 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               }
             }, 100); // Check every 100ms for the button
           } catch (error) {
-            reject(new Error(`Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`));
+            reject(
+              new Error(
+                `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
+              ),
+            );
           }
         });
       };
-
-      // Check if the script is already loaded
-      const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
+      const existingScript = document.querySelector(
+        `script[src="${scriptSrc}"]`,
+      );
       if (existingScript) {
         await loadButton(); // Await the button loading if script is already loaded
       } else {
-        // Append the script and load the button after it's loaded
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.src = scriptSrc;
         script.onload = async () => {
-          await loadButton(); // Await loading the button after the script is loaded
+          await loadButton();
         };
-        script.onerror = () => reject(new Error("Failed to load Camweara script"));
+        script.onerror = () =>
+          reject(new Error("Failed to load Camweara script"));
         document.body.appendChild(script);
       }
     });
   };
-
 
   return (
     <>
@@ -248,11 +271,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               </div>
             ) : ( */}
             <div className="relative">
-              {skuList.includes(data.SKU) && (
+              {data?.SKU && skuList?.includes(data?.SKU) && (
                 <div
-                  id={`product-form-${data.productId}`} 
-                  className="absolute top-4 right-3 z-50 try_on flex items-center justify-between rounded-xl border border-[#e26178] text-center hover:bg-[#e26178] text-[#e26178] cursor-pointer hover:text-white p-1"
-                  onClick={() => loadTryOnButton(data.SKU, data.productId)} 
+                  id={`product-form-${data?.productId}`}
+                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                  onClick={() => loadTryOnButton?.(data.SKU, data.productId)}
                 >
                   <div className="flex items-center justify-between">
                     <IoCameraOutline />

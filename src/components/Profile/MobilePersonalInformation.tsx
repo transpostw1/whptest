@@ -14,10 +14,6 @@ import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
-interface Props {
-  handleComponent: (args: string) => void;
-}
-
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -31,7 +27,7 @@ interface FormValues {
   profilePicture: File | null;
 }
 
-const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
+const MobilePersonalInformation= () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -214,7 +210,7 @@ const MobilePersonalInformation: React.FC<Props> = ({ handleComponent }) => {
     setShowModal(false);
   };
   const handleBackButton = (args: string) => {
-    handleComponent(args);
+    router.push("/profile")
   };
   if (isLoading) {
     return (

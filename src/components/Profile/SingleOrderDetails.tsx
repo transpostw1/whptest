@@ -122,7 +122,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                     {product.SKU}-{product?.metalType}-{product?.metalWeight}
                   </p>
                   <Link href={`/products/${product.productId}/${product.url}`}>
-                    <p className="cursor-pointer hover:text-[#e26178]">
+                    <p className="cursor-pointer hover:text-[#e26178] underline">
                       Buy Again
                     </p>
                   </Link>

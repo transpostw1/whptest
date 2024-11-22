@@ -234,16 +234,13 @@ const OtpVerification = ({
         <div className="text-center">
           <button
             tabIndex={0}
-            onKeyDown={(event) => {
-              console.log("target key", event.key);
-              if (event.key === "Enter") {
-                event.preventDefault();
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
                 handleLoginSubmit();
               }
             }}
+            onClick={handleLoginSubmit} 
             className="mb-4 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
-            // className="button-main"
-            onClick={handleLoginSubmit}
           >
             {loading ? (
               <>

@@ -449,7 +449,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
                     <p className="ps-1 text-sm">Virtually Try On</p>
                   </div>
                 </div>
-              )} */}
+              )} 
               <div className="flex flex-col justify-center">
                 <div>
                   <Slider

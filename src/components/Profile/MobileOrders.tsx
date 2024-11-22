@@ -11,10 +11,9 @@ import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import MobileSingleOrderDetails from "./MobileSingleOrderDetails";
 interface Props {
-  handleComponent: (args: string) => void;
   orders: any;
 }
-const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
+const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>();
@@ -36,13 +35,16 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
   const handleOrderCancel = async (id: any) => {
     try {
       setLoading(true);
-      const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
       const response = await axios.post(
         `${baseUrl}/${id}/cancel`,
         {},
         {
           headers: { Authorization: `Bearer ${cookieToken}` },
-        }
+        },
       );
       setMessage(response.data.message);
     } catch (error) {
@@ -52,7 +54,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
     }
   };
   const handleBackButton = (args: string) => {
-    handleComponent(args);
+    router.push("/profile")
   };
   const handleBack = () => {
     setSingleOrder(null);
@@ -60,7 +62,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
 
   if (!orders)
     return (
-      <div className="loading-container flex justify-center items-center h-full">
+      <div className="loading-container flex h-full items-center justify-center">
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
@@ -70,7 +72,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
         <div className="flex">
           {singleOrder != null && (
             <div
-              className="mt-3 mr-2 cursor-pointer"
+              className="mr-2 mt-3 cursor-pointer"
               onClick={() => handleBack()}
             >
               <p>
@@ -101,7 +103,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
             orders.map((item: any) => (
               <div
                 key={item.id}
-                className="border border-gray-200  border-b-0 mb-4 cursor-pointer"
+                className="mb-4 cursor-pointer border border-b-0 border-gray-200"
                 onClick={() => handleOrderDetails(item.id)}
               >
                 <div className="flex flex-wrap p-2">
@@ -111,7 +113,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
                     {new Date(item.created_at).toISOString().split("T")[0]}
                   </p>
                 </div>
-                <div className="text-green-600 font-bold p-2">
+                <div className="p-2 font-bold text-green-600">
                   {item?.orderStatus}
                 </div>
 
@@ -123,7 +125,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
                         alt={"image"}
                         width={95}
                         height={95}
-                        className="bg-[#f7f7f7] "
+                        className="bg-[#f7f7f7]"
                         unoptimized
                       />
                     </div>
@@ -133,7 +135,8 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
                         {product?.displayTitle}
                       </p>
                       <p>
-                        {product?.SKU}-{product?.metalType}-{product?.metalWeight}
+                        {product?.SKU}-{product?.metalType}-
+                        {product?.metalWeight}
                       </p>
                       <p>Quantity:{product.quantity}</p>
                       <div className="font-semibold">
@@ -141,7 +144,7 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
                         {Intl.NumberFormat("en-IN", {
                           minimumFractionDigits: 2,
                         }).format(
-                          Math.round(parseInt(product?.discountedTotal))
+                          Math.round(parseInt(product?.discountedTotal)),
                         )}
                       </div>
                     </div>
@@ -153,62 +156,6 @@ const ProfileOrders: React.FC<Props> = ({ orders, handleComponent }) => {
       )}
 
       {singleOrder != null && (
-        // <div>
-        //   {singleOrder[0]?.productDetails.map((items: any, index: any) => (
-        //     <div key={index} className="flex justify-between p-4">
-        //       {items.productDetails.map((product: any, index: any) => (
-        //         <div className="flex" key={index}>
-        //           <div className="mr-3">
-        //             <Image
-        //               src={product?.imageDetails[0].image_path}
-        //               alt={"image"}
-        //               width={85}
-        //               height={85}
-        //             />
-        //           </div>
-        //           <div>
-        //             <p className="text-xl font-semibold">
-        //               {product?.displayTitle}
-        //             </p>
-        //             <p>
-        //               {product?.metalType}-{product?.metalWeight}
-        //             </p>
-        //             <p>Quantity:{items?.quantity}</p>
-        //           </div>
-        //         </div>
-        //       ))}
-
-        //       <div className="font-semibold">
-        //         ₹
-        //         {Intl.NumberFormat("en-IN", {
-        //           minimumFractionDigits: 2,
-        //         }).format(Math.round(parseInt(items?.discountedTotal)))}
-        //       </div>
-        //       {items?.isReturnable && <button>Return Here</button>}
-        //     </div>
-        //   ))}
-        //   <p className="mt-3">
-        //     Billing Address:{singleOrder[0]?.billingAddressId[0]?.full_address},
-        //     {singleOrder[0]?.billingAddressId[0]?.landmark},{" "}
-        //     {singleOrder[0]?.billingAddressId[0]?.pincode},
-        //     {singleOrder[0]?.billingAddressId[0]?.city}
-        //   </p>
-        //   <p className="mt-3">
-        //     Shippin Address:{singleOrder[0]?.shippingAddressId[0].full_address},
-        //     {singleOrder[0]?.shippingAddressId[0]?.landmardk},
-        //     {singleOrder[0]?.shippingAddressId[0]?.pincode},
-        //     {singleOrder[0]?.shippingAddressId[0]?.city}
-        //   </p>
-        //   {singleOrder[0]?.orderStatus === "4" ||
-        //   singleOrder[0]?.orderStatus === "5" ? null : (
-        //     <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
-        //       <button className="bg-[#e26178] text-white px-3 py-2 rounded-sm">
-        //         Order Cancel
-        //       </button>
-        //     </div>
-        //   )}
-        //   {message && <FlashAlert message={message} type={"success"} />}
-        // </div>
         <MobileSingleOrderDetails singleOrder={singleOrder} />
       )}
     </div>

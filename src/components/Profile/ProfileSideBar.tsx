@@ -1,22 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import AddDetailsModal from "./AddDetailsModal";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-interface Props {
-  handleComponent: (args: string) => void;
-  componentName: string;
-  handleOrder: () => void;
-}
-const ProfileSidebar: React.FC<Props> = ({
-  handleComponent,
-  componentName,
-  handleOrder,
-}) => {
+const ProfileSidebar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const pathname = usePathname();
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
   const { userDetails } = useUser();
@@ -40,8 +33,9 @@ const ProfileSidebar: React.FC<Props> = ({
         </div>
         <div>
           <p className="mt-2 text-xl font-semibold">
-            {userDetails?.fullname ? userDetails.fullname : 'Add Details'}
-          </p><span
+            {userDetails?.fullname ? userDetails.fullname : "Add Details"}
+          </p>
+          <span
             className="mt-2 flex cursor-pointer text-[#e26178]"
             onClick={openModal}
           >
@@ -52,48 +46,56 @@ const ProfileSidebar: React.FC<Props> = ({
           </span>
         </div>
         <div className="mt-3 flex w-full flex-col gap-4 text-center font-medium">
-          <div
-            className={`flex text-nowrap cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${componentName === "personalInfo" ? "profile-sidebar" : ""
-              }`}
-            onClick={() => handleComponent("personalInfo")}
-          >
-            <span className="mr-1">
-              <Icon.UserCircle size={22} />
-            </span>
-            <p>Personal Information</p>
-          </div>
-          <div onClick={() => handleOrder()}>
+          <Link href={"/profile"}>
             <div
-              className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${componentName === "orders" ? "profile-sidebar" : ""
-                }`}
-              onClick={() => handleComponent("orders")}
+              className={`flex cursor-pointer items-center text-nowrap p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
+                pathname.endsWith("profile") ? "profile-sidebar" : ""
+              }`}
             >
               <span className="mr-1">
-                <Icon.Cube size={22} />
+                <Icon.UserCircle size={22} />
               </span>
-              Orders
+              <p>Personal Information</p>
             </div>
+          </Link>
+          <div>
+            <Link href={"/profile/customerOrders"}>
+              <div
+                className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
+                  pathname.endsWith("customerOrders") ? "profile-sidebar" : ""
+                }`}
+              >
+                <span className="mr-1">
+                  <Icon.Cube size={22} />
+                </span>
+                Orders
+              </div>
+            </Link>
           </div>
-          <div
-            className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${componentName === "wishlist" ? "profile-sidebar" : ""
+          <Link href={"/profile/customerWishlist"}>
+            <div
+              className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
+                pathname.endsWith("customerWishlist") ? "profile-sidebar" : ""
               }`}
-            onClick={() => handleComponent("wishlist")}
-          >
-            <span className="mr-1">
-              <Icon.Heart size={22} />
-            </span>
-            Wishlist
-          </div>
-          <div
-            className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${componentName === "gms" ? "profile-sidebar" : ""
+            >
+              <span className="mr-1">
+                <Icon.Heart size={22} />
+              </span>
+              Wishlist
+            </div>
+          </Link>
+          <Link href={"/profile/customerGMS"}>
+            <div
+              className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
+                pathname.endsWith("customerGMS") ? "profile-sidebar" : ""
               }`}
-            onClick={() => handleComponent("gms")}
-          >
-            <span className="mr-1">
-              <Icon.UserCircle size={22} />
-            </span>
-            GMS
-          </div>
+            >
+              <span className="mr-1">
+                <Icon.UserCircle size={22} />
+              </span>
+              GMS
+            </div>
+          </Link>
         </div>
       </div>
       <AddDetailsModal isOpen={isModalOpen} onClose={closeModal} />

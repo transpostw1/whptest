@@ -104,7 +104,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
   };
 
   const handleBackButton = () => {
-    handleComponent("");
+    router.push("/profile")
   };
 
   if (loading) {

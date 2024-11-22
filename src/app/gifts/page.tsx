@@ -207,6 +207,16 @@ const Gifts = () => {
   const stepCount = currentStep + 1;
 
   return (
+<>
+<head>
+    <title>Gifts</title>
+    <meta
+          name="description"
+          content={
+           "Gifting WHP"
+          }
+        />
+    </head>
     <div className="mx-2 md:mx-1">
       <div className="bg-[#f8a4b4] py-10 text-center">
         <h1 className="py-2 font-medium">GIFT CARDS</h1>
@@ -322,6 +332,7 @@ const Gifts = () => {
         </div>
       )}
     </div>
+</>
   );
 };
 

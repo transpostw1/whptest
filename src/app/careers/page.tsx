@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Loader from "@/components/Other/Loader";
 
+
 interface careersData {
   title: string;
   description: string;
@@ -130,6 +131,15 @@ const Careers: React.FC = () => {
 
   return (
     <>
+      <head>
+        <title>Careers</title>
+        <meta
+          name="description"
+          content={
+           "Careers at WHP."
+          }
+        />
+      </head>
       <div>
         <div className="my-7 text-center">
           <h1 className="text-2xl font-bold">Job Openings</h1>
@@ -150,7 +160,7 @@ const Careers: React.FC = () => {
           {filteredcareersData.length > 0 ? (
             filteredcareersData.map((data, index) => (
               <div
-                className="mx-2 mb-3 rounded-2xl border border-[#bb547d] px-5 py-2 text-gray-600 shadow-xl md:p-7 cursor-pointer"
+                className="mx-2 mb-3 cursor-pointer rounded-2xl border border-[#bb547d] px-5 py-2 text-gray-600 shadow-xl md:p-7"
                 key={index}
                 onClick={(event) => handleJobDetail(data.url, event)}
               >

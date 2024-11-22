@@ -21,6 +21,10 @@ import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts"
 import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
+import { NextSeo } from "next-seo";
+import SEO from "../../next-seo.config"
+
+
 
 export default function Home() {
   let logged = null;
@@ -37,8 +41,8 @@ export default function Home() {
   const siteId = 5191013;
   const hotjarVersion = 6;
   useEffect(() => {
-    console.log("HOTJARUSEFFECT")
-    if (typeof window !== 'undefined') {
+    console.log("HOTJARUSEFFECT");
+    if (typeof window !== "undefined") {
       Hotjar.init(siteId, hotjarVersion);
     }
   }, []);
@@ -51,6 +55,7 @@ export default function Home() {
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
+      
 
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />

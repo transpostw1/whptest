@@ -96,6 +96,16 @@ const Register = () => {
   };
 
   return (
+   <>
+    <head>
+    <title>Signup</title>
+    <meta
+          name="description"
+          content={
+           "Sign Up to WHP."
+          }
+        />
+    </head>
     <div className="register-block py-10 md:py-20">
       <div className="container">
         <div className="flex justify-center max-md:flex-col">
@@ -198,6 +208,7 @@ const Register = () => {
         </div>
       </div>
     </div>
+   </>
   );
 };
 

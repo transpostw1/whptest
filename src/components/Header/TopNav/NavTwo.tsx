@@ -301,17 +301,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         </>
                       ) : (
                         <>
-                        <Link
-                        href={"/register"}
-                        >
-                          <div
-                          onClick={handleLoginDrop}
-                          className="flex flex-col items-center"
-                        >
-                          <Icon.User size={28} />
-                          <p className="text-sm">Login</p>
-                        </div>
-                        </Link>
+                          <Link href={"/register"}>
+                            <div
+                              onClick={handleLoginDrop}
+                              className="flex flex-col items-center"
+                            >
+                              <Icon.User size={28} />
+                              <p className="text-sm">Login</p>
+                            </div>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -409,19 +407,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     ></div>
                   </div>
                 )}
-                {/* <Link href={"/checkout"}>
-                  <div className="ml-3 relative">
-                    <Image
-                      src={"/images/icons/cart.svg"}
-                      alt="Cart"
-                      width={30}
-                      height={30}
-                    />
-                    <span className="quantity cart-quantity absolute -right-0 -top-1.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
-                      {cartLength}
-                    </span>
-                  </div>
-                </Link> */}
               </div>
               <div className="form-search relative mt-2 flex">
                 <div className="mr-3">

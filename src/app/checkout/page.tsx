@@ -509,7 +509,7 @@ const Checkout: React.FC = () => {
 
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      router.push("/login");
+      router.push("/register");
       return;
     }
 
@@ -547,7 +547,7 @@ const Checkout: React.FC = () => {
       typeof window !== "undefined"
         ? localStorage.setItem("redirectPath", window.location.href)
         : null;
-      router.push("/login");
+      router.push("/register");
       return;
     }
 

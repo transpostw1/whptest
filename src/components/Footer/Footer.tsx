@@ -225,7 +225,7 @@ const Footer = () => {
                     ) : (
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
-                        href={"/login"}
+                        href={"/register"}
                       >
                         My Account
                       </Link>

@@ -7,7 +7,7 @@ const SessionExpired = () => {
   const { logOut } = useUser();
   const handleSessionExpired = () => {
     logOut();
-    router.push("/login");
+    router.push("/register");
   };
   return (
     <div className="fixed z-50 bg-black">

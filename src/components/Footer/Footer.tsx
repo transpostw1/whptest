@@ -189,7 +189,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       href={
-                        "https://wa.me/911800-222-225"
+                        "https://wa.me/918828324464"
                       }
                       target="_blank"
                     >
@@ -225,7 +225,7 @@ const Footer = () => {
                     ) : (
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
-                        href={"/login"}
+                        href={"/register"}
                       >
                         My Account
                       </Link>

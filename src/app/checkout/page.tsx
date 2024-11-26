@@ -344,11 +344,7 @@ const Checkout: React.FC = () => {
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
-
-  
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  
-
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
     : [];

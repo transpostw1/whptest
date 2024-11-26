@@ -44,12 +44,16 @@ const MobileMainCategorySwiper = () => {
           <SwiperSlide key={index}>
             <div
               className="flex flex-col items-center justify-center"
-              onClick={() => setCustomcategory(data.url)}
+              onClick={() => {
+                // Extract only the relevant part of the URL
+                const cleanUrl = data.url.split("=")[1]; // Assuming `data.url` is like "/products?url=c-earring"
+                setCustomcategory(cleanUrl);
+              }}
             >
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: data.url },
+                  query: { url: data.url.split("=")[1] }, // Ensure `href` also uses the cleaned URL
                 }}
               >
                 <div className="rounded-full border shadow-sm">
@@ -67,10 +71,9 @@ const MobileMainCategorySwiper = () => {
             </div>
           </SwiperSlide>
         ))}
+
         <SwiperSlide>
-          <div
-            className="flex flex-col items-center justify-center"
-          >
+          <div className="flex flex-col items-center justify-center">
             <Link
               href={{
                 pathname: "/gifts",

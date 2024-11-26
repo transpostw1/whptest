@@ -15,6 +15,7 @@ import { Toaster } from "react-hot-toast";
 import { DefaultSeo } from "next-seo";
 import { NextSeo } from "next-seo";
 import SEO from "../../next-seo.config";
+import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
@@ -35,6 +36,28 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "JewelryStore",
+    "name": "WHP Jewellers",
+    "description": "Welcome to WHP Jewellers",
+    "url": "https://whpv.vercel.app",
+    "logo": "/images/other/main_logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-YOUR-PHONE-NUMBER",
+      "contactType": "Customer Service"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Your Store Address",
+      "addressLocality": "Your City",
+      "addressRegion": "Your State",
+      "postalCode": "Your Postal Code",
+      "addressCountry": "Your Country"
+    }
+  };
+
   return (
     <GlobalProvider>
       <html lang="en">
@@ -47,6 +70,14 @@ export default function RootLayout({
             type="image/x-icon"
           />
           <meta name="description" content={"Welcome to WHP Jewellers."} />
+          <Script
+            id="organization-schema"
+            type="application/ld+json"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(organizationSchema)
+            }}
+          />
         </head>
         <body className={instrument.className}>
           <UserTracking />

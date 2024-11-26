@@ -104,7 +104,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   };
 
   const handleLogIn = () => {
-    router.push("/login");
+    router.push("/register");
   };
 
   const removeImage = (index: number) => {

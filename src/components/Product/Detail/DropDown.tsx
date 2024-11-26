@@ -9,7 +9,11 @@ interface Props {
   handleSelectSize: (value: any) => void;
 }
 
-const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize }) => {
+const DropDown: React.FC<Props> = ({
+  product,
+  handleVariant,
+  handleSelectSize,
+}) => {
   const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
   const handleNewVariants = (e: any) => {
     console.log("Dropping variants", e.target.value);
@@ -32,17 +36,20 @@ const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize })
     setSelectedVariants(trueVariants);
     handleSelectedVariants(trueVariants);
   }, [product]);
-  const handleSelectedVariants = (trueVariants:any) => {
+  const handleSelectedVariants = (trueVariants: any) => {
     handleSelectSize(trueVariants);
   };
   return (
-    <div className="flex border border-[#f3f3f3] w-full mt-3">
+    <div className="mt-3 flex gap-4">
       {product?.variants?.map((item, index) => (
-        <div key={index} className="flex flex-col items-center justify-between w-full">
-          <p className="underline">{item.VariantType}</p>
-          <div className="relative">
+        <div
+          key={index}
+          className="flex flex-col items-start justify-between border w-36"
+        >
+          <p className="">{item.VariantType}</p>
+          <div className="relative w-full">
             <select
-              className="block appearance-auto p-4"
+              className="block w-full appearance-none bg-gray-50 p-2 border border-transparent focus:border-gray-300 focus:outline-none"
               onChange={(e) => {
                 handleNewVariants(e);
               }}
@@ -65,9 +72,9 @@ const DropDown: React.FC<Props> = ({ product, handleVariant, handleSelectSize })
                 );
               })}
             </select>
-            {/* <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center px-2 text-gray-700">
+            <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center px-2 text-gray-700">
               <Icon.CaretDown size={20} weight="fill" />
-            </div> */}
+            </div>
           </div>
         </div>
       ))}

@@ -344,11 +344,7 @@ const Checkout: React.FC = () => {
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
-
-  
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  
-
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item) => item.productId == parseInt(buyNow))
     : [];
@@ -509,7 +505,7 @@ const Checkout: React.FC = () => {
 
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
-      router.push("/login");
+      router.push("/register");
       return;
     }
 
@@ -547,7 +543,7 @@ const Checkout: React.FC = () => {
       typeof window !== "undefined"
         ? localStorage.setItem("redirectPath", window.location.href)
         : null;
-      router.push("/login");
+      router.push("/register");
       return;
     }
 

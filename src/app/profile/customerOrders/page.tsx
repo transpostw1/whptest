@@ -58,6 +58,7 @@ const CustomerOrders = () => {
                 quantity
                 url
                 SKU
+                makeToOrder
                 variantId
                 productTotal
                 metalType
@@ -81,6 +82,10 @@ const CustomerOrders = () => {
                   alt_text
                 }
                 rating
+                variants {
+                  variantType
+                  variantName
+                }
               }
               customerId
               billingAddressId {
@@ -105,6 +110,8 @@ const CustomerOrders = () => {
                 landmark
                 pincode
               }
+              trackingNo
+              ETD
               couponId
               orderNo
               razorpayOrderNo
@@ -113,6 +120,8 @@ const CustomerOrders = () => {
               balanceAmount
               paymentStatus
               orderStatus
+              isWrap
+              message
               payments {
                 paymentId
                 orderId
@@ -131,7 +140,6 @@ const CustomerOrders = () => {
                 updated_at
                 trackingOrderStatusName
               }
-              trackingNo
               eshipTracking {
                 id
                 orderId
@@ -172,7 +180,7 @@ const CustomerOrders = () => {
   }
   return (
     <ProtectedRoute>
-       <head>
+      <head>
         <title>Your Orders</title>
         <meta name="description" content={"profile details"} />
       </head>

@@ -139,6 +139,10 @@ const Payment: React.FC<PaymentProps> = ({
               isWrap:giftWrap.wrapOption?1:0,
               message:giftWrap.wrapOption?giftWrap.name:"",
               walletAmount: userDetails?.wallet_amount,
+              name: userDetails?.fullname,
+              email: userDetails?.email,
+              contact: userDetails?.mobile_no,
+              customerId: userDetails?.customer_id,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
@@ -178,7 +182,7 @@ const Payment: React.FC<PaymentProps> = ({
                   discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
                 })),
                 coupons: {
-                  couponCode: couponCode, // Replace with the actual coupon code if available
+                  couponCode: couponCode,
                   discountPrice: totalDiscount, // Replace with the actual discount price if available
                 },
                 productTotal: totalCart.toString(),
@@ -187,7 +191,7 @@ const Payment: React.FC<PaymentProps> = ({
               },
             };
 
-            console.log(orderData, "orderData");
+            console.log(orderData, "orderDataAAAA");
 
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
@@ -210,9 +214,10 @@ const Payment: React.FC<PaymentProps> = ({
           }
         },
         prefill: {
-          name: "Test Customer",
-          email: "customer@example.com",
-          contact: "9999999999",
+          name: userDetails?.fullname,
+          email: userDetails?.email,
+          contact: userDetails?.mobile_no,
+          customerId: userDetails?.customer_id,
         },
         notes: {
           address: "WHP Jewllers",

@@ -68,7 +68,7 @@ const Explore = () => {
   }
   return (
     <>
-      <div className="banner-block style-one grid sm:grid-cols-2">
+      <div className="banner-block style-one grid sm:grid-cols-2 ">
         {data &&
           data?.map((item: any) => (
             <div key={item.id}>

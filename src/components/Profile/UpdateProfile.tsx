@@ -390,9 +390,9 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     Email
                   </label>
                 </div>
-                {formik.errors.email && (
+                {/* {formik.errors.email && (
                   // <div className="mt-1 text-red-500">{formik.errors.email}</div>
-                )}
+                )} */}
               </div>
               <p className="text-center w-full">Date of Birth</p>
               <div className="mb-4 grid grid-cols-3 gap-4">

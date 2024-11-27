@@ -113,7 +113,6 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
       typeof window !== "undefined" &&
         localStorage.setItem("cartItems", JSON.stringify(cartItemsData));
     }
-    console.log(cartItemsData,"CARTITEMSSDATAAA")
     return cartItemsData;
   } catch (error) {
     console.error("Error fetching cart items:", error);

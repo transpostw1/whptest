@@ -235,9 +235,9 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                     }`}
                   ></div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold">
-                    {track.trackingOrderStatusName}
+                <div className="flex flex-col bg-red-600">
+                  <span className="font-semibold bg-red-700">
+                    {track.trackingOrderStatusName}fg
                   </span>
                   <span className="text-sm text-gray-500">
                     {new Date(track.created_at).toLocaleString("en-US", {

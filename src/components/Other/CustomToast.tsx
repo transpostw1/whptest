@@ -23,7 +23,7 @@ export const showCustomToast = (message: string) => {
     duration: 2000,
     position: 'top-center',
     style: {
-      background: '#e26178',
+      background: '#48bb78',
       color: '#fff',
       borderRadius: '8px',
       boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',

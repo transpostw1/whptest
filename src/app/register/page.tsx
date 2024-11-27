@@ -50,12 +50,16 @@ const Register = () => {
   };
 
   async function handleSignIn() {
+    console.log("hhhhhh")
     setLoading(true);
     try {
+      console.log("inside try")
       const token = getToken();
       if (!token) {
+        console.log("notokennn")
         throw new Error("No authentication token found");
       }
+      console.log("tokenn")
       const response = await axios.post(
         `${baseUrl}${signup}`,
         {
@@ -92,21 +96,10 @@ const Register = () => {
   };
 
   return (
-   <>
-    <head>
-    <title>Signup</title>
-    <meta
-          name="description"
-          content={
-           "Sign Up to WHP."
-          }
-        />
-    </head>
     <div className="register-block py-10 md:py-20">
       <div className="container">
         <div className="flex justify-center max-md:flex-col">
           <div className="border-line md:pr-[40px] lg:pr-[60px]">
-          <form onSubmit={formik.handleSubmit}>
             <div className="heading4 text-center text-[#e26178]">
               <AuthAnimation />
               <h1 className="mb-5 text-center text-lg font-normal text-[#E26178]">
@@ -201,12 +194,10 @@ const Register = () => {
                 {Error && <div className="mt-4 text-red-500">{Error}</div>}
               </form>
             )}
-            </form>
           </div>
         </div>
       </div>
     </div>
-   </>
   );
 };
 

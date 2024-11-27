@@ -94,8 +94,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "BXZPT2731C",
-              name: "Rutuja Parab"
+              pan_number: userDetails?.pan,
+              name: userDetails?.firstname
             },
           },
           fetchPolicy: "no-cache",

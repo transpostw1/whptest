@@ -91,8 +91,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "EDWPP8777C",
-              name: "Rutuja Parab",
+              pan_number: userDetails?.pan,
+              name: userDetails?.firstname
             },
           },
           fetchPolicy: "no-cache",

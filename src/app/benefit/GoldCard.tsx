@@ -95,8 +95,8 @@ const GoldCard: React.FC<GoldCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "BXZPT2731C",
-              name: "Rutuja Parab",
+              pan_number: userDetails?.pan,
+              name: userDetails?.firstname
             },
           },
           fetchPolicy: "no-cache",

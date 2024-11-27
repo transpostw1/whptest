@@ -57,7 +57,10 @@ const ContactInfo = () => {
         </div>
         <div className="mr-3">
           <Link
-            href={"https://www.youtube.com/channel/UCAdFm3-Ti3qSLABysgFJAzg"}
+             href={
+              "https://www.youtube.com/@whpjewellers"
+            }
+            target="_blank"
           >
             <Icon.YoutubeLogo size={34} weight="light" color="#e26178" />
           </Link>

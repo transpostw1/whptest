@@ -287,7 +287,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Enter your text here"
+                    placeholder="Write here"
                     id="name"
                     name="name"
                     className="mt-1 block h-[150px] w-full rounded-md bg-[#E1DCDD29] p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"

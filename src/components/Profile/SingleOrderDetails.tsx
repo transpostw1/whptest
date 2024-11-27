@@ -267,7 +267,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                       {track.trackingOrderStatusName}
                     </span>
                     <span className="text-sm text-gray-500">
-                      {new Date(track.created_at).toLocaleString("en-US", {
+                      {new Date(singleOrder[0]?.ETD).toLocaleString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
@@ -284,13 +284,13 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
         )}
       </div>
 
-      {parseInt(singleOrder[0]?.orderStatus) > 3 ? null : (
+      {parseInt(singleOrder[0]?.orderStatus) > 3 || singleOrder[0]?.eshipTracking.length > 3 ? (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="rounded-sm bg-[#e26178] px-3 py-2 text-white">
             Order Cancel
           </button>
         </div>
-      )}
+      ): null}
       {message && <FlashAlert message={message} type={type} />}
     </div>
   );

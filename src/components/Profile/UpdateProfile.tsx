@@ -297,7 +297,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                 </div>
                 {formik.errors.altPhone && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.altPhone}
+                    {/* {formik.errors.altPhone} */}
                   </div>
                 )}
               </div>
@@ -346,7 +346,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                 </div>
                 {formik.errors.gst_no && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.gst_no}
+                    {/* {formik.errors.gst_no} */}
                   </div>
                 )}
               </div>
@@ -391,7 +391,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                   </label>
                 </div>
                 {formik.errors.email && (
-                  <div className="mt-1 text-red-500">{formik.errors.email}</div>
+                  // <div className="mt-1 text-red-500">{formik.errors.email}</div>
                 )}
               </div>
               <p className="text-center w-full">Date of Birth</p>
@@ -417,7 +417,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                   </div>
                   {formik.errors.dobDay && (
                     <div className="mt-1 text-red-500">
-                      {formik.errors.dobDay}
+                      {/* {formik.errors.dobDay} */}
                     </div>
                   )}
                 </div>

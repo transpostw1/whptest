@@ -103,7 +103,7 @@ const Register = () => {
             <div className="heading4 text-center text-[#e26178]">
               <AuthAnimation />
               <h1 className="mb-5 text-center text-lg font-normal text-[#E26178]">
-                SIGNUP TO WHP
+                LOGIN TO WHP
               </h1>
             </div>
 

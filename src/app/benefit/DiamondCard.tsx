@@ -102,7 +102,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         setResponseFromPanVerificationApi(data.verifyPAN.success);
       
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
-        if (enrollmentId && data.verifyPAN.success) {
+        if (enrollmentId ) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
         }else{
           setShowModal(true);

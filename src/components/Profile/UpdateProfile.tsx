@@ -100,7 +100,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
     if (userDetails && isOpen) {
       const dob = userDetails?.dob;
       const [dobYear = "", dobMonth = "", dobDay = ""] =
-        dob?.split("-") || null;
+        dob?.split("-") || [];
 
       formik.setValues({
         firstName: userDetails.firstname || "",

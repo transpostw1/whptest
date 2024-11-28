@@ -5,7 +5,7 @@ import {
   signInWithPhoneNumber,
   FirebaseError,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,RefObject} from "react";
 import { auth } from "./config";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
@@ -23,6 +23,7 @@ interface OtpVerificationProps {
   isRegisterPage: boolean;
   errorMessage: string | any;
   onOtpVerified: () => void;
+  otpButtonRef?: RefObject<HTMLButtonElement>; 
 }
 
 // class Token {
@@ -32,8 +33,8 @@ interface OtpVerificationProps {
 const OtpVerification = ({
   formikValues,
   onSubmit,
-  isRegisterPage,
   onOtpVerified,
+  otpButtonRef
 }: OtpVerificationProps) => {
   const router = useRouter();
 
@@ -112,7 +113,7 @@ const OtpVerification = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-  
+
       // Define the GraphQL mutation for registration attempts
       const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
         mutation Mutation($phoneNumber: String) {
@@ -122,7 +123,7 @@ const OtpVerification = ({
           }
         }
       `;
-  
+
       await client.mutate({
         mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
         variables: { phoneNumber },
@@ -133,7 +134,7 @@ const OtpVerification = ({
         { phoneNumber },
         {
           headers: { Authorization: `Bearer ${tokenn}` },
-        }
+        },
       );
       logIn();
       const localToken = response.data.token;
@@ -142,11 +143,10 @@ const OtpVerification = ({
       }
       console.log("Initial token saved:", localStorage.getItem("localtoken"));
       router.push("/");
-  
-    } catch (error:any) {
+    } catch (error: any) {
       setVerifying(false);
       console.error("Error during verification and registration:", error);
-  
+
       if (error.code === "auth/invalid-verification-code") {
         setErrorMessage("Invalid OTP. Please try again.");
       } else if (error.response) {
@@ -156,12 +156,12 @@ const OtpVerification = ({
             ? errorData
             : errorData.error || JSON.stringify(errorData);
         if (errorMsg.includes("User Not Found")) {
-          onOtpVerified(); 
+          onOtpVerified();
         } else {
           setErrorMessage(errorMsg);
           console.error("Backend error data will show:", errorData);
         }
-  
+
         console.error("Backend error status:", error.response.status);
         console.error("Backend error headers:", error.response.headers);
       } else if (error.request) {
@@ -171,7 +171,6 @@ const OtpVerification = ({
       }
     }
   };
-  
 
   useEffect(() => {
     setUpRecaptcha();
@@ -183,10 +182,10 @@ const OtpVerification = ({
     }
   };
   const handleCombinedClick = () => {
-      onVerify();
+    onVerify();
   };
   const handleLoginSubmit = () => {
-      onSendOtp();
+    onSendOtp();
   };
 
   return (
@@ -233,13 +232,8 @@ const OtpVerification = ({
       ) : (
         <div className="text-center">
           <button
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key == "Enter") {
-                handleLoginSubmit();
-              }
-            }}
-            onClick={handleLoginSubmit} 
+            ref={otpButtonRef}
+            onClick={handleLoginSubmit}
             className="mb-4 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
           >
             {loading ? (

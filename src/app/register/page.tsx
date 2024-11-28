@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 import { PhoneInput } from "react-international-phone";
@@ -22,6 +22,8 @@ const Register = () => {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [Error, setError] = useState("");
+  const phoneInputRef = useRef(null);
+  const otpButtonRef = useRef(null);
   const { logIn } = useUser();
 
   const formik = useFormik({
@@ -39,7 +41,18 @@ const Register = () => {
     }),
     onSubmit: handleSignIn,
   });
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      otpButtonRef.current?.click(); // Trigger button click
+    }
+  };
 
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
   const getToken = () => {
     const token = localStorage.getItem("firebaseToken");
     if (token) {
@@ -50,16 +63,16 @@ const Register = () => {
   };
 
   async function handleSignIn() {
-    console.log("hhhhhh")
+    console.log("hhhhhh");
     setLoading(true);
     try {
-      console.log("inside try")
+      console.log("inside try");
       const token = getToken();
       if (!token) {
-        console.log("notokennn")
+        console.log("notokennn");
         throw new Error("No authentication token found");
       }
-      console.log("tokenn")
+      console.log("tokenn");
       const response = await axios.post(
         `${baseUrl}${signup}`,
         {
@@ -108,7 +121,7 @@ const Register = () => {
             </div>
 
             {!isOtpVerified && (
-              <div className="flex flex-col items-center ">
+              <div className="flex flex-col items-center">
                 <PhoneInput
                   defaultCountry="in"
                   value={phoneNumber}
@@ -116,7 +129,7 @@ const Register = () => {
                   placeholder="Enter your mobile number"
                   onChange={handlePhoneChange}
                 />
-                <div className="block-button mt-4 md:mt-7 w-full">
+                <div className="block-button mt-4 w-full md:mt-7">
                   <div className="">
                     <OtpVerification
                       phoneNumber={phoneNumber}
@@ -125,12 +138,12 @@ const Register = () => {
                       isRegisterPage={false}
                       onOtpVerified={() => setIsOtpVerified(true)}
                       errorMessage=""
+                      otpButtonRef={otpButtonRef}
                     />
                   </div>
                 </div>
               </div>
             )}
-
 
             {isOtpVerified && (
               <form onSubmit={formik.handleSubmit} className="mt-4 md:mt-7">

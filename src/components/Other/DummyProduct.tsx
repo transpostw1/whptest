@@ -182,7 +182,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               if (tryonButton) {
                 // Hide the button
                 tryonButton.style.display = "none";
-                // console.log("Button Clicked");
+                console.log("Button Clicked");
                 // Automatically click the button
                 tryonButton.click();
 

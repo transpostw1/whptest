@@ -59,7 +59,7 @@ const WhatWeOffer = () => {
           <div className="max-sm:w-full md:w-[50%] lg:w-[50%]">
             <Image
               src={"/images/other/whatweoffer(1).png"}
-              className="h-auto w-full"
+              className=" w-full"
               alt="What We Offer"
               width={width}
               height={height}

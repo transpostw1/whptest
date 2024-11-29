@@ -202,7 +202,7 @@ const Register = () => {
                   className="mt-5 w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-normal text-white transition duration-300 hover:bg-[#e26178]"
                   disabled={loading}
                 >
-                  {loading ? <Preloader /> : <span>SIGN UP</span>}
+                  {loading ? <Preloader /> : <span>LOG IN</span>}
                 </button>
                 {Error && <div className="mt-4 text-red-500">{Error}</div>}
               </form>

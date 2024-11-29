@@ -8,6 +8,7 @@ import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
+
 interface GoldCardProps {
   percentage: number;
   setBackendMessage: (message: string) => void;
@@ -96,7 +97,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           variables: {
             verifyPanInput: {
               pan_number: userDetails?.pan,
-              name: userDetails?.firstname
+              name: userDetails?.firstname,
             },
           },
           fetchPolicy: "no-cache",
@@ -137,6 +138,11 @@ const GoldCard: React.FC<GoldCardProps> = ({
       setMonthlyDeposit(parsedValue);
       setError(null);
     }
+  };
+  const handleproceedpan = () => {
+    console.log("proceedpan")
+    setShowModal(false)
+    router.push("/panverification")
   };
 
   return (
@@ -234,15 +240,21 @@ const GoldCard: React.FC<GoldCardProps> = ({
         </div>
       </div>
       <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
-        <div className="text-center">
+        <div className="text-center font-medium bg-red-700">
           <p>Pan Verification is Not Completed</p>
           <p>Kindly Complete Your Pan Verification</p>
-          <div className="mt-4 flex justify-center">
+          <div className="mt-4 flex justify-center gap-3 font-normal">
             <button
-              className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+              className="py-1y w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
+              onClick={() => handleproceedpan()}
+            >
+              Verify Now
+            </button>
+            <button
+              className="w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
               onClick={() => setShowModal(false)}
             >
-              Cancel
+              Later
             </button>
           </div>
         </div>

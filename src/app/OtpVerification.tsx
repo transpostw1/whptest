@@ -176,11 +176,7 @@ const OtpVerification = ({
     setUpRecaptcha();
   }, []);
 
-  const handleCombinedClick2 = (e: any) => {
-    if (e.key === "Enter") {
-      handleCombinedClick();
-    }
-  };
+
   const handleCombinedClick = () => {
     onVerify();
   };
@@ -197,7 +193,11 @@ const OtpVerification = ({
           </h1>
           <div
             className="mb-6 flex items-center justify-center"
-            onKeyDown={handleCombinedClick2}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCombinedClick();
+              }
+            }}
           >
             <OTPInput
               value={otp}
@@ -214,8 +214,9 @@ const OtpVerification = ({
             />
           </div>
           <button
+          
             className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
-            onClick={handleCombinedClick2}
+            onClick={handleCombinedClick}
           >
             {verifying ? (
               <>

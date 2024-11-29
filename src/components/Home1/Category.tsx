@@ -24,9 +24,10 @@ const Category = () => {
     setVisibleItems(8); // Reset to initial visible item count
   };
 
+
   return (
     <>
-      <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
+      <div className="my-16 w-full px-8 font-[500] text-[#39161C] ">
         <div className="flex flex-col items-start justify-between">
           <h1 className="pb-2 text-[1.13rem] font-medium uppercase">
             SHOP BY CATEGORY
@@ -45,8 +46,14 @@ const Category = () => {
               className="relative flex flex-col items-start justify-between"
             >
               <Link
-                href={`/products?url=${category.url}`}
-                onClick={() => setCustomcategory(category.url)}
+               href={{
+                pathname: "/products",
+                query: { url: category.url.split("=")[1] }, 
+              }}
+                onClick={() => {
+                  const cleanUrl = category.url.split("=")[1]; 
+                  setCustomcategory(cleanUrl);
+                }}
               >
                 <div className="effect14 cursor-pointer">
                   <Image

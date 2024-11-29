@@ -45,7 +45,6 @@ const MobileMainCategorySwiper = () => {
             <div
               className="flex flex-col items-center justify-center"
               onClick={() => {
-                // Extract only the relevant part of the URL
                 const cleanUrl = data.url.split("=")[1]; // Assuming `data.url` is like "/products?url=c-earring"
                 setCustomcategory(cleanUrl);
               }}

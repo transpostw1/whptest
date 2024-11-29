@@ -61,7 +61,7 @@ const DigitalCheckout: React.FC = () => {
 
   const handleProceed = async () => {
     if (!isLoggedIn) {
-      router.push("/login");
+      router.push("/register");
       return;
     }
 

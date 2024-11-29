@@ -33,7 +33,7 @@ const useEnroll = ({
     if (!isLoggedIn) {
       setLoading(true);
       localStorage.setItem("redirectPath", pathname);
-      router.push("/login");
+      router.push("/register");
       return null;
     }
 

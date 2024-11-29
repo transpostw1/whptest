@@ -161,7 +161,7 @@ const Gifts = () => {
   const handleProceedToPay = () => {
     setIsLoading(true);
     if (!isLoggedIn) {
-      router.push("/login");
+      router.push("/register");
       setIsLoading(false);
       return;
     }

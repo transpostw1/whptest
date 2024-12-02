@@ -14,7 +14,43 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 interface Props {
   product: ProductData;
 }
-
+const data = [
+  {
+    id: 1,
+    title: "Can I order by phone?",
+    content:
+      "Yes, call us on 1800 222 225 between 10am to 8pm. Our customer representative will assist to book your order.",
+  },
+  {
+    id: 2,
+    title: "Do I have to bear the shippping cost?",
+    content:
+      "We don't charge any cost to ship and deliver product in India. However, for international shippment please read our delivery policy.",
+  },
+  {
+    id: 3,
+    title: "Diamonds/gemstones are original?",
+    content:
+      "Yes, The diamonds/gemstones are original. You will get diamond/gemstone authetification certificate with every diamond/gemstone jewellery product.",
+  },
+  {
+    id: 4,
+    title: "Is the Gold Jewellery hallmarked?",
+    content: "Yes, all gold jewellery is hallmaked.",
+  },
+  {
+    id: 5,
+    title: "What are different payment options?",
+    content:
+      "Yes, The diamonds/gemstones are original. You will get diamond/gemstone authetification certificate with every diamond/gemstone jewellery product.",
+  },
+  {
+    id: 6,
+    title: "When will I get the product?",
+    content:
+      "If the product is ready to ship, we ship product very next day we received the order. If product is not in stock and need to manufacture, in this case shippment happened after 2 weeks we received the order.",
+  },
+];
 const CustomStar: React.FC<{
   index: number;
   rating: number;
@@ -206,6 +242,11 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [showAll, setShowAll] = useState(false);
   const reviews = product?.productDetails?.review || [];
   const reviewsToShow = showAll ? reviews : reviews.slice(0, 5);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const toggleAccordion = (index: any) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
   return (
     <div className="mb-7 mt-7">
@@ -258,7 +299,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
               {product?.productDetails?.review.length > 5 && (
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="mt-4 text-[#e26178] border border-[#e26178] p-3"
+                  className="mt-4 border border-[#e26178] p-3 text-[#e26178]"
                 >
                   {showAll ? "View Less" : "View More"}
                 </button>
@@ -346,7 +387,39 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
             </div>
           </div>
         )}
-        {activeTab === "tab2" && <div>this is second tab</div>}
+        {activeTab === "tab2" && (
+          <div className="m-5 w-[50%] border border-[#e26178]">
+            {data.map((item, index) => (
+              <div
+                key={item.id}
+                className="border border-[#e26178]"
+                onClick={() => toggleAccordion(index)}
+              >
+                <div
+                  className={`flex cursor-pointer justify-between p-3 ${activeIndex == index ? "bg-[#f3dbdf]" : "#fffff"}`}
+                >
+                  <div>{item.title}</div>
+                  <div className="icon">
+                    {activeIndex === index ? (
+                      <>
+                        <Icon.CaretUp scale={23} />
+                      </>
+                    ) : (
+                      <>
+                        <Icon.CaretDown scale={23} />
+                      </>
+                    )}
+                  </div>
+                </div>
+                {activeIndex === index && (
+                  <div className="accordion-content p-3">
+                    {item.content}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
         {message && <FlashAlert message={message} type={type} />}
       </div>
     </div>

@@ -9,7 +9,7 @@ import { useCart } from "@/context/CartContext";
 import ReactLoading from "react-loading";
 import Loader from "@/components/Other/Loader";
 import Cookie from "js-cookie";
-import { baseUrl } from "@/utils/constants";
+import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
@@ -17,9 +17,10 @@ import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react";
 import { TbTruckDelivery } from "react-icons/tb";
 import { SiRazorpay } from "react-icons/si";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 interface PaymentProps {
   wallet: any;
-  giftWrap:any;
+  giftWrap: any;
   orderPlaced: boolean;
   selectedPaymentMethod: string;
   component: string;
@@ -91,6 +92,62 @@ const Payment: React.FC<PaymentProps> = ({
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const handleAbandonedCart = async () => {
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
+      const getAuthHeaders = () => {
+        if (!cookieToken) return null;
+        return {
+          authorization: `Bearer ${cookieToken}`,
+        };
+      };
+
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        headers: getAuthHeaders(),
+        cache: new InMemoryCache(),
+      });
+
+      const STORE_ABANDONED_CART = gql`
+        mutation StoreAbandonedCart($abandonedCart: abandonedCart!) {
+          storeAbandonedCart(abandonedCart: $abandonedCart) {
+            message
+            code
+          }
+        }
+      `;
+      const { data } = await client.mutate({
+        mutation: STORE_ABANDONED_CART,
+        variables: {
+          abandonedCart: {
+            products: mappedCartItems.map((item) => ({
+              productId: item.productId.toString(),
+              productAmount: item.price,
+              quantity: item.quantity,
+              productTotal: item.price * item.quantity,
+              discountAmount: 0,
+              discountedTotal: item.price * item.quantity,
+            })),
+            couponCode: couponCode,
+            productTotal: totalCart,
+            discountedTotal: totalCart - totalDiscount,
+            shippingCharges: 10,
+          },
+        },
+        context: {
+          headers: getAuthHeaders(),
+        },
+        fetchPolicy: "no-cache",
+      });
+      console.log(data, "data");
+    };
+    handleAbandonedCart();
+  }, [component == "Payment"]);
+
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -136,8 +193,8 @@ const Payment: React.FC<PaymentProps> = ({
             } = response;
             const orderData = {
               isWallet: wallet ? 1 : 0,
-              isWrap:giftWrap.wrapOption?1:0,
-              message:giftWrap.wrapOption?giftWrap.name:"",
+              isWrap: giftWrap.wrapOption ? 1 : 0,
+              message: giftWrap.wrapOption ? giftWrap.name : "",
               walletAmount: userDetails?.wallet_amount,
               paymentDetails: {
                 paymentId: razorpay_payment_id,
@@ -210,9 +267,10 @@ const Payment: React.FC<PaymentProps> = ({
           }
         },
         prefill: {
-          name: "Test Customer",
-          email: "customer@example.com",
-          contact: "9999999999",
+          name: userDetails?.fullname,
+          email: userDetails?.email,
+          contact: userDetails?.mobile_no,
+          customerId: userDetails?.customer_id,
         },
         notes: {
           address: "WHP Jewllers",
@@ -245,8 +303,8 @@ const Payment: React.FC<PaymentProps> = ({
         // Prepare the data to be sent to the API
         const orderData = {
           isWallet: wallet ? 1 : 0,
-          isWrap:giftWrap.wrapOption?1:0,
-          message:giftWrap.wrapOption?giftWrap.name:"",
+          isWrap: giftWrap.wrapOption ? 1 : 0,
+          message: giftWrap.wrapOption ? giftWrap.name : "",
           walletAmount: userDetails?.wallet_amount,
           shippingAddress: selectedShippingAddress
             ? {
@@ -486,7 +544,7 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <>
-          <div className="mb-4 rounded-lg border border-gray-200 w-[90%]">
+          <div className="mb-4 w-[90%] rounded-lg border border-gray-200">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
                 <span className="font-semibold">Order Id: </span>

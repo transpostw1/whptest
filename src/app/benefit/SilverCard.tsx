@@ -26,6 +26,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<any>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showMinValueModal, setShowMinValueModal] = useState(false);
   const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
     useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
@@ -96,12 +97,12 @@ const SilverCard: React.FC<SilverCardProps> = ({
   });
   const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
-      setShowModal(true);
+      setShowMinValueModal(true);
       return;
     }
   
     if (!userDetails?.pan) {
-      setBackendError("PAN not available. Please update your profile.");
+      setBackendError("Please Add and verify PAN.");
       setFlashType("error");
       return;
     }
@@ -297,6 +298,21 @@ const SilverCard: React.FC<SilverCardProps> = ({
             </div>
           </div>
         </ModalExchange>
+      )}
+       {showMinValueModal && (
+        <div className="absolute top-96 md:top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center ">
+          <div className="rounded-lg bg-white p-6 text-center">
+            <p className="mb-4 text-lg font-semibold text-red-500">
+              Minimum amount is ₹500
+            </p>
+            <button
+              onClick={() => setShowMinValueModal(false)}
+              className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

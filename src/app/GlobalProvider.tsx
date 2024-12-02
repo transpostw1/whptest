@@ -12,38 +12,41 @@ import { CouponCodeProvider } from "@/context/CouponContext";
 import { CategoryProvider } from "@/context/CategoryContex";
 import { AllCategoryProvider } from "@/context/AllCategoryContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { MainMenuProvider } from "@/context/MainMenuContext";
 
 const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <BlogProvider>
-      <CurrencyProvider>
+    <MainMenuProvider>
+      <BlogProvider>
+        <CurrencyProvider>
           <ProductProvider>
             <UserProvider>
-            <CouponCodeProvider>
-              <AllCategoryProvider>
-                <CategoryProvider>
-                  <CartProvider>
-                    <ModalCartProvider>
-                      <WishlistProvider>
-                        <CompareProvider>
-                          <ModalSearchProvider>
-                            <ModalQuickviewProvider>
-                              {children}
-                            </ModalQuickviewProvider>
-                          </ModalSearchProvider>
-                        </CompareProvider>
-                      </WishlistProvider>
-                    </ModalCartProvider>
-                  </CartProvider>
-                </CategoryProvider>
-              </AllCategoryProvider>
+              <CouponCodeProvider>
+                <AllCategoryProvider>
+                  <CategoryProvider>
+                    <CartProvider>
+                      <ModalCartProvider>
+                        <WishlistProvider>
+                          <CompareProvider>
+                            <ModalSearchProvider>
+                              <ModalQuickviewProvider>
+                                {children}
+                              </ModalQuickviewProvider>
+                            </ModalSearchProvider>
+                          </CompareProvider>
+                        </WishlistProvider>
+                      </ModalCartProvider>
+                    </CartProvider>
+                  </CategoryProvider>
+                </AllCategoryProvider>
               </CouponCodeProvider>
             </UserProvider>
           </ProductProvider>
-      </CurrencyProvider>
-    </BlogProvider>
+        </CurrencyProvider>
+      </BlogProvider>
+    </MainMenuProvider>
   );
 };
 

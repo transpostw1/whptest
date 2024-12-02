@@ -599,8 +599,8 @@ const Payment: React.FC<PaymentProps> = ({
                 ),
               )}
             </div>
+            <BuyAgain />
           </div>
-          <BuyAgain />
         </>
       )}
       {!orderPlaced && isMobile && component === "Payment" && (

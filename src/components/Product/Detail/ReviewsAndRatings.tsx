@@ -388,7 +388,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
           </div>
         )}
         {activeTab === "tab2" && (
-          <div className="m-5 w-[50%] border border-[#e26178]">
+          <div className="m-5 lg:w-[50%] border border-[#e26178]">
             {data.map((item, index) => (
               <div
                 key={item.id}

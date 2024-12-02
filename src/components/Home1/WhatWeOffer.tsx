@@ -40,7 +40,7 @@ const WhatWeOffer = () => {
 
   return (
     <>
-      <div className="mt-4 bg-[#F9F5F5] text-[#39161C]">
+      <div className="mt-4 bg-[#F9F5F5] text-[#39161C] ">
         {width < 140 && (
           <div className="mt-5 p-4">
             <p className="w-full text-center font-medium tracking-[0.49rem]">
@@ -59,7 +59,7 @@ const WhatWeOffer = () => {
           <div className="max-sm:w-full md:w-[50%] lg:w-[50%]">
             <Image
               src={"/images/other/whatweoffer(1).png"}
-              className="h-auto w-full"
+              className=" w-full"
               alt="What We Offer"
               width={width}
               height={height}

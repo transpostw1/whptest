@@ -91,8 +91,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "EDWPP8777C",
-              name: "Rutuja Parab",
+              pan_number: userDetails?.pan,
+              name: userDetails?.firstname
             },
           },
           fetchPolicy: "no-cache",
@@ -102,7 +102,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         setResponseFromPanVerificationApi(data.verifyPAN.success);
       
         const enrollmentId = await handleEnroll("gold", monthlyDeposit);
-        if (enrollmentId && data.verifyPAN.success) {
+        if (enrollmentId ) {
           handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
         }else{
           setShowModal(true);

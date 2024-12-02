@@ -94,8 +94,8 @@ const SilverCard: React.FC<SilverCardProps> = ({
           mutation: VERIFY_PAN,
           variables: {
             verifyPanInput: {
-              pan_number: "BXZPT2731C",
-              name: "Rutuja Parab"
+              pan_number: userDetails?.pan,
+              name: userDetails?.firstname
             },
           },
           fetchPolicy: "no-cache",
@@ -236,10 +236,11 @@ const SilverCard: React.FC<SilverCardProps> = ({
           <p>Kindly Complete Your Pan Verification</p>
           <div className="mt-4 flex justify-center">
             <button
+          
               className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
-              onClick={() => setShowModal(false)}
+              onClick={() => setShowModal(false) }
             >
-              Cancel
+              Verify Now
             </button>
           </div>
         </div>

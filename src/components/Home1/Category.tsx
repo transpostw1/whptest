@@ -24,29 +24,36 @@ const Category = () => {
     setVisibleItems(8); // Reset to initial visible item count
   };
 
+
   return (
     <>
-      <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
+      <div className="my-16 w-full px-8 font-[500] text-[#39161C] ">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-2 text-[1.13rem] font-medium uppercase">
+          <h1 className="pb-1 sm:text-[18px] lg:text-[32px]  font-medium uppercase">
             SHOP BY CATEGORY
           </h1>
-          <p className="font-light md:w-[50%]">
+          <p className="font-light text-sm md:w-[50%]">
             Effortlessly find your perfect piece by exploring our jewellery
             categories.
             From stunning necklaces to exquisite rings, our collections cater to
             every style and taste.
           </p>
         </div>
-        <div className="mt-3 grid grid-cols-2 items-center gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
           {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
               className="relative flex flex-col items-start justify-between"
             >
               <Link
-                href={`/products?url=${category.url}`}
-                onClick={() => setCustomcategory(category.url)}
+               href={{
+                pathname: "/products",
+                query: { url: category.url.split("=")[1] }, 
+              }}
+                onClick={() => {
+                  const cleanUrl = category.url.split("=")[1]; 
+                  setCustomcategory(cleanUrl);
+                }}
               >
                 <div className="effect14 cursor-pointer">
                   <Image

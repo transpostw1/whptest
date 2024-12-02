@@ -37,7 +37,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const { isLoggedIn } = useUser();
   const { formatPrice } = useCurrency();
   const router = useRouter();
-  const [skuList, setSkuList] = useState<any>([]); // Initialize skuList state
+  const [skuList, setSkuList] = useState<any>([]);
 
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
@@ -95,24 +95,21 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already loaded
+      // Check if the script is already lewis 
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
         )
       ) {
-        resolve(); // Script already loaded
+        resolve(); 
         return;
       }
-
-      // Create the script tag
       const script = document.createElement("script");
       script.src = "https://camweara.com/integrations/camweara_api.js";
       script.onload = () => {
-        // Give some time for the function to be available
         setTimeout(() => {
           if (typeof window.getSkusListWithTryOn === "function") {
-            resolve(); // Function is ready
+            resolve();
           } else {
             reject(new Error("getSkusListWithTryOn is not defined"));
           }

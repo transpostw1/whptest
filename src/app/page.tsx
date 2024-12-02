@@ -41,7 +41,6 @@ export default function Home() {
   const siteId = 5191013;
   const hotjarVersion = 6;
   useEffect(() => {
-    console.log("HOTJARUSEFFECT");
     if (typeof window !== "undefined") {
       Hotjar.init(siteId, hotjarVersion);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useEffect } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
@@ -8,6 +8,8 @@ import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
+import SmallScreenModal from "@/components/Other/SmallScreenModal";
+
 interface GoldCardProps {
   percentage: number;
   setBackendMessage: (message: string) => void;
@@ -25,9 +27,9 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<any>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
-    useState(false);
+  const [showMinValueModal, setShowMinValueModal] = useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
@@ -35,23 +37,43 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const { userDetails } = useUser();
   const router = useRouter();
 
-  const formatWithCommas = (value) => {
-    return Number(value).toLocaleString("en-IN");
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1024);
+    };
+
+    handleResize(); 
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+    const rawValue: any = event.target.value.replace(/,/g, "");
+    if (parseInt(rawValue) >= 500 && parseInt(rawValue) <= 50000) {
+      setMonthlyDeposit(new Intl.NumberFormat().format(rawValue));
+    }
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue)) {
+      setError("Invalid input. Please enter a number.");
+    } else if (parsedValue > 50000) {
+      setError("Maximum deposit is 50000");
+    } else {
+      setMonthlyDeposit(parsedValue);
+      setError(null);
+    }
   };
 
   const handleEnrollSuccess = useCallback(
     (enrollmentId: number, schemeType: string, amount: number) => {
-      // console.log(
-      //   "Enrollment success callback triggered",
-      //   enrollmentId,
-      //   schemeType,
-      //   amount
-      // );
       sessionStorage.setItem(
         "selectedScheme",
         JSON.stringify({
           enrollmentId: enrollmentId,
-          planName: "Gold",
+          planName: schemeType,
           monthlyAmount: amount,
           totalAmount: amount * numberOfMonths,
           iconUrl: "/images/gold-icon.png",
@@ -73,74 +95,88 @@ const GoldCard: React.FC<GoldCardProps> = ({
   });
   const handleInputVerification = async () => {
     if (monthlyDeposit < 500) {
+      setShowMinValueModal(true);
+      return;
+    }
+  
+    if (!userDetails?.pan) {
+      setBackendError("Please Add and verify PAN.");
       setShowModal(true);
-    } else {
+      setFlashType("error");
+      return;
+    }
+  
+    try {
       console.log("Enrolling with amount:", monthlyDeposit);
-      try {
-        const client = new ApolloClient({
-          uri: graphqlbaseUrl,
-          cache: new InMemoryCache(),
-        });
-
-        const VERIFY_PAN = gql`
-          mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
-            verifyPAN(verifyPanInput: $verifyPanInput) {
-              success
-              message
-            }
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+  
+      const VERIFY_PAN = gql`
+        mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
+          verifyPAN(verifyPanInput: $verifyPanInput) {
+            success
+            message
           }
-        `;
-
-        const { data } = await client.mutate({
-          mutation: VERIFY_PAN,
-          variables: {
-            verifyPanInput: {
-              pan_number: "BXZPT2731C",
-              name: "Rutuja Parab",
-            },
+        }
+      `;
+      const { data } = await client.mutate({
+        mutation: VERIFY_PAN,
+        variables: {
+          verifyPanInput: {
+            pan_number: userDetails.pan,
+            name: userDetails.firstname,
           },
-          fetchPolicy: "no-cache",
-        });
-
-        console.log(data);
-        setResponseFromPanVerificationApi(data.verifyPAN.success);
-
-        const enrollmentId = await handleEnroll("gold", monthlyDeposit);
-
-        if (enrollmentId && data.verifyPAN.success) {
-          handleEnrollSuccess(enrollmentId, "gold", monthlyDeposit);
+        },
+        fetchPolicy: "no-cache",
+      });
+  
+      const panVerificationSuccess = data?.verifyPAN?.success;
+  
+      if (panVerificationSuccess) {
+        setBackendMessage("PAN verified successfully!");
+        setFlashType("success");
+  
+        const enrollmentId = await handleEnroll("Gold", monthlyDeposit);
+        if (enrollmentId) {
+          handleEnrollSuccess(enrollmentId, "Gold", monthlyDeposit);
         } else {
           setShowModal(true);
         }
-      } catch (error) {
-        setShowModal(true);
-        console.error("Error during enrollment:", error);
-        setBackendError("Failed to enroll. Please try again.");
+      } else {
+        sessionStorage.setItem(
+          "selectedScheme",
+          JSON.stringify({
+            enrollmentId: null,
+            planName: "Gold",
+            monthlyAmount: monthlyDeposit,
+            totalAmount: monthlyDeposit * numberOfMonths,
+            iconUrl: "/images/gold-icon.png",
+            schemeType: "gms",
+          })
+        );
+        setBackendError("PAN verification failed. Please update PAN.");
         setFlashType("error");
+        setShowModal(true);
       }
+    } catch (error) {
+      console.error("Error during enrollment:", error);
+      setBackendError("Failed to enroll. Please try again.");
+      setFlashType("error");
+      setShowModal(true);
     }
   };
+  
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-    const rawValue: any = event.target.value.replace(/,/g, "");
-    if (parseInt(rawValue) >= 500 && parseInt(rawValue) <= 50000) {
-      setMonthlyDeposit(new Intl.NumberFormat().format(rawValue));
-    }
-    const parsedValue = parseInt(value, 10);
-    if (isNaN(parsedValue)) {
-      setError("Invalid input. Please enter a number.");
-    } else if (parsedValue > 50000) {
-      setError("Maximum deposit is 50000");
-    } else {
-      setMonthlyDeposit(parsedValue);
-      setError(null);
-    }
+  const handleproceedpan = () => {
+    console.log("proceedpan")
+    setShowModal(false)
+    router.push("/panverification")
   };
 
   return (
-    <div className="h-full rounded-xl bg-[#ebe3d5] p-4 md:p-0">
+    <div className="h-full rounded-xl bg-[#ebe3d5] p-4 md:p-0 relative">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
         BENEFIT CALCULATOR FOR GOLD
@@ -233,20 +269,49 @@ const GoldCard: React.FC<GoldCardProps> = ({
           </div>
         </div>
       </div>
-      <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
-        <div className="text-center">
-          <p>Pan Verification is Not Completed</p>
-          <p>Kindly Complete Your Pan Verification</p>
-          <div className="mt-4 flex justify-center">
+      {isSmallScreen ? (
+        <SmallScreenModal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onVerify={handleproceedpan}
+        />
+      ) : (
+        <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
+          <div className="text-center font-medium ">
+            <p>Pan Verification is Not Completed</p>
+            <p>Kindly Complete Your Pan Verification</p>
+            <div className="mt-4 flex justify-center gap-3 font-normal">
+              <button
+                className="py-1y w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
+                onClick={() => handleproceedpan()}
+              >
+                Verify Now
+              </button>
+              <button
+                className="w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
+                onClick={() => setShowModal(false)}
+              >
+                Later
+              </button>
+            </div>
+          </div>
+        </ModalExchange>
+      )}
+       {showMinValueModal && (
+        <div className="absolute top-96 md:top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center ">
+          <div className="rounded-lg bg-white p-6 text-center">
+            <p className="mb-4 text-lg font-semibold text-red-500">
+              Minimum amount is ₹500
+            </p>
             <button
+              onClick={() => setShowMinValueModal(false)}
               className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
-              onClick={() => setShowModal(false)}
             >
-              Cancel
+              Close
             </button>
           </div>
         </div>
-      </ModalExchange>
+      )}
     </div>
   );
 };

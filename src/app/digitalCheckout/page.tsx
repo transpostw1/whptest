@@ -43,6 +43,7 @@ const DigitalCheckout: React.FC = () => {
     const storedScheme = sessionStorage.getItem("selectedScheme");
     if (storedScheme) {
       setSelectedScheme(JSON.parse(storedScheme));
+      console.log(selectedScheme,"SCHE<E<E")
     }
   }, []);
 

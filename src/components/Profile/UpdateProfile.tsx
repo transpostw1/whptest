@@ -100,7 +100,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
     if (userDetails && isOpen) {
       const dob = userDetails?.dob;
       const [dobYear = "", dobMonth = "", dobDay = ""] =
-        dob?.split("-") || null;
+        dob?.split("-") || [];
 
       formik.setValues({
         firstName: userDetails.firstname || "",
@@ -297,7 +297,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                 </div>
                 {formik.errors.altPhone && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.altPhone}
+                    {/* {formik.errors.altPhone} */}
                   </div>
                 )}
               </div>
@@ -346,7 +346,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                 </div>
                 {formik.errors.gst_no && (
                   <div className="mt-1 text-red-500">
-                    {formik.errors.gst_no}
+                    {/* {formik.errors.gst_no} */}
                   </div>
                 )}
               </div>
@@ -390,9 +390,9 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     Email
                   </label>
                 </div>
-                {formik.errors.email && (
-                  <div className="mt-1 text-red-500">{formik.errors.email}</div>
-                )}
+                {/* {formik.errors.email && (
+                  // <div className="mt-1 text-red-500">{formik.errors.email}</div>
+                )} */}
               </div>
               <p className="text-center w-full">Date of Birth</p>
               <div className="mb-4 grid grid-cols-3 gap-4">
@@ -417,7 +417,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                   </div>
                   {formik.errors.dobDay && (
                     <div className="mt-1 text-red-500">
-                      {formik.errors.dobDay}
+                      {/* {formik.errors.dobDay} */}
                     </div>
                   )}
                 </div>

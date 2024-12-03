@@ -103,7 +103,19 @@ const SilverCard: React.FC<SilverCardProps> = ({
   
     if (!userDetails?.pan) {
       setBackendError("Please Add and verify PAN.");
+      setShowModal(true);
       setFlashType("error");
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: null,
+          planName: "Silver",
+          monthlyAmount: monthlyDeposit,
+          totalAmount: monthlyDeposit * numberOfMonths,
+          iconUrl: "/images/silver-icon.png",
+          schemeType: "gms",
+        })
+      );
       return;
     }
   

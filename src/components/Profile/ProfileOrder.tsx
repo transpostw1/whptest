@@ -69,7 +69,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           )}
           <div>
             <p className="text-2xl font-semibold">Order Details</p>
-            <p className="text-sm text-[#dbd6d6]">View your orders</p>
+            <p className="text-sm text-[#dbd6d6d4]">View your orders</p>
           </div>
         </div>
         <div className="flex" onClick={() => handleLogOut()}>
@@ -80,7 +80,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
         </div>
       </div>
       {Array.isArray(singleOrder) && singleOrder.length == 0 && (
-        <div>No Order Found</div>
+        <div><h1 className="font-bold mt-6">No Orders Found</h1></div>
       )}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">

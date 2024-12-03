@@ -102,7 +102,19 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   
     if (!userDetails?.pan) {
       setBackendError("Please Add and verify PAN.");
+      setShowModal(true);
       setFlashType("error");
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: null,
+          planName: "Diamond",
+          monthlyAmount: monthlyDeposit,
+          totalAmount: monthlyDeposit * numberOfMonths,
+          iconUrl: "/images/diamond-icon.png",
+          schemeType: "gms",
+        })
+      );
       return;
     }
   

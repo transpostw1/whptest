@@ -65,8 +65,8 @@ const Page: React.FC = () => {
       if (!success) {
         throw new Error(message || "Failed to verify PAN.");
       }
-      // sessionStorage.setItem("schemeDetails", JSON.stringify({ pan }));
-      await addUserDetails({ pan });
+      sessionStorage.setItem("schemeDetails", JSON.stringify({ pan }));
+      await addUserDetails({ pan:pan });
       router.push("/digitalCheckout");
     } catch (error: any) {
       console.error("Error verifying PAN:", error);

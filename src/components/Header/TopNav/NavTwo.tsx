@@ -736,7 +736,19 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                               handleMenuMobile();
                                             }}
                                           >
-                                            {item.name}
+                                            <div className="flex">
+                                              {item.image && (
+                                                <div>
+                                                  <Image
+                                                    src={item.image}
+                                                    alt={item.label}
+                                                    width={25}
+                                                    height={25}
+                                                  />
+                                                </div>
+                                              )}
+                                              <div>{item.name}</div>
+                                            </div>
                                           </Link>
                                         </div>
                                       ),

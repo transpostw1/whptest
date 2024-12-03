@@ -6,6 +6,7 @@ import Link from "next/link";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCategory } from "@/context/CategoryContex";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
+import { useMainMenuContext } from "@/context/MainMenuContext";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { graphqlbaseUrl } from "@/utils/constants";
@@ -17,48 +18,7 @@ const NavHoverMenu2 = () => {
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [categories, setCategories] = useState<any>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        cache: new InMemoryCache(),
-      });
-      const GET_ALLCATEGORIES = gql`
-        query GetAllMenus {
-          getAllMenus {
-            id
-            name
-            label
-            url
-            image
-            parent_id
-            subCategory {
-              name
-              label
-              url
-              parent_id
-              image
-              id
-              subCategory {
-                url
-                parent_id
-                name
-                label
-                image
-                id
-              }
-            }
-          }
-        }
-      `;
-      const { data } = await client.query({
-        query: GET_ALLCATEGORIES,
-      });
-      setCategories(data.getAllMenus);
-    };
-    fetchCategories();
-  }, []);
+  const {allMenus}=useMainMenuContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,7 +65,7 @@ const NavHoverMenu2 = () => {
           <MobileMainCategorySwiper />
           <div className="header-main flex h-full w-full items-center justify-evenly">
             <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2">
-              {categories.map((item: any, index: any) => (
+              {allMenus.map((item: any, index: any) => (
                 <ul
                   key={index}
                   className="flex h-full w-full items-center justify-evenly text-rose-950"

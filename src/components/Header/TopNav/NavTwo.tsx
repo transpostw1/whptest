@@ -17,7 +17,7 @@ import { useCategory } from "@/context/CategoryContex";
 import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import { useCurrency } from "@/context/CurrencyContext";
-
+import { useMainMenuContext } from "@/context/MainMenuContext";
 interface Props {
   props: string;
 }
@@ -45,11 +45,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const pathname = usePathname();
+  const { allMenus } = useMainMenuContext();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
-
-  // console.log("appointement", appointmentModal);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -132,7 +131,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const cartLength: number = cartItems ? cartItems.length : 0;
-
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [childIndex, setChildIndex] = useState(null);
+  const toggleAccordion = (index: any) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+  const toggleChildAccordion = (index: any) => {
+    setChildIndex(childIndex === index ? null : index);
+  };
   const handleContactPopup = () => {
     setContactPopUp(!contactPopUp);
   };
@@ -382,7 +388,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       </div>
       <div id="menu-mobile" className={`${openMenuMobile ? "open" : ""}`}>
         <TopNavOne textColor="text-white" />
-        <div className="menu-container h-full bg-white">
+        <div className="menu-container h-full overflow-y-auto bg-white">
           <div className="container h-full">
             <div className="menu-main h-full overflow-hidden">
               <div className="heading relative flex items-center justify-end py-2">
@@ -441,7 +447,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 )}
               </div>
               <div className="list-nav mt-6">
-                <ul>
+                {/* <ul>
                   <li
                     className={`${openSubNavMobile === 1 ? "open" : ""}`}
                     onClick={() => {
@@ -639,9 +645,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className={`mt-5 flex items-center text-xl font-semibold`}
                       >
                         Gifts
-                        {/* <span className="text-right">
-                          <Icon.CaretRight size={20} weight="fill" />
-                        </span> */}
                       </p>
                     </Link>
                   </li>
@@ -656,10 +659,97 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         className={`mt-5 flex items-center text-xl font-semibold`}
                       >
                         Gold Services
-                        {/* <Icon.CaretRight size={20} weight="fill" /> */}
                       </p>
                     </Link>
                   </li>
+                </ul> */}
+                <ul>
+                  {allMenus.map((item: any, index: any) => (
+                    <li key={index}>
+                      <Link
+                        href={item.url}
+                        onClick={(e) => {
+                          if (item.name.toLowerCase() === "all jewellery") {
+                            e.preventDefault();
+                            toggleAccordion(index);
+                          } else {
+                            setCustomcategory(item.label);
+                            toggleAccordion(index);
+                          }
+                        }}
+                      >
+                        <div className="flex justify-between">
+                          <div className="mt-3 flex items-center text-xl font-semibold">
+                            {item.name}
+                          </div>
+                          {item.subCategory.length > 0 && (
+                            <div className="mt-3">
+                              {activeIndex === index ? (
+                                <>
+                                  <Icon.CaretUp scale={23} />
+                                </>
+                              ) : (
+                                <>
+                                  <Icon.CaretDown scale={23} />
+                                </>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                      {activeIndex == index && (
+                        <div>
+                          {item.subCategory.map(
+                            (childItem: any, index: any) => (
+                              <React.Fragment key={index}>
+                                <div
+                                  className="flex justify-between"
+                                  onClick={() => toggleChildAccordion(index)}
+                                >
+                                  <div className="mt-2 flex items-center font-semibold">
+                                    {childItem.name}
+                                  </div>
+                                  {childItem.subCategory.length > 0 && (
+                                    <div className="mt-2">
+                                      {childIndex === index ? (
+                                        <>
+                                          <Icon.CaretUp scale={23} />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Icon.CaretDown scale={23} />
+                                        </>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                                {childIndex === index && (
+                                  <div>
+                                    {childItem.subCategory.map(
+                                      (item: any, index: any) => (
+                                        <div key={index}>
+                                          <Link
+                                            href={item.url}
+                                            className="text-secondary duration-300"
+                                            onClick={() => {
+                                              setCustomcategory(item.label);
+                                              handleMenuMobile();
+                                            }}
+                                          >
+                                            {item.name}
+                                          </Link>
+                                        </div>
+                                      ),
+                                    )}
+                                  </div>
+                                )}
+                              </React.Fragment>
+                            ),
+                          )}
+                        </div>
+                      )}
+                    </li>
+                  ))}
                 </ul>
               </div>
               {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">

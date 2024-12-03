@@ -113,8 +113,6 @@ const OtpVerification = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-
-      // Define the GraphQL mutation for registration attempts
       const STORE_REGISTRATION_ATTEMPTS_MUTATION = gql`
         mutation Mutation($phoneNumber: String) {
           storeRegistrationAttempts(phoneNumber: $phoneNumber) {

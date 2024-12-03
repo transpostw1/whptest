@@ -35,7 +35,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
   const redemptionAmount = totalAmount + discountAmount;
-  const { userDetails } = useUser();
+  const { userDetails,isLoggedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -98,6 +98,11 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     if (monthlyDeposit < 500) {
       setShowMinValueModal(true);
       return;
+    }
+    if(!isLoggedIn){
+      localStorage.setItem("redirectPath", "/benefit");
+      router.push("/register")
+      return
     }
   
     if (!userDetails?.pan) {

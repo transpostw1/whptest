@@ -72,7 +72,7 @@ const Page: React.FC = () => {
       console.error("Error verifying PAN:", error);
       setPanError(error.message || "An error occurred. Please try again.");
     } finally {
-      router.push("/digitalCheckout");
+      // router.push("/digitalCheckout");
       setLoading(false);
     }
   };

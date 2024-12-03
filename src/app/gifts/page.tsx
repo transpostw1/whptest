@@ -161,6 +161,7 @@ const Gifts = () => {
   const handleProceedToPay = () => {
     setIsLoading(true);
     if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", "/gifts");
       router.push("/register");
       setIsLoading(false);
       return;

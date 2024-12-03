@@ -548,7 +548,7 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <>
-          <div className="mb-4 rounded-lg border border-gray-200">
+          <div className="mb-4 w-[95%] rounded-lg border border-gray-200">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
                 <span className="font-semibold">Order Id: </span>

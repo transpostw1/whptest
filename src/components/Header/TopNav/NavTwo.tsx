@@ -388,7 +388,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       </div>
       <div id="menu-mobile" className={`${openMenuMobile ? "open" : ""}`}>
         <TopNavOne textColor="text-white" />
-        <div className="menu-container h-full overflow-y-auto bg-white">
+        <div className="menu-container bg-white">
           <div className="container h-full">
             <div className="menu-main h-full overflow-hidden">
               <div className="heading relative flex items-center justify-end py-2">
@@ -446,223 +446,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   />
                 )}
               </div>
-              <div className="list-nav mt-6">
-                {/* <ul>
-                  <li
-                    className={`${openSubNavMobile === 1 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(1);
-                      setCustomcategory("new_Arrival");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "c-new_Arrival" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        New Arrivals
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 2 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(2);
-                      setCustomcategory("14kt");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "k-14kt" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        14 Karat
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 3 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(3);
-                      setCustomcategory("ring");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "c-ring" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        Rings
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 4 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(4);
-                      setCustomcategory("earring");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "c-earring" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        Earrings
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 5 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(5);
-                      setCustomcategory("pendant");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "c-pendant" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        Pendants
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 6 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(6);
-                      setCustomcategory("chain");
-                    }}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/products",
-                        query: { url: "c-chain" },
-                      }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        Chains
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 7 ? "open" : ""}`}
-                    onClick={() => handleOpenSubNavMobile(7)}
-                  >
-                    <p className="mt-5 flex items-center text-xl font-semibold">
-                      All Jewellery
-                      <span className="text-right">
-                        <Icon.CaretRight size={20} weight="fill" />
-                      </span>
-                    </p>
-                    <div className="sub-nav-mobile h-full">
-                      <div
-                        className="back-btn flex items-center gap-3"
-                        onClick={() => handleOpenSubNavMobile(1)}
-                      >
-                        <Icon.CaretLeft />
-                        Back
-                      </div>
-                      <div className="list-nav-item grid h-full w-full grid-cols-2 pb-6 pt-2">
-                        <ul>
-                          {categories &&
-                            categories.map((item: any, index: any) => (
-                              <div
-                                key={item.id}
-                                onClick={() => {
-                                  handleMenuMobile(),
-                                    setCustomcategory(item.url);
-                                }}
-                              >
-                                <li className="leading-[0px]">
-                                  <Link
-                                    href={{
-                                      pathname: "/products",
-                                      query: { url: item.url },
-                                    }}
-                                    className="text-secondary duration-300"
-                                  >
-                                    <div className="flex">
-                                      <Image
-                                        src={item.menuImg}
-                                        alt={item.name}
-                                        height={25}
-                                        width={25}
-                                        className="mr-1"
-                                        unoptimized
-                                      />
-                                      <p>{item.name}</p>
-                                    </div>
-                                  </Link>
-                                </li>
-                              </div>
-                            ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 8 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(8);
-                      setCustomcategory("_men");
-                    }}
-                  >
-                    <Link
-                      href={{ pathname: "/products", query: { url: "g-men" } }}
-                      onClick={handleMenuMobile}
-                    >
-                      <p className="mt-5 flex items-center justify-between text-xl font-semibold">
-                        Men's Jewellery
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 8 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(8);
-                    }}
-                  >
-                    <Link href={"/gifts"} onClick={handleMenuMobile}>
-                      <p
-                        className={`mt-5 flex items-center text-xl font-semibold`}
-                      >
-                        Gifts
-                      </p>
-                    </Link>
-                  </li>
-                  <li
-                    className={`${openSubNavMobile === 9 ? "open" : ""}`}
-                    onClick={() => {
-                      handleOpenSubNavMobile(9);
-                    }}
-                  >
-                    <Link href={"/benefit"} onClick={handleMenuMobile}>
-                      <p
-                        className={`mt-5 flex items-center text-xl font-semibold`}
-                      >
-                        Gold Services
-                      </p>
-                    </Link>
-                  </li>
-                </ul> */}
+              <div className="list-nav mt-6 box-border max-h-screen overflow-y-auto p-0">
                 <ul>
                   {allMenus.map((item: any, index: any) => (
                     <li key={index}>
@@ -685,19 +469,15 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           {item.subCategory.length > 0 && (
                             <div className="mt-3">
                               {activeIndex === index ? (
-                                <>
-                                  <Icon.CaretUp scale={23} />
-                                </>
+                                <Icon.CaretUp scale={23} />
                               ) : (
-                                <>
-                                  <Icon.CaretDown scale={23} />
-                                </>
+                                <Icon.CaretDown scale={23} />
                               )}
                             </div>
                           )}
                         </div>
                       </Link>
-                      {activeIndex == index && (
+                      {activeIndex === index && (
                         <div>
                           {item.subCategory.map(
                             (childItem: any, index: any) => (
@@ -712,13 +492,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                   {childItem.subCategory.length > 0 && (
                                     <div className="mt-2">
                                       {childIndex === index ? (
-                                        <>
-                                          <Icon.CaretUp scale={23} />
-                                        </>
+                                        <Icon.CaretUp scale={23} />
                                       ) : (
-                                        <>
-                                          <Icon.CaretDown scale={23} />
-                                        </>
+                                        <Icon.CaretDown scale={23} />
                                       )}
                                     </div>
                                   )}
@@ -764,6 +540,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   ))}
                 </ul>
               </div>
+
               {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
                 <div>
                   <p className="text-lg font-semibold">Download the WHP App</p>

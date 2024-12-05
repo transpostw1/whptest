@@ -44,11 +44,9 @@ const Page: React.FC = () => {
       setPanError("Invalid PAN format. It should match 'ABCDE1234F'.");
       return;
     }
-
     try {
       setPanError(null);
       setLoading(true);
-
       const { data } = await client.mutate({
         mutation: VERIFY_PAN,
         variables: {
@@ -59,9 +57,7 @@ const Page: React.FC = () => {
         },
         fetchPolicy: "no-cache",
       });
-
       const { success, message } = data.verifyPAN;
-
       if (!success) {
         throw new Error(message || "Failed to verify PAN.");
       }

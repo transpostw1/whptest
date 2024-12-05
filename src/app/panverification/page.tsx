@@ -52,10 +52,12 @@ const PANVerificationPage: React.FC = () => {
         enrollmentId: enrollmentId,
       };
 
-      sessionStorage.setItem(
-        "selectedScheme",
-        JSON.stringify(updatedSchemeDetails)
-      );
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "selectedScheme",
+          JSON.stringify(updatedSchemeDetails)
+        );
+      }
 
       router.push("/digitalCheckout");
     },

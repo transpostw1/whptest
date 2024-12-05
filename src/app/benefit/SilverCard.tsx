@@ -179,7 +179,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   }
   
 
-  const handleproceedpan = () => 
+  const handleproceedpan = () => {
     setShowModal(false)
     router.push("/panverification")
   };

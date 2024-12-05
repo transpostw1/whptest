@@ -76,7 +76,6 @@ const BuyAgain = () => {
     getData();
   }, []);
 
-
   return (
     <>
       {data.length > 0 && (
@@ -139,7 +138,7 @@ const BuyAgain = () => {
                 </SwiperSlide>
               </Swiper>
             ) : (
-              <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
+              <div className="hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
                 <Swiper
                   spaceBetween={12}
                   slidesPerView={1.5}

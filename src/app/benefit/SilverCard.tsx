@@ -6,8 +6,6 @@ import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
-import { graphqlbaseUrl } from "@/utils/constants";
 import SmallScreenModal from "@/components/Other/SmallScreenModal";
 interface SilverCardProps {
   percentage:number;
@@ -26,6 +24,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const [monthlyDeposit, setMonthlyDeposit] = useState<any>(500);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [enroll, setEnrolling] = useState(false);
   const [showMinValueModal, setShowMinValueModal] = useState(false);
   const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
     useState(false);
@@ -35,7 +34,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
   const redemptionAmount = totalAmount + discountAmount;
-  const { userDetails } = useUser();
+  const { userDetails,isLoggedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -96,56 +95,52 @@ const SilverCard: React.FC<SilverCardProps> = ({
     handleEnrollSuccess,
   });
   const handleInputVerification = async () => {
+    setEnrolling(true)
     if (monthlyDeposit < 500) {
       setShowMinValueModal(true);
+      return;
+    }
+    if (!isLoggedIn) {
+      localStorage.setItem("redirectPath", "/benefit");
+      router.push("/register");
       return;
     }
   
     if (!userDetails?.pan) {
       setBackendError("Please Add and verify PAN.");
+      setShowModal(true);
       setFlashType("error");
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: null,
+          planName: "Silver",
+          monthlyAmount: monthlyDeposit,
+          totalAmount: monthlyDeposit * numberOfMonths,
+          iconUrl: "/images/silver-icon.png",
+          schemeType: "gms",
+        })
+      );
       return;
     }
   
     try {
-      console.log("Enrolling with amount:", monthlyDeposit);
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        cache: new InMemoryCache(),
-      });
+      const requestBody = {
+        pan_number: userDetails.pan,
+        name: userDetails.firstname || "",
+      };
   
-      const VERIFY_PAN = gql`
-        mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
-          verifyPAN(verifyPanInput: $verifyPanInput) {
-            success
-            message
-          }
-        }
-      `;
-      const { data } = await client.mutate({
-        mutation: VERIFY_PAN,
-        variables: {
-          verifyPanInput: {
-            pan_number: userDetails.pan,
-            name: userDetails.firstname,
-          },
+      const response = await fetch("/api/verifyPan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        fetchPolicy: "no-cache",
+        body: JSON.stringify(requestBody),
       });
   
-      const panVerificationSuccess = data?.verifyPAN?.success;
+      const result = await response.json();
   
-      if (panVerificationSuccess) {
-        setBackendMessage("PAN verified successfully!");
-        setFlashType("success");
-  
-        const enrollmentId = await handleEnroll("Silver", monthlyDeposit);
-        if (enrollmentId) {
-          handleEnrollSuccess(enrollmentId, "Silver", monthlyDeposit);
-        } else {
-          setShowModal(true);
-        }
-      } else {
+      if (!response.ok || !result.verification_status) {
         sessionStorage.setItem(
           "selectedScheme",
           JSON.stringify({
@@ -157,26 +152,39 @@ const SilverCard: React.FC<SilverCardProps> = ({
             schemeType: "gms",
           })
         );
-        setBackendError("PAN verification failed. Please update PAN.");
-        setFlashType("error");
+        throw new Error(result.error || "PAN verification failed. Please update PAN.");
+      }
+  
+      setBackendMessage("PAN verified successfully!");
+      setFlashType("success");
+  
+      const enrollmentId = await handleEnroll("Diamond", monthlyDeposit);
+      if (enrollmentId) {
+        handleEnrollSuccess(enrollmentId, "Diamond", monthlyDeposit);
+        setEnrolling(false)
+      } else {
         setShowModal(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during enrollment:", error);
+      setEnrolling(false)
       setBackendError("Failed to enroll. Please try again.");
       setFlashType("error");
       setShowModal(true);
     }
   };
+  const modalCloser = ()=>{
+    setEnrolling(false)
+    setShowModal(false)
+  }
   
 
   const handleproceedpan = () => {
-    console.log("proceedpan")
     setShowModal(false)
     router.push("/panverification")
   };
   return (
-    <div className="h-full rounded-xl bg-[#edebed] p-4 md:p-0">
+    <div className="h-full rounded-xl bg-[#edebed] p-4 md:p-0 relative">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Silver
       </h3>
@@ -257,7 +265,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
                 className="mb-2 w-full cursor-pointer rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
                 onClick={handleInputVerification}
               >
-                {loading ? "Enrolling..." : "Enroll Now"}
+                {loading||enroll ? "Enrolling..." : "Enroll Now"}
               </div>
             </div>
             <div>
@@ -291,7 +299,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
               </button>
               <button
                 className="w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
-                onClick={() => setShowModal(false)}
+                onClick={() =>modalCloser()}
               >
                 Later
               </button>

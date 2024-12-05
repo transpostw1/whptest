@@ -89,7 +89,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     await getUser();
     let redirectPath = localStorage.getItem("redirectPath");
-    if (redirectPath === "/login" || redirectPath === "/register") {
+    if ( redirectPath === "/register") {
       redirectPath = "/";
     }
     router.push(redirectPath);

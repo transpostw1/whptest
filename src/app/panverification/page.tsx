@@ -111,7 +111,7 @@ const PANVerificationPage: React.FC = () => {
         // }
         setBackendMessage("PAN verified successfully");
         setFlashType("success");
-        router.push("/digitalCheckout");
+        // router.push("/digitalCheckout");
       }
     } catch (error: any) {
       console.error("Error verifying PAN:", error);

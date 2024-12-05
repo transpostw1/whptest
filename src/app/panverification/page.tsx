@@ -24,9 +24,13 @@ const PANVerificationPage: React.FC = () => {
   const { userDetails, addUserDetails } = useUser();
 
   const getSchemeDetails = (): SchemeDetails => {
-    const schemeDetailsString = sessionStorage.getItem("selectedScheme");
-    return schemeDetailsString ? JSON.parse(schemeDetailsString) : {};
+    if (typeof window !== "undefined") {
+      const schemeDetailsString = sessionStorage.getItem("selectedScheme");
+      return schemeDetailsString ? JSON.parse(schemeDetailsString) : {};
+    }
+    return {}; 
   };
+  
 
   useEffect(() => {
     if (userDetails) {

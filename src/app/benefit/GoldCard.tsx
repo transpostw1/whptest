@@ -103,6 +103,17 @@ const GoldCard: React.FC<GoldCardProps> = ({
       setBackendError("Please Add and verify PAN.");
       setShowModal(true);
       setFlashType("error");
+      sessionStorage.setItem(
+        "selectedScheme",
+        JSON.stringify({
+          enrollmentId: null,
+          planName: "Gold",
+          monthlyAmount: monthlyDeposit,
+          totalAmount: monthlyDeposit * numberOfMonths,
+          iconUrl: "/images/gold-icon.png",
+          schemeType: "gms",
+        })
+      );
       return;
     }
   

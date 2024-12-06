@@ -154,7 +154,6 @@ const CustomerOrders = () => {
             }
           }
         `;
-
         const variables = { token: cookieToken };
         const { data } = await client.query({
           query: GET_ORDER,

@@ -226,15 +226,6 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
               <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
               {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
                 <div key={index} className="relative mb-8 flex items-start">
-                  {/* <div className="z-10 mr-4">
-                    <div
-                      className={`h-4 w-4 rounded-full ${
-                        index === singleOrder[0].eshipTracking.length - 1
-                          ? "bg-green-500"
-                          : "bg-blue-500"
-                      }`}
-                    ></div>
-                  </div> */}
                   <div className="flex flex-col">
                     {JSON.parse(track.checkpoints || "[]").map(
                       (checkpoint: any, checkpointIndex: number) => (

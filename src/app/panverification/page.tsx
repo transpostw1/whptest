@@ -99,9 +99,7 @@ const PANVerificationPage: React.FC = () => {
         },
         body: JSON.stringify(requestBody),
       });
-
       const result = await response.json();
-
       if (!response.ok || !result.verification_status) {
         throw new Error(result.error || "Failed to verify PAN.");
       }

@@ -158,9 +158,9 @@ const SilverCard: React.FC<SilverCardProps> = ({
       setBackendMessage("PAN verified successfully!");
       setFlashType("success");
   
-      const enrollmentId = await handleEnroll("Diamond", monthlyDeposit);
+      const enrollmentId = await handleEnroll("Silver", monthlyDeposit);
       if (enrollmentId) {
-        handleEnrollSuccess(enrollmentId, "Diamond", monthlyDeposit);
+        handleEnrollSuccess(enrollmentId, "Silver", monthlyDeposit);
         setEnrolling(false)
       } else {
         setShowModal(true);

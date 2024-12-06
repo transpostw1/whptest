@@ -300,6 +300,19 @@ const MobilePersonalInformation = () => {
         </div>
         <div>
           <label
+            htmlFor="phone"
+            className="text-md mb-1 block font-normal text-black"
+          >
+            Alternate number
+          </label>
+          <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+            <span className="text-md font-semibold">
+              {userDetails?.altPhone}
+            </span>
+          </div>
+        </div>
+        <div>
+          <label
             htmlFor="email"
             className="text-md mb-1 block font-normal text-black"
           >
@@ -307,6 +320,28 @@ const MobilePersonalInformation = () => {
           </label>
           <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
             <span className="text-md font-semibold">{userDetails?.email}</span>
+          </div>
+        </div>
+        <div>
+          <label
+            htmlFor="pan"
+            className="text-md mb-1 block font-normal text-black"
+          >
+            PAN
+          </label>
+          <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+            <span className="text-md font-semibold">{userDetails?.pan}</span>
+          </div>
+        </div>
+        <div>
+          <label
+            htmlFor="gst"
+            className="text-md mb-1 block font-normal text-black"
+          >
+            GST
+          </label>
+          <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+            <span className="text-md font-semibold">{userDetails?.gst_no}</span>
           </div>
         </div>
       </div>

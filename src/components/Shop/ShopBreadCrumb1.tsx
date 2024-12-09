@@ -768,12 +768,15 @@ const ShopBreadCrumb1 = () => {
       const skus = await window.getSkusListWithTryOn({
         companyName: "whpjewellers",
       });
-      setSkuList(skus); 
+      setSkuList(skus);
       setIsSkuListLoaded(true);
     } catch (error) {
       console.error("Error fetching SKU list:", error);
     }
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     fetchSkusList();
@@ -781,149 +784,158 @@ const ShopBreadCrumb1 = () => {
 
   return (
     <>
-    <div className="shop-product breadcrumb1">
-      <div className="container">
-        <MobileMainCategorySwiper />
-        <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
-          <FilterSidebar
-            data={data}
-            filters={filters}
-            filteredProducts={filteredProducts}
-            onFilterChange={(options) => setSelectedOptions(options)}
-            mobileFilter={mobileFilter}
-            setMobileFilter={setMobileFilter}
-            selectedOptions={selectedOptions}
-            handleOptionSelect={handleOptionSelect}
-            productsListRef={productsListRef}
-            category={category}
-          />
-          <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
-            <div className="">
-              <p className="text-4xl font-bold uppercase">{modifiedString}</p>
-            </div>
-            <div className="mt-5 flex justify-between">
-              <div className="sm:w-[100%] lg:w-[70%]">
-                {/* Earrings are a form of self-expression. They effortlessly
-                transform an outfit, framing the face with style and grace. */}
-                <BreadCrumb />
-                <div className="flex flex-wrap sm:block md:hidden lg:hidden">
-                  {Object.entries(selectedOptions).flatMap(
-                    ([category, options]) =>
-                      (options as string[]).map((option: string, index: number) => (
-                        <div
-                          key={`${category}-${index}`}
-                          className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
-                        >
-                          {option}
-                          <button
-                            className="mb-1 ml-2 align-middle"
-                            onClick={() => handleOptionSelect(option, category)}
-                          >
-                            <Icon.X size={20} />
-                          </button>
-                        </div>
-                      )),
-                  )}
-                </div>
+      <div className="shop-product breadcrumb1">
+        <div className="container">
+          <MobileMainCategorySwiper />
+          <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
+            <FilterSidebar
+              data={data}
+              filters={filters}
+              filteredProducts={filteredProducts}
+              onFilterChange={(options) => setSelectedOptions(options)}
+              mobileFilter={mobileFilter}
+              setMobileFilter={setMobileFilter}
+              selectedOptions={selectedOptions}
+              handleOptionSelect={handleOptionSelect}
+              productsListRef={productsListRef}
+              category={category}
+            />
+            <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
+              <div className="">
+                <p className="text-4xl font-bold uppercase">{modifiedString}</p>
               </div>
+              <div className="mt-5 flex justify-between">
+                <div className="sm:w-[100%] lg:w-[70%]">
+                  {/* Earrings are a form of self-expression. They effortlessly
+                transform an outfit, framing the face with style and grace. */}
+                  <BreadCrumb />
+                  <div className="flex flex-wrap sm:block md:hidden lg:hidden">
+                    {Object.entries(selectedOptions).flatMap(
+                      ([category, options]) =>
+                        (options as string[]).map(
+                          (option: string, index: number) => (
+                            <div
+                              key={`${category}-${index}`}
+                              className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
+                            >
+                              {option}
+                              <button
+                                className="mb-1 ml-2 align-middle"
+                                onClick={() =>
+                                  handleOptionSelect(option, category)
+                                }
+                              >
+                                <Icon.X size={20} />
+                              </button>
+                            </div>
+                          ),
+                        ),
+                    )}
+                  </div>
+                </div>
 
-              <div className="relative hidden lg:block">
-                <label className="font-semibold">Sort By: </label>
-                <select
-                  value={selectedSortOption}
-                  onChange={(e) => handleSortOptionChange(e.target.value)}
-                  className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
-                >
-                  <option className="bg-[#f7f7f7]" value="All">
-                    All
-                  </option>
-                  {/*<option className="bg-[#f7f7f7]" value="Newest First">
+                <div className="relative hidden lg:block">
+                  <label className="font-semibold">Sort By: </label>
+                  <select
+                    value={selectedSortOption}
+                    onChange={(e) => handleSortOptionChange(e.target.value)}
+                    className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
+                  >
+                    <option className="bg-[#f7f7f7]" value="All">
+                      All
+                    </option>
+                    {/*<option className="bg-[#f7f7f7]" value="Newest First">
                     Newest First
                   </option> */}
-                  <option className="bg-[#f7f7f7]" value="Price-Low To High">
-                    Price-Low To High
-                  </option>
-                  <option className="bg-[#f7f7f7]" value="Price-High To Low">
-                    Price-High To Low
-                  </option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-7 bottom-0 right-0 ml-3 flex items-center px-2 text-gray-700">
-                  <Icon.CaretDown size={18} />
+                    <option className="bg-[#f7f7f7]" value="Price-Low To High">
+                      Price-Low To High
+                    </option>
+                    <option className="bg-[#f7f7f7]" value="Price-High To Low">
+                      Price-High To Low
+                    </option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-7 bottom-0 right-0 ml-3 flex items-center px-2 text-gray-700">
+                    <Icon.CaretDown size={18} />
+                  </div>
                 </div>
               </div>
+
+              {!isLoading && filteredProducts.length == 0 ? (
+                <ProductSkeleton />
+              ) : filteredProducts.length > 0 ? (
+                <div
+                  className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                  ref={productsListRef}
+                >
+                  {filteredProducts.map((item: any) => {
+                    return (
+                      <div key={item.productId}>
+                        <Product data={item} skuList={skuList} />
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <>
+                  {isLoading && filteredProducts.length == 0 && (
+                    <div
+                      className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
+                      ref={productsListRef}
+                    >
+                      {/* <p>No products found.</p> */}
+
+                      <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                        Oops! No products found.
+                      </h2>
+                      <p className="mb-6 text-lg text-gray-600">
+                        We couldn't find any products matching your current
+                        filters.
+                      </p>
+                      <div className="suggestions mb-8"></div>
+                      <div className="cta-buttons flex justify-center space-x-4">
+                        <button className="btn-clear-filters rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition duration-300 hover:bg-gray-300">
+                          Clear Filters
+                        </button>
+                        <button className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600">
+                          Explore More
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+              {filteredProducts.length > 0 && (
+                <button
+                  onClick={handleProducts}
+                  className="bg-[#e26178] px-3 py-2 text-white"
+                >
+                  Load More
+                </button>
+              )}
             </div>
-
-            {!isLoading && filteredProducts.length == 0 ? (
-              <ProductSkeleton />
-            ) : filteredProducts.length > 0 ? (
-              <div
-                className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                ref={productsListRef}
-              >
-                {filteredProducts.map((item: any) => {
-                  return (
-                    <div key={item.productId}>
-                      <Product data={item} skuList={skuList} />
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {isLoading && filteredProducts.length == 0 && (
-                  <div
-                    className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
-                    ref={productsListRef}
-                  >
-                    {/* <p>No products found.</p> */}
-
-                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                      Oops! No products found.
-                    </h2>
-                    <p className="mb-6 text-lg text-gray-600">
-                      We couldn't find any products matching your current
-                      filters.
-                    </p>
-                    <div className="suggestions mb-8"></div>
-                    <div className="cta-buttons flex justify-center space-x-4">
-                      <button className="btn-clear-filters rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition duration-300 hover:bg-gray-300">
-                        Clear Filters
-                      </button>
-                      <button className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600">
-                        Explore More
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-            <button
-              onClick={handleProducts}
-              className="bg-[#e26178] px-3 py-2 text-white"
+          </div>
+        </div>
+        <div className="fixed bottom-0 left-0 z-10 h-[52px] w-[100%] bg-[#e26178] sm:block md:hidden lg:hidden">
+          <div className="mt-4 flex justify-center align-middle text-white">
+            <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
+              SortBy
+            </div>
+            <div
+              className="flex"
+              onClick={() => setMobileFilter(!mobileFilter)}
             >
-              Load More
-            </button>
+              <p>Filter </p>
+            </div>
           </div>
         </div>
+        {sortOption && (
+          <SortBy
+            visible={sortOption}
+            onClose={() => setSortOption(false)}
+            onSortOptionChange={handleSortOptionChange}
+          />
+        )}
       </div>
-      <div className="fixed bottom-0 left-0 z-10 h-[52px] w-[100%] bg-[#e26178] sm:block md:hidden lg:hidden">
-        <div className="mt-4 flex justify-center align-middle text-white">
-          <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
-            SortBy
-          </div>
-          <div className="flex" onClick={() => setMobileFilter(!mobileFilter)}>
-            <p>Filter </p>
-          </div>
-        </div>
-      </div>
-      {sortOption && (
-        <SortBy
-          visible={sortOption}
-          onClose={() => setSortOption(false)}
-          onSortOptionChange={handleSortOptionChange}
-        />
-      )}
-    </div>
     </>
   );
 };

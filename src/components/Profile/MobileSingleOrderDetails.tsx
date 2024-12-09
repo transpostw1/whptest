@@ -223,36 +223,68 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             E-ship Tracking
           </p>
           <div className="relative p-4">
-            <div className="absolute left-[1.37rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.orderTracking.map((track:any, index:any) => (
-              <div key={index} className="relative mb-8 flex items-start">
-                <div className="z-10 mr-4">
-                  <div
-                    className={`h-4 w-4 rounded-full ${
-                      index === singleOrder[0].orderTracking.length - 1
-                        ? "bg-green-500"
-                        : "bg-blue-500"
-                    }`}
-                  ></div>
+              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+              {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
+                <div key={index} className="relative mb-8 flex items-start">
+                  <div className="flex flex-col">
+                    {JSON.parse(track.checkpoints || "[]").map(
+                      (checkpoint: any, checkpointIndex: number) => (
+                        <div
+                          key={checkpointIndex}
+                          className="mb-4 flex items-start"
+                        >
+                          <div className="z-10 mr-4">
+                            <div
+                              className={`h-4 w-4 rounded-full ${
+                                checkpointIndex ===
+                                JSON.parse(track.checkpoints || "[]").length - 1
+                                  ? "bg-green-500"
+                                  : "bg-blue-500"
+                              }`}
+                            ></div>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-semibold">
+                              {checkpoint.remark}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              {checkpoint.city}, {checkpoint.state}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              {new Date(checkpoint.date).toLocaleString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                },
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      ),
+                    )}
+                    {/* <span className="text-sm text-gray-500">
+                      {new Date(
+                        singleOrder[0]?.eshipTracking[0]?.deliveryDate,
+                      ).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        // hour: '2-digit',
+                        // minute: '2-digit',
+                        // hour12: false
+                      })}
+                    </span> */}
+                  </div>
                 </div>
-                <div className="flex flex-col bg-red-600">
-                  <span className="font-semibold bg-red-700">
-                    {track.trackingOrderStatusName}fg
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(track.created_at).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            
+          {/* </div> */}
         </div>
       </div>
 

@@ -86,7 +86,6 @@ const DigitalCheckout: React.FC = () => {
               schemeType: selectedScheme?.planName.toLowerCase(),
               amount: selectedScheme?.monthlyAmount,
             };
-
       const response = await instance.post(
         `${baseUrl}${gms}/${endpoint}`,
         payload,
@@ -96,7 +95,6 @@ const DigitalCheckout: React.FC = () => {
           },
         },
       );
-
       console.log("Order placed successfully", response.data);
       handleOrderComplete();
     } catch (error) {

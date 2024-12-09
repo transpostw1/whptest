@@ -83,7 +83,6 @@ const useEnroll = ({
         console.log("Enrollment successful", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("success");
-
         // Extract enrollmentId from the response
         const enrollmentId =
           data.StoreCustomerGMS.enrollmentDetails.enrollmentId;

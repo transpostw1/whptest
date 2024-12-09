@@ -226,17 +226,7 @@ const ProfileDetails = () => {
               </span>
             </div>
           </div>
-          <div>
-            <label
-              htmlFor="last_name"
-              className="text-md mb-1 block font-normal text-black"
-            >
-              Date of Birth
-            </label>
-            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
-              <span className="text-md font-semibold">{userDetails?.dob}</span>
-            </div>
-          </div>
+    
           <div>
             <label
               htmlFor="phone"
@@ -250,9 +240,34 @@ const ProfileDetails = () => {
               </span>
             </div>
           </div>
+          
           <div>
             <label
-              htmlFor="email"
+              htmlFor="phone"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              Alternate Phone
+            </label>
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.altPhone}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="last_name"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              Date of Birth
+            </label>
+            <div className="w-100 rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">{userDetails?.dob}</span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="pan"
               className="text-md mb-1 block font-normal text-black"
             >
               PAN ID
@@ -263,7 +278,7 @@ const ProfileDetails = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="gst"
               className="text-md mb-1 block font-normal text-black"
             >
               GST No.

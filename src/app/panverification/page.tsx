@@ -1,31 +1,36 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import Loader from "@/components/Other/Loader";
-import { gql, ApolloClient,InMemoryCache } from "@apollo/client";
-import { graphqlbaseUrl } from "@/utils/constants";
+import useEnroll from "@/hooks/useEnroll";
 
-const VERIFY_PAN = gql`
-  mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
-    verifyPAN(verifyPanInput: $verifyPanInput) {
-      success
-      message
-    }
-  }
-`;
+interface SchemeDetails {
+  planName?: string;
+  monthlyAmount?: number;
+}
 
-const Page: React.FC = () => {
-  const [pan, setPan] = useState("");
-  const [termsAccepted, setTermsAccepted] = useState(false);
+const PANVerificationPage: React.FC = () => {
+  const [pan, setPan] = useState<string>("");
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const [panError, setPanError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [backendMessage, setBackendMessage] = useState<string | null>(null);
+  const [backendError, setBackendError] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<"success" | "error" | null>(null);
+
   const router = useRouter();
   const { userDetails, addUserDetails } = useUser();
-  const client = new ApolloClient({
-    uri: graphqlbaseUrl,
-    cache: new InMemoryCache(),
-  });
+
+  const getSchemeDetails = (): SchemeDetails => {
+    if (typeof window !== "undefined") {
+      const schemeDetailsString = sessionStorage.getItem("selectedScheme");
+      return schemeDetailsString ? JSON.parse(schemeDetailsString) : {};
+    }
+    return {}; 
+  };
+  
 
   useEffect(() => {
     if (userDetails) {
@@ -33,10 +38,38 @@ const Page: React.FC = () => {
     }
   }, [userDetails]);
 
-  const validatePAN = (pan: string) => {
+  const validatePAN = (pan: string): boolean => {
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     return panRegex.test(pan);
   };
+  const schemeDetails = getSchemeDetails();
+  const handleEnrollSuccess = useCallback(
+    (enrollmentId: number) => {
+   
+      // console.log(schemeDetails,"SCHEEMEDEETSSS")
+      const updatedSchemeDetails = {
+        ...schemeDetails,
+        enrollmentId: enrollmentId,
+      };
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "selectedScheme",
+          JSON.stringify(updatedSchemeDetails)
+        );
+      }
+
+      router.push("/digitalCheckout");
+    },
+    [router]
+  );
+
+  const { handleEnroll } = useEnroll({
+    setBackendMessage,
+    setBackendError,
+    setFlashType,
+    handleEnrollSuccess,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,35 +77,53 @@ const Page: React.FC = () => {
       setPanError("Invalid PAN format. It should match 'ABCDE1234F'.");
       return;
     }
+    if (!termsAccepted) {
+      setPanError("Please accept the terms and conditions.");
+      return;
+    }
 
     try {
       setPanError(null);
       setLoading(true);
 
-      const { data } = await client.mutate({
-        mutation: VERIFY_PAN,
-        variables: {
-          verifyPanInput: {
-            pan_number: pan,
-            name: userDetails?.firstname,
-          },
+      const schemeDetails = getSchemeDetails();
+
+      const requestBody = {
+        pan_number: pan,
+        name: userDetails?.firstname || "",
+      };
+      const response = await fetch("/api/verifyPan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        fetchPolicy: "no-cache",
+        body: JSON.stringify(requestBody),
       });
-
-      const { success, message } = data.verifyPAN;
-
-      if (!success) {
-        throw new Error(message || "Failed to verify PAN.");
+      const result = await response.json();
+      if (!response.ok || !result.verification_status) {
+        throw new Error(result.error || "Failed to verify PAN.");
       }
-      sessionStorage.setItem("schemeDetails", JSON.stringify({ pan }));
-      await addUserDetails({ pan:pan });
-      router.push("/digitalCheckout");
+      const enrollmentId = await handleEnroll(
+        schemeDetails.planName,
+        schemeDetails.monthlyAmount
+      );
+
+      if (enrollmentId) {
+        handleEnrollSuccess(enrollmentId)
+        // if (!userDetails?.pan) {
+          await addUserDetails({ pan });
+        // }
+        setBackendMessage("PAN verified successfully");
+        setFlashType("success");
+        // router.push("/digitalCheckout");
+      }
     } catch (error: any) {
       console.error("Error verifying PAN:", error);
+
       setPanError(error.message || "An error occurred. Please try again.");
+      setBackendError(error.message || "Verification failed");
+      setFlashType("error");
     } finally {
-      // router.push("/digitalCheckout");
       setLoading(false);
     }
   };
@@ -84,11 +135,23 @@ const Page: React.FC = () => {
       ) : (
         <div className="flex w-full items-center justify-center p-4">
           <div className="w-full max-w-xl rounded-lg bg-white p-6 md:p-10">
+            {backendError && (
+              <div className="mb-4 text-center text-red-500">
+                {backendError}
+              </div>
+            )}
+            {backendMessage && (
+              <div className="mb-4 text-center text-green-500">
+                {backendMessage}
+              </div>
+            )}
+
             <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
               Update PAN
             </h1>
             <p className="mb-4 text-center text-sm text-gray-600">
-              Thank you for your interest in our services. Please update the PAN to proceed.
+              Thank you for your interest in our services. Please update the PAN
+              to proceed.
             </p>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex items-center space-x-2">
@@ -101,7 +164,10 @@ const Page: React.FC = () => {
                 />
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   I accept the{" "}
-                  <a href="#" className="font-medium text-[#bb547d] hover:underline">
+                  <a
+                    href="#"
+                    className="font-medium text-[#bb547d] hover:underline"
+                  >
                     Terms and Conditions
                   </a>
                   .
@@ -146,4 +212,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default PANVerificationPage;

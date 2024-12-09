@@ -694,7 +694,9 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </ul>
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
-          <Coupons product={data} />
+          {data?.productDetails?.coupons?.length > 0 && (
+  <Coupons product={data} />
+)}
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
@@ -702,8 +704,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
               <Buttons product={data} variants={selectedVariants} />
             )}
           </div>
-          {data?.productDetails?.tryAtHome === 1 && (
-            <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
+          {/* {data?.productDetails?.tryAtHome === 1 && ( */}
+            {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>
@@ -712,8 +714,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
                 Try at Home
               </span>
               <span> today!</span>
-            </div>
-          )}
+            </div> */}
+          {/* )} */}
           <GoldSchemeSmallBanner />
           <Accordian product={data} />
         </div>

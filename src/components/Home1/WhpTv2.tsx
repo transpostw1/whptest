@@ -102,12 +102,14 @@ const Whptv2 = () => {
   }, []);
 
   const handleOpenModal = (clickedVideo: PlayList) => {
-    setShowModal(true);
-
-    const rearrangedVideos = videos.filter((video) => video.id !== clickedVideo.id);
+    const rearrangedVideos = videos.filter(
+      (video) => video.id !== clickedVideo.id,
+    );
     rearrangedVideos.unshift(clickedVideo);
     setVideos(rearrangedVideos);
-    setCurrentVideo(clickedVideo); 
+    setCurrentVideo(clickedVideo);
+
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {

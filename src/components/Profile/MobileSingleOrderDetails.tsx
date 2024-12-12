@@ -3,6 +3,7 @@ import Image from "next/image";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
+import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import axios from "axios";
 interface Props {
@@ -12,6 +13,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>();
   const [type, setType] = useState<any>("");
+  const { formatPrice } = useCurrency();
 
   const handleOrderCancel = async (id: any) => {
     try {
@@ -100,14 +102,9 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                 <p className="font-semibold">{product?.displayTitle}</p>
               </div>
               <div className="font-semibold">
-                ₹
-                {Intl.NumberFormat("en-IN", {
-                  minimumFractionDigits: 2,
-                }).format(
-                  Math.round(
-                    parseInt(product?.discountedTotal) *
-                      parseInt(product?.quantity),
-                  ),
+                {formatPrice(
+                  parseInt(product?.discountedTotal) *
+                    parseInt(product?.quantity),
                 )}
               </div>
             </div>
@@ -123,10 +120,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       <div className="border-gray flex justify-end rounded-b-md border p-2">
         <p>Total Amount: </p>
         <span className="text-md font-semibold">
-          ₹
-          {Intl.NumberFormat("en-IN", {
-            minimumFractionDigits: 2,
-          }).format(Math.round(singleOrder[0]?.productTotal))}
+          {formatPrice(singleOrder[0]?.productTotal)}
         </span>
       </div>
       <div>
@@ -170,10 +164,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             Transaction No.: {singleOrder[0]?.payments[0]?.transactionNo}
           </p>
           <p className="px-2">
-            Amount: ₹
-            {Intl.NumberFormat("en-IN", {
-              minimumFractionDigits: 2,
-            }).format(Math.round(singleOrder[0]?.payments[0]?.amount))}
+            Amount: {formatPrice(singleOrder[0]?.payments[0]?.amount)}
           </p>
           <p className="px-2">
             Payment Status:{" "}
@@ -188,7 +179,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           </p>
           <div className="relative p-4">
             <div className="absolute left-[1.37rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-            {singleOrder[0]?.orderTracking.map((track:any, index:any) => (
+            {singleOrder[0]?.orderTracking.map((track: any, index: any) => (
               <div key={index} className="relative mb-8 flex items-start">
                 <div className="z-10 mr-4">
                   <div
@@ -223,51 +214,48 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
             E-ship Tracking
           </p>
           <div className="relative p-4">
-              <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
-              {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
-                <div key={index} className="relative mb-8 flex items-start">
-                  <div className="flex flex-col">
-                    {JSON.parse(track.checkpoints || "[]").map(
-                      (checkpoint: any, checkpointIndex: number) => (
-                        <div
-                          key={checkpointIndex}
-                          className="mb-4 flex items-start"
-                        >
-                          <div className="z-10 mr-4">
-                            <div
-                              className={`h-4 w-4 rounded-full ${
-                                checkpointIndex ===
-                                JSON.parse(track.checkpoints || "[]").length - 1
-                                  ? "bg-green-500"
-                                  : "bg-blue-500"
-                              }`}
-                            ></div>
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="font-semibold">
-                              {checkpoint.remark}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              {checkpoint.city}, {checkpoint.state}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              {new Date(checkpoint.date).toLocaleString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  hour12: true,
-                                },
-                              )}
-                            </span>
-                          </div>
+            <div className="absolute left-[1.40rem] top-5 h-[calc(100%-3rem)] w-0.5 bg-gray-300"></div>
+            {singleOrder[0]?.eshipTracking.map((track: any, index: any) => (
+              <div key={index} className="relative mb-8 flex items-start">
+                <div className="flex flex-col">
+                  {JSON.parse(track.checkpoints || "[]").map(
+                    (checkpoint: any, checkpointIndex: number) => (
+                      <div
+                        key={checkpointIndex}
+                        className="mb-4 flex items-start"
+                      >
+                        <div className="z-10 mr-4">
+                          <div
+                            className={`h-4 w-4 rounded-full ${
+                              checkpointIndex ===
+                              JSON.parse(track.checkpoints || "[]").length - 1
+                                ? "bg-green-500"
+                                : "bg-blue-500"
+                            }`}
+                          ></div>
                         </div>
-                      ),
-                    )}
-                    {/* <span className="text-sm text-gray-500">
+                        <div className="flex flex-col">
+                          <span className="font-semibold">
+                            {checkpoint.remark}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {checkpoint.city}, {checkpoint.state}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {new Date(checkpoint.date).toLocaleString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            })}
+                          </span>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                  {/* <span className="text-sm text-gray-500">
                       {new Date(
                         singleOrder[0]?.eshipTracking[0]?.deliveryDate,
                       ).toLocaleString("en-US", {
@@ -279,11 +267,11 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                         // hour12: false
                       })}
                     </span> */}
-                  </div>
                 </div>
-              ))}
-            </div>
-            
+              </div>
+            ))}
+          </div>
+
           {/* </div> */}
         </div>
       </div>

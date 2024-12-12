@@ -50,9 +50,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     fetchSkusList();
   }, []);
 
-  useEffect(() => {
-    console.log("BuyAgain Products", data);
-  }, [data]);
   const HandleaddToWishlist = () => {
     try {
       console.log("Adding to wishlist, product data:", data);
@@ -96,13 +93,13 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      // Check if the script is already lewis 
+      // Check if the script is already lewis
       if (
         document.querySelector(
           `script[src="https://camweara.com/integrations/camweara_api.js"]`,
         )
       ) {
-        resolve(); 
+        resolve();
         return;
       }
       const script = document.createElement("script");
@@ -279,7 +276,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     <p className="ps-1 text-sm">Try On</p>
                   </div>
                 </div>
-              )} 
+              )}
               <Image
                 onClick={() => handleDetailProduct(data.productId, data.url)}
                 className="m-auto w-[95%] duration-700"

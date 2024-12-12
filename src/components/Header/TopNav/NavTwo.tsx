@@ -425,7 +425,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <Link href={"/register"}>
                       <p className="text-lg font-semibold">Login</p>
                     </Link>
-                    <div onClick={handleMenuMobile} className=""></div>
+                    <div onClick={handleMenuMobile}></div>
                   </div>
                 )}
               </div>

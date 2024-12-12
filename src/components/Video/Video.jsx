@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import VideoOverlayProducts from "./VideoOverlayProducts";
 
-const Video = ({ src, id, playList }) => {
+const Video = ({ src, productDetails }) => {
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
-  const [products, setProducts] = useState([]);
 
   const toggleMute = () => {
     const currentState = !isMuted;
@@ -22,17 +21,7 @@ const Video = ({ src, id, playList }) => {
   const handleShare = () => {
     console.log("Share button clicked");
   };
-
-  useEffect(() => {
-    const product = playList
-      .filter((item) => item.id === id)
-      .map((item) => item.productDetails);
-
-    setProducts(product.flat());
-  }, [playList, id]);
-  useEffect(() => {
-    console.log("Reels Id", id);
-  }, [id]);
+  
   return (
     <div className="relative h-screen w-screen">
       <video
@@ -71,7 +60,7 @@ const Video = ({ src, id, playList }) => {
         )}
       </button>
       <div className="absolute bottom-0 z-20 w-full">
-        <VideoOverlayProducts products={products} />
+        <VideoOverlayProducts products={productDetails} />
       </div>
     </div>
   );

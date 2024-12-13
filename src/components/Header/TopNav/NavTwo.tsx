@@ -461,7 +461,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   />
                 )}
               </div>
-              <div className="list-nav mt-6 box-border max-h-screen overflow-y-auto p-0">
+              <div className="list-nav mt-6 box-border h-[500px] overflow-y-auto p-0">
                 <ul>
                   {allMenus.map((item: any, index: any) => (
                     <li key={index}>

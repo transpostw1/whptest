@@ -11,16 +11,19 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { BiTargetLock } from "react-icons/bi";
 import { TbHomeCheck } from "react-icons/tb";
-import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
 import Link from "next/link";
 import { useCurrency } from "@/context/CurrencyContext";
+import { useBlog } from "@/context/BlogContext";
+import SizeGuideModal from "@/components/Other/SizeGuideModal";
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { bangleSizeGuide, chainSizeGuide, ringSizeGuide, loading } = useBlog();
+  const [showSizeGuideModal, setShowSizeGuideModal] = useState<boolean>(false);
   const { formatPrice } = useCurrency();
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
@@ -38,6 +41,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
   //function to handle the toggle of the accordian every section is handle by this function
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
+  };
+
+  const handleSizeGuideModal = () => {
+    setShowSizeGuideModal(!showSizeGuideModal);
   };
   const makingCharges: any =
     parseFloat(product?.productDetails?.makingCharges) +
@@ -439,14 +446,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your ring.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/ring-size-guide"}
+
+                    <button
+                      className="mt-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={ringSizeGuide}
+                      />
+                    )}
                   </>
                 ) : product.productDetails.displayTitle
                     .toLowerCase()
@@ -461,14 +475,20 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your chain.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/chain-size-guide"}
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={chainSizeGuide}
+                      />
+                    )}
                   </>
                 ) : product.productDetails.displayTitle
                     .toLowerCase()
@@ -486,14 +506,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your bangle.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/bangle-size-guide"}
+
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={bangleSizeGuide}
+                      />
+                    )}
                   </>
                 ) : (
                   <></>

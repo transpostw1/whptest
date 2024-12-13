@@ -277,15 +277,17 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 </div>
               )}
-              <Image
-                onClick={() => handleDetailProduct(data.productId, data.url)}
-                className="m-auto w-[95%] duration-700"
-                src={data?.imageDetails[0].image_path}
-                width={400}
-                height={400}
-                alt="This image is temporarry"
-                unoptimized
-              />
+              {data?.imageDetails[0]?.image_path && (
+                <Image
+                  onClick={() => handleDetailProduct(data.productId, data.url)}
+                  className="m-auto w-[95%] duration-700"
+                  src={data?.imageDetails[0]?.image_path}
+                  width={400}
+                  height={400}
+                  alt="This image is temporarry"
+                  unoptimized
+                />
+              )}
 
               {/* <div className="relative">
                   <div className="absolute bottom-0 right-0 z-0 hover:z-50">

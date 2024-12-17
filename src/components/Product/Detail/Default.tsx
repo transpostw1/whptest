@@ -39,7 +39,7 @@ interface Props {
   onDataFetched: (data: any) => void;
 }
 
-const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
+const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -622,7 +622,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </div>
           )}
           <div className="flex">
-            <div className="border-r-2 pr-2 py-2">
+            <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
@@ -660,20 +660,16 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
               handleSelectSize={handleSelectedVariants}
             />
           )}
-          {data?.productDetails?.productQty !== null &&
-            (data?.productDetails?.productQty === 0 ? (
-              <p className="mt-2 text-[#e26178]">Make To Order</p>
-            ) : (
-              data?.productDetails?.productQty < 5 && (
-                <p className="mt-2">
-                  Only{" "}
-                  <span className="text-[#e26178]">
-                    {data?.productDetails?.productQty} Pieces
-                  </span>{" "}
-                  left!
-                </p>
-              )
-            ))}
+          {data?.productDetails?.productQty < 5 &&
+            data?.productDetails?.productQty > 0 && (
+              <p className="mt-2">
+                Only{" "}
+                <span className="text-[#e26178]">
+                  {data?.productDetails?.productQty} Pieces
+                </span>{" "}
+                left!
+              </p>
+            )}
           <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">
@@ -695,8 +691,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
           {data?.productDetails?.coupons?.length > 0 && (
-  <Coupons product={data} />
-)}
+            <Coupons product={data} />
+          )}
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
@@ -705,7 +701,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             )}
           </div>
           {/* {data?.productDetails?.tryAtHome === 1 && ( */}
-            {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
+          {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>

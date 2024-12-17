@@ -44,12 +44,14 @@ const ShopBreadCrumb1 = () => {
   const triggerFetchData = () => {
     setFetchProducts(true);
   };
+
   useEffect(() => {
     if (isLoadMore) {
       setOffset((prevOffset) => prevOffset + productsPerPage);
       triggerFetchData();
     }
   }, [isLoadMore]);
+
   useEffect(() => {
     if (fetchProducts) {
       const combinedOptions = getCombinedOptions(
@@ -59,7 +61,7 @@ const ShopBreadCrumb1 = () => {
       fetchData(combinedOptions);
       setFetchProducts(false); // Reset to prevent unnecessary fetches
     }
-  }, [fetchProducts, offset]); // Add offset dependency
+  }, [fetchProducts, offset]);
 
   const fetchData = async (combinedOptions: any) => {
     if (
@@ -710,14 +712,22 @@ const ShopBreadCrumb1 = () => {
           b.discountPrice !== undefined ? b.discountPrice : b.productPrice;
         return priceB - priceA;
       });
+      const sortedDate = sortedProducts.map(
+        (product, index) => product.addDate,
+      );
+      console.log("dieoweidfdie", sortedDate);
       setFilteredProducts(sortedProducts);
       setPageNumber(0);
     } else if (selectedSortOption === "Newest First") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const product1: any = a.addDate;
         const product2: any = b.addDate;
-        return product2 - product1;
+        return product1 - product2;
       });
+      const sortedDate = sortedProducts.map(
+        (product, index) => product.addDate,
+      );
+      console.log("dieoweidfdie", sortedDate);
       setFilteredProducts(sortedProducts);
       setPageNumber(0);
     }
@@ -728,7 +738,6 @@ const ShopBreadCrumb1 = () => {
     return str.replace(/(c-|s-|g-|p-|m-|_)/g, " ");
   };
 
-  // Modified string
   const modifiedString = removeUnderscores(category);
 
   console.log("Isloading", isLoading, filteredProducts.length);
@@ -845,8 +854,8 @@ const ShopBreadCrumb1 = () => {
                       All
                     </option>
                     <option className="bg-[#f7f7f7]" value="Newest First">
-                    Newest First
-                  </option>
+                      Newest First
+                    </option>
                     <option className="bg-[#f7f7f7]" value="Price-Low To High">
                       Price-Low To High
                     </option>

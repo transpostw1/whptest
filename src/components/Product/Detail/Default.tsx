@@ -84,7 +84,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
-      query productDetails($productUrl: String!) {
+      query ProductDetails($productUrl: String!) {
         productDetails(productUrl: $productUrl) {
           productId
           SKU
@@ -104,13 +104,15 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           length
           breadth
           height
+          weightRange
           addDate
           lastModificationDate
+          created_at
+          updated_at
           productSize
           productQty
           attributeId
           preSalesProductQueries
-          makeToOrder
           isReplaceable
           isReturnable
           isInternationalShippingAvailable
@@ -118,6 +120,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           fastDelivery
           tryAtHome
           isActive
+          hidePriceBreakup
           grossWeight
           netWeight
           discountId
@@ -130,6 +133,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           offerStartDate
           offerEndDate
           mediaId
+          materialId
           metalType
           metalPurity
           metalWeight
@@ -140,7 +144,6 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           gst
           additionalCost
           productPrice
-          discountPrice
           rating
           imageDetails {
             image_path
@@ -187,6 +190,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
         }
       }
     `;
+
     let productUrl = "";
     if (variant) {
       productUrl = variant;

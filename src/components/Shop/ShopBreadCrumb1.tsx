@@ -245,7 +245,7 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "addDate",
+            sortBy: "priority",
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
@@ -722,7 +722,7 @@ const ShopBreadCrumb1 = () => {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const product1: any = a.addDate;
         const product2: any = b.addDate;
-        return product1 - product2;
+        return product2 - product1;
       });
       const sortedDate = sortedProducts.map(
         (product, index) => product.addDate,

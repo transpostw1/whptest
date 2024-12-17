@@ -531,159 +531,162 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </div>
       )}
 
-      <div className="border-t-2 border-[#f7f7f7] p-4">
-        <h2>
-          <button
-            className="flex w-full justify-between justify-items-center text-xl"
-            onClick={() => handleToggle(4)}
-          >
-            Price Breakup
-            <span className="right-0">
-              <Icon.CaretDown
-                size={25}
-                className={`${showAccordian === 4 ? "rotate-180" : null}`}
-              />
-            </span>
-          </button>
-        </h2>
-        {showAccordian === 4 ? (
-          <div className="p-2 sm:w-[100%] lg:w-[100%]">
-            <div className="flex justify-between border border-[#ebe7e7] p-2">
-              <div>Component</div>
-              <div>Weight</div>
-              <div>Value</div>
-            </div>
-            <div className="flex justify-between border border-[#ebe7e7] p-2">
-              <div>
-                <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p>
-                            Diamond ({diamond.diamondColor}-
-                            {diamond.diamondClarity})
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-
-                {product.productDetails?.stoneDetails != null && (
-                  <p>Stone Cost</p>
-                )}
-                <p>Making Charges</p>
-                {parseInt(product.productDetails?.discountValue) > 0 && (
-                  <p>Discount- {product.productDetails?.discountValue}%</p>
-                )}
-                <p>G.S.T</p>
+      {!product?.productDetails?.hidePriceBreakup && (
+        <div className="border-t-2 border-[#f7f7f7] p-4">
+          <h2>
+            <button
+              className="flex w-full justify-between justify-items-center text-xl"
+              onClick={() => handleToggle(4)}
+            >
+              Price Breakup
+              <span className="right-0">
+                <Icon.CaretDown
+                  size={25}
+                  className={`${showAccordian === 4 ? "rotate-180" : null}`}
+                />
+              </span>
+            </button>
+          </h2>
+          {showAccordian === 4 ? (
+            <div className="p-2 sm:w-[100%] lg:w-[100%]">
+              <div className="flex justify-between border border-[#ebe7e7] p-2">
+                <div>Component</div>
+                <div>Weight</div>
+                <div>Value</div>
               </div>
-              <div>
-                {parseInt(product.productDetails.metalWeight) > 0 && (
-                  <p>{product.productDetails?.metalWeight} gms</p>
-                )}
+              <div className="flex justify-between border border-[#ebe7e7] p-2">
+                <div>
+                  <p>{product.productDetails?.metalType}</p>
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p>
+                              Diamond ({diamond.diamondColor}-
+                              {diamond.diamondClarity})
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
 
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p>
-                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
-                            Qty)
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
+                  {product.productDetails?.stoneDetails != null && (
+                    <p>Stone Cost</p>
+                  )}
+                  <p>Making Charges</p>
+                  {parseInt(product.productDetails?.discountValue) > 0 && (
+                    <p>Discount- {product.productDetails?.discountValue}%</p>
+                  )}
+                  <p>G.S.T</p>
+                </div>
+                <div>
+                  {parseInt(product.productDetails.metalWeight) > 0 && (
+                    <p>{product.productDetails?.metalWeight} gms</p>
+                  )}
 
-                {product.productDetails.stoneDetails && <p>-</p>}
-                {product.productDetails?.makingCharges && <p>-</p>}
-                {product.productDetails?.discountValue && <p>-</p>}
-                {product.productDetails?.gst && <p>-</p>}
-              </div>
-              <div>
-                {parseInt(product.productDetails?.metalRate) > 0 && (
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p>
+                              {diamond.caratWeight} ct (
+                              {diamond.diamondQuantity} Qty)
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+
+                  {product.productDetails.stoneDetails && <p>-</p>}
+                  {product.productDetails?.makingCharges && <p>-</p>}
+                  {product.productDetails?.discountValue && <p>-</p>}
+                  {product.productDetails?.gst && <p>-</p>}
+                </div>
+                <div>
+                  {parseInt(product.productDetails?.metalRate) > 0 && (
+                    <p className="text-right">
+                      {formatPrice(parseInt(product.productDetails?.metalRate))}
+                    </p>
+                  )}
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p className="text-right">
+                              {formatPrice(parseInt(diamond?.diamondCost))}
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+                  {product.productDetails.stoneDetails != null && (
+                    <p className="text-right">
+                      {formatPrice(
+                        parseInt(
+                          product?.productDetails?.stoneDetails[0]?.stoneCost,
+                        ),
+                      )}
+                    </p>
+                  )}
                   <p className="text-right">
-                    {formatPrice(parseInt(product.productDetails?.metalRate))}
+                    {formatPrice(parseInt(makingCharges))}
                   </p>
-                )}
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p className="text-right">
-                            {formatPrice(parseInt(diamond?.diamondCost))}
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-                {product.productDetails.stoneDetails != null && (
+                  {parseInt(product?.productDetails?.discountValue) > 0 && (
+                    <div>
+                      {product?.productDetails &&
+                      product?.productDetails?.typeOfDiscount ===
+                        "Percentage" ? (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountAmount),
+                          )}
+                        </p>
+                      ) : (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountValue),
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <p className="text-right">
-                    {formatPrice(
-                      parseInt(
-                        product?.productDetails?.stoneDetails[0]?.stoneCost,
-                      ),
-                    )}
+                    {formatPrice(parseInt(product?.productDetails?.gst))}
                   </p>
-                )}
-                <p className="text-right">
-                  {formatPrice(parseInt(makingCharges))}
-                </p>
-                {parseInt(product?.productDetails?.discountValue) > 0 && (
-                  <div>
-                    {product?.productDetails &&
-                    product?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountAmount),
-                        )}
-                      </p>
-                    ) : (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountValue),
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
-                <p className="text-right">
-                  {formatPrice(parseInt(product?.productDetails?.gst))}
-                </p>
+                </div>
+              </div>
+              <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
+                <div className="text-md font-semibold">
+                  <p>Total</p>
+                </div>
+                <div className="text-md font-semibold">
+                  {product?.productDetails?.discountPrice !== null ? (
+                    <p>
+                      {formatPrice(
+                        parseInt(product?.productDetails?.discountPrice),
+                      )}
+                    </p>
+                  ) : (
+                    <p>
+                      {formatPrice(
+                        parseInt(product?.productDetails?.productPrice),
+                      )}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
-              <div className="text-md font-semibold">
-                <p>Total</p>
-              </div>
-              <div className="text-md font-semibold">
-                {product?.productDetails?.discountPrice !== null ? (
-                  <p>
-                    {formatPrice(
-                      parseInt(product?.productDetails?.discountPrice),
-                    )}
-                  </p>
-                ) : (
-                  <p>
-                    {formatPrice(
-                      parseInt(product?.productDetails?.productPrice),
-                    )}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
+      )}
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button

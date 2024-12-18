@@ -39,7 +39,7 @@ interface Props {
   onDataFetched: (data: any) => void;
 }
 
-const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
+const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -436,7 +436,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
               {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on flex w-full cursor-pointer items-center justify-end"
+                  className="try_on absolute z-50 top-7 right-5 flex w-full cursor-pointer items-center justify-end "
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -446,7 +446,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
                 >
                   <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
-                    <p className="ps-1 text-sm">Virtually Try On</p>
+                    <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>
                 </div>
               )}
@@ -622,7 +622,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </div>
           )}
           <div className="flex">
-            <div className="border-r-2 pr-2 py-2">
+            <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
@@ -695,8 +695,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
           {data?.productDetails?.coupons?.length > 0 && (
-  <Coupons product={data} />
-)}
+            <Coupons product={data} />
+          )}
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
@@ -705,7 +705,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             )}
           </div>
           {/* {data?.productDetails?.tryAtHome === 1 && ( */}
-            {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
+          {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>

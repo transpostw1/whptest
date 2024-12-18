@@ -163,6 +163,11 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
 
   const handleReviews = async (e: any) => {
     e?.preventDefault();
+    if (!review.trim()) {
+      setType("error");
+      setMessage("Review cannot be empty");
+      return; 
+    }
     try {
       const cookieToken =
         typeof window !== "undefined"
@@ -239,6 +244,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const handleMouseLeave = () => {
     setHoverRating(null);
   };
+
   const [showAll, setShowAll] = useState(false);
   const reviews = product?.productDetails?.review || [];
   const reviewsToShow = showAll ? reviews : reviews.slice(0, 5);
@@ -331,6 +337,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     placeholder="Write here"
                     id="name"
                     name="name"
+                    value={review} 
                     className="mt-1 block h-[150px] w-full rounded-md bg-[#E1DCDD29] p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
                     required
                     onChange={(e) => handleReveiwChange(e)}
@@ -370,7 +377,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={(e) => handleReviews(e)}
-                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] "
                   >
                     Submit
                   </button>

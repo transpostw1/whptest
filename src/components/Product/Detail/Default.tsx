@@ -161,7 +161,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               goldSetting
             }
             gemstoneDetails
-            diamondDetails
+            diamondDetails {
+                  diamondCertifiedBy
+                  diamondSetting
+                  diamondShape
+                  diamondType
+                }
             silverDetails {
               poojaArticle
               utensils
@@ -214,6 +219,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     setData(product);
     setLoading(false);
   }
+  
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (

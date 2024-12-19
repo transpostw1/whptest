@@ -133,6 +133,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const cartLength: number = cartItems ? cartItems.length : 0;
   const [activeIndex, setActiveIndex] = useState(null);
   const [childIndex, setChildIndex] = useState(null);
+  
   const toggleAccordion = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
   };

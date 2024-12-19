@@ -90,7 +90,7 @@ const SpecialOccasion = () => {
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
                   onClick={() => {
                     handleTypeClick("top");
-                    setCustomcategory("o-Ofice_Wear");
+                    setCustomcategory("Ofice_Wear");
                   }}
                 >
                   <div className="bg-img">
@@ -143,7 +143,7 @@ const SpecialOccasion = () => {
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
                   onClick={() => {
                     handleTypeClick("outerwear");
-                    setCustomcategory("o-party_wear");
+                    setCustomcategory("party_wear");
                   }}
                 >
                   <div className="bg-img">

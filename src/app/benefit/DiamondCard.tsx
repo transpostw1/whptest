@@ -6,8 +6,6 @@ import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlbaseUrl } from "@/utils/constants";
 import SmallScreenModal from "@/components/Other/SmallScreenModal";
 interface DiamondCardProps {
   percentage: number;
@@ -27,9 +25,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showMinValueModal, setShowMinValueModal] = useState(false);
+  const [enroll, setEnrolling] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [responseFromPanVerificationApi, setResponseFromPanVerificationApi] =
-    useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
   const numberOfMonths = 11;
   const totalAmount = monthlyDeposit * numberOfMonths;
@@ -93,16 +90,16 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       setError(null);
     }
   };
-
   const handleInputVerification = async () => {
+    setEnrolling(true)
     if (monthlyDeposit < 500) {
       setShowMinValueModal(true);
       return;
     }
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
       localStorage.setItem("redirectPath", "/benefit");
-      router.push("/register")
-      return
+      router.push("/register");
+      return;
     }
   
     if (!userDetails?.pan) {
@@ -124,44 +121,22 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     }
   
     try {
-      console.log("Enrolling with amount:", monthlyDeposit);
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        cache: new InMemoryCache(),
-      });
+      const requestBody = {
+        pan_number: userDetails.pan,
+        name: userDetails.firstname || "",
+      };
   
-      const VERIFY_PAN = gql`
-        mutation verifyPAN($verifyPanInput: CheckCustomerVerifiedInput!) {
-          verifyPAN(verifyPanInput: $verifyPanInput) {
-            success
-            message
-          }
-        }
-      `;
-      const { data } = await client.mutate({
-        mutation: VERIFY_PAN,
-        variables: {
-          verifyPanInput: {
-            pan_number: userDetails.pan,
-            name: userDetails.firstname,
-          },
+      const response = await fetch("/api/verifyPan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        fetchPolicy: "no-cache",
+        body: JSON.stringify(requestBody),
       });
   
-      const panVerificationSuccess = data?.verifyPAN?.success;
+      const result = await response.json();
   
-      if (panVerificationSuccess) {
-        setBackendMessage("PAN verified successfully!");
-        setFlashType("success");
-  
-        const enrollmentId = await handleEnroll("Gold", monthlyDeposit);
-        if (enrollmentId) {
-          handleEnrollSuccess(enrollmentId, "Gold", monthlyDeposit);
-        } else {
-          setShowModal(true);
-        }
-      } else {
+      if (!response.ok || !result.verification_status) {
         sessionStorage.setItem(
           "selectedScheme",
           JSON.stringify({
@@ -173,17 +148,31 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             schemeType: "gms",
           })
         );
-        setBackendError("PAN verification failed. Please update PAN.");
-        setFlashType("error");
+        throw new Error(result.error || "PAN verification failed. Please update PAN.");
+      }
+  
+      setBackendMessage("PAN verification successfull!");
+      setFlashType("success");
+  
+      const enrollmentId = await handleEnroll("Diamond", monthlyDeposit);
+      if (enrollmentId) {
+        handleEnrollSuccess(enrollmentId, "Diamond", monthlyDeposit);
+        setEnrolling(false)
+      } else {
         setShowModal(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during enrollment:", error);
+      setEnrolling(false)
       setBackendError("Failed to enroll. Please try again.");
       setFlashType("error");
       setShowModal(true);
     }
   };
+  const modalCloser = ()=>{
+    setEnrolling(false)
+    setShowModal(false)
+  }
   
   const handleproceedpan = () => {
     console.log("proceedpan")
@@ -191,7 +180,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     router.push("/panverification")
   };
   return (
-    <div className="h-full rounded-xl bg-[#d0e1e2] p-4 md:p-0">
+    <div className="h-full rounded-xl bg-[#d0e1e2] p-4 md:p-0 relative">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Diamond
       </h3>
@@ -258,7 +247,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="w-full text-start md:w-52">
-              <h1>Buy any gold worth: (after 11th month)</h1>
+              <h1>Buy any Diamond worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="text-sm text-[#E26178] md:text-3xl">
@@ -272,7 +261,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
                 className="mb-2 w-full cursor-pointer rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
                 onClick={() => handleInputVerification()}
               >
-                {loading ? "Enrolling..." : "Enroll Now"}
+                {loading||enroll ? "Enrolling..." : "Enroll Now"}
               </div>
             </div>
             <div>
@@ -306,7 +295,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
               </button>
               <button
                 className="w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
-                onClick={() => setShowModal(false)}
+                onClick={() => modalCloser()}
               >
                 Later
               </button>

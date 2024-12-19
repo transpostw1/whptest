@@ -39,7 +39,7 @@ interface Props {
   onDataFetched: (data: any) => void;
 }
 
-const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
+const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -84,7 +84,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`
-      query productDetails($productUrl: String!) {
+      query ProductDetails($productUrl: String!) {
         productDetails(productUrl: $productUrl) {
           productId
           SKU
@@ -104,13 +104,15 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           length
           breadth
           height
+          weightRange
           addDate
           lastModificationDate
+          created_at
+          updated_at
           productSize
           productQty
           attributeId
           preSalesProductQueries
-          makeToOrder
           isReplaceable
           isReturnable
           isInternationalShippingAvailable
@@ -118,6 +120,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           fastDelivery
           tryAtHome
           isActive
+          hidePriceBreakup
           grossWeight
           netWeight
           discountId
@@ -130,6 +133,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           offerStartDate
           offerEndDate
           mediaId
+          materialId
           metalType
           metalPurity
           metalWeight
@@ -140,7 +144,6 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
           gst
           additionalCost
           productPrice
-          discountPrice
           rating
           imageDetails {
             image_path
@@ -187,6 +190,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
         }
       }
     `;
+
     let productUrl = "";
     if (variant) {
       productUrl = variant;
@@ -622,7 +626,7 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </div>
           )}
           <div className="flex">
-            <div className="border-r-2 pr-2 py-2">
+            <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
@@ -660,20 +664,16 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
               handleSelectSize={handleSelectedVariants}
             />
           )}
-          {data?.productDetails?.productQty !== null &&
-            (data?.productDetails?.productQty === 0 ? (
-              <p className="mt-2 text-[#e26178]">Make To Order</p>
-            ) : (
-              data?.productDetails?.productQty < 5 && (
-                <p className="mt-2">
-                  Only{" "}
-                  <span className="text-[#e26178]">
-                    {data?.productDetails?.productQty} Pieces
-                  </span>{" "}
-                  left!
-                </p>
-              )
-            ))}
+          {data?.productDetails?.productQty < 5 &&
+            data?.productDetails?.productQty > 0 && (
+              <p className="mt-2">
+                Only{" "}
+                <span className="text-[#e26178]">
+                  {data?.productDetails?.productQty} Pieces
+                </span>{" "}
+                left!
+              </p>
+            )}
           <CheckPincode />
           {/* <div className="mt-4">
             <ul className="list-disc">
@@ -694,7 +694,9 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
             </ul>
           </div> */}
           <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
-          <Coupons product={data} />
+          {data?.productDetails?.coupons?.length > 0 && (
+            <Coupons product={data} />
+          )}
           <div className="hidden sm:block">
             {loading ? (
               <Skeleton height={70} />
@@ -702,8 +704,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
               <Buttons product={data} variants={selectedVariants} />
             )}
           </div>
-          {data?.productDetails?.tryAtHome === 1 && (
-            <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
+          {/* {data?.productDetails?.tryAtHome === 1 && ( */}
+          {/* <div className="mt-4 border border-[#f7f7f7] p-1 text-center">
               <span className="cursor-pointer text-[#e26178] underline">
                 Schedule free trial
               </span>
@@ -712,8 +714,8 @@ const Default: React.FC<Props> = ({ productId ,onDataFetched}) => {
                 Try at Home
               </span>
               <span> today!</span>
-            </div>
-          )}
+            </div> */}
+          {/* )} */}
           <GoldSchemeSmallBanner />
           <Accordian product={data} />
         </div>

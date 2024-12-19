@@ -87,7 +87,7 @@ const NavHoverMenu2 = () => {
 
                     {item.subCategory.length > 0 && (
                       <div
-                        className={`mega-menu absolute left-0 top-[36px] grid w-screen grid-cols-7 gap-1 bg-white p-3`}
+                        className={`mega-menu absolute left-0 lg:top-[131px] xl:top-[36px] grid w-screen grid-cols-7 gap-1 bg-white p-3`}
                       >
                         {item.subCategory.map((item: any, index: any) => (
                           <ul key={index}>

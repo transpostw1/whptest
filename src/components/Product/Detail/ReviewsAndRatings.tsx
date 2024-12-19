@@ -115,7 +115,7 @@ const CustomStar: React.FC<{
 const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const router = useRouter();
   const [review, setReview] = useState<string>("");
-  const [activeTab, setActiveTab] = useState("tab1");
+  const [activeTab, setActiveTab] = useState("tab2");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [message, setMessage] = useState<any>("");

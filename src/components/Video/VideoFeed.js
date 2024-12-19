@@ -4,12 +4,12 @@ import Video from "./Video";
 import { useSwipeable } from "react-swipeable";
 
 const VideoFeed = ({ videos, playList }) => {
-  const [[currentIndex, direction], setCurrentIndex] = useState([1,1]);
+  const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
 
   const swipeHandlers = useSwipeable({
     onSwipedUp: () =>
       setCurrentIndex([
-        currentIndex + 1 < videos.length ? currentIndex + 1 : 1,
+        currentIndex + 1 < videos.length ? currentIndex + 1 : 0,
         1,
       ]),
     onSwipedDown: () =>
@@ -61,8 +61,7 @@ const VideoFeed = ({ videos, playList }) => {
         {console.log("CurrentINdex", currentIndex)}
         <Video
           src={videos[currentIndex].video}
-          id={videos[currentIndex].reelId}
-          playList={playList}
+          productDetails={videos[currentIndex].productDetails}
         />
       </motion.div>
     </AnimatePresence>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import Loader from "@/components/Other/Loader";
-import { gql, ApolloClient,InMemoryCache } from "@apollo/client";
+import { gql, ApolloClient, InMemoryCache } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
 
 const VERIFY_PAN = gql`
@@ -24,6 +24,7 @@ const Page: React.FC = () => {
   const { userDetails, addUserDetails } = useUser();
   const client = new ApolloClient({
     uri: graphqlbaseUrl,
+    // uri: "http://localhost:8080/graphql",
     cache: new InMemoryCache(),
   });
 
@@ -66,7 +67,7 @@ const Page: React.FC = () => {
         throw new Error(message || "Failed to verify PAN.");
       }
       sessionStorage.setItem("schemeDetails", JSON.stringify({ pan }));
-      await addUserDetails({ pan:pan });
+      await addUserDetails({ pan: pan });
       router.push("/digitalCheckout");
     } catch (error: any) {
       console.error("Error verifying PAN:", error);
@@ -121,11 +122,10 @@ const Page: React.FC = () => {
                   onChange={(e) => setPan(e.target.value.toUpperCase())}
                   placeholder="Enter PAN number"
                   maxLength={10}
-                  className={`mt-1 block w-full rounded-md border px-4 py-2 text-gray-700 shadow-sm focus:ring-[#bb547d] ${
-                    panError
+                  className={`mt-1 block w-full rounded-md border px-4 py-2 text-gray-700 shadow-sm focus:ring-[#bb547d] ${panError
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 focus:border-[#f05794]"
-                  }`}
+                    }`}
                 />
                 {panError && (
                   <p className="mt-1 text-sm text-red-500">{panError}</p>

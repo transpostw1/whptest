@@ -233,7 +233,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         )}
       </div>
       <div
-        className="ripple-container mr-[10px] h-[41px] w-[20%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178]"
+        className="ripple-container mr-[10px] mt-[2px] h-[40px] w-[20%] cursor-pointer outline outline-1 outline-[#e26178]  text-center text-[#e26178]"
         onClick={(e) => {
           createRipple(e);
           handleAddToCart(product);

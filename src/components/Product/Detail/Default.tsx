@@ -440,7 +440,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {/* {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on flex w-full cursor-pointer items-center justify-end"
+                  className="try_on absolute z-50 top-7 right-5 flex w-full cursor-pointer items-center justify-end "
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -450,7 +450,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 >
                   <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
-                    <p className="ps-1 text-sm">Virtually Try On</p>
+                    <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>
                 </div>
               )}

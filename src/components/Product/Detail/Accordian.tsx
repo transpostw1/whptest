@@ -11,16 +11,19 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import { BiTargetLock } from "react-icons/bi";
 import { TbHomeCheck } from "react-icons/tb";
-import MobileSizeGuide from "./MobileSizeGuide";
 import Image from "next/image";
 import Link from "next/link";
 import { useCurrency } from "@/context/CurrencyContext";
+import { useBlog } from "@/context/BlogContext";
+import SizeGuideModal from "@/components/Other/SizeGuideModal";
 interface Props {
   product: ProductData;
 }
 const Accordian: React.FC<Props> = ({ product }) => {
   const [showAccordian, setShowAccordian] = useState<number>(1);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { bangleSizeGuide, chainSizeGuide, ringSizeGuide, loading } = useBlog();
+  const [showSizeGuideModal, setShowSizeGuideModal] = useState<boolean>(false);
   const { formatPrice } = useCurrency();
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
@@ -38,6 +41,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
   //function to handle the toggle of the accordian every section is handle by this function
   const handleToggle = (number: any) => {
     setShowAccordian(number === showAccordian ? null : number);
+  };
+
+  const handleSizeGuideModal = () => {
+    setShowSizeGuideModal(!showSizeGuideModal);
   };
   const makingCharges: any =
     parseFloat(product?.productDetails?.makingCharges) +
@@ -439,14 +446,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your ring.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/ring-size-guide"}
+
+                    <button
+                      className="mt-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={ringSizeGuide}
+                      />
+                    )}
                   </>
                 ) : product.productDetails.displayTitle
                     .toLowerCase()
@@ -461,14 +475,20 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your chain.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/chain-size-guide"}
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={chainSizeGuide}
+                      />
+                    )}
                   </>
                 ) : product.productDetails.displayTitle
                     .toLowerCase()
@@ -486,14 +506,21 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your bangle.
                     </p>
-                    <Link
-                      className="mt-2 cursor-pointer rounded-xl text-start text-sm"
-                      href={"/bangle-size-guide"}
+
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                      onClick={() => {
+                        handleSizeGuideModal();
+                      }}
                     >
-                      <button className="mr-5 w-[40%] bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white">
-                        Know More
-                      </button>
-                    </Link>
+                      Know More
+                    </button>
+                    {showSizeGuideModal && (
+                      <SizeGuideModal
+                        handleSizeGuideModal={handleSizeGuideModal}
+                        content={bangleSizeGuide}
+                      />
+                    )}
                   </>
                 ) : (
                   <></>
@@ -504,159 +531,162 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </div>
       )}
 
-      <div className="border-t-2 border-[#f7f7f7] p-4">
-        <h2>
-          <button
-            className="flex w-full justify-between justify-items-center text-xl"
-            onClick={() => handleToggle(4)}
-          >
-            Price Breakup
-            <span className="right-0">
-              <Icon.CaretDown
-                size={25}
-                className={`${showAccordian === 4 ? "rotate-180" : null}`}
-              />
-            </span>
-          </button>
-        </h2>
-        {showAccordian === 4 ? (
-          <div className="p-2 sm:w-[100%] lg:w-[100%]">
-            <div className="flex justify-between border border-[#ebe7e7] p-2">
-              <div>Component</div>
-              <div>Weight</div>
-              <div>Value</div>
-            </div>
-            <div className="flex justify-between border border-[#ebe7e7] p-2">
-              <div>
-                <p>{product.productDetails?.metalType}</p>
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p>
-                            Diamond ({diamond.diamondColor}-
-                            {diamond.diamondClarity})
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-
-                {product.productDetails?.stoneDetails != null && (
-                  <p>Stone Cost</p>
-                )}
-                <p>Making Charges</p>
-                {parseInt(product.productDetails?.discountValue) > 0 && (
-                  <p>Discount- {product.productDetails?.discountValue}%</p>
-                )}
-                <p>G.S.T</p>
+      {!product?.productDetails?.hidePriceBreakup && (
+        <div className="border-t-2 border-[#f7f7f7] p-4">
+          <h2>
+            <button
+              className="flex w-full justify-between justify-items-center text-xl"
+              onClick={() => handleToggle(4)}
+            >
+              Price Breakup
+              <span className="right-0">
+                <Icon.CaretDown
+                  size={25}
+                  className={`${showAccordian === 4 ? "rotate-180" : null}`}
+                />
+              </span>
+            </button>
+          </h2>
+          {showAccordian === 4 ? (
+            <div className="p-2 sm:w-[100%] lg:w-[100%]">
+              <div className="flex justify-between border border-[#ebe7e7] p-2">
+                <div>Component</div>
+                <div>Weight</div>
+                <div>Value</div>
               </div>
-              <div>
-                {parseInt(product.productDetails.metalWeight) > 0 && (
-                  <p>{product.productDetails?.metalWeight} gms</p>
-                )}
+              <div className="flex justify-between border border-[#ebe7e7] p-2">
+                <div>
+                  <p>{product.productDetails?.metalType}</p>
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p>
+                              Diamond ({diamond.diamondColor}-
+                              {diamond.diamondClarity})
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
 
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p>
-                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
-                            Qty)
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
+                  {product.productDetails?.stoneDetails != null && (
+                    <p>Stone Cost</p>
+                  )}
+                  <p>Making Charges</p>
+                  {parseInt(product.productDetails?.discountValue) > 0 && (
+                    <p>Discount- {product.productDetails?.discountValue}%</p>
+                  )}
+                  <p>G.S.T</p>
+                </div>
+                <div>
+                  {parseInt(product.productDetails.metalWeight) > 0 && (
+                    <p>{product.productDetails?.metalWeight} gms</p>
+                  )}
 
-                {product.productDetails.stoneDetails && <p>-</p>}
-                {product.productDetails?.makingCharges && <p>-</p>}
-                {product.productDetails?.discountValue && <p>-</p>}
-                {product.productDetails?.gst && <p>-</p>}
-              </div>
-              <div>
-                {parseInt(product.productDetails?.metalRate) > 0 && (
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p>
+                              {diamond.caratWeight} ct (
+                              {diamond.diamondQuantity} Qty)
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+
+                  {product.productDetails.stoneDetails && <p>-</p>}
+                  {product.productDetails?.makingCharges && <p>-</p>}
+                  {product.productDetails?.discountValue && <p>-</p>}
+                  {product.productDetails?.gst && <p>-</p>}
+                </div>
+                <div>
+                  {parseInt(product.productDetails?.metalRate) > 0 && (
+                    <p className="text-right">
+                      {formatPrice(parseInt(product.productDetails?.metalRate))}
+                    </p>
+                  )}
+                  {product.productDetails?.diamondDetails?.length > 0 && (
+                    <div>
+                      {product.productDetails.diamondDetails.map(
+                        (diamond: any, index: number) => (
+                          <div key={index}>
+                            <p className="text-right">
+                              {formatPrice(parseInt(diamond?.diamondCost))}
+                            </p>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+                  {product.productDetails.stoneDetails != null && (
+                    <p className="text-right">
+                      {formatPrice(
+                        parseInt(
+                          product?.productDetails?.stoneDetails[0]?.stoneCost,
+                        ),
+                      )}
+                    </p>
+                  )}
                   <p className="text-right">
-                    {formatPrice(parseInt(product.productDetails?.metalRate))}
+                    {formatPrice(parseInt(makingCharges))}
                   </p>
-                )}
-                {product.productDetails?.diamondDetails?.length > 0 && (
-                  <div>
-                    {product.productDetails.diamondDetails.map(
-                      (diamond: any, index: number) => (
-                        <div key={index}>
-                          <p className="text-right">
-                            {formatPrice(parseInt(diamond?.diamondCost))}
-                          </p>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-                {product.productDetails.stoneDetails != null && (
+                  {parseInt(product?.productDetails?.discountValue) > 0 && (
+                    <div>
+                      {product?.productDetails &&
+                      product?.productDetails?.typeOfDiscount ===
+                        "Percentage" ? (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountAmount),
+                          )}
+                        </p>
+                      ) : (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountValue),
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <p className="text-right">
-                    {formatPrice(
-                      parseInt(
-                        product?.productDetails?.stoneDetails[0]?.stoneCost,
-                      ),
-                    )}
+                    {formatPrice(parseInt(product?.productDetails?.gst))}
                   </p>
-                )}
-                <p className="text-right">
-                  {formatPrice(parseInt(makingCharges))}
-                </p>
-                {parseInt(product?.productDetails?.discountValue) > 0 && (
-                  <div>
-                    {product?.productDetails &&
-                    product?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountAmount),
-                        )}
-                      </p>
-                    ) : (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountValue),
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
-                <p className="text-right">
-                  {formatPrice(parseInt(product?.productDetails?.gst))}
-                </p>
+                </div>
+              </div>
+              <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
+                <div className="text-md font-semibold">
+                  <p>Total</p>
+                </div>
+                <div className="text-md font-semibold">
+                  {product?.productDetails?.discountPrice !== null ? (
+                    <p>
+                      {formatPrice(
+                        parseInt(product?.productDetails?.discountPrice),
+                      )}
+                    </p>
+                  ) : (
+                    <p>
+                      {formatPrice(
+                        parseInt(product?.productDetails?.productPrice),
+                      )}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
-              <div className="text-md font-semibold">
-                <p>Total</p>
-              </div>
-              <div className="text-md font-semibold">
-                {product?.productDetails?.discountPrice !== null ? (
-                  <p>
-                    {formatPrice(
-                      parseInt(product?.productDetails?.discountPrice),
-                    )}
-                  </p>
-                ) : (
-                  <p>
-                    {formatPrice(
-                      parseInt(product?.productDetails?.productPrice),
-                    )}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
+      )}
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button

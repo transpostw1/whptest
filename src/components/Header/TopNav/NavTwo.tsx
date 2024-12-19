@@ -136,6 +136,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const toggleAccordion = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
   const toggleChildAccordion = (index: any) => {
     setChildIndex(childIndex === index ? null : index);
   };
@@ -248,8 +249,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               ref={contactRef}
             >
               <div className="right relative z-[1] flex gap-7">
-                <div className="list-action flex items-center gap-8">
-                  <div className="user-icon flex cursor-pointer items-center justify-between gap-8">
+                <div className="list-action flex items-center gap-5">
+                  <div className="user-icon flex cursor-pointer items-center justify-between gap-5">
                     <div
                       className={`flex flex-col items-center ${
                         pathname.includes("/offer") ? "text-[#e26178]" : ""
@@ -359,12 +360,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     </div>
                   </Link>
                   <div className="h-[40px] w-[2px] bg-[#E9E9E9]"></div>
-                  <div className="choose-currency flex items-center bg-[#E9E9E9] bg-opacity-[0.1] p-2">
+                  <div className="choose-currency flex items-center bg-[#E9E9E9] bg-opacity-[0.1]">
                     <select
                       name="currency"
                       id="chooseCcurrency"
                       value={currency}
-                      className="caption2 cursor-pointer bg-[#E9E9E9] bg-opacity-[0.1] p-2 pe-2 text-[16px] font-[500]"
+                      className="caption2 cursor-pointer bg-[#E9E9E9] bg-opacity-[0.1] pe-2 text-[16px] font-[500]"
                       onChange={handleCurrency}
                     >
                       <option value="INR">&#8377; INR</option>
@@ -378,6 +379,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       alt="Arrow"
                       width={30}
                       height={30}
+                    />
+                  </div>
+
+                  <div className="h-[40px] w-[2px] bg-[#E9E9E9] max-sm:hidden md:block lg:hidden"></div>
+                  <div
+                    className="max-sm:hidden md:block lg:hidden"
+                    onClick={handleMenuMobile}
+                  >
+                    <Image
+                      src={"/images/icons/hamBurgerIcon.png"}
+                      alt={"hamBurgerIcon"}
+                      width={25}
+                      height={25}
+                      unoptimized
                     />
                   </div>
                 </div>
@@ -403,14 +418,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <p className="text-lg font-semibold">Logout</p>
                   </div>
                 ) : (
-                  <div onClick={handleMenuMobile} className="flex justify-end text-end items-end">
+                  <div
+                    onClick={handleMenuMobile}
+                    className="flex items-end justify-end text-end"
+                  >
                     <Link href={"/register"}>
                       <p className="text-lg font-semibold">Login</p>
                     </Link>
-                    <div
-                      onClick={handleMenuMobile}
-                      className=""
-                    ></div>
+                    <div onClick={handleMenuMobile}></div>
                   </div>
                 )}
               </div>
@@ -446,37 +461,28 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   />
                 )}
               </div>
-              <div className="list-nav mt-6 box-border max-h-screen overflow-y-auto p-0">
+              <div className="list-nav mt-6 box-border h-[500px] overflow-y-auto p-0">
                 <ul>
                   {allMenus.map((item: any, index: any) => (
                     <li key={index}>
-                      <Link
-                        href={item.url}
-                        onClick={(e) => {
-                          if (item.name.toLowerCase() === "all jewellery") {
-                            e.preventDefault();
-                            toggleAccordion(index);
-                          } else {
-                            setCustomcategory(item.label);
-                            toggleAccordion(index);
-                          }
-                        }}
+                      <div
+                        className="flex justify-between"
+                        onClick={() => toggleAccordion(index)}
                       >
-                        <div className="flex justify-between">
-                          <div className="mt-3 flex items-center text-xl font-semibold">
-                            {item.name}
-                          </div>
-                          {item.subCategory.length > 0 && (
-                            <div className="mt-3">
-                              {activeIndex === index ? (
-                                <Icon.CaretUp scale={23} />
-                              ) : (
-                                <Icon.CaretDown scale={23} />
-                              )}
-                            </div>
-                          )}
+                        <div className="mt-3 flex items-center text-xl font-semibold">
+                          {item.name}
                         </div>
-                      </Link>
+                        {item.subCategory.length > 0 && (
+                          <div className="mt-3">
+                            {activeIndex === index ? (
+                              <Icon.CaretUp scale={23} />
+                            ) : (
+                              <Icon.CaretDown scale={23} />
+                            )}
+                          </div>
+                        )}
+                      </div>
+
                       {activeIndex === index && (
                         <div>
                           {item.subCategory.map(

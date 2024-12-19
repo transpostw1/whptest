@@ -9,6 +9,7 @@ import axios from "axios";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
+import { useCurrency } from "@/context/CurrencyContext";
 import MobileSingleOrderDetails from "./MobileSingleOrderDetails";
 interface Props {
   orders: any;
@@ -18,6 +19,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
+  const { formatPrice } = useCurrency();
   const [singleOrder, setSingleOrder] = useState<any>();
 
   const handleLogOut = () => {
@@ -54,7 +56,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
     }
   };
   const handleBackButton = (args: string) => {
-    router.push("/profile")
+    router.push("/profile");
   };
   const handleBack = () => {
     setSingleOrder(null);
@@ -107,9 +109,9 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                 onClick={() => handleOrderDetails(item.id)}
               >
                 <div className="flex flex-wrap p-2">
-                  <p>Order ID:{item.orderNo}</p>
+                  <p><span className="font-semibold">Order ID:</span>{" "}{item.orderNo}</p>
                   <p className="">
-                    Order Date -{" "}
+                  <span className="font-semibold">Order Date:</span>{" "}
                     {new Date(item.created_at).toISOString().split("T")[0]}
                   </p>
                 </div>
@@ -140,12 +142,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                       </p>
                       <p>Quantity:{product.quantity}</p>
                       <div className="font-semibold">
-                        ₹
-                        {Intl.NumberFormat("en-IN", {
-                          minimumFractionDigits: 2,
-                        }).format(
-                          Math.round(parseInt(product?.discountedTotal)),
-                        )}
+                        {formatPrice(product?.discountedTotal)}
                       </div>
                     </div>
                   </div>

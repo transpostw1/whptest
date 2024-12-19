@@ -153,7 +153,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
         throw new Error(result.error || "PAN verification failed. Please update PAN.");
       }
   
-      setBackendMessage("PAN verified successfully!");
+      setBackendMessage("PAN verification successfull!");
       setFlashType("success");
   
       const enrollmentId = await handleEnroll("Gold", monthlyDeposit);

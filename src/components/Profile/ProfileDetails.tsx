@@ -240,6 +240,7 @@ const ProfileDetails = () => {
               </span>
             </div>
           </div>
+          
           <div>
             <label
               htmlFor="phone"

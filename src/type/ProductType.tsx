@@ -95,6 +95,7 @@ export interface ProductType {
   
 }
 interface ProductDetails {
+  coupons: any;
   productId: number;
   SKU: string;
   variantId: string;

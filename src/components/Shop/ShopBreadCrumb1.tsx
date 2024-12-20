@@ -182,7 +182,12 @@ const ShopBreadCrumb1 = () => {
                   goldSetting
                 }
                 gemstoneDetails
-                diamondDetails
+                   diamondDetails {
+                  diamondCertifiedBy
+                  diamondSetting
+                  diamondShape
+                  diamondType
+                }
                 silverDetails {
                   poojaArticle
                   utensils

@@ -440,7 +440,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on absolute z-50 top-7 right-5 flex w-full cursor-pointer items-center justify-end "
+                  className="try_on absolute right-5 top-7 z-50 flex w-full cursor-pointer items-center justify-end"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -674,7 +674,11 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
-          <CheckPincode />
+          {data?.productDetails?.productQty > 0 ? (
+            <CheckPincode />
+          ) : (
+            <p className="mt-2 text-[#e26178]">Delivery in 15 days</p>
+          )}
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>

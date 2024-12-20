@@ -6,8 +6,6 @@ const Extendedfooter = () => {
   const { category, setCustomcategory } = useCategory();
   const router = useRouter();
   const pathname = usePathname();
-
-  // Function to handle navigation with query params
   const handleNavigation = (url: string, title: string) => {
     const formattedValue = url.replace(/ /g, "_");
     const value2 = formattedValue.toLowerCase();

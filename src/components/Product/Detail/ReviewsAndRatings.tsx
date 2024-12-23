@@ -248,7 +248,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   const [showAll, setShowAll] = useState(false);
   const reviews = product?.productDetails?.review || [];
   const reviewsToShow = showAll ? reviews : reviews.slice(0, 5);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const toggleAccordion = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -379,7 +379,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     onClick={(e) => handleReviews(e)}
                     className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] "
                   >
-                    Submit
+                    Add
                   </button>
                 ) : (
                   <button
@@ -395,15 +395,15 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
           </div>
         )}
         {activeTab === "tab2" && (
-          <div className="m-5 lg:w-[50%] border border-[#e26178]">
+          <div className="m-5 border-x border-[#e26178]">
             {data.map((item, index) => (
               <div
                 key={item.id}
-                className="border border-[#e26178]"
+                className={`border-b border-[#e26178] ${index === 0 ? "border-t" : ""}`} 
                 onClick={() => toggleAccordion(index)}
               >
                 <div
-                  className={`flex cursor-pointer justify-between p-3 ${activeIndex == index ? "bg-[#f3dbdf]" : "#fffff"}`}
+                  className={`flex cursor-pointer justify-between p-3 ${activeIndex == index ? "bg-[#f3dbdf]" : "#e26178"}`}
                 >
                   <div>{item.title}</div>
                   <div className="icon">

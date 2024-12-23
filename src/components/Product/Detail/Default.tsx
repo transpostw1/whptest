@@ -162,11 +162,11 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             }
             gemstoneDetails
             diamondDetails {
-                  diamondCertifiedBy
-                  diamondSetting
-                  diamondShape
-                  diamondType
-                }
+              diamondCertifiedBy
+              diamondSetting
+              diamondShape
+              diamondType
+            }
             silverDetails {
               poojaArticle
               utensils
@@ -219,7 +219,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     setData(product);
     setLoading(false);
   }
-  
+
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (
@@ -446,7 +446,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on absolute z-50 top-7 right-5 flex w-full cursor-pointer items-center justify-end "
+                  className="try_on absolute right-5 top-7 z-50 flex w-full cursor-pointer items-center justify-end"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -680,7 +680,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
-          <CheckPincode />
+          {data?.productDetails?.productQty > 0 ? (
+            <CheckPincode />
+          ) : (
+            <p className="my-5 flex items-center font-semibold text-[#e26178]">
+              🚚{" "}
+              <span className="ml-2">
+                Delivery in <strong>just 15-45 days</strong>!
+              </span>
+            </p>
+          )}
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>

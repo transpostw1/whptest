@@ -70,7 +70,7 @@ export default function GoldSchemeSmallBanner() {
   return (
     <>
       <FlashAlert message={flashMessage} type={flashType} />
-      <div className="mt-7 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
+      <div className="mt-4 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
         <div>
           <span className="text-xs md:text-base">
             <span className="text-[#e26178]">Try at your home </span>
@@ -86,7 +86,7 @@ export default function GoldSchemeSmallBanner() {
           </button>
         </div>
       </div>
-      <div className="mt-7 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
+      <div className="mt-4 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
         <div>
           <span className="text-xs md:text-base">
             <span className="text-[#e26178]">Gold 10+1 Monthly Plan </span>

@@ -263,7 +263,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
       console.error("Error fetching SKU list:", error);
     }
   };
-
+  //script for tryOn button
   const loadTryOnButton = async (
     sku: string,
     productId: string,

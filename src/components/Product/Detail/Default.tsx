@@ -162,11 +162,11 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             }
             gemstoneDetails
             diamondDetails {
-                  diamondCertifiedBy
-                  diamondSetting
-                  diamondShape
-                  diamondType
-                }
+              diamondCertifiedBy
+              diamondSetting
+              diamondShape
+              diamondType
+            }
             silverDetails {
               poojaArticle
               utensils
@@ -219,7 +219,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     setData(product);
     setLoading(false);
   }
-  
+
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (
@@ -683,7 +683,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
-            <p className="mt-2 text-[#e26178]">Delivery in 15 days</p>
+            <p className="my-5 flex items-center font-semibold text-[#e26178]">
+              🚚{" "}
+              <span className="ml-2">
+                Delivery in <strong>just 15-45 days</strong>!
+              </span>
+            </p>
           )}
           {/* <div className="mt-4">
             <ul className="list-disc">

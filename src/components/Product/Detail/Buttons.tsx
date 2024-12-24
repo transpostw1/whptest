@@ -197,7 +197,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     );
   }
   return (
-    <div className="mt-[25px] flex max-sm:justify-around">
+    <div className="mt-[10px] flex max-sm:justify-around ">
       <div
         className="ripple-container h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-[32px] py-[18px] text-center text-white max-sm:h-[45px] max-sm:w-[35%] max-sm:px-[15px] max-sm:py-[10px]"
         onClick={(e) => {
@@ -224,7 +224,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         </div>
       </div>
       <div
-        className="flex h-[58px] w-[56px] cursor-pointer items-center justify-center c outline outline-1 outline-[#e26178] max-sm:h-[45px]"
+        className="flex h-[57px] w-[56px] cursor-pointer items-center justify-center  outline outline-1 outline-[#e26178] max-sm:h-[45px]"
         onClick={() => {
           if (isProductInWishlist) {
             HandleremoveFromWishlist();

@@ -40,7 +40,7 @@ const DropDown: React.FC<Props> = ({
     handleSelectSize(trueVariants);
   };
   return (
-    <div className="mt-3 flex md:gap-4 gap-1 ">
+    <div className="mt-3 flex md:gap-4 gap-1">
       {product?.variants?.map((item, index) => (
         <div
           key={index}
@@ -49,7 +49,7 @@ const DropDown: React.FC<Props> = ({
           <p className="">{item.VariantType}</p>
           <div className="relative w-full">
             <select
-              className="block w-full appearance-none bg-gray-50 p-2 border border-transparent focus:border-gray-300 focus:outline-none"
+              className="block w-full appearance-none bg-gray-50 p-1 border border-transparent focus:border-gray-300 focus:outline-none"
               onChange={(e) => {
                 handleNewVariants(e);
               }}

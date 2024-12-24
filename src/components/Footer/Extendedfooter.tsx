@@ -9,7 +9,6 @@ const Extendedfooter = () => {
   const handleNavigation = (url: string, title: string) => {
     const formattedValue = url.replace(/ /g, "_");
     const value2 = formattedValue.toLowerCase();
-    console.log("Formatted Value", value2);
     if (
       value2 == "earrings" ||
       value2 == "ring" ||
@@ -17,7 +16,7 @@ const Extendedfooter = () => {
       value2 == "pendants" ||
       value2 == "bangle" ||
       value2 == "bracelet" ||
-      value2 == "necklace"
+      value2 == "necklace"  
     ) {
       router.push(`/products?url=c-${value2}`);
     } else {

@@ -57,7 +57,7 @@ const NavHoverMenu2 = () => {
   return (
     <>
       <div
-        className={`header-menu-navHoverMenu style-one z-[100] ${
+        className={`header-menu-navHoverMenu style-one z-[80] ${
           fixedHeader ? "fixed" : "relative"
         } h-[40px] w-full md:h-[37px]`}
       >

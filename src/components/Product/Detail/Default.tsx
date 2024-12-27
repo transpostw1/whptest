@@ -573,7 +573,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </div>
               <p
                 ref={descRef}
-                className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+                className={`text-[#aa9e9e]  ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
               </p>

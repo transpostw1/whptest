@@ -182,7 +182,7 @@ const ShopBreadCrumb1 = () => {
                   goldSetting
                 }
                 gemstoneDetails
-                   diamondDetails {
+                diamondDetails {
                   diamondCertifiedBy
                   diamondSetting
                   diamondShape
@@ -907,10 +907,10 @@ const ShopBreadCrumb1 = () => {
                       </p>
                       <div className="suggestions mb-8"></div>
                       <div className="cta-buttons flex justify-center space-x-4">
-                        <button className="btn-clear-filters rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition duration-300 hover:bg-gray-300">
-                          Clear Filters
-                        </button>
-                        <button className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600">
+                        <button
+                          className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600"
+                          onClick={() => (window.location.href = "/")}
+                        >
                           Explore More
                         </button>
                       </div>

@@ -50,7 +50,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
     parseFloat(product?.productDetails?.makingCharges) +
     parseFloat(product?.productDetails?.additionalCost);
   return (
-    <div className="mt-7">
+    <div className="mt-4">
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
           <button
@@ -67,46 +67,47 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian == 1 ? (
-          <div>
-            <div className="mt-5">
-              Discover the WHP advantage: where exquisite craftsmanship meets
-              timeless elegance, ensuring every piece exudes sophistication and
-              allure, setting you apart in style.
-            </div>
-            <div className="mt-5 grid grid-cols-4 justify-items-center gap-4 max-sm:grid-cols-3">
-              <div className="flex flex-col items-center text-center">
-                <span className="text-center">
-                  <Icon.SketchLogo size={30} weight="thin" />
-                </span>
-                <span>10,000+ Designs</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span>
-                  <Image
-                    src="/images/other/hallmark.png"
-                    alt={"Hall Mark Symbol"}
-                    width={40}
-                    height={40}
-                    unoptimized
-                  />
-                  {/* <Icon.CrownSimple size={30} weight="thin" /> */}
-                </span>
-                <span>BIS Hallmarked</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span>
-                  <Icon.Truck size={30} weight="thin" color="#00000" />
-                </span>
-                <span>Pan-India Delivery</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span>
-                  <Icon.ShieldCheck size={30} weight="thin" />
-                </span>
-                <span>Safe & Secure Payment</span>
-              </div>
-            </div>
-          </div>
+         <div>
+         <div className="mt-5">
+           Discover the WHP advantage: where exquisite craftsmanship meets timeless elegance, ensuring every piece exudes sophistication and allure, setting you apart in style.
+         </div>
+         <div className="mt-5 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
+           {/* Icon and Text Block */}
+           <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Icon.SketchLogo size={30} weight="thin" />
+             </span>
+             <span className="text-sm font-medium">10,000+ Designs</span>
+           </div>
+           {/* Icon and Text Block */}
+           <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Image
+                 src="/images/other/hallmark.png"
+                 alt={"Hall Mark Symbol"}
+                 width={40}
+                 height={40}
+                 unoptimized
+               />
+             </span>
+             <span className="text-sm font-medium md:mt-1">BIS Hallmarked</span>
+           </div>
+           {/* Icon and Text Block */}
+           <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Icon.Truck size={30} weight="thin" color="#00000" />
+             </span>
+             <span className="text-sm font-medium">Pan-India Delivery</span>
+           </div>
+           {/* Icon and Text Block */}
+           <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Icon.ShieldCheck size={30} weight="thin" />
+             </span>
+             <span className="text-sm font-medium">Safe & Secure Payment</span>
+           </div>
+         </div>
+       </div>
         ) : null}
       </div>
       <div className="border-t-2 border-[#f7f7f7] p-4">
@@ -125,277 +126,109 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </button>
         </h2>
         {showAccordian === 2 ? (
-          <div>
-            <div className="mt-5">{product?.productDetails?.longDesc}</div>
-            {/* <div className="mt-5">{product?.productDetails?.shortDesc}</div> */}
-            {/* <div className="mt-4 grid grid-cols-4 max-sm:grid-cols-3">
-              <div className="flex flex-col items-center p-2 text-center">
-                <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
-                <p>
-                  {product?.productDetails?.metalWeight}gms,{" "}
-                  {product?.productDetails?.metalType}
-                </p>
-              </div>
-              <div className="flex flex-col items-center p-2 text-center">
-                <Icon.HandCoins className="mr-1 mt-1" size={27} weight="thin" />
-                <p>
-                  {product?.productDetails.metalPurity}{" "}
-                  {product?.productDetails.metalType}
-                </p>
-              </div>
-              {product?.productDetails?.isReturnable == 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.ArrowsLeftRight
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>7 days easy returns</p>
-                </div>
-              )}
-              {product?.productDetails?.isReplaceable === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <TbReplace className="mr-1 mt-1" size={27} />
-                  <p>7 days easy replaceable</p>
-                </div>
-              )}
-              {product?.productDetails?.isInternationalShippingAvailable ===
-                1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <GiCargoShip className="mr-1 mt-1" size={27} />
-                  <p>Delivered Internationally</p>
-                </div>
-              )}
-              {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <VscTools className="mr-1 mt-1" size={27} />
-                  <p>Customization Available</p>
-                </div>
-              )}
-              {product?.productDetails?.fastDelivery === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <FaShippingFast className="mr-1 mt-1" size={27} />
-                  <p>Fast Delivery</p>
-                </div>
-              )}
-              {product?.productDetails?.tryAtHome === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <TbHomeCheck className="mr-1 mt-1" size={27} />
-                  <p>Try At Home</p>
-                </div>
-              )}
-              {product?.productDetails?.diamondDetails[0] && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.ArrowsLeftRight
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>
-                    Diamond Color:
-                    {product?.productDetails?.diamondDetails[0].diamondColor}
-                  </p>
-                </div>
-              )}
-              {product.productDetails?.diamondDetails?.length > 0 && (
-                <div className="flex">
-                  {product.productDetails.diamondDetails.map(
-                    (diamond: any, index: number) => (
-                      <div
-                        key={index}
-                        className="flex flex-col items-center p-2 text-center"
-                      >
-                        <Icon.Diamond />
-                        <p>
-                          Diamond Color:{diamond.diamondColor}(
-                          {index === 0
-                            ? "Primary"
-                            : index === 1
-                              ? "Secondary"
-                              : index === 2
-                                ? "Tertiary"
-                                : `Diamond ${index + 1}`}
-                          )
-                        </p>
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
-
-              {product?.productDetails?.diamondDetails[0] && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.ArrowsLeftRight
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>
-                    Diamond Clarity:
-                    {product?.productDetails?.diamondDetails[0].diamondClarity}
-                  </p>
-                </div>
-              )}
-              {product?.productDetails?.diamondDetails[0] && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.ArrowsLeftRight
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>
-                    Diamond Color:
-                    {product?.productDetails?.diamondDetails[0].diamondColor}
-                  </p>
-                </div>
-              )}
-            </div> */}
-            <div className="mt-4 grid grid-cols-4 gap-4 max-sm:grid-cols-3">
-              {parseInt(product?.productDetails?.metalWeight) > 0 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.Scales className="mr-1 mt-1" size={27} weight="thin" />
-                  <p>
-                    {product?.productDetails?.metalWeight}gms,{" "}
-                    {product?.productDetails?.metalType}
-                  </p>
-                </div>
-              )}
-
-              {product?.productDetails?.metalPurity && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.HandCoins
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>
-                    {product?.productDetails.metalPurity}{" "}
-                    {product?.productDetails.metalType}
-                  </p>
-                </div>
-              )}
-
-              {product?.productDetails?.isReturnable == 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <Icon.ArrowsLeftRight
-                    className="mr-1 mt-1"
-                    size={27}
-                    weight="thin"
-                  />
-                  <p>7 days easy returns</p>
-                </div>
-              )}
-
-              {product?.productDetails?.isReplaceable === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <TbReplace className="mr-1 mt-1" size={27} />
-                  <p>7 days easy replacement</p>
-                </div>
-              )}
-
-              {product?.productDetails?.isInternationalShippingAvailable ===
-                1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <GiCargoShip className="mr-1 mt-1" size={27} />
-                  <p>Delivered Internationally</p>
-                </div>
-              )}
-
-              {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <VscTools className="mr-1 mt-1" size={27} />
-                  <p>Customization Available</p>
-                </div>
-              )}
-
-              {product?.productDetails?.fastDelivery === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <FaShippingFast className="mr-1 mt-1" size={27} />
-                  <p>Fast Delivery</p>
-                </div>
-              )}
-
-              {product?.productDetails?.tryAtHome === 1 && (
-                <div className="flex flex-col items-center p-2 text-center">
-                  <TbHomeCheck className="mr-1 mt-1" size={27} />
-                  <p>Try At Home</p>
-                </div>
-              )}
-
-              {product?.productDetails?.diamondDetails?.length > 0 && (
-                <>
-                  {product.productDetails.diamondDetails.map(
-                    (diamond: any, index: number) => (
-                      <div key={index}>
-                        <span className="flex flex-col items-center p-2 text-center">
-                          <Icon.SketchLogo size={22} weight="thin" />
-                          <p>
-                            Diamond Color: {diamond.diamondColor} (
-                            {index === 0
-                              ? "Primary"
-                              : index === 1
-                                ? "Secondary"
-                                : index === 2
-                                  ? "Tertiary"
-                                  : `Diamond ${index + 1}`}
-                            )
-                          </p>
-                        </span>
-                      </div>
-                    ),
-                  )}
-                </>
-              )}
-              {product?.productDetails?.diamondDetails?.length > 0 && (
-                <>
-                  {product.productDetails.diamondDetails.map(
-                    (diamond: any, index: number) => (
-                      <div key={index}>
-                        <span className="flex flex-col items-center p-2 text-center">
-                          <BiTargetLock size={22} />
-                          <p>
-                            Diamond Clarity: {diamond.diamondClarity} (
-                            {index === 0
-                              ? "Primary"
-                              : index === 1
-                                ? "Secondary"
-                                : index === 2
-                                  ? "Tertiary"
-                                  : `Diamond ${index + 1}`}
-                            )
-                          </p>
-                        </span>
-                      </div>
-                    ),
-                  )}
-                </>
-              )}
-              {/* {product?.productDetails?.diamondDetails?.length > 0 && (
-                <>
-                  {product.productDetails.diamondDetails.map(
-                    (diamond: any, index: number) => (
-                      <div key={index}>
-                        <span className="flex flex-col items-center p-2 text-center">
-                          <Icon.SketchLogo />
-                          <p>
-                            Diamond Color: {diamond.diamondColor} (
-                            {index === 0
-                              ? "Primary"
-                              : index === 1
-                                ? "Secondary"
-                                : index === 2
-                                  ? "Tertiary"
-                                  : `Diamond ${index + 1}`}
-                            )
-                          </p>
-                        </span>
-                      </div>
-                    ),
-                  )}
-                </>
-              )} */}
+        <div>
+        <div className="mt-5">{product?.productDetails?.longDesc}</div>
+        <div className="mt-4 grid grid-cols-4 gap-6 max-sm:grid-cols-3 justify-items-center">
+          {parseInt(product?.productDetails?.metalWeight) > 0 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <Icon.Scales size={27} weight="thin" />
+              <p className="text-sm font-medium">
+                {product?.productDetails?.metalWeight}gms,{" "}
+                {product?.productDetails?.metalType}
+              </p>
             </div>
-          </div>
+          )}
+      
+          {product?.productDetails?.metalPurity && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <Icon.HandCoins size={27} weight="thin" />
+              <p className="text-sm font-medium">
+                {product?.productDetails.metalPurity}{" "}
+                {product?.productDetails.metalType}
+              </p>
+            </div>
+          )}
+      
+          {product?.productDetails?.isReturnable == 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <Icon.ArrowsLeftRight size={27} weight="thin" />
+              <p className="text-sm font-medium">7 days easy returns</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.isReplaceable === 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <TbReplace size={27} />
+              <p className="text-sm font-medium">7 days easy replacement</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.isInternationalShippingAvailable === 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <GiCargoShip size={27} />
+              <p className="text-sm font-medium">Delivered Internationally</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.customizationAvailability === 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <VscTools size={27} />
+              <p className="text-sm font-medium">Customization Available</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.fastDelivery === 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <FaShippingFast size={27} />
+              <p className="text-sm font-medium">Fast Delivery</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.tryAtHome === 1 && (
+            <div className="flex flex-col items-center text-center gap-2">
+              <TbHomeCheck size={27} />
+              <p className="text-sm font-medium">Try At Home</p>
+            </div>
+          )}
+      
+          {product?.productDetails?.diamondDetails?.length > 0 &&
+            product.productDetails.diamondDetails.map((diamond: any, index: number) => (
+              <div key={index} className="flex flex-col items-center text-center gap-2">
+                <Icon.SketchLogo size={22} weight="thin" />
+                <p className="text-sm font-medium">
+                  Diamond Color: {diamond.diamondColor} (
+                  {index === 0
+                    ? "Primary"
+                    : index === 1
+                    ? "Secondary"
+                    : index === 2
+                    ? "Tertiary"
+                    : `Diamond ${index + 1}`}
+                  )
+                </p>
+              </div>
+            ))}
+      
+          {product?.productDetails?.diamondDetails?.length > 0 &&
+            product.productDetails.diamondDetails.map((diamond: any, index: number) => (
+              <div key={index} className="flex flex-col items-center text-center gap-2">
+                <BiTargetLock size={22} />
+                <p className="text-sm font-medium">
+                  Diamond Clarity: {diamond.diamondClarity} (
+                  {index === 0
+                    ? "Primary"
+                    : index === 1
+                    ? "Secondary"
+                    : index === 2
+                    ? "Tertiary"
+                    : `Diamond ${index + 1}`}
+                  )
+                </p>
+              </div>
+            ))}
+        </div>
+      </div>
+      
         ) : null}
       </div>
       {(product?.productDetails?.displayTitle

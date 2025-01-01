@@ -446,7 +446,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on flex w-full cursor-pointer items-center justify-end"
+                  className="try_on absolute right-5 top-7 z-50 flex w-full cursor-pointer items-center justify-end"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -456,7 +456,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 >
                   <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
-                    <p className="ps-1 text-sm">Virtually Try On</p>
+                    <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>
                 </div>
               )}
@@ -573,7 +573,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </div>
               <p
                 ref={descRef}
-                className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+                className={`text-[#aa9e9e]  ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
               </p>
@@ -680,7 +680,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
-          <CheckPincode />
+          {data?.productDetails?.productQty > 0 ? (
+            <CheckPincode />
+          ) : (
+            <p className="my-5 flex items-center font-semibold text-[#e26178]">
+              🚚{" "}
+              <span className="ml-2">
+                Delivery in <strong>just 15-45 days</strong>!
+              </span>
+            </p>
+          )}
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>

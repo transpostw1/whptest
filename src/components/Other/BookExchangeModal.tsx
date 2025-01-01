@@ -92,7 +92,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
   if (isLoading) {
     return <Loader />;
   }
-  0;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-5 backdrop-blur-sm"

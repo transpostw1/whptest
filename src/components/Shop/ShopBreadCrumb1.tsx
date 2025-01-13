@@ -493,9 +493,8 @@ const ShopBreadCrumb1 = () => {
     const urlParts: string[] = [];
     console.log("filterOptions", options);
     if (options.Category && options.Category.length > 0) {
-      urlParts.push(`c-${options.Category.join(",")}`);
+      urlParts.push(`category-${options.Category.join(",")}`);
     }
-
     if (options.Search && options.Search.length > 0) {
       urlParts.push(`s-${options.Search.join(",")}`);
     }
@@ -627,7 +626,6 @@ const ShopBreadCrumb1 = () => {
 
     const parts = queryValue.split(" ");
     parts.forEach((part) => {
-      // Split each part by the hyphen to get the key and value
       const [key, value] = part.split("-");
 
       if (key === "c") {

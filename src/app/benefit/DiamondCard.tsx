@@ -94,6 +94,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     setEnrolling(true)
     if (monthlyDeposit < 500) {
       setShowMinValueModal(true);
+      setEnrolling(false)
       return;
     }
     if (!isLoggedIn) {

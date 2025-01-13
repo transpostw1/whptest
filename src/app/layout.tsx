@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Noto_Sans, Poiret_One, Roboto,Playfair_Display,Inter } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
@@ -19,7 +20,33 @@ import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-const instrument = Montserrat({ subsets: ["latin"] });
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
+  weight: [ "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+const poiretOne = Poiret_One({
+  subsets: ["latin"],
+  weight: ["400"], 
+});
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  style: ["normal", "italic"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+const instrument = playfair ;
+
+// const instrument = Montserrat({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
 //   title: {

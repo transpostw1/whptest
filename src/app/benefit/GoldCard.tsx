@@ -95,6 +95,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   const handleInputVerification = async () => {
     setEnrolling(true)
     if (monthlyDeposit < 500) {
+      setEnrolling(false)
       setShowMinValueModal(true);
       return;
     }

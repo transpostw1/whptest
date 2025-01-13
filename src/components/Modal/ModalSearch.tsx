@@ -211,7 +211,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             </div>
           </div>
 
-          <div className="list-recent mt-8">
+          {/* <div className="list-recent mt-8">
             <div className="heading5">Continue Browsing...</div>
             <div className="list-product pb-5 hide-product-sold grid xl:grid-cols-3 sm:grid-cols-2 gap-7 mt-4">
                 {recentlyViewedProducts.map((product:any) => (
@@ -220,8 +220,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
                 ) : null
                 ))}
             </div>
-           </div>
-
+           </div> */}
           {/* <div className="heading5 mt-8">Top Collections</div>
           <div className="list-keyword grid grid-cols-3 gap-6 mt-4">
             <div className="item flex flex-col items-center cursor-pointer">

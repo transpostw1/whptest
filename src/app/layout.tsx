@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <GlobalProvider>
       <html lang="en">
-        <Suspense>
+        {/* <Suspense> */}
         <head>
           <title>WHP Jewellers</title>
           <link
@@ -117,7 +117,7 @@ export default function RootLayout({
           <Footer />
           <Toaster position="top-center" reverseOrder={false} />
         </body>
-        </Suspense>
+        {/* </Suspense> */}
       </html>
     </GlobalProvider>
   );

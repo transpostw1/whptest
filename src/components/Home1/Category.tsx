@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,34 +24,33 @@ const Category = () => {
     setVisibleItems(8); // Reset to initial visible item count
   };
 
-
+  if (categories.length == 0) return null;
   return (
     <>
-      <div className="my-16 w-full px-8 font-[500] text-[#39161C] ">
+      <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
         <div className="flex flex-col items-start justify-between">
-          <h1 className="pb-1 sm:text-[18px] lg:text-[32px]  font-medium uppercase">
+          <h1 className="pb-1 font-medium uppercase sm:text-[18px] lg:text-[32px]">
             SHOP BY CATEGORY
           </h1>
-          <p className="font-light text-sm md:w-[50%]">
+          <p className="text-sm font-light md:w-[50%]">
             Effortlessly find your perfect piece by exploring our jewellery
-            categories.
-            From stunning necklaces to exquisite rings, our collections cater to
-            every style and taste.
+            categories. From stunning necklaces to exquisite rings, our
+            collections cater to every style and taste.
           </p>
         </div>
-        <div className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
+        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4">
           {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
               className="relative flex flex-col items-start justify-between"
             >
               <Link
-               href={{
-                pathname: "/products",
-                query: { url: category.url.split("=")[1] }, 
-              }}
+                href={{
+                  pathname: "/products",
+                  query: { url: category.url.split("=")[1] },
+                }}
                 onClick={() => {
-                  const cleanUrl = category.url.split("=")[1]; 
+                  const cleanUrl = category.url.split("=")[1];
                   setCustomcategory(cleanUrl);
                 }}
               >
@@ -67,7 +66,7 @@ const Category = () => {
               </Link>
 
               <div>
-                <h1 className="break-word sm:text-lg font-semibold uppercase">
+                <h1 className="break-word font-semibold uppercase sm:text-lg">
                   {category.name}
                 </h1>
                 <a

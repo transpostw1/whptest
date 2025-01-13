@@ -25,6 +25,7 @@
     "apollo-upload-client": "^18.0.1",
     "axios": "^1.6.7",
     "braces": "^3.0.3",
+    "canvas-confetti": "^1.9.3",
     "chartjs-plugin-datalabels": "^2.2.0",
     "crypto": "^1.0.1",
     "firebase": "^10.12.4",

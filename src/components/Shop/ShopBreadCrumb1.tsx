@@ -485,7 +485,7 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.productCategory || []),
       ...(selectedOptions.productCategory || []),
     ];
-    console.log(combinedOptions, "COMBINEDDDDD");
+    // console.log(combinedOptions, "COMBINEDDDDD");
     return combinedOptions;
   };
 
@@ -628,7 +628,7 @@ const ShopBreadCrumb1 = () => {
     parts.forEach((part) => {
       const [key, value] = part.split("-");
 
-      if (key === "c") {
+      if (key === "category") {
         initialOptions.Category = value.split(",");
       }
       if (key === "s") {
@@ -738,7 +738,7 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/(c-|s-|g-|p-|m-|_)/g, " ");
+    return str.replace(/(category-|s-|g-|p-|m-|_)/g, " ");
   };
 
   const modifiedString = removeUnderscores(category);

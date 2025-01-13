@@ -35,7 +35,6 @@ const AddAddressMobile: React.FC<Props> = ({
   const handleSubmit = async (values:any) => {
     setIsLoading(true);
     setFormError("");
-    console.log("calllllllllllllllllllllllllllllllledddddddddddddddddddddddddddddd")
     try {
       const cookieToken =
         typeof window !== "undefined"
@@ -45,9 +44,6 @@ const AddAddressMobile: React.FC<Props> = ({
       if (!cookieToken) {
         throw new Error("Authorization token is missing.");
       }
-      
-    console.log("calllllllllllllllllllllllllllllllledddddddd")
-  
       const getAuthHeaders = () => ({
         authorization: `Bearer ${cookieToken}`,
       });

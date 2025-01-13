@@ -44,7 +44,7 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
 });
-const instrument = playfair ;
+const instrument = roboto ;
 
 // const instrument = Montserrat({ subsets: ["latin"] });
 

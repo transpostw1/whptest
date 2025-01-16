@@ -496,29 +496,29 @@ const ShopBreadCrumb1 = () => {
       urlParts.push(`category-${options.Category.join(",")}`);
     }
     if (options.Search && options.Search.length > 0) {
-      urlParts.push(`s-${options.Search.join(",")}`);
+      urlParts.push(`search-${options.Search.join(",")}`);
     }
 
     if (options.Shop_For && options.Shop_For.length > 0) {
-      urlParts.push(`g-${options.Shop_For.join(",")}`);
+      urlParts.push(`gender-${options.Shop_For.join(",")}`);
     }
 
     if (options.Karat && options.Karat.length > 0) {
-      urlParts.push(`k-${options.Karat.join(",")}`);
+      urlParts.push(`karat-${options.Karat.join(",")}`);
     }
 
     if (options.Price && options.Price.length > 0) {
-      urlParts.push(`p-${options.Price.join("|")}`);
+      urlParts.push(`price-${options.Price.join("|")}`);
     }
 
     if (options.Metal && options.Metal.length > 0) {
-      urlParts.push(`m-${options.Metal.join(",")}`);
+      urlParts.push(`metal-${options.Metal.join(",")}`);
     }
     if (options.Weight && options.Weight.length > 0) {
-      urlParts.push(`w-${options.Weight.join(",")}`);
+      urlParts.push(`weight-${options.Weight.join(",")}`);
     }
     if (options.Occasion && options.Occasion.length > 0) {
-      urlParts.push(`o-${options.Occasion.join(",")}`);
+      urlParts.push(`occasion-${options.Occasion.join(",")}`);
     }
     if (options.productCategory) {
       urlParts.push(`pc-${options.productCategory}`);
@@ -631,25 +631,25 @@ const ShopBreadCrumb1 = () => {
       if (key === "category") {
         initialOptions.Category = value.split(",");
       }
-      if (key === "s") {
+      if (key === "search") {
         initialOptions.Search = value.split(",");
       }
-      if (key === "g") {
+      if (key === "gender") {
         initialOptions.Shop_For = value.split(",");
       }
-      if (key === "k") {
+      if (key === "karat") {
         initialOptions.Karat = value.split(",");
       }
-      if (key === "p") {
+      if (key === "price") {
         initialOptions.Price = value.split("|");
       }
-      if (key === "m") {
+      if (key === "metal") {
         initialOptions.Metal = value.split(",");
       }
-      if (key === "w") {
+      if (key === "weight") {
         initialOptions.Weight = value.split(",");
       }
-      if (key === "o") {
+      if (key === "occasion") {
         initialOptions.Occasion = value.split(",");
       }
       if (key === "pc") {
@@ -738,7 +738,7 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/(category-|s-|g-|p-|m-|_)/g, " ");
+    return str.replace(/(category-|search-|gender-|price-|metal-|pc-|_)/g, " ");
   };
 
   const modifiedString = removeUnderscores(category);

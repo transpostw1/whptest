@@ -97,6 +97,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const handleInputVerification = async () => {
     setEnrolling(true)
     if (monthlyDeposit < 500) {
+      setEnrolling(false)
       setShowMinValueModal(true);
       return;
     }

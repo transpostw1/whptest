@@ -174,9 +174,7 @@ const Footer = () => {
                       <Icon.FacebookLogo size={34} weight="light" />
                     </Link>
                     <Link
-                      href={
-                        "https://www.youtube.com/@whpjewellers"
-                      }
+                      href={"https://www.youtube.com/@whpjewellers"}
                       target="_blank"
                     >
                       <Icon.YoutubeLogo size={34} weight="light" />
@@ -187,12 +185,7 @@ const Footer = () => {
                     >
                       <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
-                    <Link
-                      href={
-                        "https://wa.me/918828324464"
-                      }
-                      target="_blank"
-                    >
+                    <Link href={"https://wa.me/918828324464"} target="_blank">
                       <Icon.WhatsappLogo size={34} weight="light" />
                     </Link>
                   </div>
@@ -230,13 +223,20 @@ const Footer = () => {
                         My Account
                       </Link>
                     )}
+                    {isLoggedIn ? (
+                      <Link
+                        className="caption1 has-line-before w-fit pt-2 duration-300"
+                        href={"/profile"}
+                      >
+                        Orders & Returns
+                      </Link>
+                    ) : (
+                      <Link
+                        className="caption1 has-line-before w-fit pt-2 duration-300"
+                        href={"/register"}
+                      >Orders & Returns</Link>
+                    )}
 
-                    <Link
-                      className="caption1 has-line-before w-fit pt-2 duration-300"
-                      href={"/profile"}
-                    >
-                      Order & Returns
-                    </Link>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
@@ -257,7 +257,7 @@ const Footer = () => {
                       className="caption1 has-line-before w-fit duration-300"
                       href={{
                         pathname: "/products",
-                        query: { url: "c-chain" },
+                        query: { url: "category-chain" },
                       }}
                       onClick={() => setCustomcategory("chain")}
                     >
@@ -267,7 +267,7 @@ const Footer = () => {
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{
                         pathname: "/products",
-                        query: { url: "c-bangle" },
+                        query: { url: "category-bangle" },
                       }}
                       onClick={() => setCustomcategory("bangle")}
                     >
@@ -275,7 +275,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
-                      href={{ pathname: "/products", query: { url: "c-ring" } }}
+                      href={{ pathname: "/products", query: { url: "category-ring" } }}
                       onClick={() => setCustomcategory("ring")}
                     >
                       Rings
@@ -284,15 +284,18 @@ const Footer = () => {
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={{
                         pathname: "/products",
-                        query: { url: "necklace" },
+                        query: { url: "category-necklace" },
                       }}
-                      onClick={() => setCustomcategory("c-necklace")}
+                      onClick={() => setCustomcategory("category-necklace")}
                     >
                       Necklaces
                     </Link>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
-                      href={{ pathname: "/products", query: { url: "stone" } }}
+                      href={{
+                        pathname: "/products",
+                        query: { url: "category-stone" },
+                      }}
                       onClick={() => setCustomcategory("stone")}
                     >
                       Stones

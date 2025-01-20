@@ -50,7 +50,7 @@ const RoseGold = () => {
     };
   }, []);
   return (
-    <div className="mt-5 flex flex-wrap justify-center bg-[#f7f5f6]">
+    <div className="mt-5 flex flex-wrap justify-evenly bg-[#f7f5f6]">
       <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[] sm:pt-[36px]">
         <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
         <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
@@ -130,7 +130,7 @@ const RoseGold = () => {
       {width < 170 && (
         <div className="mt-5 flex w-full justify-center">
           <Link
-            href={{ pathname: "/products", query: { url: "c-rose_gold" } }}
+            href={{ pathname: "/products", query: { url: "categroy-rose_gold" } }}
             onClick={() => setCustomcategory("rose_gold")}
           >
             <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[37%]">

@@ -18,7 +18,7 @@ const Extendedfooter = () => {
       value2 == "bracelet" ||
       value2 == "necklace"  
     ) {
-      router.push(`/products?url=c-${value2}`);
+      router.push(`/products?url=category-${value2}`);
     } else {
       router.push(`/products?url=s-${value2}`);
     }

@@ -57,7 +57,7 @@ const Appointment = () => {
             <h2 className="text-red mt-5 px-4 text-left text-[20px] font-normal sm:text-center md:text-left md:text-4xl lg:text-[62px] lg:leading-[86.8px]">
               Visualize Your Perfect look!
             </h2>
-            <div className="">
+            <div>
               <p className="mb-4 px-4 font-normal text-red-950 sm:text-center md:text-left">
                 Try Before you Buy: Experience the Elegance of Our Jewellery in
                 the Comfort of your Home.Book an appoinment with us today!
@@ -109,9 +109,9 @@ const Appointment = () => {
             )}
             <div
               onClick={() => setAppointmentModal(true)}
-              className="mb-20 ml-[51px] mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+              className="mb-20 ml-[51px] mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px] items-center justify-center"
             >
-              <button type="button" className="text-[18px] font-medium">
+              <button type="button" className="text-[18px] font-medium ">
                 Book Appointment
               </button>
               <HiOutlineArrowLongRight className="ml-1 mt-1" size={20} />

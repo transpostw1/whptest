@@ -36,7 +36,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     const value2 = formattedValue.toLowerCase();
     console.log("Formatted Value",value2);
     if (value2 == 'earrings' || value2 == 'ring' || value2 == 'mangalsutra' || value2 == 'pendants' || value2 == 'bangle' || value2 == 'bracelet' || value2 == 'necklace') {
-      router.push(`/products?url=c-${value2}`);
+      router.push(`/products?url=categroy-${value2}`);
     } else {
       router.push(`/products?url=s-${value2}`);
     }
@@ -211,17 +211,16 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
             </div>
           </div>
 
-          <div className="list-recent mt-8">
+          {/* <div className="list-recent mt-8">
             <div className="heading5">Continue Browsing...</div>
-            <div className="list-product pb-5 hide-product-sold grid xl:grid-cols-4 sm:grid-cols-2 gap-7 mt-4">
+            <div className="list-product pb-5 hide-product-sold grid xl:grid-cols-3 sm:grid-cols-2 gap-7 mt-4">
                 {recentlyViewedProducts.map((product:any) => (
                 product ? ( // Check if product is not null
                     <Product key={product.id} data={product} />
                 ) : null
                 ))}
             </div>
-           </div>
-
+           </div> */}
           {/* <div className="heading5 mt-8">Top Collections</div>
           <div className="list-keyword grid grid-cols-3 gap-6 mt-4">
             <div className="item flex flex-col items-center cursor-pointer">

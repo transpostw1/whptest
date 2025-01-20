@@ -53,22 +53,22 @@ const Appointment = () => {
     <>
       <div className="grid text-rose-950 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="bg-secondary2 flex items-center justify-start bg-gradient-to-r from-pink-100 to-gray-100 sm:h-full sm:py-10 md:h-full md:py-0 lg:h-full lg:py-0">
-          <div className="flex flex-col items-start gap-3 text-center sm:py-10">
-            <h2 className="text-red mt-5 px-4 text-left text-[20px] font-normal sm:text-center md:text-left md:text-4xl lg:text-[62px] lg:leading-[86.8px]">
+          <div className="flex flex-col md:items-start items-center gap-3 text-center sm:py-10 ml-6">
+            <h2 className="text-red mt-5  text-left text-[20px] font-normal sm:text-center md:text-left md:text-4xl lg:text-[62px] lg:leading-[86.8px]">
               Visualize Your Perfect look!
             </h2>
             <div>
-              <p className="mb-4 px-4 font-normal text-red-950 sm:text-center md:text-left">
+              <p className="mb-4  font-normal text-red-950 sm:text-center md:text-left">
                 Try Before you Buy: Experience the Elegance of Our Jewellery in
                 the Comfort of your Home.Book an appoinment with us today!
               </p>
               {width > 150 && (
-                <h1 className="px-4 text-left font-medium text-red-950">
+                <h1 className="text-xl text-start font-semibold text-red-950">
                   Gold Exchange
                 </h1>
               )}
               {width > 150 && (
-                <p className="px-4 text-left font-normal text-red-950">
+                <p className="text-left font-normal text-red-950">
                   Trade your previous gold items for newer, more exquisite
                   pieces that better suit your evolving style.
                 </p>
@@ -109,7 +109,7 @@ const Appointment = () => {
             )}
             <div
               onClick={() => setAppointmentModal(true)}
-              className="mb-20 ml-[51px] mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px] items-center justify-center"
+              className="mb-20  mt-6 flex bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-3.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px] items-center justify-center"
             >
               <button type="button" className="text-[18px] font-medium ">
                 Book Appointment

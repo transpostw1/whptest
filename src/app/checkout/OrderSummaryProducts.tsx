@@ -43,7 +43,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
                   {product.name}
                 </Link>
                 <span className="font-normal lowercase">
-                  x {product.quantity}
+                  {" "} X {product.quantity}
                 </span>
               </div>
               <div className="text-title text-start">

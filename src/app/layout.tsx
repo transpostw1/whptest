@@ -20,44 +20,44 @@ import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  weight: [ "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
-});
+// const notoSans = Noto_Sans({
+//   subsets: ["latin"],
+//   weight: [ "300", "400", "500", "600", "700", "800", "900"],
+//   style: ["normal", "italic"],
+// });
 
-const poiretOne = Poiret_One({
-  subsets: ["latin"],
-  weight: ["400"], 
-});
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  style: ["normal", "italic"],
-});
+// const poiretOne = Poiret_One({
+//   subsets: ["latin"],
+//   weight: ["400"], 
+// });
+// const playfair = Playfair_Display({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// });
+// const roboto = Roboto({
+//   subsets: ["latin"],
+//   weight: ["100", "300", "400", "500", "700", "900"],
+//   style: ["normal", "italic"],
+// });
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-});
-const instrument = roboto ;
+// const inter = Inter({
+//   subsets: ["latin"],
+//   weight: ["300", "400", "500"],
+// });
+// const instrument = roboto ;
 
-// const instrument = Montserrat({ subsets: ["latin"] });
+const instrument = Montserrat({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: {
-//     default: 'WHP Jewellers',
-//     template: '%s | WHP Jewellers'
-//   },
-//   description: 'Welcome to WHP Jewellers',
-//   icons: {
-//     icon: '/images/other/logo2.png',
-//   },
-// };
+export const metadata: Metadata = {
+  title: {
+    default: 'WHP Jewellers',
+    template: '%s | WHP Jewellers'
+  },
+  description: 'Welcome to WHP Jewellers',
+  icons: {
+    icon: '/images/other/logo2.png',
+  },
+};
 export default function RootLayout({
   children,
 }: {

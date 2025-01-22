@@ -364,7 +364,7 @@ const Checkout: React.FC = () => {
   const calculateTotalPrice = (items: any[]) => {
     let total = 0;
     items.forEach((item) => {
-      const price = parseInt(item.price?.toString());
+      const price = parseInt(item.productPrice?.toString());
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
@@ -394,6 +394,13 @@ const Checkout: React.FC = () => {
   let formattedProductPrice: string = totalProductCart.toString();
   let discountDifference: any =
     parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
+  
+  useEffect(() => {
+    console.log("DiscountDifference",discountDifference);
+    console.log("FormattedPrice",formattedPrice);
+    console.log("formattedProductPrie",formattedProductPrice);
+  }, [discountDifference, formattedPrice, formattedProductPrice])
+  
 
   const handleOrderComplete = async () => {
     try {
@@ -969,7 +976,7 @@ const Checkout: React.FC = () => {
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
-                          <h3>Product Discount</h3>
+                          <h3>Product DisC</h3>
                           <h3>-{formatPrice(parseInt(discountDifference))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">

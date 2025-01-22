@@ -34,7 +34,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
     if (toCurrency == "USD") {
       return amount * 0.012;
     } else {
-      return amount * 0.011;
+      return amount * 0.0112877;
     }
   };
 

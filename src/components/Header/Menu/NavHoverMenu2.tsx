@@ -18,7 +18,7 @@ const NavHoverMenu2 = () => {
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [categories, setCategories] = useState<any>([]);
-  const {allMenus}=useMainMenuContext();
+  const { allMenus } = useMainMenuContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,7 +57,7 @@ const NavHoverMenu2 = () => {
   return (
     <>
       <div
-        className={`header-menu-navHoverMenu style-one z-[80] ${
+        className={`header-menu-navHoverMenu style-one z-[36px] ${
           fixedHeader ? "fixed" : "relative"
         } h-[40px] w-full md:h-[37px]`}
       >
@@ -87,7 +87,7 @@ const NavHoverMenu2 = () => {
 
                     {item.subCategory.length > 0 && (
                       <div
-                        className={`mega-menu absolute left-0 lg:top-[131px] xl:top-[36px] grid w-screen grid-cols-7 gap-1 bg-white p-3`}
+                        className={`mega-menu absolute left-0 grid w-screen grid-cols-7 gap-1 bg-white p-3 lg:top-[131px] xl:top-[36px]`}
                       >
                         {item.subCategory.map((item: any, index: any) => (
                           <ul key={index}>
@@ -129,10 +129,10 @@ const NavHoverMenu2 = () => {
                           </ul>
                         ))}
 
-                        <div className=" w-full col-span-2 ">
+                        <div className="col-span-2 w-full">
                           {item.image && (
                             <Image
-                              className=" h-auto w-full"
+                              className="h-auto w-full"
                               src={item.image}
                               alt={item.name}
                               width={145}

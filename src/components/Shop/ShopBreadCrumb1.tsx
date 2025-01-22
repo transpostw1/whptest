@@ -740,7 +740,7 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/(c-|s-|g-|p-|m-|_)/g, " ");
+    return str.replace(/(c-|s-|g-|p-|m-|_|pc-)/g, " ");
   };
 
   const modifiedString = removeUnderscores(category);

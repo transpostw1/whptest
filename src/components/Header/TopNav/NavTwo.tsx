@@ -147,7 +147,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   return (
     <div ref={contactRef}>
       <div
-        className={`top-nav header-menu h-[65px] w-full max-sm:h-[48px] md:h-[65px] z-[100] ${
+        className={`top-nav header-menu h-[65px] w-full max-sm:h-[48px] md:h-[65px] z-[36] ${
           fixedHeader ? "fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}

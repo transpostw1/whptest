@@ -1,47 +1,54 @@
-import React, { useState } from 'react';
-import ShippingAddressList from './ShippingAddressList';
-import BillingAddressList from './BillingAddressList';
-import AddAddressModal from './AddAddressModal';
-import AddAddressMobile from './AddAddressMobile';
+import React, { useState, useEffect } from "react";
+import ShippingAddressList from "./ShippingAddressList";
+import BillingAddressList from "./BillingAddressList";
+import AddAddressModal from "./AddAddressModal";
+import AddAddressMobile from "./AddAddressMobile";
 import FlashAlert from "../../components/Other/FlashAlert";
-import {Address} from "@/type/AddressType"
+import { Address } from "@/type/AddressType";
 
 interface DeliveryDetailsProps {
-    onShippingAddressSelected: () => void;
-    onBillingAddressSelected: () => void; // Keep this line
-    useSameAsBillingAddress: boolean;
-    setUseSameAsBillingAddress: React.Dispatch<React.SetStateAction<boolean>>;
-    selectedShippingAddress: Address | null;
-    setSelectedShippingAddress: React.Dispatch<React.SetStateAction<Address | null>>;
-    selectedBillingAddress: Address | null;
-    setSelectedBillingAddress: React.Dispatch<React.SetStateAction<Address | null>>;
-  }
-  
-  const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
-    onShippingAddressSelected,
-    onBillingAddressSelected,
-    useSameAsBillingAddress,
-    setUseSameAsBillingAddress,
-    selectedShippingAddress,
-    setSelectedShippingAddress,
-    selectedBillingAddress,
-    setSelectedBillingAddress,
-  }) => {
+  onShippingAddressSelected: () => void;
+  onBillingAddressSelected: () => void; // Keep this line
+  useSameAsBillingAddress: boolean;
+  setUseSameAsBillingAddress: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedShippingAddress: Address | null;
+  setSelectedShippingAddress: React.Dispatch<
+    React.SetStateAction<Address | null>
+  >;
+  selectedBillingAddress: Address | null;
+  setSelectedBillingAddress: React.Dispatch<
+    React.SetStateAction<Address | null>
+  >;
+}
+
+const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
+  onShippingAddressSelected,
+  onBillingAddressSelected,
+  useSameAsBillingAddress,
+  setUseSameAsBillingAddress,
+  selectedShippingAddress,
+  setSelectedShippingAddress,
+  selectedBillingAddress,
+  setSelectedBillingAddress,
+}) => {
   //const [selectedShippingAddress, setSelectedShippingAddress] = useState<Address | null>(null);
   //const [selectedBillingAddress, setSelectedBillingAddress] = useState<Address | null>(null);
-  
-  const [isShippingAddressModalOpen, setIsShippingAddressModalOpen] = useState(false);
-  const [isBillingAddressModalOpen, setIsBillingAddressModalOpen] = useState(false);
-  const [isShippingAddressMobileOpen, setIsShippingAddressMobileOpen] = useState(false);
-  const [isBillingAddressMobileOpen, setIsBillingAddressMobileOpen] = useState(false);
-  const [flashMessage, setFlashMessage] = useState('');
-  const [flashType, setFlashType] = useState<'success' | 'error'>('success');
+
+  const [isShippingAddressModalOpen, setIsShippingAddressModalOpen] =
+    useState(false);
+  const [isBillingAddressModalOpen, setIsBillingAddressModalOpen] =
+    useState(false);
+  const [isShippingAddressMobileOpen, setIsShippingAddressMobileOpen] =
+    useState(false);
+  const [isBillingAddressMobileOpen, setIsBillingAddressMobileOpen] =
+    useState(false);
+  const [flashMessage, setFlashMessage] = useState("");
+  const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [shippingAddressAdded, setShippingAddressAdded] = useState(false); // Add this state variable
   const [billingAddressAdded, setBillingAddressAdded] = useState(false); // Add this state variable
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
-
 
   const handleShippingAddressSelect = (address: Address) => {
     if (address === null) {
@@ -64,7 +71,7 @@ interface DeliveryDetailsProps {
       setFlashKey((prevKey) => prevKey + 1);
     }
   };
-  
+
   const handleBillingAddressSelect = (address: Address) => {
     if (address === null) {
       setSelectedBillingAddress(null);
@@ -73,8 +80,8 @@ interface DeliveryDetailsProps {
       setSelectedBillingAddress(address);
       setBillingAddressSelected(true);
       onBillingAddressSelected(); // Call the prop function
-      console.log('billingAddressSelected set to true');
-  
+      console.log("billingAddressSelected set to true");
+
       if (!useSameAsBillingAddress) {
         setFlashMessage(`Billing address updated`);
         setFlashKey((prevKey) => prevKey + 1);
@@ -83,8 +90,14 @@ interface DeliveryDetailsProps {
       }
     }
   };
+  useEffect(() => {
+    console.log("INNER WIDTH", window.innerWidth);
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", isBillingAddressModalOpen);
+  }, [window.innerw]);
 
-  const handleBillingAddressToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBillingAddressToggle = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setUseSameAsBillingAddress(event.target.checked);
     if (event.target.checked) {
       setSelectedBillingAddress(selectedShippingAddress);
@@ -111,18 +124,21 @@ interface DeliveryDetailsProps {
 
   const handleAddressAdded = (isBillingAddress: boolean) => {
     if (isBillingAddress) {
-      setBillingAddressAdded(prevState => !prevState);
+      setBillingAddressAdded((prevState) => !prevState);
     } else {
-      setShippingAddressAdded(prevState => !prevState);
+      setShippingAddressAdded((prevState) => !prevState);
     }
   };
 
   const isDeliveryDetailsValid = () => {
-    return shippingAddressSelected && (useSameAsBillingAddress || billingAddressSelected);
+    return (
+      shippingAddressSelected &&
+      (useSameAsBillingAddress || billingAddressSelected)
+    );
   };
 
   return (
-    <div className="lg:w-[41rem] md:w-[30rem] sm:w-[30rem] border border-gray-300 p-8">
+    <div className="border border-gray-300 p-8 sm:w-[30rem] md:w-[30rem] lg:w-[41rem]">
       <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
       <h2 className="mb-4 text-xl font-bold">Shipping Address</h2>
       <ShippingAddressList
@@ -132,7 +148,7 @@ interface DeliveryDetailsProps {
         onAddressAdded={handleAddressAdded}
       />
       <h2
-        className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
+        className="cursor-pointer text-gray-600 hover:text-red-500 hover:underline"
         onClick={() => {
           if (window.innerWidth <= 768) {
             setIsShippingAddressMobileOpen(true);
@@ -145,7 +161,8 @@ interface DeliveryDetailsProps {
       </h2>
       {isShippingAddressModalOpen && (
         <AddAddressModal
-          closeModal={closeShippingAddressModal}
+          isOpen={isShippingAddressModalOpen}
+          onClose={closeShippingAddressModal}
           isForBillingAddress={false}
           onAddressAdded={handleAddressAdded}
         />
@@ -174,12 +191,13 @@ interface DeliveryDetailsProps {
         </div>
         {useSameAsBillingAddress && selectedShippingAddress && (
           <>
-          <h2 className="mb-4 mt-3 text-xl font-bold">Billing Address</h2>
-          <ShippingAddressList
-            onAddressSelect={handleBillingAddressSelect}
-            selectedAddress={selectedShippingAddress}
-            readOnly
-          /></>
+            <h2 className="mb-4 mt-3 text-xl font-bold">Billing Address</h2>
+            <ShippingAddressList
+              onAddressSelect={handleBillingAddressSelect}
+              selectedAddress={selectedShippingAddress}
+              readOnly
+            />
+          </>
         )}
         {!useSameAsBillingAddress && (
           <>
@@ -187,10 +205,10 @@ interface DeliveryDetailsProps {
               onAddressSelect={handleBillingAddressSelect}
               selectedAddress={selectedBillingAddress}
               addressAdded={billingAddressAdded}
-              onAddressAdded={handleAddressAdded} 
+              onAddressAdded={handleAddressAdded}
             />
             <h2
-              className="hover:text-red-500 hover:underline cursor-pointer text-gray-600"
+              className="cursor-pointer text-gray-600 hover:text-red-500 hover:underline"
               onClick={() => {
                 if (window.innerWidth <= 768) {
                   setIsBillingAddressMobileOpen(true);
@@ -203,7 +221,8 @@ interface DeliveryDetailsProps {
             </h2>
             {isBillingAddressModalOpen && (
               <AddAddressModal
-                closeModal={closeBillingAddressModal}
+                isOpen={isBillingAddressModalOpen}
+                onClose={closeBillingAddressModal}
                 isForBillingAddress={true}
                 onAddressAdded={handleAddressAdded}
               />

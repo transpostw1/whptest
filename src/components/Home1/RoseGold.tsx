@@ -95,7 +95,7 @@ const RoseGold = () => {
         
         {width > 135 && (
           <Link
-            href={{ pathname: "/products", query: { url: "m-rose_gold" } }}
+            href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
             onClick={() => setCustomcategory("rose_gold")}
           >
             <div className="flex-end mt-auto flex justify-normal">
@@ -130,7 +130,7 @@ const RoseGold = () => {
       {width < 170 && (
         <div className="mt-5 flex w-full justify-center">
           <Link
-            href={{ pathname: "/products", query: { url: "categroy-rose_gold" } }}
+            href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
             onClick={() => setCustomcategory("rose_gold")}
           >
             <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[37%]">

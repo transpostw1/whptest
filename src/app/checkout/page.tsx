@@ -938,7 +938,7 @@ const Checkout: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {!isOrderPlaced && (
+                  {!isOrderPlaced && isLoggedIn &&(             
                     <div className="mt-2 flex justify-between border border-gray-400 p-2">
                       <div className="flex items-center gap-2 font-medium">
                         <input

@@ -9,7 +9,7 @@ const Gifts = () => {
   let categories = [
     {
       id: 3,
-      url: "o-Her_Birthday",
+      url: "occasion-Her_Birthday",
       head: "her_birthday",
       type: "HER BIRTHDAY",
       image: (
@@ -24,7 +24,7 @@ const Gifts = () => {
     },
     {
       id: 4,
-      url: "o-His_Birthday",
+      url: "occasion-His_Birthday",
       head: "his_birthday",
       type: "HIS BIRTHDAY",
       image: (
@@ -39,7 +39,7 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "o-New_Born_Baby",
+      url: "occasion-New_Born_Baby",
       head: "new_born_baby",
       type: "NEW BORN BABY",
       image: (
@@ -54,7 +54,7 @@ const Gifts = () => {
     },
     {
       id: 8,
-      url: "o-Valentines",
+      url: "occasion-Valentines",
       head: "valentines",
       type: "VALENTINES",
       image: (
@@ -69,7 +69,7 @@ const Gifts = () => {
     },
     {
       id: 5,
-      url: "o-Weddings",
+      url: "occasion-Weddings",
       head: "weddings",
       type: "WEDDINGS",
       image: (
@@ -84,7 +84,7 @@ const Gifts = () => {
     },
     {
       id: 6,
-      url: "o-Get_Well_Soon",
+      url: "occasion-Get_Well_Soon",
       head: "get_well_soon",
       type: "GET WELL SOON",
       image: (
@@ -99,7 +99,7 @@ const Gifts = () => {
     },
     {
       id: 7,
-      url: "o-Thankyou",
+      url: "occasion-Thankyou",
       head: "thankyou",
       type: "THANK YOU",
       image: (
@@ -114,7 +114,7 @@ const Gifts = () => {
     },
     {
       id: 1,
-      url: "o-House_Warming",
+      url: "occasion-House_Warming",
       head: "house_warming",
       type: "HOUSE WARMING",
       image: (

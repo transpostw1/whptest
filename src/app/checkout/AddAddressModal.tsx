@@ -298,7 +298,7 @@ const AddAddressMobile: React.FC<Props> = ({
                       <input
                         type="radio"
                         id="home"
-                        name="address_type"
+                        name="address_type"    
                         value="home"
                         checked={formik.values.address_type === "home"}
                         onChange={formik.handleChange}

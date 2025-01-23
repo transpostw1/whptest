@@ -15,7 +15,7 @@ const ShopByGender = () => {
   let categories = [
     {
       id: 1,
-      url: "g-women",
+      url: "gender-women",
       categoryUrl: "Women",
       type: "WOMEN'S JEWELLERY",
       description: "Earrings, Pendants, Bracelets and more",
@@ -31,7 +31,7 @@ const ShopByGender = () => {
     },
     {
       id: 2,
-      url: "g-men",
+      url: "gender-men",
       categoryUrl: "Men",
       type: "MEN'S JEWELLERY",
 
@@ -48,7 +48,7 @@ const ShopByGender = () => {
     },
     {
       id: 3,
-      url: "g-kids",
+      url: "gender-kids",
       categoryUrl: "Kids",
       type: "KID'S JEWELLERY",
       description: "Anklets, Earrings, Bracelets and more",

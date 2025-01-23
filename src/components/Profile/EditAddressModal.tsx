@@ -102,7 +102,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
   });
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg sm:p-8">
+      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg">
         <button onClick={closeModal} className="self-end">
           <Icon.X size={25} />
         </button>
@@ -219,7 +219,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
               {/* {formik.errors.city && <div className="text-red-500 mt-1">{formik.errors.city}</div>} */}
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="relative">
               <input
                 id="landmark"

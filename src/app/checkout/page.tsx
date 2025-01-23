@@ -976,7 +976,7 @@ const Checkout: React.FC = () => {
                           </h3>
                         </div>
                         <div className="flex justify-between font-medium">
-                          <h3>Product DisC</h3>
+                          <h3>Product Discount</h3>
                           <h3>-{formatPrice(parseInt(discountDifference))}</h3>
                         </div>
                         <div className="flex justify-between font-medium">

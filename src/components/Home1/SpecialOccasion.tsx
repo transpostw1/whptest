@@ -59,7 +59,7 @@ const SpecialOccasion = () => {
           >
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-everyday" } }}
+                href={{ pathname: "/products", query: { url: "occasion-everyday" } }}
               >
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
@@ -84,7 +84,7 @@ const SpecialOccasion = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-officeWear" } }}
+                href={{ pathname: "/products", query: { url: "occasion-officeWear" } }}
               >
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
@@ -111,7 +111,7 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "o-Wedding_Wear" },
+                  query: { url: "occasion-Wedding_Wear" },
                 }}
               >
                 <div
@@ -137,7 +137,7 @@ const SpecialOccasion = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-Party_Wear" } }}
+                href={{ pathname: "/products", query: { url: "occasion-Party_Wear" } }}
               >
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"

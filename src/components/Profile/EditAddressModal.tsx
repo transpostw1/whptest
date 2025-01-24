@@ -101,7 +101,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
     onSubmit: handleSubmit,
   });
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black bg-opacity-50">
       <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg">
         <button onClick={closeModal} className="self-end">
           <Icon.X size={25} />

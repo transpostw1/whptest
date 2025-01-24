@@ -295,7 +295,7 @@ const AddAddressModal: React.FC<Props> = ({
 
           <button
             type="submit"
-            className={`my-2 inline-block w-full rounded-md border border-transparent bg-rose-400 px-4 py-2 text-center text-white hover:bg-rose-500 ${
+            className={`my-2 inline-block w-full rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-center text-white hover:bg-rose-500 ${
               isLoading ? "cursor-not-allowed opacity-50" : ""
             }`}
             disabled={isLoading}

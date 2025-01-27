@@ -69,10 +69,10 @@ const Category = () => {
                 <h1 className="break-word font-semibold uppercase sm:text-lg">
                   {category.name}
                 </h1>
-                <a
+                <Link
+                  href={`/products?url=${category.url}`}
                   className="inline-flex items-center"
                   onClick={() => {
-                    router.push(`/products?url=${category.url}`);
                     setCustomcategory(category.url);
                   }}
                 >
@@ -87,7 +87,7 @@ const Category = () => {
                       height={20}
                     />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           ))}

@@ -20,33 +20,14 @@ import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-// const notoSans = Noto_Sans({
-//   subsets: ["latin"],
-//   weight: [ "300", "400", "500", "600", "700", "800", "900"],
-//   style: ["normal", "italic"],
-// });
-
-const poiretOne = Poiret_One({
-  subsets: ["latin"],
-  weight: ["400"], 
-});
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-// const roboto = Roboto({
-//   subsets: ["latin"],
-//   weight: ["100", "300", "400", "500", "700", "900"],
-//   style: ["normal", "italic"],
-// });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["100", "200", "300"],
 });
-// const instrument = poiretOne ;
+const instrument = inter ;
 
-const instrument = Montserrat({ subsets: ["latin"] });
+// const instrument = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {

@@ -38,7 +38,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     if (value2 == 'earrings' || value2 == 'ring' || value2 == 'mangalsutra' || value2 == 'pendants' || value2 == 'bangle' || value2 == 'bracelet' || value2 == 'necklace') {
       router.push(`/products?url=categroy-${value2}`);
     } else {
-      router.push(`/products?url=s-${value2}`);
+      router.push(`/products?url=search-${value2}`);
     }
 
     // const formattedValue = e.target.value.replace(/ /g, "_");

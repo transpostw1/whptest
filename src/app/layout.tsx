@@ -40,13 +40,13 @@ const serverTimeLeft: CountdownTimeType = countdownTime();
 //   style: ["normal", "italic"],
 // });
 
-// const inter = Inter({
-//   subsets: ["latin"],
-//   weight: ["300", "400", "500"],
-// });
-// const instrument = roboto ;
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+const instrument = inter ;
 
-const instrument = Montserrat({ subsets: ["latin"] });
+// const instrument = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {

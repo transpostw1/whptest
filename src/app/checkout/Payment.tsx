@@ -552,6 +552,10 @@ const Payment: React.FC<PaymentProps> = ({
           <div className="mb-4 w-[95%] rounded-lg border border-gray-200">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
+                <span className="font-semibold">Order Id: </span>
+                {orderResponse.order.orderNo}
+              </div>
+              <div className="">
                 <span className="font-semibold">Order Date: </span>
                 {new Date(
                   orderResponse.order.created_at || new Date(),
@@ -561,19 +565,6 @@ const Payment: React.FC<PaymentProps> = ({
                   day: "numeric",
                   year: "numeric",
                 })}
-              </div>
-
-              <div className="">
-                <span className="font-semibold">Order Date: </span>
-                {new Date(orderResponse.order.created_at).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  },
-                )}
               </div>
             </div>
             <div>

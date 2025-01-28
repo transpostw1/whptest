@@ -85,6 +85,7 @@ const Category = () => {
                       alt="Right Arrow"
                       width={20}
                       height={20}
+                      unoptimized
                     />
                   </span>
                 </Link>

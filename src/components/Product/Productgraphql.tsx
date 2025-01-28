@@ -448,6 +448,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   ) : (
                     <Icon.Heart
                       size={width}
+                      color="#e26178"
                       weight="light"
                       onClick={() => HandleaddToWishlist()}
                     />

@@ -557,15 +557,14 @@ const Payment: React.FC<PaymentProps> = ({
               </div>
               <div className="">
                 <span className="font-semibold">Order Date: </span>
-                {new Date(orderResponse.order.created_at).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  },
-                )}
+                {new Date(
+                  orderResponse.order.created_at || new Date(),
+                ).toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </div>
             </div>
             <div>

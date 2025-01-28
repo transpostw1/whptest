@@ -446,7 +446,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {skuList?.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on absolute right-5 top-7 z-50 flex w-full cursor-pointer items-center justify-end"
+                  className="try_on absolute right-5 top-7 z-30 flex w-full cursor-pointer items-center justify-end"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,

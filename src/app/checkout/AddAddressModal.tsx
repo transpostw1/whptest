@@ -118,8 +118,8 @@ const AddAddressMobile: React.FC<Props> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg sm:p-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] w-[60%] flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg">
         <div className="flex items-center justify-between px-4 py-2">
           <h2 className="text-lg font-semibold">
             {isForBillingAddress

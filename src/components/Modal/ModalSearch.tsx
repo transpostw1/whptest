@@ -36,7 +36,7 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     const value2 = formattedValue.toLowerCase();
     console.log("Formatted Value",value2);
     if (value2 == 'earrings' || value2 == 'ring' || value2 == 'mangalsutra' || value2 == 'pendants' || value2 == 'bangle' || value2 == 'bracelet' || value2 == 'necklace') {
-      router.push(`/products?url=categroy-${value2}`);
+      router.push(`/products?url=category-${value2}`);
     } else {
       router.push(`/products?url=search-${value2}`);
     }

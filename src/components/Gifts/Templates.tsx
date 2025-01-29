@@ -37,7 +37,7 @@ const Templates: React.FC<TemplatesProps> = ({
         (templateImageUrl: string, index: number) => (
           <div
             key={index}
-            className={`rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer ${
+            className={`shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer ${
               selectedTemplateUrl === templateImageUrl ? "bg-blue-200" : ""
             }`}
             onClick={() => handleTemplateClick(templateImageUrl)}

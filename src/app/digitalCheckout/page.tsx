@@ -111,8 +111,8 @@ const DigitalCheckout: React.FC = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-lg rounded-md bg-white p-6 shadow-md">
-        <h2 className="mb-4 text-2xl font-semibold">Digital Checkout</h2>
+      <div className="w-full max-w-lg bg-white p-6 shadow-md">
+        <h2 className="mb-4 text-2xl text-center font-semibold">Digital Checkout</h2>
         <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
         <div className="mb-6">
           <div className="mb-4 flex items-center">

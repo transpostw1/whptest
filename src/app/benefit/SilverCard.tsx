@@ -185,7 +185,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
     router.push("/panverification")
   };
   return (
-    <div className="h-full rounded-xl bg-[#edebed] p-4 md:p-0 relative">
+    <div className="h-full bg-[#edebed] p-4 md:p-0 relative">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Silver
       </h3>
@@ -207,7 +207,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
             Slide or enter monthly installment amount
           </h1>
           <div className="mb-5 text-center md:mb-0">
-            <div className="mb-2 flex h-10 items-center justify-center rounded border border-gray-700 bg-white p-2">
+            <div className="mb-2 flex h-10 items-center justify-center  border border-gray-700 bg-white p-2">
               <div className="flex w-full items-center justify-start">
                 <span className="text-2xl md:text-3xl">₹</span>
                 <input
@@ -263,7 +263,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           <div className="mb-3 flex flex-col text-center">
             <div>
               <div
-                className="mb-2 w-full cursor-pointer rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
+                className="mb-2 w-full cursor-pointer  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
                 onClick={handleInputVerification}
               >
                 {loading||enroll ? "Enrolling..." : "Enroll Now"}
@@ -293,13 +293,13 @@ const SilverCard: React.FC<SilverCardProps> = ({
             <p>Kindly Complete Your Pan Verification</p>
             <div className="mt-4 flex justify-center gap-3 font-normal">
               <button
-                className="py-1y w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
+                className="py-1y w-32  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
                 onClick={() => handleproceedpan()}
               >
                 Verify Now
               </button>
               <button
-                className="w-32 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
+                className="w-32  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
                 onClick={() =>modalCloser()}
               >
                 Later
@@ -310,13 +310,13 @@ const SilverCard: React.FC<SilverCardProps> = ({
       )}
        {showMinValueModal && (
         <div className="absolute top-96 md:top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center ">
-          <div className="rounded-lg bg-white p-6 text-center">
+          <div className=" bg-white p-6 text-center">
             <p className="mb-4 text-lg font-semibold text-red-500">
               Minimum amount is ₹500
             </p>
             <button
               onClick={() => setShowMinValueModal(false)}
-              className="rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+              className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
             >
               Close
             </button>

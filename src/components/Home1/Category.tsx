@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,7 +57,7 @@ const Category = () => {
                 <div className="effect14 cursor-pointer">
                   <Image
                     src={category.parentImg}
-                    alt={category.url}
+                    alt={`category images ${category.name}`}
                     width={400}
                     height={400}
                     unoptimized
@@ -69,10 +69,10 @@ const Category = () => {
                 <h1 className="break-word font-semibold uppercase sm:text-lg">
                   {category.name}
                 </h1>
-                <a
+                <Link
+                  href={`/products?url=${category.url}`}
                   className="inline-flex items-center"
                   onClick={() => {
-                    router.push(`/products?url=${category.url}`);
                     setCustomcategory(category.url);
                   }}
                 >
@@ -85,9 +85,10 @@ const Category = () => {
                       alt="Right Arrow"
                       width={20}
                       height={20}
+                      unoptimized
                     />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           ))}

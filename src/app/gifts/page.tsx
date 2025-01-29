@@ -221,17 +221,17 @@ const Gifts = () => {
     <div className="mx-2 md:mx-1">
       <div className="bg-[#f8a4b4] py-10 text-center">
         <h1 className="py-2 font-medium">GIFT CARDS</h1>
-        <h3 className="text-3xl font-semibold italic">
-          For what your loved ones Love!
+        <h3 className="text-3xl font-semibold ">
+          For what your loved ones love!
         </h3>
       </div>
       {isLoading ? (
         <Loader />
       ) : (
         <div className="flex lg:mx-48">
-          <div className="hidden p-4 lg:block">
+          {/* <div className="hidden p-4 lg:block">
             <div className="h-full w-0.5 bg-red-500"></div>
-          </div>
+          </div> */}
           <div className="mt-3 flex w-full flex-col justify-between">
             <div className="flex items-end justify-between gap-1">
               <div>
@@ -239,13 +239,13 @@ const Gifts = () => {
                   {completedSteps.map((step, index) => (
                     <div
                       key={index}
-                      className="mb-2 flex gap-3 py-2 text-green-600"
+                      className="mb-2 flex gap-3 py-2 text-gray-400"
                     >
                       <div className="font-bold">{index + 1}</div>
                       {step}
                     </div>
                   ))}
-                  <div className="bg-[#e26178] p-1 text-white md:px-4">
+                  <div className=" p-1 text-black text-lg md:px-4">
                     {steps[currentStep]}
                   </div>
                 </div>
@@ -253,7 +253,7 @@ const Gifts = () => {
               <div className="flex gap-2">
                 {currentStep > 0 && (
                   <button
-                    className="bg-[#e8798b] px-2 py-2 text-white md:px-4"
+                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
                     onClick={handlePrevious}
                   >
                     PREVIOUS
@@ -261,14 +261,14 @@ const Gifts = () => {
                 )}
                 {currentStep < steps.length - 1 ? (
                   <button
-                    className="bg-[#e26178] px-2 py-2 text-white md:px-4"
+                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
                     onClick={handleNext}
                   >
                     NEXT
                   </button>
                 ) : (
                   <button
-                    className="bg-[#e26178] text-white md:px-4 md:py-2"
+                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white md:px-4 md:py-2"
                     onClick={handleProceedToPay}
                   >
                     PROCEED TO PAY

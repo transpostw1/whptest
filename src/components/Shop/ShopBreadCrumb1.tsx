@@ -738,7 +738,7 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str.replace(/(category-|search-|gender-|price-|metal-|pc-|_)/g, " ");
+    return str?.replace(/(category-|search-|gender-|price-|metal-|pc-|_)/g, " ");
   };
 
   const modifiedString = removeUnderscores(category);

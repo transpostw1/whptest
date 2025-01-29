@@ -233,7 +233,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 type="text"
                 placeholder="Search"
                 readOnly={true}
-                className="border-line caption2 h-10 w-full rounded-lg border bg-[#f7f7f7] pl-4 pr-4 focus:outline-none"
+                className="border-line caption2 h-10 w-full border bg-[#f7f7f7] pl-4 pr-4 focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
               />

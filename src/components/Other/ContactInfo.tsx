@@ -6,7 +6,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 
 const ContactInfo = () => {
   return (
-    <div className="bg-surface box-shadow-small absolute left-[70px] top-[100px] w-[250px] rounded-xl bg-white p-7">
+    <div className="bg-surface box-shadow-small absolute left-[70px] top-[100px] w-[250px] bg-white p-7">
       <p className="text-xl font-semibold">Get in Touch with us</p>
       <p className="mt-3">
         Connect with us and we will assist you with all your needs

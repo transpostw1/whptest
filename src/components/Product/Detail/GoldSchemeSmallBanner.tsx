@@ -131,7 +131,7 @@ export default function GoldSchemeSmallBanner() {
               </div>
             ) : (
               <div className="animate-fade-in">
-                <h2 className="mb-4 text-center text-xl font-semibold">
+                <h2 className="mb-4 text-center text-xl text-[#e26178] font-semibold">
                   Fill Your Details
                 </h2>
                 <form>

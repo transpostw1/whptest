@@ -817,7 +817,7 @@ const Checkout: React.FC = () => {
                             />
                             <button
                               onClick={() => handleCouponCode(voucherCode)}
-                              className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                              className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply
                             </button>
@@ -1068,7 +1068,7 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

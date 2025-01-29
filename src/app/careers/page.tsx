@@ -72,8 +72,8 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
           {uniqueCategories.map((filter) => (
             <SwiperSlide key={filter}>
               <button
-                className={`w-80 rounded-full border px-4 py-2 transition-colors duration-300 md:w-full ${
-                  activeFilter === filter ? "bg-purple-200" : "bg-white"
+                className={`w-80 rounded-full border  px-4 py-2 transition-colors duration-300 md:w-full ${
+                  activeFilter === filter ? "border-[#bb547d]" : "bg-white"
                 }`}
                 onClick={() => onFilterChange(filter)}
               >
@@ -160,7 +160,7 @@ const Careers: React.FC = () => {
           {filteredcareersData.length > 0 ? (
             filteredcareersData.map((data, index) => (
               <div
-                className="mx-2 mb-3 cursor-pointer rounded-2xl border border-[#bb547d] px-5 py-2 text-gray-600 shadow-xl md:p-7"
+                className="mx-2 mb-3 cursor-pointer  border border-[#bb547d] px-5 py-2 text-gray-600 shadow-md md:p-7"
                 key={index}
                 onClick={(event) => handleJobDetail(data.url, event)}
               >
@@ -173,6 +173,7 @@ const Careers: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-col items-end justify-between">
+                    <span className="text-gray-400 text-end">Posted on {data.addDate}</span>
                     <div className="flex flex-wrap justify-end gap-2 text-sm text-gray-400 md:text-lg">
                       {data.location.map((loc, index) => (
                         <div key={index} className="flex items-center gap-1">
@@ -186,7 +187,7 @@ const Careers: React.FC = () => {
                     <button
                       type="button"
                       onClick={openModal}
-                      className="mb-2 w-28 rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#4d97cb] focus:ring-4 focus:ring-blue-500"
+                      className="mb-2 w-28 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#4d97cb] focus:ring-4 focus:ring-blue-500"
                     >
                       Apply
                     </button>
@@ -200,8 +201,8 @@ const Careers: React.FC = () => {
             </div>
           )}
           {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden bg-opacity-50 backdrop-blur-sm">
-              <div className="w-full max-w-md overflow-x-hidden rounded-xl bg-gray-300 p-3">
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden bg-opacity-50 bg-black backdrop-blur-sm">
+              <div className="w-full max-w-md overflow-x-hidden bg-white p-3">
                 <ApplyForm closeModal={closeModal} />
               </div>
             </div>

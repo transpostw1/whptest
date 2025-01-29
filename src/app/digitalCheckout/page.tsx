@@ -138,7 +138,7 @@ const DigitalCheckout: React.FC = () => {
         </div>
         <div className="mb-6">
           <h3 className="mb-2 text-lg font-semibold">Order Summary</h3>
-          <div className="rounded bg-gray-100 p-4">
+          <div className=" bg-gray-100 p-4">
             <div className="mb-2 flex justify-between">
               <p>Plan Name :</p>
               <p>{selectedScheme.planName}</p>

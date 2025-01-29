@@ -128,7 +128,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
       <Sheet.Container>
         <Sheet.Header>
           <div className="flex items-center justify-between px-4 py-2">
-            <h2 className="text-lg font-semibold">Edit Profile</h2>
+            <h2 className="text-lg font-semibold text-[#e26178]">Edit Profile</h2>
             <button
               onClick={isClose}
               type="button"
@@ -174,7 +174,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                         formik.setFieldValue("profilePicture", null);
                       }
                     }}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.profilePicture
                         ? "border-red-500"
                         : "border-gray-300"
@@ -200,7 +200,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     type="text"
                     {...formik.getFieldProps("firstName")}
                     value={formik.values.firstName}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.firstName
                         ? "border-red-500"
                         : "border-gray-300"
@@ -221,7 +221,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     type="text"
                     {...formik.getFieldProps("lastName")}
                     value={formik.values.lastName}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.lastName
                         ? "border-red-500"
                         : "border-gray-300"
@@ -243,7 +243,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     readOnly
                     {...formik.getFieldProps("email")}
                     value={formik.values.email}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.email
                         ? "border-red-500"
                         : "border-gray-300"
@@ -264,7 +264,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     {...formik.getFieldProps("phone")}
                     value={formik.values.phone}
                     readOnly
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.phone ? "border-red-500" : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
@@ -282,7 +282,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     id="altPhone"
                     type="text"
                     {...formik.getFieldProps("altPhone")}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.altPhone
                         ? "border-red-500"
                         : "border-gray-300"
@@ -306,7 +306,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                   <select
                     id="gender"
                     {...formik.getFieldProps("gender")}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.gender
                         ? "border-red-500"
                         : "border-gray-300"
@@ -331,7 +331,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     id="gst_no"
                     type="text"
                     {...formik.getFieldProps("gst_no")}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.gst_no
                         ? "border-red-500"
                         : "border-gray-300"
@@ -356,7 +356,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     id="pan"
                     type="text"
                     {...formik.getFieldProps("pan")}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.pan ? "border-red-500" : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
@@ -379,7 +379,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                     type="text"
                     {...formik.getFieldProps("email")}
                     value={formik.values.email}
-                    className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                       formik.errors.email ? "border-red-500" : "border-gray-300"
                     } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   />
@@ -402,7 +402,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                       id="dobDay"
                       type="text"
                       {...formik.getFieldProps("dobDay")}
-                      className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                         formik.errors.dobDay
                           ? "border-red-500"
                           : "border-gray-300"
@@ -427,7 +427,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                       id="dobMonth"
                       type="text"
                       {...formik.getFieldProps("dobMonth")}
-                      className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                         formik.errors.dobMonth
                           ? "border-red-500"
                           : "border-gray-300"
@@ -447,7 +447,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
                       id="dobYear"
                       type="text"
                       {...formik.getFieldProps("dobYear")}
-                      className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                      className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                         formik.errors.dobYear
                           ? "border-red-500"
                           : "border-gray-300"
@@ -465,7 +465,7 @@ const UpdateProfile: React.FC<Props> = ({ isClose, isOpen }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white transition-colors hover:bg-rose-600 ${
+                className={` bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white transition-colors hover:bg-rose-600 ${
                   isLoading ? "cursor-not-allowed opacity-50" : ""
                 }`}
               >

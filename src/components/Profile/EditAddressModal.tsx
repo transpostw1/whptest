@@ -101,19 +101,22 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
     onSubmit: handleSubmit,
   });
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
+      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto  bg-white p-4 sm:max-w-lg">
+     <div className="flex justify-between items-center mb-4">
+     <h2 className=" text-2xl font-semibold text-[#e26178]">Edit Address</h2>
         <button onClick={closeModal} className="self-end">
           <Icon.X size={25} />
         </button>
+     </div>
         <form onSubmit={formik.handleSubmit}>
-          <h2 className="mb-4 text-2xl font-semibold">Edit Address</h2>
+          
           {formError && <div className="mb-4 text-red-500">{formError}</div>}
           <div className="mb-4">
             <div className="relative">
               <input
                 id="pincode"
-                className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.pincode ? "border-red-500" : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"
@@ -135,7 +138,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             <div className="relative">
               <input
                 id="full_address"
-                className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.full_address
                     ? "border-red-500"
                     : "border-gray-300"
@@ -160,7 +163,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
               <div className="relative">
                 <input
                   id="country"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                     formik.errors.country ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
@@ -182,7 +185,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
               <div className="relative">
                 <input
                   id="state"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                     formik.errors.state ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
@@ -202,7 +205,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
               <div className="relative">
                 <input
                   id="city"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                     formik.errors.city ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
@@ -223,7 +226,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             <div className="relative">
               <input
                 id="landmark"
-                className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.landmark ? "border-red-500" : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"
@@ -295,7 +298,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
           </div>
           <button
             type="submit"
-            className={`my-2 inline-block w-full rounded-md border border-transparent bg-rose-400 px-4 py-2 text-center text-white hover:bg-rose-500 ${
+            className={`my-2 inline-block w-full border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-center text-white hover:bg-rose-500 ${
               isLoading ? "cursor-not-allowed opacity-50" : ""
             }`}
             disabled={isLoading}

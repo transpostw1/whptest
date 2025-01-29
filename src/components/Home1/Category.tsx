@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,7 +57,7 @@ const Category = () => {
                 <div className="effect14 cursor-pointer">
                   <Image
                     src={category.parentImg}
-                    alt={category.url}
+                    alt={`category images ${category.name}`}
                     width={400}
                     height={400}
                     unoptimized

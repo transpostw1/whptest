@@ -25,8 +25,8 @@ const Occasion: React.FC<OccasionProps> = ({
         <div
           key={index}
           onClick={() => handleTemplateSelect(voucher.name, voucher.id)}
-          className={`rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden cursor-pointer ${
-            selectedTemplateId === voucher.id ? "bg-blue-200" : "bg-gray-100"
+          className={`shadow-lg hover:shadow-xl transition duration-300 overflow-hidden cursor-pointer ${
+            selectedTemplateId === voucher.id ? "bg-rose-100" : "bg-white"
           }`}
         >
           <Image

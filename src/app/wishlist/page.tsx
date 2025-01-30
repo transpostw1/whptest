@@ -237,7 +237,7 @@ const Wishlist = () => {
                         <Skeleton
                           width={300}
                           height={300}
-                          className="rounded-md"
+                          className=""
                         />
                       ) : isLoggedIn ? (
                         <div className="relative">
@@ -247,7 +247,7 @@ const Wishlist = () => {
                             alt={product.title}
                             width={300}
                             height={300}
-                            className="rounded-md bg-[#f7f7f7]"
+                            className=" bg-[#f7f7f7]"
                             onClick={() =>
                               router.push(
                                 `/products/${product.productId}/${product.url}`,
@@ -284,7 +284,7 @@ const Wishlist = () => {
                                 `/products/${product.productId}/${product.url}`,
                               )
                             }
-                            className="rounded-md bg-[#f7f7f7]"
+                            className=" bg-[#f7f7f7]"
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
                           />
@@ -351,13 +351,13 @@ const Wishlist = () => {
                     </div>
                     <div className="mt-3 flex flex-col flex-wrap justify-between gap-2 lg:flex-row lg:max-xl:flex-row">
                       <div
-                        className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
+                        className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                       <div
-                        className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
+                        className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
@@ -379,10 +379,10 @@ const Wishlist = () => {
         </div>
         {isOutOfStock && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
-            <div className="flex flex-col items-center rounded-lg bg-white p-6">
+            <div className="flex flex-col items-center  bg-white p-6">
               <p>{modalMessage}</p>
               <button
-                className="mt-4 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                className="mt-4  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                 onClick={() => closeModal()}
               >
                 Close

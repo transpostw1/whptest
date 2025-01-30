@@ -67,7 +67,7 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
             type="text" // Change input type to text to allow formatting
             value={amount}
             onChange={handleAmountChange}
-            className="w-48 rounded-lg border border-black py-2 pl-8 pr-4 md:w-64"
+            className="w-48  border border-black py-2 pl-8 pr-4 md:w-64"
             placeholder="Amount"
           />
         </div>
@@ -84,7 +84,7 @@ const Amount: FC<AmountProps> = ({ onAmountChange }) => {
             <button
               key={value}
               onClick={() => handleButtonClick(value)}
-              className="rounded-lg bg-[#e26178] px-4 py-2 text-white hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className=" bg-[#e26178] px-4 py-2 text-white hover:bg-[#b33e54] focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
               {formatPrice(value)}
             </button>

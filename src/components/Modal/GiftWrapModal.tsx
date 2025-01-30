@@ -10,7 +10,7 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
   const inputRef=useRef<any>();
   const [formData, setFormData] = useState({
     name: "",
-    wrapOption: false, // Change wrapOption to be a boolean
+    wrapOption: false, 
   });
 
   const handleClose = (e: any) => {
@@ -67,7 +67,7 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
               ref={inputRef}
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              className="mt-1 p-2 focus:ring-[#e26178] focus:border-[#e26178] block w-full shadow-sm sm:text-sm border-gray-300 "
               required
             />
           </div>
@@ -94,7 +94,7 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#e26178] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Submit
           </button>

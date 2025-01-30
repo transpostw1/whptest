@@ -229,7 +229,7 @@ const Login = () => {
 
         <button
           type="button"
-          className="mb-4 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
+          className="mb-4 flex w-full items-center justify-center  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
           onClick={onSendOtp}
           disabled={loading}
         >

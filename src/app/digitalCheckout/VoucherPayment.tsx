@@ -567,7 +567,7 @@ const VoucherPayment: React.FC<VoucherPaymentProps> = ({
 
           <button
             onClick={handlePayment}
-            className="mt-4 rounded bg-red-600 px-4 py-2 text-white"
+            className="mt-4 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
             disabled={!isValidTotalCart || !selectedPaymentMethod}
           >
             Place Order

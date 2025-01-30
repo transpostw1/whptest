@@ -358,7 +358,7 @@ const Payment: React.FC<PaymentProps> = ({
         <>
           <h1 className="mb-2 text-xl font-semibold">Payment Method</h1>
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+            <div className="flex items-center justify-between border border-gray-200 p-4">
               <label
                 htmlFor="razorpayPayment"
                 className="flex cursor-pointer gap-2 font-medium"
@@ -378,7 +378,7 @@ const Payment: React.FC<PaymentProps> = ({
                 id="razorpayPayment"
                 name="paymentOption"
                 value="razorpay"
-                className="h-4 w-4 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-red-600 focus:border-red-500 focus:outline-none"
+                className="h-4 w-4 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-rose-500 focus:border-rose-300 focus:outline-none"
                 checked={selectedPaymentMethod === "razorpay"}
                 onChange={handlePaymentMethodChange}
               />
@@ -387,7 +387,7 @@ const Payment: React.FC<PaymentProps> = ({
 
           <button
             onClick={handlePayment}
-            className="mt-4 rounded bg-red-600 px-4 py-2 text-white"
+            className="mt-4 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
             disabled={!isValidTotalCart || !selectedPaymentMethod}
           >
             Place Order

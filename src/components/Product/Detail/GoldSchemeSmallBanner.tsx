@@ -103,7 +103,7 @@ export default function GoldSchemeSmallBanner() {
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative w-[90%] max-w-md rounded-lg bg-white p-6">
+          <div className="relative w-[90%] max-w-md  bg-white p-6">
             <button
               onClick={() => close()}
               className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
@@ -120,18 +120,18 @@ export default function GoldSchemeSmallBanner() {
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value)}
                   placeholder="Enter your Pincode"
-                  className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                  className="mb-4 w-full border border-gray-300 p-2"
                 />
                 <button
                   onClick={checkAvailability}
-                  className="w-full rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 text-white"
+                  className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 text-white"
                 >
                   Check
                 </button>
               </div>
             ) : (
               <div className="animate-fade-in">
-                <h2 className="mb-4 text-center text-xl font-semibold">
+                <h2 className="mb-4 text-center text-xl text-[#e26178] font-semibold">
                   Fill Your Details
                 </h2>
                 <form>
@@ -142,7 +142,7 @@ export default function GoldSchemeSmallBanner() {
                       setFormData({ ...formData, name: e.target.value })
                     }
                     placeholder="Full Name"
-                    className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                    className="mb-4 w-full  border border-gray-300 p-2"
                   />
                   <input
                     type="email"
@@ -151,7 +151,7 @@ export default function GoldSchemeSmallBanner() {
                       setFormData({ ...formData, email: e.target.value })
                     }
                     placeholder="Email"
-                    className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                    className="mb-4 w-full  border border-gray-300 p-2"
                   />
                   <input
                     type="tel"
@@ -160,7 +160,7 @@ export default function GoldSchemeSmallBanner() {
                       setFormData({ ...formData, mobile: e.target.value })
                     }
                     placeholder="Mobile"
-                    className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                    className="mb-4 w-full  border border-gray-300 p-2"
                   />
                   <input
                     type="date"
@@ -171,7 +171,7 @@ export default function GoldSchemeSmallBanner() {
                         appointmentDate: e.target.value,
                       })
                     }
-                    className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                    className="mb-4 w-full  border border-gray-300 p-2"
                   />
                   <textarea
                     value={formData.message}
@@ -179,18 +179,18 @@ export default function GoldSchemeSmallBanner() {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     placeholder="Message"
-                    className="mb-4 w-full rounded-md border border-gray-300 p-2"
+                    className="mb-4 w-full border border-gray-300 p-2"
                   />
                   <div className="flex justify-between">
                     <button
                       onClick={() => close()}
-                      className="rounded-md border border-gray-300 px-6 py-2 text-gray-500"
+                      className=" border border-gray-300 px-6 py-2 text-gray-500"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={handleSubmit}
-                      className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white"
+                      className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white"
                     >
                       Submit
                     </button>

@@ -125,12 +125,16 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     <Loader />
   ) : (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 w-full overflow-y-auto">
-      <div className="bg-white p-4 sm:p-8 flex flex-col justify-between z-50 rounded-xl max-w-full sm:max-w-lg mx-4 max-h-[80vh] overflow-y-auto no-scrollbar">
+      <div className="bg-white p-4 sm:p-8 flex flex-col justify-between z-50  max-w-full sm:max-w-lg mx-4 max-h-[80vh] overflow-y-auto no-scrollbar">
+     <div className="flex items-center justify-between mb-4">
+     <h2 className="text-2xl font-semibold  text-[#e26178]">Edit Profile</h2>
         <button onClick={handleClose} className="self-end">
           <Icon.X size={25} />
         </button>
+     </div>
+     
         <form onSubmit={formik.handleSubmit}>
-          <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
+         
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="mb-4">
               <div className="relative">
@@ -152,7 +156,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                       formik.setFieldValue("profilePicture", null);
                     }
                   }}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none border-gray-300 focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none border-gray-300 focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
                 <label
                   htmlFor="profilePicture"
@@ -168,7 +172,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="firstName"
                   type="text"
                 {...formik.getFieldProps("firstName")} // Bind values properly
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                   formik.errors.firstName
                     ? "border-red-500"
                     : "border-gray-300"
@@ -194,7 +198,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   type="text"
                   {...formik.getFieldProps("lastName")}
                   value={formik.values.lastName}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.lastName
                       ? "border-red-500"
                       : "border-gray-300"
@@ -221,7 +225,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   {...formik.getFieldProps("email")}
                   value={formik.values.email}
                   readOnly
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.email ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
@@ -244,7 +248,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   {...formik.getFieldProps("phone")}
                   value={formik.values.phone}
                   readOnly
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-400 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-400 bg-transparent border appearance-none ${
                     formik.errors.phone ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
@@ -265,7 +269,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="altPhone"
                   type="text"
                   {...formik.getFieldProps("altPhone")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.altPhone
                       ? "border-red-500"
                       : "border-gray-300"
@@ -289,7 +293,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <select
                   id="gender"
                   {...formik.getFieldProps("gender")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.gender ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 >
@@ -315,7 +319,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="gst_no"
                   type="text"
                   {...formik.getFieldProps("gst_no")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent  border appearance-none ${
                     formik.errors.gst_no
                       ? "border-red-500"
                       : "border-gray-300"
@@ -340,7 +344,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="pan"
                   type="text"
                   {...formik.getFieldProps("pan")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.pan
                       ? "border-red-500"
                       : "border-gray-300"
@@ -371,7 +375,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="dobDay"
                   type="text"
                   {...formik.getFieldProps("dobDay")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                     formik.errors.dobDay ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
@@ -395,7 +399,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="dobMonth"
                   type="text"
                   {...formik.getFieldProps("dobMonth")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent  border appearance-none ${
                     formik.errors.dobMonth
                       ? "border-red-500"
                       : "border-gray-300"
@@ -420,7 +424,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   id="dobYear"
                   type="text"
                   {...formik.getFieldProps("dobYear")}
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent  border appearance-none ${
                     formik.errors.dobYear ? "border-red-500" : "border-gray-300"
                   } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
                 />
@@ -447,7 +451,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 px-4 rounded-lg transition-colors ${
+            className={`bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 px-4  transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

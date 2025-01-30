@@ -413,10 +413,10 @@ const Checkout: React.FC = () => {
     ? calculateTotalProductPrice(finalBuyNowItems)
     : calculateTotalProductPrice(MainCart);
 
-  let formattedPrice: string = totalCart.toString();
-  let formattedProductPrice: string = totalProductCart.toString();
+  let formattedPrice: number = totalCart;
+  let formattedProductPrice: number = totalProductCart;
   let discountDifference: any =
-    parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
+    Number(formattedProductPrice) - Number(formattedPrice);
 
   useEffect(() => {
     console.log("DiscountDifference", discountDifference);
@@ -987,35 +987,26 @@ const Checkout: React.FC = () => {
                       <div className="">
                         <div className="flex justify-between font-medium">
                           <h3>Product Total</h3>
-                          <h3>
-                            {formatPrice(parseInt(formattedProductPrice))}
-                          </h3>
+                          <h3>{formatPrice(formattedProductPrice)}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Product Discount</h3>
-                          <h3>-{formatPrice(parseInt(discountDifference))}</h3>
+                          <h3>-{formatPrice(discountDifference)}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
-                          <h3>{formatPrice(parseInt(formattedPrice))}</h3>
+                          <h3>{formatPrice(Number(formattedPrice))}</h3>
                         </div>
                         {totalDiscount > 0 && dataAfterCouponCode && (
                           <div className="flex justify-between font-medium">
                             <h3>Coupon Discount</h3>
-                            <h3>
-                              -{formatPrice(parseInt(totalDiscount.toString()))}
-                            </h3>
+                            <h3>-{formatPrice(totalDiscount)}</h3>
                           </div>
                         )}
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (
-                            <h3>
-                              -
-                              {formatPrice(
-                                parseInt(userDetails?.wallet_amount),
-                              )}
-                            </h3>
+                            <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
                           ) : (
                             <h3>{formatPrice(0)}</h3>
                           )}

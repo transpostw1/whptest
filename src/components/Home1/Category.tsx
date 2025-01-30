@@ -55,12 +55,11 @@ const Category = () => {
                 }}
               >
                 <div className="effect14 cursor-pointer">
-                  <Image
+                  <img
                     src={category.parentImg}
                     alt={`category images ${category.name}`}
                     width={400}
                     height={400}
-                    unoptimized
                   />
                 </div>
               </Link>

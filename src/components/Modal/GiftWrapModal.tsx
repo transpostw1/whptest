@@ -10,7 +10,7 @@ const GiftWrapModal: React.FC<Props> = ({ closeModal, handleGiftWrapData }) => {
   const inputRef=useRef<any>();
   const [formData, setFormData] = useState({
     name: "",
-    wrapOption: false, // Change wrapOption to be a boolean
+    wrapOption: false, 
   });
 
   const handleClose = (e: any) => {

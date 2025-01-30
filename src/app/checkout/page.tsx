@@ -360,6 +360,11 @@ const Checkout: React.FC = () => {
       productPrice: item?.productDetails?.productPrice,
       quantityleft: item?.productDetails?.quantity,
       makeToOrder: item?.productDetails?.makeToOrder,
+      discountPrice:
+        item?.productDetails?.discountPrice != null
+          ? item?.productDetails?.productPrice -
+            item?.productDetails?.discountPrice
+          : 0,
       url: item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
@@ -387,18 +392,22 @@ const Checkout: React.FC = () => {
   const calculateTotalPrice = (items: any[]) => {
     let total = 0;
     items.forEach((item) => {
-      const price = parseInt(item.price?.toString());
+      const price = isLoggedIn
+        ? Number(item.price)
+        : Number(item.discountPrice);
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
+      console.log("priceee", price);
     });
+    console.log("Total pridceee0", total, mappedCartItems);
     return total;
   };
 
   const calculateTotalProductPrice = (items: any[]) => {
     let total = 0;
     items.forEach((item) => {
-      const price = parseInt(item.productPrice?.toString());
+      const price = Number(item.productPrice);
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
@@ -413,10 +422,13 @@ const Checkout: React.FC = () => {
     ? calculateTotalProductPrice(finalBuyNowItems)
     : calculateTotalProductPrice(MainCart);
 
-  let formattedPrice: number = totalCart;
+  let formattedPrice: number = isLoggedIn
+    ? totalCart
+    : totalProductCart - totalCart;
   let formattedProductPrice: number = totalProductCart;
-  let discountDifference: any =
-    Number(formattedProductPrice) - Number(formattedPrice);
+  let discountDifference: any = isLoggedIn
+    ? Number(formattedProductPrice) - Number(formattedPrice)
+    : Number(totalCart);
 
   useEffect(() => {
     console.log("DiscountDifference", discountDifference);
@@ -529,7 +541,7 @@ const Checkout: React.FC = () => {
     }
     return true;
   };
-  let totalPrice = totalCart - totalDiscount;
+  let totalPrice = isLoggedIn?totalCart - totalDiscount:formattedPrice;
 
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {

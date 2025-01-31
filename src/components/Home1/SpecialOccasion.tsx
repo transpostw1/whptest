@@ -70,7 +70,7 @@ const SpecialOccasion = () => {
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/WHP_Everyday_Wear.jpg"}
+                      src={"/images/other/Everyday_Wear.jpg"}
                       width={1000}
                       height={600}
                       alt=""

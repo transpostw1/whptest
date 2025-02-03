@@ -11,7 +11,7 @@ const Gifts = () => {
       id: 3,
       url: "occasion-Her_Birthday",
       head: "her_birthday",
-      type: "HER BIRTHDAY",
+      type: "Her Birthday",
       image: (
         <Image
           src={"/images/gifts/GiftHer.jpg"}
@@ -26,7 +26,7 @@ const Gifts = () => {
       id: 4,
       url: "occasion-His_Birthday",
       head: "his_birthday",
-      type: "HIS BIRTHDAY",
+      type: "His Birthday",
       image: (
         <Image
           src={"/images/gifts/GiftHim.jpg"}
@@ -39,24 +39,9 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "occasion-New_Born_Baby",
-      head: "new_born_baby",
-      type: "NEW BORN BABY",
-      image: (
-        <Image
-          src={"/images/gifts/LittleStarCollection.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 8,
       url: "occasion-Valentines",
       head: "valentines",
-      type: "VALENTINES",
+      type: "Valentines",
       image: (
         <Image
           src={"/images/gifts/RingForMen.jpg"}
@@ -68,10 +53,25 @@ const Gifts = () => {
       ),
     },
     {
+      id: 8,
+      url: "occasion-Valentines",
+      head: "valentines",
+      type: "Valentines",
+      image: (
+        <Image
+          src={"/images/gifts/RingForWomen.jpg"}
+          alt=""
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+    {
       id: 5,
       url: "occasion-Weddings",
-      head: "weddings",
-      type: "WEDDINGS",
+      head: "special",
+      type: "Gift For Special Occasion",
       image: (
         <Image
           src={"/images/gifts/SpecialOccasion.jpg"}
@@ -84,12 +84,12 @@ const Gifts = () => {
     },
     {
       id: 6,
-      url: "occasion-Get_Well_Soon",
-      head: "get_well_soon",
-      type: "GET WELL SOON",
+      url: "occasion-God_pendant",
+      head: "god_pendant",
+      type: "God Pendant",
       image: (
         <Image
-          src={"/images/gifts/SelfGifting.jpg"}
+          src={"/images/gifts/GoldPendant.jpg"}
           alt=" "
           width={400}
           height={400}
@@ -99,12 +99,12 @@ const Gifts = () => {
     },
     {
       id: 7,
-      url: "occasion-Thankyou",
-      head: "thankyou",
-      type: "THANK YOU",
+      url: "occasion-New_Born_Baby",
+      head: "new_born_baby",
+      type: "Little Star Collection",
       image: (
         <Image
-          src={"/images/gifts/GoldPendant.jpg"}
+          src={"/images/gifts/LittleStarCollection.jpg"}
           alt=""
           width={400}
           height={400}
@@ -113,13 +113,13 @@ const Gifts = () => {
       ),
     },
     {
-      id: 1,
+      id: 8,
       url: "occasion-House_Warming",
       head: "house_warming",
-      type: "HOUSE WARMING",
+      type: "Self Gifting",
       image: (
         <Image
-          src={"/images/gifts/GiftHer.jpg"}
+          src={"/images/gifts/SelfGifting.jpg"}
           alt=""
           width={400}
           height={400}

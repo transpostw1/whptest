@@ -14,7 +14,7 @@ const Gifts = () => {
       type: "HER BIRTHDAY",
       image: (
         <Image
-          src={"/images/occasion/WHP_Gift_For_Her.jpg"}
+          src={"/images/gifts/GiftHer.jpg"}
           alt=""
           height={400}
           width={400}
@@ -29,7 +29,7 @@ const Gifts = () => {
       type: "HIS BIRTHDAY",
       image: (
         <Image
-          src={"/images/occasion/WHP_Gift_For_Him_01.jpg"}
+          src={"/images/gifts/GiftHim.jpg"}
           alt=""
           width={400}
           height={400}
@@ -44,7 +44,7 @@ const Gifts = () => {
       type: "NEW BORN BABY",
       image: (
         <Image
-          src={"/images/occasion/WHP_New Born Baby_01.jpg"}
+          src={"/images/gifts/LittleStarCollection.jpg"}
           alt=""
           width={400}
           height={400}
@@ -59,7 +59,7 @@ const Gifts = () => {
       type: "VALENTINES",
       image: (
         <Image
-          src={"/images/occasion/WHP_Valentines.jpg"}
+          src={"/images/gifts/RingForMen.jpg"}
           alt=""
           width={400}
           height={400}
@@ -74,7 +74,7 @@ const Gifts = () => {
       type: "WEDDINGS",
       image: (
         <Image
-          src={"/images/occasion/WHP_Weddings.jpg"}
+          src={"/images/gifts/SpecialOccasion.jpg"}
           alt=""
           width={400}
           height={400}
@@ -89,7 +89,7 @@ const Gifts = () => {
       type: "GET WELL SOON",
       image: (
         <Image
-          src={"/images/occasion/Getwell.jpg"}
+          src={"/images/gifts/SelfGifting.jpg"}
           alt=" "
           width={400}
           height={400}
@@ -104,7 +104,7 @@ const Gifts = () => {
       type: "THANK YOU",
       image: (
         <Image
-          src={"/images/occasion/Thankyou.jpg"}
+          src={"/images/gifts/GoldPendant.jpg"}
           alt=""
           width={400}
           height={400}
@@ -119,7 +119,7 @@ const Gifts = () => {
       type: "HOUSE WARMING",
       image: (
         <Image
-          src={"/images/occasion/Housewarming.jpg"}
+          src={"/images/gifts/GiftHer.jpg"}
           alt=""
           width={400}
           height={400}

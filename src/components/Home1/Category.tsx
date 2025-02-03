@@ -57,7 +57,7 @@ const Category = () => {
                 <div className="effect14 cursor-pointer">
                   <Image
                     src={category.parentImg}
-                    alt={category.name}
+                    alt={`category images ${category.name}`}
                     width={400}
                     height={400}
                     unoptimized

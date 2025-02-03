@@ -68,8 +68,8 @@ const GoldScheme = () => {
               </button>
             </Link>
             {!isMobile && (
-              <div className="bg-[#FFFAF9] p-0">
-                <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
+              <div className=" p-0">
+                <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:">
                   <Image
                     src={"/images/other/BenefitBangle.jpg"}
                     alt="Benefit"
@@ -94,6 +94,7 @@ const GoldScheme = () => {
                         onClick={() => handleNavigation("/benefit")}
                         className="flex justify-center text-start font-semibold text-[#E26178] underline"
                       >
+                        
                         Benefit Calculator
                         <span className="ml-2 mt-1">
                           <Icon.ArrowRight />
@@ -106,7 +107,7 @@ const GoldScheme = () => {
             )}
           </div>
           <Image
-            src={"/images/other/WHP_Gold_Investment copy.jpg"}
+            src={"/images/other/InvestinGold.jpg"}
             width={1000}
             height={900}
             alt="goldscheme"

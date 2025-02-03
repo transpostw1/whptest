@@ -21,7 +21,7 @@ const ShopByGender = () => {
       description: "Earrings, Pendants, Bracelets and more",
       image: (
         <Image
-          src={"/images/other/womenGender.jpg"}
+          src={"/images/gender/womens.jpg"}
           alt="womengender"
           width={500}
           height={500}
@@ -38,7 +38,7 @@ const ShopByGender = () => {
       description: "Bracelets, Chains, Rings and more",
       image: (
         <Image
-          src={"/images/other/MensGender.jpg"}
+          src={"/images/gender/Mens.jpg"}
           alt="mensgender"
           width={500}
           height={1000}
@@ -54,7 +54,7 @@ const ShopByGender = () => {
       description: "Anklets, Earrings, Bracelets and more",
       image: (
         <Image
-          src={"/images/other/KidsGender.jpg"}
+          src={"/images/gender/Kids.jpg"}
           alt="kidsgender"
           width={500}
           height={1000}
@@ -124,7 +124,7 @@ const ShopByGender = () => {
                     </div>
                   </div>
                 </Link>
-                <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>
+                {/* <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>
                 <p className="lg:text-[16px] sm:text-[12px] font-light">{category.description}</p>
                 <Link
                   className="inline-flex items-center"
@@ -142,7 +142,7 @@ const ShopByGender = () => {
                       height={20}
                     />
                   </span>
-                </Link>
+                </Link> */}
               </SwiperSlide>
             ))}
           </Swiper>

@@ -68,7 +68,7 @@ const WhatWeOffer = () => {
           <div className="flex w-full flex-col sm:w-[50%] sm:p-[4rem] md:mt-2 md:p-8">
             {width > 160 && (
               <div className="ps-3 pt-3">
-                <p className="pb-5 text-[61px] leading-[74px] font-normal">What we Offer</p>
+                <p className="pb-5 text-[61px] leading-[74px] font-normal">What we offer</p>
                 <p className="text-sm md:text-base">
                   Discover our offerings. Our commitment to quality, elegance,
                   and personalised service ensures an exceptional experience.

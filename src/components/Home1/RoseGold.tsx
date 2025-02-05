@@ -17,7 +17,7 @@ const RoseGold = () => {
     <div className="bg-[#f7f5f6] py-8 px-5 md:px-8 my-4">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left Section */}
-        <div className="flex flex-col justify-between md:w-1/2 text-center md:text-left mt-6 ">
+        <div className="flex flex-col justify-between md:w-1/2 text-center md:text-left ">
           <p className="font-semibold my-4 ">Explore</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl  text-gray-900">
             ROSE GOLD RANGE

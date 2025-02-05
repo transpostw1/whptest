@@ -168,7 +168,7 @@ const Gifts = () => {
               onClick={()=>setCustomcategory(category.head)}
             >
               <div className="relative flex flex-col gap-2">
-                <div className="effect10 img">
+                <div className="effect10 img hover:shadow-2xl">
                   {category.image}{" "}
                   {!isMobile && <a href="#">{category.type}</a>}
                 </div>

@@ -1,147 +1,81 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Slider from "react-slick";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Swiper, SwiperSlide } from "swiper/react";
+
+
+import * as Icon from "react-feather";
 import { useCategory } from "@/context/CategoryContex";
 
 const RoseGold = () => {
-  const { setCustomcategory } = useCategory();
-  const [width, setWidth] = useState<number>(300);
-  const [height, setHeight] = useState<number>(200);
-  const [bannerwidth, setBannerWidth] = useState<number>(300);
-  const [bannerheight, setBannerHeight] = useState<number>(200);
-  useEffect(() => {
-    const handleResize = () => {
-      // Get the current viewport width
-      const viewportWidth = window.innerWidth;
 
-      if (viewportWidth < 768) {
-        // Small screens
-        setWidth(135);
-        setHeight(43);
-        setBannerWidth(170);
-        setBannerHeight(298);
-      } else if (viewportWidth >= 768 && viewportWidth < 1024) {
-        // Medium screens
-        setWidth(170);
-        setHeight(50);
-        setBannerWidth(220);
-        setBannerHeight(390);
-      } else {
-        // Large screens
-        setWidth(290);
-        setHeight(200);
-        setBannerWidth(350);
-        setBannerHeight(465);
-      }
-    };
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    const { setCustomcategory } = useCategory();
   return (
-    <div className="mt-5 flex flex-wrap justify-evenly bg-[#f7f5f6]">
-      <div className="md:w-[40%] md:ml-4 lg:w-[30%] lg:pl-[] sm:pt-[36px]">
-        <p className="font-semibold max-sm:text-center md:mb-3">Explore</p>
-        <p className="max-sm:text-center max-sm:text-[1.5rem] sm:leading-4 md:mb-3 md:text-[1.5rem] lg:text-start lg:text-4xl lg:leading-[50px]">
-          ROSE GOLD RANGE
-        </p>
-        <div className="max-sm:text-center max-sm:text-xs md:text-[0.5rem] lg:text-start lg:text-[1rem]">
-          <p>
+    <div className="bg-[#f7f5f6] py-8 px-5 md:px-8 my-4">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Left Section */}
+        <div className="flex flex-col justify-between md:w-1/2 text-center md:text-left mt-6 ">
+          <p className="font-semibold my-4 ">Explore</p>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl  text-gray-900">
+            ROSE GOLD RANGE
+          </h2>
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed md:text-left mb-2">
             Elevate your style with the warm, rosy embrace of rose gold
             jewellery. Its timeless elegance adds a touch of sophistication to
             every look.
           </p>
-        </div>
-        <div className="mb-5 mt-7 flex max-sm:justify-center">
-          <div className="mr-2 cursor-pointer">
+
+          {/* Color Variants */}
+          <div className="flex justify-center md:justify-start gap-3 my-5" >
             <Image
               src={"/images/roseGoldImages/roseGoldVariants1.png"}
-              alt={"roseGoldVariants"}
+              alt="roseGoldVariants"
               width={40}
               height={40}
+              className="cursor-pointer"
               unoptimized
             />
-          </div>
-          <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants2.png"}
-              alt={"roseGoldVariants"}
+              alt="roseGoldVariants"
               width={40}
               height={40}
+              className="cursor-pointer"
               unoptimized
             />
-          </div>
-          <div className="mr-2 cursor-pointer">
             <Image
               src={"/images/roseGoldImages/roseGoldVariants3.png"}
-              alt={"roseGoldVariants"}
+              alt="roseGoldVariants"
               width={40}
               height={40}
+              className="cursor-pointer"
               unoptimized
             />
           </div>
-        </div>
-        
-        {width > 135 && (
-          <Link
-            href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
-            onClick={() => setCustomcategory("rose_gold")}
-          >
-            <div className="flex-end mt-auto flex justify-normal">
-              <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[60%]">
-                Shop All
-                <span className="ml-2 mt-1">
-                  <Icon.ArrowRight />
-                </span>
-              </span>
-            </div>
-          </Link>
-        )}
-      </div>
-      <div className="flex max-sm:w-full max-sm:justify-end sm:justify-center">
-        
-        <Image
-          src={"/images/roseGoldImages/roseGoldRing.png"}
-          width={bannerwidth}
-          height={height}
-          alt={"the rose gold section"}
-          unoptimized
-        />
 
-        <Image
-          src={"/images/roseGoldImages/roseGoldRingBannerWithHand.png"}
-          width={width}
-          height={height}
-          alt={"the rose gold section"}
-          unoptimized
-        />
-      </div>
-      {width < 170 && (
-        <div className="mt-5 flex w-full justify-center">
-          <Link
-            href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
-            onClick={() => setCustomcategory("rose_gold")}
-          >
-            <span className="flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-2 text-white lg:w-[37%]">
+           <Link
+             href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
+             onClick={() => setCustomcategory("rose_gold")}
+       >
+            <span className="flex items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-3 text-white font-medium shadow-md hover:opacity-90 transition md:w-1/2 lg:w-1/3 mx-auto md:mx-0">
               Shop All
-              <span className="ml-2 mt-1">
-                <Icon.ArrowRight />
-              </span>
+              <Icon.ArrowRight className="ml-2" />
             </span>
           </Link>
         </div>
-      )}
+
+        {/* Right Section (Image) */}
+        <div className="md:w-1/2">
+          <img
+            src="/images/other/Rosegoldrange.jpg"
+            className="w-full h-auto lg:p-8 md:py-6"
+            alt="Rose Gold Collection"
+          />
+        </div>
+      </div>
     </div>
   );
 };

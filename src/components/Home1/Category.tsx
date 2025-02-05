@@ -60,7 +60,6 @@ const Category = () => {
                     alt={`category images ${category.name}`}
                     width={400}
                     height={400}
-                    unoptimized
                   />
                 </div>
               </Link>

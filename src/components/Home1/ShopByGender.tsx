@@ -115,7 +115,7 @@ const ShopByGender = () => {
                   className=""
                   onClick={() => setCustomcategory(category.categoryUrl)}
                 >
-                  <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg">
+                  <div className="overflow-hidden bg ">
                     {category.image}
                     <div className="overlay">
                       <p className="xs:text-lg md:text-[24px]  text-center">

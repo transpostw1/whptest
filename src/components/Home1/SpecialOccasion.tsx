@@ -62,7 +62,7 @@ const SpecialOccasion = () => {
                 href={{ pathname: "/products", query: { url: "occasion-everyday" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("");
                     setCustomcategory("Everyday");
@@ -87,7 +87,7 @@ const SpecialOccasion = () => {
                 href={{ pathname: "/products", query: { url: "occasion-officeWear" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("top");
                     setCustomcategory("Ofice_Wear");
@@ -115,7 +115,7 @@ const SpecialOccasion = () => {
                 }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("sets");
                     setCustomcategory("kids_collection");
@@ -140,7 +140,7 @@ const SpecialOccasion = () => {
                 href={{ pathname: "/products", query: { url: "occasion-Silver_jewellery" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("outerwear");
                     setCustomcategory("Anayra");

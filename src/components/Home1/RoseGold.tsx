@@ -14,11 +14,11 @@ const RoseGold = () => {
 
     const { setCustomcategory } = useCategory();
   return (
-    <div className="bg-[#f7f5f6] py-8 px-5 md:px-8 my-4">
+    <div className="bg-[#f7f5f6] px-5 md:px-8 my-4">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left Section */}
         <div className="flex flex-col justify-between md:w-1/2 text-center md:text-left ">
-          <p className="font-semibold my-4 ">Explore</p>
+          <p className="font-semibold my-2 ">Explore</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl  text-gray-900">
             ROSE GOLD RANGE
           </h2>
@@ -29,7 +29,7 @@ const RoseGold = () => {
           </p>
 
           {/* Color Variants */}
-          <div className="flex justify-center md:justify-start gap-3 my-5" >
+          <div className="flex justify-center md:justify-start gap-3 my-6" >
             <Image
               src={"/images/roseGoldImages/roseGoldVariants1.png"}
               alt="roseGoldVariants"
@@ -67,11 +67,10 @@ const RoseGold = () => {
           </Link>
         </div>
 
-        {/* Right Section (Image) */}
         <div className="md:w-1/2">
           <img
             src="/images/other/Rosegoldrange.jpg"
-            className="w-full h-auto lg:p-8 md:py-6"
+            className="w-full h-auto lg:px-8 md:p"
             alt="Rose Gold Collection"
           />
         </div>

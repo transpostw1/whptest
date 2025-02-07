@@ -170,11 +170,11 @@ const Gifts = () => {
               <div className="relative flex flex-col gap-2">
                 <div className="effect10 img hover:shadow-2xl">
                   {category.image}{" "}
-                  {!isMobile && <a href="#">{category.type}</a>}
+                  
                 </div>
-                {isMobile && (
+                {/* {isMobile && (
                   <div className="text-md break-words">{category.type}</div>
-                )}
+                )} */}
                 <div className="inline-flex">
                   <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
                     View All

@@ -66,7 +66,7 @@ const ShopByGender = () => {
   return (
     <>
       <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-4">
           <div>
             <p className="font-medium sm:text-[18px] lg:text-[32px] uppercase">
               Shop by gender
@@ -108,20 +108,20 @@ const ShopByGender = () => {
             {categories.map((category) => (
               <SwiperSlide
                 key={category.id}
-                className="flex flex-col gap-2 relative items-center blurcontainer"
+                className="flex flex-col gap-2 relative items-center hover:shadow-lg "
               >
                 <Link
                   href={`/products?url=${category.url}`}
                   className=""
                   onClick={() => setCustomcategory(category.categoryUrl)}
                 >
-                  <div className="overflow-hidden bg ">
+                  <div className="">
                     {category.image}
-                    <div className="overlay">
-                      <p className="xs:text-lg md:text-[24px]  text-center">
+                    {/* <div className="">
+                      <p className="xs:text-lg md:text-[24px] text-center">
                         {category.type}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
                 {/* <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>

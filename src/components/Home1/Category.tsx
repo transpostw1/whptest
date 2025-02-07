@@ -38,11 +38,11 @@ const Category = () => {
             collections cater to every style and taste.
           </p>
         </div>
-        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4 ">
           {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
-              className="relative flex flex-col items-start justify-between"
+              className="relative flex flex-col items-start justify-between hover:shadow-md"
             >
               <Link
                 href={{
@@ -54,7 +54,7 @@ const Category = () => {
                   setCustomcategory(cleanUrl);
                 }}
               >
-                <div className="effect14 cursor-pointer">
+                <div className="cursor-pointer">
                   <Image
                     src={category.parentImg}
                     alt={`category images ${category.name}`}

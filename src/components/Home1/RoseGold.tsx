@@ -29,7 +29,7 @@ const RoseGold = () => {
           </p>
 
           {/* Color Variants */}
-          <div className="flex justify-center md:justify-start gap-3 my-6" >
+          <div className="flex justify-center md:justify-start gap-3 my-6 " >
             <Image
               src={"/images/roseGoldImages/roseGoldVariants1.png"}
               alt="roseGoldVariants"
@@ -55,6 +55,11 @@ const RoseGold = () => {
               unoptimized
             />
           </div>
+          <img
+            src="/images/other/Rosegoldrange.jpg"
+            className="w-screen h-auto md:hidden mb-5"
+            alt="Rose Gold Collection"
+          />
 
            <Link
              href={{ pathname: "/products", query: { url: "metal-rose_gold" } }}
@@ -67,7 +72,7 @@ const RoseGold = () => {
           </Link>
         </div>
 
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 hidden md:block">
           <img
             src="/images/other/Rosegoldrange.jpg"
             className="w-full h-auto lg:px-8 md:p"

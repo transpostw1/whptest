@@ -101,7 +101,7 @@ const Reviews: React.FC = () => {
           <h2 className="mb-5 text-[1.5rem] font-semibold uppercase">
             TESTIMONIALS
           </h2>
-          <div className="w-100 flex justify-between pe-2 md:block md:w-auto">
+          <div className="w-full flex justify-between pe-2 md:block md:w-auto">
             <h1 className="mb-8 text-2xl text-red-950 md:text-5xl">
               Hear from our <br /> customers
             </h1>
@@ -134,7 +134,7 @@ const Reviews: React.FC = () => {
             {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="p-2 h-80">
                 <div className="flex h-full flex-col border gap-5 border-gray-200 bg-white p-4 text-red-950">
-                  <p className=" mb-4 text-sm">{testimonial.feedback}</p>
+                  <p className="mb-4 text-sm">{testimonial.feedback}</p>
                  <div>  
                   {testimonial.image && (
                     <Image

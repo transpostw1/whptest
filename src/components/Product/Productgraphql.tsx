@@ -334,7 +334,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -359,7 +359,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       </div>
                     )}
                     {data.discountValue && (
-                      <div className="try_on absolute left-1 top-1 z-0 float-right flex justify-between rounded-lg border border-[#e26178] px-2 text-center text-xs hover:bg-[#e26178] hover:text-white">
+                      <div className="try_on absolute left-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center text-xs hover:bg-[#e26178] hover:text-white">
                         {data.discountValue}% on making charges
                       </div>
                     )}
@@ -405,7 +405,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between text-[#e26178] hover:text-white">

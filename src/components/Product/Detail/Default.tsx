@@ -454,7 +454,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                     )
                   }
                 >
-                  <div className="flex items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
+                  <div className="flex items-center justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white">
                     <IoCameraOutline />
                     <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>

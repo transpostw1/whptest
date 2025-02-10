@@ -95,7 +95,7 @@ const WhatWeOffer = () => {
                   <Link
                     href={{
                       pathname: "/products",
-                      query: { url: "categroy-new_Arrival" },
+                      query: { url: "category-new_Arrival" },
                     }}
                     onClick={() => setCustomcategory("new_arrival")}
                     className="mt-8 inline-flex items-center"

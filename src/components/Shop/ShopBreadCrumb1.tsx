@@ -196,6 +196,11 @@ const ShopBreadCrumb1 = () => {
               }
               stoneDetails
               diamondDetails
+              breadcrumbs {
+                id
+                title
+                category_url
+              }
             }
           }
         `;
@@ -730,7 +735,6 @@ const ShopBreadCrumb1 = () => {
       const sortedDate = sortedProducts.map(
         (product, index) => product.addDate,
       );
-      console.log("dieoweidfdie", sortedDate);
       setFilteredProducts(sortedProducts);
       setPageNumber(0);
     }

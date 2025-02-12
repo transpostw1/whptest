@@ -14,6 +14,7 @@ import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
+import ProductList from "./ProductList";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -274,15 +275,6 @@ const ShopBreadCrumb1 = () => {
           setSelectedSortOption("All");
           setIsLoadMore(false);
         }
-        //else if (data && data.products && !isLoadMore) {
-        //   console.log("oooooooooooooooooooooooooooofffffffffffffffffffffffffsettttttttttt",offset,isLoadMore)
-        //   setFilteredProducts((prevProducts) => [
-        //     ...prevProducts,
-        //     ...data.products,
-        //   ]);
-        //   setSelectedSortOption("All");
-        //   setIsLoading(false);
-        // }
         else {
           setIsLoading(true);
           console.error("Error: No products data received");
@@ -295,6 +287,7 @@ const ShopBreadCrumb1 = () => {
       }
     }
   };
+
 
   const fetchFilter = async (combinedOptions: any) => {
     if (
@@ -797,7 +790,6 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     fetchSkusList();
   }, []);
-
   return (
     <>
       <div className="shop-product breadcrumb1">
@@ -824,7 +816,7 @@ const ShopBreadCrumb1 = () => {
                 <div className="sm:w-[100%] lg:w-[70%]">
                   {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                  <BreadCrumb />
+                  <BreadCrumb filteredProducts={filteredProducts}/>
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
                       ([category, options]) =>

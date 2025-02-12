@@ -9,12 +9,12 @@ const Gifts = () => {
   let categories = [
     {
       id: 3,
-      url: "o-Her_Birthday",
+      url: "occasion-Her_Birthday",
       head: "her_birthday",
-      type: "HER BIRTHDAY",
+      type: "Her Birthday",
       image: (
         <Image
-          src={"/images/occasion/WHP_Gift_For_Her.jpg"}
+          src={"/images/gifts/GiftHer.jpg"}
           alt=""
           height={400}
           width={400}
@@ -24,12 +24,12 @@ const Gifts = () => {
     },
     {
       id: 4,
-      url: "o-His_Birthday",
+      url: "occasion-His_Birthday",
       head: "his_birthday",
-      type: "HIS BIRTHDAY",
+      type: "His Birthday",
       image: (
         <Image
-          src={"/images/occasion/WHP_Gift_For_Him_01.jpg"}
+          src={"/images/gifts/GiftHim.jpg"}
           alt=""
           width={400}
           height={400}
@@ -39,12 +39,12 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "o-New_Born_Baby",
-      head: "new_born_baby",
-      type: "NEW BORN BABY",
+      url: "occasion-Valentines",
+      head: "valentines",
+      type: "Valentines",
       image: (
         <Image
-          src={"/images/occasion/WHP_New Born Baby_01.jpg"}
+          src={"/images/gifts/RingForMen.jpg"}
           alt=""
           width={400}
           height={400}
@@ -54,12 +54,12 @@ const Gifts = () => {
     },
     {
       id: 8,
-      url: "o-Valentines",
+      url: "occasion-Valentines",
       head: "valentines",
-      type: "VALENTINES",
+      type: "Valentines",
       image: (
         <Image
-          src={"/images/occasion/WHP_Valentines.jpg"}
+          src={"/images/gifts/RingForWomen.jpg"}
           alt=""
           width={400}
           height={400}
@@ -69,12 +69,12 @@ const Gifts = () => {
     },
     {
       id: 5,
-      url: "o-Weddings",
-      head: "weddings",
-      type: "WEDDINGS",
+      url: "occasion-Weddings",
+      head: "special",
+      type: "Gift For Special Occasion",
       image: (
         <Image
-          src={"/images/occasion/WHP_Weddings.jpg"}
+          src={"/images/gifts/SpecialOccasion.jpg"}
           alt=""
           width={400}
           height={400}
@@ -84,12 +84,12 @@ const Gifts = () => {
     },
     {
       id: 6,
-      url: "o-Get_Well_Soon",
-      head: "get_well_soon",
-      type: "GET WELL SOON",
+      url: "occasion-God_pendant",
+      head: "god_pendant",
+      type: "God Pendant",
       image: (
         <Image
-          src={"/images/occasion/Getwell.jpg"}
+          src={"/images/gifts/GoldPendant.jpg"}
           alt=" "
           width={400}
           height={400}
@@ -99,12 +99,12 @@ const Gifts = () => {
     },
     {
       id: 7,
-      url: "o-Thankyou",
-      head: "thankyou",
-      type: "THANK YOU",
+      url: "occasion-New_Born_Baby",
+      head: "new_born_baby",
+      type: "Little Star Collection",
       image: (
         <Image
-          src={"/images/occasion/Thankyou.jpg"}
+          src={"/images/gifts/LittleStarCollection.jpg"}
           alt=""
           width={400}
           height={400}
@@ -113,13 +113,13 @@ const Gifts = () => {
       ),
     },
     {
-      id: 1,
-      url: "o-House_Warming",
+      id: 8,
+      url: "occasion-House_Warming",
       head: "house_warming",
-      type: "HOUSE WARMING",
+      type: "Self Gifting",
       image: (
         <Image
-          src={"/images/occasion/Housewarming.jpg"}
+          src={"/images/gifts/SelfGifting.jpg"}
           alt=""
           width={400}
           height={400}
@@ -168,13 +168,13 @@ const Gifts = () => {
               onClick={()=>setCustomcategory(category.head)}
             >
               <div className="relative flex flex-col gap-2">
-                <div className="effect10 img">
+                <div className="effect10 img hover:shadow-2xl">
                   {category.image}{" "}
-                  {!isMobile && <a href="#">{category.type}</a>}
+                  
                 </div>
-                {isMobile && (
+                {/* {isMobile && (
                   <div className="text-md break-words">{category.type}</div>
-                )}
+                )} */}
                 <div className="inline-flex">
                   <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
                     View All

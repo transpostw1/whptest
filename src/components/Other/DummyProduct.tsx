@@ -119,6 +119,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
       document.body.appendChild(script);
     });
   };
+  if (!data?.imageDetails || data.imageDetails.length === 0) {
+    return null;
+  }
 
   const fetchSkusList = async () => {
     try {
@@ -268,7 +271,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               {data?.SKU && skuList?.includes(data?.SKU) && (
                 <div
                   id={`product-form-${data?.productId}`}
-                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between rounded-xl border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                  className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                   onClick={() => loadTryOnButton?.(data.SKU, data.productId)}
                 >
                   <div className="flex items-center justify-between">
@@ -303,7 +306,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart size={25} onClick={() => HandleaddToWishlist()} />
+                  <Icon.Heart color="#fa0000" size={25} onClick={() => HandleaddToWishlist()} />
                 )}
               </div>
             </div>

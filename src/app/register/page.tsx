@@ -125,7 +125,7 @@ const Register = () => {
                 <PhoneInput
                   defaultCountry="in"
                   value={phoneNumber}
-                  inputClassName="border h-full w-[250px] rounded-xl"
+                  inputClassName="border h-full w-[250px]"
                   placeholder="Enter your mobile number"
                   onChange={handlePhoneChange}
                 />
@@ -152,7 +152,7 @@ const Register = () => {
                     First Name
                   </label>
                   <input
-                    className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
+                    className="w-full border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="First Name"
                     id="firstName"
                     type="text"
@@ -170,7 +170,7 @@ const Register = () => {
                     Last Name
                   </label>
                   <input
-                    className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
+                    className="w-full border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="Last Name"
                     id="lastName"
                     type="text"
@@ -186,7 +186,7 @@ const Register = () => {
                     Email Address
                   </label>
                   <input
-                    className="w-full rounded-lg border border-gray-300 px-4 pb-3 pt-3"
+                    className="w-full border border-gray-300 px-4 pb-3 pt-3"
                     placeholder="Email"
                     id="email"
                     type="email"
@@ -199,7 +199,7 @@ const Register = () => {
                 </div>
                 <button
                   type="submit"
-                  className="mt-5 w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-normal text-white transition duration-300 hover:bg-[#e26178]"
+                  className="mt-5 w-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-2 font-normal text-white transition duration-300 hover:bg-[#e26178]"
                   disabled={loading}
                 >
                   {loading ? <Preloader /> : <span>LOG IN</span>}

@@ -204,7 +204,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
                   handleProductDetailsLink(product.productId, product.url)
                 }
               >
-                {product.name}
+                {product.name} {" "} X {product.quantity}
               </div>
               {/* <div> */}
               {product.variants && product.variants.length > 0 && (
@@ -220,6 +220,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
                   )}
                 </div>
               )}
+         
               {/* </div> */}
               <div className="flex">
                 <div
@@ -254,10 +255,8 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     <Icon.Plus
       size={28}
       onClick={() => handleQuantityChange(product.quantity + 1)}
-      className={`border p-1 text-base hover:bg-[#e26178] hover:text-white max-md:text-sm ${
-        product.quantity >= 5 ? "disabled cursor-not-allowed" : ""
-      }`}
-      disabled={product.quantity >= 5}
+      className={`border p-1 text-base hover:bg-[#e26178] hover:text-white max-md:text-sm `}
+      // disabled={product.quantity >= 5}
     />
   </div>
 </div>

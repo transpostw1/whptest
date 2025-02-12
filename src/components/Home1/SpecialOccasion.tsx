@@ -59,10 +59,10 @@ const SpecialOccasion = () => {
           >
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-everyday" } }}
+                href={{ pathname: "/products", query: { url: "occasion-everyday" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("");
                     setCustomcategory("Everyday");
@@ -70,24 +70,24 @@ const SpecialOccasion = () => {
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/WHP_Everyday_Wear.jpg"}
+                      src={"/images/specialoccassion/EverydayWear.jpg"}
                       width={1000}
                       height={600}
                       alt=""
                     />
                   </div>
-                  <div className="collection-name heading7 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                  {/* <div className="collection-name heading7 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
                     Everday Wear
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-officeWear" } }}
+                href={{ pathname: "/products", query: { url: "occasion-officeWear" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("top");
                     setCustomcategory("Ofice_Wear");
@@ -95,15 +95,15 @@ const SpecialOccasion = () => {
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/WHP_Office_Wear.jpg"}
+                      src={"/images/specialoccassion/GoldInvestment.jpg"}
                       width={1000}
                       height={600}
                       alt=""
                     />
                   </div>
-                  <div className="collection-name heading7 sm:heading-8 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                  {/* <div className="collection-name heading7 sm:heading-8 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
                     Office Wear
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             </SwiperSlide>
@@ -111,52 +111,52 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "o-Wedding_Wear" },
+                  query: { url: "occasion-kids-collection" },
                 }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("sets");
-                    setCustomcategory("wedding_wear");
+                    setCustomcategory("kids_collection");
                   }}
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/WHP_Wedding_Wear.jpg"}
+                      src={"/images/specialoccassion/KidsCollection.jpg"}
                       width={1000}
                       height={600}
                       alt=""
                     />
                   </div>
-                  <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                  {/* <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
                     Wedding Wear
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "o-Party_Wear" } }}
+                href={{ pathname: "/products", query: { url: "occasion-Silver_jewellery" } }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden rounded-2xl"
+                  className="collection-item relative block cursor-pointer overflow-hidden "
                   onClick={() => {
                     handleTypeClick("outerwear");
-                    setCustomcategory("party_wear");
+                    setCustomcategory("Anayra");
                   }}
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/other/WHP_Party_Wear.jpg"}
+                      src={"/images/specialoccassion/Anayra.jpg"}
                       width={1000}
                       height={600}
                       alt=""
                     />
                   </div>
-                  <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                  {/* <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
                     Party Wear
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             </SwiperSlide>

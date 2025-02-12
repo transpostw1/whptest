@@ -36,6 +36,29 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
 import GiftWrapModal from "@/components/Modal/GiftWrapModal";
 
+interface CartItems {
+  productDetails: {
+    displayTitle: string;
+    discountPrice: any;
+    imageDetails: any;
+    productPrice: string;
+    quantityleft: number;
+    discountValue: string;
+    url: string;
+  };
+  gst?: any;
+  displayTitle?: string;
+  discountPrice?: any;
+  imageDetails?: any;
+  productId: number;
+  quantity?: number;
+  name?: string;
+  price?: number;
+  image?: string;
+  isBuyNow?: boolean;
+  variants?: { variantType: string; variantName: string }[];
+}
+
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();
@@ -258,7 +281,7 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-        
+
         if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
@@ -288,7 +311,7 @@ const Checkout: React.FC = () => {
           totalCartDiscount += discount;
         }
       });
-    
+
     updateDiscount(totalCartDiscount);
   }, [dataAfterCouponCode]);
 
@@ -314,15 +337,15 @@ const Checkout: React.FC = () => {
     setShowAllItems((prevState) => !prevState);
   };
 
-  
   const mappedCartItems = cartItems
     .filter(
       (item: any) =>
         item?.productId ||
         item?.quantity ||
-        item?.variants||
+        item?.variants ||
         item?.productDetails?.title ||
         item?.productDetails?.quantity ||
+        item?.productDetails?.productPrice ||
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails ||
         item?.productDetails?.quantity ||
@@ -331,12 +354,17 @@ const Checkout: React.FC = () => {
     .map((item: any) => ({
       productId: item?.productId,
       quantity: item?.quantity,
-      variants:item?.variants,
+      variants: item?.variants,
       name: item?.productDetails?.title,
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
       quantityleft: item?.productDetails?.quantity,
       makeToOrder: item?.productDetails?.makeToOrder,
+      discountPrice:
+        item?.productDetails?.discountPrice != null
+          ? item?.productDetails?.productPrice -
+            item?.productDetails?.discountPrice
+          : 0,
       url: item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
@@ -346,7 +374,7 @@ const Checkout: React.FC = () => {
     }));
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
   const finalBuyNowItems = buyNow
-    ? MainCart.filter((item) => item.productId == parseInt(buyNow))
+    ? MainCart.filter((item: any) => item.productId == parseInt(buyNow))
     : [];
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
@@ -364,18 +392,22 @@ const Checkout: React.FC = () => {
   const calculateTotalPrice = (items: any[]) => {
     let total = 0;
     items.forEach((item) => {
-      const price = parseInt(item.price?.toString());
+      const price = isLoggedIn
+        ? Number(item.price)
+        : Number(item.discountPrice);
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
+      console.log("priceee", price);
     });
+    console.log("Total pridceee0", total, mappedCartItems);
     return total;
   };
 
   const calculateTotalProductPrice = (items: any[]) => {
     let total = 0;
     items.forEach((item) => {
-      const price = parseInt(item.productPrice?.toString());
+      const price = Number(item.productPrice);
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
@@ -390,10 +422,19 @@ const Checkout: React.FC = () => {
     ? calculateTotalProductPrice(finalBuyNowItems)
     : calculateTotalProductPrice(MainCart);
 
-  let formattedPrice: string = totalCart.toString();
-  let formattedProductPrice: string = totalProductCart.toString();
-  let discountDifference: any =
-    parseFloat(formattedProductPrice) - parseFloat(formattedPrice);
+  let formattedPrice: number = isLoggedIn
+    ? totalCart
+    : totalProductCart - totalCart;
+  let formattedProductPrice: number = totalProductCart;
+  let discountDifference: any = isLoggedIn
+    ? Number(formattedProductPrice) - Number(formattedPrice)
+    : Number(totalCart);
+
+  useEffect(() => {
+    console.log("DiscountDifference", discountDifference);
+    console.log("FormattedPrice", formattedPrice);
+    console.log("formattedProductPrie", formattedProductPrice);
+  }, [discountDifference, formattedPrice, formattedProductPrice]);
 
   const handleOrderComplete = async () => {
     try {
@@ -412,60 +453,59 @@ const Checkout: React.FC = () => {
           productId: item.productId,
           quantity: 0,
         }));
-      
 
-      const getAuthHeaders: any = () => {
-        if (!cookieToken) return null;
-        return {
-          authorization: `Bearer ${cookieToken}`,
+        const getAuthHeaders: any = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
         };
-      };
 
-      const client = new ApolloClient({
-        uri: graphqlbaseUrl,
-        headers: getAuthHeaders(),
-        cache: new InMemoryCache(),
-      });
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
 
-      const SYNC_CART = gql`
-        mutation CartSync($cartItems: [CartItemInput!]!) {
-          cartSync(cartItems: $cartItems) {
-            message
-            details {
-              synced {
-                productId
-                productTitle
-                productImage
-                productPrice
-                quantity
-              }
-              failed {
-                productId
-                message
-              }
-              deleted {
-                productId
-                message
+        const SYNC_CART = gql`
+          mutation CartSync($cartItems: [CartItemInput!]!) {
+            cartSync(cartItems: $cartItems) {
+              message
+              details {
+                synced {
+                  productId
+                  productTitle
+                  productImage
+                  productPrice
+                  quantity
+                }
+                failed {
+                  productId
+                  message
+                }
+                deleted {
+                  productId
+                  message
+                }
               }
             }
           }
-        }
-      `;
+        `;
 
-      const { data } = await client.mutate({
-        mutation: SYNC_CART,
-        variables: {
-          cartItems: cartData,
-        },
-        context: {
-          headers: getAuthHeaders(),
-        },
-        fetchPolicy: "no-cache",
-      });
-      typeof window !== "undefined"
-        ? localStorage.removeItem("cartItems")
-        : null;
-    }
+        const { data } = await client.mutate({
+          mutation: SYNC_CART,
+          variables: {
+            cartItems: cartData,
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
+        typeof window !== "undefined"
+          ? localStorage.removeItem("cartItems")
+          : null;
+      }
       setCartItems([]);
       setIsOrderPlaced(true);
       setSelectedShippingAddress(null);
@@ -501,7 +541,7 @@ const Checkout: React.FC = () => {
     }
     return true;
   };
-  let totalPrice = totalCart - totalDiscount;
+  let totalPrice = isLoggedIn?totalCart - totalDiscount:formattedPrice;
 
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
@@ -649,14 +689,9 @@ const Checkout: React.FC = () => {
     <>
       {/* <ProtectedRoute> */}
       <head>
-    <title>Cart</title>
-    <meta
-          name="description"
-          content={
-           "Your WHP Cart."
-          }
-        />
-    </head>
+        <title>Cart</title>
+        <meta name="description" content={"Your WHP Cart."} />
+      </head>
       <div className="cart-block mb-8 flex-wrap">
         <div className="content-main flex flex-col justify-between px-5 lg:px-14">
           <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">
@@ -810,7 +845,7 @@ const Checkout: React.FC = () => {
                             />
                             <button
                               onClick={() => handleCouponCode(voucherCode)}
-                              className="rounded-md bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                              className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply
                             </button>
@@ -938,7 +973,7 @@ const Checkout: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {!isOrderPlaced && (
+                  {!isOrderPlaced && isLoggedIn && (
                     <div className="mt-2 flex justify-between border border-gray-400 p-2">
                       <div className="flex items-center gap-2 font-medium">
                         <input
@@ -964,35 +999,26 @@ const Checkout: React.FC = () => {
                       <div className="">
                         <div className="flex justify-between font-medium">
                           <h3>Product Total</h3>
-                          <h3>
-                            {formatPrice(parseInt(formattedProductPrice))}
-                          </h3>
+                          <h3>{formatPrice(formattedProductPrice)}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Product Discount</h3>
-                          <h3>-{formatPrice(parseInt(discountDifference))}</h3>
+                          <h3>-{formatPrice(discountDifference)}</h3>
                         </div>
                         <div className="flex justify-between font-medium">
                           <h3>Subtotal</h3>
-                          <h3>{formatPrice(parseInt(formattedPrice))}</h3>
+                          <h3>{formatPrice(Number(formattedPrice))}</h3>
                         </div>
                         {totalDiscount > 0 && dataAfterCouponCode && (
                           <div className="flex justify-between font-medium">
                             <h3>Coupon Discount</h3>
-                            <h3>
-                              -{formatPrice(parseInt(totalDiscount.toString()))}
-                            </h3>
+                            <h3>-{formatPrice(totalDiscount)}</h3>
                           </div>
                         )}
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (
-                            <h3>
-                              -
-                              {formatPrice(
-                                parseInt(userDetails?.wallet_amount),
-                              )}
-                            </h3>
+                            <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
                           ) : (
                             <h3>{formatPrice(0)}</h3>
                           )}
@@ -1061,7 +1087,7 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

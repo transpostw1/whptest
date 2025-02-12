@@ -92,14 +92,14 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
   if (isLoading) {
     return <Loader />;
   }
-  0;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-5 backdrop-blur-sm"
       id="container"
       onClick={(e) => e.target.id === "container" && closeModal()}
     >
-      <div className="w-[65%] max-w-md rounded-md bg-white p-6 shadow-md max-sm:w-[70%]">
+      <div className="w-[65%] max-w-md bg-white p-6 shadow-md max-sm:w-[70%]">
         <div className="float-right cursor-pointer" onClick={closeModal}>
           <Icon.X size={25} />
         </div>
@@ -119,7 +119,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
+              className="mt-1 block w-full  border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
               required
             />
           </div>
@@ -137,7 +137,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
+              className="mt-1 block w-full border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
               required
             />
           </div>
@@ -157,7 +157,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
                 width: "100%",
                 boxShadow: "0px 1px 2px 0px rgba(0,0,0,0.05)",
                 borderColor: "#d1d5db",
-                borderRadius: "0.375rem",
+                // borderRadius: "0.375rem",
                 fontSize: "0.875rem",
               }}
               containerStyle={{
@@ -183,7 +183,7 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               value={formData.date}
               onChange={handleChange}
               min={getTodayDate()}
-              className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
+              className="mt-1 block w-full  border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
               required
             />
           </div>
@@ -200,14 +200,14 @@ const BookExchangeModal: React.FC<Props> = ({ title, closeModal }) => {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
+              className="mt-1 block w-full border-gray-300 p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-md border border-transparent bg-[#e26178] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="w-full  border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Submit
           </button>

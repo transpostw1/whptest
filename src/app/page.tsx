@@ -77,7 +77,7 @@ export default function Home() {
         <ProductSlider />
         <BuyAgain />
         <RecetlyViewProduct />
-        <Whptv2 />
+        {/* <Whptv2 /> */}
         <RoseGold />
         <Category />
         <GetFastDeliveryProducts />

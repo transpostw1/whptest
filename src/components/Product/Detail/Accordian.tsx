@@ -279,7 +279,6 @@ const Accordian: React.FC<Props> = ({ product }) => {
                       unique needs. Simply click on Know More to find the right
                       size for your ring.
                     </p>
-
                     <button
                       className="mt-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
                       onClick={() => {

@@ -34,7 +34,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
     if (toCurrency == "USD") {
       return amount * 0.012;
     } else {
-      return amount * 0.011;
+      return amount * 0.0112877;
     }
   };
 
@@ -48,7 +48,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
           currency: "INR",
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        }).format(amount))
+        }).format(Math.ceil(amount)))
         break;
       case "USD":
         formattedPrice = Intl.NumberFormat("en-US", {
@@ -56,7 +56,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
           currency: "USD",
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        }).format(convertValue(amount, "USD"));
+        }).format(convertValue(Math.ceil(amount), "USD"));
         break;
       case "EUR":
         formattedPrice = Intl.NumberFormat("en-IE", {
@@ -64,7 +64,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
           currency: "EUR",
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        }).format(convertValue(amount, "EUR"));
+        }).format(convertValue(Math.ceil(amount), "EUR"));
         break;
       default:
         formattedPrice = "Price not available";

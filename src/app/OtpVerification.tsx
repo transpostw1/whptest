@@ -185,7 +185,7 @@ const OtpVerification = ({
   return (
     <div className="otpVerification">
       {isOtpSent ? (
-        <div className="rounded-lg bg-white p-4 shadow-md">
+        <div className=" bg-white p-4 shadow-md">
           <h1 className="mb-4 text-center text-xl font-normal text-[#E26178]">
             Verification Code
           </h1>
@@ -213,7 +213,7 @@ const OtpVerification = ({
           </div>
           <button
           
-            className="w-full rounded-lg bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
+            className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] py-1 font-normal text-white transition duration-300 hover:bg-[#e26178]"
             onClick={handleCombinedClick}
           >
             {verifying ? (
@@ -233,7 +233,7 @@ const OtpVerification = ({
           <button
             ref={otpButtonRef}
             onClick={handleLoginSubmit}
-            className="mb-4 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
+            className="mb-4 flex w-full items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 font-normal text-white"
           >
             {loading ? (
               <>

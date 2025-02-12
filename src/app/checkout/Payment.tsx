@@ -18,6 +18,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { TbTruckDelivery } from "react-icons/tb";
 import { SiRazorpay } from "react-icons/si";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import Confetti from "@/components/Other/Confetti";
 interface PaymentProps {
   wallet: any;
   giftWrap: any;
@@ -556,15 +557,14 @@ const Payment: React.FC<PaymentProps> = ({
               </div>
               <div className="">
                 <span className="font-semibold">Order Date: </span>
-                {new Date(orderResponse.order.created_at).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  },
-                )}
+                {new Date(
+                  orderResponse.order.created_at || new Date(),
+                ).toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </div>
             </div>
             <div>
@@ -600,7 +600,8 @@ const Payment: React.FC<PaymentProps> = ({
               )}
             </div>
           </div>
-            <BuyAgain />
+          <BuyAgain />
+          <Confetti trigger={orderPlaced} />
         </>
       )}
       {!orderPlaced && isMobile && component === "Payment" && (

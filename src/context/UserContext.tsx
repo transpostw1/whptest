@@ -28,7 +28,7 @@ interface UserContextProps {
 }
 interface UserDetails {
   customer_id: any;
-  fullname:any;
+  fullname: any;
   firstname: string;
   lastname: string;
   email: string;
@@ -37,7 +37,7 @@ interface UserDetails {
   gender: string;
   gstNum: string;
   panNum: string;
-  is_verified:any;
+  is_verified: any;
   dob: string;
   wallet_amount: any;
   profile_picture: File | null;
@@ -89,7 +89,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     await getUser();
     let redirectPath = localStorage.getItem("redirectPath");
-    if ( redirectPath === "/register") {
+    if (redirectPath === "/register") {
       redirectPath = "/";
     }
     router.push(redirectPath);
@@ -103,8 +103,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const getUser = async () => {
+    if (!cookieToken) {
+      console.log("No cookie token available, skipping API call.");
+      return;
+    }
+
     const getAuthHeaders = () => {
-      if (!cookieToken) return undefined;
       return {
         authorization: `Bearer ${cookieToken}`,
       };
@@ -150,8 +154,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         variables,
       });
       setUserDetails(data.getCustomerDetails);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching user data:", error);
+      logOut();
     }
   };
 
@@ -180,8 +185,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       throw error;
     }
   };
-  useEffect(() => {
-  }, [userDetails]);
+  useEffect(() => {}, [userDetails]);
 
   return (
     <UserContext.Provider

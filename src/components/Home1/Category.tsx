@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -38,11 +38,11 @@ const Category = () => {
             collections cater to every style and taste.
           </p>
         </div>
-        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4 ">
           {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
-              className="relative flex flex-col items-start justify-between"
+              className="relative flex flex-col items-start justify-between hover:shadow-md"
             >
               <Link
                 href={{
@@ -54,13 +54,12 @@ const Category = () => {
                   setCustomcategory(cleanUrl);
                 }}
               >
-                <div className="effect14 cursor-pointer">
+                <div className="cursor-pointer">
                   <Image
                     src={category.parentImg}
-                    alt={category.url}
+                    alt={`category images ${category.name}`}
                     width={400}
                     height={400}
-                    unoptimized
                   />
                 </div>
               </Link>
@@ -69,10 +68,10 @@ const Category = () => {
                 <h1 className="break-word font-semibold uppercase sm:text-lg">
                   {category.name}
                 </h1>
-                <a
+                <Link
+                  href={`/products?url=${category.url}`}
                   className="inline-flex items-center"
                   onClick={() => {
-                    router.push(`/products?url=${category.url}`);
                     setCustomcategory(category.url);
                   }}
                 >
@@ -85,9 +84,10 @@ const Category = () => {
                       alt="Right Arrow"
                       width={20}
                       height={20}
+                      unoptimized
                     />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           ))}

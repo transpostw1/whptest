@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Noto_Sans, Poiret_One, Roboto,Playfair_Display,Inter } from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
@@ -19,18 +20,25 @@ import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-const instrument = Montserrat({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: {
-//     default: 'WHP Jewellers',
-//     template: '%s | WHP Jewellers'
-//   },
-//   description: 'Welcome to WHP Jewellers',
-//   icons: {
-//     icon: '/images/other/logo2.png',
-//   },
-// };
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["100", "200", "300"],
+});
+const instrument = inter ;
+
+// const instrument = Montserrat({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: {
+    default: 'WHP Jewellers',
+    template: '%s | WHP Jewellers'
+  },
+  description: 'Welcome to WHP Jewellers',
+  icons: {
+    icon: '/images/other/logo2.png',
+  },
+};
 export default function RootLayout({
   children,
 }: {
@@ -61,7 +69,7 @@ export default function RootLayout({
   return (
     <GlobalProvider>
       <html lang="en">
-        <Suspense>
+        {/* <Suspense> */}
         <head>
           <title>WHP Jewellers</title>
           <link
@@ -90,7 +98,7 @@ export default function RootLayout({
           <Footer />
           <Toaster position="top-center" reverseOrder={false} />
         </body>
-        </Suspense>
+        {/* </Suspense> */}
       </html>
     </GlobalProvider>
   );

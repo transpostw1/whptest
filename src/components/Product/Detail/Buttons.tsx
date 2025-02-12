@@ -208,7 +208,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         Buy Now
       </div>
       <div
-        className="ripple-container mx-10 h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-[#e26178] max-sm:h-full max-sm:w-[35%]"
+        className="ripple-container mx-10 h-[58px] w-[33%] cursor-pointer  text-center text-[#e26178] max-sm:h-full max-sm:w-[35%]"
         onClick={(e) => {
           createRipple(e);
           handleAddToCart(product);
@@ -224,7 +224,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         </div>
       </div>
       <div
-        className="flex h-[57px] w-[56px] cursor-pointer items-center justify-center  outline outline-1 outline-[#e26178] max-sm:h-[45px]"
+        className="flex h-[57px] w-[56px] cursor-pointer items-center justify-center  outlinbg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8]e outline-1 outline-[#e26178] max-sm:h-[45px]"
         onClick={() => {
           if (isProductInWishlist) {
             HandleremoveFromWishlist();

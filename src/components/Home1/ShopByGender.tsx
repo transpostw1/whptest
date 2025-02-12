@@ -15,13 +15,13 @@ const ShopByGender = () => {
   let categories = [
     {
       id: 1,
-      url: "g-women",
+      url: "gender-women",
       categoryUrl: "Women",
       type: "WOMEN'S JEWELLERY",
       description: "Earrings, Pendants, Bracelets and more",
       image: (
         <Image
-          src={"/images/other/womenGender.jpg"}
+          src={"/images/gender/womens.jpg"}
           alt="womengender"
           width={500}
           height={500}
@@ -31,14 +31,14 @@ const ShopByGender = () => {
     },
     {
       id: 2,
-      url: "g-men",
+      url: "gender-men",
       categoryUrl: "Men",
       type: "MEN'S JEWELLERY",
 
       description: "Bracelets, Chains, Rings and more",
       image: (
         <Image
-          src={"/images/other/MensGender.jpg"}
+          src={"/images/gender/Mens.jpg"}
           alt="mensgender"
           width={500}
           height={1000}
@@ -48,13 +48,13 @@ const ShopByGender = () => {
     },
     {
       id: 3,
-      url: "g-kids",
+      url: "gender-kids",
       categoryUrl: "Kids",
       type: "KID'S JEWELLERY",
       description: "Anklets, Earrings, Bracelets and more",
       image: (
         <Image
-          src={"/images/other/KidsGender.jpg"}
+          src={"/images/gender/Kids.jpg"}
           alt="kidsgender"
           width={500}
           height={1000}
@@ -66,7 +66,7 @@ const ShopByGender = () => {
   return (
     <>
       <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-4">
           <div>
             <p className="font-medium sm:text-[18px] lg:text-[32px] uppercase">
               Shop by gender
@@ -108,23 +108,23 @@ const ShopByGender = () => {
             {categories.map((category) => (
               <SwiperSlide
                 key={category.id}
-                className="flex flex-col gap-2 relative items-center blurcontainer"
+                className="flex flex-col gap-2 relative items-center hover:shadow-lg "
               >
                 <Link
                   href={`/products?url=${category.url}`}
                   className=""
                   onClick={() => setCustomcategory(category.categoryUrl)}
                 >
-                  <div className="md:rounded-[60px]  max-lg:rounded-[40px] overflow-hidden bg">
+                  <div className="">
                     {category.image}
-                    <div className="overlay">
-                      <p className="xs:text-lg md:text-[24px]  text-center">
+                    {/* <div className="">
+                      <p className="xs:text-lg md:text-[24px] text-center">
                         {category.type}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
-                <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>
+                {/* <h1 className="lg:text-xl md:text-lg font-medium sm:text-[18px]">{category.type}</h1>
                 <p className="lg:text-[16px] sm:text-[12px] font-light">{category.description}</p>
                 <Link
                   className="inline-flex items-center"
@@ -142,7 +142,7 @@ const ShopByGender = () => {
                       height={20}
                     />
                   </span>
-                </Link>
+                </Link> */}
               </SwiperSlide>
             ))}
           </Swiper>

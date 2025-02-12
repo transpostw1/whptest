@@ -300,10 +300,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
         <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
             {data?.videoDetails !== null ? (
-              <div
-                className="aspect-[4/3] h-full w-full"
-                onMouseLeave={() => setShowVideo(false)}
-              >
+              <div onMouseLeave={() => setShowVideo(false)}>
                 {showVideo == true ? (
                   <div className="mb-2">
                     <div
@@ -333,56 +330,59 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       alt="This image is temporarry"
                       unoptimized
                     />
-                    {isMobile && (
-                      <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-30">
-                        <Icon.Cards
-                          size={width}
-                          weight="light"
-                          color="#e26178"
-                        />
-                      </div>
-                    )}
+
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
                       >
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between text-[#e26178] hover:text-white">
                           <IoCameraOutline />
-                          <p className="ps-1 font-semibold">Try ON</p>
+                          <p className="ps-1 text-sm">Try ON</p>
                         </div>
                       </div>
                     )}
-                    {hover && !isMobile && (
-                      <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between bg-white p-1 hover:z-30">
-                        <Icon.Cards
-                          size={width}
-                          weight="light"
-                          color="#e26178"
-                        />
+                    {skuList?.includes(data.SKU) && isMobile && (
+                      <div
+                        id={`product-form-${data.productId}`}
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        onClick={() =>
+                          loadTryOnButton(data.SKU, data.productId)
+                        }
+                      >
+                        <div className="flex items-center justify-between text-[#e26178] hover:text-white">
+                          <IoCameraOutline />
+                        </div>
                       </div>
                     )}
+                    {data.discountValue && (
+                      <div className="try_on absolute left-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center text-xs hover:bg-[#e26178] hover:text-white">
+                        {data.discountValue}% on making charges
+                      </div>
+                    )}
+
                     <div
-                      className="absolute top-1 z-0 flex justify-between hover:z-50"
+                      className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
                     >
-                      <Icon.Play size={width} weight="light" />
+                      <Icon.Play size={width} weight="light" color="#e26178" />
                     </div>
-                    <div className="absolute right-1 top-1 z-0 float-right flex justify-between hover:z-50">
+                    <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                       {/* <Icon.Heart size={25} weight="light" /> */}
                       {isProductInWishlist ? (
                         <Icon.Heart
                           size={width}
-                          color="#fa0000"
+                          color="#fa000"
                           weight="fill"
                           onClick={() => HandleremoveFromWishlist()}
                         />
                       ) : (
                         <Icon.Heart
                           size={width}
+                          color="#e26178"
                           weight="light"
                           onClick={() => HandleaddToWishlist()}
                         />
@@ -405,38 +405,37 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute bottom-1 left-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between text-[#e26178] hover:text-white">
                       <IoCameraOutline />
-                      <p className="ps-1 font-semibold">Try ON</p>
+                      <p className="ps-1 text-sm">Try ON</p>
                     </div>
                   </div>
-                )} 
-                {isMobile && (
+                )}
+                {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
-                )}
+                )} */}
                 {skuList?.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on z-999 absolute bottom-1 float-left flex justify-between rounded-lg border border-[#e26178] text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between text-[#e26178] hover:text-white">
                       <IoCameraOutline />
-                      <p className="ps-1 font-semibold">Try ON</p>
                     </div>
                   </div>
                 )}
-                {!isMobile && (
+                {/* {!isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
-                )}
-                <div className="absolute right-1 top-1 z-0 float-right flex justify-between hover:z-50">
+                )} */}
+                <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                   {/* <Icon.Heart size={25} weight="light" /> */}
                   {isProductInWishlist ? (
                     <Icon.Heart
@@ -448,6 +447,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   ) : (
                     <Icon.Heart
                       size={width}
+                      color="#e26178"
                       weight="light"
                       onClick={() => HandleaddToWishlist()}
                     />
@@ -492,18 +492,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             )} */}
           </div>
         </div>
-        {/* {skuList.includes(data.SKU) && isMobile && (
-          <div
-            id={`product-form-${data.productId}`}
-            className="try_on absolute bottom-1  z-0 float-left flex justify-between rounded-lg border border-[#e26178]  text-center hover:bg-[#e26178] hover:text-white"
-            onClick={() => loadTryOnButton(data.SKU, data.productId)}
-          >
-            <div className="flex items-center justify-between">
-              <IoCameraOutline />
-              <p className="font-semibold ps-1">Try ON</p>
-            </div>
-          </div>
-        )} */}
       </div>
     </>
   );

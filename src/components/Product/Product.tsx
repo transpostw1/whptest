@@ -294,7 +294,7 @@ const Product: React.FC<ProductProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div>NULL</div>
+      {/* <div>NULL</div> */}
     </>
   );
 };

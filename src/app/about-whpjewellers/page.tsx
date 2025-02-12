@@ -66,9 +66,9 @@ export default function About() {
             <p className="mb-4">
               Welcome to <strong>WHP Jewellers</strong>, your one-stop destination for a diverse
               collection of gold, diamond, and silver jewellery. Whether you're looking for the
-              perfect <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=c-ring" target="_blank">rings</a>,
-              <a className="text-[#bb547d] *:hover:underline" href="https://whpv.vercel.app/products?url=c-earring" target="_blank">earrings</a>,
-              <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=c-pendant" target="_blank">pendants</a>, and more,
+              perfect <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=category-ring" target="_blank">rings</a>,
+              <a className="text-[#bb547d] *:hover:underline" href="https://whpv.vercel.app/products?url=category-earring" target="_blank">earrings</a>,
+              <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=category-pendant" target="_blank">pendants</a>, and more,
               we offer an extensive selection for men, women, and children. Our bespoke jewellery
               service ensures that you can customize designs to suit your unique style and needs.
             </p>

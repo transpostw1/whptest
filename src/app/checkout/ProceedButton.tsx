@@ -47,7 +47,7 @@ const ProceedButton: React.FC<ProceedButtonProps> = ({
     <div className="flex flex-col mt-3 relative">
       <button
         onClick={handleClick}
-        className="flex justify-center items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4 rounded"
+        className="flex justify-center items-center bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white font-bold py-2 px-4"
       >
         {proceedButtonTitle}
         <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />

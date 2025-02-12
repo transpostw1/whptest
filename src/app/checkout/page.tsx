@@ -841,7 +841,7 @@ const Checkout: React.FC = () => {
                               value={voucherCode}
                               onChange={(e) => setVoucherCode(e.target.value)}
                               placeholder="Enter Coupon Code"
-                              className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
+                              className="w-full border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
                             />
                             <button
                               onClick={() => handleCouponCode(voucherCode)}
@@ -869,7 +869,7 @@ const Checkout: React.FC = () => {
                             key={index}
                             className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
                           >
-                            <div className="w-full flex-shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                            <div className="w-full flex-shrink-0 cursor-pointer  border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">

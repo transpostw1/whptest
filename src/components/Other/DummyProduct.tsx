@@ -311,7 +311,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart color="#fa0000" size={25} onClick={() => HandleaddToWishlist()} />
+                  <Icon.Heart color="#e26178" size={25} onClick={() => HandleaddToWishlist()} />
                 )}
               </div>
             </div>

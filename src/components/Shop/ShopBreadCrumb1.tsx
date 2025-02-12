@@ -274,8 +274,7 @@ const ShopBreadCrumb1 = () => {
           );
           setSelectedSortOption("All");
           setIsLoadMore(false);
-        }
-        else {
+        } else {
           setIsLoading(true);
           console.error("Error: No products data received");
         }
@@ -287,7 +286,6 @@ const ShopBreadCrumb1 = () => {
       }
     }
   };
-
 
   const fetchFilter = async (combinedOptions: any) => {
     if (
@@ -735,15 +733,18 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str?.replace(/(category-|search-|gender-|price-|metal-|pc-|_)/g, " ");
+    return str?.replace(
+      /(category-|search-|gender-|price-|metal-|pc-|_)/g,
+      " ",
+    );
   };
 
   const modifiedString = removeUnderscores(category);
   const breadcrumbs = filteredProducts?.[0]?.breadcrumbs || [];
 
-  const lastBreadcrumbTitle = breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
+  const lastBreadcrumbTitle =
+    breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
-
 
   console.log("Isloading", isLoading, filteredProducts);
 
@@ -821,7 +822,7 @@ const ShopBreadCrumb1 = () => {
                 <div className="sm:w-[100%] lg:w-[70%]">
                   {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                  <BreadCrumb filteredProducts={filteredProducts}/>
+                  <BreadCrumb filteredProducts={filteredProducts} />
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
                       ([category, options]) =>

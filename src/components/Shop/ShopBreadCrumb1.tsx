@@ -739,8 +739,13 @@ const ShopBreadCrumb1 = () => {
   };
 
   const modifiedString = removeUnderscores(category);
+  const breadcrumbs = filteredProducts?.[0]?.breadcrumbs || [];
 
-  console.log("Isloading", isLoading, filteredProducts.length);
+  const lastBreadcrumbTitle = breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
+  const finalString = modifiedString || lastBreadcrumbTitle;
+
+
+  console.log("Isloading", isLoading, filteredProducts);
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -810,7 +815,7 @@ const ShopBreadCrumb1 = () => {
             />
             <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
               <div className="">
-                <p className="text-4xl font-bold uppercase">{modifiedString}</p>
+                <p className="text-4xl font-bold uppercase">{finalString}</p>
               </div>
               <div className="mt-5 flex justify-between">
                 <div className="sm:w-[100%] lg:w-[70%]">

@@ -43,7 +43,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
   const [isButtonLoaded, setIsButtonLoaded] = useState(false);
-console.log(data,"DATATATTATATTAT")
+  console.log(data, "DATATATTATATTAT");
   const loadTryOnButton = async (
     sku: string,
     productId: string,
@@ -120,7 +120,6 @@ console.log(data,"DATATATTATATTAT")
       }
     });
   };
-
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
@@ -268,16 +267,15 @@ console.log(data,"DATATATTATATTAT")
                       alt="This image is temporarry"
                       unoptimized
                     />
-
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] text-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
                       >
-                        <div className="flex items-center justify-between  py-1">
+                        <div className="flex items-center justify-between py-1">
                           <IoCameraOutline />
                           {/* <p className="ps-1 text-sm">Try ON</p> */}
                         </div>
@@ -286,7 +284,7 @@ console.log(data,"DATATATTATATTAT")
                     {skuList?.includes(data.SKU) && isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between  border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -296,12 +294,15 @@ console.log(data,"DATATATTATATTAT")
                         </div>
                       </div>
                     )}
-                    {data.discountValue && data.discountActive && (
-                      <div className="try_on absolute left-1 top-1 z-[500] float-right flex justify-between border px-2 py-1 text-center text-xs bg-[#e26178] text-white">
-                        {data.discountValue}% on making charges
+                    ...
+                    {data.discountActive && data.discountValue && (
+                      <div className="try_on absolute left-1 top-1 z-[500] float-right flex justify-between border bg-[#e26178] px-1 py-1 text-center text-xs text-white">
+                        {data.discountValue}
+                        {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
+                        {data.discountCategory}
                       </div>
                     )}
-
+                    ...
                     <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
@@ -343,7 +344,7 @@ console.log(data,"DATATATTATATTAT")
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-[#e26178] text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between px-2">
@@ -351,13 +352,22 @@ console.log(data,"DATATATTATATTAT")
                       {/* <p className="ps-1 text-sm">Try ON</p> */}
                     </div>
                   </div>
-                  
                 )}
-                  {data.discountValue && data.discountActive && (
-                      <div className="try_on absolute left-1 top-1  float-right flex justify-between border px-2 py-1 text-center text-xs bg-[#e26178] text-white">
-                        {data.discountValue}% on making charges
-                      </div>
-                    )}
+                ...
+                {data.discountActive && data.discountValue && !isMobile && (
+                  <div className="try_on absolute left-1 top-1  float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                    {data.discountValue}
+                    {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
+                    {data.discountCategory}
+                  </div>
+                )}
+                {data.discountActive && data.discountValue && isMobile && (
+                  <div className="try_on absolute left-1 top-1 float-left flex justify-between border bg-[#e26178] text-start text-xs text-white">
+                    {data.discountValue}
+                    {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
+                    {data.discountCategory}
+                  </div>
+                )}
                 {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />

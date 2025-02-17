@@ -294,7 +294,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         </div>
                       </div>
                     )}
-                    ...
+                    
                     {data.discountActive && data.discountValue && (
                       <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
                         {data.typeOfDiscount === "Percentage" ? (
@@ -308,7 +308,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         )}
                       </div>
                     )}
-                    ...
+                    
                     <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}

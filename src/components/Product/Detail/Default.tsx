@@ -663,7 +663,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           </div>
-          {data?.productDetails?.variantId !== "" && (
+          {data?.productDetails?.variantId && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}

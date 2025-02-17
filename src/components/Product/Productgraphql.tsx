@@ -296,10 +296,16 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     )}
                     ...
                     {data.discountActive && data.discountValue && (
-                      <div className="try_on absolute left-1 top-1 z-[500] float-right flex justify-between border bg-[#e26178] px-1 py-1 text-center text-xs text-white">
-                        {data.discountValue}
-                        {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
-                        {data.discountCategory}
+                      <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                        {data.typeOfDiscount === "Percentage" ? (
+                          <>
+                            {data.discountValue}% OFF on {data.discountCategory}
+                          </>
+                        ) : (
+                          <>
+                            {data.discountAmount} OFF on {data.discountCategory}
+                          </>
+                        )}
                       </div>
                     )}
                     ...
@@ -353,19 +359,17 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
-                ...
                 {data.discountActive && data.discountValue && !isMobile && (
-                  <div className="try_on absolute left-1 top-1  float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
-                    {data.discountValue}
-                    {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
-                    {data.discountCategory}
-                  </div>
-                )}
-                {data.discountActive && data.discountValue && isMobile && (
-                  <div className="try_on absolute left-1 top-1 float-left flex justify-between border bg-[#e26178] text-start text-xs text-white">
-                    {data.discountValue}
-                    {data.typeOfDiscount === "Percentage" && "%"} OFF on{" "}
-                    {data.discountCategory}
+                  <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                    {data.typeOfDiscount === "Percentage" ? (
+                      <>
+                        {data.discountValue}% OFF on {data.discountCategory}
+                      </>
+                    ) : (
+                      <>
+                        {data.discountAmount} OFF on {data.discountCategory}
+                      </>
+                    )}
                   </div>
                 )}
                 {/* {isMobile && (

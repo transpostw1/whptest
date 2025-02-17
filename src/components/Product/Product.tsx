@@ -23,7 +23,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
-
   const [width, setWidth] = useState<number>(25);
   const [height, setHeight] = useState<number>(25);
 

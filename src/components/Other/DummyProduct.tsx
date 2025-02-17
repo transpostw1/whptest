@@ -280,11 +280,19 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 </div>
               )}
-               {data.discountValue && (
-                      <div className="try_on absolute left-1 top-4 z-0 float-right flex justify-between border px-2 py-1 text-center text-xs bg-[#e26178] text-white">
-                        {data.discountValue}% on making charges
-                      </div>
+             {data.discountActive && data.discountValue (
+                  <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                    {data.typeOfDiscount === "Percentage" ? (
+                      <>
+                        {data.discountValue}% OFF on {data.discountCategory}
+                      </>
+                    ) : (
+                      <>
+                        {data.discountAmount} OFF on {data.discountCategory}
+                      </>
                     )}
+                  </div>
+                )}
               {data?.imageDetails[0]?.image_path && (
                 <Image
                   onClick={() => handleDetailProduct(data.productId, data.url)}

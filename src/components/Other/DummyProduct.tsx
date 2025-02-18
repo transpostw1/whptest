@@ -280,7 +280,8 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   </div>
                 </div>
               )}
-             {data.discountActive && data.discountValue (
+             {data.discountActive && data.discountValue
+             (
                   <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <>

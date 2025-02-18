@@ -80,7 +80,7 @@ export default function Home() {
         {/* <Whptv2 /> */}
         <RoseGold />
         <Category />
-        <GetFastDeliveryProducts />
+        {/* <GetFastDeliveryProducts /> */}
         <WhatWeOffer />
         <ShopByGender />
         {/* <PreciousGems /> */}

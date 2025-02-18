@@ -111,7 +111,7 @@ const ProfileGMS = () => {
         installmentsPaid: installmentsPaid,
         nextInstallmentAmount: nextInstallmentAmount,
         iconUrl: `/images/${gms.schemeType.toLowerCase()}-icon.png`,
-        schemeType: gms.schemeType,
+        schemeType: "gms",
       }),
     );
     router.push("/digitalCheckout");

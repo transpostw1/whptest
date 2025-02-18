@@ -573,7 +573,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </div>
               <p
                 ref={descRef}
-                className={`text-[#aa9e9e]  ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+                className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
               </p>
@@ -614,9 +614,14 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   <span className="text-2xl font-extrabold">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
-                  <span className="ml-3 text-[#aa9e9e] line-through">
-                    {formatPrice(parseInt(data?.productDetails?.productPrice))}
-                  </span>
+                  {data?.productDetails?.productPrice >
+                    data?.productDetails?.discountPrice && (
+                    <span className="ml-3 text-[#aa9e9e] line-through">
+                      {formatPrice(
+                        parseInt(data?.productDetails?.productPrice),
+                      )}
+                    </span>
+                  )}
                   {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 text-[#e26178] underline">
                       {data?.productDetails.discountValue}% OFF on{" "}
@@ -631,6 +636,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           )}
+          
           <div className="flex">
             <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>

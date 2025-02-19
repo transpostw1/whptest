@@ -151,7 +151,28 @@ const ProfileGMS = () => {
                   <div>Balance Amount: ₹{gms.balanceAmount.toLocaleString()}</div>
                 </div>
                 {isCompleted ? (
-                  <p className="px-2 text-green-500">Your Monthly Scheme is Successfully Completed</p>
+                  
+                   <div>
+                    <div className="my-2 mb-2 flex px-2">
+                   {Array.from({ length: 11 }).map((_, i) => {
+                     const transaction = gms.transactionDetails[i];
+                     const isPaid = transaction !== undefined;
+                     const tooltipContent = isPaid
+                       ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
+                       : `Installment ${i + 1} (Pending)`;
+                     return (
+                       <div
+                         key={i}
+                         className={`mr-3 h-[10px] w-[20px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
+                         title={tooltipContent}
+                       />
+                     );
+                   })}
+                  
+                 </div>
+                  <p className="text-green-500 px-2">Scheme Successfully Completed</p>
+                   </div>
+                 
                 ) : (
                   <>
                     <p className="px-2">Payment Status Tracking</p>

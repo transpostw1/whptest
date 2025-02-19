@@ -156,7 +156,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
                 </div>
                 {isCompleted ? (
                   <div>
-                    <div className="my-2 mb-2 flex px-2">
+                    <div className="my-2 mb-2 flex px-2 justify-center">
                       {Array.from({ length: 11 }).map((_, i) => {
                         const transaction = gms.transactionDetails[i];
                         const isPaid = transaction !== undefined;
@@ -172,7 +172,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
                         );
                       })}
                     </div>
-                    <p className="px-2 text-green-500">
+                    <p className="px-2 text-green-500 text-center">
                       Your Monthly Scheme is Successfully Completed
                     </p>
                   </div>

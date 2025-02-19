@@ -50,7 +50,7 @@ const ProfileGMS = () => {
           query GetCustomerGMS($token: String!) {
             getCustomerGMS(token: $token) {
               id
-              customerId
+              customerId  
               schemeType
               monthlyAmount
               discountAmount

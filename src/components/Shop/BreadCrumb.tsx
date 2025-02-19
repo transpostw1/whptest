@@ -7,26 +7,26 @@ interface props {
   filteredProducts: ProductType[];
 }
 
-const Breadcrumb: React.FC = ({ filteredProducts }) => {
+const Breadcrumb: React.FC = ({ filteredProducts }: any) => {
   const breadcrumbs =
     filteredProducts.length > 0
       ? filteredProducts[0].breadcrumbs.filter(
-          (breadcrumb) => breadcrumb.category_url !== null,
+          (breadcrumb: any) => breadcrumb.category_url !== null,
         )
       : [];
 
   const pageTitle =
-    breadcrumbs.map((breadcrumb) => breadcrumb.title).join(" | ") || "WHP";
+    breadcrumbs.map((breadcrumb: any) => breadcrumb.title).join(" | ") || "WHP";
 
   return (
     <>
-      <head>
+      {/* <head>
         <title>{pageTitle}</title>
         <meta name="description" content={"Sign Up to WHP."} />
-      </head>
+      </head> */}
       <nav aria-label="breadcrumb">
         <ol className="flex space-x-2 p-2">
-          {breadcrumbs.map((breadcrumb, index) => (
+          {breadcrumbs.map((breadcrumb: any, index: any) => (
             <li key={breadcrumb.id} className="flex items-center">
               {index > 0 && (
                 <span className="mx-2">

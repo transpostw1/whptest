@@ -109,7 +109,7 @@ const ProfileGMS = () => {
         balanceAmount: gms.balanceAmount,
         amountPaid: amountPaid,
         installmentsPaid: installmentsPaid,
-        nextInstallmentAmount: nextInstallmentAmount,
+        nextInstallmentAmount: nextInstallmentAmount,   
         iconUrl: `/images/${gms.schemeType.toLowerCase()}-icon.png`,
         schemeType: "gms",
       }),
@@ -123,7 +123,7 @@ const ProfileGMS = () => {
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
-  }
+  };
 
   return (
     <div className="px-[60px] py-[30px]">

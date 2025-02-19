@@ -18,6 +18,8 @@ import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useMainMenuContext } from "@/context/MainMenuContext";
+import TryAtHomeModal from "@/components/Modal/TryAtHomeModal";
+
 interface Props {
   props: string;
 }
@@ -44,11 +46,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const contactRef = useRef<HTMLDivElement>(null);
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [isTryAtHomeModalOpen, setIsTryAtHomeModalOpen] = useState(false); 
   const pathname = usePathname();
   const { allMenus } = useMainMenuContext();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
+  const openTryAtHomeModal = () => {
+    setIsTryAtHomeModalOpen(true);
+  };
+
+  const closeTryAtHomeModal = () => {
+    setIsTryAtHomeModalOpen(false);
+  };
+
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -146,6 +157,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
   return (
     <div ref={contactRef}>
+      <TryAtHomeModal isOpen={isTryAtHomeModalOpen} onClose={closeTryAtHomeModal} />
       <div
         className={`top-nav header-menu h-[65px] w-full max-sm:h-[48px] md:h-[65px] z-[36] ${
           fixedHeader ? "fixed" : "relative"
@@ -431,7 +443,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 )}
               </div>
               <div className="form-search relative mt-2 flex">
-                <div className="mr-3">
+                <div className="mr-3" onClick={openTryAtHomeModal}>
                   <Image
                     src="/dummy/tryAtHomeButton.png"
                     alt="try_at_home"
@@ -547,32 +559,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   ))}
                 </ul>
               </div>
-
-              {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
-                <div>
-                  <p className="text-lg font-semibold">Download the WHP App</p>
-                  <Image
-                    src={"/dummy/appStoreButton.png"}
-                    alt={"downloadAppButton"}
-                    width={113}
-                    height={34}
-                  />
-                  <Image
-                    src={"/dummy/playStoreButton.png"}
-                    alt={"downloadAppButton"}
-                    width={113}
-                    height={34}
-                  />
-                </div>
-                <div>
-                  <Image
-                    src={"/dummy/dummyPhoneApp.png"}
-                    alt={"PhoneAppBanner"}
-                    width={140}
-                    height={164}
-                  />
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

@@ -70,49 +70,6 @@ const MobileMainCategorySwiper = () => {
             </div>
           </SwiperSlide>
         ))}
-
-        <SwiperSlide>
-          <div className="flex flex-col items-center justify-center">
-            <Link
-              href={{
-                pathname: "/gifts",
-              }}
-            >
-              <div className="rounded-full border shadow-sm">
-                <Image
-                  src={"images/other/Gift.png"}
-                  alt={"Gifts"}
-                  className="rounded-full p-2"
-                  width={65}
-                  height={65}
-                  unoptimized
-                />
-              </div>
-            </Link>
-            <p className="text-center text-[10px]">Gifts</p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex flex-col items-center justify-center">
-            <Link
-              href={{
-                pathname: "/benefit",
-              }}
-            >
-              <div className="rounded-full border shadow-sm">
-                <Image
-                  src={"images/other/goldcoin.png"}
-                  alt={"GMS"}
-                  width={65}
-                  className="rounded-full"
-                  height={65}
-                  unoptimized
-                />
-              </div>
-            </Link>
-            <p className="text-center text-[10px]">Gold Services</p>
-          </div>
-        </SwiperSlide>
       </Swiper>
     </div>
   );

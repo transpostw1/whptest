@@ -798,9 +798,9 @@ const ShopBreadCrumb1 = () => {
   }, []);
   return (
     <>
+      <MobileMainCategorySwiper />
       <div className="shop-product breadcrumb1">
         <div className="container">
-          <MobileMainCategorySwiper />
           <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
             <FilterSidebar
               data={data}

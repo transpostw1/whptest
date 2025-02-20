@@ -116,7 +116,7 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
   if (loading) {
     return (
       <div className="loading-container flex h-full items-center justify-center">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50}  />
       </div>
     );
   }

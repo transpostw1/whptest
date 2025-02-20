@@ -280,7 +280,7 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       singleOrder[0]?.orderStatus === "5" ? null : (
         <div onClick={() => handleOrderCancel(singleOrder[0]?.id)}>
           <button className="rounded-sm bg-[#e26178] px-3 py-2 pr-[6px] text-white">
-            Order Cancel
+            Cancel Order
           </button>
         </div>
       )}

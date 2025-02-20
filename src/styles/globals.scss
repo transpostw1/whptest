@@ -521,3 +521,9 @@ textarea:focus {
     border-radius: 8px;
   }
 }
+.kenyt-chatbot {
+  position: fixed;
+  bottom: 60px; /* Adjust the bottom position */
+  right: 20px;  /* Adjust the right position */
+  z-index: 1000; /* Ensure it is above other elements */
+}

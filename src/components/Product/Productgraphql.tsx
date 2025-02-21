@@ -294,24 +294,9 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         </div>
                       </div>
                     )}
-<<<<<<< HEAD
-                    
-                    {data.discountActive && data.discountValue && (
-                      <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
-                        {data.typeOfDiscount === "Percentage" ? (
-                          <>
-                            {data.discountValue}% OFF on {data.discountCategory}
-                          </>
-                        ) : (
-                          <>
-                            {data.discountAmount} OFF on {data.discountCategory}
-                          </>
-                        )}
-=======
                     {data.discountValue && (
                       <div className="try_on absolute left-1 top-1 z-0 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
                         {data.discountValue}% on making charges
->>>>>>> e5ef6ef5376e45c2f61faeb7cbcfa0d2d2e89a1d
                       </div>
                     )}
                     

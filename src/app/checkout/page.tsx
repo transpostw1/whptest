@@ -373,7 +373,7 @@ const Checkout: React.FC = () => {
           : "",
     }));
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  
+
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item: any) => item.productId == parseInt(buyNow))
     : [];
@@ -542,7 +542,7 @@ const Checkout: React.FC = () => {
     }
     return true;
   };
-  let totalPrice = isLoggedIn?totalCart - totalDiscount:formattedPrice;
+  let totalPrice = isLoggedIn ? totalCart - totalDiscount : formattedPrice;
 
   const handleStepClick = (index: number, useSameAsBillingAddress: boolean) => {
     if (!isLoggedIn) {
@@ -560,7 +560,7 @@ const Checkout: React.FC = () => {
       setSelectedBillingAddress(null);
 
       // Validate cart items
-      if (cartItems.length === 0) {
+      if (cartItems.length === 0&&whpWallet!=="whp_Wallet") {
         // Display error message using FlashAlert
         setFlashMessage(
           "Your cart is empty. Please add items to your cart before proceeding.",
@@ -846,7 +846,7 @@ const Checkout: React.FC = () => {
                             />
                             <button
                               onClick={() => handleCouponCode(voucherCode)}
-                              className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                              className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                             >
                               Apply
                             </button>
@@ -870,7 +870,7 @@ const Checkout: React.FC = () => {
                             key={index}
                             className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
                           >
-                            <div className="w-full flex-shrink-0 cursor-pointer  border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                            <div className="w-full flex-shrink-0 cursor-pointer border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
@@ -987,7 +987,7 @@ const Checkout: React.FC = () => {
                       </div>
                       <div className="font-bold">
                         {whpWallet == "whp_Wallet"
-                          ? `${formatPrice(0)}`
+                          ? `${totalPrice >= userDetails?.wallet_amount ? formatPrice(0) : formatPrice(userDetails?.wallet_amount - totalPrice)}`
                           : `${formatPrice(userDetails?.wallet_amount)}`}
                       </div>
                     </div>
@@ -1019,7 +1019,19 @@ const Checkout: React.FC = () => {
                         <div className="flex justify-between font-medium">
                           <h3>Wallet</h3>
                           {whpWallet === "whp_Wallet" ? (
-                            <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
+                            userDetails?.wallet_amount < totalPrice ? (
+                              <h3>
+                                -{formatPrice(userDetails?.wallet_amount)}
+                              </h3>
+                            ) : (
+                              <h3>
+                                -
+                                {formatPrice(
+                                  userDetails?.wallet_amount -
+                                    (userDetails?.wallet_amount - totalPrice),
+                                )}
+                              </h3>
+                            )
                           ) : (
                             <h3>{formatPrice(0)}</h3>
                           )}
@@ -1028,14 +1040,19 @@ const Checkout: React.FC = () => {
                           <h3>Shipping Charges</h3>
                           <h3>{formatPrice(0)}</h3>
                         </div>
-                        <div className="flex justify-between font-bold">
+                        <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
+                          
                           {whpWallet === "whp_Wallet" ? (
-                            <h3>
-                              {formatPrice(
-                                totalPrice - userDetails?.wallet_amount,
-                              )}
-                            </h3>
+                            userDetails?.wallet_amount < totalPrice ? (
+                              <h3>
+                                {formatPrice(totalPrice-userDetails?.wallet_amount)}
+                              </h3>
+                            ) : (
+                              <h3>
+                                {formatPrice(0)}
+                              </h3>
+                            )
                           ) : (
                             <h3>{formatPrice(totalPrice)}</h3>
                           )}
@@ -1088,7 +1105,7 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>

@@ -310,7 +310,10 @@ const Payment: React.FC<PaymentProps> = ({
           isWallet: wallet ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount: userDetails?.wallet_amount,
+          walletAmount: wallet
+            ? userDetails?.wallet_amount -
+              (userDetails?.wallet_amount - totalCart)
+            : 0,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,

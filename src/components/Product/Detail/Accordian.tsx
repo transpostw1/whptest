@@ -80,18 +80,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
              <span className="text-sm font-medium">10,000+ Designs</span>
            </div>
            {/* Icon and Text Block */}
-           <div className="flex flex-col items-center text-center gap-2">
-             <span className="flex items-center justify-center">
-               <Image
-                 src="/images/other/hallmark.png"
-                 alt={"Hall Mark Symbol"}
-                 width={40}
-                 height={40}
-                 unoptimized
-               />
-             </span>
-             <span className="text-sm font-medium md:mt-1">BIS Hallmarked</span>
-           </div>
+           
            {/* Icon and Text Block */}
            <div className="flex flex-col items-center text-center gap-2">
              <span className="flex items-center justify-center">
@@ -106,6 +95,32 @@ const Accordian: React.FC<Props> = ({ product }) => {
              </span>
              <span className="text-sm font-medium">Safe & Secure Payment</span>
            </div>
+           <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Image
+                 src="/images/other/hallmark.png"
+                 alt={"Hall Mark Symbol"}
+                 width={40}
+                 height={40}
+                 unoptimized
+               />
+             </span>
+             <span className="text-sm font-medium md:mt-1">BIS Hallmarked</span>
+           </div>
+           {product?.productDetails?.diamondDetails!=null?(
+            <div className="flex flex-col items-center text-center gap-2">
+             <span className="flex items-center justify-center">
+               <Image
+                 src="/images/other/igi.png"
+                 alt={"Diamond Mark Symbol"}
+                 width={40}
+                 height={40}
+                 unoptimized
+               />
+             </span>
+             <span className="text-sm font-medium md:mt-1">IGI Certified</span>
+           </div>
+           ):null}
          </div>
        </div>
         ) : null}

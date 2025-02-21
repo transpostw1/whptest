@@ -213,7 +213,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   }
 
   async function singleProduct() {
-    console.log("Single Product");
+    console.log("Single Producttttttt");
     const product = await getData();
     onDataFetched(product);
     setData(product);
@@ -571,12 +571,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   />
                 </span>
               </div>
-              <p
+              {/* <p
                 ref={descRef}
                 className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
-              </p>
+              </p> */}
               {isTruncated && !isExpanded && (
                 <span
                   onClick={toggleExpansion}
@@ -686,6 +686,15 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
+            {data?.productDetails?.productQty > 0 && (
+             
+             <p className="flex items-center font-semibold text-[#e26178]">
+               🚚{" "}
+               <span className="ml-2">
+                 Delivery in <strong>just 12-48 hours</strong>!
+               </span>
+             </p>
+           )}
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
@@ -696,6 +705,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </span>
             </p>
           )}
+          
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>

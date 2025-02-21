@@ -118,6 +118,7 @@ const ShopBreadCrumb1 = () => {
               variantId
               isParent
               title
+              priority
               displayTitle
               shortDesc
               longDesc
@@ -882,13 +883,23 @@ const ShopBreadCrumb1 = () => {
                   className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                   ref={productsListRef}
                 >
-                  {filteredProducts.map((item: any) => {
-                    return (
+                  {[...filteredProducts]
+                    .sort((a: any, b: any) => {
+                      if (a.priority === null) return 1;
+                      if (b.priority === null) return -1;
+
+                      const priorityComparison =
+                        Number(a.priority) - Number(b.priority);
+
+                      if (priorityComparison !== 0) return priorityComparison;
+
+                      return a.title.localeCompare(b.title);
+                    })
+                    .map((item: any) => (
                       <div key={item.productId}>
                         <Product data={item} skuList={skuList} />
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               ) : (
                 <>

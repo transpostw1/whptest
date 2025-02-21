@@ -115,6 +115,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           <button
             className="flex w-full justify-between text-xl"
             onClick={() => handleToggle(2)}
+            
           >
             Product Details
             <span className="right-0">

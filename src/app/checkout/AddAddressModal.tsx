@@ -35,6 +35,7 @@ const AddAddressMobile: React.FC<Props> = ({
   const handleSubmit = async (values: any) => {
     setIsLoading(true);
     setFormError("");
+    console.log("sumbitt is clicked")
 
     try {
       const cookieToken =

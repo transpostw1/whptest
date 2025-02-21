@@ -58,7 +58,6 @@ interface CartItems {
   isBuyNow?: boolean;
   variants?: { variantType: string; variantName: string }[];
 }
-
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();

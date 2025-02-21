@@ -89,7 +89,7 @@ const NavHoverMenu2 = () => {
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />
           <div className="header-main flex h-full w-full items-center justify-evenly">
-            <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2">
+            <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2 ">
               {allMenus.map((item: any, index: any) => (
                 <ul
                   key={index}
@@ -108,7 +108,7 @@ const NavHoverMenu2 = () => {
                         }
                       }}
                       className={`uppercase text-sm flex h-full items-center justify-center gap-1 duration-300 ${
-                        selectedMenu === index ? "underline" : ""
+                        selectedMenu === index ? "underline" : "hover:underline"
                       }`}
                     >
                       {item.name}

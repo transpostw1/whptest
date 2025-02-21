@@ -299,7 +299,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         {data.discountValue}% on making charges
                       </div>
                     )}
-                    
+
                     <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
@@ -416,25 +416,25 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
             <StarRating stars={data.rating} />
 
-            
-<div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
-  {data?.discountPrice && (
-    <p className="product-price text-title text-lg">
-      {formatPrice(parseInt(data?.discountPrice))}
-    </p>
-  )}
-  {data?.discountPrice && data?.productPrice > data?.discountPrice && (
-    <p className="text-[#beb3b3] line-through">
-      {formatPrice(parseInt(data?.productPrice))}
-    </p>
-  )}
+            <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
+              {data?.discountPrice && (
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.discountPrice))}
+                </p>
+              )}
+              {data?.discountPrice &&
+                data?.productPrice > data?.discountPrice && (
+                  <p className="text-[#beb3b3] line-through">
+                    {formatPrice(parseInt(data?.productPrice))}
+                  </p>
+                )}
 
-  {!data?.discountPrice && (
-    <p className="product-price text-title text-lg">
-      {formatPrice(parseInt(data?.productPrice))}
-    </p>
-  )}
-</div>
+              {!data?.discountPrice && (
+                <p className="product-price text-title text-lg">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
+              )}
+            </div>
 
             {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">

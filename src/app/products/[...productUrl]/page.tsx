@@ -1,23 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Metadata } from "next";
 import Default from "@/components/Product/Detail/Default";
 
 interface PageProps {
-  params: {
-    productUrl: number;
-  };
+  params: Promise<{ productUrl: number }>;
 }
 
 const Page: React.FC<PageProps> = ({ params }) => {
   const [apiData, setApiData] = useState<any>(null);
+  const [productUrl, setProductUrl] = useState<number | null>(null);
+
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setProductUrl(resolvedParams.productUrl);
+    });
+  }, [params]);
 
   const handleApiData = (data: any) => {
     setApiData(data);
   };
-  console.log(apiData,"APDATA")
 
-
+  console.log(apiData, "APDATA");
 
   return (
     <div>
@@ -31,7 +35,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
           }
         />
       </head>
-      <Default productId={params.productUrl} onDataFetched={handleApiData} />
+      {productUrl && <Default productId={productUrl} onDataFetched={handleApiData} />}
     </div>
   );
 };

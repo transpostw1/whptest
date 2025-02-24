@@ -113,40 +113,54 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   BIS Hallmarked
                 </span>
               </div>
-              {product?.productDetails?.productAttributes?.diamondDetails !=
-                null && (
-                <div className="flex items-center gap-2 text-center">
-                  <span className="flex items-center justify-center">
-                    <Image
-                      src="/images/other/igi.png"
-                      alt={"Diamond Mark Symbol"}
-                      width={40}
-                      height={40}
-                      unoptimized
-                    />
-                  </span>
-                  <span className="flex items-center justify-center">
-                    <Image
-                      src="/images/other/dgla.png"
-                      alt={"Diamond Mark Symbol"}
-                      width={40}
-                      height={40}
-                      unoptimized
-                    />
-                  </span>
-                  <span className="flex items-center justify-center">
-                    <Image
-                      src="/images/other/egl.png"
-                      alt={"Diamond Mark Symbol"}
-                      width={40}
-                      height={40}
-                      unoptimized
-                    />
-                  </span>
-                  <span className="text-sm font-medium md:mt-1">
-                    IGI Certified
-                  </span>
-                </div>
+              {product?.productDetails?.productAttributes?.diamondDetails?.some(
+                (diamond: any) => diamond.diamondCertifiedBy !== null,
+              ) && (
+                <>
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/igi.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      IGI Certified
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/dgla.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      DGLA Certified
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/egl.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      EGL Certified
+                    </span>
+                  </div>
+                
+                </>
               )}
             </div>
           </div>

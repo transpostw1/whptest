@@ -560,7 +560,7 @@ const Checkout: React.FC = () => {
       setSelectedBillingAddress(null);
 
       // Validate cart items
-      if (cartItems.length === 0&&whpWallet!=="whp_Wallet") {
+      if (cartItems.length === 0 && whpWallet !== "whp_Wallet") {
         // Display error message using FlashAlert
         setFlashMessage(
           "Your cart is empty. Please add items to your cart before proceeding.",
@@ -1042,16 +1042,16 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
-                          
+
                           {whpWallet === "whp_Wallet" ? (
                             userDetails?.wallet_amount < totalPrice ? (
                               <h3>
-                                {formatPrice(totalPrice-userDetails?.wallet_amount)}
+                                {formatPrice(
+                                  totalPrice - userDetails?.wallet_amount,
+                                )}
                               </h3>
                             ) : (
-                              <h3>
-                                {formatPrice(0)}
-                              </h3>
+                              <h3>{formatPrice(0)}</h3>
                             )
                           ) : (
                             <h3>{formatPrice(totalPrice)}</h3>
@@ -1097,7 +1097,19 @@ const Checkout: React.FC = () => {
       {isMobile && selectedComponent !== "Payment" && (
         <div className="fixed bottom-0 z-50 flex w-full justify-between bg-white p-3">
           <div>
-            <p className="text-[18px] font-medium">{formatPrice(totalPrice)}</p>
+            {whpWallet === "whp_Wallet" ? (
+              userDetails?.wallet_amount < totalPrice ? (
+                <h3 className="text-[18px] font-medium">
+                  {formatPrice(totalPrice - userDetails?.wallet_amount)}
+                </h3>
+              ) : (
+                <h3 className="text-[18px] font-medium">{formatPrice(0)}</h3>
+              )
+            ) : (
+              <h3 className="text-[18px] font-medium">
+                {formatPrice(totalPrice)}
+              </h3>
+            )}
             <Link href="#order-summary">
               <p className="cursor-pointer text-[12px] font-medium text-[#e26178]">
                 View Order Summary

@@ -740,9 +740,9 @@ const Checkout: React.FC = () => {
               )}
             </div>
           </div>
-          {!isOrderPlaced ? (
+          {/* {!isOrderPlaced ? (
             <h2>(Review of {cartItems.length} Items)</h2>
-          ) : null}
+          ) : null} */}
           <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
           <div className="flex w-full flex-col justify-between lg:flex-row">
             <div className="mt-5 w-full sm:mt-7 md:pr-5 lg:w-[2000px]">

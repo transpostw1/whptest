@@ -9,7 +9,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   isForBillingAddress: boolean;
-  onAddressAdded: (address: Address) => void;
+  onAddressAdded: (isBillingAddress: boolean) => void;
 }
 
 const AddAddressMobile: React.FC<Props> = ({
@@ -24,15 +24,13 @@ const AddAddressMobile: React.FC<Props> = ({
   const validationSchema = Yup.object().shape({
     pincode: Yup.string().required("Pincode is required"),
     full_address: Yup.string().required("Full address is required"),
-    area: Yup.string().required("Area is required"),
     country: Yup.string().required("Country is required"),
     state: Yup.string().required("State is required"),
     city: Yup.string().required("City is required"),
-    landmark: Yup.string(),
     address_type: Yup.string().required("Address type is required"),
   });
 
-  const handleSubmit = async (values:any) => {
+  const handleSubmit = async (values: any) => {
     setIsLoading(true);
     setFormError("");
     try {
@@ -40,32 +38,33 @@ const AddAddressMobile: React.FC<Props> = ({
         typeof window !== "undefined"
           ? localStorage.getItem("localtoken")
           : null;
-  
+
       if (!cookieToken) {
         throw new Error("Authorization token is missing.");
       }
-      
-  
+
       const getAuthHeaders = () => ({
         authorization: `Bearer ${cookieToken}`,
       });
-  
+
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
         headers: getAuthHeaders(),
         cache: new InMemoryCache(),
       });
-  
+
       const ADD_CUSTOMER_ADDRESS = gql`
-        mutation AddCustomerAddresses($customerAddresses: [AddCustomerAddressesInput!]!) {
+        mutation AddCustomerAddresses(
+          $customerAddresses: [AddCustomerAddressesInput!]!
+        ) {
           AddCustomerAddresses(customerAddresses: $customerAddresses) {
             message
           }
         }
       `;
-  
+
       console.log("Submitting values to API:", values);
-  
+
       const { data, errors } = await client.mutate({
         mutation: ADD_CUSTOMER_ADDRESS,
         variables: {
@@ -81,25 +80,28 @@ const AddAddressMobile: React.FC<Props> = ({
             },
           ],
         },
+        context:{
+          headers:getAuthHeaders(),
+        },
+        fetchPolicy:"no-cache",
       });
-  
+
       if (errors) {
         console.error("GraphQL Errors:", errors);
         throw new Error("Failed to add address.");
       }
-  
-      console.log("Response from API:", data);
-      onAddressAdded(data?.AddCustomerAddresses?.message);
-      formik.resetForm();
+
       onClose();
-    } catch (error:any) {
+      console.log("Response from API:", data);
+      onAddressAdded(isForBillingAddress);
+      formik.resetForm();
+    } catch (error: any) {
       console.error("Error:", error.message);
       setFormError(error.message || "An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   const formik = useFormik({
     initialValues: {

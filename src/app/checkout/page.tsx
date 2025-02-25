@@ -743,7 +743,11 @@ const Checkout: React.FC = () => {
           {/* {!isOrderPlaced ? (
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null} */}
-          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />    
+
+
+             
+             
           <div className="flex w-full flex-col justify-between lg:flex-row">
             <div className="mt-5 w-full sm:mt-7 md:pr-5 lg:w-[2000px]">
               <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
@@ -808,9 +812,9 @@ const Checkout: React.FC = () => {
                               <h3 className="text-[#E26178]">
                                 {couponCode &&
                                 dataAfterCouponCode.code === 200 ? (
-                                  <span className="flex w-full items-center gap-2">
-                                    Applied Coupon:{" "}
-                                    <span className="text-red-600">
+                                  <span className="flex w-full items-center gap-2 text-green-500">
+                                    Coupon Applied:{" "}
+                                    <span className="text-green-500">
                                       {couponCode}
                                     </span>
                                   </span>
@@ -887,7 +891,7 @@ const Checkout: React.FC = () => {
                                 {voucherCode &&
                                 dataAfterCouponCode.code === 200 &&
                                 couponCode === coupon.code ? (
-                                  <span className="text-sm font-medium text-red-600">
+                                  <span className="text-sm font-medium text-green-600">
                                     Applied
                                   </span>
                                 ) : (

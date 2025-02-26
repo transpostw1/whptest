@@ -14,6 +14,7 @@ import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
+import ProductList from "./ProductList";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -116,6 +117,7 @@ const ShopBreadCrumb1 = () => {
               variantId
               isParent
               title
+              priority
               displayTitle
               shortDesc
               longDesc
@@ -273,17 +275,7 @@ const ShopBreadCrumb1 = () => {
           );
           setSelectedSortOption("All");
           setIsLoadMore(false);
-        }
-        //else if (data && data.products && !isLoadMore) {
-        //   console.log("oooooooooooooooooooooooooooofffffffffffffffffffffffffsettttttttttt",offset,isLoadMore)
-        //   setFilteredProducts((prevProducts) => [
-        //     ...prevProducts,
-        //     ...data.products,
-        //   ]);
-        //   setSelectedSortOption("All");
-        //   setIsLoading(false);
-        // }
-        else {
+        } else {
           setIsLoading(true);
           console.error("Error: No products data received");
         }
@@ -742,12 +734,20 @@ const ShopBreadCrumb1 = () => {
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
-    return str?.replace(/(category-|search-|gender-|price-|metal-|pc-|_)/g, " ");
+    return str?.replace(
+      /(category-|search-|gender-|price-|metal-|pc-|_)/g,
+      " ",
+    );
   };
 
   const modifiedString = removeUnderscores(category);
+  const breadcrumbs = filteredProducts?.[0]?.breadcrumbs || [];
 
-  console.log("Isloading", isLoading, filteredProducts.length);
+  const lastBreadcrumbTitle =
+    breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
+  const finalString = modifiedString || lastBreadcrumbTitle;
+
+  console.log("Isloading", isLoading, filteredProducts);
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -797,12 +797,11 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     fetchSkusList();
   }, []);
-
   return (
     <>
+      <MobileMainCategorySwiper />
       <div className="shop-product breadcrumb1">
         <div className="container">
-          <MobileMainCategorySwiper />
           <div className="flex gap-y-8 pt-4 max-md:flex-col-reverse max-md:flex-wrap">
             <FilterSidebar
               data={data}
@@ -818,13 +817,13 @@ const ShopBreadCrumb1 = () => {
             />
             <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
               <div className="">
-                <p className="text-4xl font-bold uppercase">{modifiedString}</p>
+                <p className="text-4xl font-bold uppercase">{finalString}</p>
               </div>
               <div className="mt-5 flex justify-between">
                 <div className="sm:w-[100%] lg:w-[70%]">
                   {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                  <BreadCrumb />
+                  <BreadCrumb filteredProducts={filteredProducts} />
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
                       ([category, options]) =>
@@ -883,13 +882,23 @@ const ShopBreadCrumb1 = () => {
                   className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                   ref={productsListRef}
                 >
-                  {filteredProducts.map((item: any) => {
-                    return (
+                  {[...filteredProducts]
+                    .sort((a: any, b: any) => {
+                      if (a.priority === null) return 1;
+                      if (b.priority === null) return -1;
+
+                      const priorityComparison =
+                        Number(a.priority) - Number(b.priority);
+
+                      if (priorityComparison !== 0) return priorityComparison;
+
+                      return a.title.localeCompare(b.title);
+                    })
+                    .map((item: any) => (
                       <div key={item.productId}>
                         <Product data={item} skuList={skuList} />
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               ) : (
                 <>

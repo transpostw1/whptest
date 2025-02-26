@@ -196,7 +196,11 @@ const Payment: React.FC<PaymentProps> = ({
               isWallet: wallet ? 1 : 0,
               isWrap: giftWrap.wrapOption ? 1 : 0,
               message: giftWrap.wrapOption ? giftWrap.name : "",
-              walletAmount: userDetails?.wallet_amount,
+              walletAmount: wallet
+                ? totalCart > wallet
+                  ? Number(totalCart) - Number(userDetails?.wallet_amount)
+                  : Number(userDetails?.wallet_amount) - Number(totalCart)
+                : 0,
               name: userDetails?.fullname,
               email: userDetails?.email,
               contact: userDetails?.mobile_no,
@@ -310,7 +314,11 @@ const Payment: React.FC<PaymentProps> = ({
           isWallet: wallet ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount: userDetails?.wallet_amount,
+          walletAmount: wallet
+            ? totalCart > wallet
+              ? Number(totalCart) - Number(userDetails?.wallet_amount)
+              : Number(userDetails?.wallet_amount) - Number(totalCart)
+            : 0,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,

@@ -35,7 +35,7 @@ const Card = () => {
     },
   });
   return (
-    <div className="mx-4 my-8 flex flex-col items-center rounded-lg border bg-[#FDF6F7] p-6 shadow-md md:flex-row md:items-start md:justify-between">
+    <div className="mx-4 my-8 flex flex-col items-center border bg-[#FDF6F7] p-6 shadow-md md:flex-row md:items-start md:justify-between">
       <div className="w-full">
         <h2 className="mb-4 text-lg font-bold md:text-2xl">
           Always Stay in the Sparkling Loop

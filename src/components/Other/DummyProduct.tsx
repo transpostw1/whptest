@@ -274,12 +274,17 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                   onClick={() => loadTryOnButton?.(data.SKU, data.productId)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between px-2">
                     <IoCameraOutline />
-                    <p className="ps-1 text-sm">Try On</p>
+                    {/* <p className="ps-1 text-sm">Try On</p> */}
                   </div>
                 </div>
               )}
+               {data.discountValue && (
+                      <div className="try_on absolute left-1 top-4 z-0 float-right flex justify-between border px-2 py-1 text-center text-xs bg-[#e26178] text-white">
+                        {data.discountValue}% on making charges
+                      </div>
+                    )}
               {data?.imageDetails[0]?.image_path && (
                 <Image
                   onClick={() => handleDetailProduct(data.productId, data.url)}
@@ -306,7 +311,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart color="#fa0000" size={25} onClick={() => HandleaddToWishlist()} />
+                  <Icon.Heart color="#e26178" size={25} onClick={() => HandleaddToWishlist()} />
                 )}
               </div>
             </div>

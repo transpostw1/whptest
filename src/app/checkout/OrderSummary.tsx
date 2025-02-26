@@ -56,7 +56,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         </div>
         <div className="font-bold">
           {wallet == "whp_Wallet"
-            ? `${formatPrice(0)}`
+            ? `${totalPrice >= userDetails?.wallet_amount ? formatPrice(0) : formatPrice(userDetails?.wallet_amount - totalPrice)}`
             : `${formatPrice(userDetails?.wallet_amount)}`}
         </div>
       </div>
@@ -83,9 +83,18 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           )}
           <div className="flex justify-between font-medium">
             <h3>Wallet</h3>
-            {wallet === "whp_Wallet" &&
-            userDetails?.wallet_amount < totalPrice ? (
-              <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
+            {wallet === "whp_Wallet" ? (
+              userDetails?.wallet_amount < totalPrice ? (
+                <h3>-{formatPrice(userDetails?.wallet_amount)}</h3>
+              ) : (
+                <h3>
+                  -
+                  {formatPrice(
+                    userDetails?.wallet_amount -
+                      (userDetails?.wallet_amount - totalPrice),
+                  )}
+                </h3>
+              )
             ) : (
               <h3>{formatPrice(0)}</h3>
             )}
@@ -94,23 +103,26 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             <h3>Shipping Charges</h3>
             <h3> {formatPrice(0)}</h3>
           </div>
-          <div className="flex justify-between font-bold border-t-rose-400 border-t-2 p-1 px-0">
+          <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
             <h3 className="text-gray-800">Total Price</h3>
-            {wallet === "whp_Wallet" &&
-            userDetails?.wallet_amount < totalPrice ? (
-              <h3>{formatPrice(totalPrice - userDetails?.wallet_amount)}</h3>
+            {wallet === "whp_Wallet" ? (
+              userDetails?.wallet_amount < totalPrice ? (
+                <h3>{formatPrice(totalPrice - userDetails?.wallet_amount)}</h3>
+              ) : (
+                <h3>{formatPrice(0)}</h3>
+              )
             ) : (
               <h3>{formatPrice(totalPrice)}</h3>
             )}
           </div>
         </div>
       </div>
-      {wallet == "whp_Wallet" && userDetails?.wallet_amount > totalPrice && (
+      {/* {wallet == "whp_Wallet" && userDetails?.wallet_amount > totalPrice && (
         <FlashAlert
           message={"Your Cart Value should be greater than your Wallet Amount"}
           type={"error"}
         />
-      )}
+      )} */}
     </div>
   );
 };

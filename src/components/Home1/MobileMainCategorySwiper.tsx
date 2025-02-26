@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
+import { useMainMenuContext } from "@/context/MainMenuContext";
 import { useCategory } from "@/context/CategoryContex";
 import Link from "next/link";
 
@@ -10,6 +11,7 @@ const MobileMainCategorySwiper = () => {
   const { categories } = useAllCategoryContext();
   const { setCustomcategory } = useCategory();
   const [isMobile, setIsMobile] = useState(false);
+  const { allMenus } = useMainMenuContext();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
@@ -40,38 +42,38 @@ const MobileMainCategorySwiper = () => {
           },
         }}
       >
-        {categories.map((data, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className="flex flex-col items-center justify-center"
-              onClick={() => {
-                const cleanUrl = data.url.split("=")[1]; // Assuming `data.url` is like "/products?url=c-earring"
-                setCustomcategory(cleanUrl);
-              }}
-            >
+        {allMenus.map((item: any, index: any) => (
+          <SwiperSlide
+            key={index}
+            className="flex h-full w-full items-center justify-evenly text-rose-950"
+          >
+            <div className="">
+              <Image
+                src={item.image}
+                alt={item.name}
+                width={65}
+                className="rounded-full"
+                height={65}
+                unoptimized
+              />
               <Link
-                href={{
-                  pathname: "/products",
-                  query: { url: data.url.split("=")[1] }, // Ensure `href` also uses the cleaned URL
+                href={item.url}
+                onClick={(e) => {
+                  if (item.name.toLowerCase() === "all jewellery") {
+                    e.preventDefault();
+                  } else {
+                    setCustomcategory(item.label);
+                  }
                 }}
+                className={`flex h-full items-center justify-center gap-1 text-xs duration-300`}
               >
-                <div className="rounded-full border shadow-sm">
-                  <Image
-                    src={data.menuImg}
-                    alt={"pendant"}
-                    width={65}
-                    className="rounded-full"
-                    height={65}
-                    unoptimized
-                  />
-                </div>
+                {item.name}
               </Link>
-              <p className="text-center text-[10px]">{data.name}</p>
             </div>
           </SwiperSlide>
         ))}
 
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className="flex flex-col items-center justify-center">
             <Link
               href={{
@@ -112,7 +114,7 @@ const MobileMainCategorySwiper = () => {
             </Link>
             <p className="text-center text-[10px]">Gold Services</p>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );

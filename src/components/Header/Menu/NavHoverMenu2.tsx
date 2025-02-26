@@ -73,9 +73,9 @@ const NavHoverMenu2 = () => {
   };
 
   const handleSubCategoryClick = (parentIndex: number, label: string) => {
-    setSelectedMenu(parentIndex); 
+    setSelectedMenu(parentIndex);
     setCustomcategory(label);
-    setHoverMenuVisible(null); 
+    setHoverMenuVisible(null);
   };
 
   return (
@@ -89,7 +89,7 @@ const NavHoverMenu2 = () => {
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />
           <div className="header-main flex h-full w-full items-center justify-evenly">
-            <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2 ">
+            <div className="menu-main flex h-full w-full items-center max-lg:hidden xl:absolute xl:left-1/2 xl:top-1/2 xl:w-full xl:-translate-x-1/2 xl:-translate-y-1/2">
               {allMenus.map((item: any, index: any) => (
                 <ul
                   key={index}
@@ -107,74 +107,81 @@ const NavHoverMenu2 = () => {
                           handleMenuClick(index, item.label);
                         }
                       }}
-                      className={`uppercase text-sm flex h-full items-center justify-center gap-1 duration-300 ${
+                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 ${
                         selectedMenu === index ? "underline" : "hover:underline"
                       }`}
                     >
                       {item.name}
                     </Link>
 
-                    {hoverMenuVisible === index && item.subCategory.length > 0 && (
-                      <div
-                        className={`mega-menu absolute left-0 grid w-screen grid-cols-7 gap-1 bg-white p-3 lg:top-[131px] xl:top-[36px]`}
-                      >
-                        {item.subCategory.map((subItem: any, subIndex: any) => (
-                          <ul key={subIndex}>
-                            <Link
-                              href={subItem.url}
-                              className="font-semibold text-black"
-                              onClick={() => handleSubCategoryClick(index, subItem.label)}
-                            >
-                              {subItem.name}
-                            </Link>
-                            {subItem.subCategory.map(
-                              (subSubItem: any, subSubIndex: any) => (
-                                <li key={subSubIndex}>
-                                  <Link
-                                    href={subSubItem.url}
-                                    className="text-secondary duration-300"
-                                    onClick={() =>
-                                      handleSubCategoryClick(index, subSubItem.label)
-                                    }
-                                  >
-                                    <div className="text-secondary flex cursor-pointer duration-300">
-                                      {subSubItem.image && (
-                                        <div>
-                                          <Image
-                                            src={subSubItem.image}
-                                            alt={subSubItem.name}
-                                            height={25}
-                                            width={25}
-                                            className="mr-1"
-                                            style={{
-                                              width: "auto",
-                                              height: "auto",
-                                            }}
-                                          />
+                    {hoverMenuVisible === index &&
+                      item.subCategory.length > 0 && (
+                        <div
+                          className={`mega-menu absolute left-0 grid w-screen grid-cols-7 gap-1 bg-white p-3 lg:top-[131px] xl:top-[36px]`}
+                        >
+                          {item.subCategory.map(
+                            (subItem: any, subIndex: any) => (
+                              <ul key={subIndex}>
+                                <Link
+                                  href={subItem.url}
+                                  className="font-semibold text-black"
+                                  onClick={() =>
+                                    handleSubCategoryClick(index, subItem.label)
+                                  }
+                                >
+                                  {subItem.name}
+                                </Link>
+                                {subItem.subCategory.map(
+                                  (subSubItem: any, subSubIndex: any) => (
+                                    <li key={subSubIndex}>
+                                      <Link
+                                        href={subSubItem.url}
+                                        className="text-secondary duration-300"
+                                        onClick={() =>
+                                          handleSubCategoryClick(
+                                            index,
+                                            subSubItem.label,
+                                          )
+                                        }
+                                      >
+                                        <div className="text-secondary flex cursor-pointer duration-300">
+                                          {subSubItem.image && (
+                                            <div>
+                                              <Image
+                                                src={subSubItem.image}
+                                                alt={subSubItem.name}
+                                                height={25}
+                                                width={25}
+                                                className="mr-1"
+                                                style={{
+                                                  width: "auto",
+                                                  height: "auto",
+                                                }}
+                                              />
+                                            </div>
+                                          )}
+                                          <div>{subSubItem.name}</div>
                                         </div>
-                                      )}
-                                      <div>{subSubItem.name}</div>
-                                    </div>
-                                  </Link>
-                                </li>
-                              ),
-                            )}
-                          </ul>
-                        ))}
-
-                        <div className="col-span-2 w-full">
-                          {item.image && (
-                            <Image
-                              className="h-auto w-full"
-                              src={item.image}
-                              alt={item.name}
-                              width={145}
-                              height={145}
-                            />
+                                      </Link>
+                                    </li>
+                                  ),
+                                )}
+                              </ul>
+                            ),
                           )}
+                          <div className="col-span-2 w-full">
+                            {index !== 0 && item.image && (
+                              <Image
+                                className=" object-contain"
+                                src={item.image}
+                                alt={item.name}
+                                width={360}
+                                height={360}
+                              />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </li>
                 </ul>
               ))}

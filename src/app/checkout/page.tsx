@@ -823,7 +823,6 @@ const Checkout: React.FC = () => {
                                 )}
                               </h3>
                             </div>
-
                             <h3
                               className="cursor-pointer text-red-600 underline"
                               onClick={() =>

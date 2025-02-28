@@ -43,7 +43,23 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
   const [isButtonLoaded, setIsButtonLoaded] = useState(false);
-  console.log(data, "DATATATTATATTAT");
+  // const [loadedSkus, setLoadedSkus] = useState<string[]>([]);
+  // const [skulist, setSkuList] = useState<string[]>([]); // Initialize skuList state
+  // const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
+
+  // const fetchSkusList = async () => {
+  //   try {
+  //     await loadScript(); // Ensure the script is loaded
+  //     const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
+  //     setSkuList(skus); // Update SKU list state
+  //     setIsSkuListLoaded(true);
+  //     console.log("Fetched SKU List:", skus); // Check what you're fetching
+
+  //   } catch (error) {
+  //     console.error("Error fetching SKU list:", error);
+  //   }
+  // };
+
   const loadTryOnButton = async (
     sku: string,
     productId: string,
@@ -121,6 +137,43 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     });
   };
 
+  // useEffect(() => {
+  //   // Fetch SKU list only once on component mount
+  //   fetchSkusList();
+
+  // }, []); // Empty dependency array ensures this runs only on mount
+
+  // useEffect(() => {
+  //   console.log("fetchSkusList", skuList); // Check what you're fetching
+  //   console.log("isSkuListLoaded", isSkuListLoaded); // Check what you're fetching
+  // }, [skuList, isSkuListLoaded]); // Empty dependency array ensures this runs only on
+
+  // useEffect(() => {
+  //   const loadButtonsForSkus = async () => {
+  //     try {
+  //       if (skuList.length > 0 && data.SKU) {
+  //         if (skuList.includes(data.SKU)) {
+  //           console.log("Loading Try-On button for SKU:", data.SKU);
+  //           await loadTryOnButton(data.SKU, data.productId);
+  //         } else {
+  //           console.log("SKU not found in the list:", data.SKU);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading buttons for SKUs:", error);
+  //     }
+  //   };
+
+  //   if (skuList.length > 0 && data.SKU) {
+  //     loadButtonsForSkus();
+  //   }
+
+  // }, [data.SKU, data.productId]);
+
+  // useEffect(() => {
+  //   console.log("Loaded SKUs:", loadedSkus);
+  // }, [loadedSkus]);
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
     const handleChange = (e: any) => {
@@ -161,6 +214,12 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
+  // useEffect(() => {
+  //   if (hover && !isMobile && tryOnRef.current) {
+  //     loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
+  //   }
+  // }, [data.SKU, hover, isMobile]); // Dependencies to run effect when hover state changes
+
   const sortedImages = data?.imageDetails
     ?.filter(
       (item: any): item is ImageDetailWithTypename =>
@@ -170,6 +229,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       (a: ImageDetailWithTypename, b: ImageDetailWithTypename) =>
         parseInt(a.order) - parseInt(b.order),
     );
+
+  // const sortedImages = data?.imageDetails?.sort(
+  //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
+  // );
 
   const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
@@ -267,6 +330,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       alt="This image is temporarry"
                       unoptimized
                     />
+
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
@@ -350,19 +414,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
-                {data.discountActive && data.discountValue && !isMobile && (
-                  <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
-                    {data.typeOfDiscount === "Percentage" ? (
-                      <>
-                        {data.discountValue}% OFF on {data.discountCategory}
-                      </>
-                    ) : (
-                      <>
-                        {data.discountAmount} OFF on {data.discountCategory}
-                      </>
-                    )}
-                  </div>
-                )}
                 {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
@@ -422,12 +473,11 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   {formatPrice(parseInt(data?.discountPrice))}
                 </p>
               )}
-              {data?.discountPrice &&
-                data?.productPrice > data?.discountPrice && (
-                  <p className="text-[#beb3b3] line-through">
-                    {formatPrice(parseInt(data?.productPrice))}
-                  </p>
-                )}
+              {data?.discountPrice && (
+                <p className="text-[#beb3b3] line-through">
+                  {formatPrice(parseInt(data?.productPrice))}
+                </p>
+              )}
 
               {!data?.discountPrice && (
                 <p className="product-price text-title text-lg">
@@ -435,7 +485,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 </p>
               )}
             </div>
-
             {/* {data?.discountPrice && (
               <p className="text-[#c95d71]">
                 {data && data?.discountValue}%OFF

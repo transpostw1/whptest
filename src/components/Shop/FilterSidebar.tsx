@@ -56,7 +56,6 @@ const FilterSidebar: React.FC<Props> = ({
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
         const isAtTop = window.pageYOffset <= sidebarTop;
-
         setIsSidebarFixed(isSidebarInViewport && !isAtTop);
       }
     };
@@ -98,20 +97,22 @@ const FilterSidebar: React.FC<Props> = ({
           </div>
           <div className="flex flex-wrap">
             {Object.entries(selectedOptions).flatMap(([category, options]) =>
-              (options as string[]).map((option: string, index: number) => (
-                <div
-                  key={`${category}-${index}`}
-                  className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
-                >
-                  {option}
-                  <button
-                    className="mb-1 ml-2 align-middle"
-                    onClick={() => handleOptionSelect(option, category)}
+              (options as string[])
+                .filter((option) => option && option.trim() !== "") 
+                .map((option: string, index: number) => (
+                  <div
+                    key={`${category}-${index}`}
+                    className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <Icon.X size={20} />
-                  </button>
-                </div>
-              )),
+                    {option}
+                    <button
+                      className="mb-1 ml-2 align-middle"
+                      onClick={() => handleOptionSelect(option, category)}
+                    >
+                      <Icon.X size={20} />
+                    </button>
+                  </div>
+                )),
             )}
           </div>
           <div className="list-type mt-4">

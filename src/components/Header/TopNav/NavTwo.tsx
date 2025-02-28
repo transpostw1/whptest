@@ -245,13 +245,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             >
               <span className="search-text ">Search</span>
               <div className="marquee-vertical mb-1.5">
-                {/* <div className="marquee-content-vertical"> */}
                 {categories.map((category: any, index: any) => (
                   <div key={index} className="marquee-content-vertical">
                     {category.name}
                   </div>
                 ))}
-                {/* </div> */}
               </div>
               <div className="search-icon">
                 <Icon.MagnifyingGlass

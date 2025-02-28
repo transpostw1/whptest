@@ -72,7 +72,7 @@ export interface ProductType {
   productAttributes: ProductAttributes;
   discountId: number;
   discountCategory: string;
-  discountActive: number;
+  discountActive: boolean;
   typeOfDiscount: string;
   discountValue: string;
   discountAmount: string;

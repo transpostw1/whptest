@@ -44,7 +44,7 @@ const Category = () => {
               key={category.id}
               className="relative flex flex-col items-start justify-between hover:shadow-md"
             >
-              {/* <Link
+              <Link
                 href={{
                   pathname: "/products",
                   query: { url: category.url.split("=")[1] },
@@ -62,7 +62,7 @@ const Category = () => {
                     height={400}
                   />
                 </div>
-              </Link> */}
+              </Link>
 
               <div>
                 <h1 className="break-word font-semibold uppercase sm:text-lg">

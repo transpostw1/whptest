@@ -337,7 +337,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 </p>
               )}
 
-              {data?.discountValue == null && (
+              {!data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>

@@ -50,7 +50,7 @@ const ProfileGMS = () => {
           query GetCustomerGMS($token: String!) {
             getCustomerGMS(token: $token) {
               id
-              customerId
+              customerId  
               schemeType
               monthlyAmount
               discountAmount
@@ -109,9 +109,9 @@ const ProfileGMS = () => {
         balanceAmount: gms.balanceAmount,
         amountPaid: amountPaid,
         installmentsPaid: installmentsPaid,
-        nextInstallmentAmount: nextInstallmentAmount,
+        nextInstallmentAmount: nextInstallmentAmount,   
         iconUrl: `/images/${gms.schemeType.toLowerCase()}-icon.png`,
-        schemeType: gms.schemeType,
+        schemeType: "gms",
       }),
     );
     router.push("/digitalCheckout");
@@ -123,7 +123,7 @@ const ProfileGMS = () => {
         <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
       </div>
     );
-  }
+  };
 
   return (
     <div className="px-[60px] py-[30px]">
@@ -136,73 +136,103 @@ const ProfileGMS = () => {
       <div></div>
       <div>
         {currentItems && currentItems.length > 0 ? (
-          currentItems.map((gms: any, index: number) => (
-            <div key={index} className="mb-3 border">
-              <div className="flex justify-between border-b px-2">
-                <div>Date: {new Date(gms.enrollDate).toLocaleDateString()}</div>
-                <div>{gms.schemeType}</div>
-              </div>
-              <div className="flex justify-between px-2">
-                <div>
-                  Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()}{" "}
+          currentItems.map((gms: any, index: number) => {
+            const isCompleted = gms.transactionDetails.length >= 11;
+            return (
+              <div key={index} className="mb-3 border">
+                <div className="flex justify-between border-b px-2">
+                  <div>Date: {new Date(gms.enrollDate).toLocaleDateString()}</div>
+                  <div>{gms.schemeType}</div>
                 </div>
-                <div>Balance Amount: ₹{gms.balanceAmount.toLocaleString()}</div>
-              </div>
-              <p className="px-2">Payment Status Tracking</p>
-              <div className="my-2 mb-2 flex px-2">
-                {Array.from({ length: 12 }).map((_, i) => {
-                  const transaction = gms.transactionDetails[i];
-                  const isPaid = transaction !== undefined;
-                  const tooltipContent = isPaid
-                    ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
-                    : `Installment ${i + 1} (Pending)`;
-                  return (
-                    <div
-                      key={i}
-                      className={`mr-3 h-[10px] w-[20px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
-                      title={tooltipContent}
-                    />
-                  );
-                })}
-              </div>
-              <button
-                className="my-2 mr-2 bg-[#e26178] px-4 py-2 text-white"
-                onClick={() => handlePayNow(gms)}
-              >
-                Pay Now
-              </button>
-              <div
-                className="flex items-center justify-between border-t"
-                onClick={() => handleToggle(index)}
-              >
-                <div>Payment History</div>
+                <div className="flex justify-between px-2">
+                  <div>
+                    Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()}{" "}
+                  </div>
+                  <div>Balance Amount: ₹{gms.balanceAmount.toLocaleString()}</div>
+                </div>
+                {isCompleted ? (
+                  
+                   <div>
+                    <div className="my-2 mb-2 flex px-2">
+                   {Array.from({ length: 11 }).map((_, i) => {
+                     const transaction = gms.transactionDetails[i];
+                     const isPaid = transaction !== undefined;
+                     const tooltipContent = isPaid
+                       ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
+                       : `Installment ${i + 1} (Pending)`;
+                     return (
+                       <div
+                         key={i}
+                         className={`mr-3 h-[10px] w-[20px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
+                         title={tooltipContent}
+                       />
+                     );
+                   })}
+                  
+                 </div>
+                  <p className="text-green-500 px-2">Scheme Successfully Completed</p>
+                   </div>
+                 
+                ) : (
+                  <>
+                    <p className="px-2">Payment Status Tracking</p>
+                    <div className="my-2 mb-2 flex px-2">
+                      {Array.from({ length: 11 }).map((_, i) => {
+                        const transaction = gms.transactionDetails[i];
+                        const isPaid = transaction !== undefined;
+                        const tooltipContent = isPaid
+                          ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
+                          : `Installment ${i + 1} (Pending)`;
+                        return (
+                          <div
+                            key={i}
+                            className={`mr-3 h-[10px] w-[20px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
+                            title={tooltipContent}
+                          />
+                        );
+                      })}
+                    </div>
+                    <button
+                      className="my-2 mr-2 bg-[#e26178] px-4 py-2 text-white"
+                      onClick={() => handlePayNow(gms)}
+                    >
+                      Pay Now
+                    </button>
+                  </>
+                )}
+                <div
+                  className="flex items-center justify-between border-t"
+                  onClick={() => handleToggle(index)}
+                >
+                  <div className="font-semibold">Payment History</div>
 
-                <div>
-                  <Icon.CaretDown />
+                  <div>
+                    <Icon.CaretDown />
+                  </div>
                 </div>
+                {showAccordian === index && (
+                  <div className="p-2">
+                    {gms.transactionDetails.length > 0 ? (
+                      gms.transactionDetails.map(
+                        (transaction: any, tIndex: number) => (
+                          <div key={tIndex} className="flex justify-between">
+                            <span>₹{transaction.amount.toLocaleString()}</span>
+                            <span>
+                              {new Date(
+                                parseInt(transaction.transactionDate),
+                              ).toLocaleDateString()}
+                            </span>
+                          </div>
+                        ),
+                      )
+                    ) : (
+                      <p>No transactions yet.</p>
+                    )}
+                  </div>
+                )}
               </div>
-              {showAccordian === index && (
-                <div className="p-2">
-                  {gms.transactionDetails.length > 0 ? (
-                    gms.transactionDetails.map(
-                      (transaction: any, tIndex: number) => (
-                        <div key={tIndex} className="flex justify-between">
-                          <span>₹{transaction.amount.toLocaleString()}</span>
-                          <span>
-                            {new Date(
-                              parseInt(transaction.transactionDate),
-                            ).toLocaleDateString()}
-                          </span>
-                        </div>
-                      ),
-                    )
-                  ) : (
-                    <p>No transactions yet.</p>
-                  )}
-                </div>
-              )}
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="my-10 text-center text-2xl font-semibold text-[#e26178]">
             No Active Gold Saving Scheme

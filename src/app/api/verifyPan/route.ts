@@ -65,7 +65,7 @@ export async function POST(req: Request) {
   };
 
   try {
-    const response = await axios.post(baseUrl, payload, {
+    const response = await axios.post(baseUrl, payload, {   
       headers: {
         "Content-Type": "application/json",
       },
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(response.data);
   } catch (error: any) {
-    return NextResponse.json(
+    return NextResponse.json(   
       { error: error.response?.data || "An error occurred while verifying PAN" },
       { status: 500 }
     );

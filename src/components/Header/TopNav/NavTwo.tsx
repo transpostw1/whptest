@@ -18,6 +18,8 @@ import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useMainMenuContext } from "@/context/MainMenuContext";
+import TryAtHomeModal from "@/components/Modal/TryAtHomeModal";
+
 interface Props {
   props: string;
 }
@@ -44,10 +46,18 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const contactRef = useRef<HTMLDivElement>(null);
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [isTryAtHomeModalOpen, setIsTryAtHomeModalOpen] = useState(false);
   const pathname = usePathname();
   const { allMenus } = useMainMenuContext();
   const handleOnClose = () => {
     setAppointmentModal(false);
+  };
+  const openTryAtHomeModal = () => {
+    setIsTryAtHomeModalOpen(true);
+  };
+
+  const closeTryAtHomeModal = () => {
+    setIsTryAtHomeModalOpen(false);
   };
 
   useEffect(() => {
@@ -133,7 +143,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const cartLength: number = cartItems ? cartItems.length : 0;
   const [activeIndex, setActiveIndex] = useState(null);
   const [childIndex, setChildIndex] = useState(null);
-  
+
   const toggleAccordion = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -146,8 +156,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   };
   return (
     <div ref={contactRef}>
+      <TryAtHomeModal
+        isOpen={isTryAtHomeModalOpen}
+        onClose={closeTryAtHomeModal}
+      />
       <div
-        className={`top-nav header-menu h-[65px] w-full max-sm:h-[48px] md:h-[65px] z-[36] ${
+        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px] ${
           fixedHeader ? "fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
@@ -221,7 +235,34 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
             </div>
-            <div className="form-search relative w-72 max-lg:hidden">
+            <div
+              className="search-container max-lg:hidden"
+              contentEditable="true"
+              suppressContentEditableWarning={true}
+              role="textbox"
+              aria-label="Search"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <span className="search-text ">Search</span>
+              <div className="marquee-vertical mb-1.5">
+                {categories.map((category: any, index: any) => (
+                  <div key={index} className="marquee-content-vertical">
+                    {category.name}
+                  </div>
+                ))}
+              </div>
+              <div className="search-icon">
+                <Icon.MagnifyingGlass
+                  size={20}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* <div className="form-search relative w-72 max-lg:hidden">
               <Icon.MagnifyingGlass
                 size={20}
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -231,13 +272,23 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               />
               <input
                 type="text"
-                placeholder="Search"
+                // placeholder="Search"
                 readOnly={true}
                 className="border-line caption2 h-10 w-full border bg-[#f7f7f7] pl-4 pr-4 focus:outline-none"
                 value={searchKeyword}
                 onClick={() => setIsModalOpen(true)}
               />
-            </div>
+                <div className="marquee-vertical items-center absolute left-2 right-0 bottom-3 w-full">
+                  Search
+                <div className="marquee-content-vertical ">
+                  {categories.map((category: any, index: any) => (
+                    <div key={index} className="mx-4 text-sm font-medium text-center">
+                      {category.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            // </div> */}
             {isModalOpen && (
               <ModalSearch
                 closeModal={() => setIsModalOpen(false)}
@@ -431,7 +482,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 )}
               </div>
               <div className="form-search relative mt-2 flex">
-                <div className="mr-3">
+                <div className="mr-3" onClick={openTryAtHomeModal}>
                   <Image
                     src="/dummy/tryAtHomeButton.png"
                     alt="try_at_home"
@@ -547,32 +598,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   ))}
                 </ul>
               </div>
-
-              {/* <div className="flex mt-2 bg-[#fdf4f6] p-2">
-                <div>
-                  <p className="text-lg font-semibold">Download the WHP App</p>
-                  <Image
-                    src={"/dummy/appStoreButton.png"}
-                    alt={"downloadAppButton"}
-                    width={113}
-                    height={34}
-                  />
-                  <Image
-                    src={"/dummy/playStoreButton.png"}
-                    alt={"downloadAppButton"}
-                    width={113}
-                    height={34}
-                  />
-                </div>
-                <div>
-                  <Image
-                    src={"/dummy/dummyPhoneApp.png"}
-                    alt={"PhoneAppBanner"}
-                    width={140}
-                    height={164}
-                  />
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

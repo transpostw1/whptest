@@ -26,7 +26,10 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const cookieToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+        const cookieToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("localtoken")
+            : null;
         const getAuthHeaders = () => {
           if (!cookieToken) return null;
           return {
@@ -81,7 +84,10 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
   }, []);
 
   const handlePayNow = (gms: any) => {
-    const amountPaid = gms.transactionDetails.reduce((sum: number, transaction: any) => sum + transaction.amount, 0);
+    const amountPaid = gms.transactionDetails.reduce(
+      (sum: number, transaction: any) => sum + transaction.amount,
+      0,
+    );
     const installmentsPaid = gms.transactionDetails.length;
     const nextInstallmentAmount = gms.monthlyAmount;
 
@@ -98,30 +104,30 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
         nextInstallmentAmount: nextInstallmentAmount,
         iconUrl: `/images/${gms.schemeType.toLowerCase()}-icon.png`,
         schemeType: gms.schemeType,
-      })
+      }),
     );
     router.push("/digitalCheckout");
   };
 
   const handleBackButton = () => {
-    router.push("/profile")
+    router.push("/profile");
   };
 
   if (loading) {
     return (
-      <div className="loading-container flex justify-center items-center h-full">
-        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50} />
+      <div className="loading-container flex h-full items-center justify-center">
+        <Image src="/dummy/loader.gif" alt={"loader"} height={50} width={50}  />
       </div>
     );
   }
 
   return (
     <div>
-      <div className="flex mb-4">
+      <div className="mb-4 flex">
         <div onClick={handleBackButton} className="mt-2">
           <Icon.CaretLeft size={15} />
         </div>
-        <div className="flex justify-between w-full">
+        <div className="flex w-full justify-between">
           <div className="text-[20px] font-bold">Your GMS payments</div>
           <div className="text-[20px] font-bold text-[#e26178] underline">
             <Link href={"/benefit"}>Know More</Link>
@@ -130,66 +136,107 @@ const MobileGms: React.FC<Props> = ({ handleComponent }) => {
       </div>
       <div className="px-3">
         {data && data.length > 0 ? (
-          data.map((gms: any, index: number) => (
-            <div key={index} className="border mb-3">
-              <div className="flex justify-between border-b px-2">
-                <div>Date: {new Date(gms.enrollDate).toLocaleDateString()}</div>
-                <div>{gms.schemeType}</div>
-              </div>
-              <div className="flex justify-between px-2">
-                <div>Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()} </div>
-                <div>Balance Amount: ₹{gms.balanceAmount.toLocaleString()}</div>
-              </div>
-              <p className="px-2">Payment Status Tracking</p>
-              <div className="flex mb-2 px-2 my-2">
-                {Array.from({ length: 12 }).map((_, i) => {
-                  const transaction = gms.transactionDetails[i];
-                  const isPaid = transaction !== undefined;
-                  const tooltipContent = isPaid
-                    ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
-                    : `Installment ${i + 1} (Pending)`;
-                  return (
-                    <div 
-                      key={i} 
-                      className={`mr-2 h-[8px] w-[15px] ${isPaid ? 'bg-green-500' : 'bg-[#929191]'} cursor-pointer`}
-                      title={tooltipContent}
-                    />
-                  );
-                })}
-              </div>
-              <button 
-                className="px-4 py-2 bg-[#e26178] text-white my-1 mr-2"
-                onClick={() => handlePayNow(gms)}
-              >
-                Pay Now
-              </button>
-              <div
-                className="flex justify-between items-center border-t"
-                onClick={() => handleToggle(index)}
-              >
-                <div>Payment History</div>
-                <div>
-                  <Icon.CaretDown />
+          data.map((gms: any, index: number) => {
+            const isCompleted = gms.transactionDetails.length >= 11;
+            return (
+              <div key={index} className="mb-3 border">
+                <div className="flex justify-between border-b px-2">
+                  <div>
+                    Date: {new Date(gms.enrollDate).toLocaleDateString()}
+                  </div>
+                  <div>{gms.schemeType}</div>
                 </div>
-              </div>
-              {showAccordian === index && (
-                <div className="p-2">
-                  {gms.transactionDetails.length > 0 ? (
-                    gms.transactionDetails.map((transaction: any, tIndex: number) => (
-                      <div key={tIndex} className="flex justify-between">
-                        <span>₹{transaction.amount.toLocaleString()}</span>
-                        <span>{new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No transactions yet.</p>
-                  )}
+                <div className="flex justify-between px-2">
+                  <div>
+                    Monthly Investment: ₹{gms.monthlyAmount.toLocaleString()}{" "}
+                  </div>
+                  <div>
+                    Balance Amount: ₹{gms.balanceAmount.toLocaleString()}
+                  </div>
                 </div>
-              )}
-            </div>
-          ))
+                {isCompleted ? (
+                  <div>
+                    <div className="my-2 mb-2 flex px-2 justify-center">
+                      {Array.from({ length: 11 }).map((_, i) => {
+                        const transaction = gms.transactionDetails[i];
+                        const isPaid = transaction !== undefined;
+                        const tooltipContent = isPaid
+                          ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
+                          : `Installment ${i + 1} (Pending)`;
+                        return (
+                          <div
+                            key={i}
+                            className={`mr-2 h-[8px] w-[15px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
+                            title={tooltipContent}
+                          />
+                        );
+                      })}
+                    </div>
+                    <p className="px-2 text-green-500 text-center">
+                      Your Monthly Scheme is Successfully Completed
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <p className="px-2">Payment Status Tracking</p>
+                    <div className="my-2 mb-2 flex px-2">
+                      {Array.from({ length: 11 }).map((_, i) => {
+                        const transaction = gms.transactionDetails[i];
+                        const isPaid = transaction !== undefined;
+                        const tooltipContent = isPaid
+                          ? `Amount: ₹${transaction.amount.toLocaleString()}\nDate: ${new Date(parseInt(transaction.transactionDate)).toLocaleDateString()}`
+                          : `Installment ${i + 1} (Pending)`;
+                        return (
+                          <div
+                            key={i}
+                            className={`mr-2 h-[8px] w-[15px] ${isPaid ? "bg-green-500" : "bg-[#929191]"} cursor-pointer`}
+                            title={tooltipContent}
+                          />
+                        );
+                      })}
+                    </div>
+                    <button
+                      className="my-1 mr-2 bg-[#e26178] px-4 py-2 text-white"
+                      onClick={() => handlePayNow(gms)}
+                    >
+                      Pay Now
+                    </button>
+                  </>
+                )}
+                <div
+                  className="flex items-center justify-between border-t"
+                  onClick={() => handleToggle(index)}
+                >
+                  <div className="font-semibold">Payment History</div>
+                  <div>
+                    <Icon.CaretDown />
+                  </div>
+                </div>
+                {showAccordian === index && (
+                  <div className="p-2">
+                    {gms.transactionDetails.length > 0 ? (
+                      gms.transactionDetails.map(
+                        (transaction: any, tIndex: number) => (
+                          <div key={tIndex} className="flex justify-between">
+                            <span>₹{transaction.amount.toLocaleString()}</span>
+                            <span>
+                              {new Date(
+                                parseInt(transaction.transactionDate),
+                              ).toLocaleDateString()}
+                            </span>
+                          </div>
+                        ),
+                      )
+                    ) : (
+                      <p>No transactions yet.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })
         ) : (
-          <div className="text-center font-semibold text-2xl my-10 text-[#e26178]">
+          <div className="my-10 text-center text-2xl font-semibold text-[#e26178]">
             No Active Gold Saving Scheme
           </div>
         )}

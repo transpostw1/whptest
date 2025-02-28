@@ -26,13 +26,14 @@ const GoldScheme = () => {
     setLoading(true);
     router.push(href);
   };
+
   return (
     <>
       {loading && <Loader />}
       <div className="mt-5 bg-[#FFFAF9] text-rose-950">
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
           <div className="px-8 lg:px-0">
-            <h2 className="font-medium max-sm:text-center sm:text-[14px] md:text-center lg:text-start lg:text-[16px] pt-4">
+            <h2 className="font-medium text-center sm:text-[14px] md:text-center lg:text-start lg:text-[16px] pt-4">
               GOLD SCHEME
             </h2>
             <h1 className="py-4 text-center text-2xl md:text-center md:text-3xl lg:text-left lg:text-[50px] lg:leading-[74px]">
@@ -45,14 +46,6 @@ const GoldScheme = () => {
               assets.
             </p>
 
-            {/* <Link href="/benefit">
-              <button
-                type="button"
-                className="text-white bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] hover:bg-pink-600 focus:ring-4 focus:outline-none font-medium text-sm px-12 py-3.5 text-center mt-6 mb-20"
-              >
-                Know More
-              </button>
-            </Link> */}
             <Link
               className="inline-flex w-full justify-center text-center sm:justify-center md:justify-center lg:justify-start lg:pb-10 lg:text-left"
               href="/benefit"
@@ -68,8 +61,8 @@ const GoldScheme = () => {
               </button>
             </Link>
             {!isMobile && (
-              <div className=" p-0">
-                <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5 md:">
+              <div className="p-0">
+                <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5">
                   <Image
                     src={"/images/other/BenefitBangle.jpg"}
                     alt="Benefit"
@@ -90,11 +83,9 @@ const GoldScheme = () => {
                     </div>
                     <div className="mt-5 flex w-full">
                       <button
-                        // href="#"
                         onClick={() => handleNavigation("/benefit")}
                         className="flex justify-center text-start font-semibold text-[#E26178] underline"
                       >
-                        
                         Benefit Calculator
                         <span className="ml-2 mt-1">
                           <Icon.ArrowRight />
@@ -106,24 +97,27 @@ const GoldScheme = () => {
               </div>
             )}
           </div>
-          <Image
-            src={"/images/other/InvestinGold.jpg"}
-            width={1000}
-            height={900}
-            alt="goldscheme"
-            unoptimized
-          />
+          <div className="flex justify-center lg:justify-end">
+            <Image
+              src={"/images/other/InvestinGold.jpg"}
+              width={1000}
+              height={900}
+              alt="goldscheme"
+              unoptimized
+              className="h-auto w-full lg:w-auto"
+            />
+          </div>
           {isMobile && (
             <div className="bg-[#FFFAF9] p-0">
-              <div className=" flex  items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
+              <div className="flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
                 <Image
                   src={"/images/other/BenefitBangle.jpg"}
                   alt="Benefit"
                   width={299}
-                  height={299}
+                  height={139}
                   className="h-auto w-full sm:w-auto"
                 />
-                <div className="flex flex-col justify-between gap-2 pt-3 md:pt-0  sm:mx-0  w-full">
+                <div className="flex flex-col justify-between gap-2 pt-3 md:pt-0 sm:mx-0 w-full">
                   <div>
                     <h1 className="pb-2 text-xl font-semibold">GOLD ACCOUNT</h1>
                     <p className="pe-2 text-sm">
@@ -133,7 +127,6 @@ const GoldScheme = () => {
                   </div>
                   <div className="flex w-full">
                     <button
-                      // href="#"
                       onClick={() => handleNavigation("/benefit")}
                       className="flex justify-center text-start font-semibold text-[#E26178] underline"
                     >

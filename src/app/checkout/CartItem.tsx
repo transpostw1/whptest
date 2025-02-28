@@ -161,6 +161,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
     setShowModal(false);
   };
 
+
   return (
     <div>
       {isloading ? (

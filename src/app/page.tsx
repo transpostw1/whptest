@@ -23,6 +23,7 @@ import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 import { NextSeo } from "next-seo";
 import SEO from "../../next-seo.config"
+import "@/styles/styles.scss";
 
 
 
@@ -80,7 +81,7 @@ export default function Home() {
         {/* <Whptv2 /> */}
         <RoseGold />
         <Category />
-        <GetFastDeliveryProducts />
+        {/* <GetFastDeliveryProducts /> */}
         <WhatWeOffer />
         <ShopByGender />
         {/* <PreciousGems /> */}

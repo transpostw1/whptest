@@ -109,17 +109,20 @@ const PANVerificationPage: React.FC = () => {
       );
 
       if (enrollmentId) {
-        handleEnrollSuccess(enrollmentId)
-        // if (!userDetails?.pan) {
+        try {
           await addUserDetails({ pan });
-        // }
-        setBackendMessage("PAN verified successfully");
-        setFlashType("success");
-        // router.push("/digitalCheckout");
+          setBackendMessage("PAN verified successfully");
+          setFlashType("success");
+          handleEnrollSuccess(enrollmentId);
+        } catch (addUserDetailsError: any) {
+          console.error("Error updating user details:", addUserDetailsError);
+          setPanError(addUserDetailsError.response.data.message || "Failed to update user details.");
+          setBackendError(addUserDetailsError.response.data.message || "Verification failed");
+          setFlashType("error");
+        }
       }
     } catch (error: any) {
       console.error("Error verifying PAN:", error);
-
       setPanError(error.message || "An error occurred. Please try again.");
       setBackendError(error.message || "Verification failed");
       setFlashType("error");
@@ -135,16 +138,16 @@ const PANVerificationPage: React.FC = () => {
       ) : (
         <div className="flex w-full items-center justify-center p-4">
           <div className="w-full max-w-xl rounded-lg bg-white p-6 md:p-10">
-            {backendError && (
+            {/* {backendError && flashType === "error" && (
               <div className="mb-4 text-center text-red-500">
                 {backendError}
               </div>
             )}
-            {backendMessage && (
+            {backendMessage && flashType === "success" && (
               <div className="mb-4 text-center text-green-500">
                 {backendMessage}
               </div>
-            )}
+            )} */}
 
             <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
               Update PAN

@@ -321,7 +321,7 @@ const Wishlist = () => {
                       <h3 className="font-medium">Diamond:FG-VVS</h3>
                       <h3 className="font-medium">Size:11</h3>
                       </div> */}
-                      {product.variants && product.variants.length > 0 && (
+                      {/* {product.variants && product.variants.length > 0 && (
                         <div>
                           <h3 className="font-medium">
                             {product.variants[0].variantType}:{" "}
@@ -332,7 +332,7 @@ const Wishlist = () => {
                             {product.variants[1].variantName}
                           </h3>
                         </div>
-                      )}
+                      )} */}
 
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">

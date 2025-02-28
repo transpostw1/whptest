@@ -609,7 +609,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              {data?.productDetails?.discountPrice ? (
+              {data?.productDetails?.discountActive ? (
                 <>
                   <span className="text-2xl font-extrabold">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}

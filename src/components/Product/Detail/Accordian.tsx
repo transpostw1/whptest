@@ -516,7 +516,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
                   {product.productDetails.stoneDetails && <p>-</p>}
                   {product.productDetails?.makingCharges && <p>-</p>}
-                  {product.productDetails?.discountValue && <p>-</p>}
+                  {product.productDetails?.discountActive && <p>-</p>}
                   {product.productDetails?.gst && <p>-</p>}
                 </div>
                 <div>
@@ -552,9 +552,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   </p>
                   {parseInt(product?.productDetails?.discountValue) > 0 && (
                     <div>
-                      {product?.productDetails &&
-                      product?.productDetails?.typeOfDiscount ===
-                        "Percentage" ? (
+                      {product?.productDetails?.typeOfDiscount ===
+                      "Percentage" ? (
                         <p className="text-right">
                           -
                           {formatPrice(
@@ -581,7 +580,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <p>Total</p>
                 </div>
                 <div className="text-md font-semibold">
-                  {product?.productDetails?.discountPrice !== null ? (
+                  {product?.productDetails?.discountActive ? (
                     <p>
                       {formatPrice(
                         parseInt(product?.productDetails?.discountPrice),

@@ -39,6 +39,7 @@ const ProductSlider = () => {
               productPrice
               discountPrice
               typeOfDiscount
+              discountActive
               discountValue
               rating
               imageDetails {

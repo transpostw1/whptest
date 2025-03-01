@@ -51,6 +51,7 @@ const BuyAgain = () => {
               productPrice
               discountPrice
               typeOfDiscount
+              discountActivess
               discountValue
               rating
               imageDetails {

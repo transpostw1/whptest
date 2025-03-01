@@ -335,18 +335,18 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             </div>
 
             <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
-              {data?.discountActive && (
+              {data?.discountPrice && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.discountPrice))}
                 </p>
               )}
-              {data?.discountActive && (
+              {data?.discountPrice && (
                 <p className="text-[#beb3b3] line-through">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>
               )}
 
-              {!data?.discountActive && (
+              {data?.discountValue == null && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>

@@ -409,8 +409,21 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
+                  {data.discountActive && data.discountValue && (
+                  <div className="absolute left-1 top-1  float-right flex  p-1 justify-between border bg-[#e26178]  text-center text-white">
+                    {data.typeOfDiscount === "Percentage" ? (
+                      <span className="text-xs">
+                        {data.discountValue}% OFF on {data.discountCategory}
+                      </span>
+                    ) : (
+                      <span>
+                        ₹{data.discountAmount} OFF on {data.discountCategory}
+                      </span>
+                    )}
+                  </div>
+                )}
                 {data.discountActive && data.discountValue &&isMobile && (
-                  <div className="absolute left-1 top-1 z- float-right flex  p-1 justify-between border bg-[#e26178]  text-center text-white">
+                  <div className="absolute left-1 top-1 float-right flex  p-1 justify-between border bg-[#e26178]  text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-xs">
                         {data.discountValue}% OFF on {data.discountCategory}

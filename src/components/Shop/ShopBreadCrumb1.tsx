@@ -421,8 +421,6 @@ const ShopBreadCrumb1 = () => {
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
-
-    // Combine category options
     combinedOptions.category = [
       ...(initialOptions.Category || []),
       ...(selectedOptions.Category || []),
@@ -432,8 +430,6 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Search || []),
       ...(selectedOptions.Search || []),
     ];
-
-    // Combine price options
     combinedOptions.priceFilter = [
       ...(initialOptions.Price || []),
       ...(selectedOptions.Price || []),
@@ -530,7 +526,7 @@ const ShopBreadCrumb1 = () => {
     if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
     } else if (options.Category?.length > 0) {
-      urlParts.push(`category-${options.Category[0]}`);
+      urlParts.push(`pc-${options.Category[0]}`);
     }
   
     // Add other filters

@@ -43,10 +43,10 @@ const Appointment = () => {
                 onClick={() => setAppointmentModal(true)}
                 className="my-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
               >
-                <button type="button" className="text-[18px] font-medium">
+                <button type="button" className="md:text-[18px] text-sm font-medium">
                   Book Appointment
                 </button>
-                <HiOutlineArrowLongRight className="ml-1 mt-1" size={20} />
+                <HiOutlineArrowLongRight className="ml-1 " size={20} />
               </div>
               {appointmentModal && (
                 <BookExchangeModal

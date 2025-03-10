@@ -486,9 +486,7 @@ const ShopBreadCrumb1 = () => {
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const updatedOptions = { ...prevSelectedOptions };
-      
       if (category === 'Category' || category === 'productCategory') {
-        
         if (updatedOptions[category]?.[0] === option) {
           delete updatedOptions[category];
         } else {
@@ -499,7 +497,6 @@ const ShopBreadCrumb1 = () => {
       } else {
         if (updatedOptions[category]) {
           const formattedOption = formatPriceRange(option);
-          // Remove the option if it exists
           if (updatedOptions[category].includes(formattedOption)) {
             updatedOptions[category] = updatedOptions[category].filter(
               (selectedOption: any) => selectedOption !== formattedOption
@@ -514,21 +511,27 @@ const ShopBreadCrumb1 = () => {
           updatedOptions[category] = [formatPriceRange(option)];
         }
       }
-      
+      updateURL(updatedOptions);
+
       return updatedOptions;
     });
   };
   
   const updateURL = (options: any) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const source = searchParams.get('source');
+    if (source === 'search') {
+      return;
+    }
+  
     const urlParts: string[] = [];
-    
     // Only add the most recent category or pc parameter
-    if (options.productCategory?.length > 0) {
+   if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
     } else if (options.Category?.length > 0) {
       urlParts.push(`pc-${options.Category[0]}`);
     }
-  
+   
     // Add other filters
     if (options.Search?.length > 0) {
       urlParts.push(`search-${options.Search.join(',')}`);
@@ -553,7 +556,7 @@ const ShopBreadCrumb1 = () => {
     }
   
     const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
-    router.replace(url); // Use replace instead of push
+    router.replace(url); 
   };
 
   useEffect(() => {

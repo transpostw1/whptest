@@ -687,7 +687,6 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </p>
             )}
             {data?.productDetails?.productQty > 0 && (
-             
              <p className="flex items-center font-semibold text-[#e26178]">
                🚚{" "}
                <span className="ml-2">

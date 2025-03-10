@@ -5,13 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
-import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import axios from "axios";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const BuyAgain = () => {
   const [products, setProducts] = useState<any>([]);
@@ -51,6 +49,7 @@ const BuyAgain = () => {
               productPrice
               discountPrice
               typeOfDiscount
+              discountCategory
               discountActive
               discountValue
               rating
@@ -66,10 +65,9 @@ const BuyAgain = () => {
         const { data } = await client.query({
           query: Buy_Again,
         });
-        // const response = await axios.get(`${baseUrl}/best-sellers`);
         setData(await data.getBuyAgainProducts);
       } catch (error) {
-        console.log();
+        console.log(error);
       } finally {
         setLoading(false);
       }

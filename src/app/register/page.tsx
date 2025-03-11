@@ -63,8 +63,7 @@ const Register = () => {
   };
 
   async function handleSignIn() {
-    console.log("hhhhhh");
-    setLoading(true);
+     setLoading(true);
     try {
       console.log("inside try");
       const token = getToken();
@@ -87,6 +86,7 @@ const Register = () => {
       logIn();
       const localToken = response.data.token;
       localStorage.setItem("localtoken", localToken);
+      localStorage.removeItem("firebaseToken");
       router.push("/");
     } catch (error: any) {
       if (

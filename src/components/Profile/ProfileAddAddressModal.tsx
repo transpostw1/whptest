@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -20,6 +20,34 @@ const AddAddressModal: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
+  const [countries, setCountries] = useState<any[]>([]);
+  const [states, setStates] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get("https://countriesnow.space/api/v0.1/countries/states");
+        const countryData = response.data.data.map((country: any) => ({
+          name: country.name,
+          states: country.states.map((state: any) => state.name),
+        }));
+        setCountries(countryData);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCountry = countries.find(
+      (country) => country.name === event.target.value
+    );
+    setStates(selectedCountry ? selectedCountry.states : []);
+    formik.setFieldValue("country", event.target.value);
+    formik.setFieldValue("state", ""); 
+  };
 
   const validationSchema = Yup.object().shape({
     pincode: Yup.string().required("Pincode is required"),
@@ -72,7 +100,7 @@ const AddAddressModal: React.FC<Props> = ({
               state: values.state,
               city: values.city,
               pincode: values.pincode,
-              landmark: values.landmark, // include landmark if necessary
+              landmark: values.landmark,
             },
           ],
         },
@@ -99,7 +127,7 @@ const AddAddressModal: React.FC<Props> = ({
     initialValues: {
       pincode: "",
       full_address: "",
-      country: "India",
+      country: "",
       state: "",
       city: "",
       address_type: "",
@@ -110,24 +138,24 @@ const AddAddressModal: React.FC<Props> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto rounded-xl bg-white p-4 sm:max-w-lg sm:p-8">
-        <button onClick={closeModal} className="self-end">
-          <Icon.X size={25} />
-        </button>
-        <form onSubmit={formik.handleSubmit}>
-          <h2 className="mb-4 text-2xl font-semibold">
-            {isForBillingAddress
-              ? "Add Billing Address"
-              : "Add Shipping Address"}
+      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto bg-white p-3 sm:max-w-lg sm:p-8">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-2xl font-semibold">
+            {isForBillingAddress ? "Add Billing Address" : "Add Shipping Address"}
           </h2>
-          {formError && <div className="mb-4 text-red-500">{formError}</div>}
+          <button onClick={closeModal} className="">
+            <Icon.X size={25} />
+          </button>
+        </div>
+        <form onSubmit={formik.handleSubmit}>
+          {formError && <div className="mb-2 text-sm text-red-500">{formError}</div>}
           <div className="mb-4">
             <div className="relative">
               <input
                 id="full_address"
-                className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                  formik.errors.full_address
-                    ? "border-red-500"
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  formik.touched.full_address && formik.errors.full_address
+                    ? "border-red-500 "
                     : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"
@@ -141,8 +169,8 @@ const AddAddressModal: React.FC<Props> = ({
                 Full Address
               </label>
             </div>
-            {formik.errors.full_address && (
-              <div className="mt-1 text-red-500">
+            {formik.touched.full_address && formik.errors.full_address && (
+              <div className="mt-1 text-sm text-red-500">
                 {formik.errors.full_address}
               </div>
             )}
@@ -151,8 +179,8 @@ const AddAddressModal: React.FC<Props> = ({
             <div className="relative">
               <input
                 id="pincode"
-                className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                  formik.errors.pincode ? "border-red-500" : "border-gray-300"
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  formik.touched.pincode && formik.errors.pincode ? "border-red-500" : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"
                 placeholder=" "
@@ -165,23 +193,62 @@ const AddAddressModal: React.FC<Props> = ({
                 Pincode
               </label>
             </div>
-            {formik.errors.pincode && (
-              <div className="mt-1 text-red-500">{formik.errors.pincode}</div>
+            {formik.touched.pincode && formik.errors.pincode && (
+              <div className="mt-1 text-sm text-red-500">{formik.errors.pincode}</div>
             )}
           </div>
 
-          <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mb-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <div className="relative">
-                <input
-                  id="state"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.state ? "border-red-500" : "border-gray-300"
+                <select
+                  id="country"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.country && formik.errors.country ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  type="text"
-                  placeholder=" "
-                  {...formik.getFieldProps("state")}
-                />
+                  value={formik.values.country}
+                  onChange={handleCountryChange}
+                  onBlur={formik.handleBlur}
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                >
+                  <option value="" label="Select country" />
+                  {countries.map((country) => (
+                    <option key={country.name} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+                <label
+                  htmlFor="country"
+                  className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
+                >
+                  Country
+                </label>
+              </div>
+              {formik.touched.country && formik.errors.country && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.country}</div>
+              )}
+            </div>
+            <div>
+              <div className="relative">
+                <select
+                  id="state"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.state && formik.errors.state ? "border-red-500" : "border-gray-300"
+                  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+                  value={formik.values.state}
+                  onChange={(e) => formik.setFieldValue("state", e.target.value)}
+                  onBlur={formik.handleBlur}
+                  disabled={!states.length}
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                >
+                  <option value="" label="Select state" />
+                  {states.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
                 <label
                   htmlFor="state"
                   className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -189,16 +256,16 @@ const AddAddressModal: React.FC<Props> = ({
                   State
                 </label>
               </div>
-              {formik.errors.state && (
-                <div className="mt-1 text-red-500">{formik.errors.state}</div>
+              {formik.touched.state && formik.errors.state && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.state}</div>
               )}
             </div>
             <div>
               <div className="relative">
                 <input
                   id="city"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.city ? "border-red-500" : "border-gray-300"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.city && formik.errors.city ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
                   placeholder=" "
@@ -211,39 +278,17 @@ const AddAddressModal: React.FC<Props> = ({
                   City
                 </label>
               </div>
-              {formik.errors.city && (
-                <div className="mt-1 text-red-500">{formik.errors.city}</div>
-              )}
-            </div>
-            <div>
-              <div className="relative">
-                <input
-                  id="country"
-                  className={`block w-full appearance-none rounded-lg border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.country ? "border-red-500" : "border-gray-300"
-                  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  type="text"
-                  placeholder=" "
-                  {...formik.getFieldProps("country")}
-                />
-                <label
-                  htmlFor="country"
-                  className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
-                >
-                  Country
-                </label>
-              </div>
-              {formik.errors.country && (
-                <div className="mt-1 text-red-500">{formik.errors.country}</div>
+              {formik.touched.city && formik.errors.city && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.city}</div>
               )}
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label htmlFor="address_type" className="font-medium">
-              Address Type:
+              Address Type
             </label>
-            <div className="mt-2 flex flex-wrap">
-              <div className="mb-2 mr-4 flex items-center">
+            <div className="flex flex-wrap">
+              <div className="mr-4 flex items-center">
                 <input
                   type="radio"
                   id="home"
@@ -257,7 +302,7 @@ const AddAddressModal: React.FC<Props> = ({
                   Home
                 </label>
               </div>
-              <div className="mb-2 mr-4 flex items-center">
+              <div className="mr-4 flex items-center">
                 <input
                   type="radio"
                   id="work"
@@ -271,7 +316,7 @@ const AddAddressModal: React.FC<Props> = ({
                   Work
                 </label>
               </div>
-              <div className="mb-2 flex items-center">
+              <div className="flex items-center">
                 <input
                   type="radio"
                   id="other"
@@ -286,16 +331,16 @@ const AddAddressModal: React.FC<Props> = ({
                 </label>
               </div>
             </div>
-            {formik.errors.address_type && (
-              <div className="mt-1 text-red-500">
+            {formik.touched.address_type && formik.errors.address_type && (
+              <div className="text-sm text-red-500">
                 {formik.errors.address_type}
               </div>
-            )}  
+            )}
           </div>
 
           <button
             type="submit"
-            className={`my-2 inline-block w-full rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-center text-white hover:bg-rose-500 ${
+            className={`inline-block w-full border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-center text-white hover:bg-rose-500 ${
               isLoading ? "cursor-not-allowed opacity-50" : ""
             }`}
             disabled={isLoading}

@@ -282,14 +282,15 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
               )}
              {data?.discountActive &&
              (
-                  <div className="try_on absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                  <div className="try_on absolute left-1 top-4 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <>
                         {data.discountValue}% OFF on {data.discountCategory}
                       </>
                     ) : (
                       <>
-                        {data.discountAmount} OFF on {data.discountCategory}
+                        {data.discountAmount} OFF on {data.discountCategory}   
+                        
                       </>
                     )}
                   </div>

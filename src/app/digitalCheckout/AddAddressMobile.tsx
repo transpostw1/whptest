@@ -178,33 +178,6 @@ const AddAddressMobile: React.FC<Props> = ({
                     </div>
                   )}
                 </div>
-
-                {/* <div className="mb-4">
-                  <div className="relative">
-                    <input
-                      id="area"
-                      className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none ${
-                        formik.errors.area
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
-                      type="text"
-                      placeholder=" "
-                      {...formik.getFieldProps("area")}
-                    />
-                    <label
-                      htmlFor="area"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                    >
-                      Area
-                    </label>
-                  </div>
-                  {formik.errors.area && (
-                    <div className="text-red-500 mt-1">
-                      {formik.errors.area}
-                    </div>
-                  )}
-                </div> */}
                 <div className="mb-4">
                   <div className="relative">
                     <input
@@ -312,7 +285,7 @@ const AddAddressMobile: React.FC<Props> = ({
                 </div> */}
 
                 <div className="mb-4">
-                  <label htmlFor="address_type" className="font-medium">
+                  <label htmlFor="address_type" className="font-medium bg-blue-600">
                     Address Type:
                   </label>
                   <div className="mt-2 flex flex-wrap">

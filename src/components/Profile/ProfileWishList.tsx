@@ -184,7 +184,7 @@ const ProfileWishList = () => {
                   <div className="product-card h-[100%] w-[100%] p-4">
                     <div
                       className="product-image relative"
-                      onClick={() => router.push(`/products/${product.url}`)}
+                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
                     >
                       <Image
                          src={product?.image_path}

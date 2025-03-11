@@ -519,7 +519,7 @@ const ShopBreadCrumb1 = () => {
         }
       }
       
-      return updatedOptions;
+    return updatedOptions;
     });
   };
   

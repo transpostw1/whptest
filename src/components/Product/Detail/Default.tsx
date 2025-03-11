@@ -531,7 +531,6 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                           />
                         ))}
                     </Slider>
-
                     <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
                       <Icon.CaretRight
                         onClick={() => sliderRef.slickNext()}

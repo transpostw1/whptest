@@ -289,7 +289,8 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                       </>
                     ) : (
                       <>
-                        {data.discountAmount} OFF on {data.discountCategory}
+                        {data.discountAmount} OFF on {data.discountCategory}   
+                        
                       </>
                     )}
                   </div>

@@ -669,7 +669,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             </div>
           </div>
           {data?.productDetails?.variants && (
-            <DropDown   
+            <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
               handleSelectSize={handleSelectedVariants}
@@ -686,6 +686,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </p>
             )}
             {data?.productDetails?.productQty > 0 && (
+             
              <p className="flex items-center font-semibold text-[#e26178]">
                🚚{" "}
                <span className="ml-2">

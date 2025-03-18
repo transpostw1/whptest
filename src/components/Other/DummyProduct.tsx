@@ -46,9 +46,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-  useEffect(() => {
-    fetchSkusList();
-  }, []);
 
   const HandleaddToWishlist = () => {
     try {
@@ -136,6 +133,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     }
   };
 
+  useEffect(() => {
+    fetchSkusList();
+  }, []);
   const loadTryOnButton = async (
     sku: string,
     productId: string,

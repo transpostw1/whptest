@@ -80,7 +80,6 @@ const Wishlist = () => {
   });
   const handleAddToCart = (product: any) => {
     console.log(product, "ADDTocartwhslistproductconsole");
-
     const isMakeToOrder =
       product.makeToOrder === 1 || product.makeToOrder === true;
     if (

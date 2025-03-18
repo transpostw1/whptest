@@ -65,6 +65,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const handleSelectedVariants = (value: any) => {
     setSelectedVariants(value);
   };
+  console.log("selectedVariantdefault", selectedVariants);
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };

@@ -79,6 +79,8 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     variantType: variant.type,
     variantName: variant.name,
   }));
+  console.log(formattedVariants,"formattedVariantsss")
+  
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,

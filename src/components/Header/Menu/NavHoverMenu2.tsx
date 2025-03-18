@@ -157,7 +157,6 @@ const NavHoverMenu2 = () => {
                                                   width: "auto",
                                                   height: "auto",
                                                 }}
-                                                unoptimized
                                               />
                                             </div>
                                           )}

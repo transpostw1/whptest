@@ -65,7 +65,6 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
 
   useEffect(() => {
     if (product) {
-      console.log(product, "huuuuuuuuu");
       const isMakeToOrder =
         product.makeToOrder === 1 || product.makeToOrder === true;
       if (

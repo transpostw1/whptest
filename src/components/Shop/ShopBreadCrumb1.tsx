@@ -15,9 +15,9 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
 import ProductList from "./ProductList";
+import FlashAlert from "../Other/FlashAlert";
 
 const ShopBreadCrumb1 = () => {
-  
   const [sortOption, setSortOption] = useState<boolean>(false);
   const { category } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
@@ -38,6 +38,7 @@ const ShopBreadCrumb1 = () => {
   const [fetchProducts, setFetchProducts] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<any>([]);
+  const [message, setMessage] = useState<string>("");
   const router = useRouter();
 
   const handleProducts = () => {
@@ -270,6 +271,12 @@ const ShopBreadCrumb1 = () => {
           query: GET_PRODUCTS,
           variables,
         });
+        // if (data && data.products.length() == 0) {
+        //   setFilteredProducts((prevProducts) =>
+        //     isLoadMore ? [...prevProducts, ...data.products] : data.products,
+        // );
+        //   setMessage("No products available");
+        // }
         if (data && data.products) {
           setFilteredProducts((prevProducts) =>
             isLoadMore ? [...prevProducts, ...data.products] : data.products,
@@ -398,6 +405,7 @@ const ShopBreadCrumb1 = () => {
           query: GET_FILTERS,
           variables,
         });
+
         if (data && data.filterProducts) {
           setFilters(data.filterProducts);
           setSelectedSortOption("All");
@@ -486,12 +494,12 @@ const ShopBreadCrumb1 = () => {
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const updatedOptions = { ...prevSelectedOptions };
-      if (category === 'Category' || category === 'productCategory') {
+      if (category === "Category" || category === "productCategory") {
         if (updatedOptions[category]?.[0] === option) {
           delete updatedOptions[category];
         } else {
-          delete updatedOptions['Category'];
-          delete updatedOptions['productCategory'];
+          delete updatedOptions["Category"];
+          delete updatedOptions["productCategory"];
           updatedOptions[category] = [option];
         }
       } else {
@@ -499,7 +507,7 @@ const ShopBreadCrumb1 = () => {
           const formattedOption = formatPriceRange(option);
           if (updatedOptions[category].includes(formattedOption)) {
             updatedOptions[category] = updatedOptions[category].filter(
-              (selectedOption: any) => selectedOption !== formattedOption
+              (selectedOption: any) => selectedOption !== formattedOption,
             );
             if (updatedOptions[category].length === 0) {
               delete updatedOptions[category];
@@ -516,47 +524,47 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
-  
+
   const updateURL = (options: any) => {
     const searchParams = new URLSearchParams(window.location.search);
-    const source = searchParams.get('source');
-    if (source === 'search') {
+    const source = searchParams.get("source");
+    if (source === "search") {
       return;
     }
-  
+
     const urlParts: string[] = [];
     // Only add the most recent category or pc parameter
-   if (options.productCategory?.length > 0) {
+    if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
     } else if (options.Category?.length > 0) {
       urlParts.push(`pc-${options.Category[0]}`);
     }
-   
+
     // Add other filters
     if (options.Search?.length > 0) {
-      urlParts.push(`search-${options.Search.join(',')}`);
+      urlParts.push(`search-${options.Search.join(",")}`);
     }
     if (options.Shop_For?.length > 0) {
-      urlParts.push(`gender-${options.Shop_For.join(',')}`);
+      urlParts.push(`gender-${options.Shop_For.join(",")}`);
     }
     if (options.Karat?.length > 0) {
-      urlParts.push(`karat-${options.Karat.join(',')}`);
+      urlParts.push(`karat-${options.Karat.join(",")}`);
     }
     if (options.Price?.length > 0) {
-      urlParts.push(`price-${options.Price.join('|')}`);
+      urlParts.push(`price-${options.Price.join("|")}`);
     }
     if (options.Metal?.length > 0) {
-      urlParts.push(`metal-${options.Metal.join(',')}`);
+      urlParts.push(`metal-${options.Metal.join(",")}`);
     }
     if (options.Weight?.length > 0) {
-      urlParts.push(`weight-${options.Weight.join(',')}`);
+      urlParts.push(`weight-${options.Weight.join(",")}`);
     }
     if (options.Occasion?.length > 0) {
-      urlParts.push(`occasion-${options.Occasion.join(',')}`);
+      urlParts.push(`occasion-${options.Occasion.join(",")}`);
     }
-  
-    const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
-    router.replace(url); 
+
+    const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
+    router.replace(url);
   };
 
   useEffect(() => {
@@ -692,7 +700,6 @@ const ShopBreadCrumb1 = () => {
     console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
 
- 
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";
@@ -747,7 +754,6 @@ const ShopBreadCrumb1 = () => {
       setFilteredProducts(sortedProducts);
       setPageNumber(0);
     }
-    // Add other sorting options here
   }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
@@ -794,7 +800,6 @@ const ShopBreadCrumb1 = () => {
       document.body.appendChild(script);
     });
   };
-
   const fetchSkusList = async () => {
     try {
       await loadScript(); // Ensure the script is loaded
@@ -841,27 +846,29 @@ const ShopBreadCrumb1 = () => {
                   {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
                   <BreadCrumb filteredProducts={filteredProducts} />
-                  <div className="flex flex-wrap sm:block md:hidden lg:hidden">
+                  <div className="flex max-w-full flex-wrap gap-2 overflow-auto sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
                       ([category, options]) =>
-                        (options as string[]).map(
-                          (option: string, index: number) => (
+                        (options as string[])
+                          .filter((option) => option && option.trim() !== "")
+                          .map((option: string, index: number) => (
                             <div
                               key={`${category}-${index}`}
-                              className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
+                              className="inline-flex max-w-full items-center rounded-md border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {option}
+                              <span className="max-w-[120px] truncate">
+                                {option}
+                              </span>
                               <button
-                                className="mb-1 ml-2 align-middle"
+                                className="ml-2"
                                 onClick={() =>
                                   handleOptionSelect(option, category)
                                 }
                               >
-                                <Icon.X size={20} />
+                                <Icon.X size={16} />
                               </button>
                             </div>
-                          ),
-                        ),
+                          )),
                     )}
                   </div>
                 </div>

@@ -1119,13 +1119,13 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[54px] w-[170px] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>
-            <span>
+            {/* <span>
               <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
-            </span>
+            </span> */}
           </div>
         </div>
       )}

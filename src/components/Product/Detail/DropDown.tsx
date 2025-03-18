@@ -20,7 +20,6 @@ const DropDown: React.FC<Props> = ({
 
   useEffect(() => {
     const trueVariants: { type: string; name: string; url: string }[] = [];
-
     product?.variants?.forEach((item) => {
       item?.VariantOption?.forEach((options) => {
         const productId = Number(product.productId);
@@ -44,7 +43,6 @@ const DropDown: React.FC<Props> = ({
     const selectedOption = product.variants
       .flatMap((v) => v.VariantOption)
       .find((opt) => opt.ProductUrl === e.target.value);
-
     if (selectedOption) {
       const updatedVariants = selectedVariants.map((v) =>
         v.type === variantType ? { ...v, name: selectedOption.VariantName, url: selectedOption.ProductUrl } : v

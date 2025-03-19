@@ -240,21 +240,19 @@ const Payment: React.FC<PaymentProps> = ({
                   productAmount: item.price,
                   quantity: item.quantity.toString(),
                   productTotal: (item.price * item.quantity).toString(),
-                  discountAmount: "0", // Replace with the actual discount amount if available
-                  discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
+                  discountAmount: "0",
+                  discountedTotal: (item.price * item.quantity).toString(), 
                 })),
                 coupons: {
                   couponCode: couponCode,
-                  discountPrice: totalDiscount, // Replace with the actual discount price if available
+                  discountPrice: totalDiscount, 
                 },
                 productTotal: totalCart.toString(),
                 discountedTotal: (totalCart - totalDiscount).toString(),
                 shippingCharges: "10",
               },
             };
-
             console.log(orderData, "orderDataAAAA");
-
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -371,7 +369,6 @@ const Payment: React.FC<PaymentProps> = ({
             Authorization: `Bearer ${cookieToken}`,
           },
         });
-        // Handle the response as needed
         setOrderResponse(apiResponse.data.data);
         onOrderComplete();
       } catch (error) {

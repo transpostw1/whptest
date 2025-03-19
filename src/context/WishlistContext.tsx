@@ -363,10 +363,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productId
             productAmount
             quantity
-            variants{
-             variantType 
-             variantName
-          }
+            variants
             makeToOrder
             url
             SKU

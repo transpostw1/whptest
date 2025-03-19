@@ -43,6 +43,7 @@ const ProductSlider = () => {
               discountCategory
               discountValue
               rating
+              variants
               imageDetails {
                 image_path
               }

@@ -38,6 +38,7 @@ const GetFastDeliveryProducts = () => {
               typeOfDiscount
               discountValue
               rating
+              variants
               imageDetails {
                 image_path
               }

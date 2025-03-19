@@ -98,9 +98,26 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                     unoptimized
                   />
                 </div>
-
-                <p className="font-semibold">{product?.displayTitle}</p>
+                <div>
+                  <p className="font-semibold text-sm">{product?.displayTitle}</p>
+                  {product?.variants && product?.variants.length > 0 && (
+                    <div>
+                      {product.variants.map(
+                        (variant: any, index: number) =>
+                          variant.VariantType &&
+                          variant.VariantOption &&
+                          variant.VariantOption.length > 0 && (
+                            <h3 key={index} className="text-sm font-normal">
+                              {variant.VariantType}:{" "}
+                              {variant.VariantOption[0].VariantName}
+                            </h3>
+                          ),
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
+
               <div className="font-semibold">
                 {formatPrice(
                   parseInt(product?.discountedTotal) *
@@ -111,9 +128,12 @@ const MobileSingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           ))}
         </div>
       ))}
-      <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
-        Discount Amount:{singleOrder[0]?.productDetails[0]?.discountAmount}
-      </div>
+      {singleOrder[0]?.productDetails[0]?.discountAmount > 0 && (
+        <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
+          Discounted Amount:
+          {formatPrice(singleOrder[0]?.productDetails[0]?.discountedTotal)}
+        </div>
+      )}
       <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
         Shipping Charges:{singleOrder[0]?.productDetails[0]?.discountAmount}
       </div>

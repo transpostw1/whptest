@@ -54,6 +54,7 @@ const RecentlyViewProduct = () => {
               discountActive
               discountValue
               rating
+              variants
               imageDetails {
                 image_path
               }

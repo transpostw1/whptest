@@ -1,8 +1,7 @@
 "use Client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
-import ReactPaginate from "react-paginate";
 import "rc-slider/assets/index.css";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
@@ -12,9 +11,8 @@ import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import {  useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
-import ProductList from "./ProductList";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);

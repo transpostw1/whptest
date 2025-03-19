@@ -376,6 +376,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             metalWeight
             discountAmount
             discountValue
+            discountActive
             typeOfDiscount
             discountedTotal
             displayTitle

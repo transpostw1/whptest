@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
@@ -12,6 +13,36 @@ interface Props {
 const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
+  const [countries, setCountries] = useState<any[]>([]);
+  const [states, setStates] = useState<string[]>([]);
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(
+          "https://countriesnow.space/api/v0.1/countries/states",
+        );
+        const countryData = response.data.data.map((country: any) => ({
+          name: country.name,
+          states: country.states.map((state: any) => state.name),
+        }));
+        setCountries(countryData);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedCountry = countries.find(
+        (country) => country.name === event.target.value
+      );
+      setStates(selectedCountry ? selectedCountry.states : []);
+      formik.setFieldValue("country", event.target.value);
+      formik.setFieldValue("state", ""); 
+    };
+  
 
   const validationSchema = Yup.object().shape({
     pincode: Yup.string().required("Pincode is required"),
@@ -102,21 +133,22 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
   });
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
-      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto  bg-white p-4 sm:max-w-lg">
-     <div className="flex justify-between items-center mb-4">
-     <h2 className=" text-2xl font-semibold text-[#e26178]">Edit Address</h2>
-        <button onClick={closeModal} className="self-end">
-          <Icon.X size={25} />
-        </button>
-     </div>
+      <div className="no-scrollbar z-50 mx-4 flex max-h-[80vh] max-w-full flex-col justify-between overflow-y-auto bg-white p-4 sm:max-w-lg">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-[#e26178]">
+            Edit Address
+          </h2>
+          <button onClick={closeModal} className="self-end">
+            <Icon.X size={25} />
+          </button>
+        </div>
         <form onSubmit={formik.handleSubmit}>
-          
           {formError && <div className="mb-4 text-red-500">{formError}</div>}
           <div className="mb-4">
             <div className="relative">
               <input
                 id="pincode"
-                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.pincode ? "border-red-500" : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"
@@ -138,7 +170,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             <div className="relative">
               <input
                 id="full_address"
-                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.full_address
                     ? "border-red-500"
                     : "border-gray-300"
@@ -159,17 +191,25 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             )} */}
           </div>
           <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
+          <div>
               <div className="relative">
-                <input
+                <select
                   id="country"
-                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.country ? "border-red-500" : "border-gray-300"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.country && formik.errors.country ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  type="text"
-                  placeholder=" "
-                  {...formik.getFieldProps("country")}
-                />
+                  value={formik.values.country}
+                  onChange={handleCountryChange}
+                  onBlur={formik.handleBlur}
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                >
+                  <option value="" label="Select country" />
+                  {countries.map((country) => (
+                    <option key={country.name} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
                 <label
                   htmlFor="country"
                   className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -177,21 +217,30 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                   Country
                 </label>
               </div>
-              {/* {formik.errors.country && (
-                <div className="text-red-500 mt-1">{formik.errors.country}</div>
-              )} */}
+              {formik.touched.country && formik.errors.country && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.country}</div>
+              )}
             </div>
             <div>
               <div className="relative">
-                <input
+                <select
                   id="state"
-                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.state ? "border-red-500" : "border-gray-300"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.state && formik.errors.state ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  type="text"
-                  placeholder=" "
-                  {...formik.getFieldProps("state")}
-                />
+                  value={formik.values.state}
+                  onChange={(e) => formik.setFieldValue("state", e.target.value)}
+                  onBlur={formik.handleBlur}
+                  disabled={!states.length}
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                >
+                  <option value="" label="Select state" />
+                  {states.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
                 <label
                   htmlFor="state"
                   className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -199,14 +248,16 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                   State
                 </label>
               </div>
-              {/* {formik.errors.state && <div className="text-red-500 mt-1">{formik.errors.state}</div>} */}
+              {formik.touched.state && formik.errors.state && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.state}</div>
+              )}
             </div>
             <div>
               <div className="relative">
                 <input
                   id="city"
-                  className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.errors.city ? "border-red-500" : "border-gray-300"
+                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                    formik.touched.city && formik.errors.city ? "border-red-500" : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
                   placeholder=" "
@@ -219,14 +270,16 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                   City
                 </label>
               </div>
-              {/* {formik.errors.city && <div className="text-red-500 mt-1">{formik.errors.city}</div>} */}
+              {formik.touched.city && formik.errors.city && (
+                <div className="mt-1 text-sm text-red-500">{formik.errors.city}</div>
+              )}
             </div>
           </div>
           <div className="mb-2">
             <div className="relative">
               <input
                 id="landmark"
-                className={`block w-full appearance-none  border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
                   formik.errors.landmark ? "border-red-500" : "border-gray-300"
                 } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                 type="text"

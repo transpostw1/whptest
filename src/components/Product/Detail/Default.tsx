@@ -156,24 +156,30 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             order
             alt_text
           }
-          productAttributes {
-            goldDetails {
-              goldCertifiedBy
-              goldSetting
-            }
-            gemstoneDetails
-            diamondDetails {
-              diamondCertifiedBy
-              diamondSetting
-              diamondShape
-              diamondType
-            }
-            silverDetails {
-              poojaArticle
-              utensils
-              silverWeight
-            }
-          }
+         productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                diamondDetails {
+                  diamondCertifiedBy
+                  diamondShape
+                  diamondSetting
+                  totalDiamond
+                }
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+                gemstoneDetails {
+                  gemstoneType
+                  gemstoneQualityType
+                  gemstoneShape
+                  gemstoneWeight
+                  noOfGemstone
+                }
+              }
           stoneDetails
           diamondDetails
           review
@@ -532,7 +538,6 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                           />
                         ))}
                     </Slider>
-
                     <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
                       <Icon.CaretRight
                         onClick={() => sliderRef.slickNext()}

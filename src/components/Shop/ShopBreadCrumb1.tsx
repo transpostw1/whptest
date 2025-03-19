@@ -17,7 +17,6 @@ import { graphqlProductUrl } from "@/utils/constants";
 import ProductList from "./ProductList";
 
 const ShopBreadCrumb1 = () => {
-  
   const [sortOption, setSortOption] = useState<boolean>(false);
   const { category } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
@@ -118,7 +117,6 @@ const ShopBreadCrumb1 = () => {
               variantId
               isParent
               title
-              priority
               displayTitle
               shortDesc
               longDesc
@@ -131,20 +129,26 @@ const ShopBreadCrumb1 = () => {
               length
               breadth
               height
+              weightRange
               addDate
               lastModificationDate
+              negative_keywords
+              created_at
+              updated_at
               productSize
               productQty
               attributeId
               preSalesProductQueries
+              makeToOrder
               isReplaceable
-              weightRange
               isReturnable
               isInternationalShippingAvailable
               customizationAvailability
               fastDelivery
               tryAtHome
               isActive
+              isArchive
+              hidePriceBreakup
               grossWeight
               netWeight
               discountId
@@ -157,6 +161,7 @@ const ShopBreadCrumb1 = () => {
               offerStartDate
               offerEndDate
               mediaId
+              materialId
               metalType
               metalPurity
               metalWeight
@@ -167,8 +172,20 @@ const ShopBreadCrumb1 = () => {
               gst
               additionalCost
               productPrice
-              discountPrice
               rating
+              coupons {
+                id
+                name
+                code
+                discountOn
+                discountType
+                discountValue
+                discountMinAmount
+                discountMaxAmount
+                discountStartDate
+                discountEndDate
+                isExclusive
+              }
               imageDetails {
                 image_path
                 order
@@ -184,21 +201,36 @@ const ShopBreadCrumb1 = () => {
                   goldCertifiedBy
                   goldSetting
                 }
-                gemstoneDetails
                 diamondDetails {
                   diamondCertifiedBy
-                  diamondSetting
                   diamondShape
-                  diamondType
+                  diamondSetting
+                  totalDiamond
                 }
                 silverDetails {
                   poojaArticle
                   utensils
                   silverWeight
                 }
+                gemstoneDetails {
+                  gemstoneType
+                  gemstoneQualityType
+                  gemstoneShape
+                  gemstoneWeight
+                  noOfGemstone
+                }
               }
               stoneDetails
               diamondDetails
+              review
+              variants
+              bestSeller
+              buyAgain
+              priority
+              diamondCertificate
+              goldCertificate
+              similarProductIds
+              productCategories
               breadcrumbs {
                 id
                 title
@@ -486,12 +518,12 @@ const ShopBreadCrumb1 = () => {
   const handleOptionSelect = (option: string, category: string) => {
     setSelectedOptions((prevSelectedOptions: any) => {
       const updatedOptions = { ...prevSelectedOptions };
-      if (category === 'Category' || category === 'productCategory') {
+      if (category === "Category" || category === "productCategory") {
         if (updatedOptions[category]?.[0] === option) {
           delete updatedOptions[category];
         } else {
-          delete updatedOptions['Category'];
-          delete updatedOptions['productCategory'];
+          delete updatedOptions["Category"];
+          delete updatedOptions["productCategory"];
           updatedOptions[category] = [option];
         }
       } else {
@@ -499,7 +531,7 @@ const ShopBreadCrumb1 = () => {
           const formattedOption = formatPriceRange(option);
           if (updatedOptions[category].includes(formattedOption)) {
             updatedOptions[category] = updatedOptions[category].filter(
-              (selectedOption: any) => selectedOption !== formattedOption
+              (selectedOption: any) => selectedOption !== formattedOption,
             );
             if (updatedOptions[category].length === 0) {
               delete updatedOptions[category];
@@ -516,47 +548,47 @@ const ShopBreadCrumb1 = () => {
       return updatedOptions;
     });
   };
-  
+
   const updateURL = (options: any) => {
     const searchParams = new URLSearchParams(window.location.search);
-    const source = searchParams.get('source');
-    if (source === 'search') {
+    const source = searchParams.get("source");
+    if (source === "search") {
       return;
     }
-  
+
     const urlParts: string[] = [];
     // Only add the most recent category or pc parameter
-   if (options.productCategory?.length > 0) {
+    if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
     } else if (options.Category?.length > 0) {
       urlParts.push(`pc-${options.Category[0]}`);
     }
-   
+
     // Add other filters
     if (options.Search?.length > 0) {
-      urlParts.push(`search-${options.Search.join(',')}`);
+      urlParts.push(`search-${options.Search.join(",")}`);
     }
     if (options.Shop_For?.length > 0) {
-      urlParts.push(`gender-${options.Shop_For.join(',')}`);
+      urlParts.push(`gender-${options.Shop_For.join(",")}`);
     }
     if (options.Karat?.length > 0) {
-      urlParts.push(`karat-${options.Karat.join(',')}`);
+      urlParts.push(`karat-${options.Karat.join(",")}`);
     }
     if (options.Price?.length > 0) {
-      urlParts.push(`price-${options.Price.join('|')}`);
+      urlParts.push(`price-${options.Price.join("|")}`);
     }
     if (options.Metal?.length > 0) {
-      urlParts.push(`metal-${options.Metal.join(',')}`);
+      urlParts.push(`metal-${options.Metal.join(",")}`);
     }
     if (options.Weight?.length > 0) {
-      urlParts.push(`weight-${options.Weight.join(',')}`);
+      urlParts.push(`weight-${options.Weight.join(",")}`);
     }
     if (options.Occasion?.length > 0) {
-      urlParts.push(`occasion-${options.Occasion.join(',')}`);
+      urlParts.push(`occasion-${options.Occasion.join(",")}`);
     }
-  
-    const url = `${window.location.pathname}?url=${urlParts.join('+')}`;
-    router.replace(url); 
+
+    const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
+    router.replace(url);
   };
 
   useEffect(() => {
@@ -692,7 +724,6 @@ const ShopBreadCrumb1 = () => {
     console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
 
- 
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";

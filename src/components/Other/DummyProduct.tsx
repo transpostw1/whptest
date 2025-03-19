@@ -276,25 +276,23 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 >
                   <div className="flex items-center justify-between px-2">
                     <IoCameraOutline />
-                    {/* <p className="ps-1 text-sm">Try On</p> */}
+                    <p className="ps-1 text-sm">Try On</p>
                   </div>
                 </div>
               )}
-             {data?.discountActive &&
-             (
-                  <div className="try_on absolute left-1 top-4 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
-                    {data.typeOfDiscount === "Percentage" ? (
-                      <>
-                        {data.discountValue}% OFF on {data.discountCategory}
-                      </>
-                    ) : (
-                      <>
-                        {data.discountAmount} OFF on {data.discountCategory}   
-                        
-                      </>
-                    )}
-                  </div>
-                )}
+              {data?.discountActive && (
+                <div className="try_on absolute left-1 top-4 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                  {data.typeOfDiscount === "Percentage" ? (
+                    <>
+                      {data.discountValue}% OFF on {data.discountCategory}
+                    </>
+                  ) : (
+                    <>
+                      {data.discountAmount} OFF on {data.discountCategory}
+                    </>
+                  )}
+                </div>
+              )}
               {data?.imageDetails[0]?.image_path && (
                 <Image
                   onClick={() => handleDetailProduct(data.productId, data.url)}
@@ -321,7 +319,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart color="#e26178" size={25} onClick={() => HandleaddToWishlist()} />
+                  <Icon.Heart
+                    color="#e26178"
+                    size={25}
+                    onClick={() => HandleaddToWishlist()}
+                  />
                 )}
               </div>
             </div>

@@ -61,123 +61,126 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`${showAccordian === 1 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 1 ? "rotate-180" : null}`}
               />
             </span>
           </button>
         </h2>
-        {showAccordian == 1 ? (
-          <div>
-            <div className="mt-5">
-              Discover the WHP advantage: where exquisite craftsmanship meets
-              timeless elegance, ensuring every piece exudes sophistication and
-              allure, setting you apart in style.
-            </div>
-            <div className="mt-5 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
-              {/* Icon and Text Block */}
-              <div className="flex flex-col items-center gap-2 text-center">
-                <span className="flex items-center justify-center">
-                  <Icon.SketchLogo size={30} weight="thin" />
-                </span>
-                <span className="text-sm font-medium">10,000+ Designs</span>
-              </div>
-              {/* Icon and Text Block */}
 
-              {/* Icon and Text Block */}
-              <div className="flex flex-col items-center gap-2 text-center">
-                <span className="flex items-center justify-center">
-                  <Icon.Truck size={30} weight="thin" color="#00000" />
-                </span>
-                <span className="text-sm font-medium">Pan-India Delivery</span>
-              </div>
-              {/* Icon and Text Block */}
-              <div className="flex flex-col items-center gap-2 text-center">
-                <span className="flex items-center justify-center">
-                  <Icon.ShieldCheck size={30} weight="thin" />
-                </span>
-                <span className="text-sm font-medium">
-                  Safe & Secure Payment
-                </span>
-              </div>
-              <div className="flex flex-col items-center gap-2 text-center">
-                <span className="flex items-center justify-center">
-                  <Image
-                    src="/images/other/hallmark.png"
-                    alt={"Hall Mark Symbol"}
-                    width={40}
-                    height={40}
-                    unoptimized
-                  />
-                </span>
-                <span className="text-sm font-medium md:mt-1">
-                  BIS Hallmarked
-                </span>
-              </div>
-              {product?.productDetails?.productAttributes?.diamondDetails?.some(
-                (diamond: any) => diamond.diamondCertifiedBy !== null,
-              ) && (
-                <>
-                  {product?.productDetails?.productAttributes?.diamondDetails?.some(
-                    (diamond: any) => diamond.diamondCertifiedBy === "IGI",
-                  ) && (
-                    <div className="flex flex-col items-center gap-2 text-center">
-                      <span className="flex items-center justify-center">
-                        <Image
-                          src="/images/other/igi.png"
-                          alt={"Diamond Mark Symbol"}
-                          width={40}
-                          height={40}
-                          unoptimized
-                        />
-                      </span>
-                      <span className="text-sm font-medium md:mt-1">
-                        IGI Certified
-                      </span>
-                    </div>
-                  )}
-
-                  {product?.productDetails?.productAttributes?.diamondDetails?.some(
-                    (diamond: any) => diamond.diamondCertifiedBy === "DGLA",
-                  ) && (
-                    <div className="flex flex-col items-center justify-between gap-2 text-center">
-                      <span className="flex items-center justify-center">
-                        <Image
-                          src="/images/other/dgla.png"
-                          alt={"Diamond Mark Symbol"}
-                          width={40}
-                          height={40}
-                          unoptimized
-                        />
-                      </span>
-                      <span className="text-sm font-medium md:mt-1">
-                        DGLA Certified
-                      </span>
-                    </div>
-                  )}
-
-                  {product?.productDetails?.productAttributes?.diamondDetails?.some(
-                    (diamond: any) => diamond.diamondCertifiedBy === "EGL",
-                  ) && (
-                    <div className="flex flex-col items-center justify-between gap-2 text-center">
-                      <span className="flex items-center justify-center">
-                        <Image
-                          src="/images/other/egl.png"
-                          alt={"Diamond Mark Symbol"}
-                          width={40}
-                          height={40}
-                          unoptimized
-                        />
-                      </span>
-                      <span className="text-sm font-medium md:mt-1">
-                        EGL Certified
-                      </span>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+        <div
+          className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            showAccordian == 1
+              ? "max-h-[500px] opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="mt-5">
+            Discover the WHP advantage: where exquisite craftsmanship meets
+            timeless elegance, ensuring every piece exudes sophistication and
+            allure, setting you apart in style.
           </div>
-        ) : null}
+          <div className="mt-5 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
+            {/* Icon and Text Block */}
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="flex items-center justify-center">
+                <Icon.SketchLogo size={30} weight="thin" />
+              </span>
+              <span className="text-sm font-medium">10,000+ Designs</span>
+            </div>
+            {/* Icon and Text Block */}
+
+            {/* Icon and Text Block */}
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="flex items-center justify-center">
+                <Icon.Truck size={30} weight="thin" color="#00000" />
+              </span>
+              <span className="text-sm font-medium">Pan-India Delivery</span>
+            </div>
+            {/* Icon and Text Block */}
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="flex items-center justify-center">
+                <Icon.ShieldCheck size={30} weight="thin" />
+              </span>
+              <span className="text-sm font-medium">Safe & Secure Payment</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 text-center">
+              <span className="flex items-center justify-center">
+                <Image
+                  src="/images/other/hallmark.png"
+                  alt={"Hall Mark Symbol"}
+                  width={40}
+                  height={40}
+                  unoptimized
+                />
+              </span>
+              <span className="text-sm font-medium md:mt-1">
+                BIS Hallmarked
+              </span>
+            </div>
+            {product?.productDetails?.productAttributes?.diamondDetails?.some(
+              (diamond: any) => diamond.diamondCertifiedBy !== null,
+            ) && (
+              <>
+                {product?.productDetails?.productAttributes?.diamondDetails?.some(
+                  (diamond: any) => diamond.diamondCertifiedBy === "IGI",
+                ) && (
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/igi.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      IGI Certified
+                    </span>
+                  </div>
+                )}
+
+                {product?.productDetails?.productAttributes?.diamondDetails?.some(
+                  (diamond: any) => diamond.diamondCertifiedBy === "DGLA",
+                ) && (
+                  <div className="flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/dgla.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      DGLA Certified
+                    </span>
+                  </div>
+                )}
+
+                {product?.productDetails?.productAttributes?.diamondDetails?.some(
+                  (diamond: any) => diamond.diamondCertifiedBy === "EGL",
+                ) && (
+                  <div className="flex flex-col items-center justify-between gap-2 text-center">
+                    <span className="flex items-center justify-center">
+                      <Image
+                        src="/images/other/egl.png"
+                        alt={"Diamond Mark Symbol"}
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    </span>
+                    <span className="text-sm font-medium md:mt-1">
+                      EGL Certified
+                    </span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
       </div>
       <div className="border-t-2 border-[#f7f7f7] p-4">
         <h2>
@@ -189,128 +192,131 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`${showAccordian === 2 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 2 ? "rotate-180" : null}`}
               />
             </span>
           </button>
         </h2>
-        {showAccordian === 2 ? (
-          <div>
-            <div className="mt-5">{product?.productDetails?.longDesc}</div>
-            <div className="mt-4 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
-              {parseInt(product?.productDetails?.metalWeight) > 0 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <Icon.Scales size={27} weight="thin" />
-                  <p className="text-sm font-medium">
-                    {product?.productDetails?.metalWeight}gms,{" "}
-                    {product?.productDetails?.metalType}
-                  </p>
-                </div>
+
+        <div
+          className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            showAccordian == 2
+              ? "max-h-[500px] opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="mt-5">{product?.productDetails?.longDesc}</div>
+          <div className="mt-4 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
+            {parseInt(product?.productDetails?.metalWeight) > 0 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <Icon.Scales size={27} weight="thin" />
+                <p className="text-sm font-medium">
+                  {product?.productDetails?.metalWeight}gms,{" "}
+                  {product?.productDetails?.metalType}
+                </p>
+              </div>
+            )}
+
+            {product?.productDetails?.metalPurity && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <Icon.HandCoins size={27} weight="thin" />
+                <p className="text-sm font-medium">
+                  {product?.productDetails.metalPurity}{" "}
+                  {product?.productDetails.metalType}
+                </p>
+              </div>
+            )}
+
+            {product?.productDetails?.isReturnable == 1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <Icon.ArrowsLeftRight size={27} weight="thin" />
+                <p className="text-sm font-medium">7 days easy returns</p>
+              </div>
+            )}
+
+            {product?.productDetails?.isReplaceable === 1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <TbReplace size={27} />
+                <p className="text-sm font-medium">7 days easy replacement</p>
+              </div>
+            )}
+
+            {product?.productDetails?.isInternationalShippingAvailable ===
+              1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <GiCargoShip size={27} />
+                <p className="text-sm font-medium">Delivered Internationally</p>
+              </div>
+            )}
+
+            {product?.productDetails?.customizationAvailability === 1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <VscTools size={27} />
+                <p className="text-sm font-medium">Customization Available</p>
+              </div>
+            )}
+
+            {product?.productDetails?.fastDelivery === 1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <FaShippingFast size={27} />
+                <p className="text-sm font-medium">Fast Delivery</p>
+              </div>
+            )}
+
+            {product?.productDetails?.tryAtHome === 1 && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <TbHomeCheck size={27} />
+                <p className="text-sm font-medium">Try At Home</p>
+              </div>
+            )}
+
+            {product?.productDetails?.diamondDetails?.length > 0 &&
+              product.productDetails.diamondDetails.map(
+                (diamond: any, index: number) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center gap-2 text-center"
+                  >
+                    <Icon.SketchLogo size={22} weight="thin" />
+                    <p className="text-sm font-medium">
+                      Diamond Color: {diamond.diamondColor} (
+                      {index === 0
+                        ? "Primary"
+                        : index === 1
+                          ? "Secondary"
+                          : index === 2
+                            ? "Tertiary"
+                            : `Diamond ${index + 1}`}
+                      )
+                    </p>
+                  </div>
+                ),
               )}
 
-              {product?.productDetails?.metalPurity && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <Icon.HandCoins size={27} weight="thin" />
-                  <p className="text-sm font-medium">
-                    {product?.productDetails.metalPurity}{" "}
-                    {product?.productDetails.metalType}
-                  </p>
-                </div>
+            {product?.productDetails?.diamondDetails?.length > 0 &&
+              product.productDetails.diamondDetails.map(
+                (diamond: any, index: number) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center gap-2 text-center"
+                  >
+                    <BiTargetLock size={22} />
+                    <p className="text-sm font-medium">
+                      Diamond Clarity: {diamond.diamondClarity} (
+                      {index === 0
+                        ? "Primary"
+                        : index === 1
+                          ? "Secondary"
+                          : index === 2
+                            ? "Tertiary"
+                            : `Diamond ${index + 1}`}
+                      )
+                    </p>
+                  </div>
+                ),
               )}
-
-              {product?.productDetails?.isReturnable == 1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <Icon.ArrowsLeftRight size={27} weight="thin" />
-                  <p className="text-sm font-medium">7 days easy returns</p>
-                </div>
-              )}
-
-              {product?.productDetails?.isReplaceable === 1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <TbReplace size={27} />
-                  <p className="text-sm font-medium">7 days easy replacement</p>
-                </div>
-              )}
-
-              {product?.productDetails?.isInternationalShippingAvailable ===
-                1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <GiCargoShip size={27} />
-                  <p className="text-sm font-medium">
-                    Delivered Internationally
-                  </p>
-                </div>
-              )}
-
-              {product?.productDetails?.customizationAvailability === 1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <VscTools size={27} />
-                  <p className="text-sm font-medium">Customization Available</p>
-                </div>
-              )}
-
-              {product?.productDetails?.fastDelivery === 1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <FaShippingFast size={27} />
-                  <p className="text-sm font-medium">Fast Delivery</p>
-                </div>
-              )}
-
-              {product?.productDetails?.tryAtHome === 1 && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <TbHomeCheck size={27} />
-                  <p className="text-sm font-medium">Try At Home</p>
-                </div>
-              )}
-
-              {product?.productDetails?.diamondDetails?.length > 0 &&
-                product.productDetails.diamondDetails.map(
-                  (diamond: any, index: number) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center gap-2 text-center"
-                    >
-                      <Icon.SketchLogo size={22} weight="thin" />
-                      <p className="text-sm font-medium">
-                        Diamond Color: {diamond.diamondColor} (
-                        {index === 0
-                          ? "Primary"
-                          : index === 1
-                            ? "Secondary"
-                            : index === 2
-                              ? "Tertiary"
-                              : `Diamond ${index + 1}`}
-                        )
-                      </p>
-                    </div>
-                  ),
-                )}
-
-              {product?.productDetails?.diamondDetails?.length > 0 &&
-                product.productDetails.diamondDetails.map(
-                  (diamond: any, index: number) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center gap-2 text-center"
-                    >
-                      <BiTargetLock size={22} />
-                      <p className="text-sm font-medium">
-                        Diamond Clarity: {diamond.diamondClarity} (
-                        {index === 0
-                          ? "Primary"
-                          : index === 1
-                            ? "Secondary"
-                            : index === 2
-                              ? "Tertiary"
-                              : `Diamond ${index + 1}`}
-                        )
-                      </p>
-                    </div>
-                  ),
-                )}
-            </div>
           </div>
-        ) : null}
+        </div>
       </div>
       {(product?.productDetails?.displayTitle
         .toLowerCase()
@@ -339,108 +345,113 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <span className="right-0">
                 <Icon.CaretDown
                   size={25}
-                  className={`${showAccordian === 3 ? "rotate-180" : null}`}
+                  className={`transform transition-transform duration-300 ${showAccordian === 3 ? "rotate-180" : null}`}
                 />
               </span>
             </button>
           </h2>
-          {showAccordian === 3 ? (
-            <>
-              <div className="w-[100%] rounded-md text-center">
-                {product.productDetails.displayTitle
-                  .toLowerCase()
-                  .includes("ring") ? (
-                  <>
-                    <h3 className="text-center text-lg">
-                      Discover your perfect ring size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-center text-sm">
-                      Our guide helps you find the perfect ring size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your ring.
-                    </p>
-                    <button
-                      className="mt-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
-                      onClick={() => {
-                        handleSizeGuideModal();
-                      }}
-                    >
-                      Know More
-                    </button>
-                    {showSizeGuideModal && (
-                      <SizeGuideModal
-                        handleSizeGuideModal={handleSizeGuideModal}
-                        content={ringSizeGuide}
-                      />
-                    )}
-                  </>
-                ) : product.productDetails.displayTitle
-                    .toLowerCase()
-                    .includes("chain") ? (
-                  <>
-                    <h3 className="text-lg">
-                      Discover your perfect chain size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-sm">
-                      Our guide helps you find the perfect chain size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your chain.
-                    </p>
-                    <button
-                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
-                      onClick={() => {
-                        handleSizeGuideModal();
-                      }}
-                    >
-                      Know More
-                    </button>
-                    {showSizeGuideModal && (
-                      <SizeGuideModal
-                        handleSizeGuideModal={handleSizeGuideModal}
-                        content={chainSizeGuide}
-                      />
-                    )}
-                  </>
-                ) : product.productDetails.displayTitle
-                    .toLowerCase()
-                    .includes("bracelet") ||
-                  product.productDetails.displayTitle
-                    .toLowerCase()
-                    .includes("bangle") ? (
-                  <>
-                    <h3 className="text-lg">
-                      Discover your perfect bangle size with our easy-to-follow
-                      guide
-                    </h3>
-                    <p className="mt-2 text-sm">
-                      Our guide helps you find the perfect bangle size for your
-                      unique needs. Simply click on Know More to find the right
-                      size for your bangle.
-                    </p>
 
-                    <button
-                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
-                      onClick={() => {
-                        handleSizeGuideModal();
-                      }}
-                    >
-                      Know More
-                    </button>
-                    {showSizeGuideModal && (
-                      <SizeGuideModal
-                        handleSizeGuideModal={handleSizeGuideModal}
-                        content={bangleSizeGuide}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
-              </div>
-            </>
-          ) : null}
+          <div
+            className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+              showAccordian == 3
+                ? "max-h-[500px] opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="w-[100%] rounded-md text-center">
+              {product.productDetails.displayTitle
+                .toLowerCase()
+                .includes("ring") ? (
+                <>
+                  <h3 className="text-center text-lg">
+                    Discover your perfect ring size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-center text-sm">
+                    Our guide helps you find the perfect ring size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your ring.
+                  </p>
+                  <button
+                    className="mt-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                    onClick={() => {
+                      handleSizeGuideModal();
+                    }}
+                  >
+                    Know More
+                  </button>
+                  {showSizeGuideModal && (
+                    <SizeGuideModal
+                      handleSizeGuideModal={handleSizeGuideModal}
+                      content={ringSizeGuide}
+                    />
+                  )}
+                </>
+              ) : product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("chain") ? (
+                <>
+                  <h3 className="text-lg">
+                    Discover your perfect chain size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm">
+                    Our guide helps you find the perfect chain size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your chain.
+                  </p>
+                  <button
+                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                    onClick={() => {
+                      handleSizeGuideModal();
+                    }}
+                  >
+                    Know More
+                  </button>
+                  {showSizeGuideModal && (
+                    <SizeGuideModal
+                      handleSizeGuideModal={handleSizeGuideModal}
+                      content={chainSizeGuide}
+                    />
+                  )}
+                </>
+              ) : product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bracelet") ||
+                product.productDetails.displayTitle
+                  .toLowerCase()
+                  .includes("bangle") ? (
+                <>
+                  <h3 className="text-lg">
+                    Discover your perfect bangle size with our easy-to-follow
+                    guide
+                  </h3>
+                  <p className="mt-2 text-sm">
+                    Our guide helps you find the perfect bangle size for your
+                    unique needs. Simply click on Know More to find the right
+                    size for your bangle.
+                  </p>
+
+                  <button
+                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-4 pb-2 pt-2 text-center text-white"
+                    onClick={() => {
+                      handleSizeGuideModal();
+                    }}
+                  >
+                    Know More
+                  </button>
+                  {showSizeGuideModal && (
+                    <SizeGuideModal
+                      handleSizeGuideModal={handleSizeGuideModal}
+                      content={bangleSizeGuide}
+                    />
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
         </div>
       )}
 
@@ -455,148 +466,153 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <span className="right-0">
                 <Icon.CaretDown
                   size={25}
-                  className={`${showAccordian === 4 ? "rotate-180" : null}`}
+                  className={`transform transition-transform duration-300 ${showAccordian === 4 ? "rotate-180" : null}`}
                 />
               </span>
             </button>
           </h2>
-          {showAccordian === 4 ? (
-            <div className="p-2 sm:w-[100%] lg:w-[100%]">
-              <div className="flex justify-between border border-[#ebe7e7] p-2">
-                <div>Component</div>
-                <div>Weight</div>
-                <div>Value</div>
+
+          <div
+            className={`grid overflow-hidden p-2 transition-[max-height] duration-500 ease-in-out sm:w-[100%] lg:w-[100%] ${
+              showAccordian == 4
+                ? "max-h-[500px] opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="flex justify-between border border-[#ebe7e7] p-2">
+              <div>Component</div>
+              <div>Weight</div>
+              <div>Value</div>
+            </div>
+            <div className="flex justify-between border border-[#ebe7e7] p-2">
+              <div>
+                <p>{product.productDetails?.metalType}</p>
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>
+                            Diamond ({diamond.diamondColor}-
+                            {diamond.diamondClarity})
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
+
+                {product.productDetails?.stoneDetails != null && (
+                  <p>Stone Cost</p>
+                )}
+                <p>Making Charges</p>
+                {parseInt(product.productDetails?.discountValue) > 0 && (
+                  <p>Discount- {product.productDetails?.discountValue}%</p>
+                )}
+                <p>G.S.T</p>
               </div>
-              <div className="flex justify-between border border-[#ebe7e7] p-2">
-                <div>
-                  <p>{product.productDetails?.metalType}</p>
-                  {product.productDetails?.diamondDetails?.length > 0 && (
-                    <div>
-                      {product.productDetails.diamondDetails.map(
-                        (diamond: any, index: number) => (
-                          <div key={index}>
-                            <p>
-                              Diamond ({diamond.diamondColor}-
-                              {diamond.diamondClarity})
-                            </p>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  )}
+              <div>
+                {parseInt(product.productDetails?.metalWeight) > 0 && (
+                  <p>{product.productDetails?.metalWeight} gms</p>
+                )}
 
-                  {product.productDetails?.stoneDetails != null && (
-                    <p>Stone Cost</p>
-                  )}
-                  <p>Making Charges</p>
-                  {parseInt(product.productDetails?.discountValue) > 0 && (
-                    <p>Discount- {product.productDetails?.discountValue}%</p>
-                  )}
-                  <p>G.S.T</p>
-                </div>
-                <div>
-                  {parseInt(product.productDetails.metalWeight) > 0 && (
-                    <p>{product.productDetails?.metalWeight} gms</p>
-                  )}
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p>
+                            {diamond.caratWeight} ct ({diamond.diamondQuantity}{" "}
+                            Qty)
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
 
-                  {product.productDetails?.diamondDetails?.length > 0 && (
-                    <div>
-                      {product.productDetails.diamondDetails.map(
-                        (diamond: any, index: number) => (
-                          <div key={index}>
-                            <p>
-                              {diamond.caratWeight} ct (
-                              {diamond.diamondQuantity} Qty)
-                            </p>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  )}
-
-                  {product.productDetails.stoneDetails && <p>-</p>}
-                  {product.productDetails?.makingCharges && <p>-</p>}
-                  {product.productDetails?.discountActive && <p>-</p>}
-                  {product.productDetails?.gst && <p>-</p>}
-                </div>
-                <div>
-                  {parseInt(product.productDetails?.metalRate) > 0 && (
-                    <p className="text-right">
-                      {formatPrice(parseInt(product.productDetails?.metalRate))}
-                    </p>
-                  )}
-                  {product.productDetails?.diamondDetails?.length > 0 && (
-                    <div>
-                      {product.productDetails.diamondDetails.map(
-                        (diamond: any, index: number) => (
-                          <div key={index}>
-                            <p className="text-right">
-                              {formatPrice(parseInt(diamond?.diamondCost))}
-                            </p>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  )}
-                  {product.productDetails.stoneDetails != null && (
-                    <p className="text-right">
-                      {formatPrice(
-                        parseInt(
-                          product?.productDetails?.stoneDetails[0]?.stoneCost,
-                        ),
-                      )}
-                    </p>
-                  )}
-                  <p className="text-right">
-                    {formatPrice(parseInt(makingCharges))}
-                  </p>
-                  {parseInt(product?.productDetails?.discountValue) > 0 && (
-                    <div>
-                      {product?.productDetails?.typeOfDiscount ===
-                      "Percentage" ? (
-                        <p className="text-right">
-                          -
-                          {formatPrice(
-                            parseInt(product?.productDetails?.discountAmount),
-                          )}
-                        </p>
-                      ) : (
-                        <p className="text-right">
-                          -
-                          {formatPrice(
-                            parseInt(product?.productDetails?.discountValue),
-                          )}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  <p className="text-right">
-                    {formatPrice(parseInt(product?.productDetails?.gst))}
-                  </p>
-                </div>
+                {product.productDetails?.stoneDetails && <p>-</p>}
+                {product.productDetails?.makingCharges && <p>-</p>}
+                {product.productDetails?.discountActive && <p>-</p>}
+                {product.productDetails?.gst && <p>-</p>}
               </div>
-              <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
-                <div className="text-md font-semibold">
-                  <p>Total</p>
-                </div>
-                <div className="text-md font-semibold">
-                  {product?.productDetails?.discountActive ? (
-                    <p>
-                      {formatPrice(
-                        parseInt(product?.productDetails?.discountPrice),
-                      )}
-                    </p>
-                  ) : (
-                    <p>
-                      {formatPrice(
-                        parseInt(product?.productDetails?.productPrice),
-                      )}
-                    </p>
-                  )}
-                </div>
+              <div>
+                {parseInt(product.productDetails?.metalRate) > 0 && (
+                  <p className="text-right">
+                    {formatPrice(parseInt(product.productDetails?.metalRate))}
+                  </p>
+                )}
+                {product.productDetails?.diamondDetails?.length > 0 && (
+                  <div>
+                    {product.productDetails.diamondDetails.map(
+                      (diamond: any, index: number) => (
+                        <div key={index}>
+                          <p className="text-right">
+                            {formatPrice(parseInt(diamond?.diamondCost))}
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
+                {product.productDetails?.stoneDetails != null && (
+                  <p className="text-right">
+                    {formatPrice(
+                      parseInt(
+                        product?.productDetails?.stoneDetails[0]?.stoneCost,
+                      ),
+                    )}
+                  </p>
+                )}
+                <p className="text-right">
+                  {formatPrice(parseInt(makingCharges))}
+                </p>
+                {parseInt(product?.productDetails?.discountValue) > 0 && (
+                  <div>
+                    {product?.productDetails?.typeOfDiscount ===
+                    "Percentage" ? (
+                      <p className="text-right">
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountAmount),
+                        )}
+                      </p>
+                    ) : (
+                      <p className="text-right">
+                        -
+                        {formatPrice(
+                          parseInt(product?.productDetails?.discountValue),
+                        )}
+                      </p>
+                    )}
+                  </div>
+                )}
+                <p className="text-right">
+                  {formatPrice(parseInt(product?.productDetails?.gst))}
+                </p>
               </div>
             </div>
-          ) : null}
+            <div className="flex justify-between border border-t-0 border-[#ebe7e7] px-2">
+              <div className="text-md font-semibold">
+                <p>Total</p>
+              </div>
+              <div className="text-md font-semibold">
+                {product?.productDetails?.discountActive ? (
+                  <p>
+                    {formatPrice(
+                      parseInt(product?.productDetails?.discountPrice),
+                    )}
+                  </p>
+                ) : (
+                  <p>
+                    {formatPrice(
+                      parseInt(product?.productDetails?.productPrice),
+                    )}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       )}
       <div className="border-t-2 border-[#f7f7f7] p-4">
@@ -609,53 +625,58 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`${showAccordian === 5 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 5 ? "rotate-180" : null}`}
               />
             </span>
           </button>
         </h2>
-        {showAccordian === 5 ? (
-          <div className="mt-4">
-            <div>
-              Our team is here to provide you with support. Whether you have
-              questions,need advice,or require support,we're just a message or
-              call away
-            </div>
-            <div className="flex">
-              <Link href={"https://wa.me/918828324464"} target="_blank">
-                <div className="mr-5 mt-5 text-center">
-                  <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
-                  <p>Whatsapp</p>
-                </div>
-              </Link>
-              <Link
-                href="tel:+91 1800-222-225"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="mr-5 mt-5">
-                  <Icon.Phone size={30} color="#e26178" weight="fill" />
-                  <p>Call</p>
-                </div>
-              </Link>
-              <Link
-                href="sms:+91 1800-222-225"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="mr-5 mt-5">
-                  <Icon.ChatTeardropDots
-                    className="ml-4"
-                    size={30}
-                    weight="fill"
-                    color="#e26178"
-                  />
-                  <p>Message</p>
-                </div>
-              </Link>
-            </div>
+
+        <div
+          className={`mt-4 grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            showAccordian == 5
+              ? "max-h-[500px] opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div>
+            Our team is here to provide you with support. Whether you have
+            questions,need advice,or require support,we're just a message or
+            call away
           </div>
-        ) : null}
+          <div className="flex">
+            <Link href={"https://wa.me/918828324464"} target="_blank">
+              <div className="mr-5 mt-5 text-center">
+                <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
+                <p>Whatsapp</p>
+              </div>
+            </Link>
+            <Link
+              href="tel:+91 1800-222-225"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="mr-5 mt-5">
+                <Icon.Phone size={30} color="#e26178" weight="fill" />
+                <p>Call</p>
+              </div>
+            </Link>
+            <Link
+              href="sms:+91 1800-222-225"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="mr-5 mt-5">
+                <Icon.ChatTeardropDots
+                  className="ml-4"
+                  size={30}
+                  weight="fill"
+                  color="#e26178"
+                />
+                <p>Message</p>
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

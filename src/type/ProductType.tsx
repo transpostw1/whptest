@@ -29,6 +29,7 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  breadcrumbs: never[];
   rating: number;
   gst: any;
   makingCharges: any;

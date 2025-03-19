@@ -5,14 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
-import Product from "../Product/Product";
-import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import axios from "axios";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { baseUrl, graphqlProductUrl } from "@/utils/constants";
+import {  graphqlProductUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();

@@ -26,6 +26,7 @@ interface ProductForWishlistLoggedOut {
   discountValue: string;
   image_path: string;
   url: string;
+  variants:[];
 }
 
 const DummyProduct: React.FC<ProductProps> = ({ data }) => {
@@ -72,6 +73,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             discountValue: data.discountValue,
             image_path: data?.imageDetails[0].image_path,
             url: data.url,
+            variants: formattedVariants, 
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);

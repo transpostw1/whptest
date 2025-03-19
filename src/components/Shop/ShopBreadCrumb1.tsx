@@ -84,42 +84,13 @@ const ShopBreadCrumb1 = () => {
           cache: new InMemoryCache(),
         });
         const GET_PRODUCTS = gql`
-          query Products(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $productCategory: String
-            $sortOrder: String
-            $limit: Int
-            $offset: Int
-          ) {
-            products(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              productCategory: $productCategory
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-              limit: $limit
-              offset: $offset
-            ) {
+          query Products($productCategory: String) {
+            products(productCategory: "rings_engagement_ring") {
               productId
               SKU
               variantId
               isParent
               title
-              priority
               displayTitle
               shortDesc
               longDesc
@@ -132,20 +103,26 @@ const ShopBreadCrumb1 = () => {
               length
               breadth
               height
+              weightRange
               addDate
               lastModificationDate
+              negative_keywords
+              created_at
+              updated_at
               productSize
               productQty
               attributeId
               preSalesProductQueries
+              makeToOrder
               isReplaceable
-              weightRange
               isReturnable
               isInternationalShippingAvailable
               customizationAvailability
               fastDelivery
               tryAtHome
               isActive
+              isArchive
+              hidePriceBreakup
               grossWeight
               netWeight
               discountId
@@ -158,6 +135,7 @@ const ShopBreadCrumb1 = () => {
               offerStartDate
               offerEndDate
               mediaId
+              materialId
               metalType
               metalPurity
               metalWeight
@@ -168,8 +146,20 @@ const ShopBreadCrumb1 = () => {
               gst
               additionalCost
               productPrice
-              discountPrice
               rating
+              coupons {
+                id
+                name
+                code
+                discountOn
+                discountType
+                discountValue
+                discountMinAmount
+                discountMaxAmount
+                discountStartDate
+                discountEndDate
+                isExclusive
+              }
               imageDetails {
                 image_path
                 order
@@ -185,21 +175,36 @@ const ShopBreadCrumb1 = () => {
                   goldCertifiedBy
                   goldSetting
                 }
-                gemstoneDetails
                 diamondDetails {
                   diamondCertifiedBy
-                  diamondSetting
                   diamondShape
-                  diamondType
+                  diamondSetting
+                  totalDiamond
                 }
                 silverDetails {
                   poojaArticle
                   utensils
                   silverWeight
                 }
+                gemstoneDetails {
+                  gemstoneType
+                  gemstoneQualityType
+                  gemstoneShape
+                  gemstoneWeight
+                  noOfGemstone
+                }
               }
               stoneDetails
               diamondDetails
+              review
+              variants
+              bestSeller
+              buyAgain
+              priority
+              diamondCertificate
+              goldCertificate
+              similarProductIds
+              productCategories
               breadcrumbs {
                 id
                 title
@@ -208,6 +213,7 @@ const ShopBreadCrumb1 = () => {
             }
           }
         `;
+
         let variables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           variables = {

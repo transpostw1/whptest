@@ -239,6 +239,7 @@ const Payment: React.FC<PaymentProps> = ({
                   productId: item.productId.toString(),
                   productAmount: item.price,
                   quantity: item.quantity.toString(),
+                  variants:item.variants,
                   productTotal: (item.price * item.quantity).toString(),
                   discountAmount: "0",
                   discountedTotal: (item.price * item.quantity).toString(), 

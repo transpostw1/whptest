@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import Cookies from "js-cookie";
 import { graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
@@ -13,6 +12,17 @@ interface Props {
   onAddressAdded: (isBillingAddress: boolean) => void;
 }
 
+interface Country {
+  name: string;
+  iso2: string;
+  states: State[];
+}
+
+interface State {
+  name: string;
+  state_code: string;
+}
+
 const AddAddressModal: React.FC<Props> = ({
   closeModal,
   isForBillingAddress,
@@ -20,8 +30,8 @@ const AddAddressModal: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const [countries, setCountries] = useState<any[]>([]);
-  const [states, setStates] = useState<string[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -29,7 +39,11 @@ const AddAddressModal: React.FC<Props> = ({
         const response = await axios.get("https://countriesnow.space/api/v0.1/countries/states");
         const countryData = response.data.data.map((country: any) => ({
           name: country.name,
-          states: country.states.map((state: any) => state.name),
+          iso2: country.iso2,
+          states: country.states.map((state: any) => ({
+            name: state.name,
+            state_code: state.state_code
+          }))
         }));
         setCountries(countryData);
       } catch (error) {
@@ -40,13 +54,40 @@ const AddAddressModal: React.FC<Props> = ({
     fetchCountries();
   }, []);
 
+  
+
   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCountry = countries.find(
       (country) => country.name === event.target.value
     );
-    setStates(selectedCountry ? selectedCountry.states : []);
-    formik.setFieldValue("country", event.target.value);
-    formik.setFieldValue("state", ""); // Reset state when country changes
+    
+    if (selectedCountry) {
+      setStates(selectedCountry.states);
+      formik.setFieldValue("country", selectedCountry.iso2);
+      formik.setFieldValue("countryName", selectedCountry.name);
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    } else {
+      setStates([]);
+      formik.setFieldValue("country", "");
+      formik.setFieldValue("countryName", "");
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    }
+  };
+  
+  const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedState = states.find(
+      (state) => state.name === event.target.value
+    );
+    
+    if (selectedState) {
+      formik.setFieldValue("state", selectedState.state_code);
+      formik.setFieldValue("stateName", selectedState.name);
+    } else {
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -96,11 +137,11 @@ const AddAddressModal: React.FC<Props> = ({
             {
               address_type: values.address_type,
               full_address: values.full_address,
-              country: values.country,
-              state: values.state,
+              country: values.country, 
+              state: values.state, 
               city: values.city,
               pincode: values.pincode,
-              landmark: values.landmark, // include landmark if necessary
+              landmark: values.landmark,
             },
           ],
         },
@@ -128,7 +169,9 @@ const AddAddressModal: React.FC<Props> = ({
       pincode: "",
       full_address: "",
       country: "",
-      state: "",
+      countryName: "", 
+      state: "", 
+      stateName: "",
       city: "",
       address_type: "",
     },
@@ -201,23 +244,23 @@ const AddAddressModal: React.FC<Props> = ({
           <div className="mb-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <div className="relative">
-                <select
-                  id="country"
-                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.touched.country && formik.errors.country ? "border-red-500" : "border-gray-300"
-                  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  value={formik.values.country}
-                  onChange={handleCountryChange}
-                  onBlur={formik.handleBlur}
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                >
-                  <option value="" label="Select country" />
-                  {countries.map((country) => (
-                    <option key={country.name} value={country.name}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
+              <select
+  id="country"
+  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+    formik.touched.country && formik.errors.country ? "border-red-500" : "border-gray-300"
+  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+  value={formik.values.countryName}
+  onChange={handleCountryChange}
+  onBlur={formik.handleBlur}
+  style={{ maxHeight: "200px", overflowY: "auto" }}
+>
+  <option value="" label="Select country" />
+  {countries.map((country) => (
+    <option key={country.iso2} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
                 <label
                   htmlFor="country"
                   className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -231,24 +274,24 @@ const AddAddressModal: React.FC<Props> = ({
             </div>
             <div>
               <div className="relative">
-                <select
-                  id="state"
-                  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.touched.state && formik.errors.state ? "border-red-500" : "border-gray-300"
-                  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  value={formik.values.state}
-                  onChange={(e) => formik.setFieldValue("state", e.target.value)}
-                  onBlur={formik.handleBlur}
-                  disabled={!states.length}
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                >
-                  <option value="" label="Select state" />
-                  {states.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
+              <select
+  id="state"
+  className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+    formik.touched.state && formik.errors.state ? "border-red-500" : "border-gray-300"
+  } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+  value={formik.values.stateName}
+  onChange={handleStateChange}
+  onBlur={formik.handleBlur}
+  disabled={!states.length}
+  style={{ maxHeight: "200px", overflowY: "auto" }}
+>
+  <option value="" label="Select state" />
+  {states.map((state) => (
+    <option key={state.state_code} value={state.name}>
+      {state.name}
+    </option>
+  ))}
+</select>
                 <label
                   htmlFor="state"
                   className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
@@ -282,6 +325,29 @@ const AddAddressModal: React.FC<Props> = ({
                 <div className="mt-1 text-sm text-red-500">{formik.errors.city}</div>
               )}
             </div>
+            
+          </div>
+          <div className="mb-2">
+            <div className="relative">
+              <input
+                id="landmark"
+                className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
+                  formik.errors.landmark ? "border-red-500" : "border-gray-300"
+                } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
+                type="text"
+                placeholder=" "
+                {...formik.getFieldProps("landmark")}
+              />
+              <label
+                htmlFor="landmark"
+                className="absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-rose-400"
+              >
+                Landmark (optional)
+              </label>
+            </div>
+            {/* {formik.errors.landmark && (
+              <div className="text-red-500 mt-1">{formik.errors.landmark}</div>
+            )} */}
           </div>
           <div className="mb-2">
             <label htmlFor="address_type" className="font-medium">

@@ -150,13 +150,13 @@ const NavHoverMenu2 = () => {
                                               <Image
                                                 src={subSubItem.image}
                                                 alt={subSubItem.name}
-                                                height={25}
-                                                width={25}
+                                                height={30}
+                                                width={30}
                                                 className="mr-1"
-                                                style={{
-                                                  width: "auto",
-                                                  height: "auto",
-                                                }}
+                                                // style={{
+                                                //   width: "auto",
+                                                //   height: "auto",
+                                                // }}
                                                 unoptimized
                                               />
                                             </div>

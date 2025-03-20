@@ -50,6 +50,7 @@ const WhatWeOffer = () => {
               width={40}
               height={40}
               className="mb-3"
+              unoptimized
             />
             <h3 className="text-xl font-semibold">12000+ UNIQUE DESIGNS</h3>
             <p className="md:mw-96 text-center md:text-start">

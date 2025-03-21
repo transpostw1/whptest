@@ -46,7 +46,7 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
             {products.length>0 && (
               <>
                 <div>
-                  <p className="font-bold text-[1.5rem]">
+                  <p className="text-[1.5rem] font-semibold uppercase">
                     View Similar Products
                   </p>
                 </div>

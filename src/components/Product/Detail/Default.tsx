@@ -24,6 +24,7 @@ import Coupons from "./Coupons";
 import Skeleton from "react-loading-skeleton";
 import SimilarProducts from "@/components/Other/SimilarProducts";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
+import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import DropDown from "./DropDown";
 import StarRating from "@/components/Other/StarRating";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
@@ -466,14 +467,14 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                     <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>
                 </div>
-              )}
+              )} */}
               <div className="flex flex-col justify-center">
                 <div>
                   <Slider
                     {...settingsMain}
                     ref={(slider: any) => setNav1(slider)}
                   >
-                    {data?.productDetails?.imageDetails.map(
+                    {data?.productDetails?.imageDetails?.map(
                       (image: any, index: any) => (
                         <div
                           key={index}
@@ -514,7 +515,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                         setNav2(slider);
                       }}
                     >
-                      {data?.productDetails?.imageDetails.map(
+                      {data?.productDetails?.imageDetails?.map(
                         (image: any, index: any) => (
                           <div key={index}>
                             <Image
@@ -563,7 +564,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <>
               <div className="flex w-full justify-between">
                 <p className="text-3xl font-[500]">
-                  {data?.productDetails.displayTitle}
+                  {data?.productDetails?.displayTitle}
                 </p>
 
                 <span
@@ -577,12 +578,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   />
                 </span>
               </div>
-              {/* <p
+              <p
                 ref={descRef}
                 className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
-              </p> */}
+              </p>
               {isTruncated && !isExpanded && (
                 <span
                   onClick={toggleExpansion}
@@ -599,11 +600,11 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   show less
                 </span>
               )}
-              {data?.productDetails?.review.length !== 0 && (
+              {data?.productDetails?.review?.length !== 0 && (
                 <div className="mb-2 flex flex-wrap">
                   <div>
                     <span className="mr-2 cursor-pointer underline">
-                      {data?.productDetails?.review.length} Review
+                      {data?.productDetails?.review?.length} Review
                     </span>
                   </div>
                   | <StarRating stars={data?.productDetails?.rating} />
@@ -622,16 +623,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   </span>
                   {data?.productDetails?.productPrice >
                     data?.productDetails?.discountPrice && (
-                    <span className="ml-3 text-[#aa9e9e] line-through">
-                      {formatPrice(
-                        parseInt(data?.productDetails?.productPrice),
-                      )}
-                    </span>
-                  )}
+                      <span className="ml-3 text-[#aa9e9e] line-through">
+                        {formatPrice(
+                          parseInt(data?.productDetails?.productPrice),
+                        )}
+                      </span>
+                    )}
                   {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 text-[#e26178] underline">
-                      {data?.productDetails.discountValue}% OFF on{" "}
-                      {data?.productDetails.discountCategory}
+                      {data?.productDetails?.discountValue}% OFF on{" "}
+                      {data?.productDetails?.discountCategory}
                     </span>
                   )}
                 </>
@@ -642,7 +643,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           )}
-          
+
           <div className="flex">
             <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>
@@ -675,7 +676,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           </div>
-          {data?.productDetails?.variants?.length>0 && (
+          {data?.productDetails?.variants && data?.productDetails?.variants?.length > 0  && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
@@ -692,26 +693,26 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
-            {data?.productDetails?.productQty > 0 && (
-             
-             <p className="flex items-center font-semibold text-[#e26178]">
-               🚚{" "}
-               <span className="ml-2">
-                 Delivery in <strong>just 12-48 hours</strong>!
-               </span>
-             </p>
-           )}
+          {data?.productDetails?.productQty > 0 && (
+
+            <p className="flex items-center font-semibold text-[#e26178]">
+              🚚{" "}
+              <span className="ml-2">
+                Delivery in <strong>just 12-48 hours</strong>!
+              </span>
+            </p>
+          )}
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
             <p className="my-5 flex items-center font-semibold text-[#e26178]">
               🚚{" "}
               <span className="ml-2">
-                Delivery in <strong>just 15-45 days</strong>!
+              Expected Delivery in <strong>5 to 20 Days </strong><a className="text-[#000] font-normal">(For Quick Delivery Call on 1800 222 225)</a>
               </span>
             </p>
           )}
-          
+
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>
@@ -763,6 +764,8 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           <SimilarProducts productId={data?.productDetails?.productId} />
         )}
       </div>
+      <br></br>
+      <RecetlyViewProduct />
     </>
   );
 };

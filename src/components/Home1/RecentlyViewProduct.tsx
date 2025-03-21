@@ -51,6 +51,7 @@ const RecentlyViewProduct = () => {
               productPrice
               discountPrice
               typeOfDiscount
+              discountCategory
               discountActive
               discountValue
               rating

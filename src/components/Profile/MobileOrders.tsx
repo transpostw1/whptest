@@ -153,6 +153,24 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                         {product?.SKU}-{product?.metalType}-
                         {product?.metalWeight}
                       </p>
+                      {product?.variants && product?.variants.length > 0 && (
+                          <div>
+                            {product.variants.map(
+                              (variant: any, index: number) =>
+                                variant.VariantType &&
+                                variant.VariantOption &&
+                                variant.VariantOption.length > 0 && (
+                                  <h3
+                                    key={index}
+                                    className="text-sm font-normal"
+                                  >
+                                    {variant.VariantType}:{" "}
+                                    {variant.VariantOption[0].VariantName}
+                                  </h3>
+                                ),
+                            )}
+                          </div>
+                        )}
 
                       <div className="mt-2 flex items-center justify-between">
                         <p className="text-sm">Qty: {product.quantity}</p>

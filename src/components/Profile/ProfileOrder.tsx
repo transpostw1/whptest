@@ -3,12 +3,8 @@ import React, { useEffect, useState } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
-import ReactLoading from "react-loading";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import SingleOrderDetails from "./SingleOrderDetails";
-import FlashAlert from "../Other/FlashAlert";
-import Cookie from "js-cookie";
 import { baseUrl } from "@/utils/constants";
 import { useCurrency } from "@/context/CurrencyContext";
 interface Props {
@@ -38,7 +34,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const handleBack = () => {
     setSingleOrder(orders);
   };
-  
+
   console.log(orders);
 
   if (!orders)
@@ -80,7 +76,9 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
         </div>
       </div>
       {Array.isArray(singleOrder) && singleOrder.length == 0 && (
-        <div><h1 className="font-bold mt-6">No Orders Found</h1></div>
+        <div>
+          <h1 className="mt-6 font-bold">No Orders Found</h1>
+        </div>
       )}
       {Array.isArray(singleOrder) && singleOrder.length > 1 && (
         <div className="mt-10">
@@ -129,8 +127,28 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                           {product?.displayTitle}
                         </p>
                         <p>
-                          {product?.SKU}-{product?.metalType}-{product?.metalWeight}
+                          {product?.SKU}-{product?.metalType}-
+                          {product?.metalWeight}
                         </p>
+                        {product?.variants && product?.variants.length > 0 && (
+                          <div>
+                            {product.variants.map(
+                              (variant: any, index: number) =>
+                                variant.VariantType &&
+                                variant.VariantOption &&
+                                variant.VariantOption.length > 0 && (
+                                  <h3
+                                    key={index}
+                                    className="text-sm font-normal"
+                                  >
+                                    {variant.VariantType}:{" "}
+                                    {variant.VariantOption[0].VariantName}
+                                  </h3>
+                                ),
+                            )}
+                          </div>
+                        )}
+
                         <p>Quantity:{product?.quantity}</p>
                       </div>
                     </div>

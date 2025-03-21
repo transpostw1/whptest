@@ -53,6 +53,7 @@ const BuyAgain = () => {
               discountActive
               discountValue
               rating
+              variants
               imageDetails {
                 image_path
               }

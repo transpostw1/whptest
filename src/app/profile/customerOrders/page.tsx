@@ -70,6 +70,7 @@ const CustomerOrders = () => {
                 displayTitle
                 productPrice
                 discountPrice
+                variants
                 mediaId
                 imageDetails {
                   image_path
@@ -82,10 +83,6 @@ const CustomerOrders = () => {
                   alt_text
                 }
                 rating
-                variants {
-                  variantType
-                  variantName
-                }
               }
               customerId
               billingAddressId {

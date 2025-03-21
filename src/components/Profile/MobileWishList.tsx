@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { showCustomToast } from "@/components/Other/CustomToast";
 
-
 type InputVariant = {
   __typename: string;
   variantType: string;
@@ -19,6 +18,7 @@ type OutputVariant = {
   variantType: string;
   variantName: string;
 };
+
 interface Props {
   handleComponent: (args: string) => void;
 }
@@ -34,7 +34,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
     setModalMessage(message);
     setIsOutOfStock(true);
   };
-  
+
   const closeModal = () => {
     setIsOutOfStock(false);
   };
@@ -78,10 +78,11 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
     const updatedQuantity = currentQuantity + 1;
 
     if (productAlreadyExists) {
-      showCustomToast('Product Quantity Updated!');
+      showCustomToast("Product Quantity Updated!");
       updateCartQuantity(product.productId, updatedQuantity);
+      removeFromWishlist(product.productId);
     } else {
-      showCustomToast('Item successfully added to cart!');
+      showCustomToast("Item successfully added to cart!");
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);
       };
@@ -159,8 +160,8 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
       console.log("New product objec", newProduct);
       console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
-  
-      addToCart(newProduct, 1,variantsToPass, true);
+
+      addToCart(newProduct, 1, variantsToPass, true);
     }
 
     removeFromWishlist(product.productId);
@@ -181,7 +182,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
   };
 
   const handleBackButton = (args: string) => {
-    router.push("/profile")
+    router.push("/profile");
   };
   return (
     <div className="shop-product breadcrumb1">
@@ -192,30 +193,33 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
             <Icon.CaretLeft size={22} />
           </div>
           <div>
-            <p className="font-bold text-xl">Wishlist</p>
+            <p className="text-xl font-bold">Wishlist</p>
           </div>
         </div>
         <div className="list-product-block relative">
           {isLoading ? (
-            <div className="loading-container flex justify-center items-center h-full">
+            <div className="loading-container flex h-full items-center justify-center">
               <Image
                 src="/dummy/loader.gif"
                 alt={"loader"}
                 height={50}
                 width={50}
-              
               />
             </div>
           ) : wishlistItems.length < 1 ? (
-            <div className="text-center text-2xl my-10">Wishlist is empty</div>
+            <div className="my-10 text-center text-2xl">Wishlist is empty</div>
           ) : (
-            <div className="list-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-10">
+            <div className="list-product my-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {wishlistItems.map((product, index) => (
                 <div key={index} className="relative cursor-pointer">
-                  <div className="product-card p-4 h-[100%] w-[100%]">
+                  <div className="product-card h-[100%] w-[100%] p-4">
                     <div
                       className="product-image"
-                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
+                      onClick={() =>
+                        router.push(
+                          `/products/${product.productId}/${product.url}`,
+                        )
+                      }
                     >
                       <Image
                         src={product.image_path}
@@ -227,19 +231,20 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                       />
                     </div>
                     <div className="product-details mt-4">
-                      <h3 className="product-name text-title text-xl truncate">
+                      <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
                       {product.variants && product.variants.length > 0 && (
                         <div>
-                          <h3 className="font-medium">
-                            {product.variants[0].variantType}:{" "}
-                            {product.variants[0].variantName}
-                          </h3>
-                          <h3 className="font-medium">
-                            {product.variants[1].variantType}:{" "}
-                            {product.variants[1].variantName}
-                          </h3>
+                          {product.variants.map(
+                            (variant: any, index: number) =>
+                              variant.variantType &&
+                              variant.variantName && (
+                                <h3 key={index} className="text-sm font-normal">
+                                  {variant.variantType}: {variant.variantName}
+                                </h3>
+                              ),
+                          )}
                         </div>
                       )}
                       <div className="flex items-center gap-2">
@@ -247,28 +252,28 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                           <span className="discounted-price text-title text-lg">
                             {formatCurrency(product.discountPrice)}
                           </span>
-                          <span className="original-price line-through text-[#beb3b3]">
+                          <span className="original-price text-[#beb3b3] line-through">
                             {formatCurrency(product.productPrice)}
                           </span>
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-1">
+                    <div className="mt-1 flex flex-col gap-1">
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        className="rounded-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-lg font-semibold text-white"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
                       </div>
                       <div
-                        className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-center font-semibold text-lg rounded-full text-white"
+                        className="rounded-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-lg font-semibold text-white"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                     </div>
                   </div>
-                  <div className="product-actions absolute top-2 right-2">
+                  <div className="product-actions absolute right-2 top-2">
                     <button
                       className="heart-icon"
                       onClick={() => removeFromWishlist(product.productId)}
@@ -282,18 +287,18 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
           )}
         </div>
         {isOutOfStock && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
-          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
-            <p>{modalMessage}</p>
-            <button
-              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
-              onClick={() => closeModal()}
-            >
-              Close
-            </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
+            <div className="flex flex-col items-center rounded-lg bg-white p-6">
+              <p>{modalMessage}</p>
+              <button
+                className="mt-4 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                onClick={() => closeModal()}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

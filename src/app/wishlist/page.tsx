@@ -98,6 +98,7 @@ const Wishlist = () => {
     showCustomToast("Item successfully added to cart!");
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
+      removeFromWishlist(product.productId);
       showCustomToast("Product Quantity Updated!");
     } else {
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
@@ -107,10 +108,6 @@ const Wishlist = () => {
       const variantss = Array.isArray(product.variants)
         ? transformVariants(product.variants)
         : [];
-
-      console.log("Original variants:", product.variants);
-      console.log("Transformed variants:", variantss);
-
       const newProduct: any = {
         productDetails: {
           title: product.title,
@@ -233,11 +230,7 @@ const Wishlist = () => {
                   <div className="product-card h-[100%] w-[80%] p-4">
                     <div className="product-image flex justify-center">
                       {isLoggedIn && imageLoading[product.productId] ? (
-                        <Skeleton
-                          width={300}
-                          height={300}
-                          className=""
-                        />
+                        <Skeleton width={300} height={300} className="" />
                       ) : isLoggedIn ? (
                         <div className="relative">
                           <Image
@@ -246,7 +239,7 @@ const Wishlist = () => {
                             alt={product.title}
                             width={300}
                             height={300}
-                            className=" bg-[#f7f7f7]"
+                            className="bg-[#f7f7f7]"
                             onClick={() =>
                               router.push(
                                 `/products/${product.productId}/${product.url}`,
@@ -283,7 +276,7 @@ const Wishlist = () => {
                                 `/products/${product.productId}/${product.url}`,
                               )
                             }
-                            className=" bg-[#f7f7f7]"
+                            className="bg-[#f7f7f7]"
                             onLoad={() => handleImageLoad(product.productId)}
                             onError={() => handleImageError(product.productId)}
                           />
@@ -315,23 +308,20 @@ const Wishlist = () => {
                       <h3 className="product-name text-title truncate text-xl">
                         {product.title}
                       </h3>
-                      {/* <div>
-                      {/* <div>
-                      <h3 className="font-medium">Diamond:FG-VVS</h3>
-                      <h3 className="font-medium">Size:11</h3>
-                      </div> */}
-                      {/* {product.variants && product.variants.length > 0 && (
+                      
+                      {product.variants && product.variants.length > 0 && (
                         <div>
-                          <h3 className="font-medium">
-                            {product.variants[0].variantType}:{" "}
-                            {product.variants[0].variantName}
-                          </h3>
-                          <h3 className="font-medium">
-                            {product.variants[1].variantType}:{" "}
-                            {product.variants[1].variantName}
-                          </h3>
+                          {product.variants.map(
+                            (variant: any, index: number) =>
+                              variant.variantType &&
+                              variant.variantName && (
+                                <h3 key={index} className="text-sm font-normal">
+                                  {variant.variantType}: {variant.variantName}
+                                </h3>
+                              ),
+                          )}
                         </div>
-                      )} */}
+                      )}
 
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
@@ -350,13 +340,13 @@ const Wishlist = () => {
                     </div>
                     <div className="mt-3 flex flex-col flex-wrap justify-between gap-2 lg:flex-row lg:max-xl:flex-row">
                       <div
-                        className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
+                        className="w-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleBuyNow(product)}
                       >
                         Buy Now
                       </div>
                       <div
-                        className="w-full  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
+                        className="w-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleAddToCart(product)}
                       >
                         Add To Cart
@@ -378,10 +368,10 @@ const Wishlist = () => {
         </div>
         {isOutOfStock && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
-            <div className="flex flex-col items-center  bg-white p-6">
+            <div className="flex flex-col items-center bg-white p-6">
               <p>{modalMessage}</p>
               <button
-                className="mt-4  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                className="mt-4 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
                 onClick={() => closeModal()}
               >
                 Close

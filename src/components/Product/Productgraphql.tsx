@@ -330,7 +330,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       alt="This image is temporarry"
                       unoptimized
                     />
-
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
@@ -345,6 +344,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         </div>
                       </div>
                     )}
+
                     {skuList?.includes(data.SKU) && isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
@@ -356,11 +356,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         <div className="flex items-center justify-between text-[#e26178] hover:text-white">
                           <IoCameraOutline />
                         </div>
-                      </div>
-                    )}
-                    {data.discountValue && (
-                      <div className="try_on absolute left-1 top-1 z-0 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
-                        {data.discountValue}% on making charges
                       </div>
                     )}
 
@@ -414,6 +409,20 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
+                  {data.discountActive && data.discountValue &&!isMobile&& (
+                  <div className="absolute left-1 top-1  float-right flex  p-1 justify-between border bg-[#e26178]  text-center text-white">
+                    {data.typeOfDiscount === "Percentage" ? (
+                      <span className="text-xs">
+                        {data.discountValue}% OFF on {data.discountCategory}
+                      </span>
+                    ) : (
+                      <span>
+                        ₹{data.discountAmount} OFF on {data.discountCategory}
+                      </span>
+                    )}
+                  </div>
+                )}
+               
                 {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
@@ -428,6 +437,19 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     <div className="flex items-center justify-between text-[#e26178] hover:text-white">
                       <IoCameraOutline />
                     </div>
+                  </div>
+                )}
+                 {data.discountActive && data.discountValue &&isMobile && (
+                  <div className="absolute top-1 float-right flex w-32 items-center  justify-between border bg-[#e26178]  text-center text-white">
+                    {data.typeOfDiscount === "Percentage" ? (
+                      <span className="text-[8px]">
+                        {data.discountValue}% OFF on {data.discountCategory}
+                      </span>
+                    ) : (
+                      <span>
+                        ₹{data.discountAmount} OFF on {data.discountCategory}
+                      </span>
+                    )}
                   </div>
                 )}
                 {/* {!isMobile && (
@@ -468,18 +490,17 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             <StarRating stars={data.rating} />
 
             <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
-              {data?.discountPrice && (
+              {data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.discountPrice))}
                 </p>
               )}
-              {data?.discountPrice && (
+              {data?.discountActive && (
                 <p className="text-[#beb3b3] line-through">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>
               )}
-
-              {!data?.discountPrice && (
+              {!data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>

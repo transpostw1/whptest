@@ -65,6 +65,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const handleSelectedVariants = (value: any) => {
     setSelectedVariants(value);
   };
+  console.log("selectedVariantdefault", selectedVariants);
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
@@ -155,24 +156,30 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             order
             alt_text
           }
-          productAttributes {
-            goldDetails {
-              goldCertifiedBy
-              goldSetting
-            }
-            gemstoneDetails
-            diamondDetails {
-              diamondCertifiedBy
-              diamondSetting
-              diamondShape
-              diamondType
-            }
-            silverDetails {
-              poojaArticle
-              utensils
-              silverWeight
-            }
-          }
+         productAttributes {
+                goldDetails {
+                  goldCertifiedBy
+                  goldSetting
+                }
+                diamondDetails {
+                  diamondCertifiedBy
+                  diamondShape
+                  diamondSetting
+                  totalDiamond
+                }
+                silverDetails {
+                  poojaArticle
+                  utensils
+                  silverWeight
+                }
+                gemstoneDetails {
+                  gemstoneType
+                  gemstoneQualityType
+                  gemstoneShape
+                  gemstoneWeight
+                  noOfGemstone
+                }
+              }
           stoneDetails
           diamondDetails
           review
@@ -213,7 +220,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   }
 
   async function singleProduct() {
-    console.log("Single Product");
+    console.log("Single Producttttttt");
     const product = await getData();
     onDataFetched(product);
     setData(product);
@@ -531,7 +538,6 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                           />
                         ))}
                     </Slider>
-
                     <div className="absolute -right-2 top-6 cursor-pointer max-sm:-right-10">
                       <Icon.CaretRight
                         onClick={() => sliderRef.slickNext()}
@@ -571,12 +577,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   />
                 </span>
               </div>
-              <p
+              {/* <p
                 ref={descRef}
-                className={`text-[#aa9e9e]  ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
+                className={`text-[#aa9e9e] ${isExpanded || !isTruncated ? "" : "line-clamp-2"}`}
               >
                 {data?.productDetails?.shortDesc}
-              </p>
+              </p> */}
               {isTruncated && !isExpanded && (
                 <span
                   onClick={toggleExpansion}
@@ -609,14 +615,19 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <Skeleton height={30} />
           ) : (
             <div className="mb-5">
-              {data?.productDetails?.discountPrice ? (
+              {data?.productDetails?.discountActive ? (
                 <>
                   <span className="text-2xl font-extrabold">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
-                  <span className="ml-3 text-[#aa9e9e] line-through">
-                    {formatPrice(parseInt(data?.productDetails?.productPrice))}
-                  </span>
+                  {data?.productDetails?.productPrice >
+                    data?.productDetails?.discountPrice && (
+                    <span className="ml-3 text-[#aa9e9e] line-through">
+                      {formatPrice(
+                        parseInt(data?.productDetails?.productPrice),
+                      )}
+                    </span>
+                  )}
                   {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 text-[#e26178] underline">
                       {data?.productDetails.discountValue}% OFF on{" "}
@@ -631,6 +642,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           )}
+          
           <div className="flex">
             <div className="border-r-2 py-2 pr-2">
               <p className="text-lg font-bold">SKU:</p>
@@ -663,7 +675,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               )}
             </div>
           </div>
-          {data?.productDetails?.variantId !== "" && (
+          {data?.productDetails?.variants && (
             <DropDown
               product={data?.productDetails}
               handleVariant={handleNewVariant}
@@ -680,6 +692,15 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
+            {data?.productDetails?.productQty > 0 && (
+             
+             <p className="flex items-center font-semibold text-[#e26178]">
+               🚚{" "}
+               <span className="ml-2">
+                 Delivery in <strong>just 12-48 hours</strong>!
+               </span>
+             </p>
+           )}
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
@@ -690,6 +711,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </span>
             </p>
           )}
+          
           {/* <div className="mt-4">
             <ul className="list-disc">
               <li>

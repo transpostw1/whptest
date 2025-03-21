@@ -46,9 +46,6 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-  useEffect(() => {
-    fetchSkusList();
-  }, []);
 
   const HandleaddToWishlist = () => {
     try {
@@ -136,6 +133,9 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     }
   };
 
+  useEffect(() => {
+    fetchSkusList();
+  }, []);
   const loadTryOnButton = async (
     sku: string,
     productId: string,
@@ -276,15 +276,23 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                 >
                   <div className="flex items-center justify-between px-2">
                     <IoCameraOutline />
-                    {/* <p className="ps-1 text-sm">Try On</p> */}
+                    <p className="ps-1 text-sm">Try On</p>
                   </div>
                 </div>
               )}
-               {data.discountValue && (
-                      <div className="try_on absolute left-1 top-4 z-0 float-right flex justify-between border px-2 py-1 text-center text-xs bg-[#e26178] text-white">
-                        {data.discountValue}% on making charges
-                      </div>
-                    )}
+              {data?.discountActive && (
+                <div className="try_on absolute left-1 top-4 float-right flex justify-between border bg-[#e26178] px-2 py-1 text-center text-xs text-white">
+                  {data.typeOfDiscount === "Percentage" ? (
+                    <>
+                      {data.discountValue}% OFF on {data.discountCategory}
+                    </>
+                  ) : (
+                    <>
+                      {data.discountAmount} OFF on {data.discountCategory}
+                    </>
+                  )}
+                </div>
+              )}
               {data?.imageDetails[0]?.image_path && (
                 <Image
                   onClick={() => handleDetailProduct(data.productId, data.url)}
@@ -311,7 +319,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                     onClick={() => HandleremoveFromWishlist()}
                   />
                 ) : (
-                  <Icon.Heart color="#e26178" size={25} onClick={() => HandleaddToWishlist()} />
+                  <Icon.Heart
+                    color="#e26178"
+                    size={25}
+                    onClick={() => HandleaddToWishlist()}
+                  />
                 )}
               </div>
             </div>
@@ -326,18 +338,18 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             </div>
 
             <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
-              {data?.discountPrice && (
+              {data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.discountPrice))}
                 </p>
               )}
-              {data?.discountPrice && (
+              {data?.discountActive && (
                 <p className="text-[#beb3b3] line-through">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>
               )}
 
-              {data?.discountValue == null && (
+              {!data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.productPrice))}
                 </p>

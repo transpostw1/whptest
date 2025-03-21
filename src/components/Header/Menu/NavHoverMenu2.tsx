@@ -3,22 +3,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useCategory } from "@/context/CategoryContex";
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import { useMainMenuContext } from "@/context/MainMenuContext";
-import { TiArrowSortedDown } from "react-icons/ti";
-import { TiArrowSortedUp } from "react-icons/ti";
-import { graphqlbaseUrl } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 const NavHoverMenu2 = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { setCustomcategory } = useCategory();
   const [fixedHeader, setFixedHeader] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
-  const [categories, setCategories] = useState<any>([]);
   const { allMenus } = useMainMenuContext();
+  const [hoverMenuVisible, setHoverMenuVisible] = useState<number | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,15 +48,43 @@ const NavHoverMenu2 = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setSelectedMenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   if (isMobile) {
     return null;
   }
+
+  const handleMenuClick = (index: number, label: string) => {
+    setSelectedMenu(index);
+    setCustomcategory(label);
+    setHoverMenuVisible(null); // Hide the hover menu
+  };
+
+  const handleSubCategoryClick = (parentIndex: number, label: string) => {
+    setSelectedMenu(parentIndex);
+    setCustomcategory(label);
+    setHoverMenuVisible(null);
+  };
+
   return (
     <>
       <div
         className={`header-menu-navHoverMenu style-one z-[36px] ${
           fixedHeader ? "fixed" : "relative"
         } h-[40px] w-full md:h-[37px]`}
+        ref={menuRef}
       >
         <div className="container mx-auto h-full">
           <MobileMainCategorySwiper />
@@ -68,7 +93,9 @@ const NavHoverMenu2 = () => {
               {allMenus.map((item: any, index: any) => (
                 <ul
                   key={index}
-                  className="flex h-full w-full items-center justify-evenly text-rose-950"
+                  className="flex h-full w-full items-center justify-evenly text-black"
+                  onMouseEnter={() => setHoverMenuVisible(index)}
+                  onMouseLeave={() => setHoverMenuVisible(null)}
                 >
                   <li className="relative h-full">
                     <Link
@@ -77,71 +104,84 @@ const NavHoverMenu2 = () => {
                         if (item.name.toLowerCase() === "all jewellery") {
                           e.preventDefault();
                         } else {
-                          setCustomcategory(item.label);
+                          handleMenuClick(index, item.label);
                         }
                       }}
-                      className={`text-button-uppercase flex h-full items-center justify-center gap-1 duration-300`}
+                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 ${
+                        selectedMenu === index ? "underline" : "hover:underline"
+                      }`}
                     >
                       {item.name}
                     </Link>
 
-                    {item.subCategory.length > 0 && (
-                      <div
-                        className={`mega-menu absolute left-0 grid w-screen grid-cols-7 gap-1 bg-white p-3 lg:top-[131px] xl:top-[36px]`}
-                      >
-                        {item.subCategory.map((item: any, index: any) => (
-                          <ul key={index}>
-                            <p className="font-semibold text-black">
-                              {item.name}
-                            </p>
-                            {item.subCategory.map(
-                              (subItem: any, subIndex: any) => (
-                                <li key={subIndex}>
-                                  <Link
-                                    href={subItem.url}
-                                    className="text-secondary duration-300"
-                                    onClick={() =>
-                                      setCustomcategory(subItem.label)
-                                    }
-                                  >
-                                    <div className="text-secondary flex cursor-pointer duration-300">
-                                      {subItem.image && (
-                                        <div>
-                                          <Image
-                                            src={subItem.image}
-                                            alt={subItem.name}
-                                            height={25}
-                                            width={25}
-                                            className="mr-1"
-                                            style={{
-                                              width: "auto",
-                                              height: "auto",
-                                            }}
-                                          />
+                    {hoverMenuVisible === index &&
+                      item.subCategory.length > 0 && (
+                        <div
+                          className={`mega-menu absolute left-0 grid w-screen grid-cols-7 gap-1 bg-white p-3 lg:top-[131px] xl:top-[36px]`}
+                        >
+                          {item.subCategory.map(
+                            (subItem: any, subIndex: any) => (
+                              <ul key={subIndex}>
+                                <Link
+                                  href={subItem.url}
+                                  className="font-semibold text-black"
+                                  onClick={() =>
+                                    handleSubCategoryClick(index, subItem.label)
+                                  }
+                                >
+                                  {subItem.name}
+                                </Link>
+                                {subItem.subCategory.map(
+                                  (subSubItem: any, subSubIndex: any) => (
+                                    <li key={subSubIndex}>
+                                      <Link
+                                        href={subSubItem.url}
+                                        className="text-secondary duration-300"
+                                        onClick={() =>
+                                          handleSubCategoryClick(
+                                            index,
+                                            subSubItem.label,
+                                          )
+                                        }
+                                      >
+                                        <div className="text-secondary flex cursor-pointer duration-300">
+                                          {subSubItem.image && (
+                                            <div>
+                                              <Image
+                                                src={subSubItem.image}
+                                                alt={subSubItem.name}
+                                                height={25}
+                                                width={25}
+                                                className="mr-1"
+                                                style={{
+                                                  width: "auto",
+                                                  height: "auto",
+                                                }}
+                                              />
+                                            </div>
+                                          )}
+                                          <div>{subSubItem.name}</div>
                                         </div>
-                                      )}
-                                      <div>{subItem.name}</div>
-                                    </div>
-                                  </Link>
-                                </li>
-                              ),
-                            )}
-                          </ul>
-                        ))}
-
-                        <div className="col-span-2 w-full">
-                          {item.image && (
-                            <Image
-                              className="h-auto w-full"
-                              src={item.image}
-                              alt={item.name}
-                              width={145}
-                              height={145}
-                            />
+                                      </Link>
+                                    </li>
+                                  ),
+                                )}
+                              </ul>
+                            ),
                           )}
+                          <div className="col-span-2 w-full">
+                            {index !== 0 && item.image && (
+                              <Image
+                                className=" object-contain"
+                                src={item.image}
+                                alt={item.name}
+                                width={360}
+                                height={360}
+                              />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </li>
                 </ul>
               ))}
@@ -152,4 +192,5 @@ const NavHoverMenu2 = () => {
     </>
   );
 };
+
 export default NavHoverMenu2;

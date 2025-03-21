@@ -43,7 +43,6 @@ const DigitalCheckout: React.FC = () => {
     const storedScheme = sessionStorage.getItem("selectedScheme");
     if (storedScheme) {
       setSelectedScheme(JSON.parse(storedScheme));
-      console.log(selectedScheme,"SCHE<E<E")
     }
   }, []);
 
@@ -59,7 +58,7 @@ const DigitalCheckout: React.FC = () => {
     setFlashType("success");
     setFlashKey((prevKey) => prevKey + 1);
   };
-
+  console.log(selectedScheme?.schemeType,"SCHEME TYPE");
   const handleProceed = async () => {
     if (!isLoggedIn) {
       router.push("/register");
@@ -67,6 +66,7 @@ const DigitalCheckout: React.FC = () => {
     }
 
     try {
+  
       const cookieToken = Cookies.get("localtoken");
       const endpoint =
         selectedScheme?.schemeType === "voucher"

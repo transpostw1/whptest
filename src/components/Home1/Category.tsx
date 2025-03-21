@@ -42,7 +42,8 @@ const Category = () => {
           {categories.slice(0, visibleItems).map((category) => (
             <div
               key={category.id}
-              className="relative flex flex-col items-start justify-between hover:shadow-md"
+              // className="relative flex flex-col items-start justify-between hover:shadow-md"
+                   className="transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
             >
               <Link
                 href={{
@@ -60,6 +61,8 @@ const Category = () => {
                     alt={`category images ${category.name}`}
                     width={400}
                     height={400}
+                    // className="transition-transform duration-300 ease-in-out transform hover:scale-105"
+                
                   />
                 </div>
               </Link>

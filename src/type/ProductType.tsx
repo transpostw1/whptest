@@ -29,6 +29,7 @@ export interface ImageDetails {
 }
 
 export interface ProductType {
+  breadcrumbs: never[];
   rating: number;
   gst: any;
   makingCharges: any;
@@ -72,7 +73,7 @@ export interface ProductType {
   productAttributes: ProductAttributes;
   discountId: number;
   discountCategory: string;
-  discountActive: number;
+  discountActive: boolean;
   typeOfDiscount: string;
   discountValue: string;
   discountAmount: string;

@@ -113,7 +113,7 @@ const Gifts = () => {
       ),
     },
     {
-      id: 8,
+      id: 9,
       url: "occasion-House_Warming",
       head: "house_warming",
       type: "Self Gifting",

@@ -23,7 +23,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
   const [hover, setHover] = useState<boolean>(false);
   const ratings = 3.5;
   const router = useRouter();
-
   const [width, setWidth] = useState<number>(25);
   const [height, setHeight] = useState<number>(25);
 
@@ -259,13 +258,6 @@ const Product: React.FC<ProductProps> = ({ data }) => {
               <p className="truncate">{data?.title}</p>
               {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
-            {/* <div className="flex">
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-              <Icon.Star weight="fill" color="#FFD400" className="mr-1" />
-            </div> */}
             <StarRating stars={data.rating} />
 
             <div className="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">

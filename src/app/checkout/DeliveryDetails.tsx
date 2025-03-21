@@ -162,7 +162,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
       {isShippingAddressModalOpen && (
         <AddAddressModal
           isOpen={isShippingAddressModalOpen}
-          onClose={closeShippingAddressModal}
+          closeModal={closeShippingAddressModal}
           isForBillingAddress={false}
           onAddressAdded={handleAddressAdded}
         />
@@ -222,7 +222,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
             {isBillingAddressModalOpen && (
               <AddAddressModal
                 isOpen={isBillingAddressModalOpen}
-                onClose={closeBillingAddressModal}
+                closeModal={closeBillingAddressModal}
                 isForBillingAddress={true}
                 onAddressAdded={handleAddressAdded}
               />

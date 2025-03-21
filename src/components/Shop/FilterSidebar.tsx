@@ -56,7 +56,6 @@ const FilterSidebar: React.FC<Props> = ({
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
         const isAtTop = window.pageYOffset <= sidebarTop;
-
         setIsSidebarFixed(isSidebarInViewport && !isAtTop);
       }
     };
@@ -96,24 +95,27 @@ const FilterSidebar: React.FC<Props> = ({
           <div className="mt-5">
             <p className="heading7">Applied Filters</p>
           </div>
-          <div className="flex flex-wrap">
+          <div className="flex max-w-full flex-wrap gap-2 overflow-auto">
             {Object.entries(selectedOptions).flatMap(([category, options]) =>
-              (options as string[]).map((option: string, index: number) => (
-                <div
-                  key={`${category}-${index}`}
-                  className="mr-1 mt-1 border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
-                >
-                  {option}
-                  <button
-                    className="mb-1 ml-2 align-middle"
-                    onClick={() => handleOptionSelect(option, category)}
+              (options as string[])
+                .filter((option) => option && option.trim() !== "")
+                .map((option: string, index: number) => (
+                  <div
+                    key={`${category}-${index}`}
+                    className="inline-flex max-w-full items-center rounded-md border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <Icon.X size={20} />
-                  </button>
-                </div>
-              )),
+                    <span className="max-w-[120px] truncate">{option}</span>
+                    <button
+                      className="ml-2"
+                      onClick={() => handleOptionSelect(option, category)}
+                    >
+                      <Icon.X size={16} />
+                    </button>
+                  </div>
+                )),
             )}
           </div>
+
           <div className="list-type mt-4">
             <FilterOptions
               filters={filters}

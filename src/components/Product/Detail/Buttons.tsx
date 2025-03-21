@@ -12,12 +12,12 @@ import { showCustomToast } from "@/components/Other/CustomToast";
 
 interface Props {
   product: ProductType | ProductDetails;
-  variants: [];
+  variants: any[];
 }
 
 interface ProductForWishlistLoggedIn {
   productId: number;
-  variants: [];
+  variants: any[];
 }
 
 interface ProductForWishlistLoggedOut {
@@ -30,7 +30,7 @@ interface ProductForWishlistLoggedOut {
   makeToOrder: number | boolean;
   image_path: string;
   url: string;
-  variants: [];
+  variants: any[];
 }
 const Buttons: React.FC<Props> = ({ product, variants }) => {
   const { cartItems, addToCart, updateCartQuantity } = useCart();
@@ -74,16 +74,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  const formattedVariants = [
-    {
-      variantType: variants[2],
-      variantName: variants[1],
-    },
-    {
-      variantType: "Size",
-      variantName: variants[0],
-    },
-  ];
+  console.log(variants,"variantssss")
+  const formattedVariants = variants.map((variant) => ({
+    variantType: variant.type,
+    variantName: variant.name,
+  }));
+  console.log(formattedVariants,"formattedVariantsss")
+  
   const isOutOfStock = (
     productQty: number | null | undefined,
     makeToOrder: boolean | undefined,

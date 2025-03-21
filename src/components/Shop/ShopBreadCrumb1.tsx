@@ -117,7 +117,6 @@ const ShopBreadCrumb1 = () => {
               variantId
               isParent
               title
-              priority
               displayTitle
               shortDesc
               longDesc
@@ -130,20 +129,26 @@ const ShopBreadCrumb1 = () => {
               length
               breadth
               height
+              weightRange
               addDate
               lastModificationDate
+              negative_keywords
+              created_at
+              updated_at
               productSize
               productQty
               attributeId
               preSalesProductQueries
+              makeToOrder
               isReplaceable
-              weightRange
               isReturnable
               isInternationalShippingAvailable
               customizationAvailability
               fastDelivery
               tryAtHome
               isActive
+              isArchive
+              hidePriceBreakup
               grossWeight
               netWeight
               discountId
@@ -156,6 +161,7 @@ const ShopBreadCrumb1 = () => {
               offerStartDate
               offerEndDate
               mediaId
+              materialId
               metalType
               metalPurity
               metalWeight
@@ -166,8 +172,20 @@ const ShopBreadCrumb1 = () => {
               gst
               additionalCost
               productPrice
-              discountPrice
               rating
+              coupons {
+                id
+                name
+                code
+                discountOn
+                discountType
+                discountValue
+                discountMinAmount
+                discountMaxAmount
+                discountStartDate
+                discountEndDate
+                isExclusive
+              }
               imageDetails {
                 image_path
                 order
@@ -183,21 +201,36 @@ const ShopBreadCrumb1 = () => {
                   goldCertifiedBy
                   goldSetting
                 }
-                gemstoneDetails
                 diamondDetails {
                   diamondCertifiedBy
-                  diamondSetting
                   diamondShape
-                  diamondType
+                  diamondSetting
+                  totalDiamond
                 }
                 silverDetails {
                   poojaArticle
                   utensils
                   silverWeight
                 }
+                gemstoneDetails {
+                  gemstoneType
+                  gemstoneQualityType
+                  gemstoneShape
+                  gemstoneWeight
+                  noOfGemstone
+                }
               }
               stoneDetails
               diamondDetails
+              review
+              variants
+              bestSeller
+              buyAgain
+              priority
+              diamondCertificate
+              goldCertificate
+              similarProductIds
+              productCategories
               breadcrumbs {
                 id
                 title
@@ -420,8 +453,6 @@ const ShopBreadCrumb1 = () => {
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
-
-    // Combine category options
     combinedOptions.category = [
       ...(initialOptions.Category || []),
       ...(selectedOptions.Category || []),
@@ -431,8 +462,6 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Search || []),
       ...(selectedOptions.Search || []),
     ];
-
-    // Combine price options
     combinedOptions.priceFilter = [
       ...(initialOptions.Price || []),
       ...(selectedOptions.Price || []),
@@ -486,42 +515,80 @@ const ShopBreadCrumb1 = () => {
     return combinedOptions;
   };
 
+  const handleOptionSelect = (option: string, category: string) => {
+    setSelectedOptions((prevSelectedOptions: any) => {
+      const updatedOptions = { ...prevSelectedOptions };
+      if (category === "Category" || category === "productCategory") {
+        if (updatedOptions[category]?.[0] === option) {
+          delete updatedOptions[category];
+        } else {
+          delete updatedOptions["Category"];
+          delete updatedOptions["productCategory"];
+          updatedOptions[category] = [option];
+        }
+      } else {
+        if (updatedOptions[category]) {
+          const formattedOption = formatPriceRange(option);
+          if (updatedOptions[category].includes(formattedOption)) {
+            updatedOptions[category] = updatedOptions[category].filter(
+              (selectedOption: any) => selectedOption !== formattedOption,
+            );
+            if (updatedOptions[category].length === 0) {
+              delete updatedOptions[category];
+            }
+          } else {
+            updatedOptions[category].push(formattedOption);
+          }
+        } else {
+          updatedOptions[category] = [formatPriceRange(option)];
+        }
+      }
+      updateURL(updatedOptions);
+
+      return updatedOptions;
+    });
+  };
+
   const updateURL = (options: any) => {
-    const urlParts: string[] = [];
-    console.log("filterOptions", options);
-    if (options.Category && options.Category.length > 0) {
-      urlParts.push(`category-${options.Category.join(",")}`);
+    const searchParams = new URLSearchParams(window.location.search);
+    const source = searchParams.get("source");
+    if (source === "search") {
+      return;
     }
-    if (options.Search && options.Search.length > 0) {
+
+    const urlParts: string[] = [];
+    // Only add the most recent category or pc parameter
+    if (options.productCategory?.length > 0) {
+      urlParts.push(`pc-${options.productCategory[0]}`);
+    } else if (options.Category?.length > 0) {
+      urlParts.push(`pc-${options.Category[0]}`);
+    }
+
+    // Add other filters
+    if (options.Search?.length > 0) {
       urlParts.push(`search-${options.Search.join(",")}`);
     }
-
-    if (options.Shop_For && options.Shop_For.length > 0) {
+    if (options.Shop_For?.length > 0) {
       urlParts.push(`gender-${options.Shop_For.join(",")}`);
     }
-
-    if (options.Karat && options.Karat.length > 0) {
+    if (options.Karat?.length > 0) {
       urlParts.push(`karat-${options.Karat.join(",")}`);
     }
-
-    if (options.Price && options.Price.length > 0) {
+    if (options.Price?.length > 0) {
       urlParts.push(`price-${options.Price.join("|")}`);
     }
-
-    if (options.Metal && options.Metal.length > 0) {
+    if (options.Metal?.length > 0) {
       urlParts.push(`metal-${options.Metal.join(",")}`);
     }
-    if (options.Weight && options.Weight.length > 0) {
+    if (options.Weight?.length > 0) {
       urlParts.push(`weight-${options.Weight.join(",")}`);
     }
-    if (options.Occasion && options.Occasion.length > 0) {
+    if (options.Occasion?.length > 0) {
       urlParts.push(`occasion-${options.Occasion.join(",")}`);
     }
-    if (options.productCategory) {
-      urlParts.push(`pc-${options.productCategory}`);
-    }
+
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
-    router.push(url);
+    router.replace(url);
   };
 
   useEffect(() => {
@@ -657,25 +724,6 @@ const ShopBreadCrumb1 = () => {
     console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
 
-  const handleOptionSelect = (option: string, category: string) => {
-    setSelectedOptions((prevSelectedOptions: any) => {
-      const updatedOptions = { ...prevSelectedOptions };
-      if (updatedOptions[category]) {
-        const formattedOption = formatPriceRange(option);
-        if (updatedOptions[category].includes(formattedOption)) {
-          updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption: any) => selectedOption !== formattedOption,
-          );
-        } else {
-          updatedOptions[category].push(formattedOption);
-        }
-      } else {
-        updatedOptions[category] = [formatPriceRange(option)];
-      }
-      // console.log("updatedOptions:", updatedOptions);
-      return updatedOptions;
-    });
-  };
   const formatPriceRange = (price: string) => {
     if (price === "Less than 10K") {
       return "0to10000";

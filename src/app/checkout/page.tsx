@@ -58,7 +58,6 @@ interface CartItems {
   isBuyNow?: boolean;
   variants?: { variantType: string; variantName: string }[];
 }
-
 const Checkout: React.FC = () => {
   const { cartItems, updateCart, setCartItems, removeFromCart } = useCart();
   const { coupons, totalDiscount, updateDiscount } = useCouponContext();
@@ -231,76 +230,76 @@ const Checkout: React.FC = () => {
   const coupon: any = searchParams.get("coupon");
   typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
-  useEffect(() => {
-    const fetchCouponData = async () => {
-      const products = cartItems.map((item: any) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-      }));
-      setCartProductIds(products);
-      setLoading(true);
-      const cookieToken =
-        typeof window !== "undefined"
-          ? localStorage.getItem("localtoken")
-          : null;
-      try {
-        const getAuthHeaders = () => {
-          if (!cookieToken) return null;
-          return {
-            authorization: `Bearer ${cookieToken}`,
-          };
-        };
+  // useEffect(() => {
+  //   const fetchCouponData = async () => {
+  //     const products = cartItems.map((item: any) => ({
+  //       productId: item.productId,
+  //       quantity: item.quantity,
+  //     }));
+  //     setCartProductIds(products);
+  //     setLoading(true);
+  //     const cookieToken =
+  //       typeof window !== "undefined"
+  //         ? localStorage.getItem("localtoken")
+  //         : null;
+  //     try {
+  //       const getAuthHeaders = () => {
+  //         if (!cookieToken) return null;
+  //         return {
+  //           authorization: `Bearer ${cookieToken}`,
+  //         };
+  //       };
 
-        const client = new ApolloClient({
-          uri: graphqlbaseUrl,
-          headers: getAuthHeaders(),
-          cache: new InMemoryCache(),
-        });
+  //       const client = new ApolloClient({
+  //         uri: graphqlbaseUrl,
+  //         headers: getAuthHeaders(),
+  //         cache: new InMemoryCache(),
+  //       });
 
-        const CHECK_COUPON_CODE = gql`
-          mutation Coupon($coupon: CouponInput!) {
-            Coupon(coupon: $coupon) {
-              code
-              message
-              discountProduct {
-                productId
-                discountedValue
-                additionalDiscountPrice
-              }
-            }
-          }
-        `;
+  //       const CHECK_COUPON_CODE = gql`
+  //         mutation Coupon($coupon: CouponInput!) {
+  //           Coupon(coupon: $coupon) {
+  //             code
+  //             message
+  //             discountProduct {
+  //               productId
+  //               discountedValue
+  //               additionalDiscountPrice
+  //             }
+  //           }
+  //         }
+  //       `;
 
-        const { data } = await client.mutate({
-          mutation: CHECK_COUPON_CODE,
-          variables: {
-            coupon: { products: products, couponCode: coupon },
-          },
-          context: {
-            headers: getAuthHeaders(),
-          },
-          fetchPolicy: "no-cache",
-        });
+  //       const { data } = await client.mutate({
+  //         mutation: CHECK_COUPON_CODE,
+  //         variables: {
+  //           coupon: { products: products, couponCode: coupon },
+  //         },
+  //         context: {
+  //           headers: getAuthHeaders(),
+  //         },
+  //         fetchPolicy: "no-cache",
+  //       });
 
-        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
-          setFlashMessage(data.Coupon.message);
-          setFlashType("error");
-        } else {
-          setDataAfterCouponCode(data.Coupon);
-          setFlashMessage("Coupon Successfully applied");
-          setFlashType("success");
-        }
-      } catch (error: any) {
-        setFlashMessage(error.response?.data?.message);
-        setFlashType("error");
-      } finally {
-        setLoading(false);
-      }
-    };
-    setTimeout(() => {
-      fetchCouponData();
-    }, 1450);
-  }, [coupon, isLoggedIn]);
+  //       if (data.Coupon.code === 400 || data.Coupon.code === "400") {
+  //         setFlashMessage(data.Coupon.message);
+  //         setFlashType("error");
+  //       } else {
+  //         setDataAfterCouponCode(data.Coupon);
+  //         setFlashMessage("Coupon Successfully applied");
+  //         setFlashType("success");
+  //       }
+  //     } catch (error: any) {
+  //       setFlashMessage(error.response?.data?.message);
+  //       setFlashType("error");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   setTimeout(() => {
+  //     fetchCouponData();
+  //   }, 1450);
+  // }, [coupon, isLoggedIn]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -741,10 +740,14 @@ const Checkout: React.FC = () => {
               )}
             </div>
           </div>
-          {!isOrderPlaced ? (
+          {/* {!isOrderPlaced ? (
             <h2>(Review of {cartItems.length} Items)</h2>
-          ) : null}
-          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
+          ) : null} */}
+          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />    
+
+
+             
+             
           <div className="flex w-full flex-col justify-between lg:flex-row">
             <div className="mt-5 w-full sm:mt-7 md:pr-5 lg:w-[2000px]">
               <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
@@ -809,9 +812,9 @@ const Checkout: React.FC = () => {
                               <h3 className="text-[#E26178]">
                                 {couponCode &&
                                 dataAfterCouponCode.code === 200 ? (
-                                  <span className="flex w-full items-center gap-2">
-                                    Applied Coupon:{" "}
-                                    <span className="text-red-600">
+                                  <span className="flex w-full items-center gap-2 text-green-500">
+                                    Coupon Applied:{" "}
+                                    <span className="text-green-500">
                                       {couponCode}
                                     </span>
                                   </span>
@@ -820,7 +823,6 @@ const Checkout: React.FC = () => {
                                 )}
                               </h3>
                             </div>
-
                             <h3
                               className="cursor-pointer text-red-600 underline"
                               onClick={() =>
@@ -888,7 +890,7 @@ const Checkout: React.FC = () => {
                                 {voucherCode &&
                                 dataAfterCouponCode.code === 200 &&
                                 couponCode === coupon.code ? (
-                                  <span className="text-sm font-medium text-red-600">
+                                  <span className="text-sm font-medium text-green-600">
                                     Applied
                                   </span>
                                 ) : (
@@ -1117,13 +1119,13 @@ const Checkout: React.FC = () => {
             </Link>
           </div>
           <div
-            className="flex h-[58px] w-[170px] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 font-bold text-white"
+            className="flex h-[54px] w-[170px] cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm text-white"
             onClick={() => handleProceed(useSameAsBillingAddress)}
           >
             <button className="">{proceedButtonTitle()}</button>
-            <span>
+            {/* <span>
               <ArrowRight style={{ marginLeft: "10px", marginRight: "10px" }} />
-            </span>
+            </span> */}
           </div>
         </div>
       )}

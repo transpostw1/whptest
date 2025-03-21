@@ -215,7 +215,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                   <div className="product-card p-4 h-[100%] w-[100%]">
                     <div
                       className="product-image"
-                      onClick={() => router.push(`/products/${product.url}`)}
+                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
                     >
                       <Image
                         src={product.image_path}

@@ -563,7 +563,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           ) : (
             <>
               <div className="flex w-full justify-between">
-                <p className="text-3xl font-[500]">
+                <p className="md:text-3xl text-xl font-[500]">
                   {data?.productDetails?.displayTitle}
                 </p>
 
@@ -615,10 +615,10 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="mb-5">
+            <div className="my-2">
               {data?.productDetails?.discountActive ? (
                 <>
-                  <span className="text-2xl font-extrabold">
+                  <span className="md:text-2xl text-lg font-extrabold">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
                   {data?.productDetails?.productPrice >
@@ -637,16 +637,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   )}
                 </>
               ) : (
-                <span className="text-2xl font-extrabold">
+                <span className="md:text-2xl text-lg font-extrabold">
                   {formatPrice(parseInt(data?.productDetails?.productPrice))}
                 </span>
               )}
             </div>
           )}
 
-          <div className="flex">
-            <div className="border-r-2 py-2 pr-2">
-              <p className="text-lg font-bold">SKU:</p>
+          <div className="flex justify-start items-center py-2">
+            <div className="  pr-2">
+              <p className="md:text-lg text-sm font-bold">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
                 <div
@@ -667,12 +667,14 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 </div>
               </div>
             </div>
-            <div className="p-2">
-              <p className="text-lg font-bold">Availability:</p>
+            <div className="mx-4 h-12 w-px bg-gray-300"></div>
+
+            <div className="">
+              <p className="md:text-lg text-sm font-bold">Availability:</p>
               {data?.productDetails?.productQty > 0 ? (
-                <p>In Stock</p>
+                <p className="md:text-lg text-sm">In Stock</p>
               ) : (
-                <p>Make To Order</p>
+                <p className="md:text-lg text-sm">Make To Order</p>
               )}
             </div>
           </div>
@@ -705,10 +707,10 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
-            <p className="my-5 flex items-center font-semibold text-[#e26178]">
+            <p className="my-5 flex items-center text-sm md:font-semibold text-[#e26178]">
               🚚{" "}
               <span className="ml-2">
-              Expected Delivery in <strong>5 to 20 Days </strong><a className="text-[#000] font-normal">(For Quick Delivery Call on 1800 222 225)</a>
+              Expected Delivery in <strong>5 to 20 Days </strong><a className="text-[#000] font-normal">(For Quick Delivery Call 1800 222 225)</a>
               </span>
             </p>
           )}

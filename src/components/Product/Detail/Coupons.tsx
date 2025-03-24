@@ -50,7 +50,7 @@ const Coupons: React.FC<Props> = ({ product }) => {
                       {coupon.discountType === "Amount"
                         ? `₹${coupon.discountValue}`
                         : `${coupon.discountValue}%`}{" "}
-                      OFF
+                      OFF on {coupon.discountOn}
                     </div>
                   </div>
 

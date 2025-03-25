@@ -131,6 +131,10 @@ const Checkout: React.FC = () => {
   //   }
   // }, [couponCode]);
 
+  useEffect(() => {
+    console.log("Current coupons:", coupons);
+  }, [coupons]);
+
   const handleCouponModalClose = () => {
     setCouponsModal(false);
   };

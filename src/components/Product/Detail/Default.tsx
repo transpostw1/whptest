@@ -756,7 +756,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               <span> today!</span>
             </div> */}
           {/* )} */}
-          <GoldSchemeSmallBanner />
+          <GoldSchemeSmallBanner variant = {data?.productDetails?.variantId} />
           <Accordian product={data} />
         </div>
       </div>

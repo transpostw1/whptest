@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import TryAtHomeModal from "@/components/Modal/TryAtHomeModal";
 
-export default function GoldSchemeSmallBanner() {
+export default function GoldSchemeSmallBanner({variant}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -15,7 +15,7 @@ export default function GoldSchemeSmallBanner() {
 
   return (
     <>
-      <TryAtHomeModal isOpen={isModalOpen} onClose={closeModal} />
+      <TryAtHomeModal  variant={variant}  isOpen={isModalOpen} onClose={closeModal} />
       <div className="mt-4 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
         <div>
           <span className="text-xs md:text-base">

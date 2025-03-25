@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
+
 
 interface Props {
   data: any;
@@ -51,7 +52,7 @@ const FilterSidebar: React.FC<Props> = ({
         const isAboveProductsList = windowHeight > sidebarTop;
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
-          windowHeight >= productsListBottom; // Check for end of products
+          windowHeight >= productsListBottom; 
 
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
@@ -73,6 +74,7 @@ const FilterSidebar: React.FC<Props> = ({
 
   useEffect(() => {
     onFilterChange(selectedOptions);
+    console.log(selectedOptions, "selectedOptions SideBARRRRR");
   }, [selectedOptions, onFilterChange]);
 
   return (

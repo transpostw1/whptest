@@ -5,7 +5,7 @@ import StickyNav from "@/components/Header/StickyNav";
 import { useWishlist } from "@/context/WishlistContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
-import {useCurrency} from "@/context/CurrencyContext"
+import { useCurrency } from "@/context/CurrencyContext";
 import { useCart } from "@/context/CartContext";
 import { showCustomToast } from "@/components/Other/CustomToast";
 
@@ -14,18 +14,17 @@ const ProfileWishList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState<string | undefined>();
   const { wishlistItems, removeFromWishlist } = useWishlist();
-  const {formatPrice}=useCurrency()
+  const { formatPrice } = useCurrency();
   const [isOutOfStock, setIsOutOfStock] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const showModal = (message: string) => {
     setModalMessage(message);
     setIsOutOfStock(true);
   };
-  
+
   const closeModal = () => {
     setIsOutOfStock(false);
   };
-
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -65,10 +64,11 @@ const ProfileWishList = () => {
     );
     const currentQuantity = productAlreadyExists?.quantity ?? 0;
     const updatedQuantity = currentQuantity + 1;
-    showCustomToast('Item successfully added to cart!');
+    showCustomToast("Item successfully added to cart!");
     if (productAlreadyExists) {
       updateCartQuantity(product.productId, updatedQuantity);
-      showCustomToast('Product Quantity Updated!');
+      removeFromWishlist(product.productId);
+      showCustomToast("Product Quantity Updated!");
     } else {
       const transformVariants = (variants: InputVariant[]): OutputVariant[] => {
         return variants?.map(({ __typename, ...rest }) => rest);
@@ -147,8 +147,8 @@ const ProfileWishList = () => {
       console.log("New product objec", newProduct);
       console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
-  
-      addToCart(newProduct, 1,variantsToPass, true);
+
+      addToCart(newProduct, 1, variantsToPass, true);
     }
 
     removeFromWishlist(product.productId);
@@ -163,7 +163,7 @@ const ProfileWishList = () => {
       <StickyNav />
       <div className="container">
         <div>
-          <p className="text-2xl my-5 font-semibold">Wishlist</p>
+          <p className="my-5 text-2xl font-semibold">Wishlist</p>
         </div>
         <div className="list-product-block relative">
           {isLoading ? (
@@ -184,10 +184,14 @@ const ProfileWishList = () => {
                   <div className="product-card h-[100%] w-[100%] p-4">
                     <div
                       className="product-image relative"
-                      onClick={() => router.push(`/products/${product.productId}/${product.url}`)}
+                      onClick={() =>
+                        router.push(
+                          `/products/${product.productId}/${product.url}`,
+                        )
+                      }
                     >
                       <Image
-                         src={product?.image_path}
+                        src={product?.image_path}
                         alt={product.title}
                         width={300}
                         height={300}
@@ -209,19 +213,20 @@ const ProfileWishList = () => {
                       </h3>
                       {product.variants && product.variants.length > 0 && (
                         <div>
-                          <h3 className="font-medium">
-                            {product.variants[0].variantType}:{" "}
-                            {product.variants[0].variantName}
-                          </h3>
-                          <h3 className="font-medium">
-                            {product.variants[1].variantType}:{" "}
-                            {product.variants[1].variantName}
-                          </h3>
+                          {product.variants.map(
+                            (variant: any, index: number) =>
+                              variant.variantType &&
+                              variant.variantName && (
+                                <h3 key={index} className="text-sm font-normal">
+                                  {variant.variantType}: {variant.variantName}
+                                </h3>
+                              ),
+                          )}
                         </div>
                       )}
                       <div className="flex items-center gap-2">
                         <p className="product-price flex flex-col">
-                        <span className="discounted-price text-title text-lg">
+                          <span className="discounted-price text-title text-lg">
                             {product.discountPrice
                               ? formatPrice(parseInt(product.discountPrice))
                               : formatPrice(parseInt(product.productPrice))}
@@ -251,19 +256,19 @@ const ProfileWishList = () => {
               ))}
             </div>
           )}
-           {isOutOfStock && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
-          <div className="bg-white p-6 rounded-lg flex flex-col items-center">
-            <p>{modalMessage}</p>
-            <button
-              className="mt-4 px-4 py-2  bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white rounded "
-              onClick={() => closeModal()}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+          {isOutOfStock && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10">
+              <div className="flex flex-col items-center rounded-lg bg-white p-6">
+                <p>{modalMessage}</p>
+                <button
+                  className="mt-4 rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                  onClick={() => closeModal()}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

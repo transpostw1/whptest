@@ -121,6 +121,24 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
                   <p>
                     {product.SKU}-{product?.metalType}-{product?.metalWeight}
                   </p>
+                  {product?.variants && product?.variants.length > 0 && (
+                          <div>
+                            {product.variants.map(
+                              (variant: any, index: number) =>
+                                variant.VariantType &&
+                                variant.VariantOption &&
+                                variant.VariantOption.length > 0 && (
+                                  <h3
+                                    key={index}
+                                    className="text-sm font-normal"
+                                  >
+                                    {variant.VariantType}:{" "}
+                                    {variant.VariantOption[0].VariantName}
+                                  </h3>
+                                ),
+                            )}
+                          </div>
+                        )}
                   <Link href={`/products/${product.productId}/${product.url}`}>
                     <p className="cursor-pointer underline hover:text-[#e26178]">
                       Buy Again
@@ -143,10 +161,13 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
           {items?.isReturnable && <button>Return Here</button>}
         </div>
       ))}
-      <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
-        Discount Amount:
-        {formatPrice(singleOrder[0]?.productDetails[0]?.discountAmount)}
-      </div>
+      
+      {singleOrder[0]?.productDetails[0]?.discountAmount > 0 && (
+       <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
+       Discount Amount:
+       {formatPrice(singleOrder[0]?.productDetails[0]?.discountAmount)}
+     </div>
+      )}
       <div className="border-gray flex justify-end border border-b-0 border-t-0 px-2">
         Shipping Charges:{formatPrice(0)}
       </div>

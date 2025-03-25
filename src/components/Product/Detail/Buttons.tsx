@@ -194,7 +194,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
     );
   }
   return (
-    <div className="mt-[10px] flex max-sm:justify-around ">
+    <div className="my-6 flex max-sm:justify-around ">
       <div
         className="ripple-container h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-[32px] py-[18px] text-center text-white max-sm:h-[45px] max-sm:w-[35%] max-sm:px-[15px] max-sm:py-[10px]"
         onClick={(e) => {

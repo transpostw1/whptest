@@ -146,7 +146,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     return imagePath;
   };
-
   const addToWishlist = async (
     product:
       | ProductType
@@ -169,8 +168,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
                 (dbItem) => dbItem.productId === item.productId
               )
           );
-          // console.log(product, "product");
-
           const getAuthHeaders: any = () => {
             if (!cookieToken) return null;
             return {
@@ -363,10 +360,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
             productId
             productAmount
             quantity
-            variants{
-             variantType 
-             variantName
-          }
+            variants
             makeToOrder
             url
             SKU

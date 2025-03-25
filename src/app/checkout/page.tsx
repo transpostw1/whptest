@@ -131,6 +131,10 @@ const Checkout: React.FC = () => {
   //   }
   // }, [couponCode]);
 
+  useEffect(() => {
+    console.log("Current coupons:", coupons);
+  }, [coupons]);
+
   const handleCouponModalClose = () => {
     setCouponsModal(false);
   };
@@ -369,6 +373,7 @@ const Checkout: React.FC = () => {
           : "",
     }));
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
+  console.log(mappedCartItems, "mappedCartItemsssss");
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item: any) => item.productId == parseInt(buyNow))

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import TryAtHomeModal from "@/components/Modal/TryAtHomeModal";
 
-export default function GoldSchemeSmallBanner() {
+export default function GoldSchemeSmallBanner({variant}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -15,11 +15,11 @@ export default function GoldSchemeSmallBanner() {
 
   return (
     <>
-      <TryAtHomeModal isOpen={isModalOpen} onClose={closeModal} />
+      <TryAtHomeModal  variant={variant}  isOpen={isModalOpen} onClose={closeModal} />
       <div className="mt-4 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
         <div>
           <span className="text-xs md:text-base">
-            <span className="text-[#e26178]">Try at your home </span>
+            <span className="text-[#e26178]">Try At Home </span>
             (Try up to 5 items a day!)
           </span>
         </div>
@@ -35,8 +35,8 @@ export default function GoldSchemeSmallBanner() {
       <div className="mt-4 flex items-center justify-between gap-1 bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]">
         <div>
           <span className="text-xs md:text-base">
-            <span className="text-[#e26178]">Gold 10+1 Monthly Plan </span>
-            (Pay 11 Installments, Get up to 100% Off on 12th Installment)
+            <span className="text-[#e26178]">WHP 10 + 1 Jewelry Plan </span>
+            {/* (Pay 11 Installments, Get up to 100% Off on 12th Installment) */}
           </span>
         </div>
         <div className="">

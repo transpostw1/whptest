@@ -1,8 +1,7 @@
 "use Client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
-import ReactPaginate from "react-paginate";
 import "rc-slider/assets/index.css";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
@@ -12,9 +11,8 @@ import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import {  useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
-import ProductList from "./ProductList";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -60,7 +58,8 @@ const ShopBreadCrumb1 = () => {
         selectedOptions,
       );
       fetchData(combinedOptions);
-      setFetchProducts(false); // Reset to prevent unnecessary fetches
+      console.log(fetchData,"FETCHDATATATAT")
+      setFetchProducts(false); 
     }
   }, [fetchProducts, offset]);
 
@@ -397,6 +396,7 @@ const ShopBreadCrumb1 = () => {
             productCategory: combinedOptions.productCategory[0],
           };
         } else {
+      
           variables = {
             category: combinedOptions.category.map((category: string) => ({
               value: category,
@@ -424,6 +424,7 @@ const ShopBreadCrumb1 = () => {
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
           };
+          console.log("Inside the else caseeee of fetchFilter",variables)
         }
         console.log("Variables passed for api call", variables);
         const { data } = await client.query({
@@ -515,39 +516,41 @@ const ShopBreadCrumb1 = () => {
     return combinedOptions;
   };
 
-  const handleOptionSelect = (option: string, category: string) => {
-    setSelectedOptions((prevSelectedOptions: any) => {
-      const updatedOptions = { ...prevSelectedOptions };
-      if (category === "Category" || category === "productCategory") {
-        if (updatedOptions[category]?.[0] === option) {
-          delete updatedOptions[category];
-        } else {
-          delete updatedOptions["Category"];
-          delete updatedOptions["productCategory"];
-          updatedOptions[category] = [option];
-        }
+ const handleOptionSelect = (option: string, category: string) => {
+  setSelectedOptions((prevSelectedOptions: any) => {
+    const updatedOptions = { ...prevSelectedOptions };
+
+    if (category === "Category" || category === "productCategory") {
+      if (updatedOptions["productCategory"]?.[0] === option) {
+        delete updatedOptions["productCategory"];
       } else {
-        if (updatedOptions[category]) {
-          const formattedOption = formatPriceRange(option);
-          if (updatedOptions[category].includes(formattedOption)) {
-            updatedOptions[category] = updatedOptions[category].filter(
-              (selectedOption: any) => selectedOption !== formattedOption,
-            );
-            if (updatedOptions[category].length === 0) {
-              delete updatedOptions[category];
-            }
-          } else {
-            updatedOptions[category].push(formattedOption);
+        console.log("inside the inner else case", updatedOptions["productCategory"]);
+        delete updatedOptions["Category"]; 
+        updatedOptions["productCategory"] = [option]; 
+      }
+    } else {
+      console.log("Inside the ELSE CASE");
+      if (updatedOptions[category]) {
+        const formattedOption = formatPriceRange(option);
+        if (updatedOptions[category].includes(formattedOption)) {
+          updatedOptions[category] = updatedOptions[category].filter(
+            (selectedOption: any) => selectedOption !== formattedOption
+          );
+          if (updatedOptions[category].length === 0) {
+            delete updatedOptions[category];
           }
         } else {
-          updatedOptions[category] = [formatPriceRange(option)];
+          updatedOptions[category].push(formattedOption);
         }
+      } else {
+        updatedOptions[category] = [formatPriceRange(option)];
       }
-      updateURL(updatedOptions);
+    }
 
-      return updatedOptions;
-    });
-  };
+    updateURL(updatedOptions);
+    return updatedOptions;
+  });
+};
 
   const updateURL = (options: any) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -560,10 +563,11 @@ const ShopBreadCrumb1 = () => {
     // Only add the most recent category or pc parameter
     if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
+      console.log("if condition",urlParts)
     } else if (options.Category?.length > 0) {
+      console.log("urlparts elseifff",urlParts)
       urlParts.push(`pc-${options.Category[0]}`);
     }
-
     // Add other filters
     if (options.Search?.length > 0) {
       urlParts.push(`search-${options.Search.join(",")}`);
@@ -594,7 +598,6 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     const applyFilters = () => {
       let filtered = data;
-
       // Apply price filter
       if (selectedOptions.Price && selectedOptions.Price.length > 0) {
         const minPrice = parseInt(selectedOptions.Price[0]) || 0;
@@ -607,7 +610,6 @@ const ShopBreadCrumb1 = () => {
             product.discountPrice <= maxPrice,
         );
       }
-
       // Apply gender filter
       if (selectedOptions.Shop_For && selectedOptions.Shop_For.length > 0) {
         filtered = filtered.filter((product: any) =>

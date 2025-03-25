@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,11 +10,22 @@ interface Props {
   closeModal: any;
   singleAddress: any;
 }
+
+interface Country {
+  name: string;
+  iso2: string;
+  states: State[];
+}
+
+interface State {
+  name: string;
+  state_code: string;
+}
 const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
-  const [countries, setCountries] = useState<any[]>([]);
-  const [states, setStates] = useState<string[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -24,7 +35,11 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
         );
         const countryData = response.data.data.map((country: any) => ({
           name: country.name,
-          states: country.states.map((state: any) => state.name),
+          iso2: country.iso2,
+          states: country.states.map((state: any) => ({
+            name: state.name,
+            state_code: state.state_code,
+          })),
         }));
         setCountries(countryData);
       } catch (error) {
@@ -35,15 +50,39 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
     fetchCountries();
   }, []);
 
-   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedCountry = countries.find(
-        (country) => country.name === event.target.value
-      );
-      setStates(selectedCountry ? selectedCountry.states : []);
-      formik.setFieldValue("country", event.target.value);
-      formik.setFieldValue("state", ""); 
-    };
-  
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCountry = countries.find(
+      (country) => country.name === event.target.value,
+    );
+
+    if (selectedCountry) {
+      setStates(selectedCountry.states);
+      formik.setFieldValue("country", selectedCountry.iso2);
+      formik.setFieldValue("countryName", selectedCountry.name);
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    } else {
+      setStates([]);
+      formik.setFieldValue("country", "");
+      formik.setFieldValue("countryName", "");
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    }
+  };
+
+  const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedState = states.find(
+      (state) => state.name === event.target.value,
+    );
+
+    if (selectedState) {
+      formik.setFieldValue("state", selectedState.state_code);
+      formik.setFieldValue("stateName", selectedState.name);
+    } else {
+      formik.setFieldValue("state", "");
+      formik.setFieldValue("stateName", "");
+    }
+  };
 
   const validationSchema = Yup.object().shape({
     pincode: Yup.string().required("Pincode is required"),
@@ -124,7 +163,9 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
       pincode: singleAddress?.pincode || "",
       full_address: singleAddress?.full_address || "",
       country: singleAddress?.country || "",
+      countryName: "",
       state: singleAddress?.state || "",
+      stateName: "",
       city: singleAddress?.city || "",
       landmark: singleAddress?.landmark || "",
       address_type: singleAddress?.address_type || "home",
@@ -192,21 +233,23 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             )} */}
           </div>
           <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div>
+            <div>
               <div className="relative">
                 <select
                   id="country"
                   className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.touched.country && formik.errors.country ? "border-red-500" : "border-gray-300"
+                    formik.touched.country && formik.errors.country
+                      ? "border-red-500"
+                      : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  value={formik.values.country}
+                  value={formik.values.countryName}
                   onChange={handleCountryChange}
                   onBlur={formik.handleBlur}
                   style={{ maxHeight: "200px", overflowY: "auto" }}
                 >
                   <option value="" label="Select country" />
                   {countries.map((country) => (
-                    <option key={country.name} value={country.name}>
+                    <option key={country.iso2} value={country.name}>
                       {country.name}
                     </option>
                   ))}
@@ -219,7 +262,9 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                 </label>
               </div>
               {formik.touched.country && formik.errors.country && (
-                <div className="mt-1 text-sm text-red-500">{formik.errors.country}</div>
+                <div className="mt-1 text-sm text-red-500">
+                  {formik.errors.country}
+                </div>
               )}
             </div>
             <div>
@@ -227,18 +272,20 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                 <select
                   id="state"
                   className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.touched.state && formik.errors.state ? "border-red-500" : "border-gray-300"
+                    formik.touched.state && formik.errors.state
+                      ? "border-red-500"
+                      : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
-                  value={formik.values.state}
-                  onChange={(e) => formik.setFieldValue("state", e.target.value)}
+                  value={formik.values.stateName}
+                  onChange={handleStateChange}
                   onBlur={formik.handleBlur}
                   disabled={!states.length}
                   style={{ maxHeight: "200px", overflowY: "auto" }}
                 >
                   <option value="" label="Select state" />
                   {states.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
+                    <option key={state.state_code} value={state.name}>
+                      {state.name}
                     </option>
                   ))}
                 </select>
@@ -250,7 +297,9 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                 </label>
               </div>
               {formik.touched.state && formik.errors.state && (
-                <div className="mt-1 text-sm text-red-500">{formik.errors.state}</div>
+                <div className="mt-1 text-sm text-red-500">
+                  {formik.errors.state}
+                </div>
               )}
             </div>
             <div>
@@ -258,7 +307,9 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                 <input
                   id="city"
                   className={`block w-full appearance-none border bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 ${
-                    formik.touched.city && formik.errors.city ? "border-red-500" : "border-gray-300"
+                    formik.touched.city && formik.errors.city
+                      ? "border-red-500"
+                      : "border-gray-300"
                   } peer focus:border-rose-400 focus:outline-none focus:ring-0`}
                   type="text"
                   placeholder=" "
@@ -272,7 +323,9 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
                 </label>
               </div>
               {formik.touched.city && formik.errors.city && (
-                <div className="mt-1 text-sm text-red-500">{formik.errors.city}</div>
+                <div className="mt-1 text-sm text-red-500">
+                  {formik.errors.city}
+                </div>
               )}
             </div>
           </div>

@@ -85,6 +85,7 @@ const Category = () => {
                     alt={`category images ${category.name}`}
                     width={400}
                     height={400}
+                    unoptimized
                     // className="transition-transform duration-300 ease-in-out transform hover:scale-105"
                   />
                 </div>

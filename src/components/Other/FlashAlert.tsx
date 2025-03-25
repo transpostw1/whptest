@@ -34,7 +34,7 @@ const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'
       };
       return (
         <div
-          className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded-md transition-opacity z-[10000] ${
+          className={`fixed md:bottom-4 bottom-20 left-1/2 transform -translate-x-1/2 text-white px-4 py-2 rounded-md transition-opacity z-[10000] ${
             show ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -42,7 +42,7 @@ const FlashAlert: React.FC<FlashAlertProps & { type: 'success' | 'error' |'info'
             <div
               className={`${
                 type === 'success' ? 'bg-green-500' : 'bg-red-500'
-              } px-2 py-1 rounded-md flex items-center`}
+              } px-2 py-1 rounded-md flex items-center text-xs md:text-sm`}
             >
               {renderIcon()}
               {message}

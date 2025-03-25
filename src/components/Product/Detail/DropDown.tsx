@@ -60,24 +60,24 @@ const DropDown: React.FC<Props> = ({
   };
 
   return (
-    <div className="mt-2 lg:w-[85%] overflow-x-auto">
+    <div className="my-2 lg:w-[85%] overflow-x-auto">
       <table className="w-full border border-gray-300 text-left border-collapse">
         <thead className="bg-gray-100">
           <tr>
-            <th className="border border-gray-300 p-1 font-semibold">Variant Types</th>
-            <th className="border border-gray-300 p-1  font-semibold">Selected Variant</th>
+            <th className="border border-gray-300 p-1 font-semibold md:text-base text-sm">Variant Types</th>
+            <th className="border border-gray-300 p-1  font-semibold md:text-base text-sm">Selected Variant</th>
           </tr>
         </thead>
         <tbody>
           {product?.variants?.map((item, index) => (
             <tr key={index} className="bg-white border border-gray-300">
-              <td className="p-1 md:p-2 flex items-center gap-1">
+              <td className="p-1 md:p-2 flex items-center gap-1 md:text-base text-sm ">
                 {item.VariantType}
               </td>
               <td className="border border-gray-300 p-1">
                 <div className="relative">
                   <select
-                    className="w-full p-1 bg-white outline-none focus:ring-0  appearance-none"
+                    className="w-full p-1 bg-white outline-none focus:ring-0  appearance-none md:text-base text-sm"
                     value={selectedVariants.find(v => v.type === item.VariantType)?.name || ''}
                     onChange={(e) => handleNewVariants(e, item.VariantType)}
                   >

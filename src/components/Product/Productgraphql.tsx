@@ -15,6 +15,7 @@ import StarRating from "../Other/StarRating";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
 import { IoCameraOutline } from "react-icons/io5";
+import ViewSimilar from "./ViewSimilar";
 
 interface ProductProps {
   data: any;
@@ -31,7 +32,8 @@ interface VideoDetailWithTypename {
 }
 
 const Product: React.FC<ProductProps> = ({ data, skuList }) => {
-  const [showVideo, setShowVideo] = useState<boolean>(false);
+  const [viewSimilarProducts, setViewSimilarProducts] =
+    useState<boolean>(false);
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
@@ -289,19 +291,21 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     removeFromWishlist(data.productId);
     setIsProductInWishlist(false);
   };
+  const handleViewSimilarProducts = () => {
+    setViewSimilarProducts(!viewSimilarProducts);
+  };
 
   return (
     <>
       <div
         className="product-item grid-type hover:rounded-lg hover:border hover:p-4 hover:shadow-md"
-        onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
             {data?.videoDetails !== null ? (
-              <div onMouseLeave={() => setShowVideo(false)}>
-                {showVideo == true ? (
+              <div>
+                {hover == true ? (
                   <div className="mb-2">
                     <div
                       className="product-img relative object-cover duration-700"
@@ -320,6 +324,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 ) : (
                   <div className="relative">
                     <Image
+                      onMouseEnter={() => setHover(true)}
                       onClick={() =>
                         handleDetailProduct(data.url, data.productId)
                       }
@@ -340,7 +345,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       >
                         <div className="flex items-center justify-between py-1">
                           <IoCameraOutline />
-                          {/* <p className="ps-1 text-sm">Try ON</p> */}
                         </div>
                       </div>
                     )}
@@ -359,14 +363,15 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       </div>
                     )}
 
-                    <div
+                    {/* <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
                     >
                       <Icon.Play size={width} weight="light" color="#e26178" />
-                    </div>
-                    <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
-                      {/* <Icon.Heart size={25} weight="light" /> */}
+                    </div> */}
+
+                    {/* <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
+                      
                       {isProductInWishlist ? (
                         <Icon.Heart
                           size={width}
@@ -382,13 +387,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           onClick={() => HandleaddToWishlist()}
                         />
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
             ) : (
               <div className="relative">
                 <Image
+                  onMouseEnter={() => setHover(true)}
                   onClick={() => handleDetailProduct(data.url, data.productId)}
                   className="m-auto w-[95%] duration-700"
                   src={selected.image_path}
@@ -409,8 +415,8 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
-                  {data.discountActive && data.discountValue &&!isMobile&& (
-                  <div className="absolute left-1 top-1  float-right flex  p-1 justify-between border bg-[#e26178]  text-center text-white">
+                {data.discountActive && data.discountValue && !isMobile && (
+                  <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-xs">
                         {data.discountValue}% OFF on {data.discountCategory}
@@ -422,7 +428,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     )}
                   </div>
                 )}
-               
+
                 {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
@@ -439,8 +445,8 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
-                 {data.discountActive && data.discountValue &&isMobile && (
-                  <div className="absolute top-1 float-right flex w-32 items-center  justify-between border bg-[#e26178]  text-center text-white">
+                {data.discountActive && data.discountValue && isMobile && (
+                  <div className="absolute top-1 float-right flex w-32 items-center justify-between border bg-[#e26178] text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-[8px]">
                         {data.discountValue}% OFF on {data.discountCategory}
@@ -457,27 +463,34 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     <Icon.Cards size={width} weight="light" color="#e26178" />
                   </div>
                 )} */}
-                <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
-                  {/* <Icon.Heart size={25} weight="light" /> */}
-                  {isProductInWishlist ? (
-                    <Icon.Heart
-                      size={width}
-                      color="#fa0000"
-                      weight="fill"
-                      onClick={() => HandleremoveFromWishlist()}
-                    />
-                  ) : (
-                    <Icon.Heart
-                      size={width}
-                      color="#e26178"
-                      weight="light"
-                      onClick={() => HandleaddToWishlist()}
-                    />
-                  )}
-                </div>
               </div>
             )}
           </div>
+          <div className="relative flex justify-between">
+            {data.similarProductIds !== null && (
+              <div className="" onClick={() => setViewSimilarProducts(true)}>
+                <Icon.Cards size={width} weight="light" color="#e26178" />
+              </div>
+            )}
+            <div className="flex justify-end ">
+              {isProductInWishlist ? (
+                <Icon.Heart
+                  size={width}
+                  color="#fa0000"
+                  weight="fill"
+                  onClick={() => HandleremoveFromWishlist()}
+                />
+              ) : (
+                <Icon.Heart
+                  size={width}
+                  color="#e26178"
+                  weight="light"
+                  onClick={() => HandleaddToWishlist()}
+                />
+              )}
+            </div>
+          </div>
+
           <div
             className="mt-4 lg:mb-4"
             onClick={() => handleDetailProduct(data.url, data.productId)}
@@ -513,6 +526,13 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             )} */}
           </div>
         </div>
+        {viewSimilarProducts && (
+          <ViewSimilar
+            showComponent={viewSimilarProducts}
+            handleViewSimilarProducts={handleViewSimilarProducts}
+            productId={Number(data.productId)}
+          />
+        )}
       </div>
     </>
   );

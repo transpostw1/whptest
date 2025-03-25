@@ -537,8 +537,8 @@ const Payment: React.FC<PaymentProps> = ({
               }
             >
               Place Order
-            </button>
-          )}
+            </button> 
+          )} 
           {/* {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">

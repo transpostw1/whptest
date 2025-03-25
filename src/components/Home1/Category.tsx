@@ -5,16 +5,28 @@ import { useRouter } from "next/navigation";
 import { useAllCategoryContext } from "@/context/AllCategoryContext";
 import { useCategory } from "@/context/CategoryContex";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
+import { motion } from "framer-motion";
 
 const Category = () => {
   const router = useRouter();
   const { categories } = useAllCategoryContext();
   const { setCustomcategory } = useCategory();
-
-  // State to track the number of items to display
   const [visibleItems, setVisibleItems] = useState(8);
-
-  // Function to show more items
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] },
+    },
+  };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  };
   const showMoreItems = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 8);
   };
@@ -28,7 +40,13 @@ const Category = () => {
   return (
     <>
       <div className="my-16 w-full px-8 font-[500] text-[#39161C]">
-        <div className="flex flex-col items-start justify-between">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col items-start justify-between"
+        >
           <h1 className="pb-1 font-medium uppercase sm:text-[18px] lg:text-[32px]">
             SHOP BY CATEGORY
           </h1>
@@ -37,13 +55,19 @@ const Category = () => {
             categories. From stunning necklaces to exquisite rings, our
             collections cater to every style and taste.
           </p>
-        </div>
-        <div className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4 ">
+        </motion.div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="mt-3 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-3 lg:grid-cols-4"
+        >
           {categories.slice(0, visibleItems).map((category) => (
-            <div
+            <motion.div
               key={category.id}
-              // className="relative flex flex-col items-start justify-between hover:shadow-md"
-                   className="transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
+              variants={fadeUp}
+              className="hover:scale-105 hover:shadow-md"
             >
               <Link
                 href={{
@@ -62,7 +86,6 @@ const Category = () => {
                     width={400}
                     height={400}
                     // className="transition-transform duration-300 ease-in-out transform hover:scale-105"
-                
                   />
                 </div>
               </Link>
@@ -92,9 +115,9 @@ const Category = () => {
                   </span>
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
         <div className="mt-4 flex justify-center">
           {visibleItems < categories.length && (
             <div

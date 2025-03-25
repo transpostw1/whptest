@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCategory } from "@/context/CategoryContex";
+import { motion } from "framer-motion";
 const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const {setCustomcategory} =useCategory();
+  const { setCustomcategory } = useCategory();
   let categories = [
     {
       id: 3,
@@ -143,56 +144,82 @@ const Gifts = () => {
     };
   }, []);
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  };
+  // State to track the number of items to display
+
+  // Function to show more items
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 },
+    },
+  };
+
   return (
     <>
       <div className="my-16 w-full px-8 text-rose-950">
-        <div className="flex flex-col items-start justify-between">
-          <h1 className="font-medium sm:text-[18px] lg:text-[32px] uppercase pb-2">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col items-start justify-between"
+        >
+          <h1 className="pb-2 font-medium uppercase sm:text-[18px] lg:text-[32px]">
             GIFTS
           </h1>
-          <p className="w-[100%] lg:w-[50%] text-[16px] font-light">
+          <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
             Discover the joy of gifting with our curated selection,where every
-            piece reflects 
-            thoughtfulness and timeless charm, making evey occasion extra
-            special.
+            piece reflects thoughtfulness and timeless charm, making evey
+            occasion extra special.
           </p>
-        </div>
-        <div className="mt-3 grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        </motion.div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="mt-3 grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4"
+        >
           {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={{
-                pathname: "/products",
-                query: { url: `${category.url}` },
-              }}
-              onClick={()=>setCustomcategory(category.head)}
-            >
-              <div className="relative flex flex-col gap-2">
-                <div className="effect10 img hover:shadow-2xl">
-                  {category.image}{" "}
-                  
-                </div>
-                {/* {isMobile && (
+            <motion.div key={category.id} variants={fadeUp}>
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { url: `${category.url}` },
+                }}
+                onClick={() => setCustomcategory(category.head)}
+              >
+                <div className="relative flex flex-col gap-2">
+                  <div className="effect10 img hover:shadow-2xl">
+                    {category.image}{" "}
+                  </div>
+                  {/* {isMobile && (
                   <div className="text-md break-words">{category.type}</div>
                 )} */}
-                <div className="inline-flex">
-                  <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
-                    View All
-                  </span>
-                  <span className="flex">
-                    <Image
-                      src={"/images/icons/rightarrow.svg"}
-                      alt="Right Arrow"
-                      width={20}
-                      height={20}
-                      unoptimized
-                    />
-                  </span>
+                  <div className="inline-flex">
+                    <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
+                      View All
+                    </span>
+                    <span className="flex">
+                      <Image
+                        src={"/images/icons/rightarrow.svg"}
+                        alt="Right Arrow"
+                        width={20}
+                        height={20}
+                        unoptimized
+                      />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </>
   );

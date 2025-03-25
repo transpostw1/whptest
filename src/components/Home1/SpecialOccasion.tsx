@@ -8,6 +8,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import { useCategory } from "@/context/CategoryContex";
 import "swiper/css/bundle";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 // import Fade from 'react-reveal'
 
 const SpecialOccasion = () => {
@@ -16,6 +17,10 @@ const SpecialOccasion = () => {
   const handleTypeClick = (type: string) => {
     router.push(`/products?type=${type}`);
   };
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
 
   return (
     <>
@@ -23,7 +28,13 @@ const SpecialOccasion = () => {
         {/* <div className="container"> */}
         {/* <Fade bottom> */}
         {/* <div className="heading3 text-center">Special Occasion</div> */}
-        <div className="flex flex-col justify-between px-8 text-red-950 gap-2">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col justify-between gap-2 px-8 text-red-950"
+        >
           <p className="text-[24px] sm:w-[100%] sm:leading-[18px] md:w-[57%] md:text-3xl lg:w-[71%] lg:text-[62px] lg:leading-[86px]">
             Something special for Every Occasions
           </p>
@@ -32,7 +43,7 @@ const SpecialOccasion = () => {
             celebrations to cherished milestones, find the perfect piece that
             speaks to your unique style and sentiments.
           </p>
-        </div>
+        </motion.div>
         {/* </Fade> */}
         {/* </div> */}
         <div className="list-collection section-swiper-navigation mt-6 px-4 sm:px-5 md:mt-10">
@@ -59,10 +70,13 @@ const SpecialOccasion = () => {
           >
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "occasion-everyday" } }}
+                href={{
+                  pathname: "/products",
+                  query: { url: "occasion-everyday" },
+                }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden "
+                  className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("");
                     setCustomcategory("Everyday");
@@ -84,10 +98,13 @@ const SpecialOccasion = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "occasion-officeWear" } }}
+                href={{
+                  pathname: "/products",
+                  query: { url: "occasion-officeWear" },
+                }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden "
+                  className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("top");
                     setCustomcategory("Ofice_Wear");
@@ -115,7 +132,7 @@ const SpecialOccasion = () => {
                 }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden "
+                  className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("sets");
                     setCustomcategory("kids_collection");
@@ -137,10 +154,13 @@ const SpecialOccasion = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{ pathname: "/products", query: { url: "occasion-Silver_jewellery" } }}
+                href={{
+                  pathname: "/products",
+                  query: { url: "occasion-Silver_jewellery" },
+                }}
               >
                 <div
-                  className="collection-item relative block cursor-pointer overflow-hidden "
+                  className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("outerwear");
                     setCustomcategory("Anayra");

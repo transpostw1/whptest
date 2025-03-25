@@ -8,7 +8,6 @@ interface Props {
 }
 
 const SortOptions = [
-  "All",
   "Newest First",
   "Price-Low To High",
   "Price-High To Low",

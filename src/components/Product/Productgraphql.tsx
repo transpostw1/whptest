@@ -508,7 +508,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             </div>
 
             <StarRating stars={data.rating} />
-
             <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
               {data?.discountActive && (
                 <p className="product-price text-title text-lg">

@@ -64,9 +64,8 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isLoggedIn]);
 
   useEffect(() => {
-    fetchCoupons(); 
-    console.log("fetching couponssssssssssss");
-  }, [isLoggedIn]); 
+    fetchCoupons();
+  }, [isLoggedIn]);
 
   const updateDiscount = (discount: number) => {
     setTotalDiscount(discount);
@@ -78,28 +77,26 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
         uri: graphqlbaseUrl,
         cache: new InMemoryCache(),
       });
-      let currentToken ;
+      let currentToken;
       if (isLoggedIn && typeof window !== "undefined") {
         const storedToken = localStorage.getItem("localtoken");
         currentToken = String(storedToken);
-            }
+      }
 
       const { data } = await client.mutate({
         mutation: GET_COUPONS,
         variables: {
-          token:currentToken
+          token: currentToken,
         },
       });
-      
+
       const fetchedCoupons = data.checkCustomerCoupons;
       setCoupons(fetchedCoupons);
-      console.log("fetched couponszzzzzz",fetchedCoupons);
+      console.log("fetched couponszzzzzz", fetchedCoupons);
     } catch (error) {
       console.error("Error fetching coupons:", error);
     }
   };
-
-
 
   useEffect(() => {
     if (resetDiscount) {
@@ -121,7 +118,7 @@ export const useCouponContext = () => {
   const context = useContext(CouponContext);
   if (context === undefined) {
     throw new Error(
-      "useCouponContext must be used within a CouponCodeProvider"
+      "useCouponContext must be used within a CouponCodeProvider",
     );
   }
   return context;

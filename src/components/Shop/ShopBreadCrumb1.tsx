@@ -303,7 +303,7 @@ const ShopBreadCrumb1 = () => {
         });
         if (data && data.products) {
           setFilteredProducts((prevProducts) =>
-            isLoadMore ? [...prevProducts, ...data.products] : data.products,
+            isLoadMore ? [...prevProducts, data.products] : data.products,
           );
           setSelectedSortOption("All");
           setIsLoadMore(false);
@@ -747,9 +747,9 @@ const ShopBreadCrumb1 = () => {
     if (selectedSortOption === "Price-Low To High") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const priceA: any =
-          a.discountPrice !== null ? a.discountPrice : a.productPrice;
+          a.discountActive === true ? a.discountPrice : a.productPrice;
         const priceB: any =
-          b.discountPrice !== null ? b.discountPrice : b.productPrice;
+          b.discountActive === true  ? b.discountPrice : b.productPrice;
         return priceA - priceB;
       });
       setFilteredProducts(sortedProducts);
@@ -757,9 +757,9 @@ const ShopBreadCrumb1 = () => {
     } else if (selectedSortOption === "Price-High To Low") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const priceA: any =
-          a.discountPrice !== null ? a.discountPrice : a.productPrice;
+          a.discountActive === true ? a.discountPrice : a.productPrice;
         const priceB: any =
-          b.discountPrice !== null ? b.discountPrice : b.productPrice;
+          b.discountActive === true ? b.discountPrice : b.productPrice;
         return priceB - priceA;
       });
       setFilteredProducts(sortedProducts);

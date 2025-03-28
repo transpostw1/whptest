@@ -797,7 +797,7 @@ const ShopBreadCrumb1 = () => {
     breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
 
-  console.log("Isloading", isLoading, filteredProducts);
+  console.log("titles", finalString,lastBreadcrumbTitle,modifiedString);
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {

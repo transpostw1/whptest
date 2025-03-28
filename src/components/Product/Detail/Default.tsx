@@ -34,6 +34,7 @@ import ReactImageMagnify from "react-image-magnify";
 import ZoomableImage from "./ZoomableImage";
 import { useCurrency } from "@/context/CurrencyContext";
 import { IoCameraOutline } from "react-icons/io5";
+import { Autoplay } from "swiper/modules";
 
 interface Props {
   productId: string | number | any;
@@ -78,6 +79,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
+    Autoplay: true,
   };
 
   async function getData() {
@@ -387,6 +389,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const settingsThumbnails = {
     className: "center",
     centerMode: true,
+    autoplay:true,
     arrows: false,
     dots: false,
     infinite: true,
@@ -558,15 +561,17 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           )}
         </div>
         <div className="p-4 sm:w-full lg:ml-6 lg:w-1/2">
-          {loading ? (
+          {loading ? 
+          (
             <Skeleton height={30} />
-          ) : (
+          ) 
+          : 
+          (
             <>
               <div className="flex w-full justify-between">
                 <p className="md:text-3xl text-xl font-[500]">
                   {data?.productDetails?.displayTitle}
                 </p>
-
                 <span
                   className="mr-2 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#e26178] px-2 py-2"
                   onClick={handleShareClick}
@@ -588,7 +593,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 <span
                   onClick={toggleExpansion}
                   className="cursor-pointer text-[#E26178]"
-                >
+                >  
                   ...read more
                 </span>
               )}

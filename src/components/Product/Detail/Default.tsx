@@ -738,7 +738,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </li>
             </ul>
           </div> */}
-          <AffordabilityWidget accesskey="ZCUzmW" amount={1000} />
+          {/* <AffordabilityWidget accesskey="ZCUzmW" amount={1000} /> */}
           {data?.productDetails?.coupons?.length > 0 && (
             <Coupons product={data} />
           )}

@@ -47,7 +47,7 @@ const MobileMainCategorySwiper = () => {
             key={index}
             className="flex h-full w-full items-center justify-evenly text-rose-950"
           >
-            <div className="">
+            <div className="flex flex-col items-center">
               <Image
                 src={item.image}
                 alt={item.name}
@@ -65,7 +65,7 @@ const MobileMainCategorySwiper = () => {
                     setCustomcategory(item.label);
                   }
                 }}
-                className={`flex h-full items-center justify-center gap-1 text-xs duration-300`}
+                className="mt-2 text-center text-xs duration-300"
               >
                 {item.name}
               </Link>

@@ -37,6 +37,8 @@ const ShopBreadCrumb1 = () => {
   const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
 
+    const observerRef = useRef<HTMLDivElement | null>(null);
+
   const handleProducts = () => {
     setIsLoadMore(true);
   };

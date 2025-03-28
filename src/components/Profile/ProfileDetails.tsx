@@ -265,6 +265,34 @@ const ProfileDetails = () => {
               <span className="text-md font-semibold">{userDetails?.dob}</span>
             </div>
           </div>
+          
+        
+          <div>
+            <label
+              htmlFor="email"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              Email address
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.email}
+              </span>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="aadhar"
+              className="text-md mb-1 block font-normal text-black"
+            >
+              Aadhar ID
+            </label>
+            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
+              <span className="text-md font-semibold">
+                {userDetails?.aadhar_no}
+              </span>
+            </div>
+          </div>
           <div>
             <label
               htmlFor="pan"
@@ -286,19 +314,6 @@ const ProfileDetails = () => {
             <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
               <span className="text-md font-semibold">
                 {userDetails?.gst_no}
-              </span>
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="text-md mb-1 block font-normal text-black"
-            >
-              Email address
-            </label>
-            <div className="w-100 text-wrap rounded bg-[#E1DCDD29] bg-opacity-5 p-2">
-              <span className="text-md font-semibold">
-                {userDetails?.email}
               </span>
             </div>
           </div>

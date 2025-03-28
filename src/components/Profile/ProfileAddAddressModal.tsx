@@ -240,7 +240,6 @@ const AddAddressModal: React.FC<Props> = ({
               <div className="mt-1 text-sm text-red-500">{formik.errors.pincode}</div>
             )}
           </div>
-
           <div className="mb-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <div className="relative">
@@ -403,7 +402,6 @@ const AddAddressModal: React.FC<Props> = ({
               </div>
             )}
           </div>
-
           <button
             type="submit"
             className={`inline-block w-full border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-center text-white hover:bg-rose-500 ${

@@ -8,10 +8,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { useCategory } from "@/context/CategoryContex";
+import { motion } from "framer-motion";
 
 const ShopByGender = () => {
   const { setCustomcategory } = useCategory();
   const swiperRef = useRef<any>();
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+  };
   let categories = [
     {
       id: 1,
@@ -65,15 +70,20 @@ const ShopByGender = () => {
   ];
   return (
     <>
-      <div className="w-full px-7 mt-8 font-[500] text-[#39161C] mb-9">
-        <div className="flex justify-between mb-4">
-          <div>
-            <p className="font-medium sm:text-[18px] lg:text-[32px] uppercase">
+      <div className="mb-9 mt-8 w-full px-7 font-[500] text-[#39161C]">
+        <div className="mb-4 flex justify-between">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <p className="font-medium uppercase sm:text-[18px] lg:text-[32px]">
               Shop by gender
             </p>
-          </div>
-          <div className="lg:hidden sm:block">
-            <button  onClick={() => swiperRef.current.slidePrev()}>
+          </motion.div>
+          <div className="sm:block lg:hidden">
+            <button onClick={() => swiperRef.current.slidePrev()}>
               <Icon.CaretLeft size={25} />
             </button>
             <button onClick={() => swiperRef.current.slideNext()}>
@@ -108,7 +118,7 @@ const ShopByGender = () => {
             {categories.map((category) => (
               <SwiperSlide
                 key={category.id}
-                className="flex flex-col gap-2 relative items-center hover:shadow-lg "
+                className="relative flex flex-col items-center gap-2 hover:shadow-lg"
               >
                 <Link
                   href={`/products?url=${category.url}`}

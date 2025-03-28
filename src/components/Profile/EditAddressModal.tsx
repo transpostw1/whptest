@@ -329,7 +329,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
               )}
             </div>
           </div>
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <div className="relative">
               <input
                 id="landmark"
@@ -350,7 +350,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
             {/* {formik.errors.landmark && (
               <div className="text-red-500 mt-1">{formik.errors.landmark}</div>
             )} */}
-          </div>
+          {/* </div> */} 
           <div className="mb-4">
             <label htmlFor="address_type" className="font-medium">
               Address Type:

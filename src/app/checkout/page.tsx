@@ -158,10 +158,6 @@ const Checkout: React.FC = () => {
   };
 
   const handleCouponCheck = () => {
-    if (couponCode === "") {
-      return null;
-    }
-
     const products = cartItems.map((item) => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -234,76 +230,77 @@ const Checkout: React.FC = () => {
   const coupon: any = searchParams.get("coupon");
   typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
 
-  // useEffect(() => {
-  //   const fetchCouponData = async () => {
-  //     const products = cartItems.map((item: any) => ({
-  //       productId: item.productId,
-  //       quantity: item.quantity,
-  //     }));
-  //     setCartProductIds(products);
-  //     setLoading(true);
-  //     const cookieToken =
-  //       typeof window !== "undefined"
-  //         ? localStorage.getItem("localtoken")
-  //         : null;
-  //     try {
-  //       const getAuthHeaders = () => {
-  //         if (!cookieToken) return null;
-  //         return {
-  //           authorization: `Bearer ${cookieToken}`,
-  //         };
-  //       };
+  useEffect(() => {
+    const fetchCouponData = async () => {
+      const products = cartItems.map((item: any) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+      setCartProductIds(products);
+      setLoading(true);
+      const cookieToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("localtoken")
+          : null;
+      try {
+        const getAuthHeaders = () => {
+          if (!cookieToken) return null;
+          return {
+            authorization: `Bearer ${cookieToken}`,
+          };
+        };
 
-  //       const client = new ApolloClient({
-  //         uri: graphqlbaseUrl,
-  //         headers: getAuthHeaders(),
-  //         cache: new InMemoryCache(),
-  //       });
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          headers: getAuthHeaders(),
+          cache: new InMemoryCache(),
+        });
 
-  //       const CHECK_COUPON_CODE = gql`
-  //         mutation Coupon($coupon: CouponInput!) {
-  //           Coupon(coupon: $coupon) {
-  //             code
-  //             message
-  //             discountProduct {
-  //               productId
-  //               discountedValue
-  //               additionalDiscountPrice
-  //             }
-  //           }
-  //         }
-  //       `;
+        const CHECK_COUPON_CODE = gql`
+          mutation Coupon($coupon: CouponInput!) {
+            Coupon(coupon: $coupon) {
+              code
+              message
+              discountProduct {
+                productId
+                discountedValue
+                additionalDiscountPrice
+              }
+            }
+          }
+        `;
 
-  //       const { data } = await client.mutate({
-  //         mutation: CHECK_COUPON_CODE,
-  //         variables: {
-  //           coupon: { products: products, couponCode: coupon },
-  //         },
-  //         context: {
-  //           headers: getAuthHeaders(),
-  //         },
-  //         fetchPolicy: "no-cache",
-  //       });
+        const { data } = await client.mutate({
+          mutation: CHECK_COUPON_CODE,
+          variables: {
+            coupon: { products: products, couponCode: coupon },
+          },
+          context: {
+            headers: getAuthHeaders(),
+          },
+          fetchPolicy: "no-cache",
+        });
 
-  //       if (data.Coupon.code === 400 || data.Coupon.code === "400") {
-  //         setFlashMessage(data.Coupon.message);
-  //         setFlashType("error");
-  //       } else {
-  //         setDataAfterCouponCode(data.Coupon);
-  //         setFlashMessage("Coupon Successfully applied");
-  //         setFlashType("success");
-  //       }
-  //     } catch (error: any) {
-  //       setFlashMessage(error.response?.data?.message);
-  //       setFlashType("error");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   setTimeout(() => {
-  //     fetchCouponData();
-  //   }, 1450);
-  // }, [coupon, isLoggedIn]);
+        if (data.Coupon.code === 400 || data.Coupon.code === "400") {
+          setFlashMessage(data.Coupon.message);
+          setFlashType("error");
+        } else {
+          setDataAfterCouponCode(data.Coupon);
+          setFlashMessage("Coupon Successfully applied");
+          setFlashType("success");
+        }
+      } catch (error: any) {
+        setFlashMessage(error.response?.data?.message);
+        setFlashType("error");
+      } finally {
+        setVoucherCode(coupon)
+        setLoading(false);
+      }
+    };
+    setTimeout(() => {
+      fetchCouponData();
+    }, 1450);
+  }, [coupon, isLoggedIn]);
 
   useEffect(() => {
     let totalCartDiscount: number = 0;
@@ -693,10 +690,10 @@ const Checkout: React.FC = () => {
   return (
     <>
       {/* <ProtectedRoute> */}
-      <head>
+      {/* <head>
         <title>Cart</title>
         <meta name="description" content={"Your WHP Cart."} />
-      </head>
+      </head> */}
       <div className="cart-block mb-8 flex-wrap">
         <div className="content-main flex flex-col justify-between px-5 lg:px-14">
           <div className="mt-4 flex w-full items-center justify-between bg-[#F8F3F466]">

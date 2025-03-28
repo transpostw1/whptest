@@ -303,7 +303,7 @@ const ShopBreadCrumb1 = () => {
         });
         if (data && data.products) {
           setFilteredProducts((prevProducts) =>
-            isLoadMore ? [...prevProducts, ...data.products] : data.products,
+            isLoadMore ? [...prevProducts, data.products] : data.products,
           );
           setSelectedSortOption("All");
           setIsLoadMore(false);
@@ -747,9 +747,9 @@ const ShopBreadCrumb1 = () => {
     if (selectedSortOption === "Price-Low To High") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const priceA: any =
-          a.discountPrice !== undefined ? a.discountPrice : a.productPrice;
+          a.discountActive === true ? a.discountPrice : a.productPrice;
         const priceB: any =
-          b.discountPrice !== undefined ? b.discountPrice : b.productPrice;
+          b.discountActive === true  ? b.discountPrice : b.productPrice;
         return priceA - priceB;
       });
       setFilteredProducts(sortedProducts);
@@ -757,15 +757,11 @@ const ShopBreadCrumb1 = () => {
     } else if (selectedSortOption === "Price-High To Low") {
       const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
         const priceA: any =
-          a.discountPrice !== undefined ? a.discountPrice : a.productPrice;
+          a.discountActive === true ? a.discountPrice : a.productPrice;
         const priceB: any =
-          b.discountPrice !== undefined ? b.discountPrice : b.productPrice;
+          b.discountActive === true ? b.discountPrice : b.productPrice;
         return priceB - priceA;
       });
-      const sortedDate = sortedProducts.map(
-        (product, index) => product.addDate,
-      );
-      console.log("dieoweidfdie", sortedDate);
       setFilteredProducts(sortedProducts);
       setPageNumber(0);
     } else if (selectedSortOption === "Newest First") {
@@ -847,6 +843,7 @@ const ShopBreadCrumb1 = () => {
   useEffect(() => {
     fetchSkusList();
   }, []);
+  console.log(selectedSortOption, "Sorted Option selected");
   return (
     <>
       <MobileMainCategorySwiper />
@@ -906,9 +903,9 @@ const ShopBreadCrumb1 = () => {
                     onChange={(e) => handleSortOptionChange(e.target.value)}
                     className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
                   >
-                    <option className="bg-[#f7f7f7]" value="All">
+                    {/* <option className="bg-[#f7f7f7]" value="All">
                       All
-                    </option>
+                    </option> */}
                     <option className="bg-[#f7f7f7]" value="Newest First">
                       Newest First
                     </option>
@@ -925,60 +922,68 @@ const ShopBreadCrumb1 = () => {
                 </div>
               </div>
 
-              {!isLoading && filteredProducts.length == 0 ? (
-                <ProductSkeleton />
-              ) : filteredProducts.length > 0 ? (
-                <div
-                  className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                  ref={productsListRef}
-                >
-                  {[...filteredProducts]
-                    .sort((a: any, b: any) => {
-                      if (a.priority === null) return 1;
-                      if (b.priority === null) return -1;
-
-                      const priorityComparison =
-                        Number(a.priority) - Number(b.priority);
-
-                      if (priorityComparison !== 0) return priorityComparison;
-
-                      return a.title.localeCompare(b.title);
-                    })
-                    .map((item: any) => (
+              {filteredProducts.length > 0 ? (
+                selectedSortOption === "Price-Low To High" ||
+                selectedSortOption === "Price-High To Low" ? (
+                  <div
+                    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                    ref={productsListRef}
+                  >
+                    {filteredProducts.map((item: any) => (
                       <div key={item.productId}>
                         <Product data={item} skuList={skuList} />
                       </div>
                     ))}
-                </div>
-              ) : (
-                <>
-                  {isLoading && filteredProducts.length == 0 && (
-                    <div
-                      className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
-                      ref={productsListRef}
-                    >
-                      {/* <p>No products found.</p> */}
+                  </div>
+                ) : (
+                  <div
+                    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                    ref={productsListRef}
+                  >
+                    {[...filteredProducts]
+                      .sort((a: any, b: any) => {
+                        if (a.priority === null) return 1;
+                        if (b.priority === null) return -1;
 
-                      <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                        Oops! No products found.
-                      </h2>
-                      <p className="mb-6 text-lg text-gray-600">
-                        We couldn't find any products matching your current
-                        filters.
-                      </p>
-                      <div className="suggestions mb-8"></div>
-                      <div className="cta-buttons flex justify-center space-x-4">
-                        <button
-                          className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600"
-                          onClick={() => (window.location.href = "/")}
-                        >
-                          Explore More
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </>
+                        const priorityComparison =
+                          Number(a.priority) - Number(b.priority);
+
+                        if (priorityComparison !== 0) return priorityComparison;
+
+                        return a.title.localeCompare(b.title);
+                      })
+                      .map((item: any) => (
+                        <div key={item.productId}>
+                          <Product data={item} skuList={skuList} />
+                        </div>
+                      ))}
+                  </div>
+                )
+              ) : !isLoading ? (
+                <ProductSkeleton />
+              ) : (
+                <div
+                  className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
+                  ref={productsListRef}
+                >
+                  <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                    Oops! No products found.
+                  </h2>
+                  <p className="mb-6 text-lg text-gray-600">
+                    We couldn't find any products matching your current filters.
+                  </p>
+                  <div className="suggestions mb-8"></div>
+                  <div className="cta-buttons flex justify-center space-x-4">
+                    <button
+                      className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600"
+                      onClick={() => (window.location.href = "/")}
+                    >
+                      Explore More
+                    </button>
+                  </div>
+                </div>
               )}
+
               {filteredProducts.length > 0 && (
                 <button
                   onClick={handleProducts}

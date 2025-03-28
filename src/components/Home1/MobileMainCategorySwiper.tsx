@@ -65,7 +65,7 @@ const MobileMainCategorySwiper = () => {
                     setCustomcategory(item.label);
                   }
                 }}
-                className="mt-2 text-center text-xs duration-300"
+                className="mt-2 text-center truncate text-xs duration-300"
               >
                 {item.name}
               </Link>

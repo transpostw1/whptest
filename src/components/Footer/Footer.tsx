@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="footer-main bg-gray-50">
           <div className="container py-4">
             <div className="flex flex-col items-center justify-center lg:flex-row lg:justify-between">
-              <div className="flex items-center">
+              <div className="flex gap-2 items-center">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}

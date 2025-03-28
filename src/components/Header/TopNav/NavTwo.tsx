@@ -166,7 +166,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         } text-rose-950 ${props}`}
         ref={divRef}
       >
-        <div className="px-8 mx-auto h-full py-2">
+        <div className="px-7 mx-auto h-full py-2">
           <div className="top-nav-main flex items-center justify-between ">
             <div className="left-content flex items-center">
               <Link href={"/"}>

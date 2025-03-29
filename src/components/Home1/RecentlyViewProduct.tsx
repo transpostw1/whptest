@@ -88,7 +88,7 @@ const RecentlyViewProduct = () => {
             {data.length > 0 && (
               <div className="flex justify-between">
                 <div>
-                  <p className="text-[1.5rem] font-semibold uppercase">
+                  <p className="text-[1.5rem] font-medium uppercase">
                     Recently Viewed Products
                   </p>
                 </div>

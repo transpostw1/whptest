@@ -54,13 +54,13 @@ const GoldScheme = () => {
                 type="button"
                 className="my-4 flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-3 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
-                Know More
+                Benefit Calculator
                 <span className="ml-2 mt-1">
                   <Icon.ArrowRight />
                 </span>
               </button>
             </Link>
-            {!isMobile && (
+            {/* {!isMobile && (
               <div className="p-0">
                 <div className="mx-auto flex items-center gap-3 p-0 sm:flex-row md:py-5">
                   <Image
@@ -95,19 +95,19 @@ const GoldScheme = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <div className="flex justify-center lg:justify-end">
             <Image
-              src={"/images/other/InvestinGold.jpg"}
-              width={1000}
+              src={"/images/other/Visualize.jpg"}
+              width={900}
               height={900}
               alt="goldscheme"
               unoptimized
               className="h-auto w-full lg:w-auto"
             />
           </div>
-          {isMobile && (
+          {/* {isMobile && (
             <div className="bg-[#FFFAF9] p-0">
               <div className="flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">
                 <Image
@@ -139,7 +139,7 @@ const GoldScheme = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>

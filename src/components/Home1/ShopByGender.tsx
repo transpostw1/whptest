@@ -78,7 +78,7 @@ const ShopByGender = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <p className="font-medium uppercase sm:text-[18px] lg:text-[32px]">
+            <p className="text-[1.5rem] font-medium uppercase">
               Shop by gender
             </p>
           </motion.div>

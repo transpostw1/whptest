@@ -18,6 +18,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useMainMenuContext } from "@/context/MainMenuContext";
+import { PiTreasureChestLight } from "react-icons/pi";
 import TryAtHomeModal from "@/components/Modal/TryAtHomeModal";
 
 interface Props {
@@ -166,8 +167,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         } text-rose-950 ${props}`}
         ref={divRef}
       >
-        <div className="px-7 mx-auto h-full py-2">
-          <div className="top-nav-main flex items-center justify-between ">
+        <div className="mx-auto h-full px-7 py-2">
+          <div className="top-nav-main flex items-center justify-between">
             <div className="left-content flex items-center">
               <Link href={"/"}>
                 <Image
@@ -243,7 +244,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               aria-label="Search"
               onClick={() => setIsModalOpen(true)}
             >
-              <span className="search-text ">Search</span>
+              <span className="search-text">Search</span>
               <div className="marquee-vertical mb-1.5">
                 {categories.map((category: any, index: any) => (
                   <div key={index} className="marquee-content-vertical">
@@ -401,8 +402,8 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           pathname.includes("/checkout") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        <Icon.ShoppingCart size={30} />
-                        <p className="text-sm">Cart</p>
+                        <PiTreasureChestLight size={30} />
+                        <p className="text-sm">Box</p>
                       </div>
                       {cartLength > 0 && (
                         <span className="quantity cart-quantity absolute right-0 top-1 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-[#E26178] text-xs text-white">

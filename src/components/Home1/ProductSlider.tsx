@@ -71,7 +71,7 @@ const ProductSlider = () => {
         <div className="container">
           <div className="flex justify-between">
             <div>
-              <p className="text-[1.5rem] font-semibold uppercase">
+              <p className="text-[1.5rem] font-medium uppercase">
                 Best Sellers
               </p>
             </div>

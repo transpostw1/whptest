@@ -68,7 +68,7 @@ const Explore = () => {
   }
   return (
     <>
-      <div className="banner-block style-one grid sm:grid-cols-2 ">
+      <div className="banner-block style-one grid sm:grid-cols-2 mt-4 ">
         {data &&
           data?.map((item: any) => (
             <div key={item.id}>
@@ -83,7 +83,7 @@ const Explore = () => {
                     height={1300}
                     alt="banner1"
                     className="duration-1000"
-                    unoptimized
+                    unoptimized               
                   />
                 </div>
               </Link>

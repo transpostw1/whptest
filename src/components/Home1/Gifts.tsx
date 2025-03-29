@@ -148,9 +148,7 @@ const Gifts = () => {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
-  // State to track the number of items to display
 
-  // Function to show more items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

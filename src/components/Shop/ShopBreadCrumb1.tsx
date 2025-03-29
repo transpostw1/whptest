@@ -37,6 +37,8 @@ const ShopBreadCrumb1 = () => {
   const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
 
+    const observerRef = useRef<HTMLDivElement | null>(null);
+
   const handleProducts = () => {
     setIsLoadMore(true);
   };
@@ -793,7 +795,7 @@ const ShopBreadCrumb1 = () => {
     breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
 
-  console.log("Isloading", isLoading, filteredProducts);
+  console.log("titles", finalString,lastBreadcrumbTitle,modifiedString);
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {

@@ -16,6 +16,7 @@ import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
 import { IoCameraOutline } from "react-icons/io5";
 import ViewSimilar from "./ViewSimilar";
+import { showCustomToast } from "../Other/CustomToast";
 
 interface ProductProps {
   data: any;
@@ -260,7 +261,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     try {
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
-        const formattedVariants = data?.variants.map((variant: any) => ({
+        const formattedVariants = data?.variants?.map((variant: any) => ({
           variantType: variant.VariantType, 
           variantName: variant.VariantOption?.[0]?.VariantName || "", 
         }));
@@ -289,13 +290,16 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       } else {
         console.error("Invalid product data:", data);
       }
+      showCustomToast("Item Wishilisted!");
     } catch (error) {
+      showCustomToast("Try again later!");
       console.error("Error adding product to wishlist:", error);
     }
   };
 
   const HandleremoveFromWishlist = () => {
     removeFromWishlist(data.productId);
+    showCustomToast("Removed From Wishlist");
     setIsProductInWishlist(false);
   };
   const handleViewSimilarProducts = () => {
@@ -474,12 +478,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             )}
           </div>
           <div className="relative flex justify-between">
-            {data.similarProductIds !== null && (
+         <div>
+         {data.similarProductIds !== null && (
               <div className="" onClick={() => setViewSimilarProducts(true)}>
                 <Icon.Cards size={width} weight="light" color="#e26178" />
               </div>
             )}
-            <div className="flex justify-end ">
+         </div>
+            <div className="">
               {isProductInWishlist ? (
                 <Icon.Heart
                   size={width}

@@ -363,6 +363,31 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 </div>
               )}
             </div>
+            <div className="mb-4">
+              <div className="relative">
+                <input
+                  id="aadhar"
+                  type="text"
+                  {...formik.getFieldProps("aadhar")}
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
+                    formik.errors.aadhar
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } focus:outline-none focus:ring-0 focus:border-rose-400 peer`}
+                />
+                <label
+                  htmlFor="aadhar"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-rose-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                >
+                  Aadhar Number
+                </label>
+              </div>
+              {formik.errors.aadhar && (
+                <div className="text-red-500 mt-1">
+                  {formik.errors.aadhar}
+                </div>
+              )}
+            </div>
           </div>
           <p className="my-4">Date of Birth</p>
           <div className="grid grid-cols-3 gap-4 mb-4">

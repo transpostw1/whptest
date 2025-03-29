@@ -47,7 +47,7 @@ const Category = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-start justify-between"
         >
-          <h1 className="pb-1 font-medium uppercase sm:text-[18px] lg:text-[32px]">
+          <h1 className="pb-1 text-[1.5rem] font-medium uppercase">
             SHOP BY CATEGORY
           </h1>
           <p className="text-sm font-light md:w-[50%]">

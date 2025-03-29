@@ -26,7 +26,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
   return (
     <div>
-      <h1 className="sm:text-2xl text-xl sm:text-start text-center text-[#E26178]">Your Shopping Bag</h1>
+      <h1 className="sm:text-2xl text-xl sm:text-start text-center text-[#E26178]">Your Jewellery Box</h1>
       <div className="list-product-main w-full mt-3 border border-b-0">
         {isLoading ? (
           <div className="flex flex-col gap-4">

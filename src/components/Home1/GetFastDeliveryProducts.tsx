@@ -68,8 +68,8 @@ const GetFastDeliveryProducts = () => {
         <div className="container">
           <div className="flex justify-between">
             <div>
-              <p className="text-[1.5rem] font-semibold uppercase">
-                GET IN 24-48 HRS
+              <p className="text-[1.5rem] font-medium uppercase">
+                Quick delivery in 12-48 hrs
               </p>
             </div>
             <div className="flex">

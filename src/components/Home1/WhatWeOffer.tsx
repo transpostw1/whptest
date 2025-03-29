@@ -6,12 +6,10 @@ import { useCategory } from "@/context/CategoryContex";
 const WhatWeOffer = () => {
   const { setCustomcategory } = useCategory();
   return (
-    <section className="flex w-full flex-col md:flex-row my-16">
+    <section className="my-16 flex w-full flex-col md:flex-row">
       {/* Left Section (Text Content - Top) */}
       <div className="w-full px-6 py-6 text-center md:hidden">
-        <p className="mt-5 text-lg font-normal tracking-[0.49rem]">
-          OFFERINGS
-        </p>
+        <p className="mt-5 text-lg font-normal tracking-[0.49rem]">OFFERINGS</p>
         <h2 className="text-3xl font-normal md:text-5xl">What we Offer</h2>
         <p className="mt-3">
           Discover our offerings. Our commitment to quality, elegance, and
@@ -22,7 +20,7 @@ const WhatWeOffer = () => {
       {/* Middle Section (Image in Mobile, Left in Desktop) */}
       <div className="flex w-full md:w-1/2">
         <Image
-          src="/images/other/Weoffer.jpg"
+          src="/images/other/WHP_What_We_Offer_600x600_copy.jpg"
           alt="Jewellery bag"
           width={600}
           height={600}

@@ -31,22 +31,35 @@ const Appointment = () => {
                 // unoptimized
               />
             </div>
-            <div className="flex flex-col items-center py-4 md:items-start">
-              <h1 className="text-center text-xl font-semibold text-red-950 md:text-start">
+            <div className="flex items-center py-4 md:items-start">
+              {/* <h1 className="text-center text-xl font-semibold text-red-950 md:text-start">
                 Gold Exchange
               </h1>
               <p className="py-1 text-center font-normal text-red-950 md:text-start">
                 Trade your previous gold items for newer, more exquisite pieces
                 that better suit your evolving style.
-              </p>
+              </p> */}
               <div
                 onClick={() => setAppointmentModal(true)}
                 className="my-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
               >
-                <button type="button" className="md:text-[18px] text-sm font-medium">
+                <button
+                  type="button"
+                  className="text-sm font-medium md:text-[18px]"
+                >
                   Book Appointment
                 </button>
-                <HiOutlineArrowLongRight className="ml-1 " size={20} />
+                <HiOutlineArrowLongRight className="ml-1" size={20} />
+              </div>
+              <div
+                onClick={() => setAppointmentModal(true)}
+                className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+              >
+                <button
+                  type="button"
+                  className="text-sm font-medium md:text-[18px]"
+                >Virtual Try-ON</button>
+                <HiOutlineArrowLongRight className="ml-1" size={20} />
               </div>
               {appointmentModal && (
                 <BookExchangeModal

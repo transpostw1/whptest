@@ -985,7 +985,6 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               )}
-
               {filteredProducts.length > 0 && (
                 <button
                   onClick={handleProducts}

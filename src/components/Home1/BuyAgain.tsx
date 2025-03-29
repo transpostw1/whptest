@@ -82,21 +82,24 @@ const BuyAgain = () => {
         <div className="tab-features-block pt-10">
           <div className="container">
             {data.length > 0 && (
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-[1.5rem] font-semibold uppercase">
-                    Buy Again
-                  </p>
+              <>
+                <div className="flex justify-between">
+                  <div>
+                    <p className="text-[1.5rem] font-medium uppercase">
+                      your opinion sparkles too
+                    </p>
+                  </div>
+                  <div className="flex">
+                    <button onClick={() => swiperRef.current.slidePrev()}>
+                      <Icon.CaretLeft size={30} />
+                    </button>
+                    <button onClick={() => swiperRef.current.slideNext()}>
+                      <Icon.CaretRight size={30} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex">
-                  <button onClick={() => swiperRef.current.slidePrev()}>
-                    <Icon.CaretLeft size={30} />
-                  </button>
-                  <button onClick={() => swiperRef.current.slideNext()}>
-                    <Icon.CaretRight size={30} />
-                  </button>
-                </div>
-              </div>
+                <p className="my-1">Share your review on recent purchase</p>
+              </>
             )}
             {loading ? (
               <Swiper

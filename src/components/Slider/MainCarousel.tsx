@@ -116,7 +116,7 @@ const MainCarousel = () => {
 
   return (
     <>
-      <div className="slider-block bg-linear relative w-full">
+      <div className="slider-block bg-linear relative w-full mb-1">
         <div className="slider-main w-full">
           {!isMobile && (
             <Swiper

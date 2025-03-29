@@ -148,9 +148,7 @@ const Gifts = () => {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
-  // State to track the number of items to display
 
-  // Function to show more items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -169,8 +167,8 @@ const Gifts = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-start justify-between"
         >
-          <h1 className="pb-2 font-medium uppercase sm:text-[18px] lg:text-[32px]">
-            GIFTS
+          <h1 className="pb-2 text-[1.5rem] font-medium uppercase">
+            Gifts that speaks from heart
           </h1>
           <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
             Discover the joy of gifting with our curated selection,where every

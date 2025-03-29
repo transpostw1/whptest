@@ -293,7 +293,7 @@ const Checkout: React.FC = () => {
         setFlashMessage(error.response?.data?.message);
         setFlashType("error");
       } finally {
-        setVoucherCode(coupon)
+        setVoucherCode(coupon);
         setLoading(false);
       }
     };
@@ -745,11 +745,8 @@ const Checkout: React.FC = () => {
           {/* {!isOrderPlaced ? (
             <h2>(Review of {cartItems.length} Items)</h2>
           ) : null} */}
-          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />    
+          <FlashAlert key={flashKey} message={flashMessage} type={flashType} />
 
-
-             
-             
           <div className="flex w-full flex-col justify-between lg:flex-row">
             <div className="mt-5 w-full sm:mt-7 md:pr-5 lg:w-[2000px]">
               <div className="heading bg-surface bora-4 pb-4 pt-4"></div>
@@ -796,8 +793,8 @@ const Checkout: React.FC = () => {
             </div>
             <div className="mt-5 w-full lg:w-4/6">
               {selectedComponent === "CartItems" && (
-                <div>
-                  <h1 className="my-5 text-2xl text-[#E26178]">Coupons</h1>
+                <div className="mt-15">
+                  {/* <h1 className=" text-2xl text-[#E26178]">Coupons</h1> */}
                   <div className="w-full border border-gray-400 p-3">
                     <div className="flex w-full items-start justify-between">
                       <>
@@ -821,7 +818,7 @@ const Checkout: React.FC = () => {
                                     </span>
                                   </span>
                                 ) : (
-                                  "Available Coupons/Vouchers"
+                                  "Apply Coupon/Voucher"
                                 )}
                               </h3>
                             </div>

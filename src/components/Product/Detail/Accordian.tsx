@@ -13,6 +13,7 @@ import { BiTargetLock } from "react-icons/bi";
 import { TbHomeCheck } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useBlog } from "@/context/BlogContext";
 import SizeGuideModal from "@/components/Other/SizeGuideModal";
@@ -57,6 +58,83 @@ const Accordian: React.FC<Props> = ({ product }) => {
             className="flex w-full justify-between text-xl"
             onClick={() => handleToggle(1)}
           >
+            Assistance
+            <span className="right-0">
+              <Icon.CaretDown
+                size={25}
+                className={`transform transition-transform duration-300 ${showAccordian === 5 ? "rotate-180" : null}`}
+              />
+            </span>
+          </button>
+        </h2>
+
+        <div
+          className={`mt-4 grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            showAccordian == 1
+              ? "max-h-[500px] opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div>
+            Our team is here to provide you with support. Whether you have
+            questions,need advice,or require support,we're just a message or
+            call away
+          </div>
+          <div className="flex flex-col lg:flex-row">
+            <motion.div
+              animate={{
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                duration: 1.2,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+              className="mr-3"
+            >
+              <Link href={"https://wa.me/918828324464"} target="_blank">
+                <div className="mr-5 mt-5 flex border border-gray-300 p-2 text-center">
+                  <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
+                  <p>+91 8828324464</p>
+                </div>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              animate={{
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                duration: 1.2,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            >
+              <Link
+                href="tel:1800222225"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="mr-5 mt-5 flex border border-gray-300 p-2">
+                  <Icon.Phone
+                    size={30}
+                    color="#e26178"
+                    weight="fill"
+                    className="mr-1"
+                  />
+                  <p>1800-222-225</p>
+                </div>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t-2 border-[#f7f7f7] p-4">
+        <h2>
+          <button
+            className="flex w-full justify-between text-xl"
+            onClick={() => handleToggle(2)}
+          >
             The WHP Advantage
             <span className="right-0">
               <Icon.CaretDown
@@ -69,7 +147,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
         <div
           className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-            showAccordian == 1
+            showAccordian == 2
               ? "max-h-[500px] opacity-100"
               : "max-h-0 opacity-0"
           }`}
@@ -186,7 +264,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         <h2>
           <button
             className="flex w-full justify-between text-xl"
-            onClick={() => handleToggle(2)}
+            onClick={() => handleToggle(3)}
           >
             Product Details
             <span className="right-0">
@@ -200,7 +278,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
         <div
           className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-            showAccordian == 2
+            showAccordian == 3
               ? "max-h-[500px] opacity-100"
               : "max-h-0 opacity-0"
           }`}
@@ -339,7 +417,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           <h2>
             <button
               className="flex w-full justify-between text-xl"
-              onClick={() => handleToggle(3)}
+              onClick={() => handleToggle(4)}
             >
               Size Guide
               <span className="right-0">
@@ -353,7 +431,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
           <div
             className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-              showAccordian == 3
+              showAccordian == 4
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
@@ -460,7 +538,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
           <h2>
             <button
               className="flex w-full justify-between justify-items-center text-xl"
-              onClick={() => handleToggle(4)}
+              onClick={() => handleToggle(5)}
             >
               Price Breakup
               <span className="right-0">
@@ -474,7 +552,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
           <div
             className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out sm:w-[100%] lg:w-[100%] ${
-              showAccordian == 4
+              showAccordian == 5
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
@@ -507,7 +585,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 )}
                 <p>Making Charges</p>
                 {parseInt(product.productDetails?.discountValue) > 0 && (
-                  <p>Discount- {product.productDetails?.discountValue}%</p>
+                  <>
+                    <p>Discount- {product.productDetails?.discountValue}%</p>
+                    <p className="font-thin">{`(${product.productDetails?.discountCategory})`}</p>
+                  </>
                 )}
                 <p>G.S.T</p>
               </div>
@@ -615,69 +696,6 @@ const Accordian: React.FC<Props> = ({ product }) => {
           </div>
         </div>
       )}
-      <div className="border-t-2 border-[#f7f7f7] p-4">
-        <h2>
-          <button
-            className="flex w-full justify-between text-xl"
-            onClick={() => handleToggle(5)}
-          >
-            Assistance
-            <span className="right-0">
-              <Icon.CaretDown
-                size={25}
-                className={`transform transition-transform duration-300 ${showAccordian === 5 ? "rotate-180" : null}`}
-              />
-            </span>
-          </button>
-        </h2>
-
-        <div
-          className={`mt-4 grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-            showAccordian == 5
-              ? "max-h-[500px] opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <div>
-            Our team is here to provide you with support. Whether you have
-            questions,need advice,or require support,we're just a message or
-            call away
-          </div>
-          <div className="flex">
-            <Link href={"https://wa.me/918828324464"} target="_blank">
-              <div className="mr-5 mt-5 text-center">
-                <IoLogoWhatsapp className="ml-5" size={30} color="#25D366" />
-                <p>Whatsapp</p>
-              </div>
-            </Link>
-            <Link
-              href="tel:+91 1800-222-225"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="mr-5 mt-5">
-                <Icon.Phone size={30} color="#e26178" weight="fill" />
-                <p>Call</p>
-              </div>
-            </Link>
-            <Link
-              href="sms:+91 1800-222-225"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="mr-5 mt-5">
-                <Icon.ChatTeardropDots
-                  className="ml-4"
-                  size={30}
-                  weight="fill"
-                  color="#e26178"
-                />
-                <p>Message</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

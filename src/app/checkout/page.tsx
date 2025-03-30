@@ -703,13 +703,13 @@ const Checkout: React.FC = () => {
                   <Image
                     src="/images/collection/check.png"
                     alt="check"
-                    width={100}
+                    width={65}
                     height={10}
                     unoptimized
                   />
                   <div className="flex flex-col items-start justify-center py-3">
-                    <h1 className="text-3xl font-semibold text-red-700">
-                      Order Placed!!
+                    <h1 className="text-2xl font-semibold text-red-700">
+                      Order Placed Successfully!
                     </h1>
                   </div>
                 </div>
@@ -791,9 +791,9 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-5 w-full lg:w-4/6">
+            <div className="mt-14 w-full lg:w-4/6">
               {selectedComponent === "CartItems" && (
-                <div className="mt-15">
+                <div className="mt-12">
                   {/* <h1 className=" text-2xl text-[#E26178]">Coupons</h1> */}
                   <div className="w-full border border-gray-400 p-3">
                     <div className="flex w-full items-start justify-between">

@@ -47,12 +47,12 @@ const GoldScheme = () => {
             </p>
 
             <Link
-              className="inline-flex w-full justify-center text-center sm:justify-center md:justify-center lg:justify-start lg:pb-10 lg:text-left"
+              className="inline-flex w-full justify-center text-center sm:justify-center md:justify-center lg:justify-start lg:text-left"
               href="/benefit"
             >
               <button
                 type="button"
-                className="my-4 flex justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-6 py-3 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
+                className="my-4 flex justify-center bg-gradient-to-r from-[#c39b59] via-[#f8e1b0] to-[#e8c68a] px-6 py-3 text-center text-sm font-medium text-black focus:outline-none focus:ring-4"
               >
                 Benefit Calculator
                 <span className="ml-2 mt-1">

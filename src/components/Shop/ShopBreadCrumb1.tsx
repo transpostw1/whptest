@@ -1,5 +1,5 @@
 "use Client";
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Product from "../Product/Productgraphql";
 import "rc-slider/assets/index.css";
@@ -11,7 +11,7 @@ import { ProductType } from "@/type/ProductType";
 import { useCategory } from "@/context/CategoryContex";
 import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import {  useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
 
 const ShopBreadCrumb1 = () => {
@@ -28,7 +28,7 @@ const ShopBreadCrumb1 = () => {
   const [isLoadMore, setIsLoadMore] = useState<boolean>(false);
   const [skuList, setSkuList] = useState<string[]>([]);
   const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
-  const productsPerPage = 50;
+  const productsPerPage = 51;
   const pagesVisited = pageNumber * productsPerPage;
   const searchParams = useSearchParams();
   const [initialOptions, setInitialOptions] = useState<any>({});
@@ -37,7 +37,7 @@ const ShopBreadCrumb1 = () => {
   const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
 
-    const observerRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleProducts = () => {
     setIsLoadMore(true);
@@ -60,8 +60,8 @@ const ShopBreadCrumb1 = () => {
         selectedOptions,
       );
       fetchData(combinedOptions);
-      console.log(fetchData,"FETCHDATATATAT")
-      setFetchProducts(false); 
+      console.log(fetchData, "FETCHDATATATAT");
+      setFetchProducts(false);
     }
   }, [fetchProducts, offset]);
 
@@ -398,7 +398,6 @@ const ShopBreadCrumb1 = () => {
             productCategory: combinedOptions.productCategory[0],
           };
         } else {
-      
           variables = {
             category: combinedOptions.category.map((category: string) => ({
               value: category,
@@ -426,7 +425,7 @@ const ShopBreadCrumb1 = () => {
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
           };
-          console.log("Inside the else caseeee of fetchFilter",variables)
+          console.log("Inside the else caseeee of fetchFilter", variables);
         }
         console.log("Variables passed for api call", variables);
         const { data } = await client.query({
@@ -518,41 +517,44 @@ const ShopBreadCrumb1 = () => {
     return combinedOptions;
   };
 
- const handleOptionSelect = (option: string, category: string) => {
-  setSelectedOptions((prevSelectedOptions: any) => {
-    const updatedOptions = { ...prevSelectedOptions };
+  const handleOptionSelect = (option: string, category: string) => {
+    setSelectedOptions((prevSelectedOptions: any) => {
+      const updatedOptions = { ...prevSelectedOptions };
 
-    if (category === "Category" || category === "productCategory") {
-      if (updatedOptions["productCategory"]?.[0] === option) {
-        delete updatedOptions["productCategory"];
-      } else {
-        console.log("inside the inner else case", updatedOptions["productCategory"]);
-        delete updatedOptions["Category"]; 
-        updatedOptions["productCategory"] = [option]; 
-      }
-    } else {
-      console.log("Inside the ELSE CASE");
-      if (updatedOptions[category]) {
-        const formattedOption = formatPriceRange(option);
-        if (updatedOptions[category].includes(formattedOption)) {
-          updatedOptions[category] = updatedOptions[category].filter(
-            (selectedOption: any) => selectedOption !== formattedOption
-          );
-          if (updatedOptions[category].length === 0) {
-            delete updatedOptions[category];
-          }
+      if (category === "Category" || category === "productCategory") {
+        if (updatedOptions["productCategory"]?.[0] === option) {
+          delete updatedOptions["productCategory"];
         } else {
-          updatedOptions[category].push(formattedOption);
+          console.log(
+            "inside the inner else case",
+            updatedOptions["productCategory"],
+          );
+          delete updatedOptions["Category"];
+          updatedOptions["productCategory"] = [option];
         }
       } else {
-        updatedOptions[category] = [formatPriceRange(option)];
+        console.log("Inside the ELSE CASE");
+        if (updatedOptions[category]) {
+          const formattedOption = formatPriceRange(option);
+          if (updatedOptions[category].includes(formattedOption)) {
+            updatedOptions[category] = updatedOptions[category].filter(
+              (selectedOption: any) => selectedOption !== formattedOption,
+            );
+            if (updatedOptions[category].length === 0) {
+              delete updatedOptions[category];
+            }
+          } else {
+            updatedOptions[category].push(formattedOption);
+          }
+        } else {
+          updatedOptions[category] = [formatPriceRange(option)];
+        }
       }
-    }
 
-    updateURL(updatedOptions);
-    return updatedOptions;
-  });
-};
+      updateURL(updatedOptions);
+      return updatedOptions;
+    });
+  };
 
   const updateURL = (options: any) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -565,9 +567,9 @@ const ShopBreadCrumb1 = () => {
     // Only add the most recent category or pc parameter
     if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
-      console.log("if condition",urlParts)
+      console.log("if condition", urlParts);
     } else if (options.Category?.length > 0) {
-      console.log("urlparts elseifff",urlParts)
+      console.log("urlparts elseifff", urlParts);
       urlParts.push(`pc-${options.Category[0]}`);
     }
     // Add other filters
@@ -751,7 +753,7 @@ const ShopBreadCrumb1 = () => {
         const priceA: any =
           a.discountActive === true ? a.discountPrice : a.productPrice;
         const priceB: any =
-          b.discountActive === true  ? b.discountPrice : b.productPrice;
+          b.discountActive === true ? b.discountPrice : b.productPrice;
         return priceA - priceB;
       });
       setFilteredProducts(sortedProducts);
@@ -795,7 +797,7 @@ const ShopBreadCrumb1 = () => {
     breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
 
-  console.log("titles", finalString,lastBreadcrumbTitle,modifiedString);
+  console.log("titles", finalString, lastBreadcrumbTitle, modifiedString);
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -985,14 +987,16 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               )}
-              {filteredProducts.length > 0 && (
-                <button
-                  onClick={handleProducts}
-                  className="bg-[#e26178] px-3 py-2 text-white"
-                >
-                  Load More
-                </button>
-              )}
+              <div className="w-full text-center">
+                {filteredProducts.length > 0 && (
+                  <button
+                    onClick={handleProducts}
+                    className="my-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-3 py-2 text-white text-center w-30"
+                  >
+                    Load More
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import { useCategory } from "@/context/CategoryContex";
 import "swiper/css/bundle";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { delay, motion } from "framer-motion";
 // import Fade from 'react-reveal'
 
 const SpecialOccasion = () => {
@@ -107,12 +107,12 @@ const SpecialOccasion = () => {
                   className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("top");
-                    setCustomcategory("Ofice_Wear");
+                    setCustomcategory("Office_Wear");
                   }}
                 >
                   <div className="bg-img">
                     <Image
-                      src={"/images/specialoccassion/GoldInvestment.jpg"}
+                      src={"/images/specialoccassion/investor_selection.jpg"}
                       width={1000}
                       height={600}
                       alt=""
@@ -154,16 +154,13 @@ const SpecialOccasion = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Link
-                href={{
-                  pathname: "/products",
-                  query: { url: "occasion-Silver_jewellery" },
-                }}
+                href="https://www.anayra.net/"
               >
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {
                     handleTypeClick("outerwear");
-                    setCustomcategory("Anayra");
+                    setCustomcategory("sliver_jewellery");
                   }}
                 >
                   <div className="bg-img">
@@ -176,6 +173,76 @@ const SpecialOccasion = () => {
                   </div>
                   {/* <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
                     Party Wear
+                  </div> */}
+                </div>
+              </Link>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Link href="https://www.swarnak.com/">
+                <div className="collection-item relative block cursor-pointer overflow-hidden">
+                  <div className="bg-img">
+                    <Image
+                      src={"/images/specialoccassion/swarnak_collection.jpg"}
+                      width={1000}
+                      height={600}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </Link>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { url: "occasion-wedding-collection" },
+                }}
+              >
+                <div
+                  className="collection-item relative block cursor-pointer overflow-hidden"
+                  onClick={() => {
+                    handleTypeClick("sets");
+                    setCustomcategory("wedding_collection");
+                  }}
+                >
+                  <div className="bg-img">
+                    <Image
+                      src={"/images/specialoccassion/wedding_collection.jpg"}
+                      width={1000}
+                      height={600}
+                      alt=""
+                    />
+                  </div>
+                  {/* <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                    Wedding Wear
+                  </div> */}
+                </div>
+              </Link>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { url: "occasion-gentlemen_collection" },
+                }}
+              >
+                <div
+                  className="collection-item relative block cursor-pointer overflow-hidden"
+                  onClick={() => {
+                    handleTypeClick("sets");
+                    setCustomcategory("gentlemen_collection");
+                  }}
+                >
+                  <div className="bg-img">
+                    <Image
+                      src={"/images/specialoccassion/gentlemen_collection.jpg"}
+                      width={1000}
+                      height={600}
+                      alt=""
+                    />
+                  </div>
+                  {/* <div className="collection-name heading7 bottom-4 w-[100px] rounded-xl bg-transparent py-1.5 text-center duration-500 sm:bottom-8 md:w-[160px] md:py-3 lg:w-[200px]">
+                    Wedding Wear
                   </div> */}
                 </div>
               </Link>

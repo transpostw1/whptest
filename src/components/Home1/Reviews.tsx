@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ArrowRight, ArrowLeft } from "@phosphor-icons/react";
 import Image from "next/image";
-import { graphqlbaseUrl } from "@/utils/constants"; 
+import { graphqlbaseUrl } from "@/utils/constants";
 
 interface Testimonial {
   id: string;
@@ -28,8 +28,10 @@ const GET_TESTIMONIALS = gql`
 
 const Reviews: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [activeSlide, setActiveSlide] = useState(0); 
+  const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef<Slider>(null);
+  const [expanded, setExpanded] = useState(false);
+  const maxLength = 100; // Max characters before truncation
 
   const fetchTestimonials = async () => {
     try {
@@ -76,7 +78,7 @@ const Reviews: React.FC = () => {
     nextArrow: (
       <CustomNextArrow onClick={() => sliderRef.current?.slickNext()} />
     ),
-    beforeChange: (current, next) => setActiveSlide(next),
+    beforeChange: (current: any, next: any) => setActiveSlide(next),
     arrows: false,
     responsive: [
       {
@@ -101,26 +103,28 @@ const Reviews: React.FC = () => {
           <h2 className="mb-5 text-[1.5rem] font-semibold uppercase">
             TESTIMONIALS
           </h2>
-          <div className="w-full flex justify-between pe-2 md:block md:w-auto">
+          <div className="flex w-full justify-between pe-2 md:block md:w-auto">
             <h1 className="mb-8 text-2xl text-red-950 md:text-5xl">
               Hear from our <br /> customers
             </h1>
             <div className="mb-8 hidden -space-x-4 md:flex rtl:space-x-reverse">
-              {testimonials.slice(activeSlide, activeSlide + 2).map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
-                >
-                  <Image
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    width={80}
-                    height={80}
-                    unoptimized
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              {testimonials
+                .slice(activeSlide, activeSlide + 2)
+                .map((testimonial, index) => (
+                  <div
+                    key={index}
+                    className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
+                  >
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      width={80}
+                      height={80}
+                      unoptimized
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
             </div>
 
             <div className="flex cursor-pointer items-center gap-8">
@@ -131,26 +135,45 @@ const Reviews: React.FC = () => {
         </div>
         <div className="m-0 h-full w-full items-center md:mt-8 md:w-[60%]">
           <Slider {...settings} ref={sliderRef}>
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="p-2 h-80">
-                <div className="flex h-full flex-col border gap-5 border-gray-200 bg-white p-4 text-red-950">
-                  <p className="mb-4 text-sm">{testimonial.feedback}</p>
-                 <div>  
-                  {testimonial.image && (
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      width={50}
-                      height={50}
-                      className="rounded-full"
-                      unoptimized
-                    />
-                  )}
-                   <h1 className="text-lg font-bold">{testimonial.name}</h1>
-                 </div>
+            {testimonials.map((testimonial) => {
+              return (
+                <div key={testimonial.id} className="h-80 p-2">
+                  <div className="flex h-full flex-col gap-5 border border-gray-200 bg-white p-4 text-red-950">
+                    {/* Feedback Section */}
+                    <p className="mb-4 text-sm">
+                      {expanded || testimonial.feedback.length <= maxLength
+                        ? testimonial.feedback
+                        : `${testimonial.feedback.substring(0, maxLength)}...`}
+                    </p>
+
+                    {/* Read More Button */}
+                    {testimonial.feedback.length > maxLength && (
+                      <button
+                        onClick={() => setExpanded(!expanded)}
+                        className="self-start text-sm text-blue-500 hover:underline"
+                      >
+                        {expanded ? "Read Less" : "Read More"}
+                      </button>
+                    )}
+
+                    {/* Image & Name Section */}
+                    <div className="flex items-center gap-3">
+                      {testimonial.image && (
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={50}
+                          height={50}
+                          className="rounded-full"
+                          unoptimized
+                        />
+                      )}
+                      <h1 className="text-lg font-bold">{testimonial.name}</h1>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </Slider>
         </div>
       </div>

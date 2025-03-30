@@ -61,6 +61,7 @@ const Payment: React.FC<PaymentProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { removeFromCart } = useCart();
   const { formatPrice } = useCurrency();
+  const [offerBanners, setOfferBanners] = useState<any>([]);
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -148,7 +149,37 @@ const Payment: React.FC<PaymentProps> = ({
     };
     handleAbandonedCart();
   }, [component == "Payment"]);
+  useEffect(() => {
+    const fetchSubBanners = async () => {
+      try {
+        setLoading(true);
+        const client = new ApolloClient({
+          uri: graphqlbaseUrl,
+          cache: new InMemoryCache(),
+        });
+        const GET_ALLOFFERS = gql`
+          query GetAllOffers {
+            getAllOffers {
+              id
+              title
+              url
+              img
+            }
+          }
+        `;
+        const { data } = await client.query({
+          query: GET_ALLOFFERS,
+        });
 
+        setOfferBanners(data.getAllOffers);
+      } catch (error) {
+        console.log("Error in fetching SubBanners", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubBanners();
+  }, []);
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -239,14 +270,14 @@ const Payment: React.FC<PaymentProps> = ({
                   productId: item.productId.toString(),
                   productAmount: item.price,
                   quantity: item.quantity.toString(),
-                  variants:item.variants,
+                  variants: item.variants,
                   productTotal: (item.price * item.quantity).toString(),
                   discountAmount: "0",
-                  discountedTotal: (item.price * item.quantity).toString(), 
+                  discountedTotal: (item.price * item.quantity).toString(),
                 })),
                 coupons: {
                   couponCode: couponCode,
-                  discountPrice: totalDiscount, 
+                  discountPrice: totalDiscount,
                 },
                 productTotal: totalCart.toString(),
                 discountedTotal: (totalCart - totalDiscount).toString(),
@@ -409,7 +440,7 @@ const Payment: React.FC<PaymentProps> = ({
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
               <label
-                htmlFor="razorpayPayment"
+                htmlFor="cashOnDelivery"
                 className="flex cursor-pointer items-center gap-2 font-medium"
               >
                 <TbTruckDelivery />
@@ -417,7 +448,7 @@ const Payment: React.FC<PaymentProps> = ({
               </label>
               <input
                 type="radio"
-                id="razorpayPayment"
+                id="cashOnDelivery"
                 name="paymentOption"
                 value="COD"
                 className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-[#e26178] focus:bg-[#e26178] focus:outline-none"
@@ -535,8 +566,8 @@ const Payment: React.FC<PaymentProps> = ({
               }
             >
               Place Order
-            </button> 
-          )} 
+            </button>
+          )}
           {/* {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
@@ -606,7 +637,27 @@ const Payment: React.FC<PaymentProps> = ({
               )}
             </div>
           </div>
-          <BuyAgain />
+          <p className="text-[1.5rem]">Wait! there's more you'll love</p>
+          <div className="mt-5 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {offerBanners.map((item: any, index: any) => (
+            <div key={index}>
+              <Link href={{
+                pathname:"/products",
+                query:{
+                  url:item.url
+                }
+              }}>
+                <Image
+                  src={item.img}
+                  alt={"the offer banner"}
+                  width={400}
+                  height={400}
+                  unoptimized
+                />
+              </Link>
+            </div>
+          ))}
+        </div>
           <Confetti trigger={orderPlaced} />
         </>
       )}

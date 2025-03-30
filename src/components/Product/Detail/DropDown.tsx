@@ -35,13 +35,18 @@ const DropDown: React.FC<Props> = ({
     handleSelectSize(trueVariants);
   }, [product]);
 
-  const handleNewVariants = (e: React.ChangeEvent<HTMLSelectElement>, variantType: string) => {
-    const variantGroup = product.variants.find(v => v.VariantType === variantType);
+  const handleNewVariants = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    variantType: string,
+  ) => {
+    const variantGroup = product.variants.find(
+      (v) => v.VariantType === variantType,
+    );
     const selectedName = e.target.value;
-    
+
     // Find option by VariantName instead of ProductUrl
     const selectedOption = variantGroup?.VariantOption.find(
-      opt => opt.VariantName === selectedName
+      (opt) => opt.VariantName === selectedName,
     );
 
     if (selectedOption) {
@@ -60,28 +65,30 @@ const DropDown: React.FC<Props> = ({
   };
 
   return (
-    <div className="my-2 lg:w-[85%] overflow-x-auto">
-      <table className="w-full border border-gray-300 text-left border-collapse">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border border-gray-300 p-1 font-semibold md:text-base text-sm">Variant Types</th>
-            <th className="border border-gray-300 p-1  font-semibold md:text-base text-sm">Selected Variant</th>
+    <div className="my-2 overflow-x-auto lg:w-[85%]">
+      <table className="w-full border-collapse border border-gray-300 text-left">
+        <thead className="bg-gradient-to-r from-[#fed258] via-[#fda385] to-[#fc46c6]">
+          <tr className="border border-gray-300 p-1 text-sm font-normal md:text-base">
+            <th colSpan={2} className="p-2 font-normal" >Customize Your Jewellery</th>
           </tr>
         </thead>
         <tbody>
-          {product?.variants?.map((item, index) => (
-            <tr key={index} className="bg-white border border-gray-300">
-              <td className="p-1 md:p-2 flex items-center gap-1 md:text-base text-sm ">
+          {product?.variants?.map((item: any, index: any) => (
+            <tr key={index} className="border border-gray-300 bg-white">
+              <td className="flex items-center gap-1 p-1 text-sm md:p-2 md:text-base">
                 {item.VariantType}
               </td>
               <td className="border border-gray-300 p-1">
                 <div className="relative">
                   <select
-                    className="w-full p-1 bg-white outline-none focus:ring-0  appearance-none md:text-base text-sm"
-                    value={selectedVariants.find(v => v.type === item.VariantType)?.name || ''}
+                    className="w-full appearance-none bg-white p-1 text-sm outline-none focus:ring-0 md:text-base"
+                    value={
+                      selectedVariants.find((v) => v.type === item.VariantType)
+                        ?.name || ""
+                    }
                     onChange={(e) => handleNewVariants(e, item.VariantType)}
                   >
-                    {item?.VariantOption?.map((options, idx) => (
+                    {item?.VariantOption?.map((options: any, idx: any) => (
                       <option key={idx} value={options.VariantName}>
                         {options.VariantName}
                       </option>

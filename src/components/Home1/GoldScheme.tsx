@@ -99,7 +99,7 @@ const GoldScheme = () => {
           </div>
           <div className="flex justify-center lg:justify-end">
             <Image
-              src={"/images/other/Visualize.jpg"}
+              src={"/images/other/Gold_Monthly.jpg"}
               width={900}
               height={900}
               alt="goldscheme"

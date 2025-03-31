@@ -349,7 +349,7 @@ const Wishlist = () => {
                         className="w-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-lg font-semibold text-white lg:w-36 lg:max-xl:w-full"
                         onClick={() => handleAddToCart(product)}
                       >
-                        Add To Cart
+                        Add To Box
                       </div>
                     </div>
                   </div>

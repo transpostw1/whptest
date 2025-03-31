@@ -263,7 +263,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
                         className="rounded-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-lg font-semibold text-white"
                         onClick={() => handleAddToCart(product)}
                       >
-                        Add To Cart
+                        Add To Box
                       </div>
                       <div
                         className="rounded-full bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-center text-lg font-semibold text-white"

@@ -40,14 +40,14 @@ export default function GoldSchemeSmallBanner({ variant }) {
 
       <Link href={"/benefit"} className="">
         <motion.div
-          initial={{ boxShadow: "0 0 0px #fed258" }} // Initial shadow (no glow)
-          animate={{
-            boxShadow: [
-              "0 0 5px #fed258",
-              "0 0 15px #fed258",
-              "0 0 5px #fed258",
-            ], // Cycling glow effect
-          }}
+          // initial={{ boxShadow: "0 0 0px #fed258" }} // Initial shadow (no glow)
+          // animate={{
+          //   boxShadow: [
+          //     "0 0 5px #fed258",
+          //     "0 0 15px #fed258",
+          //     "0 0 5px #fed258",
+          //   ], // Cycling glow effect
+          // }}
           transition={{
             duration: 1.5,
             repeat: Infinity,

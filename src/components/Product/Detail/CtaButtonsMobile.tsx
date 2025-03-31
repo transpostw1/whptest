@@ -11,7 +11,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { showCustomToast } from "@/components/Other/CustomToast";
-
+import { PiTreasureChestLight } from "react-icons/pi";
 interface Props {
   product: ProductType | ProductDetails;
 }
@@ -242,7 +242,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
         <div className="m-[2px] mb-[2px] h-[91%] bg-white">
           <span className="flex h-[91%] items-center justify-center">
             <span className="mt-1">
-              <Icon.ShoppingCart size={25} />
+              <PiTreasureChestLight size={25} />
             </span>
           </span>
         </div>

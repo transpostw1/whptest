@@ -83,32 +83,33 @@ const Accordian: React.FC<Props> = ({ product }) => {
           <div className="flex flex-col lg:flex-row">
             <motion.div
               animate={{
-                scale: [1, 1.15, 1],
+                scale: [1, 1.10, 1],
               }}
               transition={{
                 duration: 1.2,
                 ease: "easeInOut",
                 repeat: Infinity,
               }}
-              className="mr-3"
+              className="mr-3 w-[250px]"
             >
               <Link href={"https://wa.me/918828324464"} target="_blank">
                 <div className="mr-5 mt-5 flex border border-gray-300 p-2 text-center">
                   <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
-                  <p>+91 8828324464</p>
+                  <p className="text-md">+91 8828324464</p>
                 </div>
               </Link>
             </motion.div>
 
             <motion.div
               animate={{
-                scale: [1, 1.15, 1],
+                scale: [1, 1.10, 1],
               }}
               transition={{
                 duration: 1.2,
                 ease: "easeInOut",
                 repeat: Infinity,
               }}
+              className="w-[250px]"
             >
               <Link
                 href="tel:1800222225"
@@ -122,7 +123,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     weight="fill"
                     className="mr-1"
                   />
-                  <p>1800-222-225</p>
+                  <p className="text-md">1800-222-225</p>
                 </div>
               </Link>
             </motion.div>

@@ -40,6 +40,7 @@ const ShopBreadCrumb1 = () => {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleProducts = () => {
+    console.log("isLoadMore");
     setIsLoadMore(true);
     setIsLoading(true); 
   };
@@ -306,12 +307,20 @@ const ShopBreadCrumb1 = () => {
         });
         if (data && data.products) {
           setFilteredProducts((prevProducts) => {
-            // If loading more, append new products to existing ones
             if (isLoadMore) {
-              return [...prevProducts, ...data.products];
+              const newProducts = [...prevProducts, ...data.products];
+              const uniqueProducts = Array.from(
+                new Map(
+                  newProducts.map((product) => [product.productId, product]),
+                ).values(),
+              );
+
+              return uniqueProducts;
+            } else {
+              return data.products;
             }
-            return data.products;
           });
+
           setSelectedSortOption("All");
           setIsLoadMore(false);
         } else {
@@ -879,7 +888,7 @@ const ShopBreadCrumb1 = () => {
                 <div className="sm:w-[100%] lg:w-[70%]">
                   {/* Earrings are a form of self-expression. They effortlessly
                 transform an outfit, framing the face with style and grace. */}
-                  <BreadCrumb filteredProducts={filteredProducts} />
+                  {/* <BreadCrumb filteredProducts={filteredProducts} /> */}
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
                       ([category, options]) =>
@@ -996,7 +1005,7 @@ const ShopBreadCrumb1 = () => {
                 {filteredProducts.length > 0 && (
                   <button
                     onClick={handleProducts}
-                    className="my-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-3 py-2 text-white text-center w-30"
+                    className="w-30 my-2 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-3 py-2 text-center text-white"
                   >
                     Load More
                   </button>

@@ -202,7 +202,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   />
                 </div>
               </Link>
-
+              <div className="ml-4 text-black" onClick={() => setIsModalOpen(true)}>
+                <Icon.MagnifyingGlass size={25} />
+              </div>
               <div className="ml-4" onClick={handleContactPopup}>
                 <Image
                   src={"/images/icons/contact.svg"}
@@ -402,7 +404,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           pathname.includes("/checkout") ? "text-[#e26178]" : ""
                         }`}
                       >
-                        <PiTreasureChestLight size={30} />
+                        <PiTreasureChestLight size={28} />
                         <p className="text-sm">Box</p>
                       </div>
                       {cartLength > 0 && (
@@ -459,52 +461,39 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         <div className="menu-container bg-white">
           <div className="container h-full">
             <div className="menu-main h-full overflow-hidden">
-              <div className="heading relative flex items-center justify-end py-2">
+              <div className="heading relative mt-2 flex items-center justify-end py-2">
                 <div
                   className="close-menu-mobile-btn bg-surface absolute left-0 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full"
                   onClick={handleMenuMobile}
                 >
                   <Icon.X size={40} />
                 </div>
-                {isLoggedIn ? (
-                  <div onClick={handleLogOut}>
-                    <p className="text-lg font-semibold">Logout</p>
-                  </div>
-                ) : (
-                  <div
-                    onClick={handleMenuMobile}
-                    className="flex items-end justify-end text-end"
-                  >
-                    <Link href={"/register"}>
-                      <p className="text-lg font-semibold">Login</p>
-                    </Link>
-                    <div onClick={handleMenuMobile}></div>
-                  </div>
-                )}
               </div>
               <div className="form-search relative mt-2 flex">
-                <div className="mr-3" onClick={openTryAtHomeModal}>
-                  <Image
-                    src="/dummy/tryAtHomeButton.png"
-                    alt="try_at_home"
-                    width={160}
-                    height={60}
-                  />
+                <div className="mr-3 flex w-[190px] justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-3 text-white">
+                  {isLoggedIn ? (
+                    <div onClick={handleLogOut}>
+                      <p className="text-md font-normal">Logout</p>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={handleMenuMobile}
+                      className="flex items-end justify-end text-end"
+                    >
+                      <Link href={"/register"}>
+                        <p className="text-md font-normal">Login</p>
+                      </Link>
+                      <div onClick={handleMenuMobile}></div>
+                    </div>
+                  )}
                 </div>
                 <div
                   className="flex w-[190px] items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white"
-                  onClick={() => setAppointmentModal(true)}
+                  onClick={openTryAtHomeModal}
                 >
-                  <div className="mr-3">
-                    <Image
-                      src="/images/icons/exchangeGold.png"
-                      alt="Exchange_Gold"
-                      width={15}
-                      height={15}
-                    />
-                  </div>
-                  <div>
-                    <p className="text-md">Exchange Gold</p>
+                  <div className="text-md flex">
+                    <Icon.HouseLine className="mt-1" weight="fill" />
+                    <button className="">Try @ Home</button>
                   </div>
                 </div>
                 {appointmentModal && (
@@ -516,17 +505,20 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               </div>
               <div className="list-nav mt-6 box-border h-[500px] overflow-y-auto p-0">
                 <ul>
-                  {allMenus.map((item: any, index: any) => (
+                  {allMenus.map((item: any, index: number) => (
                     <li key={index}>
-                      <div
-                        className="flex justify-between"
-                        onClick={() => toggleAccordion(index)}
-                      >
+                      <div className="flex justify-between">
+                        {/* Item name - Does NOT toggle */}
                         <div className="mt-3 flex items-center text-xl font-semibold">
                           {item.name}
                         </div>
+
+                        {/* Caret Icon - Only clicking this toggles the dropdown */}
                         {item.subCategory.length > 0 && (
-                          <div className="mt-3">
+                          <div
+                            className="mt-3 cursor-pointer"
+                            onClick={() => toggleAccordion(index)}
+                          >
                             {activeIndex === index ? (
                               <Icon.CaretUp scale={23} />
                             ) : (
@@ -539,18 +531,23 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       {activeIndex === index && (
                         <div>
                           {item.subCategory.map(
-                            (childItem: any, index: any) => (
-                              <React.Fragment key={index}>
-                                <div
-                                  className="flex justify-between"
-                                  onClick={() => toggleChildAccordion(index)}
-                                >
+                            (childItem: any, childIdx: number) => (
+                              <React.Fragment key={childIdx}>
+                                <div className="flex justify-between">
+                                  {/* Child item name - Does NOT toggle */}
                                   <div className="mt-2 flex items-center font-semibold">
                                     {childItem.name}
                                   </div>
+
+                                  {/* Child Caret Icon - Only clicking this toggles sub-dropdown */}
                                   {childItem.subCategory.length > 0 && (
-                                    <div className="mt-2">
-                                      {childIndex === index ? (
+                                    <div
+                                      className="mt-2 cursor-pointer"
+                                      onClick={() =>
+                                        toggleChildAccordion(childIdx)
+                                      }
+                                    >
+                                      {childIndex === childIdx ? (
                                         <Icon.CaretUp scale={23} />
                                       ) : (
                                         <Icon.CaretDown scale={23} />
@@ -558,31 +555,32 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                     </div>
                                   )}
                                 </div>
-                                {childIndex === index && (
+
+                                {childIndex === childIdx && (
                                   <div>
                                     {childItem.subCategory.map(
-                                      (item: any, index: any) => (
-                                        <div key={index}>
+                                      (subItem: any, subIdx: number) => (
+                                        <div key={subIdx}>
                                           <Link
-                                            href={item.url}
+                                            href={subItem.url}
                                             className="text-secondary duration-300"
                                             onClick={() => {
-                                              setCustomcategory(item.label);
+                                              setCustomcategory(subItem.label);
                                               handleMenuMobile();
                                             }}
                                           >
                                             <div className="flex">
-                                              {item.image && (
+                                              {subItem.image && (
                                                 <div>
                                                   <Image
-                                                    src={item.image}
-                                                    alt={item.label}
+                                                    src={subItem.image}
+                                                    alt={subItem.label}
                                                     width={25}
                                                     height={25}
                                                   />
                                                 </div>
                                               )}
-                                              <div>{item.name}</div>
+                                              <div>{subItem.name}</div>
                                             </div>
                                           </Link>
                                         </div>

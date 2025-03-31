@@ -17,38 +17,104 @@ interface Props {
 const data = [
   {
     id: 1,
-    title: "Can I order by phone?",
+    title: "What types of jewellery do you offer?",
     content:
-      "Yes, call us on 1800 222 225 between 10am to 8pm. Our customer representative will assist to book your order.",
+      "We offer a wide range of gold and diamond fashion jewellery, including earrings, necklaces,bangles, pendants, bracelets, and more—for men, women, and kids.",
   },
   {
     id: 2,
-    title: "Do I have to bear the shippping cost?",
+    title: "Are your products made of real gold and diamonds?",
     content:
-      "We don't charge any cost to ship and deliver product in India. However, for international shippment please read our delivery policy.",
+      "Yes, all our jewellery is crafted with certified real gold and natural diamonds, as specified in each product listing.",
   },
   {
     id: 3,
-    title: "Diamonds/gemstones are original?",
+    title: "Are your products BIS Hallmarked?",
     content:
-      "Yes, The diamonds/gemstones are original. You will get diamond/gemstone authetification certificate with every diamond/gemstone jewellery product.",
+      "Yes, all our gold jewellery is BIS Hallmarked to ensure purity and authenticity.",
   },
   {
     id: 4,
-    title: "Is the Gold Jewellery hallmarked?",
-    content: "Yes, all gold jewellery is hallmaked.",
+    title: "How can I contact customer support?",
+    content:
+      "You can reach us via WhatsApp, phone, or email mentioned on our Contact Us page. Our team is available 6 days a week to assist you. (Morning 10:00 AM to Evening 07:30 PM)",
   },
   {
     id: 5,
-    title: "What are different payment options?",
+    title: "How do I place an order?",
     content:
-      "Yes, The diamonds/gemstones are original. You will get diamond/gemstone authetification certificate with every diamond/gemstone jewellery product.",
+      "Just select the jewellery you like, choose your specifications (size, variant, etc.), and proceed to checkout with your delivery and payment details.",
   },
   {
     id: 6,
-    title: "When will I get the product?",
+    title: "What payment methods do you accept?",
     content:
-      "If the product is ready to ship, we ship product very next day we received the order. If product is not in stock and need to manufacture, in this case shippment happened after 2 weeks we received the order.",
+      "We accept all major debit/credit cards, UPI, Net Banking, Wallets, and EMI options.",
+  },
+  {
+    id: 7,
+    title: "Is Cash on Delivery (COD) available?",
+    content:
+      "Yes, COD is available for orders up to ₹50,000 and select pin codes. For higher-value orders, we recommend using secure prepaid options like debit/credit cards, UPI, Net Banking, or EMI.",
+  },
+  {
+    id: 8,
+    title: "Is it safe to shop online on your website?",
+    content:
+      "Absolutely. Our website uses secure SSL encryption and trusted payment gateways to ensure your data is protected.",
+  },
+  {
+    id: 9,
+    title: "Do you offer free shipping?",
+    content:
+      "Ready-to-ship products are usually delivered on the same day or within 12 to 48 hours, depending on your location. Made-to-order products may take anywhere from 5 to 12 days for crafting anddelivery.We’ll keep you updated at every stage, and you’ll receive a tracking link once your order is dispatched.",
+  },
+  {
+    id: 10,
+    title: "How do I track my order?",
+    content:
+      "Once your order is shipped, we’ll send you a tracking link via email, SMS &amp; WhatsApp.",
+  },
+  {
+    id: 11,
+    title: "What is your return policy?",
+    content:
+      "We offer a 7-day return or exchange policy for unused and unworn products. Please refer to our Returns &amp; Exchanges page for full details.",
+  },
+  {
+    id: 12,
+    title: "Can I cancel or modify my order after placing it?",
+    content:
+      "Orders can be cancelled or modified within 24 hours of placement. After that, the product may already be under processing.",
+  },
+  {
+    id: 13,
+    title: "Do you offer jewellery customization?",
+    content:
+      "Yes, we offer name engraving, design changes, and size customization. Please contact our team for custom orders.",
+  },
+  {
+    id: 14,
+    title: "How do I know my ring/bangle size?",
+    content:
+      "We have a size guide to help you find the perfect fit. You can also contact us for assistance.",
+  },
+  {
+    id: 15,
+    title: "Do you offer gift wrapping or personalised gift messages?",
+    content:
+      "Yes, we offer premium gift packaging and handwritten messages on request.",
+  },
+  {
+    id: 16,
+    title: "Are there any discounts or festive offers?",
+    content:
+      "Yes! Keep an eye on our website or follow us on Instagram for ongoing deals. We also offer free gold coins or special discounts on gold and diamond jewellery during the festive season with every purchase.",
+  },
+  {
+    id: 15,
+    title: "Do you provide a bill/invoice with the purchase?",
+    content: "Yes, every order comes with a valid invoice for your records.",
   },
 ];
 const CustomStar: React.FC<{
@@ -166,7 +232,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
     if (!review.trim()) {
       setType("error");
       setMessage("Review cannot be empty");
-      return; 
+      return;
     }
     try {
       const cookieToken =
@@ -337,7 +403,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                     placeholder="Write here"
                     id="name"
                     name="name"
-                    value={review} 
+                    value={review}
                     className="mt-1 block h-[150px] w-full rounded-md bg-[#E1DCDD29] p-2 shadow-sm focus:border-[#e26178] focus:ring-[#e26178] sm:text-sm"
                     required
                     onChange={(e) => handleReveiwChange(e)}
@@ -377,7 +443,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={(e) => handleReviews(e)}
-                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] "
+                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178]"
                   >
                     Add
                   </button>
@@ -399,7 +465,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
             {data.map((item, index) => (
               <div
                 key={item.id}
-                className={`border-b border-[#e26178] ${index === 0 ? "border-t" : ""}`} 
+                className={`border-b border-[#e26178] ${index === 0 ? "border-t" : ""}`}
                 onClick={() => toggleAccordion(index)}
               >
                 <div
@@ -419,9 +485,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   </div>
                 </div>
                 {activeIndex === index && (
-                  <div className="accordion-content p-3">
-                    {item.content}
-                  </div>
+                  <div className="accordion-content p-3 bg-[#E1DCDD29]">{item.content}</div>
                 )}
               </div>
             ))}

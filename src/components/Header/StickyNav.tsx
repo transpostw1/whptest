@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { PiTreasureChestLight } from "react-icons/pi";
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
@@ -45,12 +46,11 @@ const StickyNav = () => {
   if (!isMobile) {
     return null;
   }
-  
 
   return (
     <>
-      <div className="fixed bottom-4 left-[20px] w-[90%] p-4 bg-white z-10 rounded-2xl">
-        <div className="flex justify-evenly items-center">
+      <div className="fixed bottom-4 left-[20px] z-10 w-[90%] rounded-2xl bg-white p-4">
+        <div className="flex items-center justify-evenly">
           <Link href={"/"}>
             <div
               className={`${
@@ -108,15 +108,15 @@ const StickyNav = () => {
               onClick={() => handleOptionClicked(5)}
             >
               <div>
-                <Icon.ShoppingCart size={25} />
+                <PiTreasureChestLight size={25} />
                 {cartLength > 0 && (
-                  <span className="quantity cart-quantity absolute right-12 top-2.5 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
+                  <span className="quantity cart-quantity absolute right-12 top-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                     {cartLength}
                   </span>
                 )}
               </div>
 
-              <p>Cart</p>
+              <p>Box</p>
             </div>
           </Link>
         </div>

@@ -449,7 +449,7 @@ const Sidebar: React.FC<Props> = ({ data, productId }) => {
                         onClick={handleAddToCart}
                         className="button-main w-full text-center bg-white text-black border border-black"
                       >
-                        Add To Cart
+                        Add To Box
                       </div>
                     </div>
                     <div className="button-block mt-5">

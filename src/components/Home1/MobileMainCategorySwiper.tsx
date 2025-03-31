@@ -32,47 +32,46 @@ const MobileMainCategorySwiper = () => {
   }
   return (
     <div className="p-3">
-      <Swiper
-        slidesPerView={3.5}
-        spaceBetween={10}
-        breakpoints={{
-          768: {
-            slidesPerView: 6.5,
-            spaceBetween: 20,
-          },
-        }}
-      >
-        {allMenus.map((item: any, index: any) => (
-          <SwiperSlide
-            key={index}
-            className="flex h-full w-full items-center justify-evenly text-rose-950"
-          >
-            <div className="flex flex-col items-center">
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={65}
-                className="rounded-full"
-                height={65}
-                unoptimized
-              />
-              <Link
-                href={item.url}
-                onClick={(e) => {
-                  if (item.name.toLowerCase() === "all jewellery") {
-                    e.preventDefault();
-                  } else {
-                    setCustomcategory(item.label);
-                  }
-                }}
-                className="mt-2 text-center truncate text-xs duration-300"
+      <div className="p-3">
+        <Swiper
+          slidesPerView={3.5}
+          spaceBetween={10}
+          breakpoints={{
+            768: {
+              slidesPerView: 6.5,
+              spaceBetween: 20,
+            },
+          }}
+        >
+          {allMenus.length > 0 &&
+            allMenus[0].subCategory.map((subItem: any, subIndex: any) => (
+              <SwiperSlide
+                key={subIndex}
+                className="flex  h-full w-full items-center justify-evenly text-rose-950"
               >
-                {item.name}
-              </Link>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+                <div className="flex flex-col items-center">
+                  {subItem.image && (
+                    <Image
+                      src={subItem.image}
+                      alt={subItem.name}
+                      width={65}
+                      height={65}
+                      className="border rounded-full border-gray-300"
+                      unoptimized
+                    />
+                  )}
+                  <Link
+                    href={subItem.url}
+                    onClick={() => setCustomcategory(subItem.label)}
+                    className="mt-2 truncate text-center text-xs duration-300"
+                  >
+                    {subItem.name}
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
     </div>
   );
 };

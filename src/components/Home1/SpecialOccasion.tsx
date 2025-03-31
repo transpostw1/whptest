@@ -50,8 +50,11 @@ const SpecialOccasion = () => {
           <Swiper
             spaceBetween={12}
             slidesPerView={1.5}
-            // navigation
             modules={[Navigation, Autoplay]}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
             breakpoints={{
               576: {
                 slidesPerView: 1.5,
@@ -153,9 +156,7 @@ const SpecialOccasion = () => {
               </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <Link
-                href="https://www.anayra.net/"
-              >
+              <Link href="https://www.anayra.net/">
                 <div
                   className="collection-item relative block cursor-pointer overflow-hidden"
                   onClick={() => {

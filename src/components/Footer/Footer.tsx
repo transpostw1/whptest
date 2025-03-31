@@ -251,7 +251,7 @@ const Footer = () => {
                     </Link>
                   </div>
 
-                  <div className="item flex w-full flex-col items-center lg:items-start">
+                  {/* <div className="item flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Quick Shop</div>
                     <Link
                       className="caption1 has-line-before w-fit duration-300"
@@ -300,7 +300,7 @@ const Footer = () => {
                     >
                       Stones
                     </Link>
-                  </div>
+                  </div> */}
                   <div className="item flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Customer Services</div>
                     <Link
@@ -341,7 +341,7 @@ const Footer = () => {
                     )}
                   </div>
                   <div className="item flex w-full flex-col items-center lg:items-start">
-                    <div className="font-semibold">User Guide</div>
+                    {/* <div className="font-semibold">User Guide</div>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/diamondguide"}
@@ -359,8 +359,8 @@ const Footer = () => {
                       href={"/preciousmetal"}
                     >
                       Precious Metal Guide
-                    </Link>
-                    <div className="mt-4 font-semibold">Contact</div>
+                    </Link> */}
+                    <div className="font-semibold">Contact</div>
                     <Link
                       href="tel:+91 1800-222-225"
                       target="_blank"

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ModalSearch from "@/components/Modal/ModalSearch";
 import { useUser } from "@/context/UserContext";
+import { PiTreasureChestLight } from "react-icons/pi";
 import { useCart } from "@/context/CartContext";
 
 const StickyNavProductPage = () => {
@@ -111,7 +112,7 @@ const StickyNavProductPage = () => {
               onClick={() => handleOptionClicked(5)}
             >
               <div>
-                <Icon.ShoppingCart size={25} />
+                <PiTreasureChestLight size={25} />
                 {cartLength > 0 && (
                   <span className="quantity cart-quantity absolute right-[30px] top-1 text-xs text-white bg-[#E26178] w-4 h-4 flex items-center justify-center rounded-full">
                     {cartLength}

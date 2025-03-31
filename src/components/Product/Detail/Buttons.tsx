@@ -218,8 +218,8 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         <div className="m-[2px] mb-[2px] bg-white">
           <span className="flex justify-center py-[14px] max-sm:py-[10px]">
             <span>Add to Box</span>
-            <span className="mt-2">
-              <PiTreasureChestLight/>
+            <span className="ml-1">
+              <PiTreasureChestLight size={25}/>
             </span>
           </span>
         </div>

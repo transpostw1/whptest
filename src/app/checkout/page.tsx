@@ -16,6 +16,7 @@ import Payment from "./Payment";
 import OrderSummary from "./OrderSummary";
 import ProceedButton from "./ProceedButton";
 import Link from "next/link";
+import { PiTreasureChestLight } from "react-icons/pi";
 import CouponsModal from "@/components/Other/CouponsModal";
 import { useCurrency } from "@/context/CurrencyContext";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
@@ -643,7 +644,7 @@ const Checkout: React.FC = () => {
   const steps = [
     {
       icon: (
-        <ShoppingCart
+        < PiTreasureChestLight
           className={`rounded-full text-2xl ${
             selectedStep === 0 ? "text-white" : "text-white"
           }`}

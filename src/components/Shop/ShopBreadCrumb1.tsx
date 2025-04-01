@@ -42,6 +42,7 @@ const ShopBreadCrumb1 = () => {
   const handleProducts = () => {
     console.log("isLoadMore");
     setIsLoadMore(true);
+    setIsLoading(true); 
   };
   const triggerFetchData = () => {
     setFetchProducts(true);
@@ -78,11 +79,11 @@ const ShopBreadCrumb1 = () => {
       combinedOptions.productCategory.length > 0
     ) {
       try {
-        setIsLoading(false);
+        setIsLoading(true);
         const client = new ApolloClient({
           uri: graphqlProductUrl,
           cache: new InMemoryCache(),
-        });
+        });    
         const GET_PRODUCTS = gql`
           query Products(
             $category: [CategoryArrayInput!]
@@ -330,7 +331,7 @@ const ShopBreadCrumb1 = () => {
         setIsLoading(true);
         console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     }
   };

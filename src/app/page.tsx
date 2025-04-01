@@ -46,20 +46,20 @@ export default function Home() {
       Hotjar.init(siteId, hotjarVersion);
     }
   }, []);
-  useEffect(() => {
-    if (!document.getElementById("kenyt-chatbot-script")) {
-      const script = document.createElement("script");
-      script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
-      script.type = "text/javascript";
-      script.dataset.bot = "11799060"; 
-      script.id = "kenyt-chatbot-script"; 
-      document.body.appendChild(script);
+  // useEffect(() => {
+  //   if (!document.getElementById("kenyt-chatbot-script")) {
+  //     const script = document.createElement("script");
+  //     script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
+  //     script.type = "text/javascript";
+  //     script.dataset.bot = "11799060"; 
+  //     script.id = "kenyt-chatbot-script"; 
+  //     document.body.appendChild(script);
 
-      script.onload = () => {
-        console.log("Kenyt.ai Chatbot script loaded!");
-      };
-    }
-  }, []); 
+  //     script.onload = () => {
+  //       console.log("Kenyt.ai Chatbot script loaded!");
+  //     };
+  //   }
+  // }, []); 
   return (
     <>
       {/* <Head>

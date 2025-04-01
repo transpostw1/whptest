@@ -28,6 +28,7 @@ const GoldScheme = () => {
   };
 
   return (
+    <>
       {loading && <Loader />}
       <div className="mt-5 bg-[#FFFAF9] text-rose-950">
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
@@ -59,7 +60,7 @@ const GoldScheme = () => {
               It's time to invest in a Golden Future
             </h1>
             <p className="text-center font-normal text-rose-950 sm:w-[100%] md:text-center lg:w-[70%] lg:text-left">
-              Invest in timeless wealth with our <span className="font-semibold">Gold Monthly Investment </span>plan, catering to a wide
+              Invest in timeless wealth with our <span className="font-sem">Gold Monthly Investment </span>plan, catering to a wide
               range of budgets. Making gold investment accessible to everyone.
               Watch your savings grow as you accumulate one of the most enduring
               assets.

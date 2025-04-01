@@ -31,8 +31,8 @@ const MobileMainCategorySwiper = () => {
     return null;
   }
   return (
-    <div className="p-3">
-      <div className="p-3">
+    <div className="mb-2">
+      <div className=" ">
         <Swiper
           slidesPerView={3.5}
           spaceBetween={10}

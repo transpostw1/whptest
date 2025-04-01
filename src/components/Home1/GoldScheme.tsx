@@ -32,10 +32,30 @@ const GoldScheme = () => {
       {loading && <Loader />}
       <div className="mt-5 bg-[#FFFAF9] text-rose-950">
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
-          <div className="px-8 lg:px-0">
-            <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:text-start lg:text-[16px]">
+          {isMobile && (
+            <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:ml-[20px] lg:text-start lg:text-[16px]">
               GOLD SCHEME
             </h2>
+          )}
+          {isMobile && (
+            <div className="flex justify-center lg:justify-end">
+              <Image
+                src={"/images/other/gold_Monthly_scheme.jpg"}
+                width={900}
+                height={900}
+                alt="goldscheme"
+                unoptimized
+                className="h-auto w-full lg:w-auto"
+              />
+            </div>
+          )}
+          <div className="px-8 lg:px-0">
+            {!isMobile && (
+              <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:text-start lg:text-[16px]">
+                GOLD SCHEME
+              </h2>
+            )}
+
             <h1 className="py-4 text-center text-2xl md:text-center md:text-3xl lg:text-left lg:text-[50px] lg:leading-[74px]">
               It's time to invest in a Golden Future
             </h1>
@@ -97,16 +117,18 @@ const GoldScheme = () => {
               </div>
             )} */}
           </div>
-          <div className="flex justify-center lg:justify-end">
-            <Image
-              src={"/images/other/Gold_Monthly_revised.jpg"}
-              width={900}
-              height={900}
-              alt="goldscheme"
-              unoptimized
-              className="h-auto w-full lg:w-auto"
-            />
-          </div>
+          {!isMobile && (
+            <div className="flex justify-center lg:justify-end">
+              <Image
+                src={"/images/other/gold_Monthly_scheme.jpg"}
+                width={900}
+                height={900}
+                alt="goldscheme"
+                unoptimized
+                className="h-auto w-full lg:w-auto"
+              />
+            </div>
+          )}
           {/* {isMobile && (
             <div className="bg-[#FFFAF9] p-0">
               <div className="flex items-center gap-3 p-0 sm:flex-row md:py-5 md:ps-5">

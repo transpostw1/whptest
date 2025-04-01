@@ -62,7 +62,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`transform transition-transform duration-300 ${showAccordian === 5 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 1 ? "rotate-180" : null}`}
               />
             </span>
           </button>
@@ -80,10 +80,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
             questions,need advice,or require support,we're just a message or
             call away
           </div>
-          <div className="flex flex-col lg:flex-row">
+          <div className="flex w-full flex-col justify-center lg:flex-row">
             <motion.div
               animate={{
-                scale: [1, 1.10, 1],
+                scale: [1, 1.1, 1],
               }}
               transition={{
                 duration: 1.2,
@@ -93,7 +93,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               className="mr-3 w-[250px]"
             >
               <Link href={"https://wa.me/918828324464"} target="_blank">
-                <div className="mr-5 mt-5 flex border border-gray-300 p-2 text-center">
+                <div className="mr-5 mt-5 flex p-2 text-center">
                   <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
                   <p className="text-md">+91 8828324464</p>
                 </div>
@@ -102,7 +102,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
             <motion.div
               animate={{
-                scale: [1, 1.10, 1],
+                scale: [1, 1.1, 1],
               }}
               transition={{
                 duration: 1.2,
@@ -116,7 +116,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="mr-5 mt-5 flex border border-gray-300 p-2">
+                <div className="mr-5 mt-5 flex p-2">
                   <Icon.Phone
                     size={30}
                     color="#e26178"
@@ -140,7 +140,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`transform transition-transform duration-300 ${showAccordian === 1 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 2 ? "rotate-180" : null}`}
               />
             </span>
           </button>
@@ -271,7 +271,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
             <span className="right-0">
               <Icon.CaretDown
                 size={25}
-                className={`transform transition-transform duration-300 ${showAccordian === 2 ? "rotate-180" : null}`}
+                className={`transform transition-transform duration-300 ${showAccordian === 3 ? "rotate-180" : null}`}
               />
             </span>
           </button>
@@ -424,7 +424,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <span className="right-0">
                 <Icon.CaretDown
                   size={25}
-                  className={`transform transition-transform duration-300 ${showAccordian === 3 ? "rotate-180" : null}`}
+                  className={`transform transition-transform duration-300 ${showAccordian === 4 ? "rotate-180" : null}`}
                 />
               </span>
             </button>
@@ -545,7 +545,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <span className="right-0">
                 <Icon.CaretDown
                   size={25}
-                  className={`transform transition-transform duration-300 ${showAccordian === 4 ? "rotate-180" : null}`}
+                  className={`transform transition-transform duration-300 ${showAccordian === 5 ? "rotate-180" : null}`}
                 />
               </span>
             </button>

@@ -407,7 +407,7 @@ const Footer = () => {
             <div className="border-line flex items-center justify-center gap-5 border-t py-3 max-lg:flex-col max-lg:justify-center">
               <div className="left flex items-center gap-8">
                 <div className="copyright caption1 text-secondary text-center">
-                  ©2024 WHP Jewellers Ecommerce Private Limited.All Rights
+                  ©2025 WHP Jewellers Ecommerce Private Limited.All Rights
                   Reserved.
                 </div>
                 <div className="select-block flex items-center gap-5 max-md:hidden"></div>

@@ -33,7 +33,7 @@ const SpecialOccasion = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col justify-between gap-2 px-8 text-red-950"
+        className="flex flex-col justify-between gap-2 px-8 text-red-950"
         >
           <p className="text-[24px] sm:w-[100%] sm:leading-[18px] md:w-[57%] md:text-3xl lg:w-[71%] lg:text-[62px] lg:leading-[86px]">
             Something Special for Everyone
@@ -47,7 +47,7 @@ const SpecialOccasion = () => {
         {/* </Fade> */}
         {/* </div> */}
         <div className="list-collection section-swiper-navigation mt-6 px-4 sm:px-5 md:mt-10">
-          <Swiper
+          <Swiper 
             spaceBetween={12}
             slidesPerView={1.5}
             modules={[Navigation, Autoplay]}

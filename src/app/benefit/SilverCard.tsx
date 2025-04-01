@@ -190,7 +190,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
         Silver
       </h3>
       <h1 className="text-center text-2xl font-semibold">
-        BENEFIT CALCULATOR FOR SILVER
+        BENEFIT CALCULATOR FOR SILVER ARTICLES
       </h1>
       <div className="mx-4 flex flex-col items-center justify-evenly gap-3 lg:flex-row">
         <div className="mt-7 flex w-full flex-col justify-between text-start md:w-auto">
@@ -252,7 +252,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="w-full text-start md:w-52">
-              <h1>Buy any silver worth: (after 11th month)</h1>
+              <h1>Buy any silver articles worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="text-sm text-[#E26178] md:text-3xl">

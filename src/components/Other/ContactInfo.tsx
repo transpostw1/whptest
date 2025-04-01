@@ -11,10 +11,10 @@ const ContactInfo = () => {
       <p className="mt-3">
         Connect with us and we will assist you with all your needs
       </p>
-      <p className="mt-5 font-semibold">Contact us on :(10:30AM -7:30PM)</p>
+      
 
       <Link
-        href="tel:+91 1800-222-225"
+        href="tel:1800222225"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -31,6 +31,7 @@ const ContactInfo = () => {
           <span>1800-222-225</span>
         </div>
       </Link>
+      
       <Link
         href="https://mail.google.com/mail/?view=cm&fs=1&to=care@whpjewellers.in"
         target="_blank"
@@ -49,6 +50,7 @@ const ContactInfo = () => {
           <span>care@whpjewellers.in</span>
         </div>
       </Link>
+      <p className="mt-3 font-medium text-md">Contact us on :(10:30AM -7:30PM)</p>
       <div className="mt-4 flex items-center">
         <div className="mr-3">
           <Link href={"https://www.facebook.com/whpjewellers.india/"}>

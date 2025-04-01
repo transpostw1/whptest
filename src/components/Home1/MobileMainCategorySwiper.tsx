@@ -47,18 +47,24 @@ const MobileMainCategorySwiper = () => {
             allMenus[0].subCategory.map((subItem: any, subIndex: any) => (
               <SwiperSlide
                 key={subIndex}
-                className="flex  h-full w-full items-center justify-evenly text-rose-950"
+                className="flex h-full w-full items-center justify-evenly text-rose-950"
               >
                 <div className="flex flex-col items-center">
                   {subItem.image && (
-                    <Image
-                      src={subItem.image}
-                      alt={subItem.name}
-                      width={65}
-                      height={65}
-                      className="border rounded-full border-gray-300"
-                      unoptimized
-                    />
+                    <Link
+                      href={subItem.url}
+                      onClick={() => setCustomcategory(subItem.label)}
+                      className="mt-2 truncate text-center text-xs duration-300"
+                    >
+                      <Image
+                        src={subItem.image}
+                        alt={subItem.name}
+                        width={65}
+                        height={65}
+                        className=""
+                        unoptimized
+                      />
+                    </Link>
                   )}
                   <Link
                     href={subItem.url}

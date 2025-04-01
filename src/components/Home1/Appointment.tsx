@@ -28,10 +28,10 @@ const Appointment = () => {
                 src="/images/other/Visualize.jpg"
                 alt=""
                 className="object-contain"
-                // unoptimized
+               
               />
             </div>
-            <div className="flex items-center py-4 md:items-start">
+            <div className="flex w-full items-center py-4 md:items-start">
               {/* <h1 className="text-center text-xl font-semibold text-red-950 md:text-start">
                 Gold Exchange
               </h1>

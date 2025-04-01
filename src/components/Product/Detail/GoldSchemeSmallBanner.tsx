@@ -57,7 +57,7 @@ export default function GoldSchemeSmallBanner({ variant }) {
         >
           <div>
             <span className="text-xs md:text-base">
-              <span className="text-[#e26178]">WHP 10 + 1 Jewelry Plan </span>
+              <span className="text-[#e26178]">Gold Monthly Investment Plan</span>
               {/* (Pay 11 Installments, Get up to 100% Off on 12th Installment) */}
             </span>
           </div>

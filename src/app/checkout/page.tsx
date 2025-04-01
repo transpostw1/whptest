@@ -650,7 +650,7 @@ const Checkout: React.FC = () => {
           }`}
         />
       ),
-      label: "Cart",
+      label: "Box",
     },
     {
       icon: (

@@ -8,19 +8,19 @@ const WhatWeOffer = () => {
   return (
     <section className="my-16 flex w-full flex-col md:flex-row">
       {/* Left Section (Text Content - Top) */}
-      <div className="w-full px-6 py-6 text-center md:hidden">
-        <p className="mt-5 text-lg font-normal tracking-[0.49rem]">OFFERINGS</p>
-        <h2 className="text-3xl font-normal md:text-5xl">What we Offer</h2>
+      <div className="w-full px-6 py-6 text-center md:hidden bg-[#F9F5F5]">
+        {/* <p className="mt-5 text-lg font-normal tracking-[0.49rem]">OFFERINGS</p> */}
+        <h2 className="text-2xl font-normal md:text-5xl">9Ratna Gemstones</h2>
         <p className="mt-3">
-          Discover our offerings. Our commitment to quality, elegance, and
-          personalized service ensures an exceptional experience.
+          Discover gemstone jewellery where style meets spiritual
+          energy—bringing health, prosperity, and happiness into your life.
         </p>
       </div>
 
       {/* Middle Section (Image in Mobile, Left in Desktop) */}
       <div className="flex w-full md:w-1/2">
         <Image
-          src="/images/other/WHP_What_We_Offer_600x600_copy.jpg"
+          src="/images/other/gemstone_whp_1.jpg"
           alt="Jewellery bag"
           width={600}
           height={600}
@@ -32,10 +32,10 @@ const WhatWeOffer = () => {
       <div className="flex w-full flex-col justify-between bg-[#F9F5F5] px-6 py-10 text-[#39161C] md:w-1/2">
         {/* Show heading only on desktop */}
         <div className="hidden md:block">
-          <h2 className="text-3xl font-normal md:text-5xl">What we Offer</h2>
+          <h2 className="text-3xl font-normal md:text-5xl">9Ratna Gemstones</h2>
           <p className="mt-3">
-            Discover our offerings. Our commitment to quality, elegance, and
-            personalized service ensures an exceptional experience.
+            Discover gemstone jewellery where style meets spiritual
+            energy—bringing health, prosperity, and happiness into your life.
           </p>
         </div>
 
@@ -50,21 +50,22 @@ const WhatWeOffer = () => {
               className="mb-3"
               unoptimized
             />
-            <h3 className="text-xl font-semibold">12000+ UNIQUE DESIGNS</h3>
+            <h3 className="text-xl font-semibold">Gemstones & Jewellery</h3>
             <p className="md:mw-96 text-center md:text-start">
-              Elevate your style with our distinctive jewellery designs, where
-              creativity and craftsmanship unite.
+              Discover our premium collection of natural, certified loose
+              gemstones and jewellery are each handpicked for its clarity,
+              color, and cosmic energy.
             </p>
             <Link
               href={{
                 pathname: "/products",
-                query: { url: "category-new_Arrival" },
+                query: { url: "pc-gemstone" },
               }}
-              onClick={() => setCustomcategory("new_arrival")}
+              onClick={() => setCustomcategory("gemstone")}
               className="mt-8 inline-flex items-center"
             >
               <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
-                Next
+                Shop Now
               </span>
               <span className="flex items-center">
                 <Image
@@ -76,7 +77,7 @@ const WhatWeOffer = () => {
               </span>{" "}
             </Link>
           </div>
-          <div>
+          {/* <div>
             <div className="mr-10 hidden sm:block">
               <p
                 className="mt-5 text-lg font-semibold tracking-[0.49rem]"
@@ -89,7 +90,7 @@ const WhatWeOffer = () => {
                 OFFERINGS
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

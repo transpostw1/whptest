@@ -31,7 +31,7 @@ const Reviews: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef<Slider>(null);
   const [expanded, setExpanded] = useState(false);
-  const maxLength = 100; // Max characters before truncation
+  const maxLength = 150; // Max characters before truncation
 
   const fetchTestimonials = async () => {
     try {
@@ -113,7 +113,7 @@ const Reviews: React.FC = () => {
                 .map((testimonial, index) => (
                   <div
                     key={index}
-                    className="h-20 w-20 overflow-hidden rounded-full border-2 border-gray-300"
+                    className="h-20 w-20 overflow-hidden rounded-full"
                   >
                     <Image
                       src={testimonial.image}
@@ -150,7 +150,7 @@ const Reviews: React.FC = () => {
                     {testimonial.feedback.length > maxLength && (
                       <button
                         onClick={() => setExpanded(!expanded)}
-                        className="self-start text-sm text-blue-500 hover:underline"
+                        className="self-start text-sm text-[#e26178] hover:underline"
                       >
                         {expanded ? "Read Less" : "Read More"}
                       </button>

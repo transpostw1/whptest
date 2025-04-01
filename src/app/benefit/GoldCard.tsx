@@ -188,7 +188,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
     <div className="h-full bg-[#ebe3d5] p-4 md:p-0 relative">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">Gold</h3>
       <h1 className="text-center text-2xl font-semibold">
-        BENEFIT CALCULATOR FOR GOLD
+        BENEFIT CALCULATOR FOR GOLD JEWELLERY
       </h1>
       <div className="mx-4 flex flex-col items-center justify-evenly gap-3 lg:flex-row">
         <div className="mt-7 flex w-full flex-col justify-between text-start md:w-auto">
@@ -250,7 +250,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="w-full text-start md:w-52">
-              <h1>Buy any gold worth: (after 11th month)</h1>
+              <h1>Buy any gold jewellery worth: (after 11th month)</h1>
             </div>
             <div>
               <h1 className="text-sm text-[#E26178] md:text-3xl">

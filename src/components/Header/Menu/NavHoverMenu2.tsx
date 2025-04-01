@@ -108,7 +108,7 @@ const NavHoverMenu2 = () => {
                         }
                       }}
                       className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 ${
-                        selectedMenu === index ? "underline" : "hover:underline"
+                        selectedMenu === index ? "underline text-[#E26178]" : " hover:text-[#E26178]"
                       }`}
                     >
                       {item.name}

@@ -30,7 +30,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
     useState(false);
   const [inputValue, setInputValue] = useState<string>("500");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const numberOfMonths = 11;
+  const numberOfMonths = 10;
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
   const redemptionAmount = totalAmount + discountAmount;
@@ -244,7 +244,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="flex justify-between">
             <div className="text-start">
-              <h1>{percentage}% Discount on 12th installment</h1>
+              <h1>{percentage}% Discount on 11th installment</h1>
             </div>
             <div>
               <h1>{formatPrice(discountAmount)}</h1>

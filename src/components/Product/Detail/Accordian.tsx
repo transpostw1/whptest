@@ -99,7 +99,6 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 </div>
               </Link>
             </motion.div>
-
             <motion.div
               animate={{
                 scale: [1, 1.1, 1],

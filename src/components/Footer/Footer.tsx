@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="footer-main bg-gray-50">
           <div className="container py-4">
             <div className="flex flex-col items-center justify-center lg:flex-row lg:justify-between">
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}
@@ -195,19 +195,14 @@ const Footer = () => {
               <div className="flex w-full flex-col justify-center lg:flex-row">
                 <div className="list-nav flex w-full flex-col justify-between gap-5 lg:flex-row">
                   <div className="flex w-full flex-col items-center lg:items-start">
-                    <div className="font-semibold">Know WHP</div>
+                    <div className="font-semibold">Important Links</div>
+
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
-                      href="/careers"
+                      href={"/about-whpjewellers"}
                     >
-                      Careers
+                      About-Us
                     </Link>
-                    {careerModal && (
-                      <BookExchangeModal
-                        title={"Careers"}
-                        closeModal={handleCareerModal}
-                      />
-                    )}
                     {isLoggedIn ? (
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
@@ -223,6 +218,7 @@ const Footer = () => {
                         My Account
                       </Link>
                     )}
+
                     {isLoggedIn ? (
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
@@ -234,21 +230,17 @@ const Footer = () => {
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
                         href={"/register"}
-                      >Orders & Returns</Link>
+                      >
+                        Orders & Returns
+                      </Link>
                     )}
 
-                    <Link
-                      className="caption1 has-line-before w-fit pt-2 duration-300"
-                      href={"/about-whpjewellers"}
-                    >
-                      About-Us
-                    </Link>
-                    <Link
+                    {/* <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/faqs"}
                     >
                       FAQs
-                    </Link>
+                    </Link> */}
                   </div>
 
                   {/* <div className="item flex w-full flex-col items-center lg:items-start">
@@ -362,7 +354,7 @@ const Footer = () => {
                     </Link> */}
                     <div className="font-semibold">Contact</div>
                     <Link
-                      href="tel:+91 1800-222-225"
+                      href="tel:1800222225"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -379,6 +371,18 @@ const Footer = () => {
                         <span>care@whpjewellers.in</span>
                       </div>
                     </Link>
+                    <Link
+                      className="caption1 has-line-before w-fit pt-2 duration-300"
+                      href="/careers"
+                    >
+                      Careers
+                    </Link>
+                    {careerModal && (
+                      <BookExchangeModal
+                        title={"Careers"}
+                        closeModal={handleCareerModal}
+                      />
+                    )}
                   </div>
                 </div>
                 {/* <div className="item flex flex-col lg:justify-start justify-center lg:items-start items-center mt-5 md:mt-0  ">

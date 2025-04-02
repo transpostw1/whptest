@@ -32,11 +32,11 @@ const GoldScheme = () => {
       {loading && <Loader />}
       <div className="mt-5 bg-[#FFFAF9] text-rose-950">
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
-          {isMobile && (
+          {/* {isMobile && (
             <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:ml-[20px] lg:text-start lg:text-[16px]">
               GOLD SCHEME
             </h2>
-          )}
+          )} */}
           {isMobile && (
             <div className="flex justify-center lg:justify-end">
               <Image
@@ -50,17 +50,17 @@ const GoldScheme = () => {
             </div>
           )}
           <div className="px-8 lg:px-0">
-            {!isMobile && (
+            {/* {!isMobile && (
               <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:text-start lg:text-[16px]">
                 GOLD SCHEME
               </h2>
-            )}
+            )} */}
 
             <h1 className="py-4 text-center text-2xl md:text-center md:text-3xl lg:text-left lg:text-[50px] lg:leading-[74px]">
               It's time to invest in a Golden Future
             </h1>
             <p className="text-center font-normal text-rose-950 sm:w-[100%] md:text-center lg:w-[70%] lg:text-left">
-              Invest in timeless wealth with our Gold Scheme, catering to a wide
+              Invest in timeless wealth with our <span className="font-sem">Gold Monthly Investment </span>plan, catering to a wide
               range of budgets. Making gold investment accessible to everyone.
               Watch your savings grow as you accumulate one of the most enduring
               assets.

@@ -13,6 +13,9 @@ import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { graphqlProductUrl } from "@/utils/constants";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -42,7 +45,7 @@ const ShopBreadCrumb1 = () => {
   const handleProducts = () => {
     console.log("isLoadMore");
     setIsLoadMore(true);
-    setIsLoading(true); 
+    setIsLoading(true);
   };
   const triggerFetchData = () => {
     setFetchProducts(true);
@@ -83,7 +86,7 @@ const ShopBreadCrumb1 = () => {
         const client = new ApolloClient({
           uri: graphqlProductUrl,
           cache: new InMemoryCache(),
-        });    
+        });
         const GET_PRODUCTS = gql`
           query Products(
             $category: [CategoryArrayInput!]
@@ -991,13 +994,56 @@ const ShopBreadCrumb1 = () => {
                     We couldn't find any products matching your current filters.
                   </p>
                   <div className="suggestions mb-8"></div>
-                  <div className="cta-buttons flex justify-center space-x-4">
-                    <button
-                      className="btn-explore rounded-md bg-[#e26178] px-4 py-2 text-white transition duration-300 hover:bg-teal-600"
-                      onClick={() => (window.location.href = "/")}
+                  <div className="flex w-full flex-col justify-center lg:flex-row">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 1.2,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                      }}
+                      className="mr-3 w-[250px]"
                     >
-                      Explore More
-                    </button>
+                      <Link href={"https://wa.me/918828324464"} target="_blank">
+                        <div className="mr-5 mt-5 flex p-2 text-center">
+                          <IoLogoWhatsapp
+                            className="mr-1"
+                            size={30}
+                            color="#25D366"
+                          />
+                          <p className="text-md">+91 8828324464</p>
+                        </div>
+                      </Link>
+                    </motion.div>
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 1.2,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                      }}
+                      className="w-[250px]"
+                    >
+                      <Link
+                        href="tel:1800222225"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <div className="mr-5 mt-5 flex p-2">
+                          <Icon.Phone
+                            size={30}
+                            color="#e26178"
+                            weight="fill"
+                            className="mr-1"
+                          />
+                          <p className="text-md">1800-222-225</p>
+                        </div>
+                      </Link>
+                    </motion.div>
                   </div>
                 </div>
               )}

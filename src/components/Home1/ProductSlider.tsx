@@ -9,7 +9,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import {  graphqlProductUrl } from "@/utils/constants";
+import { graphqlProductUrl } from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
@@ -149,11 +149,13 @@ const ProductSlider = () => {
                 }}
               >
                 {Array.isArray(data) &&
-                  data.map((prd: any, index: any) => (
-                    <SwiperSlide key={index}>
-                      <DummyProduct data={prd} />
-                    </SwiperSlide>
-                  ))}
+                  data
+                    .filter((prd: any) => prd.imageDetails !== null)
+                    .map((prd: any, index: any) => (
+                      <SwiperSlide key={index}>
+                        <DummyProduct data={prd} />
+                      </SwiperSlide>
+                    ))}
               </Swiper>
             </div>
           )}

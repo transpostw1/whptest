@@ -165,11 +165,13 @@ const BuyAgain = () => {
                     },
                   }}
                 >
-                  {data.map((prd: any, index: any) => (
-                    <SwiperSlide key={index}>
-                      <DummyProduct data={prd} />
-                    </SwiperSlide>
-                  ))}
+                  {data
+                    .filter((prd: any) => prd.imageDetails !== null)
+                    .map((prd: any, index: any) => (
+                      <SwiperSlide key={index}>
+                        <DummyProduct data={prd} />
+                      </SwiperSlide>
+                    ))}
                 </Swiper>
               </div>
             )}

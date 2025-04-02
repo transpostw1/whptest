@@ -18,7 +18,6 @@ const Coupons: React.FC<Props> = ({ product }) => {
 
   const handleCopyToClipboard = (couponCode: string) => {
     navigator.clipboard.writeText(couponCode).then(() => {
-      
       setCopiedCoupon(couponCode);
     });
   };
@@ -38,7 +37,7 @@ const Coupons: React.FC<Props> = ({ product }) => {
           }}
           className="py-4"
         >
-          {coupons?.map((coupon:any, index:any) => (
+          {coupons?.map((coupon: any, index: any) => (
             <SwiperSlide
               key={index}
               className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
@@ -71,7 +70,7 @@ const Coupons: React.FC<Props> = ({ product }) => {
                   Get {coupon.discountType === "Amount" ? "flat " : ""}
                   {coupon.discountType === "Amount"
                     ? `₹${coupon.discountValue}`
-                    : `${coupon.discountValue}%`}{" "}
+                    : `${coupon.discountValue}%`}
                   off on minimum purchase of ₹{coupon.discountMinAmount}
                 </p>
 

@@ -266,8 +266,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "addDate",
-            sortOrder: "DESC",
+            sortBy: "priority",
+            sortOrder: "ASC",
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -297,7 +297,7 @@ const ShopBreadCrumb1 = () => {
               value: occasion,
             })),
             sortBy: "priority",
-            sortOrder: "DESC",
+            sortOrder: "ASC",
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -984,16 +984,21 @@ const ShopBreadCrumb1 = () => {
                 <ProductSkeleton />
               ) : (
                 <div
-                  className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] sm:gap-[30px]"
+                  className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] text-center sm:gap-[30px]"
                   ref={productsListRef}
                 >
-                  <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                    Oops! No products found.
+                  <h2 className="mb-1 text-2xl font-semibold text-gray-800">
+                    Can’t find what you’re looking for?
                   </h2>
-                  <p className="mb-6 text-lg text-gray-600">
-                    We couldn't find any products matching your current filters.
+                  <p className="italic">Don’t worry — we’re here to help!</p>
+                  <p className="leading-5">
+                    We’ll help you find the perfect piece or even customize one
+                    just for you.
                   </p>
-                  <div className="suggestions mb-8"></div>
+                  <p className="mb-6 text-lg text-gray-600">
+                    Chat with us on WhatsApp or give us a call. <br />
+                  </p>
+                  
                   <div className="flex w-full flex-col justify-center lg:flex-row">
                     <motion.div
                       animate={{

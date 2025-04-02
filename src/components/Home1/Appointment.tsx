@@ -4,6 +4,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useState, useEffect } from "react";
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import Link from "next/link";
 
 const Appointment = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
@@ -51,16 +52,21 @@ const Appointment = () => {
                 </button>
                 <HiOutlineArrowLongRight className="ml-1" size={20} />
               </div>
+              <Link href={{
+                pathname: "/products",
+                query: { url: "pc-virtual_try_on" },
+              }}>
               <div
                 onClick={() => setAppointmentModal(true)}
                 className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
               >
+                
                 <button
                   type="button"
                   className="text-sm font-medium md:text-[18px]"
                 >Virtual Try-ON</button>
                 <HiOutlineArrowLongRight className="ml-1" size={20} />
-              </div>
+              </div></Link>
               {appointmentModal && (
                 <BookExchangeModal
                   title={"Book Your Appointment"}

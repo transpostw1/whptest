@@ -30,7 +30,7 @@ const GoldScheme = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-5 bg-[#FFFAF9] text-rose-950">
+      <div className="mt-5 bg-[#fcf5e3] text-rose-950">
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 lg:pl-7">
           {/* {isMobile && (
             <h2 className="pt-4 text-center font-medium sm:text-[14px] md:text-center lg:ml-[20px] lg:text-start lg:text-[16px]">

@@ -991,12 +991,12 @@ const ShopBreadCrumb1 = () => {
                     Can’t find what you’re looking for?
                   </h2>
                   <p className="italic">Don’t worry — we’re here to help!</p>
-                  <p className="leading-5">
+                  <p className="leading-7">
                     We’ll help you find the perfect piece or even customize one
                     just for you.
                   </p>
                   <p className="mb-6 text-lg text-gray-600">
-                    Chat with us on WhatsApp or give us a call. <br />
+                    Chat with us on WhatsApp or give us a call. 
                   </p>
                   
                   <div className="flex w-full flex-col justify-center lg:flex-row">
@@ -1009,10 +1009,10 @@ const ShopBreadCrumb1 = () => {
                         ease: "easeInOut",
                         repeat: Infinity,
                       }}
-                      className="mr-3 w-[250px]"
+                      className=""
                     >
                       <Link href={"https://wa.me/918828324464"} target="_blank">
-                        <div className="mr-5 mt-5 flex p-2 text-center">
+                        <div className="flex p-2 text-center">
                           <IoLogoWhatsapp
                             className="mr-1"
                             size={30}
@@ -1031,14 +1031,14 @@ const ShopBreadCrumb1 = () => {
                         ease: "easeInOut",
                         repeat: Infinity,
                       }}
-                      className="w-[250px]"
+                      className=""
                     >
                       <Link
                         href="tel:1800222225"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <div className="mr-5 mt-5 flex p-2">
+                        <div className=" flex p-2">
                           <Icon.Phone
                             size={30}
                             color="#e26178"

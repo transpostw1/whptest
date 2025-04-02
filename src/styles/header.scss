@@ -173,19 +173,19 @@
     }
   }
 
-  &.style-eight {
-    > ul > li > a::before,
-    > ul > li > .link::before {
-      bottom: 10px;
-    }
-  }
+  // &.style-eight {
+  //   > ul > li > a::before,
+  //   > ul > li > .link::before {
+  //     bottom: 10px;
+  //   }
+  // }
 
   .product-item .list-action {
     grid-template-rows: repeat(2, minmax(0, 1fr));
     grid-template-columns: unset;
     transform: translateY(120px);
     gap: 8px;
-  }
+  } 
 }
 
 // menu-mobile

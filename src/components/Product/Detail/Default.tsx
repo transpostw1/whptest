@@ -35,7 +35,7 @@ import ZoomableImage from "./ZoomableImage";
 import { useCurrency } from "@/context/CurrencyContext";
 import { IoCameraOutline } from "react-icons/io5";
 import { Autoplay } from "swiper/modules";
-
+import Link from "next/link";
 interface Props {
   productId: string | number | any;
   onDataFetched: (data: any) => void;
@@ -159,30 +159,30 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             order
             alt_text
           }
-         productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                diamondDetails {
-                  diamondCertifiedBy
-                  diamondShape
-                  diamondSetting
-                  totalDiamond
-                }
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-                gemstoneDetails {
-                  gemstoneType
-                  gemstoneQualityType
-                  gemstoneShape
-                  gemstoneWeight
-                  noOfGemstone
-                }
-              }
+          productAttributes {
+            goldDetails {
+              goldCertifiedBy
+              goldSetting
+            }
+            diamondDetails {
+              diamondCertifiedBy
+              diamondShape
+              diamondSetting
+              totalDiamond
+            }
+            silverDetails {
+              poojaArticle
+              utensils
+              silverWeight
+            }
+            gemstoneDetails {
+              gemstoneType
+              gemstoneQualityType
+              gemstoneShape
+              gemstoneWeight
+              noOfGemstone
+            }
+          }
           stoneDetails
           diamondDetails
           review
@@ -389,7 +389,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const settingsThumbnails = {
     className: "center",
     centerMode: true,
-    autoplay:true,
+    autoplay: true,
     arrows: false,
     dots: false,
     infinite: true,
@@ -561,15 +561,12 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           )}
         </div>
         <div className="p-4 sm:w-full lg:ml-6 lg:w-1/2">
-          {loading ? 
-          (
+          {loading ? (
             <Skeleton height={30} />
-          ) 
-          : 
-          (
+          ) : (
             <>
               <div className="flex w-full justify-between">
-                <p className="md:text-3xl text-xl font-[500]">
+                <p className="text-xl font-[500] md:text-3xl">
                   {data?.productDetails?.displayTitle}
                 </p>
                 <span
@@ -593,7 +590,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 <span
                   onClick={toggleExpansion}
                   className="cursor-pointer text-[#E26178]"
-                >  
+                >
                   ...read more
                 </span>
               )}
@@ -623,17 +620,17 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <div className="my-2">
               {data?.productDetails?.discountActive ? (
                 <>
-                  <span className="md:text-2xl text-lg font-extrabold">
+                  <span className="text-lg font-extrabold md:text-2xl">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
                   {data?.productDetails?.productPrice >
                     data?.productDetails?.discountPrice && (
-                      <span className="ml-3 text-[#aa9e9e] line-through">
-                        {formatPrice(
-                          parseInt(data?.productDetails?.productPrice),
-                        )}
-                      </span>
-                    )}
+                    <span className="ml-3 text-[#aa9e9e] line-through">
+                      {formatPrice(
+                        parseInt(data?.productDetails?.productPrice),
+                      )}
+                    </span>
+                  )}
                   {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 text-[#e26178] underline">
                       {data?.productDetails?.discountValue}% OFF on{" "}
@@ -642,16 +639,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   )}
                 </>
               ) : (
-                <span className="md:text-2xl text-lg font-extrabold">
+                <span className="text-lg font-extrabold md:text-2xl">
                   {formatPrice(parseInt(data?.productDetails?.productPrice))}
                 </span>
               )}
             </div>
           )}
 
-          <div className="flex justify-start items-center py-2">
-            <div className="  pr-2">
-              <p className="md:text-lg text-sm font-bold">SKU:</p>
+          <div className="flex items-center justify-start py-2">
+            <div className="pr-2">
+              <p className="text-sm font-bold md:text-lg">SKU:</p>
               <div className="flex items-center">
                 <p className="uppercase">{data?.productDetails?.SKU}</p>
                 <div
@@ -675,21 +672,22 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <div className="mx-4 h-12 w-px bg-gray-300"></div>
 
             <div className="">
-              <p className="md:text-lg text-sm font-bold">Availability:</p>
+              <p className="text-sm font-bold md:text-lg">Availability:</p>
               {data?.productDetails?.productQty > 0 ? (
-                <p className="md:text-lg text-sm">In Stock</p>
+                <p className="text-sm md:text-lg">In Stock</p>
               ) : (
-                <p className="md:text-lg text-sm">Make To Order</p>
+                <p className="text-sm md:text-lg">Make To Order</p>
               )}
             </div>
           </div>
-          {data?.productDetails?.variants && data?.productDetails?.variants?.length > 0  && (
-            <DropDown
-              product={data?.productDetails}
-              handleVariant={handleNewVariant}
-              handleSelectSize={handleSelectedVariants}
-            />
-          )}
+          {data?.productDetails?.variants &&
+            data?.productDetails?.variants?.length > 0 && (
+              <DropDown
+                product={data?.productDetails}
+                handleVariant={handleNewVariant}
+                handleSelectSize={handleSelectedVariants}
+              />
+            )}
           {data?.productDetails?.productQty < 5 &&
             data?.productDetails?.productQty > 0 && (
               <p className="mt-2">
@@ -701,23 +699,36 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </p>
             )}
           {data?.productDetails?.productQty > 0 && (
-
-            <p className="flex items-center font-semibold text-[#e26178]">
+            <p className="flex items-center font-normal text-[#e26178]">
               🚚{" "}
               <span className="ml-2">
-                Delivery in <strong>just 12-48 hours</strong>!
+              Get It in 12–48 Hrs, Anywhere in India
               </span>
             </p>
           )}
           {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : (
-            <p className="my-5 flex items-center text-sm md:font-semibold text-[#e26178]">
-              🚚{" "}
-              <span className="ml-2">
-              Expected Delivery in <strong>5 to 20 Days </strong><a className="text-[#000] font-normal">(For Quick Delivery Call 1800 222 225)</a>
+            <>
+              <p className="mt-2 flex items-center text-sm text-[#e26178] md:font-semibold">
+                🚚{" "}
+                <span className="ml-2">
+                  Expected Delivery in <strong>5 to 20 Days </strong>
+                </span>
+              </p>
+              <span className="text-sm font-light text-[#000]">
+                📞 Need it earlier? Call us for quick delivery–
+                <span>
+                  <Link
+                    href="tel:1800222225"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>1800-222-225</span>
+                  </Link>
+                </span>
               </span>
-            </p>
+            </>
           )}
 
           {/* <div className="mt-4">
@@ -761,7 +772,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               <span> today!</span>
             </div> */}
           {/* )} */}
-          <GoldSchemeSmallBanner variant = {data?.productDetails?.variantId} />
+          <GoldSchemeSmallBanner variant={data?.productDetails?.variantId} />
           <Accordian product={data} />
         </div>
       </div>

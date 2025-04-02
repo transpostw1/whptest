@@ -37,9 +37,6 @@
 
 // export default About;
 
-
-
-
 import Head from "next/head";
 
 export default function About() {
@@ -53,85 +50,85 @@ export default function About() {
         />
       </Head>
       <div className="bg-gray-50 text-gray-800">
-        <header className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white py-6">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-3xl font-semibold">Waman Hari Pethe Jewellers</h1>
-            <p>Pure trust since 1909</p>
-          </div>
-        </header>
-
-        <main className="max-w-7xl mx-auto px-4 py-10">
+        <main className="mx-auto max-w-7xl px-4 py-10">
           <section>
-            <h2 className="text-2xl font-bold mb-4">Welcome to WHP Jewellers</h2>
+            <h2 className="mb-4 text-2xl font-bold">
+              Welcome to WHP Jewellers
+            </h2>
             <p className="mb-4">
-              Welcome to <strong>WHP Jewellers</strong>, your one-stop destination for a diverse
-              collection of gold, diamond, and silver jewellery. Whether you're looking for the
-              perfect <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=category-ring" target="_blank">rings</a>,
-              <a className="text-[#bb547d] *:hover:underline" href="https://whpv.vercel.app/products?url=category-earring" target="_blank">earrings</a>,
-              <a className="text-[#bb547d] hover:underline" href="https://whpv.vercel.app/products?url=category-pendant" target="_blank">pendants</a>, and more,
-              we offer an extensive selection for men, women, and children. Our bespoke jewellery
-              service ensures that you can customize designs to suit your unique style and needs.
+              WHP Jewellers is a one-stop- destination for all your jewellery
+              needs. We offer a wide range of gold and diamond jewellery for
+              men, women and children. Our collection includes rings, earrings,
+              pendants, necklaces, bangles, bracelets and more. We also offer
+              customised jewellery as per your requirements. Our goal is to help
+              you find the perfect piece of jewellery to suit your style, budget
+              and occasion.
             </p>
-            <p>
-              Since our inception in 2016, WHP Jewellers has been catering to the jewellery desires
-              of both India and abroad. Trusted by thousands for purity and transparency, we bring
-              only 100% BIS hallmarked gold, certified diamonds, and certified colored stones to our
-              customers.
+            <p className="mt-2">
+              We are committed to providing outstanding customer service, and We
+              offer free shipping and 30- day return policy on all our products.
+              So, shop with confidence and choose us for all your jewellery
+              needs! Since 2016, we have been catering to the jewellery needs of
+              the Indian diaspora in India and abroad.
             </p>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Why Choose WHP Jewellers?</h2>
-            <ul className="list-disc ml-5 space-y-2">
-              <li><strong>Wide Range of Jewellery</strong>: Shop our beautiful collection for any occasion.</li>
-              <li><strong>Custom Jewellery Design</strong>: Create a piece that’s uniquely yours.</li>
-              <li><strong>Quality Assurance</strong>: Handmade with care and strict quality checks.</li>
-              <li><strong>Convenient Shopping</strong>: Free shipping across India and a 30-day return policy.</li>
-              <li><strong>Flexible Payment Options</strong>: Enjoy EMI options and Try at Home service.</li>
-              <li><strong>Lifetime Exchange and Buyback</strong>: Secure policies tailored to Indian buyers.</li>
-            </ul>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Shop Online with Confidence</h2>
-            <p>
-              At WHP Jewellers, we know that jewellery purchases are an investment. That's why we
-              offer secure shipping PAN India, with over 100,000 satisfied customers. Enjoy lifetime
-              exchange and buyback options, designed specifically with Indian consumers in mind.
+            <p className="mt-2">
+              Trusted by patrons for purity and transparency, we bring only 100%
+              BIS hallmarked Gold, Certified Diamonds, and Certified Colored
+              Stones. An Indian acquires their first piece of gold adornment at
+              birth and from there on the personal jewellery trousseau keeps
+              building up. Be it the birth of a child, an engagement or a
+              wedding or just another day at work, at WHP Jewellers we have
+              crafted jewels for every moment of your life.
             </p>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Discover Our Unique Collections</h2>
-            <ul className="list-disc ml-5 space-y-2">
-              <li><strong>Anayra</strong>: Sterling Silver 92.5 Jewellery featuring elegant designs.</li>
-              <li><strong>9Ratna</strong>: A colorful array of precious stones.</li>
-              <li><strong>Silver Articles</strong>: Perfect for gifts and special occasions.</li>
-            </ul>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Trusted by Thousands for Quality & Service</h2>
-            <p>
-              All of our gold jewellery is 100% BIS Hallmarked, ensuring the highest standards of
-              quality and purity. For a seamless and secure shopping experience, choose WHP
-              Jewellers for all your jewellery needs.
+            <p className="mt-2">
+              From Gold coins to Head-to-toe bridal trousseau, WHP Jewellers has
+              been fulfilling fine jewellery needs of every budget and
+              requirement since inception. Each piece is handmade with care and
+              attention to detail, and undergoes several quality checks to
+              ensure that our customers receive nothing less than the best. To
+              make jewellery more accessible to our patrons, we also offer EMI
+              options. Keeping in mind the comfort and safety of our patrons, we
+              also provide Try at Home Service where our jewellery consultant
+              brings our store at your home for you to try and select the
+              jewellery of your choice without stepping out. You can also sell
+              your jewellery from the comfort of your home now.
             </p>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-            <ul className="space-y-2">
-              <li><strong>Address:</strong> 306, 3rd Floor, Man Excellenza, JN of SV Road, Opp Pawan Hans, Vile Parle (W), Mumbai, Maharashtra - 400056</li>
-              <li><strong>Email:</strong> care@whpjewellers.in</li>
-              <li><strong>Contact No.:</strong> 1800-222-225 (10:30 AM to 7:30 PM)</li>
-            </ul>
+            <p className="mt-2">
+              Brainchild of Dr. Aditya Pethe, www.whpjewellers.in the brand has
+              stably grown and holds a noteworthy market share.
+            </p>
+            <p className="mt-2">
+              For the fashionistas who have a distinct vision for their own
+              jewellery designs, we also provide customization where our design
+              team collaborates with you to bring your vision to life. You can
+              also buy an authentic WHP Jewellers jewel from Our Website
+              www.whpjewellers.in and marketplaces including www.nykaa.com ,
+              www.ajio.com , www.amazon.com , www.flipkart.com ,
+              www.tataclicq.com and www.amazon.in.
+            </p>
+            <p className="mt-2">
+              Our free & Secured Shipping PAN India has satisfied more than 1Lac
+              customers. A lifetime exchange and buyback policy is designed with
+              Indian consumer’s jewellery buying needs in mind. To safeguard our
+              patrons, we also provide Complimentary for one year.
+            </p>
+            <p className="mt-2">
+              We offer a wide range of jewellery, from our own brand Anayra Our
+              Sterling 92.5 Silver Jewellery perfect for the millennial woman.
+              Along with Fine Jewellery, we also bring a wide array of silver
+              articles including utensils, idols of deities and much more. And a
+              huge collections of Coloured stones under the brand 9Ratna.
+            </p>
+            <p className="mt-2">
+              Address: 306, 3rd Floor, Man Excellenza, JN of SV Road, Opp Pawan
+              Hans, Vile Parle (W), Mumbai, Maharashtra - 400056
+            </p>
+            <p className="mt-2">
+              Email: care@whpjewellers.in | Contact No.: 1800-222-225 (10:30 AM
+              to 7:30 PM)
+            </p>
           </section>
         </main>
-
-        <footer className="bg-gray-100 text-center py-4">
-          <p>&copy; {new Date().getFullYear()} WHP Jewellers. All rights reserved.</p>
-        </footer>
       </div>
     </>
   );

@@ -262,14 +262,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         const formattedVariants = data?.variants?.map((variant: any) => ({
-          variantType: variant.VariantType, 
-          variantName: variant.VariantOption?.[0]?.VariantName || "", 
+          variantType: variant.VariantType,
+          variantName: variant.VariantOption?.[0]?.VariantName || "",
         }));
-  
+
         if (isLoggedIn) {
           const productToAdd: any = {
             productId: data.productId,
-            variants: formattedVariants, 
+            variants: formattedVariants,
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
@@ -282,7 +282,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             discountValue: data.discountValue,
             image_path: data.imageDetails[0].image_path,
             url: data.url,
-            variants: formattedVariants, 
+            variants: formattedVariants,
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
@@ -478,13 +478,19 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
             )}
           </div>
           <div className="relative flex justify-between">
-         <div>
-         {data.similarProductIds !== null && (
-              <div className="" onClick={() => setViewSimilarProducts(true)}>
-                <Icon.Cards size={width} weight="light" color="#e26178" />
-              </div>
-            )}
-         </div>
+            <div>
+              {data.similarProductIds !== null && (
+                <div
+                  className="flex cursor-pointer items-center space-x-2"
+                  onClick={() => setViewSimilarProducts(true)}
+                >
+                  <Icon.Cards size={width} weight="light" color="#e26178" />
+                  <span className="text-sm font-medium text-[#e26178]">
+                    View Similar
+                  </span>
+                </div>
+              )}
+            </div>
             <div className="">
               {isProductInWishlist ? (
                 <Icon.Heart

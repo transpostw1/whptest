@@ -327,14 +327,12 @@ const ShopBreadCrumb1 = () => {
           setSelectedSortOption("All");
           setIsLoadMore(false);
         } else {
-          setIsLoading(true);
+          setIsLoading(false);
           console.error("Error: No products data received");
         }
       } catch (error) {
         setIsLoading(true);
         console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
-      } finally {
-        setIsLoading(false);
       }
     }
   };
@@ -980,7 +978,7 @@ const ShopBreadCrumb1 = () => {
                       ))}
                   </div>
                 )
-              ) : !isLoading ? (
+              ) : isLoading ? (
                 <ProductSkeleton />
               ) : (
                 <div
@@ -996,9 +994,9 @@ const ShopBreadCrumb1 = () => {
                     just for you.
                   </p>
                   <p className="mb-6 text-lg text-gray-600">
-                    Chat with us on WhatsApp or give us a call. 
+                    Chat with us on WhatsApp or give us a call.
                   </p>
-                  
+
                   <div className="flex w-full flex-col justify-center lg:flex-row">
                     <motion.div
                       animate={{
@@ -1038,7 +1036,7 @@ const ShopBreadCrumb1 = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <div className=" flex p-2">
+                        <div className="flex p-2">
                           <Icon.Phone
                             size={30}
                             color="#e26178"

@@ -454,7 +454,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <Skeleton height={500} width={550} />
           ) : (
             <div className="relative">
-              {/* {skuList.includes(data?.productDetails.SKU) && (
+              {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
                   className="try_on absolute right-5 top-7 z-30 flex w-full cursor-pointer items-center justify-end"
@@ -470,7 +470,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                     <p className="ps-1 text-sm">Virtual Try On</p>
                   </div>
                 </div>
-              )} */}
+              )}
               <div className="flex flex-col justify-center">
                 <div>
                   <Slider
@@ -702,7 +702,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <p className="flex items-center font-normal text-[#e26178]">
               🚚{" "}
               <span className="ml-2">
-              Get It in 12–48 Hrs, Anywhere in India
+                Get It in 12–48 Hrs, Anywhere in India
               </span>
             </p>
           )}
@@ -717,7 +717,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 </span>
               </p>
               <span className="text-sm font-light text-[#000]">
-                📞 Need it earlier? Call us for quick delivery–
+                📞 Need it earlier? Call us for quick delivery–{" "}
                 <span>
                   <Link
                     href="tel:1800222225"

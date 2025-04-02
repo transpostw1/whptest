@@ -202,7 +202,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                   />
                 </div>
               </Link>
-              <div className="ml-4 text-black" onClick={() => setIsModalOpen(true)}>
+              <div
+                className="ml-4 text-black"
+                onClick={() => setIsModalOpen(true)}
+              >
                 <Icon.MagnifyingGlass size={25} />
               </div>
               <div className="ml-4" onClick={handleContactPopup}>
@@ -509,9 +512,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     <li key={index}>
                       <div className="flex justify-between">
                         {/* Item name - Does NOT toggle */}
-                        <div className="mt-3 flex items-center text-xl font-semibold">
-                          {item.name}
-                        </div>
+                        <Link href={item.url}>
+                          <div className="mt-3 flex items-center text-xl font-semibold">
+                            {item.name}
+                          </div>
+                        </Link>
 
                         {/* Caret Icon - Only clicking this toggles the dropdown */}
                         {item.subCategory.length > 0 && (
@@ -535,9 +540,11 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                               <React.Fragment key={childIdx}>
                                 <div className="flex justify-between">
                                   {/* Child item name - Does NOT toggle */}
-                                  <div className="mt-2 flex items-center font-semibold">
-                                    {childItem.name}
-                                  </div>
+                                  <Link href={childItem.url}>
+                                    <div className="mt-2 flex items-center font-semibold">
+                                      {childItem.name}
+                                    </div>
+                                  </Link>
 
                                   {/* Child Caret Icon - Only clicking this toggles sub-dropdown */}
                                   {childItem.subCategory.length > 0 && (

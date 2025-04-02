@@ -40,25 +40,20 @@ export default function GoldSchemeSmallBanner({ variant }) {
 
       <Link href={"/benefit"} className="">
         <motion.div
-          // initial={{ boxShadow: "0 0 0px #fed258" }} // Initial shadow (no glow)
-          // animate={{
-          //   boxShadow: [
-          //     "0 0 5px #fed258",
-          //     "0 0 15px #fed258",
-          //     "0 0 5px #fed258",
-          //   ], // Cycling glow effect
-          // }}
+          initial={{ backgroundPosition: "100% 50%" }}
+          animate={{ backgroundPosition: ["100% 50%", "-100% 50%"] }}
           transition={{
-            duration: 1.5,
+            duration: 2.5,
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="mt-4 flex items-center justify-between gap-1 border border-[#fed258] bg-[#f7f7f7] p-1 md:p-4 lg:w-[90%]"
+          className="before:animate-shine relative mt-4 flex items-center justify-between gap-1 overflow-hidden border border-[#fed258] bg-[#f7f7f7] p-1 before:absolute before:inset-0 before:h-full before:w-full before:translate-x-[-100%] before:scale-x-[3] before:bg-gradient-to-r before:from-transparent before:via-[#fed258]/40 before:to-transparent md:p-4 lg:w-[90%]"
         >
           <div>
             <span className="text-xs md:text-base">
-              <span className="text-[#e26178]">Gold Monthly Investment Plan</span>
-              {/* (Pay 11 Installments, Get up to 100% Off on 12th Installment) */}
+              <span className="text-[#e26178]">
+                Gold Monthly Investment Plan
+              </span>
             </span>
           </div>
           <div>

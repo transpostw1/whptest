@@ -31,8 +31,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openLoginPopup, handleLoginPopup, handleCloseLoginPop } =
     useLoginPopup();
-  const { openMenuMobile, handleMenuMobile  }
-   = useMenuMobile();
+  const { openMenuMobile, handleMenuMobile } = useMenuMobile();
   const { wishlistItems } = useWishlist();
   const { cartItems } = useCart();
   const { userDetails, getUser, logOut, isLoggedIn } = useUser();
@@ -143,15 +142,14 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   }, [lastScrollPosition]);
 
   const cartLength: number = cartItems ? cartItems.length : 0;
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [childIndex, setChildIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [childIndex, setChildIndex] = useState(null);
 
-  const toggleAccordion = (index: number) => {
+  const toggleAccordion = (index: any) => {
     setActiveIndex(activeIndex === index ? null : index);
-    setChildIndex(null); // Reset child accordion when toggling parent
   };
-  
-  const toggleChildAccordion = (index: number) => {
+
+  const toggleChildAccordion = (index: any) => {
     setChildIndex(childIndex === index ? null : index);
   };
   const handleContactPopup = () => {

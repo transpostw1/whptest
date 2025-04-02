@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
@@ -32,7 +32,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
   const redemptionAmount = totalAmount + discountAmount;
-  const { userDetails,isLoggedIn } = useUser();
+  const { userDetails, isLoggedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       setIsSmallScreen(window.innerWidth < 1024);
     };
 
-    handleResize(); 
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -58,14 +58,13 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           totalAmount: amount * numberOfMonths,
           iconUrl: "/images/diamond-icon.png",
           schemeType: "gms",
-        })
+        }),
       );
       router.push("/digitalCheckout");
     },
-    [numberOfMonths, router]
+    [numberOfMonths, router],
   );
 
-  
   const { handleEnroll, loading } = useEnroll({
     setBackendMessage,
     setBackendError,
@@ -91,10 +90,10 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
     }
   };
   const handleInputVerification = async () => {
-    setEnrolling(true)
+    setEnrolling(true);
     if (monthlyDeposit < 500) {
       setShowMinValueModal(true);
-      setEnrolling(false)
+      setEnrolling(false);
       return;
     }
     if (!isLoggedIn) {
@@ -102,7 +101,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
       router.push("/register");
       return;
     }
-  
+
     if (!userDetails?.pan) {
       setBackendError("Please Add and verify PAN.");
       setShowModal(true);
@@ -116,17 +115,17 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           totalAmount: monthlyDeposit * numberOfMonths,
           iconUrl: "/images/diamond-icon.png",
           schemeType: "gms",
-        })
+        }),
       );
       return;
     }
-  
+
     try {
       const requestBody = {
         pan_number: userDetails.pan,
         name: userDetails.firstname || "",
       };
-  
+
       const response = await fetch("/api/verifyPan", {
         method: "POST",
         headers: {
@@ -134,9 +133,9 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         },
         body: JSON.stringify(requestBody),
       });
-  
+
       const result = await response.json();
-  
+
       if (!response.ok || !result.verification_status) {
         sessionStorage.setItem(
           "selectedScheme",
@@ -145,43 +144,45 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
             planName: "Diamond",
             monthlyAmount: monthlyDeposit,
             totalAmount: monthlyDeposit * numberOfMonths,
-            iconUrl:  "/images/diamond-icon.png",
+            iconUrl: "/images/diamond-icon.png",
             schemeType: "gms",
-          })
+          }),
         );
-        throw new Error(result.error || "PAN verification failed. Please update PAN.");
+        throw new Error(
+          result.error || "PAN verification failed. Please update PAN.",
+        );
       }
-  
+
       setBackendMessage("PAN verification successfull!");
       setFlashType("success");
-  
+
       const enrollmentId = await handleEnroll("Diamond", monthlyDeposit);
       if (enrollmentId) {
         handleEnrollSuccess(enrollmentId, "Diamond", monthlyDeposit);
-        setEnrolling(false)
+        setEnrolling(false);
       } else {
         setShowModal(true);
       }
     } catch (error: any) {
       console.error("Error during enrollment:", error);
-      setEnrolling(false)
+      setEnrolling(false);
       setBackendError("Failed to enroll. Please try again.");
       setFlashType("error");
       setShowModal(true);
     }
   };
-  const modalCloser = ()=>{
-    setEnrolling(false)
-    setShowModal(false)
-  }
-  
+  const modalCloser = () => {
+    setEnrolling(false);
+    setShowModal(false);
+  };
+
   const handleproceedpan = () => {
-    console.log("proceedpan")
-    setShowModal(false)
-    router.push("/panverification")
+    console.log("proceedpan");
+    setShowModal(false);
+    router.push("/panverification");
   };
   return (
-    <div className="h-full bg-[#d0e1e2] p-4 md:p-0 relative">
+    <div className="relative h-full bg-[#d0e1e2] p-4 md:p-0">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Diamond
       </h3>
@@ -258,12 +259,11 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
           <div className="mb-3 flex flex-col text-center">
             <div>
-              <div
-                className="mb-2 w-full cursor-pointer  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
-                onClick={() => handleInputVerification()}
-              >
-                {loading||enroll ? "Enrolling..." : "Enroll Now"}
-              </div>
+              <Link href={"https://wa.me/918828324464"}>
+                <div className="mb-2 w-full cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white">
+                  {loading || enroll ? "Enrolling..." : "Enroll Now"}
+                </div>
+              </Link>
             </div>
             <div>
               <Link
@@ -284,7 +284,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
         />
       ) : (
         <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
-          <div className="text-center font-medium ">
+          <div className="text-center font-medium">
             <p>Pan Verification is Not Completed</p>
             <p>Kindly Complete Your Pan Verification</p>
             <div className="mt-4 flex justify-center gap-3 font-normal">
@@ -304,8 +304,8 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
           </div>
         </ModalExchange>
       )}
-       {showMinValueModal && (
-        <div className="absolute top-96 md:top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center ">
+      {showMinValueModal && (
+        <div className="absolute bottom-0 left-0 right-0 top-96 z-50 flex items-center justify-center md:top-0">
           <div className="rounded-lg bg-white p-6 text-center">
             <p className="mb-4 text-lg font-semibold text-red-500">
               Minimum amount is ₹500

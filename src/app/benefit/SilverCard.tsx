@@ -1,4 +1,4 @@
-import React, { useState, useCallback,useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PieChart from "./PieChart";
 import Link from "next/link";
 import useEnroll from "@/hooks/useEnroll";
@@ -8,7 +8,7 @@ import { useCurrency } from "@/context/CurrencyContext";
 import { useUser } from "@/context/UserContext";
 import SmallScreenModal from "@/components/Other/SmallScreenModal";
 interface SilverCardProps {
-  percentage:number;
+  percentage: number;
   setBackendMessage: (message: string) => void;
   setBackendError: (error: string) => void;
   setFlashType: (type: "success" | "error" | "info") => void;
@@ -34,7 +34,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
   const totalAmount = monthlyDeposit * numberOfMonths;
   const discountAmount = monthlyDeposit * (percentage / 100);
   const redemptionAmount = totalAmount + discountAmount;
-  const { userDetails,isLoggedIn } = useUser();
+  const { userDetails, isLoggedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
       setIsSmallScreen(window.innerWidth < 1024);
     };
 
-    handleResize(); 
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -95,9 +95,9 @@ const SilverCard: React.FC<SilverCardProps> = ({
     handleEnrollSuccess,
   });
   const handleInputVerification = async () => {
-    setEnrolling(true)
+    setEnrolling(true);
     if (monthlyDeposit < 500) {
-      setEnrolling(false)
+      setEnrolling(false);
       setShowMinValueModal(true);
       return;
     }
@@ -106,7 +106,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
       router.push("/register");
       return;
     }
-  
+
     if (!userDetails?.pan) {
       setBackendError("Please Add and verify PAN.");
       setShowModal(true);
@@ -120,17 +120,17 @@ const SilverCard: React.FC<SilverCardProps> = ({
           totalAmount: monthlyDeposit * numberOfMonths,
           iconUrl: "/images/silver-icon.png",
           schemeType: "gms",
-        })
+        }),
       );
       return;
     }
-  
+
     try {
       const requestBody = {
         pan_number: userDetails.pan,
         name: userDetails.firstname || "",
       };
-  
+
       const response = await fetch("/api/verifyPan", {
         method: "POST",
         headers: {
@@ -138,9 +138,9 @@ const SilverCard: React.FC<SilverCardProps> = ({
         },
         body: JSON.stringify(requestBody),
       });
-  
+
       const result = await response.json();
-  
+
       if (!response.ok || !result.verification_status) {
         sessionStorage.setItem(
           "selectedScheme",
@@ -151,41 +151,42 @@ const SilverCard: React.FC<SilverCardProps> = ({
             totalAmount: monthlyDeposit * numberOfMonths,
             iconUrl: "/images/silver-icon.png",
             schemeType: "gms",
-          })
+          }),
         );
-        throw new Error(result.error || "PAN verification failed. Please update PAN.");
+        throw new Error(
+          result.error || "PAN verification failed. Please update PAN.",
+        );
       }
-  
+
       setBackendMessage("PAN verification successfull!");
       setFlashType("success");
-  
+
       const enrollmentId = await handleEnroll("Silver", monthlyDeposit);
       if (enrollmentId) {
         handleEnrollSuccess(enrollmentId, "Silver", monthlyDeposit);
-        setEnrolling(false)
+        setEnrolling(false);
       } else {
         setShowModal(true);
       }
     } catch (error: any) {
       console.error("Error during enrollment:", error);
-      setEnrolling(false)
+      setEnrolling(false);
       setBackendError("Failed to enroll. Please try again.");
       setFlashType("error");
       setShowModal(true);
     }
   };
-  const modalCloser = ()=>{
-    setEnrolling(false)
-    setShowModal(false)
-  }
-  
+  const modalCloser = () => {
+    setEnrolling(false);
+    setShowModal(false);
+  };
 
   const handleproceedpan = () => {
-    setShowModal(false)
-    router.push("/panverification")
+    setShowModal(false);
+    router.push("/panverification");
   };
   return (
-    <div className="h-full bg-[#edebed] p-4 md:p-0 relative">
+    <div className="relative h-full bg-[#edebed] p-4 md:p-0">
       <h3 className="mr-2 pt-2 text-end font-semibold text-[#E26178]">
         Silver
       </h3>
@@ -207,7 +208,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
             Slide or enter monthly installment amount
           </h1>
           <div className="mb-5 text-center md:mb-0">
-            <div className="mb-2 flex h-10 items-center justify-center  border border-gray-700 bg-white p-2">
+            <div className="mb-2 flex h-10 items-center justify-center border border-gray-700 bg-white p-2">
               <div className="flex w-full items-center justify-start">
                 <span className="text-2xl md:text-3xl">₹</span>
                 <input
@@ -262,12 +263,11 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
           <div className="mb-3 flex flex-col text-center">
             <div>
-              <div
-                className="mb-2 w-full cursor-pointer  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
-                onClick={handleInputVerification}
-              >
-                {loading||enroll ? "Enrolling..." : "Enroll Now"}
-              </div>
+              <Link href={"https://wa.me/918828324464"}>
+                <div className="mb-2 w-full cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white">
+                  {loading || enroll ? "Enrolling..." : "Enroll Now"}
+                </div>
+              </Link>
             </div>
             <div>
               <Link
@@ -288,19 +288,19 @@ const SilverCard: React.FC<SilverCardProps> = ({
         />
       ) : (
         <ModalExchange show={showModal} onClose={() => setShowModal(false)}>
-          <div className="text-center font-medium ">
+          <div className="text-center font-medium">
             <p>Pan Verification is Not Completed</p>
             <p>Kindly Complete Your Pan Verification</p>
             <div className="mt-4 flex justify-center gap-3 font-normal">
               <button
-                className="py-1y w-32  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
+                className="py-1y w-32 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 text-white"
                 onClick={() => handleproceedpan()}
               >
                 Verify Now
               </button>
               <button
-                className="w-32  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
-                onClick={() =>modalCloser()}
+                className="w-32 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-1 py-1 text-white"
+                onClick={() => modalCloser()}
               >
                 Later
               </button>
@@ -308,15 +308,15 @@ const SilverCard: React.FC<SilverCardProps> = ({
           </div>
         </ModalExchange>
       )}
-       {showMinValueModal && (
-        <div className="absolute top-96 md:top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center ">
-          <div className=" bg-white p-6 text-center">
+      {showMinValueModal && (
+        <div className="absolute bottom-0 left-0 right-0 top-96 z-50 flex items-center justify-center md:top-0">
+          <div className="bg-white p-6 text-center">
             <p className="mb-4 text-lg font-semibold text-red-500">
               Minimum amount is ₹500
             </p>
             <button
               onClick={() => setShowMinValueModal(false)}
-              className=" bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+              className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
             >
               Close
             </button>

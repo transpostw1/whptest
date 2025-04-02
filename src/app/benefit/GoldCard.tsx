@@ -260,12 +260,14 @@ const GoldCard: React.FC<GoldCardProps> = ({
           </div>
           <div className="mb-3 flex flex-col text-center">
             <div>
+              <Link href={"https://wa.me/918828324464"}>
               <div
                 className="mb-2 w-full cursor-pointer  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
-                onClick={handleInputVerification}
+                
               >
-                {loading||enroll ? "Enrolling..." : "Enroll Now"}
+                {loading ? "Enrolling..." : "Enroll Now"}
               </div>
+              </Link>
             </div>
             <div>
               <Link

@@ -4,6 +4,7 @@ const useMenuMobile = () => {
     const [openMenuMobile, setOpenMenuMobile] = useState(false)
 
     const handleMenuMobile = () => {
+        console.log(" yesssssssssssssssssssssssssssssssssssss i'm calllllllllllllllllleeeeeeeddddddddddddddddddddddd")
         setOpenMenuMobile((toggleOpen) => !toggleOpen)
     }
     const handleClickOutsideMenuMobile: EventListener = (event) => {

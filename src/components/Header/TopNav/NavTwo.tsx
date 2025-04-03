@@ -217,9 +217,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 />
               </div>
               {contactPopUp ? <ContactInfo /> : null}
-              {/* <div className="ml-4 text-black">
-                <Icon.MapPin size={25} />
-              </div> */}
+
               <Link href={"/wishlist"}>
                 <div className="ml-4 text-black">
                   <Icon.Heart size={25} />

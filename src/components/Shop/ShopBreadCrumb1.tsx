@@ -345,7 +345,6 @@ const ShopBreadCrumb1 = () => {
       combinedOptions.productCategory.length > 0
     ) {
       try {
-        setIsLoading(true);
         const client = new ApolloClient({
           uri: graphqlProductUrl,
           cache: new InMemoryCache(),
@@ -445,11 +444,9 @@ const ShopBreadCrumb1 = () => {
         });
         if (data && data.filterProducts) {
           setFilters(data.filterProducts);
-          setIsLoading(false)
           setIsLoadMore(false);
         } 
       } catch (error) {
-        setIsLoading(true);
         console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } 
     }
@@ -850,14 +847,10 @@ const ShopBreadCrumb1 = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    console.log("loadingggggggggggg:", isLoading);
-  }, [isLoading]);
 
   useEffect(() => {
     fetchSkusList();
   }, []);
-  console.log(selectedSortOption, "Sorted Option selected");
   return (
     <>
       <MobileMainCategorySwiper />

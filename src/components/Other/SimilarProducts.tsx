@@ -5,11 +5,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { graphqlProductUrl } from "@/utils/constants";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 import Cookies from "js-cookie";
+import { number } from "yup";
 
 interface Props {
   productId: number;
@@ -18,32 +21,64 @@ interface Props {
 const SimilarProducts: React.FC<Props> = ({ productId }) => {
   const [products, setProducts] = useState<any>([]);
   const swiperRef = useRef<any>();
+  const product: number = Number(productId);
+
   useEffect(() => {
-    const fetchProduct = async () => {
+    if (!productId) return;
+
+    const getData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/similar-products/${productId}`);
-        
-        if (response.data) {
-          setProducts(response.data);
-        } else {
-          setProducts([]); // or any fallback valuw
-        }
+        const client = new ApolloClient({
+          uri: graphqlProductUrl,
+          cache: new InMemoryCache(),
+        });
+
+        const GET_SIMILAR_PRODUCTS = gql`
+          query SimilarProducts($productId: Int!) {
+            similarProducts(productId: $productId) {
+              productId
+              url
+              SKU
+              title
+              productPrice
+              discountPrice
+              typeOfDiscount
+              discountActive
+              discountCategory
+              discountValue
+              rating
+              imageDetails {
+                image_path
+              }
+              videoDetails {
+                video_path
+              }
+            }
+          }
+        `;
+
+        const { data } = await client.query({
+          query: GET_SIMILAR_PRODUCTS,
+          variables: { product },
+          fetchPolicy: "no-cache", // Ensures fresh data
+        });
+
+        setProducts(data.similarProducts); // Set only the array
       } catch (error) {
         console.error("Error fetching similar products:", error);
-        // Optionally, you can set an error state here
       }
     };
-  
-    fetchProduct();
+
+    getData();
   }, [productId]);
-  
+
   const filteredProducts = products;
   return (
     <>
       <div className="tab-features-block pt-10">
         <div className="container">
           <div className="flex justify-between">
-            {products.length>0 && (
+            {products.length > 0 && (
               <>
                 <div>
                   <p className="text-[1.5rem] font-semibold uppercase">
@@ -62,7 +97,7 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
             )}
           </div>
 
-          <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border md:mt-10 mt-6 ">
+          <div className="list-product hide-product-sold section-swiper-navigation style-outline style-border mt-6 md:mt-10">
             <Swiper
               spaceBetween={12}
               slidesPerView={1.5}
@@ -86,12 +121,11 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
                 },
               }}
             >
-              {filteredProducts
-                .map((prd: any, index: any) => (
-                  <SwiperSlide key={index}>
-                    <DummyProduct data={prd} />
-                  </SwiperSlide>
-                ))}
+              {filteredProducts.map((prd: any, index: any) => (
+                <SwiperSlide key={index}>
+                  <DummyProduct data={prd} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>

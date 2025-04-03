@@ -4,10 +4,12 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useState, useEffect } from "react";
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import BookExchangeModal from "@/components/Other/BookExchangeModal";
+import { useCategory } from "@/context/CategoryContex";
 import Link from "next/link";
 
 const Appointment = () => {
   const [appointmentModal, setAppointmentModal] = useState<boolean>(false);
+  const { category, setCustomcategory } = useCategory();
   const handleOnClose = () => {
     setAppointmentModal(false);
   };
@@ -29,7 +31,6 @@ const Appointment = () => {
                 src="/images/other/Visualize.jpg"
                 alt=""
                 className="object-contain"
-               
               />
             </div>
             <div className="flex w-full items-center py-4 md:items-start">
@@ -41,8 +42,8 @@ const Appointment = () => {
                 that better suit your evolving style.
               </p> */}
               <div
-                onClick={() => setAppointmentModal(true)}
                 className="my-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+                onClick={() => setAppointmentModal(true)}
               >
                 <button
                   type="button"
@@ -52,27 +53,27 @@ const Appointment = () => {
                 </button>
                 <HiOutlineArrowLongRight className="ml-1" size={20} />
               </div>
-              <Link href={{
-                pathname: "/products",
-                query: { url: "pc-virtual_try_on" },
-              }}>
-              <div
-                onClick={() => setAppointmentModal(true)}
-                className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
-              >
-                
-                <button
-                  type="button"
-                  className="text-sm font-medium md:text-[18px]"
-                >Virtual Try-ON</button>
-                <HiOutlineArrowLongRight className="ml-1" size={20} />
-              </div></Link>
-              {appointmentModal && (
-                <BookExchangeModal
-                  title={"Book Your Appointment"}
-                  closeModal={handleOnClose}
-                />
-              )}
+              <div>
+                <Link
+                  href={{
+                    pathname: "/products",
+                    query: { url: "pc-virtual_try_on" },
+                  }}
+                >
+                  <div
+                    onClick={() => setCustomcategory("Virtual Try-On")}
+                    className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+                  >
+                    <button
+                      type="button"
+                      className="text-sm font-medium md:text-[18px]"
+                    >
+                      Virtual Try-ON
+                    </button>
+                    <HiOutlineArrowLongRight className="ml-1" size={20} />
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -84,6 +85,12 @@ const Appointment = () => {
           className="object-contain"
         />
       </div>
+      {appointmentModal && (
+        <BookExchangeModal
+          title={"Book Your Appointment"}
+          closeModal={handleOnClose}
+        />
+      )}
     </div>
   );
 };

@@ -145,16 +145,33 @@ const NavTwo: React.FC<Props> = ({ props }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [childIndex, setChildIndex] = useState(null);
 
-  const toggleAccordion = (index: any) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const toggleAccordion = (index: any, e: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (activeIndex === index) {
+      setActiveIndex(null);
+      setChildIndex(null); // Reset child index when closing the parent
+    } else {
+      setActiveIndex(index);
+    }
   };
 
-  const toggleChildAccordion = (index: any) => {
+  const toggleChildAccordion = (index: any, e: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     setChildIndex(childIndex === index ? null : index);
   };
+
   const handleContactPopup = () => {
     setContactPopUp(!contactPopUp);
   };
+
   return (
     <div ref={contactRef}>
       <TryAtHomeModal
@@ -505,22 +522,36 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 )}
               </div>
               <div className="list-nav mt-6 box-border h-[500px] overflow-y-auto p-0">
-                <ul>
+                {/* <ul>
                   {allMenus.map((item: any, index: number) => (
-                    <li key={index}>
-                      <div className="flex justify-between">
-                        {/* Item name - Does NOT toggle */}
-                        <Link href={item.url}>
-                          <div className="mt-3 flex items-center text-xl font-semibold">
-                            {item.name}
+                    <li key={index} className="">
+                      <div className="flex justify-between w-full">
+                        {item.subCategory.length > 0 ? (
+                          <div className="flex-grow cursor-pointer">
+                            <div className="mt-3 flex items-center text-xl font-semibold">
+                              {item.name}
+                            </div>
                           </div>
-                        </Link>
+                        ) : (
+                          <Link
+                            href={item.url}
+                            onClick={() => handleMenuMobile()}
+                            className="flex-grow"
+                          >
+                            <div className="mt-3 flex items-center text-xl font-semibold">
+                              {item.name}
+                            </div>
+                          </Link>
+                        )}
 
-                        {/* Caret Icon - Only clicking this toggles the dropdown */}
                         {item.subCategory.length > 0 && (
                           <div
-                            className="mt-3 cursor-pointer"
-                            onClick={() => toggleAccordion(index)}
+                            className="mt-3 cursor-pointer min-w-[40px] flex justify-center items-center"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleAccordion(index, e);
+                            }}
                           >
                             {activeIndex === index ? (
                               <Icon.CaretUp scale={23} />
@@ -532,25 +563,37 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       </div>
 
                       {activeIndex === index && (
-                        <div>
+                        <div className="pl-4 mt-2">
                           {item.subCategory.map(
                             (childItem: any, childIdx: number) => (
                               <React.Fragment key={childIdx}>
-                                <div className="flex justify-between">
-                                  {/* Child item name - Does NOT toggle */}
-                                  <Link href={childItem.url}>
-                                    <div className="mt-2 flex items-center font-semibold">
-                                      {childItem.name}
+                                <div className="flex justify-between w-full border-t border-gray-100 pt-2 mt-2">
+                                  {childItem.subCategory.length > 0 ? (
+                                    <div className="flex-grow cursor-pointer">
+                                      <div className="mt-2 flex items-center font-semibold">
+                                        {childItem.name}
+                                      </div>
                                     </div>
-                                  </Link>
-
-                                  {/* Child Caret Icon - Only clicking this toggles sub-dropdown */}
+                                  ) : (
+                                    <Link 
+                                      href={childItem.url}
+                                      className="flex-grow"
+                                      onClick={() => handleMenuMobile()}
+                                    >
+                                      <div className="mt-2 flex items-center font-semibold">
+                                        {childItem.name}
+                                      </div>
+                                    </Link>
+                                  )}
+                                  
                                   {childItem.subCategory.length > 0 && (
                                     <div
-                                      className="mt-2 cursor-pointer"
-                                      onClick={() =>
-                                        toggleChildAccordion(childIdx)
-                                      }
+                                      className="mt-2 cursor-pointer min-w-[40px] flex justify-center items-center"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        toggleChildAccordion(childIdx, e);
+                                      }}
                                     >
                                       {childIndex === childIdx ? (
                                         <Icon.CaretUp scale={23} />
@@ -560,33 +603,31 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                                     </div>
                                   )}
                                 </div>
-
+                                
                                 {childIndex === childIdx && (
-                                  <div>
+                                  <div className="pl-4 mt-1">
                                     {childItem.subCategory.map(
                                       (subItem: any, subIdx: number) => (
-                                        <div key={subIdx}>
+                                        <div key={subIdx} className="py-1 border-t border-gray-100 mt-1">
                                           <Link
                                             href={subItem.url}
-                                            className="text-secondary duration-300"
+                                            className="text-secondary duration-300 flex items-center"
                                             onClick={() => {
                                               setCustomcategory(subItem.label);
                                               handleMenuMobile();
                                             }}
                                           >
-                                            <div className="flex">
-                                              {subItem.image && (
-                                                <div>
-                                                  <Image
-                                                    src={subItem.image}
-                                                    alt={subItem.label}
-                                                    width={25}
-                                                    height={25}
-                                                  />
-                                                </div>
-                                              )}
-                                              <div>{subItem.name}</div>
-                                            </div>
+                                            {subItem.image && (
+                                              <div className="mr-2">
+                                                <Image
+                                                  src={subItem.image}
+                                                  alt={subItem.label}
+                                                  width={25}
+                                                  height={25}
+                                                />
+                                              </div>
+                                            )}
+                                            <div>{subItem.name}</div>
                                           </Link>
                                         </div>
                                       ),
@@ -598,6 +639,60 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           )}
                         </div>
                       )}
+                    </li>
+                  ))}
+                </ul> */}
+                <ul>
+                  {allMenus.map((item: any, index: any) => (
+                    <li key={index} className="py-1">
+                      <div className="flex justify-between">
+                        <Link href={item.url} onClick={()=> handleMenuMobile()}>
+                          <p className="font-semibold">{item.name}</p>
+                        </Link>
+                        {item.subCategory.length > 0 && (
+                          <div onClick={(e) => toggleAccordion(index, e)}>
+                            <Icon.CaretDown />
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {activeIndex === index &&
+                          item.subCategory.map((child: any, childIdx: any) => (
+                            <React.Fragment key={childIdx}>
+                              <div className="flex justify-between">
+                                <Link href={child.url} onClick={()=> handleMenuMobile()}>
+                                  <p className="font-medium">{child.name}</p>
+                                </Link>
+                                {child.subCategory.length > 0 && (
+                                  <div
+                                    onClick={(e) =>
+                                      toggleChildAccordion(childIdx, e)
+                                    }
+                                  >
+                                    <Icon.CaretDown />
+                                  </div>
+                                )}
+                              </div>
+                              {childIndex === childIdx &&
+                                child.subCategory.map(
+                                  (subChild: any, subChildIdx: any) => (
+                                    <div key={subChildIdx} className="flex" onClick={()=> handleMenuMobile()}>
+                                      <Link href={subChild.url} className="flex" >
+                                        <Image
+                                          src={subChild.image}
+                                          alt={subChild.name}
+                                          height={25}
+                                          width={25}
+                                          className="mr-1"
+                                        />
+                                        <p>{subChild.name}</p>
+                                      </Link>
+                                    </div>
+                                  ),
+                                )}
+                            </React.Fragment>
+                          ))}
+                      </div>
                     </li>
                   ))}
                 </ul>

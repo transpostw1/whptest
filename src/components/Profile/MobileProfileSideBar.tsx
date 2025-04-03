@@ -7,10 +7,13 @@ import Image from "next/image";
 import { setSourceMapsEnabled } from "process";
 import UpdateProfile from "./UpdateProfile";
 import { MdVerified } from "react-icons/md";
+import { motion } from "framer-motion";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const MobileProfileSideBar = () => {
   const router = useRouter();
   const { logOut, userDetails } = useUser();
+    const [testModalOpen, setTestModalOpen] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const handleLogOut = () => {
     logOut();
@@ -37,14 +40,18 @@ const MobileProfileSideBar = () => {
           )}
         </div>
         <div>
-        <div className="flex">
+          <div className="flex">
             <div>
               <p className="mt-2 text-xl font-semibold">
                 {userDetails?.fullname ? userDetails.fullname : "Add Details"}
               </p>
             </div>
-            <div className="mt-2 ml-2">
-              {userDetails?.is_verified==0?<MdVerified  size={22} color="#808080"/>:<MdVerified  size={22} color="#0099ff"/>}
+            <div className="ml-2 mt-2">
+              {userDetails?.is_verified == 0 ? (
+                <MdVerified size={22} color="#808080" />
+              ) : (
+                <MdVerified size={22} color="#0099ff" />
+              )}
             </div>
           </div>
           <span
@@ -76,7 +83,7 @@ const MobileProfileSideBar = () => {
           </div>
         </Link>
         <div>
-          <Link href={"/profile/customerOrders"}>
+          {/* <Link href={"/profile/customerOrders"}>
             <div
               className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
             >
@@ -90,7 +97,22 @@ const MobileProfileSideBar = () => {
                 <Icon.CaretRight weight="fill" />
               </div>
             </div>
-          </Link>
+          </Link> */}
+
+          <div
+            onClick={()=>setTestModalOpen(true)}
+            className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
+          >
+            <div className="flex">
+              <span className="mr-1">
+                <Icon.Cube size={22} />
+              </span>
+              <p>Orders</p>
+            </div>
+            <div>
+              <Icon.CaretRight weight="fill" />
+            </div>
+          </div>
         </div>
         <div>
           <Link href={"/profile/customerWishlist"}>
@@ -132,6 +154,75 @@ const MobileProfileSideBar = () => {
       >
         Logout
       </div>
+      {testModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="max-w-80 rounded-lg bg-white p-6 text-center shadow-lg">
+            <h2 className="text-xl font-semibold">We Are Currently Down</h2>
+            <p className="mt-2 text-gray-600">
+              Our website is undergoing maintenance. We’ll be back shortly.
+              Thank you for your patience!
+            </p>
+            <p className="mt-2 text-gray-600">For further updates contact Us</p>
+            <div className="flex w-full flex-col justify-center lg:flex-row">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 1.2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+                className=""
+              >
+                <Link href={"https://wa.me/918828324464"} target="_blank">
+                  <div className="flex p-2 text-center">
+                    <IoLogoWhatsapp
+                      className="mr-1"
+                      size={30}
+                      color="#25D366"
+                    />
+                    <p className="text-md">+91 8828324464</p>
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 1.2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+                className=""
+              >
+                <Link
+                  href="tel:1800222225"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex p-2">
+                    <Icon.Phone
+                      size={30}
+                      color="#e26178"
+                      weight="fill"
+                      className="mr-1"
+                    />
+                    <p className="text-md">1800-222-225</p>
+                  </div>
+                </Link>
+              </motion.div>
+            </div>
+            <button
+              onClick={() => setTestModalOpen(false)}
+              className="mt-4 rounded bg-[#e26178] px-4 py-2 text-white hover:bg-[#e74a67]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

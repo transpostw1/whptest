@@ -33,7 +33,7 @@ const Appointment = () => {
                 className="object-contain"
               />
             </div>
-            <div className="flex w-full items-center py-4 md:items-start">
+            <div className="flex w-full items-center py-4 md:items-start sm:justify-between md:justify-start">
               {/* <h1 className="text-center text-xl font-semibold text-red-950 md:text-start">
                 Gold Exchange
               </h1>

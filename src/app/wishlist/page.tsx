@@ -239,7 +239,7 @@ const Wishlist = () => {
                             alt={product.title}
                             width={300}
                             height={300}
-                            className="bg-[#f7f7f7]"
+                            className=""
                             onClick={() =>
                               router.push(
                                 `/products/${product.productId}/${product.url}`,

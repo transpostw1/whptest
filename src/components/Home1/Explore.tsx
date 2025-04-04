@@ -45,20 +45,6 @@ const Explore = () => {
     fetchSubBanners();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchSubBanners = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await axios.get(`${baseUrl}${getSubBanners}`);
-  //       setData(response.data.subbanners);
-  //     } catch (error) {
-  //       console.log("Error Occured", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchSubBanners();
-  // }, []);  
   if (loading) {
     return (
       <div>

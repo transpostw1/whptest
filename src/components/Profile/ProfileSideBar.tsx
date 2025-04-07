@@ -128,7 +128,7 @@ const ProfileSidebar = () => {
       {testModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
-            <h2 className="text-xl font-semibold">We Are Currently Down</h2>
+            <h2 className="text-xl font-semibold">We Are Currently Upgrading</h2>
             <p className="mt-2 text-gray-600">
               Our website is undergoing maintenance. We’ll be back shortly.
               Thank you for your patience!

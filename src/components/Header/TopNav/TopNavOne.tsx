@@ -42,13 +42,13 @@ const TopNavOne: React.FC<Props> = ({ textColor }) => {
                 Something Special For Everyone
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            {/* <SwiperSlide>
               <div
                 className={`text-button-uppercase text-white ${textColor} flex items-center justify-center h-full`}
               >
                 10% off on all products
               </div>
-            </SwiperSlide>
+            </SwiperSlide> */}
           </Swiper>
         </div>
       </div>

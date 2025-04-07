@@ -71,6 +71,27 @@ export default function RootLayout({
       <html lang="en">
         {/* <Suspense> */}
         <head>
+        <Script
+            id="organization-schema"
+            type="application/ld+json"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(organizationSchema)
+            }}
+          />
+          {/* Google Analytics */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KS3DVFD5ZW');
+            `}
+          </Script>
           <title>WHP Jewellers</title>
           <link
             rel="icon"

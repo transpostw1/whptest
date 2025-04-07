@@ -69,7 +69,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         </h2>
 
         <div
-          className={`mt-4 grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+          className={`grid overflow-hidden transition-[max-height] duration-500 ease-in-out ${
             showAccordian == 1
               ? "max-h-[500px] opacity-100"
               : "max-h-0 opacity-0"

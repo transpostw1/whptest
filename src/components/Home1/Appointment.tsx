@@ -33,7 +33,7 @@ const Appointment = () => {
                 className="object-contain"
               />
             </div>
-            <div className="flex w-full items-center py-4 md:items-start sm:justify-between md:justify-start">
+            <div className="flex w-full items-center py-4 justify-between md:justify-start">
               {/* <h1 className="text-center text-xl font-semibold text-red-950 md:text-start">
                 Gold Exchange
               </h1>
@@ -42,7 +42,7 @@ const Appointment = () => {
                 that better suit your evolving style.
               </p> */}
               <div
-                className="my-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+                className="my-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 "
                 onClick={() => setAppointmentModal(true)}
               >
                 <button
@@ -62,7 +62,7 @@ const Appointment = () => {
                 >
                   <div
                     onClick={() => setCustomcategory("Virtual Try-On")}
-                    className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 sm:w-[251px]"
+                    className="my-2 ml-2 flex cursor-pointer items-center justify-center bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 "
                   >
                     <button
                       type="button"

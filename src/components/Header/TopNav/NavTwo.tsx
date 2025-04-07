@@ -236,10 +236,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               {contactPopUp ? <ContactInfo /> : null}
 
               <Link href={"/wishlist"}>
-                <div className="ml-4 text-black">
+                <div className="ml-4 text-black relative">
                   <Icon.Heart size={25} />
                   {wishlistItems.length > 0 && (
-                    <span className="quantity cart-quantity absolute right-14 top-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                    <span className="quantity cart-quantity absolute left-5 bottom-3 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                       {wishlistItems.length}
                     </span>
                   )}

@@ -792,7 +792,7 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            <div className="mt-14 w-full lg:w-4/6">
+            {!isOrderPlaced&&<div className="mt-14 w-full lg:w-4/6">
               {selectedComponent === "CartItems" && (
                 <div className="mt-12">
                   {/* <h1 className=" text-2xl text-[#E26178]">Coupons</h1> */}
@@ -1066,7 +1066,7 @@ const Checkout: React.FC = () => {
               )}
               {(selectedComponent === "DeliveryDetails" ||
                 (selectedComponent === "Payment" && !isOrderPlaced)) && (
-                <div id="order-summary">
+                <div id="#order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     wallet={whpWallet}
@@ -1091,7 +1091,7 @@ const Checkout: React.FC = () => {
                   useSameAsBillingAddress={useSameAsBillingAddress}
                 />
               )}
-            </div>
+            </div>}
           </div>
         </div>
       </div>

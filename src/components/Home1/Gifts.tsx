@@ -10,7 +10,7 @@ const Gifts = () => {
   let categories = [
     {
       id: 3,
-      url: "occasion-Her_Birthday",
+      url: "pc-gift_for_her",
       head: "her_birthday",
       type: "Her Birthday",
       image: (
@@ -25,7 +25,7 @@ const Gifts = () => {
     },
     {
       id: 4,
-      url: "occasion-His_Birthday",
+      url: "pc-gift_for_him",
       head: "his_birthday",
       type: "His Birthday",
       image: (
@@ -85,7 +85,7 @@ const Gifts = () => {
     },
     {
       id: 6,
-      url: "occasion-God_pendant",
+      url: "pc-all_jewellery_mens_jewellery_religious",
       head: "god_pendant",
       type: "God Pendant",
       image: (
@@ -100,7 +100,7 @@ const Gifts = () => {
     },
     {
       id: 7,
-      url: "occasion-New_Born_Baby",
+      url: "pc-little_star_collection",
       head: "new_born_baby",
       type: "Little Star Collection",
       image: (
@@ -115,7 +115,7 @@ const Gifts = () => {
     },
     {
       id: 9,
-      url: "occasion-House_Warming",
+      url: "pc-self_gifting_tresures",
       head: "house_warming",
       type: "Self Gifting",
       image: (

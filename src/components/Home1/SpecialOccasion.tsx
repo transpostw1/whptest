@@ -75,7 +75,7 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "occasion-everyday" },
+                  query: { url: "pc-everyday" },
                 }}
               >
                 <div
@@ -131,7 +131,7 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "occasion-kids-collection" },
+                  query: { url: "pc-all_jewellery_kids_jewellery" },
                 }}
               >
                 <div
@@ -196,7 +196,7 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "occasion-wedding-collection" },
+                  query: { url: "occasion-wedding" },
                 }}
               >
                 <div
@@ -224,7 +224,7 @@ const SpecialOccasion = () => {
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: "occasion-gentlemen_collection" },
+                  query: { url: "pc-all_jewellery_mens_jewellery" },
                 }}
               >
                 <div
@@ -265,8 +265,8 @@ const SpecialOccasion = () => {
                   Wedding Collection{" "}
                 </div>
               </div>
-            </SwiperSlide>
-            <SwiperSlide>
+            </SwiperSlide> */}
+            {/* <SwiperSlide>
               <div
                 className="collection-item block relative rounded-2xl overflow-hidden cursor-pointer"
                 onClick={() => handleTypeClick("t-shirt")}

@@ -190,7 +190,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             width={100}
             height={200}
             alt="image"
-            className="mr-2 cursor-pointer bg-[#f7f7f7] object-cover"
+            className="cursor-pointer bg-[#f7f7f7] object-cover"
             unoptimized
             onClick={() =>
               handleProductDetailsLink(product.productId, product.url)

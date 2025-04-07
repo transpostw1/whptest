@@ -1066,7 +1066,7 @@ const Checkout: React.FC = () => {
               )}
               {(selectedComponent === "DeliveryDetails" ||
                 (selectedComponent === "Payment" && !isOrderPlaced)) && (
-                <div id="order-summary">
+                <div id="#order-summary">
                   <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
                   <OrderSummary
                     wallet={whpWallet}

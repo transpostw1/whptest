@@ -90,16 +90,10 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
     fetchWishlist();
   }, []);
 
-  const formattedVariants = [
-    {
-      variantType: variants[2],  
-      variantName: variants[1],  
-    },
-    {
-      variantType: "Size",      
-      variantName: variants[0],  
-    }
-  ];
+  const formattedVariants = variants.map((variant) => ({
+    variantType: variant.type,
+    variantName: variant.name,
+  }));
   console.log("formattedVariants", formattedVariants);
 
   const isOutOfStock = (

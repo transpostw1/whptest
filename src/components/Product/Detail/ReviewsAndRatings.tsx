@@ -451,7 +451,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   <button
                     type="submit"
                     onClick={() => handleLogIn()}
-                    className="mt-3 w-[50%] rounded-md border border-transparent bg-[#e26178] px-4 py-2 text-sm font-medium text-white hover:bg-[#e26178] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="mt-3 w-[50%] rounded-md border border-transparent bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Please LogIn
                   </button>
@@ -485,7 +485,9 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
                   </div>
                 </div>
                 {activeIndex === index && (
-                  <div className="accordion-content p-3 bg-[#E1DCDD29]">{item.content}</div>
+                  <div className="accordion-content bg-[#E1DCDD29] p-3">
+                    {item.content}
+                  </div>
                 )}
               </div>
             ))}

@@ -706,9 +706,9 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               </span>
             </p>
           )}
-          {data?.productDetails?.productQty > 0 ? (
+          {/* {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
-          ) : (
+          ) : ( */}
             <>
               <p className="mt-2 flex items-center text-sm text-[#e26178] md:font-semibold">
                 🚚{" "}
@@ -729,7 +729,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 </span>
               </span>
             </>
-          )}
+          {/* )} */}
 
           {/* <div className="mt-4">
             <ul className="list-disc">

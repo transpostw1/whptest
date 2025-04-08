@@ -128,8 +128,8 @@ const Footer = () => {
                 </div>
               </div>
               <div className="">
-                <p>Crafting Timeless Elegance,One Jewel at a </p>
-                <p> Time.Discover Your Statement Piece Today.</p>
+                <p>Crafting Timeless Elegance , One Jewel at a </p>
+                <p> Time. Discover Your Statement Piece Today.</p>
               </div>
             </div>
             <div className="flex flex-col justify-between gap-4 border-t py-[60px] lg:flex-row">
@@ -201,7 +201,7 @@ const Footer = () => {
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
                     >
-                      About-Us
+                      About Us
                     </Link>
                     {isLoggedIn ? (
                       <Link
@@ -317,13 +317,13 @@ const Footer = () => {
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/terms-and-condition#returnandRefund"}
                     >
-                      Return & Refund
+                      Returns & Refunds
                     </Link>
                     <div
                       className="caption1 has-line-before w-fit cursor-pointer pt-2 duration-300"
                       onClick={() => setAppointmentModal(true)}
                     >
-                      Book,Exchange and BuyBack
+                      Book, Exchange and Buyback
                     </div>
                     {appointmentModal && (
                       <BookExchangeModal

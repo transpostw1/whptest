@@ -24,7 +24,7 @@ const Appointment = () => {
           <div>
             <p className="text-center md:text-start">
               Try Before you Buy: Experience the elegance of our jewellery in
-              the comfort of your home.Book an appoinment with us today!
+              the comfort of your home. Book an appoinment with us today!
             </p>
             <div className="md:hidden">
               <img
@@ -68,7 +68,7 @@ const Appointment = () => {
                       type="button"
                       className="text-sm font-medium md:text-[18px]"
                     >
-                      Virtual Try-ON
+                      Virtual Try-On
                     </button>
                     <HiOutlineArrowLongRight className="ml-1" size={20} />
                   </div>

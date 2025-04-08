@@ -168,12 +168,12 @@ const Gifts = () => {
           className="flex flex-col items-start justify-between"
         >
           <h1 className="pb-2 text-[1.5rem] font-medium uppercase">
-            Gifts that speaks from heart
+            Gifts that speak from the heart
           </h1>
           <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
             Discover the joy of gifting with our curated selection,where every
             piece reflects thoughtfulness and timeless charm, making evey
-            occasion extra special.
+            occasion extra-special.
           </p>
         </motion.div>
         <motion.div

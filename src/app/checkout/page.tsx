@@ -1029,7 +1029,7 @@ const Checkout: React.FC = () => {
                               <h3>
                                 -
                                 {formatPrice(
-                                  userDetails?.wallet_amount -
+                                   userDetails?.wallet_amount -
                                     (userDetails?.wallet_amount - totalPrice),
                                 )}
                               </h3>
@@ -1044,7 +1044,6 @@ const Checkout: React.FC = () => {
                         </div>
                         <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
                           <h3 className="text-gray-800">Total Price</h3>
-
                           {whpWallet === "whp_Wallet" ? (
                             userDetails?.wallet_amount < totalPrice ? (
                               <h3>

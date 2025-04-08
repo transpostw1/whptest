@@ -78,7 +78,7 @@ const Payment: React.FC<PaymentProps> = ({
       console.log(storedScheme.enrollmentId);
 
       const options = {
-        key: "rzp_test_QZVTreX3fAEZto",
+        key: "rzp_live_vh97GOv9gE694e",
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",

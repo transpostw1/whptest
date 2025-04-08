@@ -66,7 +66,7 @@ const OtpVerification = ({
       setUpRecaptcha();
     }
     const appVerifier = window.recaptchaVerifier;
-    const formatPh =  + formikValues.phoneNumber;
+    const formatPh = "+" + formikValues.phoneNumber;
 
     try {
       setLoading(true);

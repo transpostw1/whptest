@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
-
 
 interface Props {
   data: any;
@@ -52,7 +51,7 @@ const FilterSidebar: React.FC<Props> = ({
         const isAboveProductsList = windowHeight > sidebarTop;
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
-          windowHeight >= productsListBottom; 
+          windowHeight >= productsListBottom;
 
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
@@ -106,7 +105,9 @@ const FilterSidebar: React.FC<Props> = ({
                     key={`${category}-${index}`}
                     className="inline-flex max-w-full items-center rounded-md border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <span className="max-w-[120px] truncate">{option}</span>
+                    <span className="max-w-[120px] truncate">
+                      {option.replace(/_/g, " ")}
+                    </span>
                     <button
                       className="ml-2"
                       onClick={() => handleOptionSelect(option, category)}

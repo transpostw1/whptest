@@ -208,7 +208,7 @@ const Wishlist = () => {
   return (
     <div className="shop-product breadcrumb1">
       <head>
-        <title>Wishlists</title>
+        <title>Wishlist</title>
         <meta name="description" content={"Your wishlisted items."} />
       </head>
       <StickyNav />

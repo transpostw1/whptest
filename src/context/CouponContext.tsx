@@ -156,7 +156,7 @@ export const useCouponContext = () => {
 
 // const CouponContext = createContext<CouponContextProps | undefined>(undefined);
 
-// // Updated GraphQL query
+// Updated GraphQL query
 // const GET_ALL_COUPONS = gql`
 //   query GetAllCoupons {
 //     getAllCoupons {

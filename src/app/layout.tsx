@@ -1,7 +1,13 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { Noto_Sans, Poiret_One, Roboto,Playfair_Display,Inter } from "next/font/google";
+import {
+  Noto_Sans,
+  Poiret_One,
+  Roboto,
+  Playfair_Display,
+  Inter,
+} from "next/font/google";
 import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
@@ -20,23 +26,22 @@ import Script from "next/script";
 
 const serverTimeLeft: CountdownTimeType = countdownTime();
 
-
 const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300"],
 });
-const instrument = inter ;
+const instrument = inter;
 
 // const instrument = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'WHP Jewellers',
-    template: '%s | WHP Jewellers'
+    default: "WHP Jewellers",
+    template: "%s | WHP Jewellers",
   },
-  description: 'Welcome to WHP Jewellers',
+  description: "Welcome to WHP Jewellers",
   icons: {
-    icon: '/images/other/logo2.png',
+    icon: "/images/other/logo2.png",
   },
 };
 export default function RootLayout({
@@ -47,23 +52,23 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "JewelryStore",
-    "name": "WHP Jewellers",
-    "description": "Welcome to WHP Jewellers",
-    "url": "https://whpv.vercel.app",
-    "logo": "/images/other/main_logo.png",
-    "contactPoint": {
+    name: "WHP Jewellers",
+    description: "Welcome to WHP Jewellers",
+    url: "https://whpv.vercel.app",
+    logo: "/images/other/main_logo.png",
+    contactPoint: {
       "@type": "ContactPoint",
-      "telephone": "+1-YOUR-PHONE-NUMBER",
-      "contactType": "Customer Service"
+      telephone: "+1-YOUR-PHONE-NUMBER",
+      contactType: "Customer Service",
     },
-    "address": {
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": "Your Store Address",
-      "addressLocality": "Your City",
-      "addressRegion": "Your State",
-      "postalCode": "Your Postal Code",
-      "addressCountry": "Your Country"
-    }
+      streetAddress: "Your Store Address",
+      addressLocality: "Your City",
+      addressRegion: "Your State",
+      postalCode: "Your Postal Code",
+      addressCountry: "Your Country",
+    },
   };
 
   return (
@@ -71,6 +76,31 @@ export default function RootLayout({
       <html lang="en">
         {/* <Suspense> */}
         <head>
+          <Script
+            id="organization-schema"
+            type="application/ld+json"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(organizationSchema),
+            }}
+          />
+          {/* Google Analytics */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+    window.dataLayer = window.dataLayer || [];
+                   function gtag(){dataLayer.push(arguments);}      
+    gtag('js', new Date());
+    gtag('config', 'G-KS3DVFD5ZW', {
+      send_page_view: true,
+      allow_google_signals: true,
+      allow_ad_personalization_signals: true
+    });
+  `}
+          </Script>
           <title>WHP Jewellers</title>
           <link
             rel="icon"
@@ -83,7 +113,7 @@ export default function RootLayout({
             type="application/ld+json"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(organizationSchema)
+              __html: JSON.stringify(organizationSchema),
             }}
           />
         </head>

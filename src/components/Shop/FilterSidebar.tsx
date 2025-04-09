@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
-
 
 interface Props {
   data: any;
@@ -52,7 +51,7 @@ const FilterSidebar: React.FC<Props> = ({
         const isAboveProductsList = windowHeight > sidebarTop;
         const isAtProductsListBottom =
           sidebarBottom >= productsListBottom &&
-          windowHeight >= productsListBottom; 
+          windowHeight >= productsListBottom;
 
         const isSidebarInViewport =
           isAboveProductsList && !isAtProductsListBottom;
@@ -104,9 +103,20 @@ const FilterSidebar: React.FC<Props> = ({
                 .map((option: string, index: number) => (
                   <div
                     key={`${category}-${index}`}
-                    className="inline-flex max-w-full items-center rounded-md border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
+                    className="inline-flex max-w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <span className="max-w-[120px] truncate">{option}</span>
+                    <span className="">
+                      {option
+                        .replace(/_/g, " ")
+                        .replace(/(\S)to(\S)/g, "$1 to $2")
+                        .replace(/^to(\S)/g, "to $1")
+                        .replace(/(\S)to$/g, "$1 to")
+                        .replace(/(^|\s)([a-z])/g, (match, p1, p2) => {
+                          // Don't capitalize if the word is "to"
+                          if (p2 + match.slice(2) === "to") return p1 + "to";
+                          return p1 + p2.toUpperCase();
+                        })}
+                    </span>
                     <button
                       className="ml-2"
                       onClick={() => handleOptionSelect(option, category)}

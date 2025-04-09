@@ -184,7 +184,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <div className="mb-4 flex w-full items-center justify-between border-b p-4 md:flex-row">
+        <div className="mb-4 flex flex-col w-full items-center justify-between border-b p-4 sm:flex-row">
           <Image
             src={product?.image}
             width={100}
@@ -199,12 +199,12 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
           <div className="flex w-full flex-col md:flex-row lg:w-2/3">
             <div className="py-4">
               <div
-                className="text-title cursor-pointer"
+                className="text-title cursor-pointer flex items-center justify-between gap-1"
                 onClick={() =>
                   handleProductDetailsLink(product.productId, product.url)
                 }
               >
-                {product.name} {" "} X {product.quantity}
+                {product.name} {" "} <Image src={"/images/icons/cross.png"} className="h-5 w-4" width={40} height={10} alt="cross"></Image> {product.quantity}
               </div>
               {/* <div> */}
               {product.variants && product.variants.length > 0 && (

@@ -621,7 +621,7 @@ const Payment: React.FC<PaymentProps> = ({
                       </div>
                       <div>
                         <p className="text-xl font-semibold">
-                          {product?.title}
+                          {product?.productTitle}
                         </p>
                         {/* <p>
                       {product?.metalType}-{product?.metalWeight}

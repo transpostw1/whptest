@@ -611,8 +611,8 @@ const Payment: React.FC<PaymentProps> = ({
                     <div className="flex">
                       <div className="mr-3">
                         <Image
-                          src={product?.productImage}
-                          alt={"image"}
+                          src={product?.productImage|| "/images/other/Logo.png"}
+                          alt={product?.productTitle || "Product Image"}
                           width={85}
                           height={85}
                           className="bg-[#f7f7f7]"

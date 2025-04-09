@@ -611,7 +611,7 @@ const Payment: React.FC<PaymentProps> = ({
                     <div className="flex">
                       <div className="mr-3">
                         <Image
-                          src={product?.imageDetails[0]?.image_path}
+                          src={product?.productImage}
                           alt={"image"}
                           width={85}
                           height={85}

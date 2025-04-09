@@ -457,7 +457,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               {skuList.includes(data?.productDetails.SKU) && (
                 <div
                   id={`product-form-${data?.productDetails.productId}`}
-                  className="try_on absolute right-5 z-10 top-7 flex w-full cursor-pointer items-center justify-end"
+                  className="try_on absolute right-5 top-7 z-10 flex w-full cursor-pointer items-center justify-end"
                   onClick={() =>
                     loadTryOnButton(
                       data?.productDetails.SKU,
@@ -698,18 +698,48 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 left!
               </p>
             )}
-          {data?.productDetails?.productQty > 0 && (
+
+          {data?.productDetails?.productQty > 0 ? (
             <p className="flex items-center font-normal text-[#e26178]">
               🚚{" "}
               <span className="ml-2">
                 Get It in 12–48 Hrs, Anywhere in India
               </span>
             </p>
+          ) : (
+            <>
+              <p className="mt-2 flex items-center text-sm text-[#e26178] md:font-semibold">
+                🚚{" "}
+                <span className="ml-2">
+                  Expected Delivery in <strong>5 to 20 Days</strong>
+                </span>
+              </p>
+              <span className="text-sm font-light text-[#000]">
+                📞 Need it earlier? Call us for quick delivery–{" "}
+                <span>
+                  <Link
+                    href="tel:1800222225"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>1800-222-225</span>
+                  </Link>
+                </span>
+              </span>
+            </>
           )}
+          {/* {data?.productDetails?.productQty > 0 && (
+            <p className="flex items-center font-normal text-[#e26178]">
+              🚚{" "}
+              <span className="ml-2">
+                Get It in 12–48 Hrs, Anywhere in India
+              </span>
+            </p>
+          )} */}
           {/* {data?.productDetails?.productQty > 0 ? (
             <CheckPincode />
           ) : ( */}
-            <>
+          {/* <>
               <p className="mt-2 flex items-center text-sm text-[#e26178] md:font-semibold">
                 🚚{" "}
                 <span className="ml-2">
@@ -728,7 +758,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   </Link>
                 </span>
               </span>
-            </>
+            </> */}
           {/* )} */}
 
           {/* <div className="mt-4">

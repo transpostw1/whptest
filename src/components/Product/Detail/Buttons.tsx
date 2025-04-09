@@ -202,12 +202,10 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         onClick={(e) => {
           createRipple(e);
           handleBuyNow();
-        }}
-        
+        }}        
       >
         Buy Now
       </motion.div>
-
       <div
         className="ripple-container mx-10 h-[58px] w-[33%] cursor-pointer text-center text-[#e26178] outline outline-1 outline-[#e26178] max-sm:h-full max-sm:w-[35%]"
         onClick={(e) => {

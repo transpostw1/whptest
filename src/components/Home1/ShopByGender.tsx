@@ -20,7 +20,7 @@ const ShopByGender = () => {
   let categories = [
     {
       id: 1,
-      url: "gender-women",
+      url: "pc-womens_jewellery",
       categoryUrl: "Women",
       type: "WOMEN'S JEWELLERY",
       description: "Earrings, Pendants, Bracelets and more",
@@ -36,7 +36,7 @@ const ShopByGender = () => {
     },
     {
       id: 2,
-      url: "gender-men",
+      url: "pc-all_jewellery_mens_jewellery",
       categoryUrl: "Men",
       type: "MEN'S JEWELLERY",
 
@@ -53,7 +53,7 @@ const ShopByGender = () => {
     },
     {
       id: 3,
-      url: "gender-kids",
+      url: "pc-all_jewellery_kids_jewellery",
       categoryUrl: "Kids",
       type: "KID'S JEWELLERY",
       description: "Anklets, Earrings, Bracelets and more",

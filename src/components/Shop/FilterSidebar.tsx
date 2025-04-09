@@ -103,7 +103,7 @@ const FilterSidebar: React.FC<Props> = ({
                 .map((option: string, index: number) => (
                   <div
                     key={`${category}-${index}`}
-                    className="inline-flex max-w-full items-center rounded-md border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
+                    className="inline-flex max-w-full items-center  border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
                   <span className="">
                       {option

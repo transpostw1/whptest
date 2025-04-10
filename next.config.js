@@ -36,8 +36,10 @@ const nextConfig = ({
         permanent:true,
       },
       {
-        source:"https://www.whpjewellers.com/prime-products.html",
-        destination:""
+        source:"/prime-products.html",
+        destination:"/products?url=pc-womens_jewellery",
+        permanent:true,
+
       },
       {
         source:"/about-waman-hari-pethe-jewellers",

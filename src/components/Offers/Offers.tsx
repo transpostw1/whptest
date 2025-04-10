@@ -102,6 +102,8 @@ const OfferBanners = [
   "/images/offers/banner_2_offer.png",
   "/images/offers/banner_3_offer.png",
 ];
+
+
 const Offers = () => {
   const [offerBanners, setOfferBanners] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);

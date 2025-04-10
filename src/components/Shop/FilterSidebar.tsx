@@ -12,6 +12,7 @@ interface Props {
   mobileFilter: boolean;
   setMobileFilter: (arg: boolean) => void;
   selectedOptions: any;
+  handleLoadMore: () => void;
   handleOptionSelect: (arg: string, arg2: string) => void;
   productsListRef: React.RefObject<HTMLDivElement>;
   category: string;
@@ -25,6 +26,7 @@ const FilterSidebar: React.FC<Props> = ({
   setMobileFilter,
   selectedOptions,
   handleOptionSelect,
+  handleLoadMore,
   productsListRef,
 }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("");
@@ -57,11 +59,14 @@ const FilterSidebar: React.FC<Props> = ({
           isAboveProductsList && !isAtProductsListBottom;
         const isAtTop = window.pageYOffset <= sidebarTop;
         setIsSidebarFixed(isSidebarInViewport && !isAtTop);
+        const isNearBottom =
+          window.scrollY + window.innerHeight >= productsListBottom - 200;
+        if (isNearBottom) {
+          handleLoadMore();
+        }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -103,15 +108,16 @@ const FilterSidebar: React.FC<Props> = ({
                 .map((option: string, index: number) => (
                   <div
                     key={`${category}-${index}`}
-                    className="inline-flex max-w-full items-center  border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
+                    className="inline-flex max-w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                  <span className="">
+                    <span className="">
                       {option
                         .replace(/_/g, " ")
                         .replace(/(\S)to(\S)/g, "$1 to $2")
                         .replace(/^to(\S)/g, "to $1")
                         .replace(/(\S)to$/g, "$1 to")
                         .replace(/(^|\s)([a-z])/g, (match, p1, p2) => {
+                          // Don't capitalize if the word is "to"
                           if (p2 + match.slice(2) === "to") return p1 + "to";
                           return p1 + p2.toUpperCase();
                         })}

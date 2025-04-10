@@ -217,7 +217,6 @@ const Payment: React.FC<PaymentProps> = ({
         handler: async function (response: any) {
           try {
             setLoading(true);
-            // Prepare the data to be sent to the API
             const {
               razorpay_payment_id,
               razorpay_order_id,

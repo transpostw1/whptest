@@ -20,9 +20,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
   const handleApiData = (data: any) => {
     setApiData(data);
   };
-
   console.log(apiData, "APDATA");
-
   return (
     <div>
       {/* Main content */}

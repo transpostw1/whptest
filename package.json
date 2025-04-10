@@ -27,6 +27,7 @@
     "braces": "^3.0.3",
     "canvas-confetti": "^1.9.3",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "compromise": "^14.14.4",
     "crypto": "^1.0.1",
     "firebase": "^10.12.4",
     "flickity": "^3.0.0",

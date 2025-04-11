@@ -24,7 +24,7 @@ const ProfileSidebar = () => {
         <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full bg-[#E26178] text-[30px] text-white">
           {userDetails?.profile_picture ? (
             <Image
-              src={userDetails?.profile_picture}
+              src={userDetails?.profile_picture|| "/images/other/Logo.png"}
               className="h-full w-full rounded-full"
               alt="Profile Picture"
               width={90}
@@ -86,7 +86,6 @@ const ProfileSidebar = () => {
                 Orders
               </div>
             </Link> */}
-
             <div
               className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                 pathname.endsWith("customerOrders") ? "profile-sidebar" : ""

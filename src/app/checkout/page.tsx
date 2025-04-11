@@ -515,11 +515,13 @@ const Checkout: React.FC = () => {
       setSelectedBillingAddress(null);
       setSelectedPaymentMethod("");
       setFlashMessage("Your order has been placed successfully!");
+      router.push("/checkout?status=order-success");
       setFlashType("success");
       setFlashKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error("Error completing order:", error);
       setFlashMessage("There was an error placing your order.");
+      router.push("/checkout?status=order-failure");
       setFlashType("error");
       setFlashKey((prevKey) => prevKey + 1);
     }

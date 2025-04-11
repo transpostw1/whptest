@@ -31,13 +31,13 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     const formattedValue = value.replace(/ /g, "_").toLowerCase();
     console.log("Formatted Value", formattedValue);
   
-    // Send search event to Google Analytics
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", "search", {
         search_term: formattedValue,
       });
+    } else {
+      console.warn("Google Analytics gtag is not defined");
     }
-  
     const currentUrl = window.location.href;
     const updatedUrl = currentUrl.includes("pc-")
       ? currentUrl.replace(/pc-[^&]+/, "")

@@ -150,7 +150,7 @@ export default function RootLayout({
               src="https://www.googletagmanager.com/ns.html?id=GTM-5T2F5CF"
               height="0"
               width="0"
-              style="display:none;visibility:hidden"
+              style={{ display: "none", visibility: "hidden" }}
             ></iframe>
           </noscript>
           <UserTracking />

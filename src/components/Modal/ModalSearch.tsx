@@ -13,11 +13,7 @@ interface ModalSearchProps {
   closeModal: () => void;
   isModalOpen: boolean;
 }
-declare global {
-  interface Window {
-    gtag?: (command: string, eventName: string, params?: Record<string, any>) => void;
-  }
-}
+
 const ModalSearch: React.FC<ModalSearchProps> = ({
   closeModal,
   isModalOpen,
@@ -31,13 +27,13 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
     const formattedValue = value.replace(/ /g, "_").toLowerCase();
     console.log("Formatted Value", formattedValue);
   
-    if (typeof window !== "undefined" && window.gtag) {
+    // if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", "search", {
         search_term: formattedValue,
       });
-    } else {
-      console.warn("Google Analytics gtag is not defined");
-    }
+    // } else {
+      // console.warn("Google Analytics gtag is not defined");
+    // }
     const currentUrl = window.location.href;
     const updatedUrl = currentUrl.includes("pc-")
       ? currentUrl.replace(/pc-[^&]+/, "")

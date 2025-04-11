@@ -54,7 +54,7 @@ export default function RootLayout({
     "@type": "JewelryStore",
     name: "WHP Jewellers",
     description: "Welcome to WHP Jewellers",
-    url: "https://whpv.vercel.app",
+    url: "https://www.whpjewellers.com",
     logo: "/images/other/main_logo.png",
     contactPoint: {
       "@type": "ContactPoint",

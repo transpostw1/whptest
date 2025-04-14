@@ -8,9 +8,12 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import FlashAlert from "../Other/FlashAlert";
 import Cookie from "js-cookie";
-import { baseUrl } from "@/utils/constants";
 import { useCurrency } from "@/context/CurrencyContext";
 import MobileSingleOrderDetails from "./MobileSingleOrderDetails";
+import Link from "next/link";
+import {motion} from "framer-motion";
+import { baseUrl } from "@/utils/constants";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 interface Props {
   orders: any;
@@ -104,6 +107,68 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
+      {singleOrder==null&&orders.length==0&&(<div className="">
+         <div className="w-full text-center">
+           <h2 className="text-xl font-semibold">We Are Currently Down</h2>
+           <p className="mt-2 text-gray-600">
+             Our website is undergoing maintenance. We’ll be back shortly.
+             Thank you for your patience!
+           </p>
+           <p className="mt-2 text-gray-600">For further updates contact Us</p>
+           <div className="flex w-full flex-col justify-center lg:flex-row">
+             <motion.div
+               animate={{
+                 scale: [1, 1.1, 1],
+               }}
+               transition={{
+                 duration: 1.2,
+                 ease: "easeInOut",
+                 repeat: Infinity,
+               }}
+               className=""
+             >
+               <Link href={"https://wa.me/918828324464"} target="_blank">
+                 <div className="flex p-2 text-center">
+                   <IoLogoWhatsapp
+                     className="mr-1"
+                     size={30}
+                     color="#25D366"
+                   />
+                   <p className="text-md">+91 8828324464</p>
+                 </div>
+               </Link>
+             </motion.div>
+             <motion.div
+               animate={{
+                 scale: [1, 1.1, 1],
+               }}
+               transition={{
+                 duration: 1.2,
+                 ease: "easeInOut",
+                 repeat: Infinity,
+               }}
+               className=""
+             >
+               <Link
+                 href="tel:1800222225"
+                 target="_blank"
+                 rel="noopener noreferrer"
+               >
+                 <div className="flex p-2">
+                   <Icon.Phone
+                     size={30}
+                     color="#e26178"
+                     weight="fill"
+                     className="mr-1"
+                   />
+                   <p className="text-md">1800-222-225</p>
+                 </div>
+               </Link>
+             </motion.div>
+           </div>
+           
+         </div>
+       </div>)}
       {singleOrder == null && (
         <div className="mt-10">
           {Array.isArray(orders) &&
@@ -185,7 +250,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
             ))}
         </div>
       )}
-
       {singleOrder != null && (
         <MobileSingleOrderDetails singleOrder={singleOrder} />
       )}

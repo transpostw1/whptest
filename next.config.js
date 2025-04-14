@@ -5,11 +5,11 @@ const nextConfig = ({
   reactStrictMode: false,
   async redirects() {
     return [
-      {
-        source: "/profile/customerOrders",
-        destination: "/profile",
-        permanent: true,
-      },
+      // {
+      //   source: "/profile/customerOrders",
+      //   destination: "/profile",
+      //   permanent: true,
+      // },
       {
         source:"/jewellery-for-women/earrings.html",
         destination:"/products?url=pc-earrings",

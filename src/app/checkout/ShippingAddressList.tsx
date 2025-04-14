@@ -20,6 +20,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
   readOnly,
 }) => {
   const [addresses, setAddresses] = useState<Address[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {

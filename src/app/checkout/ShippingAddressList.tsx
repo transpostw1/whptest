@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { FaCheckCircle, FaEdit, FaTimes } from "react-icons/fa";
-import Preloader from "@/components/Other/Preloader";
 import Loading from "../benefit/loading";
 import { Address } from "@/type/AddressType";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
@@ -15,7 +12,6 @@ interface ShippingAddressListProps {
   onAddressAdded: () => void;
   readOnly?: any;
 }
-
 const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
   onAddressSelect,
   selectedAddress,
@@ -63,7 +59,6 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
       try {
         setIsLoading(true);
         const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-
         const getAuthHeaders = () => {
           if (!cookieTokenn) return null;
           return {
@@ -113,7 +108,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
 
   useEffect(() => {
     if (addressAdded) {
-      onAddressAdded(); // Call the onAddressAdded function when a new address is added
+      onAddressAdded(); 
     }
   }, [addressAdded, onAddressAdded]);
 
@@ -131,10 +126,8 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
       return 0;
     });
   }
-
   return (
     <div>
-      
       {isLoading ? (
         <Loading />
       ) : addresses.length === 0 ? (
@@ -162,7 +155,6 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
-      
               <div className="w-full">
                 <div className="flex items-center space-x-2">
                   <h3 className="font-semibold">
@@ -184,5 +176,4 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
     </div>
   );
 };
-
 export default ShippingAddressList;

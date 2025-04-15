@@ -108,7 +108,9 @@ const NavHoverMenu2 = () => {
                         }
                       }}
                       className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 ${
-                        selectedMenu === index ? "underline text-[#E26178]" : " hover:text-[#E26178]"
+                        selectedMenu === index
+                          ? "text-[#E26178] underline"
+                          : "hover:text-[#E26178]"
                       }`}
                     >
                       {item.name}
@@ -170,10 +172,10 @@ const NavHoverMenu2 = () => {
                               </ul>
                             ),
                           )}
-                          <div className="col-span-2 w-full">
-                            {index !== 0 && item.image && (
+                          <div className="col-span-2 w-full ">
+                            {index !== 0 && index !== 1 && item.image && (
                               <Image
-                                className=" object-contain"
+                                className="object-contain"
                                 src={item.image}
                                 alt={item.name}
                                 width={360}

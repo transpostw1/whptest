@@ -13,6 +13,9 @@ const MobileMainCategorySwiper = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { allMenus } = useMainMenuContext();
 
+  
+  const targetMenu = allMenus.find((menu: any) => menu.id === "54");
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1023px)");
     const handleChange = (e: any) => {
@@ -27,9 +30,10 @@ const MobileMainCategorySwiper = () => {
     };
   }, []);
 
-  if (!isMobile) {
+  if (!isMobile || !targetMenu) {
     return null;
   }
+
   return (
     <div className="mb-2">
       <div className=" ">
@@ -43,39 +47,38 @@ const MobileMainCategorySwiper = () => {
             },
           }}
         >
-          {allMenus.length > 0 &&
-            allMenus[0].subCategory.map((subItem: any, subIndex: any) => (
-              <SwiperSlide
-                key={subIndex}
-                className="flex h-full w-full items-center justify-evenly text-rose-950"
-              >
-                <div className="flex flex-col items-center">
-                  {subItem.image && (
-                    <Link
-                      href={subItem.url}
-                      onClick={() => setCustomcategory(subItem.label)}
-                      className="mt-2 truncate text-center text-xs duration-300"
-                    >
-                      <Image
-                        src={subItem.image}
-                        alt={subItem.name}
-                        width={65}
-                        height={65}
-                        className=""
-                        unoptimized
-                      />
-                    </Link>
-                  )}
+          {targetMenu.subCategory.map((subItem: any, subIndex: number) => (
+            <SwiperSlide
+              key={subIndex}
+              className="flex h-full w-full items-center justify-evenly text-rose-950"
+            >
+              <div className="flex flex-col items-center">
+                {subItem.image && (
                   <Link
                     href={subItem.url}
                     onClick={() => setCustomcategory(subItem.label)}
                     className="mt-2 truncate text-center text-xs duration-300"
                   >
-                    {subItem.name}
+                    <Image
+                      src={subItem.image}
+                      alt={subItem.name}
+                      width={65}
+                      height={65}
+                      className=""
+                      unoptimized
+                    />
                   </Link>
-                </div>
-              </SwiperSlide>
-            ))}
+                )}
+                <Link
+                  href={subItem.url}
+                  onClick={() => setCustomcategory(subItem.label)}
+                  className="mt-2 truncate text-center text-xs duration-300"
+                >
+                  {subItem.name}
+                </Link>
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>

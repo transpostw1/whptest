@@ -79,26 +79,25 @@ const Category = () => {
                   setCustomcategory(cleanUrl);
                 }}
               >
-                    <div className="cursor-pointer">
-        {category.parentImg ? (
-          <Image
-            src={category.parentImg}
-            alt={`category images ${category.name}`}
-            width={400}
-            height={400}
-            unoptimized
-          />
-        ) : (
-          // Fallback image or placeholder
-          <Image
-            src="/images/other/Logo.png" 
-            alt={`category images ${category.name}`}
-            width={400}
-            height={400}
-            unoptimized
-          />
-        )}
-      </div>
+                <div className="cursor-pointer">
+                  {category.parentImg ? (
+                    <Image
+                      src={category.parentImg}
+                      alt={`category images ${category.name}`}
+                      width={400}
+                      height={400}
+                      unoptimized
+                    />
+                  ) : (
+                    <Image
+                      src="/images/other/Logo.png"
+                      alt={`category images ${category.name}`}
+                      width={400}
+                      height={400}
+                      unoptimized
+                    />
+                  )}
+                </div>
               </Link>
 
               <div>

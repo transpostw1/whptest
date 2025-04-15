@@ -715,7 +715,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 </span>
               </p>
               <span className="text-sm font-light text-[#000]">
-                📞 Need it earlier? Call us for quick delivery–{" "}
+                📞 Need it earlier? Call us for fast delivery–{" "}
                 <span>
                   <Link
                     href="tel:1800222225"

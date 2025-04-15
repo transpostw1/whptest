@@ -111,7 +111,9 @@ const NavHoverMenu2 = () => {
                         selectedMenu === index
                           ? "text-[#E26178] underline"
                           : "hover:text-[#E26178]"
-                      }`}
+                      } 
+                    `
+                    }
                     >
                       {item.name}
                     </Link>
@@ -172,7 +174,7 @@ const NavHoverMenu2 = () => {
                               </ul>
                             ),
                           )}
-                          <div className="col-span-2 w-full ">
+                          <div className="col-span-2 w-full">
                             {index !== 0 && index !== 1 && item.image && (
                               <Image
                                 className="object-contain"

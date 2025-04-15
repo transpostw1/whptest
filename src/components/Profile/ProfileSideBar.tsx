@@ -74,7 +74,7 @@ const ProfileSidebar = () => {
             </div>
           </Link>
           <div>
-            {/* <Link href={"/profile/customerOrders"}>
+            <Link href={"/profile/customerOrders"}>
               <div
                 className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                   pathname.endsWith("customerOrders") ? "profile-sidebar" : ""
@@ -85,9 +85,9 @@ const ProfileSidebar = () => {
                 </span>
                 Orders
               </div>
-            </Link> */}
+            </Link>
 
-            <div
+            {/* <div
               className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                 pathname.endsWith("customerOrders") ? "profile-sidebar" : ""
               }`}
@@ -97,7 +97,7 @@ const ProfileSidebar = () => {
                 <Icon.Cube size={22} />
               </span>
               Orders
-            </div>
+            </div> */}
           </div>
           <Link href={"/profile/customerWishlist"}>
             <div

@@ -12,16 +12,25 @@ const SortOptions = [
   "Price-Low To High",
   "Price-High To Low",
 ];
+
 const SortBy: React.FC<Props> = (props) => {
-  const [sortOption, setSortOption] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<string>("");
+  
   const handleOnClose = (e: any) => {
     if (e.target.id === "container") {
       props.onClose();
     }
   };
-  const updateSortOption = (option: string) => {
-    setSortOption(option);
-    props.onSortOptionChange(option);
+
+  const updateSelectedOption = (option: string) => {
+    setSelectedOption(option);
+  };
+
+  const handleApply = () => {
+    if (selectedOption) {
+      props.onSortOptionChange(selectedOption);
+      props.onClose();
+    }
   };
 
   if (!props.visible) return null;
@@ -32,7 +41,7 @@ const SortBy: React.FC<Props> = (props) => {
       onClick={handleOnClose}
     >
       <div className="fixed bg-white left-0 w-[100%] h-[50%] bottom-0 rounded-t-3xl">
-        <p className="w-[100%]  text-center text-xl bg-[#e26178] p-4 rounded-t-3xl text-white">
+        <p className="w-[100%] text-center text-xl bg-[#e26178] p-4 rounded-t-3xl text-white">
           Sort Design By
         </p>
         <div className="p-4">
@@ -40,16 +49,32 @@ const SortBy: React.FC<Props> = (props) => {
             <div
               key={option}
               className={`mt-4 text-lg hover:text-[#e26178] ${
-                sortOption == option ? "text-[#e26179]" : ""
+                selectedOption === option ? "text-[#e26179]" : ""
               }`}
-              onClick={() => updateSortOption(option)}
+              onClick={() => updateSelectedOption(option)}
             >
               {option}
             </div>
           ))}
         </div>
+        
+        {/* Apply Button */}
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <button
+            onClick={handleApply}
+            className={`w-full py-3 rounded-md text-white ${
+              selectedOption 
+                ? 'bg-[#e26178] hover:bg-[#d15167]' 
+                : 'bg-gray-300 cursor-not-allowed'
+            }`}
+            disabled={!selectedOption}
+          >
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   );
 };
+
 export default SortBy;

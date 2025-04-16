@@ -107,11 +107,11 @@ const NavHoverMenu2 = () => {
                           handleMenuClick(index, item.label);
                         }
                       }}
-                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 ${
-                        selectedMenu === index
-                          ? "text-[#E26178] underline"
-                          : "hover:text-[#E26178]"
-                      } ${index === 0 ? "ready-to-ship-animation hover:text-white " : ""}`}
+                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 
+                        ${selectedMenu === index ? "text-[#E26178] " : "hover:text-[#E26178]"} 
+                        ${index === 0 ? "ready-to-ship-animation  hover:text-white" : ""} 
+                        ${selectedMenu === 0 && index === 0 ? "text-white" : ""}
+                      `}
                     >
                       {item.name}
                     </Link>
@@ -125,7 +125,7 @@ const NavHoverMenu2 = () => {
                               <ul key={subIndex}>
                                 <Link
                                   href={subItem.url}
-                                  className="font-semibold text-black"
+                                  className="font-semibold text-black "
                                   onClick={() =>
                                     handleSubCategoryClick(index, subItem.label)
                                   }
@@ -145,7 +145,7 @@ const NavHoverMenu2 = () => {
                                           )
                                         }
                                       >
-                                        <div className="text-secondary flex cursor-pointer duration-300">
+                                        <div className="text-secondary flex cursor-pointer duration-300 hover:underline">
                                           {subSubItem.image && (
                                             <div>
                                               <Image

@@ -111,13 +111,10 @@ const NavHoverMenu2 = () => {
                         selectedMenu === index
                           ? "text-[#E26178] underline"
                           : "hover:text-[#E26178]"
-                      } 
-                    `
-                    }
+                      } ${index === 0 ? "ready-to-ship-animation " : ""}`}
                     >
                       {item.name}
                     </Link>
-
                     {hoverMenuVisible === index &&
                       item.subCategory.length > 0 && (
                         <div

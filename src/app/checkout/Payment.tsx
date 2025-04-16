@@ -208,7 +208,7 @@ const Payment: React.FC<PaymentProps> = ({
       const { amount, id: order_id, currency } = response.data;
 
       const options = {
-        key: "rzp_test_QZVTreX3fAEZto",
+        key: "rzp_live_vh97GOv9gE694e",
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",
@@ -610,8 +610,8 @@ const Payment: React.FC<PaymentProps> = ({
                     <div className="flex">
                       <div className="mr-3">
                         <Image
-                          src={product?.productImage}
-                          alt={"image"}
+                          src={product?.productImage|| "/images/other/Logo.png"}
+                          alt={product?.productTitle || "Product Image"}
                           width={85}
                           height={85}
                           className="bg-[#f7f7f7]"
@@ -620,7 +620,7 @@ const Payment: React.FC<PaymentProps> = ({
                       </div>
                       <div>
                         <p className="text-xl font-semibold">
-                          {product?.title}
+                          {product?.productTitle}
                         </p>
                         {/* <p>
                       {product?.metalType}-{product?.metalWeight}

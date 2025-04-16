@@ -32,12 +32,6 @@ export default function Home() {
   if (typeof window !== "undefined") {
     logged = localStorage.getItem("isLoggedIn");
   }
-  const heatmapData = [
-    { x: 100, y: 150, value: 50 },
-    { x: 200, y: 250, value: 60 },
-    { x: 300, y: 350, value: 70 },
-    { x: 300, y: 2550, value: 70 },
-  ];
 
   const siteId = 5191013;
   const hotjarVersion = 6;

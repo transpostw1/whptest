@@ -54,7 +54,7 @@ export default function RootLayout({
     "@type": "JewelryStore",
     name: "WHP Jewellers",
     description: "Welcome to WHP Jewellers",
-    url: "https://whpv.vercel.app",
+    url: "https://www.whpjewellers.com",
     logo: "/images/other/main_logo.png",
     contactPoint: {
       "@type": "ContactPoint",
@@ -77,6 +77,19 @@ export default function RootLayout({
         {/* <Suspense> */}
         <head>
           <Script
+            id="gtm-script"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5T2F5CF');
+    `,
+            }}
+          />
+          <Script
             id="organization-schema"
             type="application/ld+json"
             strategy="afterInteractive"
@@ -84,6 +97,20 @@ export default function RootLayout({
               __html: JSON.stringify(organizationSchema),
             }}
           />
+
+          <Script id="hotjar" strategy="afterInteractive">
+            {`
+      (function (c, s, q, u, a, r, e) {
+          c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+          c._hjSettings = { hjid: 5364556 };
+          r = s.getElementsByTagName('head')[0];
+          e = s.createElement('script');
+          e.async = true;
+          e.src = q + c._hjSettings.hjid + u;
+          r.appendChild(e);
+      })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js');
+    `}
+          </Script>
           {/* Google Analytics */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
@@ -92,7 +119,7 @@ export default function RootLayout({
           <Script id="google-analytics" strategy="afterInteractive">
             {`
     window.dataLayer = window.dataLayer || [];
-                   function gtag(){dataLayer.push(arguments);}      
+    function gtag(){dataLayer.push(arguments);}      
     gtag('js', new Date());
     gtag('config', 'G-KS3DVFD5ZW', {
       send_page_view: true,
@@ -118,6 +145,14 @@ export default function RootLayout({
           />
         </head>
         <body className={instrument.className}>
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-5T2F5CF"
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            ></iframe>
+          </noscript>
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

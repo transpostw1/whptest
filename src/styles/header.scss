@@ -534,6 +534,31 @@
   }
 }
 
+.ready-to-ship-animation {
+  background: linear-gradient(
+    80deg,
+    rgba(234, 109, 130, 0) 0%, /* Transparent start */
+    #ea6d82 25%,               /* Gradient color */
+    #e26178 50%,               /* Gradient color */
+    #ee667c 75%,               /* Gradient color */
+    rgba(234, 109, 130, 0) 100% /* Transparent end */
+  );
+  background-size: 300%; /* Increase size for smoother animation */
+  color: white; /* Ensure text is visible */
+  animation: shimmer 5s infinite ; /* Adjusted duration for better visibility */
+  padding: 0.5rem 1rem; /* Adjust padding for better appearance */
+  // border-radius: 5px; /* Optional: Add rounded corners for elegance *
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100%; /* Start outside the element */
+  }
+  100% {
+    background-position: 200%; /* End outside the element */
+  }
+}
+
 @keyframes marqueeVertical {
   0% { transform: translateY(0); }
   20% { transform: translateY(-100%); }

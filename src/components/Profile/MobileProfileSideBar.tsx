@@ -83,7 +83,7 @@ const MobileProfileSideBar = () => {
           </div>
         </Link>
         <div>
-          {/* <Link href={"/profile/customerOrders"}>
+          <Link href={"/profile/customerOrders"}>
             <div
               className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
             >
@@ -97,9 +97,9 @@ const MobileProfileSideBar = () => {
                 <Icon.CaretRight weight="fill" />
               </div>
             </div>
-          </Link> */}
+          </Link>
 
-          <div
+          {/* <div
             onClick={()=>setTestModalOpen(true)}
             className={`flex cursor-pointer items-center justify-between p-2 text-black hover:bg-[white] hover:text-[#e26178]`}
           >
@@ -112,7 +112,7 @@ const MobileProfileSideBar = () => {
             <div>
               <Icon.CaretRight weight="fill" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div>
           <Link href={"/profile/customerWishlist"}>
@@ -154,7 +154,7 @@ const MobileProfileSideBar = () => {
       >
         Logout
       </div>
-      {testModalOpen && (
+      {/* {testModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="max-w-80 rounded-lg bg-white p-6 text-center shadow-lg">
             <h2 className="text-xl font-semibold">We Are Currently Down</h2>
@@ -222,7 +222,7 @@ const MobileProfileSideBar = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

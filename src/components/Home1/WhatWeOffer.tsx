@@ -53,7 +53,7 @@ const WhatWeOffer = () => {
             <h3 className="text-xl font-semibold">Gemstones & Jewellery</h3>
             <p className="md:mw-96 text-center md:text-start">
               Discover our premium collection of natural, certified loose
-              gemstones and jewellery are each handpicked for its clarity,
+              gemstones and jewellery that are handpicked for their clarity,
               color, and cosmic energy.
             </p>
             <Link

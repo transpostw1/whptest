@@ -56,7 +56,7 @@ export default function About() {
               Welcome to WHP Jewellers
             </h2>
             <p className="mb-4">
-              WHP Jewellers is a one-stop- destination for all your jewellery
+              WHP Jewellers is a one-stop destination for all your jewellery
               needs. We offer a wide range of gold and diamond jewellery for
               men, women and children. Our collection includes rings, earrings,
               pendants, necklaces, bangles, bracelets and more. We also offer
@@ -66,7 +66,7 @@ export default function About() {
             </p>
             <p className="mt-2">
               We are committed to providing outstanding customer service, and We
-              offer free shipping and 30- day return policy on all our products.
+              offer free shipping and 30-day return policy on all our products.
               So, shop with confidence and choose us for all your jewellery
               needs! Since 2016, we have been catering to the jewellery needs of
               the Indian diaspora in India and abroad.

@@ -42,14 +42,10 @@ const ShopBreadCrumb1 = () => {
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleProducts = () => {
-    console.log("isLoadMore");
-    setIsLoadMore(true);
-    setIsLoading(true);
-  };
   const triggerFetchData = () => {
     setFetchProducts(true);
   };
+  
 
   useEffect(() => {
     if (isLoadMore) {
@@ -689,7 +685,7 @@ const ShopBreadCrumb1 = () => {
     fetchData(combinedOptions);
     console.log("Combined Options", combinedOptions);
     updateURL(selectedOptions);
-  }, [selectedOptions]);
+  }, [selectedOptions,]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -847,6 +843,9 @@ const ShopBreadCrumb1 = () => {
     window.scrollTo(0, 0);
   }, []);
 
+ const handleLoadMore=()=>{
+  setIsLoadMore(!isLoadMore);
+ }
 
   useEffect(() => {
     fetchSkusList();
@@ -867,6 +866,7 @@ const ShopBreadCrumb1 = () => {
               selectedOptions={selectedOptions}
               handleOptionSelect={handleOptionSelect}
               productsListRef={productsListRef}
+              handleLoadMore={handleLoadMore}
               category={category}
             />
             <div className="list-product-block no-scrollbar w-full md:w-2/3 md:pl-3 lg:w-3/4">
@@ -1038,7 +1038,7 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               )}
-              <div className="w-full text-center">
+              {/* <div className="w-full text-center">
                 {filteredProducts.length > 0 && (
                   <button
                     onClick={handleProducts}
@@ -1047,7 +1047,7 @@ const ShopBreadCrumb1 = () => {
                     Load More
                   </button>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

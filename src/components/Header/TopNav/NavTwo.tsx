@@ -179,12 +179,12 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         onClose={closeTryAtHomeModal}
       />
       <div
-        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px] ${
+        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px]  ${
           fixedHeader ? "fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
       >
-        <div className="mx-auto h-full px-7 py-2">
+        <div className="mx-auto h-full px-3 py-2">
           <div className="top-nav-main flex items-center justify-between">
             <div className="left-content flex items-center">
               <Link href={"/"}>
@@ -350,7 +350,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         }`}
                       >
                         <Icon.Newspaper size={30} />
-                        <p className="text-sm">Blog</p>
+                        <p className="text-sm">Blogs</p>
                       </div>
                     </Link>
                     <div
@@ -405,7 +405,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           }`}
                         >
                           <Icon.Heart size={28} />
-                          <p className="text-sm">Wishlists</p>
+                          <p className="text-sm">Wishlist</p>
                         </div>
                         {wishlistItems.length > 0 && (
                           <span className="quantity cart-quantity absolute -top-1 right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">

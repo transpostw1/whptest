@@ -10,7 +10,7 @@ const Gifts = () => {
   let categories = [
     {
       id: 3,
-      url: "pc-gift_for_her",
+      url: "pc_gift_for_her",
       head: "her_birthday",
       type: "Her Birthday",
       image: (
@@ -40,7 +40,7 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "occasion-Valentines",
+      url: "pc-all_jewellery_mens_jewellery_rings",
       head: "valentines",
       type: "Valentines",
       image: (
@@ -55,7 +55,7 @@ const Gifts = () => {
     },
     {
       id: 8,
-      url: "occasion-Valentines",
+      url: "pc-rings_engagement_ring",
       head: "valentines",
       type: "Valentines",
       image: (
@@ -70,7 +70,7 @@ const Gifts = () => {
     },
     {
       id: 5,
-      url: "occasion-Weddings",
+      url: "pc-gift_for_special_occasion",
       head: "special",
       type: "Gift For Special Occasion",
       image: (
@@ -168,12 +168,12 @@ const Gifts = () => {
           className="flex flex-col items-start justify-between"
         >
           <h1 className="pb-2 text-[1.5rem] font-medium uppercase">
-            Gifts that speaks from heart
+            Gifts that speak from the heart
           </h1>
           <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
             Discover the joy of gifting with our curated selection,where every
             piece reflects thoughtfulness and timeless charm, making evey
-            occasion extra special.
+            occasion extra-special.
           </p>
         </motion.div>
         <motion.div

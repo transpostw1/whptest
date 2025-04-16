@@ -72,7 +72,7 @@ const ProductSlider = () => {
           <div className="flex justify-between">
             <div>
               <p className="text-[1.5rem] font-medium uppercase">
-                Best Sellers
+                BestSellers
               </p>
             </div>
             <div className="flex">

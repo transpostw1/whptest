@@ -80,14 +80,23 @@ const Category = () => {
                 }}
               >
                 <div className="cursor-pointer">
-                  <Image
-                    src={category.parentImg}
-                    alt={`category images ${category.name}`}
-                    width={400}
-                    height={400}
-                    unoptimized
-                    // className="transition-transform duration-300 ease-in-out transform hover:scale-105"
-                  />
+                  {category.parentImg ? (
+                    <Image
+                      src={category.parentImg}
+                      alt={`category images ${category.name}`}
+                      width={400}
+                      height={400}
+                      unoptimized
+                    />
+                  ) : (
+                    <Image
+                      src="/images/other/Logo.png"
+                      alt={`category images ${category.name}`}
+                      width={400}
+                      height={400}
+                      unoptimized
+                    />
+                  )}
                 </div>
               </Link>
 

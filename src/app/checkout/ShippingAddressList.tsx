@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
 import { FaCheckCircle, FaEdit, FaTimes } from "react-icons/fa";
-import Preloader from "@/components/Other/Preloader";
 import Loading from "../benefit/loading";
 import { Address } from "@/type/AddressType";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
@@ -15,7 +12,6 @@ interface ShippingAddressListProps {
   onAddressAdded: () => void;
   readOnly?: any;
 }
-
 const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
   onAddressSelect,
   selectedAddress,
@@ -24,6 +20,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
   readOnly,
 }) => {
   const [addresses, setAddresses] = useState<Address[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
@@ -63,7 +60,6 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
       try {
         setIsLoading(true);
         const cookieTokenn = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-
         const getAuthHeaders = () => {
           if (!cookieTokenn) return null;
           return {
@@ -113,7 +109,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
 
   useEffect(() => {
     if (addressAdded) {
-      onAddressAdded(); // Call the onAddressAdded function when a new address is added
+      onAddressAdded(); 
     }
   }, [addressAdded, onAddressAdded]);
 
@@ -131,49 +127,54 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
       return 0;
     });
   }
-
   return (
     <div>
-      
       {isLoading ? (
         <Loading />
       ) : addresses.length === 0 ? (
         <p>No shipping addresses found.</p>
       ) : (
         <div>
-          {sortedAddresses.map((address) => (
-            <div
-              key={address.address_id}
-              className={`border rounded-lg p-4 mb-4 flex items-center justify-between ${
-                selectedAddress?.address_id === address.address_id
-                  ? "bg-green-100"
-                  : "bg-gray-100 opacity-50" // Apply faded style to unselected addresses
-              } cursor-pointer`}
-              onClick={() => handleAddressSelect(address)}
-            >
-              <div>
+        {sortedAddresses.map((address) => (
+          <div
+            key={address.address_id}
+            className={`border rounded-lg p-4 mb-4 flex items-center justify-between ${
+              selectedAddress?.address_id === address.address_id
+                ? "bg-green-100"
+                : "bg-gray-100 opacity-50"
+            } cursor-pointer`}
+            onClick={() => handleAddressSelect(address)}
+          >
+            <div className="flex w-full gap-4">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={selectedAddress?.address_id === address.address_id}
+                  onChange={() => handleAddressSelect(address)}
+                  className="h-4 w-4 cursor-pointer accent-green-600"
+                  // Prevent click event from bubbling up to parent div
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+              <div className="w-full">
                 <div className="flex items-center space-x-2">
                   <h3 className="font-semibold">
                     {address.full_address.split(",")[0]}
                   </h3>
-                  {selectedAddress?.address_id === address.address_id && (
+                  {/* {selectedAddress?.address_id === address.address_id && (
                     <FaCheckCircle className="text-green-700 text-xl" />
-                  )}
+                  )} */}
                 </div>
                 <p>{address.full_address.split(",").slice(1).join(", ")}</p>
                 <p>{`${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}</p>
                 <p>Address Type: {address.address_type}</p>
               </div>
-              {/* <div className="flex space-x-2">
-                <FaEdit className="text-gray-500 hover:text-gray-700 cursor-pointer" />
-                <FaTimes className="text-gray-500 hover:text-gray-700 cursor-pointer" />
-              </div> */}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
       )}
     </div>
   );
 };
-
 export default ShippingAddressList;

@@ -112,10 +112,10 @@ const Extendedfooter = () => {
             onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
             className="cursor-pointer"
           >
-            Bracelet For Men
+            Bracelets For Men
           </span>{" "}
           |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
-              Men's Kada
+              Men's Kadas
             </span>
         </h1>
       </div>

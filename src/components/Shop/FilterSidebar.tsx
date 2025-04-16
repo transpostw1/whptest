@@ -12,6 +12,7 @@ interface Props {
   mobileFilter: boolean;
   setMobileFilter: (arg: boolean) => void;
   selectedOptions: any;
+  handleLoadMore: () => void;
   handleOptionSelect: (arg: string, arg2: string) => void;
   productsListRef: React.RefObject<HTMLDivElement>;
   category: string;
@@ -25,6 +26,7 @@ const FilterSidebar: React.FC<Props> = ({
   setMobileFilter,
   selectedOptions,
   handleOptionSelect,
+  handleLoadMore,
   productsListRef,
 }) => {
   const [filterDropDown, setFilterDropDown] = useState<string>("");
@@ -57,11 +59,14 @@ const FilterSidebar: React.FC<Props> = ({
           isAboveProductsList && !isAtProductsListBottom;
         const isAtTop = window.pageYOffset <= sidebarTop;
         setIsSidebarFixed(isSidebarInViewport && !isAtTop);
+        const isNearBottom =
+          window.scrollY + window.innerHeight >= productsListBottom - 200;
+        if (isNearBottom) {
+          handleLoadMore();
+        }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

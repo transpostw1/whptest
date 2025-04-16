@@ -8,6 +8,7 @@ import { IoIosTrendingUp, IoMdArrowBack } from "react-icons/io";
 import useRecentlyViewedProducts from "@/hooks/useRecentlyViewedProducts";
 import handleOptionSelect from "@/components/Shop/ShopBreadCrumb1";
 
+
 interface ModalSearchProps {
   closeModal: () => void;
   isModalOpen: boolean;
@@ -23,17 +24,23 @@ const ModalSearch: React.FC<ModalSearchProps> = ({
   const router = useRouter();
 
   const handleSearch = (value: string) => {
-    const formattedValue = value.replace(/ /g, "_");
-    const value2 = formattedValue.toLowerCase();
-    console.log("Formatted Value", value2);
-
+    const formattedValue = value.replace(/ /g, "_").toLowerCase();
+    console.log("Formatted Value", formattedValue);
+  
+    // if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "search", {
+        search_term: formattedValue,
+      });
+    // } else {
+      // console.warn("Google Analytics gtag is not defined");
+    // }
     const currentUrl = window.location.href;
     const updatedUrl = currentUrl.includes("pc-")
       ? currentUrl.replace(/pc-[^&]+/, "")
       : currentUrl;
-
-    router.push(`/products?url=search-${value2}&source=search`);
-
+  
+    router.push(`/products?url=search-${formattedValue}&source=search`);
+  
     setCustomcategory(value);
     closeModal();
   };

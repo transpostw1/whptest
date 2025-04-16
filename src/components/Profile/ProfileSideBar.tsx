@@ -24,7 +24,7 @@ const ProfileSidebar = () => {
         <div className="flex h-[80px] w-[80px] items-center justify-center rounded-full bg-[#E26178] text-[30px] text-white">
           {userDetails?.profile_picture ? (
             <Image
-              src={userDetails?.profile_picture}
+              src={userDetails?.profile_picture|| "/images/other/Logo.png"}
               className="h-full w-full rounded-full"
               alt="Profile Picture"
               width={90}
@@ -74,7 +74,7 @@ const ProfileSidebar = () => {
             </div>
           </Link>
           <div>
-            {/* <Link href={"/profile/customerOrders"}>
+            <Link href={"/profile/customerOrders"}>
               <div
                 className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                   pathname.endsWith("customerOrders") ? "profile-sidebar" : ""
@@ -85,19 +85,19 @@ const ProfileSidebar = () => {
                 </span>
                 Orders
               </div>
-            </Link> */}
+            </Link>
 
-            <div
+            {/* <div
               className={`flex cursor-pointer items-center p-2 text-black hover:bg-[white] hover:text-[#e26178] ${
                 pathname.endsWith("customerOrders") ? "profile-sidebar" : ""
               }`}
-              onClick={() => setTestModalOpen(true)}
+              
             >
               <span className="mr-1">
                 <Icon.Cube size={22} />
               </span>
               Orders
-            </div>
+            </div> */}
           </div>
           <Link href={"/profile/customerWishlist"}>
             <div
@@ -125,7 +125,7 @@ const ProfileSidebar = () => {
           </Link>
         </div>
       </div>
-      {testModalOpen && (
+      {/* {testModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
             <h2 className="text-xl font-semibold">We Are Currently Upgrading</h2>
@@ -193,7 +193,7 @@ const ProfileSidebar = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <AddDetailsModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );

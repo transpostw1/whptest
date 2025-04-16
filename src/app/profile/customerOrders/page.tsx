@@ -6,6 +6,7 @@ import { graphqlbaseUrl } from "@/utils/constants";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import ProtectedRoute from "@/app/ProtectedRoute";
 import StickyNav from "@/components/Header/StickyNav";
+
 import MobileOrders from "@/components/Profile/MobileOrders";
 
 const CustomerOrders = () => {
@@ -193,3 +194,12 @@ const CustomerOrders = () => {
 };
 
 export default CustomerOrders;
+
+
+
+
+
+
+
+
+

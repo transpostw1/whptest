@@ -128,6 +128,7 @@ export default function RootLayout({
     });
   `}
           </Script>
+          <meta name="google-site-verification" content="isU2W3q3NcKIIWnMP9XLOGV66600qUnfhir4RiD7j0M" />
           <title>WHP Jewellers</title>
           <link
             rel="icon"

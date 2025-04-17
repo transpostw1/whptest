@@ -179,7 +179,7 @@ const CustomerOrders = () => {
     <ProtectedRoute>
       <head>
         <title>Your Orders</title>
-        <meta name="description" content={"profile details"} />
+        <meta name="profile detail" content={"profile details"} />
       </head>
       <div className="flex">
         <div>

@@ -134,7 +134,7 @@ const Careers: React.FC = () => {
       <head>
         <title>Careers</title>
         <meta
-          name="description"
+          name="careers"
           content={
            "Careers at WHP."
           }

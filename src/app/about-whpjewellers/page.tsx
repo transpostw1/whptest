@@ -45,7 +45,7 @@ export default function About() {
       <Head>
         <title>WHP Jewellers - Gold & Diamond Jewellery Online</title>
         <meta
-          name="description"
+          name="about"
           content="Shop gold, diamond, and silver jewellery online with WHP Jewellers. Trusted for quality and authenticity since 2016."
         />
       </Head>

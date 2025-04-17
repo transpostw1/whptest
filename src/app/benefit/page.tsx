@@ -118,7 +118,7 @@ const Benefit: React.FC = () => {
     <>
        <head>
         <title>Benefit Calculator</title>
-        <meta name="description" content={"WHP Benefit Calculator."} />
+        <meta name="Benefit" content={"WHP Benefit Calculator."} />
       </head>
       <div className="hidden px-40 md:h-[900px] md:px-10 lg:block lg:h-[600px]">
         <div className="card-stack">

@@ -29,7 +29,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
       <head>
         <title>{apiData?.productDetails?.title || "Details"}</title>
         <meta
-          name="description"
+          name="product details"
           content={
             apiData?.productDetails?.description || "Discover our amazing products at WHP Jewellers."
           }

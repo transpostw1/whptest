@@ -212,7 +212,7 @@ const Gifts = () => {
 <head>
     <title>Gifts</title>
     <meta
-          name="description"
+          name="gifts"
           content={
            "Gifting WHP"
           }

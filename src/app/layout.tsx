@@ -75,7 +75,6 @@ export default function RootLayout({
       <html lang="en">
         {/* <Suspense> */}
         <head>
-          {/* <DefaultSeo {...SEO} /> */}
           <Script
             id="gtm-script"
             strategy="afterInteractive"

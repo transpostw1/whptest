@@ -105,6 +105,7 @@ const NavHoverMenu2 = () => {
                           e.preventDefault();
                         } else {
                           handleMenuClick(index, item.label);
+                          window.scrollTo({ top: 0, behavior: "smooth" });
                         }
                       }}
                       className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 

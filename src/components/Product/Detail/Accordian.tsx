@@ -594,8 +594,6 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <div>
               
                   <p>{product.productDetails?.metalWeight} gms</p>
-              
-
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
                     {product.productDetails.diamondDetails.map(

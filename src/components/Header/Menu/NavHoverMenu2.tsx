@@ -145,7 +145,7 @@ const NavHoverMenu2 = () => {
                                           )
                                         }
                                       >
-                                        <div className="text-secondary flex cursor-pointer duration-300 hover:underline">
+                                        <div className="text-secondary flex cursor-pointer duration-300 hover:text-[#E26178]">
                                           {subSubItem.image && (
                                             <div>
                                               <Image

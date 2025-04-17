@@ -12,7 +12,6 @@ import "@/styles/styles.scss";
 import GlobalProvider from "./GlobalProvider";
 import TopNavOne from "@/components/Header/TopNav/TopNavOne";
 import NavTwo from "@/components/Header/TopNav/NavTwo";
-import NavHoverMenu from "@/components/Header/Menu/NavHoverMenu";
 import NavHoverMenu2 from "@/components/Header/Menu/NavHoverMenu2";
 import CountdownTimeType from "@/type/CountdownType";
 import { countdownTime } from "@/store/countdownTime";
@@ -76,6 +75,7 @@ export default function RootLayout({
       <html lang="en">
         {/* <Suspense> */}
         <head>
+        <DefaultSeo {...SEO} />
           <Script
             id="gtm-script"
             strategy="afterInteractive"

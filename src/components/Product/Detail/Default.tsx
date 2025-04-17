@@ -787,7 +787,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             {loading ? (
               <Skeleton height={70} />
             ) : (
-              <Buttons product={data} variants={selectedVariants} />
+              <Buttons  product={data} variants={selectedVariants} />
             )}
           </div>
           {/* {data?.productDetails?.tryAtHome === 1 && ( */}

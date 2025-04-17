@@ -43,7 +43,6 @@ const CustomerOrders = () => {
           uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
         });
-
         const client = new ApolloClient({
           link,
           cache: new InMemoryCache(),

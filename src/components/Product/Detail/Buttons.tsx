@@ -76,7 +76,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  console.log(variants, "variantssss");
+  // console.log(variants, "variantssss");
   const formattedVariants = variants.map((variant) => ({
     variantType: variant.type,
     variantName: variant.name,

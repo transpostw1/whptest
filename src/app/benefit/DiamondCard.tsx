@@ -177,7 +177,7 @@ const DiamondCard: React.FC<DiamondCardProps> = ({
   };
 
   const handleproceedpan = () => {
-    console.log("proceedpan");
+    // console.log("proceedpan");
     setShowModal(false);
     router.push("/panverification");
   };

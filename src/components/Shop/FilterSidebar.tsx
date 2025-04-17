@@ -78,7 +78,7 @@ const FilterSidebar: React.FC<Props> = ({
 
   useEffect(() => {
     onFilterChange(selectedOptions);
-    console.log(selectedOptions, "selectedOptions SideBARRRRR");
+    // console.log(selectedOptions, "selectedOptions SideBARRRRR");
   }, [selectedOptions, onFilterChange]);
 
   return (

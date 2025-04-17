@@ -94,7 +94,7 @@ const CtaButtonsMobile: React.FC<Props> = ({ product ,variants}) => {
     variantType: variant.type,
     variantName: variant.name,
   }));
-  console.log("formattedVariants", formattedVariants);
+  // console.log("formattedVariants", formattedVariants);
 
   const isOutOfStock = (
     productQty: number | null | undefined,

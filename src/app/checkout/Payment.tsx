@@ -69,7 +69,6 @@ const Payment: React.FC<PaymentProps> = ({
   const handleSubmit = (e: any) => {
     e.preventDefault(); // Prevent default form submission
     // You can add any validation or logic here if needed
-    console.log("formData from PayU", e.target.value);
     e.target.submit(); // Manually submit the form
   };
 
@@ -145,7 +144,7 @@ const Payment: React.FC<PaymentProps> = ({
         },
         fetchPolicy: "no-cache",
       });
-      console.log(data, "data");
+      // console.log(data, "data");
     };
     handleAbandonedCart();
   }, [component == "Payment"]);
@@ -173,7 +172,7 @@ const Payment: React.FC<PaymentProps> = ({
 
         setOfferBanners(data.getAllOffers);
       } catch (error) {
-        console.log("Error in fetching SubBanners", error);
+        // console.log("Error in fetching SubBanners", error);
       } finally {
         setLoading(false);
       }
@@ -186,7 +185,7 @@ const Payment: React.FC<PaymentProps> = ({
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.async = true;
       script.onload = () => {
-        console.log("Razorpay SDK loaded");
+        // console.log("Razorpay SDK loaded");
       };
       document.body.appendChild(script);
     };
@@ -204,7 +203,7 @@ const Payment: React.FC<PaymentProps> = ({
             ? (totalCart - userDetails?.wallet_amount) * 100
             : totalCart * 100,
       });
-      console.log(response);
+      // console.log(response);
       const { amount, id: order_id, currency } = response.data;
 
       const options = {
@@ -284,7 +283,7 @@ const Payment: React.FC<PaymentProps> = ({
                 shippingCharges: "10",
               },
             };
-            console.log(orderData, "orderDataAAAA");
+            // console.log(orderData, "orderDataAAAA");
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -294,7 +293,7 @@ const Payment: React.FC<PaymentProps> = ({
                 },
               },
             );
-            console.log(apiResponse.data);
+            // console.log(apiResponse.data);
             // Handle the response as needed
             setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
@@ -419,7 +418,7 @@ const Payment: React.FC<PaymentProps> = ({
 
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-      console.log("razorpay should initiate");
+      // console.log("razorpay should initiate");
       handleRazorpayPayment();
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();

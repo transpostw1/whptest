@@ -25,7 +25,7 @@ const useUserTracking = () => {
   const { userDetails } = useUser();
 
   const callTrackingApi = async (postData: any) => {
-    console.log("PostDAta", postData);
+    // console.log("PostDAta", postData);
     try {
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
@@ -49,14 +49,14 @@ const useUserTracking = () => {
         fetchPolicy: "no-cache",
       });
 
-      console.log("Response for UserTracking", data.StoreUserTracking);
+      // console.log("Response for UserTracking", data.StoreUserTracking);
       if (postData.isIdle === 1) {
         setNextPageId(null);
       } else {
         setNextPageId(data.StoreUserTracking.pageId);
       }
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -83,10 +83,10 @@ const useUserTracking = () => {
 
           setPost(postData);
 
-          console.log(
-            `Time spent on ${currentPage} page is ${prevTimeOnPage} second`,
-          );
-          console.log("Clicks on Page", clicksOnPage, clickHistory);
+          // console.log(
+          //   `Time spent on ${currentPage} page is ${prevTimeOnPage} second`,
+          // );
+          // console.log("Clicks on Page", clicksOnPage, clickHistory);
           callTrackingApi(postData);
 
           return 0;

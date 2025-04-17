@@ -25,7 +25,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Handle currency change
   const handleCurrencyChange = (curr: string) => {
-    console.log("Currency changed to", curr);
+    // console.log("Currency changed to", curr);
     setCurrency(curr);
   };
 

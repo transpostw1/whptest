@@ -75,7 +75,7 @@ const OtpVerification = ({
       setVerificationId(result.verificationId);
       setIsOtpSent(true);
       setErrorMessage(null);
-      console.log("OTP sent successfully");
+      // console.log("OTP sent successfully");
     } catch (error: any) {
       setLoading(false);
       if (error.message.includes("reCAPTCHA has already been rendered")) {
@@ -85,7 +85,7 @@ const OtpVerification = ({
         error?.code === 400 &&
         error.message?.includes("CAPTCHA_CHECK_FAILED")
       ) {
-        console.log("Ignoring CAPTCHA_CHECK_FAILED error");
+        // console.log("Ignoring CAPTCHA_CHECK_FAILED error");
         return;
       }
       setErrorMessage("Invalid Number or Try again");
@@ -101,13 +101,13 @@ const OtpVerification = ({
       setVerifying(true);
       const credential = PhoneAuthProvider.credential(verificationId, otp);
       await signInWithCredential(auth, credential);
-      console.log("Successfully signed in with OTP");
+      // console.log("Successfully signed in with OTP");
       const phoneNumber = auth?.currentUser?.phoneNumber;
       const tokenn = auth?.currentUser?.accessToken;
       const userId = auth?.currentUser?.uid;
       if (tokenn) {
         localStorage.setItem("firebaseToken", tokenn);
-        console.log("Token saved to local storage:", tokenn);
+        // console.log("Token saved to local storage:", tokenn);
       }
       const client = new ApolloClient({
         uri: graphqlbaseUrl,
@@ -126,7 +126,7 @@ const OtpVerification = ({
         mutation: STORE_REGISTRATION_ATTEMPTS_MUTATION,
         variables: { phoneNumber },
       });
-      console.log("Store registration attempt mutation called successfully.");
+      // console.log("Store registration attempt mutation called successfully.");
       const response = await axios.post(
         login,
         { phoneNumber },
@@ -139,7 +139,7 @@ const OtpVerification = ({
       if (typeof window !== "undefined") {
         localStorage.setItem("localtoken", localToken);
       }
-      console.log("Initial token saved:", localStorage.getItem("localtoken"));
+      // console.log("Initial token saved:", localStorage.getItem("localtoken"));
       router.push("/");
     } catch (error: any) {
       setVerifying(false);

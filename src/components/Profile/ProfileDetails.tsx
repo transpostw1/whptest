@@ -28,7 +28,7 @@ const ProfileDetails = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const { logOut, isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
-  console.log("Usererrerer", userDetails?.dob);
+  // console.log("Usererrerer", userDetails?.dob);
   
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const ProfileDetails = () => {
 
     setSelectedAddress(addressToEdit);
     setShowModal(true);
-    console.log("EditAddress", selectedAddress);
+    // console.log("EditAddress", selectedAddress);
   };
 
   const closeEditModal = () => {

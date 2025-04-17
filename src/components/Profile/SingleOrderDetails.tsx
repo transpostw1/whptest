@@ -71,7 +71,7 @@ const SingleOrderDetails: React.FC<Props> = ({ singleOrder }) => {
       setLoading(false);
     }
   };
-  console.log(singleOrder);
+  // console.log(singleOrder);
   if (loading) {
     return (
       <div className="loading-container flex h-full items-center justify-center">

@@ -129,7 +129,7 @@ const AddAddressMobile: React.FC<Props> = ({
         }
       `;
 
-      console.log("Submitting values to API:", values);
+      // console.log("Submitting values to API:", values);
 
       const { data, errors } = await client.mutate({
         mutation: ADD_CUSTOMER_ADDRESS,
@@ -158,7 +158,7 @@ const AddAddressMobile: React.FC<Props> = ({
       }
 
       onClose();
-      console.log("Response from API:", data);
+      // console.log("Response from API:", data);
       onAddressAdded(isForBillingAddress);
       formik.resetForm();
     } catch (error: any) {

@@ -133,7 +133,7 @@ const Checkout: React.FC = () => {
   // }, [couponCode]);
 
   useEffect(() => {
-    console.log("Current coupons:", coupons);
+    // console.log("Current coupons:", coupons);
   }, [coupons]);
 
   const handleCouponModalClose = () => {
@@ -208,7 +208,7 @@ const Checkout: React.FC = () => {
           },
           fetchPolicy: "no-cache",
         });
-        console.log("DAta", data.Coupon);
+        // console.log("DAta", data.Coupon);
         if (data.Coupon.code === 400 || data.Coupon.code === "400") {
           setFlashMessage(data.Coupon.message);
           setFlashType("error");
@@ -218,7 +218,7 @@ const Checkout: React.FC = () => {
           setFlashType("success");
         }
       } catch (error: any) {
-        console.log("Error occurred", error.response.data.message);
+        // console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
         setFlashType("error");
         removeCoupon();
@@ -374,7 +374,7 @@ const Checkout: React.FC = () => {
           : "",
     }));
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  console.log(mappedCartItems, "mappedCartItemsssss");
+  // console.log(mappedCartItems, "mappedCartItemsssss");
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item: any) => item.productId == parseInt(buyNow))
@@ -401,9 +401,9 @@ const Checkout: React.FC = () => {
       if (!isNaN(price) && typeof item.quantity === "number") {
         total += price * item.quantity;
       }
-      console.log("priceee", price);
+      // console.log("priceee", price);
     });
-    console.log("Total pridceee0", total, mappedCartItems);
+    // console.log("Total pridceee0", total, mappedCartItems);
     return total;
   };
 
@@ -434,9 +434,6 @@ const Checkout: React.FC = () => {
     : Number(totalCart);
 
   useEffect(() => {
-    console.log("DiscountDifference", discountDifference);
-    console.log("FormattedPrice", formattedPrice);
-    console.log("formattedProductPrie", formattedProductPrice);
   }, [discountDifference, formattedPrice, formattedProductPrice]);
 
   const handleOrderComplete = async () => {

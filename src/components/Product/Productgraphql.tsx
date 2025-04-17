@@ -259,7 +259,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
   const HandleaddToWishlist = () => {
     try {
-      console.log("Adding to wishlist, product data:", data);
+      // console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         const formattedVariants = data?.variants?.map((variant: any) => ({
           variantType: variant.VariantType,

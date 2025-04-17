@@ -214,7 +214,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
   };
 
   const handleReveiwChange = (e: any) => {
-    console.log("Reveiwes Change", e.target.value);
+    // console.log("Reveiwes Change", e.target.value);
     setReview(e.target.value);
   };
   const handleMouseMove = (
@@ -285,7 +285,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
     } catch (error: any) {
       setMessage(error?.response?.data?.message || "An error occurred");
       setType("error");
-      console.log("Error Occurred", error);
+      // console.log("Error Occurred", error);
     } finally {
       setReview("");
     }
@@ -300,7 +300,7 @@ const ReviewsAndRatings: React.FC<Props> = ({ product }) => {
     const calculatedRating = index + x / width;
     const roundedRating = Math.round(calculatedRating * 2) / 2; // Round to nearest 0.5
     setRating(roundedRating);
-    console.log(`Selected rating: ${roundedRating}`);
+    // console.log(`Selected rating: ${roundedRating}`);
   };
 
   const handleMouseEnter = (ratingValue: number) => {

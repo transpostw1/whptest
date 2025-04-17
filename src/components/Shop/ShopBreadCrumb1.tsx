@@ -61,7 +61,7 @@ const ShopBreadCrumb1 = () => {
         selectedOptions,
       );
       fetchData(combinedOptions);
-      console.log(fetchData, "FETCHDATATATAT");
+      // console.log(fetchData, "FETCHDATATATAT");
       setFetchProducts(false);
     }
   }, [fetchProducts, offset]);
@@ -299,7 +299,7 @@ const ShopBreadCrumb1 = () => {
             offset: offset,
           };
         }
-        console.log("Variables passed for api call", variables);
+        // console.log("Variables passed for api call", variables);
         const { data } = await client.query({
           query: GET_PRODUCTS,
           variables,
@@ -324,7 +324,7 @@ const ShopBreadCrumb1 = () => {
         }
       } catch (error) {
         setIsLoading(true);
-        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+        // console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       }
     }
   };
@@ -431,9 +431,9 @@ const ShopBreadCrumb1 = () => {
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
           };
-          console.log("Inside the else caseeee of fetchFilter", variables);
+          // console.log("Inside the else caseeee of fetchFilter", variables);
         }
-        console.log("Variables passed for api call", variables);
+        // console.log("Variables passed for api call", variables);
         const { data } = await client.query({
           query: GET_FILTERS,
           variables,
@@ -443,7 +443,7 @@ const ShopBreadCrumb1 = () => {
           setIsLoadMore(false);
         } 
       } catch (error) {
-        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+        // console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } 
     }
   };
@@ -524,15 +524,15 @@ const ShopBreadCrumb1 = () => {
         if (updatedOptions["productCategory"]?.[0] === option) {
           delete updatedOptions["productCategory"];
         } else {
-          console.log(
-            "inside the inner else case",
-            updatedOptions["productCategory"],
-          );
+          // console.log(
+          //   "inside the inner else case",
+          //   updatedOptions["productCategory"],
+          // );
           delete updatedOptions["Category"];
           updatedOptions["productCategory"] = [option];
         }
       } else {
-        console.log("Inside the ELSE CASE");
+        // console.log("Inside the ELSE CASE");
         if (updatedOptions[category]) {
           const formattedOption = formatPriceRange(option);
           if (updatedOptions[category].includes(formattedOption)) {
@@ -566,9 +566,9 @@ const ShopBreadCrumb1 = () => {
     // Only add the most recent category or pc parameter
     if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
-      console.log("if condition", urlParts);
+   
     } else if (options.Category?.length > 0) {
-      console.log("urlparts elseifff", urlParts);
+   
       urlParts.push(`pc-${options.Category[0]}`);
     }
     // Add other filters
@@ -672,18 +672,18 @@ const ShopBreadCrumb1 = () => {
           selectedOptions.productCategory.includes(product.productCategory),
         );
       }
-      console.log(filtered, "FILTEREDDDD");
+   
       setFilteredProducts(filtered);
       setSelectedSortOption("All");
       setPageNumber(0);
     };
     applyFilters();
-    console.log("useEffect - selectedOptions:", selectedOptions);
+
     setOffset(0);
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
     fetchFilter(combinedOptions);
     fetchData(combinedOptions);
-    console.log("Combined Options", combinedOptions);
+ 
     updateURL(selectedOptions);
   }, [selectedOptions,]);
 
@@ -726,7 +726,6 @@ const ShopBreadCrumb1 = () => {
       }
     });
     setSelectedOptions(initialOptions);
-    console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
 
   const formatPriceRange = (price: string) => {
@@ -796,7 +795,7 @@ const ShopBreadCrumb1 = () => {
     breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
 
-  console.log("titles", finalString, lastBreadcrumbTitle, modifiedString);
+
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {

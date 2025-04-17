@@ -62,7 +62,7 @@ const MainCarousel = () => {
         });
         setAllBanners(data.getAllBanners);
       } catch (error) {
-        console.log("Error in Fetching All Main Banner", error);
+        // console.log("Error in Fetching All Main Banner", error);
       } finally {
         setIsLoading(false);
       }

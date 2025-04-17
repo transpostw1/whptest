@@ -15,11 +15,11 @@ const Video = ({ src, productDetails }) => {
   };
 
   const handleLike = () => {
-    console.log("Like button clicked");
+    // console.log("Like button clicked");
   };
 
   const handleShare = () => {
-    console.log("Share button clicked");
+    // console.log("Share button clicked");
   };
   
   return (

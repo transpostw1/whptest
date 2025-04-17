@@ -67,7 +67,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const handleSelectedVariants = (value: any) => {
     setSelectedVariants(value);
   };
-  console.log("selectedVariantdefault", selectedVariants);
+  // console.log("selectedVariantdefault", selectedVariants);
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
@@ -223,7 +223,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   }
 
   async function singleProduct() {
-    console.log("Single Producttttttt");
+    // console.log("Single Producttttttt");
     const product = await getData();
     onDataFetched(product);
     setData(product);
@@ -268,7 +268,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
         companyName: "whpjewellers",
       });
       setSkuList(skus); // Update SKU list state
-      console.log(skuList);
+      // console.log(skuList);
     } catch (error) {
       console.error("Error fetching SKU list:", error);
     }
@@ -309,7 +309,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 MBtryonbutton: { width: "50%", borderRadius: "25px" },
               },
             });
-            console.log("Button Created");
+            // console.log("Button Created");
             // After loading, wait for the button to appear in the DOM
             const buttonInterval = setInterval(() => {
               const tryonButton =
@@ -318,7 +318,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
               if (tryonButton) {
                 // Hide the button
                 tryonButton.style.display = "none";
-                console.log("Button Clicked");
+                // console.log("Button Clicked");
                 // Automatically click the button
                 tryonButton.click();
 
@@ -421,11 +421,11 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           url: window.location.href,
         })
         .then(() => {
-          console.log("Thanks for sharing!");
+          // console.log("Thanks for sharing!");
         })
         .catch(console.error);
     } else {
-      console.log("Share API not supported");
+      // console.log("Share API not supported");
     }
   };
   const descRef = useRef(null);

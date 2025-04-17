@@ -94,7 +94,7 @@ const Benefit: React.FC = () => {
       });
 
       setROIData(data.getGmsROI);
-      console.log(data.getGmsROI, "GMS ROI data fetched");
+      // console.log(data.getGmsROI, "GMS ROI data fetched");
     } catch (error) {
       console.error("Error fetching GMS ROI data", error);
     }

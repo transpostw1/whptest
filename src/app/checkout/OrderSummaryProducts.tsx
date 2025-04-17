@@ -13,7 +13,7 @@ const OrderSummaryProducts: React.FC<OrderSummaryProductsProps> = ({
 }) => {
   const { formatPrice } = useCurrency();
   const displayedItems = isBuyNow ? cartItems.slice(0, 1) : cartItems;
-  console.log(displayedItems);
+  // console.log(displayedItems);
 
   return (
     <div className="list-product-main mb-2 hidden w-full lg:block">

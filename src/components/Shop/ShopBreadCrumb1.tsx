@@ -841,7 +841,7 @@ const ShopBreadCrumb1 = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [selectedOptions]);
 
  const handleLoadMore=()=>{
   setIsLoadMore(!isLoadMore);

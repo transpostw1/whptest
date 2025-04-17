@@ -139,12 +139,10 @@ const NavHoverMenu2 = () => {
                                       <Link
                                         href={subSubItem.url}
                                         className="text-secondary duration-300"
-                                        onClick={() =>
-                                          handleSubCategoryClick(
-                                            index,
-                                            subSubItem.label,
-                                          )
-                                        }
+                                        onClick={(e) => {
+                                          handleSubCategoryClick(index, subSubItem.label);
+                                          window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}                                     
                                       >
                                         <div className="text-secondary flex cursor-pointer duration-300 hover:text-[#E26178]">
                                           {subSubItem.image && (

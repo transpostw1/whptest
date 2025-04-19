@@ -230,8 +230,12 @@ const Payment: React.FC<PaymentProps> = ({
               walletAmount:
                 wallet == 1
                   ? Number(totalCart) > Number(userDetails?.wallet_amount)
-                    ? Number(totalCart) - Number(userDetails?.wallet_amount)
-                    : Number(userDetails?.wallet_amount) - Number(totalCart)
+                    ? Math.abs(
+                        Number(totalCart) - Number(userDetails?.wallet_amount),
+                      )
+                    : Math.abs(
+                        Number(userDetails?.wallet_amount) - Number(totalCart),
+                      )
                   : 0,
               name: userDetails?.fullname,
               email: userDetails?.email,
@@ -345,11 +349,16 @@ const Payment: React.FC<PaymentProps> = ({
           isWallet: wallet ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount: wallet
-            ? totalCart > wallet
-              ? Number(totalCart) - Number(userDetails?.wallet_amount)
-              : Number(userDetails?.wallet_amount) - Number(totalCart)
-            : 0,
+          walletAmount:
+            wallet == 1
+              ? Number(totalCart) > Number(userDetails?.wallet_amount)
+                ? Math.abs(
+                    Number(totalCart) - Number(userDetails?.wallet_amount),
+                  )
+                : Math.abs(
+                    Number(userDetails?.wallet_amount) - Number(totalCart),
+                  )
+              : 0,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,

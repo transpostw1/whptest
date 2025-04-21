@@ -527,7 +527,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                               width={100}
                               height={100}
                               unoptimized
-                              className="mx-3 cursor-pointer border"
+                              className="mx-3 h-[100px] w-[100px] cursor-pointer border"
                             />
                           </div>
                         ),
@@ -536,7 +536,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                         data.productDetails.videoDetails.map((item: any) => (
                           <video
                             key={item.order}
-                            className="mx-3 cursor-pointer border"
+                            className="mx-3 h-[100px] w-[100px] cursor-pointer border"
                             src={item.video_path}
                             muted
                           />

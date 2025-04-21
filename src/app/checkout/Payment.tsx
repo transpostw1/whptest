@@ -228,7 +228,7 @@ const Payment: React.FC<PaymentProps> = ({
               isWrap: giftWrap.wrapOption ? 1 : 0,
               message: giftWrap.wrapOption ? giftWrap.name : "",
               walletAmount:
-                wallet == 1
+                wallet === 1
                   ? Number(totalCart) > Number(userDetails?.wallet_amount)
                     ? Math.abs(
                         Number(totalCart) - Number(userDetails?.wallet_amount),

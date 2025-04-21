@@ -78,7 +78,7 @@ const Payment: React.FC<PaymentProps> = ({
       console.log(storedScheme.enrollmentId);
 
       const options = {
-        key: "rzp_live_vh97GOv9gE694e",
+        key: process.env.NEXT_Razorpay_KEY,
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",

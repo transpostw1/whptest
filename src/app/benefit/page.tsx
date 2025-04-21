@@ -92,7 +92,6 @@ const Benefit: React.FC = () => {
       const { data } = await client.query({
         query: GET_GMS_ROI,
       });
-
       setROIData(data.getGmsROI);
       // console.log(data.getGmsROI, "GMS ROI data fetched");
     } catch (error) {

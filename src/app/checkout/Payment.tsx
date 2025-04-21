@@ -337,6 +337,7 @@ const Payment: React.FC<PaymentProps> = ({
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
+  console.log("wallet", wallet);
   const handleCodPayment = async () => {
     setLoading(true);
     try {
@@ -344,19 +345,14 @@ const Payment: React.FC<PaymentProps> = ({
         setLoading(true);
         // Prepare the data to be sent to the API
         const orderData = {
-          isWallet: wallet ? 1 : 0,
+          isWallet: wallet && userDetails?.wallet_amount > 0 ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount:
-            wallet == 1
-              ? Number(totalCart) > Number(userDetails?.wallet_amount)
-                ? Math.abs(
-                    Number(totalCart) - Number(userDetails?.wallet_amount),
-                  )
-                : Math.abs(
-                    Number(userDetails?.wallet_amount) - Number(totalCart),
-                  )
-              : 0,
+          walletAmount: wallet
+            ? Number(totalCart) > Number(userDetails?.wallet_amount)
+              ? 0
+              : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
+            : 0,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,

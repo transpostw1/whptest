@@ -83,7 +83,7 @@ const Checkout: React.FC = () => {
     wrapOption: false,
   });
   const [flashMessage, setFlashMessage] = useState("");
-  const [whpWallet, setWhpWallet] = useState<any>();
+  const [whpWallet, setWhpWallet] = useState<any>(null);
   const [flashType, setFlashType] = useState<"success" | "error">("success");
   const [flashKey, setFlashKey] = useState(0);
   const [useSameAsBillingAddress, setUseSameAsBillingAddress] = useState(true);
@@ -643,7 +643,7 @@ const Checkout: React.FC = () => {
   const steps = [
     {
       icon: (
-        < PiTreasureChestLight
+        <PiTreasureChestLight
           className={`rounded-full text-2xl ${
             selectedStep === 0 ? "text-white" : "text-white"
           }`}
@@ -791,146 +791,147 @@ const Checkout: React.FC = () => {
               )}
               {/* <h3 className="font-medium">Estimated Delivery Date:29/2/2024</h3> */}
             </div>
-            {!isOrderPlaced&&<div className="mt-14 w-full lg:w-4/6">
-              {selectedComponent === "CartItems" && (
-                <div className="mt-12">
-                  {/* <h1 className=" text-2xl text-[#E26178]">Coupons</h1> */}
-                  <div className="w-full border border-gray-400 p-3">
-                    <div className="flex w-full items-start justify-between">
-                      <>
-                        <div className="flex w-full flex-col">
-                          <div className="flex items-center justify-between font-medium">
-                            <div className="flex gap-2">
-                              {/* <Image
+            {!isOrderPlaced && (
+              <div className="mt-14 w-full lg:w-4/6">
+                {selectedComponent === "CartItems" && (
+                  <div className="mt-12">
+                    {/* <h1 className=" text-2xl text-[#E26178]">Coupons</h1> */}
+                    <div className="w-full border border-gray-400 p-3">
+                      <div className="flex w-full items-start justify-between">
+                        <>
+                          <div className="flex w-full flex-col">
+                            <div className="flex items-center justify-between font-medium">
+                              <div className="flex gap-2">
+                                {/* <Image
                                 src={"/images/icons/coupon.png"}
                                 alt={"coupons"}
                                 height={25}
                                 width={25}
                                 unoptimized
                               /> */}
-                              <h3 className="text-[#E26178]">
-                                {couponCode &&
-                                dataAfterCouponCode.code === 200 ? (
-                                  <span className="flex w-full items-center gap-2 text-green-500">
-                                    Coupon Applied:{" "}
-                                    <span className="text-green-500">
-                                      {couponCode}
+                                <h3 className="text-[#E26178]">
+                                  {couponCode &&
+                                  dataAfterCouponCode.code === 200 ? (
+                                    <span className="flex w-full items-center gap-2 text-green-500">
+                                      Coupon Applied:{" "}
+                                      <span className="text-green-500">
+                                        {couponCode}
+                                      </span>
                                     </span>
-                                  </span>
-                                ) : (
-                                  "Apply Coupon/Voucher"
-                                )}
+                                  ) : (
+                                    "Apply Coupon/Voucher"
+                                  )}
+                                </h3>
+                              </div>
+                              <h3
+                                className="cursor-pointer text-red-600 underline"
+                                onClick={() =>
+                                  voucherCode
+                                    ? removeCoupon()
+                                    : handleCouponsModal()
+                                }
+                              >
+                                {couponCode && dataAfterCouponCode.code === 200
+                                  ? couponCode
+                                    ? "Remove"
+                                    : ""
+                                  : ""}
                               </h3>
                             </div>
-                            <h3
-                              className="cursor-pointer text-red-600 underline"
-                              onClick={() =>
-                                voucherCode
-                                  ? removeCoupon()
-                                  : handleCouponsModal()
-                              }
-                            >
-                              {couponCode && dataAfterCouponCode.code === 200
-                                ? couponCode
-                                  ? "Remove"
-                                  : ""
-                                : ""}
-                            </h3>
+                            <div className="mt-2 flex w-full gap-2">
+                              <input
+                                type="text"
+                                value={voucherCode}
+                                onChange={(e) => setVoucherCode(e.target.value)}
+                                placeholder="Enter Coupon Code"
+                                className="w-full border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
+                              />
+                              <button
+                                onClick={() => handleCouponCode(voucherCode)}
+                                className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                              >
+                                Apply
+                              </button>
+                            </div>
                           </div>
-                          <div className="mt-2 flex w-full gap-2">
-                            <input
-                              type="text"
-                              value={voucherCode}
-                              onChange={(e) => setVoucherCode(e.target.value)}
-                              placeholder="Enter Coupon Code"
-                              className="w-full border border-gray-300 px-4 py-2 focus:border-[#bb547d] focus:outline-none"
-                            />
-                            <button
-                              onClick={() => handleCouponCode(voucherCode)}
-                              className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white"
+                        </>
+                      </div>
+                      <div className="relative w-full pt-2">
+                        <Swiper
+                          spaceBetween={2}
+                          slidesPerView="auto"
+                          modules={[Navigation]}
+                          navigation={{
+                            prevEl: ".swiper-button-prev",
+                            nextEl: ".swiper-button-next",
+                          }}
+                          className="py-4"
+                        >
+                          {coupons.map((coupon, index) => (
+                            <SwiperSlide
+                              key={index}
+                              className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
                             >
-                              Apply
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    </div>
-                    <div className="relative w-full pt-2">
-                      <Swiper
-                        spaceBetween={2}
-                        slidesPerView="auto"
-                        modules={[Navigation]}
-                        navigation={{
-                          prevEl: ".swiper-button-prev",
-                          nextEl: ".swiper-button-next",
-                        }}
-                        className="py-4"
-                      >
-                        {coupons.map((coupon, index) => (
-                          <SwiperSlide
-                            key={index}
-                            className="!w-auto max-w-[calc(100vw-48px)] lg:w-full"
-                          >
-                            <div className="w-full flex-shrink-0 cursor-pointer border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
-                                    {coupon.discountType === "Amount"
-                                      ? `₹${coupon.discountValue}`
-                                      : `${coupon.discountValue}%`}{" "}
-                                    OFF
-                                  </div>
-                                  {coupon.isExclusive === true && (
-                                    <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-white">
-                                      Only for you
+                              <div className="w-full flex-shrink-0 cursor-pointer border border-gray-200 bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <div className="rounded-full bg-red-100 p-2 text-sm text-red-600">
+                                      {coupon.discountType === "Amount"
+                                        ? `₹${coupon.discountValue}`
+                                        : `${coupon.discountValue}%`}{" "}
+                                      OFF
                                     </div>
+                                    {coupon.isExclusive === true && (
+                                      <div className="rounded-full bg-[#E26178] p-1 text-[8px] text-white">
+                                        Only for you
+                                      </div>
+                                    )}
+                                  </div>
+                                  {voucherCode &&
+                                  dataAfterCouponCode.code === 200 &&
+                                  couponCode === coupon.code ? (
+                                    <span className="text-sm font-medium text-green-600">
+                                      Applied
+                                    </span>
+                                  ) : (
+                                    <button
+                                      className="text-sm font-medium text-red-600 hover:text-red-700"
+                                      onClick={() => {
+                                        handleCouponCode(coupon.code);
+                                      }}
+                                    >
+                                      Apply
+                                    </button>
                                   )}
                                 </div>
-                                {voucherCode &&
-                                dataAfterCouponCode.code === 200 &&
-                                couponCode === coupon.code ? (
-                                  <span className="text-sm font-medium text-green-600">
-                                    Applied
+                                <p className="mt-2 text-sm text-gray-600">
+                                  Get{" "}
+                                  {coupon.discountType === "Amount"
+                                    ? "flat "
+                                    : ""}
+                                  {coupon.discountType === "Amount"
+                                    ? `₹${coupon.discountValue}`
+                                    : `${coupon.discountValue}%`}{" "}
+                                  off on minimum purchase of ₹
+                                  {coupon.discountMinAmount}
+                                </p>
+                                <div className="mt-2 flex items-center justify-between">
+                                  <span className="text-xs text-gray-500">
+                                    Code: {coupon.code}
                                   </span>
-                                ) : (
-                                  <button
-                                    className="text-sm font-medium text-red-600 hover:text-red-700"
-                                    onClick={() => {
-                                      handleCouponCode(coupon.code);
-                                    }}
-                                  >
-                                    Apply
-                                  </button>
-                                )}
+                                  <span className="text-xs text-gray-500">
+                                    Valid till{" "}
+                                    {new Date(
+                                      coupon.discountEndDate,
+                                    ).toLocaleDateString()}
+                                  </span>
+                                </div>
                               </div>
-                              <p className="mt-2 text-sm text-gray-600">
-                                Get{" "}
-                                {coupon.discountType === "Amount"
-                                  ? "flat "
-                                  : ""}
-                                {coupon.discountType === "Amount"
-                                  ? `₹${coupon.discountValue}`
-                                  : `${coupon.discountValue}%`}{" "}
-                                off on minimum purchase of ₹
-                                {coupon.discountMinAmount}
-                              </p>
-                              <div className="mt-2 flex items-center justify-between">
-                                <span className="text-xs text-gray-500">
-                                  Code: {coupon.code}
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  Valid till{" "}
-                                  {new Date(
-                                    coupon.discountEndDate,
-                                  ).toLocaleDateString()}
-                                </span>
-                              </div>
-                            </div>
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
-                    {/* {couponCode && dataAfterCouponCode.code === 200 && (
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
+                      {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
                         <p>
                        
@@ -940,156 +941,162 @@ const Checkout: React.FC = () => {
                        
                       </div>
                     )} */}
-                  </div>
-                  {/* {couponsModal && (
+                    </div>
+                    {/* {couponsModal && (
                     <CouponsModal
                       handleCouponCheck={handleCouponCheck}
                       onClose={handleCouponModalClose}
                       couponCode={handleCouponCode}
                     />
                   )} */}
-                  <div className="mt-3 border border-gray-400">
-                    <div className="flex justify-between p-3">
-                      <div className="flex items-center gap-2 font-medium">
-                        <Gift style={{ color: "red", fontSize: "24px" }} />
-                        <h3>Gift Message</h3>
+                    <div className="mt-3 border border-gray-400">
+                      <div className="flex justify-between p-3">
+                        <div className="flex items-center gap-2 font-medium">
+                          <Gift style={{ color: "red", fontSize: "24px" }} />
+                          <h3>Gift Message</h3>
+                        </div>
+                        <h3
+                          className="cursor-pointer text-red-600 underline"
+                          onClick={() => handleGiftWrapModal()}
+                        >
+                          Add
+                        </h3>
+                        {showModal && (
+                          <GiftWrapModal
+                            closeModal={handleCloseModal}
+                            handleGiftWrapData={handleGiftWrapFormData}
+                          />
+                        )}
                       </div>
-                      <h3
-                        className="cursor-pointer text-red-600 underline"
-                        onClick={() => handleGiftWrapModal()}
-                      >
-                        Add
-                      </h3>
-                      {showModal && (
-                        <GiftWrapModal
-                          closeModal={handleCloseModal}
-                          handleGiftWrapData={handleGiftWrapFormData}
-                        />
+                      {GiftWrapformData.name.length !== 0 && (
+                        <div className="m-2 text-wrap bg-gray-100 p-2">
+                          <div>
+                            <b>Gift Message :</b> {GiftWrapformData.name}
+                          </div>
+                        </div>
                       )}
                     </div>
-                    {GiftWrapformData.name.length !== 0 && (
-                      <div className="m-2 text-wrap bg-gray-100 p-2">
-                        <div>
-                          <b>Gift Message :</b> {GiftWrapformData.name}
+                    {!isOrderPlaced && isLoggedIn && (
+                      <div className="mt-2 flex justify-between border border-gray-400 p-2">
+                        <div className="flex items-center gap-2 font-medium">
+                          <input
+                            type="checkbox"
+                            value="whp_Wallet"
+                            checked={
+                              whpWallet == "whp_Wallet" &&
+                              userDetails?.wallet_amount > 0
+                            }
+                            onChange={handleWhpWallet}
+                          />
+                          <h3>WHP Wallet</h3>
+                        </div>
+                        <div className="font-bold">
+                          {whpWallet == "whp_Wallet"
+                            ? `${totalPrice >= userDetails?.wallet_amount ? formatPrice(0) : formatPrice(userDetails?.wallet_amount - totalPrice)}`
+                            : `${formatPrice(userDetails?.wallet_amount)}`}
+                        </div>
+                      </div>
+                    )}
+                    <p className="mt-2 text-lg font-bold">ORDER SUMMARY</p>
+                    {loading ? (
+                      <Skeleton height={150} />
+                    ) : (
+                      <div className="mt-2 bg-gray-100 p-2">
+                        <div className="">
+                          <div className="flex justify-between font-medium">
+                            <h3>Product Total</h3>
+                            <h3>{formatPrice(formattedProductPrice)}</h3>
+                          </div>
+                          <div className="flex justify-between font-medium">
+                            <h3>Product Discount</h3>
+                            <h3>-{formatPrice(discountDifference)}</h3>
+                          </div>
+                          <div className="flex justify-between font-medium">
+                            <h3>Subtotal</h3>
+                            <h3>{formatPrice(Number(formattedPrice))}</h3>
+                          </div>
+                          {totalDiscount > 0 && dataAfterCouponCode && (
+                            <div className="flex justify-between font-medium">
+                              <h3>Coupon Discount</h3>
+                              <h3>-{formatPrice(totalDiscount)}</h3>
+                            </div>
+                          )}
+                          <div className="flex justify-between font-medium">
+                            <h3>Wallet</h3>
+                            {whpWallet === "whp_Wallet" ? (
+                              userDetails?.wallet_amount < totalPrice ? (
+                                <h3>
+                                  -{formatPrice(userDetails?.wallet_amount)}
+                                </h3>
+                              ) : (
+                                <h3>
+                                  -
+                                  {formatPrice(
+                                    userDetails?.wallet_amount -
+                                      (userDetails?.wallet_amount - totalPrice),
+                                  )}
+                                </h3>
+                              )
+                            ) : (
+                              <h3>{formatPrice(0)}</h3>
+                            )}
+                          </div>
+                          <div className="flex justify-between font-medium">
+                            <h3>Shipping Charges</h3>
+                            <h3>{formatPrice(0)}</h3>
+                          </div>
+                          <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
+                            <h3 className="text-gray-800">Total Price</h3>
+                            {whpWallet === "whp_Wallet" ? (
+                              userDetails?.wallet_amount < totalPrice ? (
+                                <h3>
+                                  {formatPrice(
+                                    totalPrice - userDetails?.wallet_amount,
+                                  )}
+                                </h3>
+                              ) : (
+                                <h3>{formatPrice(0)}</h3>
+                              )
+                            ) : (
+                              <h3>{formatPrice(totalPrice)}</h3>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )}
                   </div>
-                  {!isOrderPlaced && isLoggedIn && (
-                    <div className="mt-2 flex justify-between border border-gray-400 p-2">
-                      <div className="flex items-center gap-2 font-medium">
-                        <input
-                          type="checkbox"
-                          value="whp_Wallet"
-                          checked={whpWallet == "whp_Wallet"}
-                          onChange={handleWhpWallet}
-                        />
-                        <h3>WHP Wallet</h3>
-                      </div>
-                      <div className="font-bold">
-                        {whpWallet == "whp_Wallet"
-                          ? `${totalPrice >= userDetails?.wallet_amount ? formatPrice(0) : formatPrice(userDetails?.wallet_amount - totalPrice)}`
-                          : `${formatPrice(userDetails?.wallet_amount)}`}
-                      </div>
-                    </div>
-                  )}
-                  <p className="mt-2 text-lg font-bold">ORDER SUMMARY</p>
-                  {loading ? (
-                    <Skeleton height={150} />
-                  ) : (
-                    <div className="mt-2 bg-gray-100 p-2">
-                      <div className="">
-                        <div className="flex justify-between font-medium">
-                          <h3>Product Total</h3>
-                          <h3>{formatPrice(formattedProductPrice)}</h3>
-                        </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>Product Discount</h3>
-                          <h3>-{formatPrice(discountDifference)}</h3>
-                        </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>Subtotal</h3>
-                          <h3>{formatPrice(Number(formattedPrice))}</h3>
-                        </div>
-                        {totalDiscount > 0 && dataAfterCouponCode && (
-                          <div className="flex justify-between font-medium">
-                            <h3>Coupon Discount</h3>
-                            <h3>-{formatPrice(totalDiscount)}</h3>
-                          </div>
-                        )}
-                        <div className="flex justify-between font-medium">
-                          <h3>Wallet</h3>
-                          {whpWallet === "whp_Wallet" ? (
-                            userDetails?.wallet_amount < totalPrice ? (
-                              <h3>
-                                -{formatPrice(userDetails?.wallet_amount)}
-                              </h3>
-                            ) : (
-                              <h3>
-                                -
-                                {formatPrice(
-                                   userDetails?.wallet_amount -
-                                    (userDetails?.wallet_amount - totalPrice),
-                                )}
-                              </h3>
-                            )
-                          ) : (
-                            <h3>{formatPrice(0)}</h3>
-                          )}
-                        </div>
-                        <div className="flex justify-between font-medium">
-                          <h3>Shipping Charges</h3>
-                          <h3>{formatPrice(0)}</h3>
-                        </div>
-                        <div className="flex justify-between border-t-2 border-t-rose-400 p-1 px-0 font-bold">
-                          <h3 className="text-gray-800">Total Price</h3>
-                          {whpWallet === "whp_Wallet" ? (
-                            userDetails?.wallet_amount < totalPrice ? (
-                              <h3>
-                                {formatPrice(
-                                  totalPrice - userDetails?.wallet_amount,
-                                )}
-                              </h3>
-                            ) : (
-                              <h3>{formatPrice(0)}</h3>
-                            )
-                          ) : (
-                            <h3>{formatPrice(totalPrice)}</h3>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              {(selectedComponent === "DeliveryDetails" ||
-                (selectedComponent === "Payment" && !isOrderPlaced)) && (
-                <div id="#order-summary">
-                  <h1 className="my-5 text-2xl text-rose-600">ORDER SUMMARY</h1>
-                  <OrderSummary
-                    wallet={whpWallet}
-                    component={selectedComponent}
-                    handleWhpWallet={handleWhpWallet}
-                    totalProductPrice={formattedProductPrice}
-                    discountDifference={discountDifference}
-                    price={formattedPrice}
-                    totalDiscount={totalDiscount}
-                    totalCart={totalCart}
-                    cartItems={buyNow ? finalBuyNowItems : MainCart}
-                    isBuyNow={false}
+                )}
+                {(selectedComponent === "DeliveryDetails" ||
+                  (selectedComponent === "Payment" && !isOrderPlaced)) && (
+                  <div id="#order-summary">
+                    <h1 className="my-5 text-2xl text-rose-600">
+                      ORDER SUMMARY
+                    </h1>
+                    <OrderSummary
+                      wallet={whpWallet}
+                      component={selectedComponent}
+                      handleWhpWallet={handleWhpWallet}
+                      totalProductPrice={formattedProductPrice}
+                      discountDifference={discountDifference}
+                      price={formattedPrice}
+                      totalDiscount={totalDiscount}
+                      totalCart={totalCart}
+                      cartItems={buyNow ? finalBuyNowItems : MainCart}
+                      isBuyNow={false}
+                    />
+                  </div>
+                )}
+                {selectedStep !== 2 && (
+                  <ProceedButton
+                    totalPrice={totalPrice}
+                    isMobile={isMobile}
+                    proceedButtonTitle={proceedButtonTitle()}
+                    handleProceed={handleProceed}
+                    useSameAsBillingAddress={useSameAsBillingAddress}
                   />
-                </div>
-              )}
-              {selectedStep !== 2 && (
-                <ProceedButton
-                  totalPrice={totalPrice}
-                  isMobile={isMobile}
-                  proceedButtonTitle={proceedButtonTitle()}
-                  handleProceed={handleProceed}
-                  useSameAsBillingAddress={useSameAsBillingAddress}
-                />
-              )}
-            </div>}
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

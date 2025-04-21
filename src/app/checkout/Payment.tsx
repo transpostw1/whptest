@@ -226,11 +226,16 @@ const Payment: React.FC<PaymentProps> = ({
               isWallet: wallet ? 1 : 0,
               isWrap: giftWrap.wrapOption ? 1 : 0,
               message: giftWrap.wrapOption ? giftWrap.name : "",
-              walletAmount: wallet
-                ? totalCart > wallet
-                  ? Number(totalCart) - Number(userDetails?.wallet_amount)
-                  : Number(userDetails?.wallet_amount) - Number(totalCart)
-                : 0,
+              walletAmount:
+                wallet === 1
+                  ? Number(totalCart) > Number(userDetails?.wallet_amount)
+                    ? Math.abs(
+                        Number(totalCart) - Number(userDetails?.wallet_amount),
+                      )
+                    : Math.abs(
+                        Number(userDetails?.wallet_amount) - Number(totalCart),
+                      )
+                  : 0,
               name: userDetails?.fullname,
               email: userDetails?.email,
               contact: userDetails?.mobile_no,
@@ -343,11 +348,16 @@ const Payment: React.FC<PaymentProps> = ({
           isWallet: wallet ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount: wallet
-            ? totalCart > wallet
-              ? Number(totalCart) - Number(userDetails?.wallet_amount)
-              : Number(userDetails?.wallet_amount) - Number(totalCart)
-            : 0,
+          walletAmount:
+            wallet == 1
+              ? Number(totalCart) > Number(userDetails?.wallet_amount)
+                ? Math.abs(
+                    Number(totalCart) - Number(userDetails?.wallet_amount),
+                  )
+                : Math.abs(
+                    Number(userDetails?.wallet_amount) - Number(totalCart),
+                  )
+              : 0,
           shippingAddress: selectedShippingAddress
             ? {
                 addressId: selectedShippingAddress.address_id || null,
@@ -585,7 +595,7 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <>
-          <div className="mb-4 w-full rounded-lg border border-gray-200"  >
+          <div className="mb-4 w-full rounded-lg border border-gray-200">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
                 <span className="font-semibold">Order Id: </span>
@@ -610,7 +620,9 @@ const Payment: React.FC<PaymentProps> = ({
                     <div className="flex">
                       <div className="mr-3">
                         <Image
-                          src={product?.productImage|| "/images/other/Logo.png"}
+                          src={
+                            product?.productImage || "/images/other/Logo.png"
+                          }
                           alt={product?.productTitle || "Product Image"}
                           width={85}
                           height={85}
@@ -638,25 +650,27 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
           <p className="text-[1.5rem]">Wait! there's more you'll love</p>
           <div className="mt-5 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {offerBanners.map((item: any, index: any) => (
-            <div key={index}>
-              <Link href={{
-                pathname:"/products",
-                query:{
-                  url:item.url
-                }
-              }}>
-                <Image
-                  src={item.img}
-                  alt={"the offer banner"}
-                  width={400}
-                  height={400}
-                  unoptimized
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
+            {offerBanners.map((item: any, index: any) => (
+              <div key={index}>
+                <Link
+                  href={{
+                    pathname: "/products",
+                    query: {
+                      url: item.url,
+                    },
+                  }}
+                >
+                  <Image
+                    src={item.img}
+                    alt={"the offer banner"}
+                    width={400}
+                    height={400}
+                    unoptimized
+                  />
+                </Link>
+              </div>
+            ))}
+          </div>
           <Confetti trigger={orderPlaced} />
         </>
       )}

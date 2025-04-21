@@ -45,7 +45,6 @@ const ShopBreadCrumb1 = () => {
   const triggerFetchData = () => {
     setFetchProducts(true);
   };
-  
 
   useEffect(() => {
     if (isLoadMore) {
@@ -441,7 +440,7 @@ const ShopBreadCrumb1 = () => {
         if (data && data.filterProducts) {
           setFilters(data.filterProducts);
           setIsLoadMore(false);
-        } 
+        }
       } catch (error) {
         // console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
       } 
@@ -685,7 +684,7 @@ const ShopBreadCrumb1 = () => {
     fetchData(combinedOptions);
  
     updateURL(selectedOptions);
-  }, [selectedOptions,]);
+  }, [selectedOptions]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -842,9 +841,9 @@ const ShopBreadCrumb1 = () => {
     window.scrollTo(0, 0);
   }, [selectedOptions]);
 
- const handleLoadMore=()=>{
-  setIsLoadMore(!isLoadMore);
- }
+  const handleLoadMore = () => {
+    setIsLoadMore(!isLoadMore);
+  };
 
   useEffect(() => {
     fetchSkusList();
@@ -946,23 +945,11 @@ const ShopBreadCrumb1 = () => {
                     className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                     ref={productsListRef}
                   >
-                    {[...filteredProducts]
-                      .sort((a: any, b: any) => {
-                        if (a.priority === null) return 1;
-                        if (b.priority === null) return -1;
-
-                        const priorityComparison =
-                          Number(a.priority) - Number(b.priority);
-
-                        if (priorityComparison !== 0) return priorityComparison;
-
-                        return a.title.localeCompare(b.title);
-                      })
-                      .map((item: any) => (
-                        <div key={item.productId}>
-                          <Product data={item} skuList={skuList} />
-                        </div>
-                      ))}
+                    {filteredProducts.map((item: any) => (
+                      <div key={item.productId}>
+                        <Product data={item} skuList={skuList} />
+                      </div>
+                    ))}
                   </div>
                 )
               ) : isLoading ? (

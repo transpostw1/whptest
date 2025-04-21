@@ -583,7 +583,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <p>Stone Cost</p>
                 )}
                 <p>Making Charges</p>
-                {parseInt(product.productDetails?.discountValue) > 0 && (
+                {product.productDetails?.discountActive&& (
                   <>
                     <p>Discount- {product.productDetails?.discountValue}%</p>
                     <p className="font-thin">{`(${product.productDetails?.discountCategory})`}</p>

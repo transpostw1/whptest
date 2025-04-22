@@ -180,72 +180,61 @@ const ShopBreadCrumb1 = () => {
           uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
-        const GET_FILTERS = gql`
-          query FilterProducts(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $productCategory: String
-            $sortOrder: String
-          ) {
-            filterProducts(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              productCategory: $productCategory
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-            ) {
+  
+        const MUTATION_FILTER_PRODUCTS = gql`
+          mutation FilterProducts($inputFilterProducts: InputFilterProducts) {
+            filterProducts(inputFilterProducts: $inputFilterProducts) {
               title
               options
               labels
             }
+            products {
+              productId
+              SKU
+              variantId
+              title
+              displayTitle
+              url
+              addDate
+              isActive
+              discountCategory
+              discountActive
+              typeOfDiscount
+              discountValue
+              discountAmount
+              discountPrice
+              productPrice
+              imageDetails {
+                image_path
+                order
+                alt_text
+              }
+              videoDetails {
+                video_path
+                order
+                alt_text
+              }
+              review
+              variants
+              similarProductIds
+              productCategories
+              breadcrumbs {
+                id
+                title
+                category_url
+              }
+            }
           }
         `;
-        let variables = {};
-        if (combinedOptions.category[0] === "new_Arrival") {
-          variables = {
-            category: [{ value: "" }],
-            search: [{ value: "" }],
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy: "addDate",
-            sortOrder: "DESC",
-            productCategory: combinedOptions.productCategory[0],
-          };
-        } else {
-          variables = {
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
+  
+        const variables = {
+          inputFilterProducts: {
             search: combinedOptions.search.map((search: string) => ({
               value: search,
             })),
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
             priceFilter: combinedOptions.priceFilter,
             gender: combinedOptions.shop_for.map((shop_for: string) => ({
               value: shop_for,
@@ -265,21 +254,26 @@ const ShopBreadCrumb1 = () => {
             sortBy: "addDate",
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
-          };
-          // console.log("Inside the else caseeee of fetchFilter", variables);
-        }
-        // console.log("Variables passed for api call", variables);
-        const { data } = await client.query({
-          query: GET_FILTERS,
+          },
+        };
+  
+        const { data } = await client.mutate({
+          mutation: MUTATION_FILTER_PRODUCTS,
           variables,
         });
-        if (data && data.filterProducts) {
-          setFilters(data.filterProducts);
+  
+        if (data) {
+          if (data.filterProducts) {
+            setFilters(data.filterProducts);
+          }
+          if (data.products) {
+            setFilteredProducts(data.products);
+          }
           setIsLoadMore(false);
         }
       } catch (error) {
-        // console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
-      } 
+        console.error("Error Occurred from ShopBreadCrumb1 GraphQL Mutation", error);
+      }
     }
   };
 

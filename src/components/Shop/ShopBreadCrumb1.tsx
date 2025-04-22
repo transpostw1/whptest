@@ -82,111 +82,25 @@ const ShopBreadCrumb1 = () => {
           uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
-        const GET_PRODUCTS = gql`
-          query Products(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $productCategory: String
-            $sortOrder: String
-            $limit: Int
-            $offset: Int
-          ) {
-            products(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              productCategory: $productCategory
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-              limit: $limit
-              offset: $offset
-            ) {
+  
+        const MUTATION_PRODUCTS = gql`
+          mutation Mutation($inputProducts: InputProducts) {
+            products(inputProducts: $inputProducts) {
               productId
               SKU
               variantId
-              isParent
               title
               displayTitle
-              shortDesc
-              longDesc
               url
-              tags
-              collectionName
-              shopFor
-              occasion
-              theme
-              length
-              breadth
-              height
-              weightRange
               addDate
-              lastModificationDate
-              negative_keywords
-              created_at
-              updated_at
-              productSize
-              productQty
-              attributeId
-              preSalesProductQueries
-              makeToOrder
-              isReplaceable
-              isReturnable
-              isInternationalShippingAvailable
-              customizationAvailability
-              fastDelivery
-              tryAtHome
               isActive
-              isArchive
-              hidePriceBreakup
-              grossWeight
-              netWeight
-              discountId
               discountCategory
               discountActive
               typeOfDiscount
               discountValue
               discountAmount
               discountPrice
-              offerStartDate
-              offerEndDate
-              mediaId
-              materialId
-              metalType
-              metalPurity
-              metalWeight
-              metalRate
-              makingType
-              makingChargesPerGrams
-              makingCharges
-              gst
-              additionalCost
               productPrice
-              rating
-              coupons {
-                id
-                name
-                code
-                discountOn
-                discountType
-                discountValue
-                discountMinAmount
-                discountMaxAmount
-                discountStartDate
-                discountEndDate
-                isExclusive
-              }
               imageDetails {
                 image_path
                 order
@@ -197,39 +111,8 @@ const ShopBreadCrumb1 = () => {
                 order
                 alt_text
               }
-              productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                diamondDetails {
-                  diamondCertifiedBy
-                  diamondShape
-                  diamondSetting
-                  totalDiamond
-                }
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-                gemstoneDetails {
-                  gemstoneType
-                  gemstoneQualityType
-                  gemstoneShape
-                  gemstoneWeight
-                  noOfGemstone
-                }
-              }
-              stoneDetails
-              diamondDetails
               review
               variants
-              bestSeller
-              buyAgain
-              priority
-              diamondCertificate
-              goldCertificate
               similarProductIds
               productCategories
               breadcrumbs {
@@ -240,69 +123,22 @@ const ShopBreadCrumb1 = () => {
             }
           }
         `;
-        let variables = {};
-        if (combinedOptions.category[0] === "new_Arrival") {
-          variables = {
-            category: [{ value: "" }],
-            search: [{ value: "" }],
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
+  
+        const variables = {
+          inputProducts: {
+            productCategory: combinedOptions.productCategory[0],
             sortBy: "priority",
             sortOrder: "ASC",
-            productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
-          };
-        } else {
-          variables = {
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
-            search: combinedOptions.search.map((search: string) => ({
-              value: search,
-            })),
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy: "priority",
-            sortOrder: "ASC",
-            productCategory: combinedOptions.productCategory[0],
-            limit: productsPerPage,
-            offset: offset,
-          };
-        }
-        // console.log("Variables passed for api call", variables);
-        const { data } = await client.query({
-          query: GET_PRODUCTS,
+          },
+        };
+  
+        const { data } = await client.mutate({
+          mutation: MUTATION_PRODUCTS,
           variables,
         });
+  
         if (data && data.products) {
           setFilteredProducts((prevProducts) => {
             if (isLoadMore) {
@@ -312,7 +148,7 @@ const ShopBreadCrumb1 = () => {
                   newProducts.map((product) => [product.productId, product]),
                 ).values(),
               );
-
+  
               return uniqueProducts;
             } else {
               return data.products;
@@ -323,7 +159,7 @@ const ShopBreadCrumb1 = () => {
         }
       } catch (error) {
         setIsLoading(true);
-        // console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+        console.error("Error Occurred from ShopBreadCrumb1 GraphQL Mutation", error);
       }
     }
   };

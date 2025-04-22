@@ -3,7 +3,8 @@ export const baseUrl2 = "http://164.92.120.19/api";
 // export const baseUrl="http://127.0.0.1:8001/api"
 export const graphqlbaseUrl =
   "https://monkfish-app-9plxl.ondigitalocean.app/graphql";
-export const graphqlProductUrl = "https://seashell-app-kswll.ondigitalocean.app/graphql";
+export const graphqlProductUrl = "https://seashell-app-kswll.ondigitalocean.app/";
+export const graphqlProductionUrl = "https://seashell-prod-app-rigzk.ondigitalocean.app/graphql'";
 export const getAllReels="/getAllReels"
 export const signup = "/signup";
 export const login = "/login";

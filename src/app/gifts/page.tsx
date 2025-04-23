@@ -82,6 +82,7 @@ const Gifts = () => {
     setIsOccasionSelected(true);
     setSelectedOccasion(occasion);
     setSelectedTemplateId(voucherId);
+    setCurrentStep((prevStep) => prevStep + 1);
   };
 
   const handleChange = (
@@ -130,7 +131,7 @@ const Gifts = () => {
       setError("Please fill in all the details correctly.");
     } else {
       setError("");
-      setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
+      setCurrentStep((prevStep) => prevStep + 1); // Move to the next step
     }
   };
   const handlePrevious = () => {
@@ -196,11 +197,14 @@ const Gifts = () => {
   const handleTemplateSelect = (templateUrl: string) => {
     setSelectedTemplateUrl(templateUrl);
     setIsTemplateSelected(true);
+    setCurrentStep((prevStep) => prevStep + 1); 
   };
-
   const handleAmountChange = (amount: number) => {
     setIsAmountSelected(true);
     setFormData((prevData) => ({ ...prevData, amount }));
+  };
+  const handleDeliveryComplete = () => {
+    setCurrentStep((prevStep) => prevStep + 1);
   };
 
   const completedSteps = steps.slice(0, currentStep);
@@ -208,132 +212,132 @@ const Gifts = () => {
   const stepCount = currentStep + 1;
 
   return (
-<>
-<head>
-    <title>Gifts</title>
-    <meta
-          name="gifts"
-          content={
-           "Gifting WHP"
-          }
-        />
-    </head>
-    <div className="mx-2 md:mx-1">
-      <div className="bg-[#f8a4b4] py-10 text-center">
-        <h1 className="py-2 font-medium">GIFT CARDS</h1>
-        <h3 className="text-3xl font-semibold ">
-          For what your loved ones love!
-        </h3>
-      </div>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="flex lg:mx-48">
-          {/* <div className="hidden p-4 lg:block">
+    <>
+      <head>
+        <title>Gifts</title>
+        <meta name="gifts" content={"Gifting WHP"} />
+      </head>
+      <div className="mx-2 md:mx-1">
+        <div className="bg-gradient-to-r to-[#815fc8] via-[#9b5ba7] from-[#bb547d] text-white py-2 text-center">
+          <h1 className="py-2 font-medium">GIFT CARDS</h1>
+          <h3 className="text-3xl font-semibold">
+            For what your loved ones love!
+          </h3>
+        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="flex lg:mx-48">
+            {/* <div className="hidden p-4 lg:block">
             <div className="h-full w-0.5 bg-red-500"></div>
           </div> */}
-          <div className="mt-3 flex w-full flex-col justify-between">
-            <div className="flex items-end justify-between gap-1">
-              <div>
-                <div className="flex flex-col items-start">
-                  {completedSteps.map((step, index) => (
+            <div className="mt-3 flex w-full flex-col justify-between">
+              <div className="flex items-end justify-between gap-1">
+                <div>
+                  <div className="flex flex-col items-start">
+                    {completedSteps.map((step, index) => (
+                      <div
+                        key={index}
+                        className="mb-2 flex gap-3 py-2 text-gray-400"
+                      >
+                        <div className="font-bold">{index + 1}</div>
+                        {step}
+                      </div>
+                    ))}
+                    <div className="p-1 text-lg text-black md:px-4">
+                      {steps[currentStep]}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {currentStep > 0 && (
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
+                      onClick={handlePrevious}
+                    >
+                      PREVIOUS
+                    </button>
+                  )}
+                  {currentStep === 2 && 3 && (
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
+                      onClick={handleNext}
+                    >
+                      NEXT
+                    </button>
+                  )}
+                  {currentStep === steps.length - 1 && (
+                    <button
+                      className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white md:px-4 md:py-2"
+                      onClick={handleProceedToPay}
+                    >
+                      PROCEED TO PAY
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {error && (
+                <div className="mt-2 text-center text-red-500">{error}</div>
+              )}
+
+              {currentStep === 0 && (
+                <Occasion
+                  onSelectOccasion={handleOccasionSelect}
+                  voucherData={voucherData}
+                />
+              )}
+              {currentStep === 1 && (
+                <Templates
+                  selectedOccasion={selectedOccasion}
+                  selectedTemplateId={selectedTemplateId}
+                  voucherData={voucherData}
+                  onTemplateSelect={handleTemplateSelect}
+                />
+              )}
+              {currentStep === 2 && (
+                <Amount onAmountChange={handleAmountChange} />
+              )}
+              {currentStep === 3 && (
+                <Delivery
+                  formData={formData}
+                  handleChange={handleChange}
+                  handleDeliveryComplete={handleDeliveryComplete}
+                />
+              )}
+              {currentStep === 4 && (
+                <Preview
+                  recipientName={formData.recipientName}
+                  recipientEmail={formData.recipientEmail}
+                  recipientMobile={formData.recipientMobile}
+                  confirmEmail={formData.confirmEmail}
+                  message={formData.message}
+                  senderName={formData.senderName}
+                  amount={formData.amount}
+                  occasion={formData.occasion}
+                  selectedTemplateUrl={selectedTemplateUrl}
+                />
+              )}
+
+              <div className="flex items-center justify-between">
+                <div className="mt-2 flex flex-col justify-start text-sm">
+                  {remainingSteps.map((step, index) => (
                     <div
                       key={index}
-                      className="mb-2 flex gap-3 py-2 text-gray-400"
+                      className="cursor-pointer px-2 py-1 font-normal text-gray-400"
+                      onClick={() => handleStepClick(currentStep + index + 1)}
                     >
-                      <div className="font-bold">{index + 1}</div>
                       {step}
                     </div>
                   ))}
-                  <div className=" p-1 text-black text-lg md:px-4">
-                    {steps[currentStep]}
-                  </div>
                 </div>
+                <h1 className="text-xs">Terms & Conditions</h1>
               </div>
-              <div className="flex gap-2">
-                {currentStep > 0 && (
-                  <button
-                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
-                    onClick={handlePrevious}
-                  >
-                    PREVIOUS
-                  </button>
-                )}
-                {currentStep < steps.length - 1 ? (
-                  <button
-                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
-                    onClick={handleNext}
-                  >
-                    NEXT
-                  </button>
-                ) : (
-                  <button
-                    className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] text-white md:px-4 md:py-2"
-                    onClick={handleProceedToPay}
-                  >
-                    PROCEED TO PAY
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {error && (
-              <div className="mt-2 text-center text-red-500">{error}</div>
-            )}
-
-            {currentStep === 0 && (
-              <Occasion
-                onSelectOccasion={handleOccasionSelect}
-                voucherData={voucherData}
-              />
-            )}
-            {currentStep === 1 && (
-              <Templates
-                selectedOccasion={selectedOccasion}
-                selectedTemplateId={selectedTemplateId}
-                voucherData={voucherData}
-                onTemplateSelect={handleTemplateSelect}
-              />
-            )}
-            {currentStep === 2 && (
-              <Amount onAmountChange={handleAmountChange} />
-            )}
-            {currentStep === 3 && (
-              <Delivery formData={formData} handleChange={handleChange} />
-            )}
-            {currentStep === 4 && (
-              <Preview
-                recipientName={formData.recipientName}
-                recipientEmail={formData.recipientEmail}
-                recipientMobile={formData.recipientMobile}
-                confirmEmail={formData.confirmEmail}
-                message={formData.message}
-                senderName={formData.senderName}
-                amount={formData.amount}
-                occasion={formData.occasion}
-                selectedTemplateUrl={selectedTemplateUrl}
-              />
-            )}
-
-            <div className="flex items-center justify-between">
-              <div className="mt-2 flex flex-col justify-start text-sm">
-                {remainingSteps.map((step, index) => (
-                  <div
-                    key={index}
-                    className="cursor-pointer px-2 py-1 font-normal text-gray-400"
-                    onClick={() => handleStepClick(currentStep + index + 1)}
-                  >
-                    {step}
-                  </div>
-                ))}
-              </div>
-              <h1 className="text-xs">Terms & Conditions</h1>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-</>
+        )}
+      </div>
+    </>
   );
 };
 

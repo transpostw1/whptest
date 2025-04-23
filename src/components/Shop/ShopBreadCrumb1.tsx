@@ -12,7 +12,7 @@ import { useCategory } from "@/context/CategoryContex";
 import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { graphqlProductUrl } from "@/utils/constants";
+import { graphqlProductUrl, graphqlProductionUrl } from "@/utils/constants";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -45,7 +45,6 @@ const ShopBreadCrumb1 = () => {
   const triggerFetchData = () => {
     setFetchProducts(true);
   };
-  
 
   useEffect(() => {
     if (isLoadMore) {
@@ -61,7 +60,7 @@ const ShopBreadCrumb1 = () => {
         selectedOptions,
       );
       fetchData(combinedOptions);
-      console.log(fetchData, "FETCHDATATATAT");
+      // console.log(fetchData, "FETCHDATATATAT");
       setFetchProducts(false);
     }
   }, [fetchProducts, offset]);
@@ -80,114 +79,28 @@ const ShopBreadCrumb1 = () => {
       try {
         setIsLoading(true);
         const client = new ApolloClient({
-          uri: graphqlProductUrl,
+          uri: graphqlProductionUrl,
           cache: new InMemoryCache(),
         });
-        const GET_PRODUCTS = gql`
-          query Products(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $productCategory: String
-            $sortOrder: String
-            $limit: Int
-            $offset: Int
-          ) {
-            products(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              productCategory: $productCategory
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-              limit: $limit
-              offset: $offset
-            ) {
+
+        const MUTATION_PRODUCTS = gql`
+          mutation Mutation($inputProducts: InputProducts) {
+            products(inputProducts: $inputProducts) {
               productId
               SKU
               variantId
-              isParent
               title
               displayTitle
-              shortDesc
-              longDesc
               url
-              tags
-              collectionName
-              shopFor
-              occasion
-              theme
-              length
-              breadth
-              height
-              weightRange
               addDate
-              lastModificationDate
-              negative_keywords
-              created_at
-              updated_at
-              productSize
-              productQty
-              attributeId
-              preSalesProductQueries
-              makeToOrder
-              isReplaceable
-              isReturnable
-              isInternationalShippingAvailable
-              customizationAvailability
-              fastDelivery
-              tryAtHome
               isActive
-              isArchive
-              hidePriceBreakup
-              grossWeight
-              netWeight
-              discountId
               discountCategory
               discountActive
               typeOfDiscount
               discountValue
               discountAmount
               discountPrice
-              offerStartDate
-              offerEndDate
-              mediaId
-              materialId
-              metalType
-              metalPurity
-              metalWeight
-              metalRate
-              makingType
-              makingChargesPerGrams
-              makingCharges
-              gst
-              additionalCost
               productPrice
-              rating
-              coupons {
-                id
-                name
-                code
-                discountOn
-                discountType
-                discountValue
-                discountMinAmount
-                discountMaxAmount
-                discountStartDate
-                discountEndDate
-                isExclusive
-              }
               imageDetails {
                 image_path
                 order
@@ -198,39 +111,8 @@ const ShopBreadCrumb1 = () => {
                 order
                 alt_text
               }
-              productAttributes {
-                goldDetails {
-                  goldCertifiedBy
-                  goldSetting
-                }
-                diamondDetails {
-                  diamondCertifiedBy
-                  diamondShape
-                  diamondSetting
-                  totalDiamond
-                }
-                silverDetails {
-                  poojaArticle
-                  utensils
-                  silverWeight
-                }
-                gemstoneDetails {
-                  gemstoneType
-                  gemstoneQualityType
-                  gemstoneShape
-                  gemstoneWeight
-                  noOfGemstone
-                }
-              }
-              stoneDetails
-              diamondDetails
               review
               variants
-              bestSeller
-              buyAgain
-              priority
-              diamondCertificate
-              goldCertificate
               similarProductIds
               productCategories
               breadcrumbs {
@@ -241,69 +123,22 @@ const ShopBreadCrumb1 = () => {
             }
           }
         `;
-        let variables = {};
-        if (combinedOptions.category[0] === "new_Arrival") {
-          variables = {
-            category: [{ value: "" }],
-            search: [{ value: "" }],
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
+
+        const variables = {
+          inputProducts: {
+            productCategory: combinedOptions.productCategory[0],
             sortBy: "priority",
             sortOrder: "ASC",
-            productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
-          };
-        } else {
-          variables = {
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
-            search: combinedOptions.search.map((search: string) => ({
-              value: search,
-            })),
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy: "priority",
-            sortOrder: "ASC",
-            productCategory: combinedOptions.productCategory[0],
-            limit: productsPerPage,
-            offset: offset,
-          };
-        }
-        console.log("Variables passed for api call", variables);
-        const { data } = await client.query({
-          query: GET_PRODUCTS,
+          },
+        };
+
+        const { data } = await client.mutate({
+          mutation: MUTATION_PRODUCTS,
           variables,
         });
+
         if (data && data.products) {
           setFilteredProducts((prevProducts) => {
             if (isLoadMore) {
@@ -324,7 +159,10 @@ const ShopBreadCrumb1 = () => {
         }
       } catch (error) {
         setIsLoading(true);
-        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
+        console.error(
+          "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
+          error,
+        );
       }
     }
   };
@@ -342,75 +180,26 @@ const ShopBreadCrumb1 = () => {
     ) {
       try {
         const client = new ApolloClient({
-          uri: graphqlProductUrl,
+          uri: graphqlProductionUrl,
           cache: new InMemoryCache(),
         });
-        const GET_FILTERS = gql`
-          query FilterProducts(
-            $category: [CategoryArrayInput!]
-            $search: [SearchArrayInput!]
-            $priceFilter: [PriceArrayInput!]
-            $gender: [GenderArrayInput!]
-            $karat: [KaratArrayInput!]
-            $metal: [MetalArrayInput!]
-            $weightRange: [WeightRangeArrayInput!]
-            $occasion: [OccasionArrayInput!]
-            $sortBy: String
-            $productCategory: String
-            $sortOrder: String
-          ) {
-            filterProducts(
-              category: $category
-              search: $search
-              priceFilter: $priceFilter
-              gender: $gender
-              karat: $karat
-              metal: $metal
-              weightRange: $weightRange
-              productCategory: $productCategory
-              occasion: $occasion
-              sortBy: $sortBy
-              sortOrder: $sortOrder
-            ) {
+        const MUTATION_FILTER_PRODUCTS = gql`
+          mutation FilterProducts($inputFilterProducts: InputFilterProducts) {
+            filterProducts(inputFilterProducts: $inputFilterProducts) {
               title
               options
               labels
             }
           }
         `;
-        let variables = {};
-        if (combinedOptions.category[0] === "new_Arrival") {
-          variables = {
-            category: [{ value: "" }],
-            search: [{ value: "" }],
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy: "addDate",
-            sortOrder: "DESC",
-            productCategory: combinedOptions.productCategory[0],
-          };
-        } else {
-          variables = {
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
+        const variables = {
+          inputFilterProducts: {
             search: combinedOptions.search.map((search: string) => ({
               value: search,
             })),
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
             priceFilter: combinedOptions.priceFilter,
             gender: combinedOptions.shop_for.map((shop_for: string) => ({
               value: shop_for,
@@ -430,21 +219,29 @@ const ShopBreadCrumb1 = () => {
             sortBy: "addDate",
             sortOrder: "DESC",
             productCategory: combinedOptions.productCategory[0],
-          };
-          console.log("Inside the else caseeee of fetchFilter", variables);
-        }
-        console.log("Variables passed for api call", variables);
-        const { data } = await client.query({
-          query: GET_FILTERS,
+          },
+        };
+
+        const { data } = await client.mutate({
+          mutation: MUTATION_FILTER_PRODUCTS,
           variables,
         });
-        if (data && data.filterProducts) {
-          setFilters(data.filterProducts);
+
+        if (data) {
+          if (data.filterProducts) {
+            setFilters(data.filterProducts);
+          }
+          if (data.products) {
+            setFilteredProducts(data.products);
+          }
           setIsLoadMore(false);
-        } 
+        }
       } catch (error) {
-        console.log("Error Occurred from ShopBreadCrumb1 GraphQL", error);
-      } 
+        console.error(
+          "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
+          error,
+        );
+      }
     }
   };
 
@@ -524,15 +321,15 @@ const ShopBreadCrumb1 = () => {
         if (updatedOptions["productCategory"]?.[0] === option) {
           delete updatedOptions["productCategory"];
         } else {
-          console.log(
-            "inside the inner else case",
-            updatedOptions["productCategory"],
-          );
+          // console.log(
+          //   "inside the inner else case",
+          //   updatedOptions["productCategory"],
+          // );
           delete updatedOptions["Category"];
           updatedOptions["productCategory"] = [option];
         }
       } else {
-        console.log("Inside the ELSE CASE");
+        // console.log("Inside the ELSE CASE");
         if (updatedOptions[category]) {
           const formattedOption = formatPriceRange(option);
           if (updatedOptions[category].includes(formattedOption)) {
@@ -566,9 +363,7 @@ const ShopBreadCrumb1 = () => {
     // Only add the most recent category or pc parameter
     if (options.productCategory?.length > 0) {
       urlParts.push(`pc-${options.productCategory[0]}`);
-      console.log("if condition", urlParts);
     } else if (options.Category?.length > 0) {
-      console.log("urlparts elseifff", urlParts);
       urlParts.push(`pc-${options.Category[0]}`);
     }
     // Add other filters
@@ -672,20 +467,20 @@ const ShopBreadCrumb1 = () => {
           selectedOptions.productCategory.includes(product.productCategory),
         );
       }
-      console.log(filtered, "FILTEREDDDD");
+
       setFilteredProducts(filtered);
       setSelectedSortOption("All");
       setPageNumber(0);
     };
     applyFilters();
-    console.log("useEffect - selectedOptions:", selectedOptions);
+
     setOffset(0);
     const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
     fetchFilter(combinedOptions);
     fetchData(combinedOptions);
-    console.log("Combined Options", combinedOptions);
+
     updateURL(selectedOptions);
-  }, [selectedOptions,]);
+  }, [selectedOptions]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -726,7 +521,6 @@ const ShopBreadCrumb1 = () => {
       }
     });
     setSelectedOptions(initialOptions);
-    console.log("Initial selectedOptions from URL:", initialOptions);
   }, [searchParams]);
 
   const formatPriceRange = (price: string) => {
@@ -796,8 +590,6 @@ const ShopBreadCrumb1 = () => {
     breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].title : "";
   const finalString = modifiedString || lastBreadcrumbTitle;
 
-  console.log("titles", finalString, lastBreadcrumbTitle, modifiedString);
-
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (
@@ -841,11 +633,11 @@ const ShopBreadCrumb1 = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [selectedOptions]);
 
- const handleLoadMore=()=>{
-  setIsLoadMore(!isLoadMore);
- }
+  const handleLoadMore = () => {
+    setIsLoadMore(!isLoadMore);
+  };
 
   useEffect(() => {
     fetchSkusList();
@@ -947,23 +739,11 @@ const ShopBreadCrumb1 = () => {
                     className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
                     ref={productsListRef}
                   >
-                    {[...filteredProducts]
-                      .sort((a: any, b: any) => {
-                        if (a.priority === null) return 1;
-                        if (b.priority === null) return -1;
-
-                        const priorityComparison =
-                          Number(a.priority) - Number(b.priority);
-
-                        if (priorityComparison !== 0) return priorityComparison;
-
-                        return a.title.localeCompare(b.title);
-                      })
-                      .map((item: any) => (
-                        <div key={item.productId}>
-                          <Product data={item} skuList={skuList} />
-                        </div>
-                      ))}
+                    {filteredProducts.map((item: any) => (
+                      <div key={item.productId}>
+                        <Product data={item} skuList={skuList} />
+                      </div>
+                    ))}
                   </div>
                 )
               ) : isLoading ? (

@@ -18,7 +18,7 @@ const Blogs: React.FC = () => {
     <div>
       <head>
         <title>Blogs</title>
-        <meta name="description" content={"WHP Blogs."} />
+        <meta name="blog" content={"WHP Blogs."} />
       </head>
       <Trending blogData={blogData} />
       <Latest blogData={blogData} />

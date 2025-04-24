@@ -33,13 +33,6 @@ export default function Home() {
     logged = localStorage.getItem("isLoggedIn");
   }
 
-  const siteId = 5191013;
-  const hotjarVersion = 6;
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      Hotjar.init(siteId, hotjarVersion);
-    }
-  }, []);
   // useEffect(() => {
   //   if (!document.getElementById("kenyt-chatbot-script")) {
   //     const script = document.createElement("script");
@@ -63,8 +56,6 @@ export default function Home() {
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
-      
-
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />

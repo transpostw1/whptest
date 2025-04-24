@@ -151,7 +151,7 @@ const AddAddressModal: React.FC<Props> = ({
         fetchPolicy: "no-cache",
       });
       closeModal();
-      console.log("Response from backend:", data);
+      // console.log("Response from backend:", data);
       onAddressAdded(isForBillingAddress);
       formik.resetForm();
     } catch (error) {

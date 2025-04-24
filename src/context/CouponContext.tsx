@@ -205,7 +205,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const fetchedCoupons = data.getAllCoupons;
       setCoupons(fetchedCoupons);
-      console.log("Fetched coupons:", fetchedCoupons);
+      // console.log("Fetched coupons:", fetchedCoupons);
     } catch (error) {
       console.error("Error fetching coupons:", error);
     }

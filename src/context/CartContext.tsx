@@ -224,7 +224,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         ? item.variants.map(({ __typename, ...rest }) => rest) 
         : [], 
     }));
-      console.log(cartData,"CARTDATATATATATTa")
+      // console.log(cartData,"CARTDATATATATATTa")
       const getAuthHeaders: any = () => {
         const cookieToken = localStorage.getItem("localtoken");
         if (!cookieToken) return null;

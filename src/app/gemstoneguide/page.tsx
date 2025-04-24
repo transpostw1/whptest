@@ -19,7 +19,7 @@ const Gemguide: React.FC  = () => {
         <head>
     <title>Gemstone Guide</title>
     <meta
-          name="description"
+          name="gemstone"
           content={
            "Gemstone Guide."
           }

@@ -99,7 +99,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
     setFormError("");
 
     try {
-      console.log("Submitting form with values:", values);
+      // console.log("Submitting form with values:", values);
       const cookieToken =
         typeof window !== "undefined"
           ? localStorage.getItem("localtoken")
@@ -147,7 +147,7 @@ const EditAddressModal: React.FC<Props> = ({ closeModal, singleAddress }) => {
       closeModal();
       formik.resetForm();
       window.location.reload();
-      console.log("Response from backend:", data);
+      // console.log("Response from backend:", data);
     } catch (error) {
       console.error("Error posting form data:", error);
       setFormError(

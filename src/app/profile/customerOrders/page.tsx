@@ -43,7 +43,6 @@ const CustomerOrders = () => {
           uri: graphqlbaseUrl,
           headers: getAuthHeaders(),
         });
-
         const client = new ApolloClient({
           link,
           cache: new InMemoryCache(),
@@ -179,7 +178,7 @@ const CustomerOrders = () => {
     <ProtectedRoute>
       <head>
         <title>Your Orders</title>
-        <meta name="description" content={"profile details"} />
+        <meta name="profile detail" content={"profile details"} />
       </head>
       <div className="flex">
         <div>

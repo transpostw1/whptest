@@ -116,7 +116,7 @@ const FAQs = () => {
    <>
     <head>
     <title>FAQ's</title>
-    <meta name="description" content={"Frequently Asked Questions."} />
+    <meta name="frequently" content={"Frequently Asked Questions."} />
   </head>
     <div>
       <div className="w-full text-center text-[40px] text-[#e26178]">

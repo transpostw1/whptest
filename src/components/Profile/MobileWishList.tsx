@@ -59,7 +59,7 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
     }
   });
   const handleAddToCart = (product: any) => {
-    console.log(product, "ADDTocartwhslistproductconsole");
+    // console.log(product, "ADDTocartwhslistproductconsole");
 
     const isMakeToOrder =
       product.makeToOrder === 1 || product.makeToOrder === true;
@@ -91,8 +91,8 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
         ? transformVariants(product.variants)
         : [];
 
-      console.log("Original variants:", product.variants);
-      console.log("Transformed variants:", variantss);
+      // console.log("Original variants:", product.variants);
+      // console.log("Transformed variants:", variantss);
 
       const newProduct: any = {
         productDetails: {
@@ -110,8 +110,8 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
         variants: variantss,
       };
 
-      console.log("New product objec", newProduct);
-      console.log("Variants in new produt", newProduct.variants);
+      // console.log("New product objec", newProduct);
+      // console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
 
       addToCart(newProduct, 1, variantsToPass);
@@ -140,8 +140,8 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
       ? transformVariants(product.variants)
       : [];
 
-    console.log("Original variants:", product.variants);
-    console.log("Transformed variants:", variantss);
+    // console.log("Original variants:", product.variants);
+    // console.log("Transformed variants:", variantss);
 
     if (!productAlreadyExists) {
       const newProduct: any = {
@@ -157,8 +157,8 @@ const MobileWishList: React.FC<Props> = ({ handleComponent }) => {
         variants: variantss,
       };
 
-      console.log("New product objec", newProduct);
-      console.log("Variants in new produt", newProduct.variants);
+      // console.log("New product objec", newProduct);
+      // console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
 
       addToCart(newProduct, 1, variantsToPass, true);

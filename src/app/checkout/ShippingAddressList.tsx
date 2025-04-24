@@ -99,7 +99,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
 
         setAddresses(data.getCustomerAddresses);
       } catch (error) {
-        console.log("Error in address fetching", error);
+        // console.log("Error in address fetching", error);
       } finally {
         setIsLoading(false);
       }
@@ -117,7 +117,7 @@ const ShippingAddressList: React.FC<ShippingAddressListProps> = ({
     onAddressSelect(address);
   };
   useEffect(() => {
-    console.log("All Addresssss", addresses);
+    // console.log("All Addresssss", addresses);
   }, [addresses]);
   const sortedAddresses = addresses.slice();
   if (selectedAddress) {

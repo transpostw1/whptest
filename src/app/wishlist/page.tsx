@@ -209,7 +209,7 @@ const Wishlist = () => {
     <div className="shop-product breadcrumb1">
       <head>
         <title>Wishlist</title>
-        <meta name="description" content={"Your wishlisted items."} />
+        <meta name="wishlisted" content={"Your wishlisted items."} />
       </head>
       <StickyNav />
       <div className="container">

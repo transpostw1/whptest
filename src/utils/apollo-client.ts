@@ -15,7 +15,7 @@ const httpLink = new HttpLink({
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem("localtoken");
-  console.log("Token from authMiddleware:", token); // Debug line
+  // console.log("Token from authMiddleware:", token); // Debug line
   operation.setContext({
     headers: {
       Authorization: token ? `Bearer ${token}` : "",

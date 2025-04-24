@@ -78,7 +78,7 @@ const FilterSidebar: React.FC<Props> = ({
 
   useEffect(() => {
     onFilterChange(selectedOptions);
-    console.log(selectedOptions, "selectedOptions SideBARRRRR");
+    // console.log(selectedOptions, "selectedOptions SideBARRRRR");
   }, [selectedOptions, onFilterChange]);
 
   return (
@@ -111,16 +111,15 @@ const FilterSidebar: React.FC<Props> = ({
                     className="inline-flex max-w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
                     <span className="">
-                      {option
-                        .replace(/_/g, " ")
-                        .replace(/(\S)to(\S)/g, "$1 to $2")
-                        .replace(/^to(\S)/g, "to $1")
-                        .replace(/(\S)to$/g, "$1 to")
-                        .replace(/(^|\s)([a-z])/g, (match, p1, p2) => {
-                          // Don't capitalize if the word is "to"
-                          if (p2 + match.slice(2) === "to") return p1 + "to";
-                          return p1 + p2.toUpperCase();
-                        })}
+                      {
+                        option
+                          .replace(/_/g, " ") // Replace underscores with spaces
+                          // .replace(/\bto\b/g, "to") // Ensure "to" remains lowercase when it's a standalone word
+                          // .replace(
+                          //   /(^|\s)([a-z])/g,
+                          //   (match, p1, p2) => p1 + p2.toUpperCase(),
+                          // ) // Capitalize the first letter of each word
+                      }
                     </span>
                     <button
                       className="ml-2"

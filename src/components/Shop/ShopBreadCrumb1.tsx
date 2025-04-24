@@ -264,7 +264,6 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.Price || []),
       ...(selectedOptions.Price || []),
     ].map((price: string) => {
-      // console.log("price ",price)
       if (price == "Less than 10K") {
         const min = parseFloat("1");
         const max = parseFloat("10000");

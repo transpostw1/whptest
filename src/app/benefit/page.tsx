@@ -92,9 +92,8 @@ const Benefit: React.FC = () => {
       const { data } = await client.query({
         query: GET_GMS_ROI,
       });
-
       setROIData(data.getGmsROI);
-      console.log(data.getGmsROI, "GMS ROI data fetched");
+      // console.log(data.getGmsROI, "GMS ROI data fetched");
     } catch (error) {
       console.error("Error fetching GMS ROI data", error);
     }
@@ -118,7 +117,7 @@ const Benefit: React.FC = () => {
     <>
        <head>
         <title>Benefit Calculator</title>
-        <meta name="description" content={"WHP Benefit Calculator."} />
+        <meta name="Benefit" content={"WHP Benefit Calculator."} />
       </head>
       <div className="hidden px-40 md:h-[900px] md:px-10 lg:block lg:h-[600px]">
         <div className="card-stack">

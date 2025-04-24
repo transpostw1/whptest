@@ -82,7 +82,7 @@ const SilverCard: React.FC<SilverCardProps> = ({
         }),
       );
 
-      console.log("Navigating to /digitalCheckout");
+      // console.log("Navigating to /digitalCheckout");
       router.push("/digitalCheckout");
     },
     [numberOfMonths, router],

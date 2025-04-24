@@ -69,7 +69,6 @@ const Payment: React.FC<PaymentProps> = ({
   const handleSubmit = (e: any) => {
     e.preventDefault(); // Prevent default form submission
     // You can add any validation or logic here if needed
-    console.log("formData from PayU", e.target.value);
     e.target.submit(); // Manually submit the form
   };
 
@@ -145,7 +144,7 @@ const Payment: React.FC<PaymentProps> = ({
         },
         fetchPolicy: "no-cache",
       });
-      console.log(data, "data");
+      // console.log(data, "data");
     };
     handleAbandonedCart();
   }, [component == "Payment"]);
@@ -173,7 +172,7 @@ const Payment: React.FC<PaymentProps> = ({
 
         setOfferBanners(data.getAllOffers);
       } catch (error) {
-        console.log("Error in fetching SubBanners", error);
+        // console.log("Error in fetching SubBanners", error);
       } finally {
         setLoading(false);
       }
@@ -186,7 +185,7 @@ const Payment: React.FC<PaymentProps> = ({
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.async = true;
       script.onload = () => {
-        console.log("Razorpay SDK loaded");
+        // console.log("Razorpay SDK loaded");
       };
       document.body.appendChild(script);
     };
@@ -204,11 +203,10 @@ const Payment: React.FC<PaymentProps> = ({
             ? (totalCart - userDetails?.wallet_amount) * 100
             : totalCart * 100,
       });
-      console.log(response);
+      // console.log(response);
       const { amount, id: order_id, currency } = response.data;
-
       const options = {
-        key: "rzp_live_vh97GOv9gE694e",
+        key: process.env.NEXT_Razorpay_KEY, 
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",
@@ -226,11 +224,16 @@ const Payment: React.FC<PaymentProps> = ({
               isWallet: wallet ? 1 : 0,
               isWrap: giftWrap.wrapOption ? 1 : 0,
               message: giftWrap.wrapOption ? giftWrap.name : "",
-              walletAmount: wallet
-                ? totalCart > wallet
-                  ? Number(totalCart) - Number(userDetails?.wallet_amount)
-                  : Number(userDetails?.wallet_amount) - Number(totalCart)
-                : 0,
+              walletAmount:
+                wallet === 1
+                  ? Number(totalCart) > Number(userDetails?.wallet_amount)
+                    ? Math.abs(
+                        Number(totalCart) - Number(userDetails?.wallet_amount),
+                      )
+                    : Math.abs(
+                        Number(userDetails?.wallet_amount) - Number(totalCart),
+                      )
+                  : 0,
               name: userDetails?.fullname,
               email: userDetails?.email,
               contact: userDetails?.mobile_no,
@@ -283,7 +286,7 @@ const Payment: React.FC<PaymentProps> = ({
                 shippingCharges: "10",
               },
             };
-            console.log(orderData, "orderDataAAAA");
+            // console.log(orderData, "orderDataAAAA");
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -293,7 +296,7 @@ const Payment: React.FC<PaymentProps> = ({
                 },
               },
             );
-            console.log(apiResponse.data);
+            // console.log(apiResponse.data);
             // Handle the response as needed
             setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
@@ -333,6 +336,7 @@ const Payment: React.FC<PaymentProps> = ({
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
+  console.log("wallet", wallet);
   const handleCodPayment = async () => {
     setLoading(true);
     try {
@@ -340,13 +344,13 @@ const Payment: React.FC<PaymentProps> = ({
         setLoading(true);
         // Prepare the data to be sent to the API
         const orderData = {
-          isWallet: wallet ? 1 : 0,
+          isWallet: wallet && userDetails?.wallet_amount > 0 ? 1 : 0,
           isWrap: giftWrap.wrapOption ? 1 : 0,
           message: giftWrap.wrapOption ? giftWrap.name : "",
           walletAmount: wallet
-            ? totalCart > wallet
-              ? Number(totalCart) - Number(userDetails?.wallet_amount)
-              : Number(userDetails?.wallet_amount) - Number(totalCart)
+            ? Number(totalCart) > Number(userDetails?.wallet_amount)
+              ? 0
+              : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
             : 0,
           shippingAddress: selectedShippingAddress
             ? {
@@ -418,7 +422,7 @@ const Payment: React.FC<PaymentProps> = ({
 
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-      console.log("razorpay should initiate");
+      // console.log("razorpay should initiate");
       handleRazorpayPayment();
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
@@ -585,7 +589,7 @@ const Payment: React.FC<PaymentProps> = ({
       )}
       {orderPlaced && (
         <>
-          <div className="mb-4 w-full rounded-lg border border-gray-200"  >
+          <div className="mb-4 w-full rounded-lg border border-gray-200">
             <div className="flex justify-between border-b-2 border-t-0 p-4">
               <div className="">
                 <span className="font-semibold">Order Id: </span>
@@ -610,7 +614,9 @@ const Payment: React.FC<PaymentProps> = ({
                     <div className="flex">
                       <div className="mr-3">
                         <Image
-                          src={product?.productImage|| "/images/other/Logo.png"}
+                          src={
+                            product?.productImage || "/images/other/Logo.png"
+                          }
                           alt={product?.productTitle || "Product Image"}
                           width={85}
                           height={85}
@@ -638,25 +644,27 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
           <p className="text-[1.5rem]">Wait! there's more you'll love</p>
           <div className="mt-5 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {offerBanners.map((item: any, index: any) => (
-            <div key={index}>
-              <Link href={{
-                pathname:"/products",
-                query:{
-                  url:item.url
-                }
-              }}>
-                <Image
-                  src={item.img}
-                  alt={"the offer banner"}
-                  width={400}
-                  height={400}
-                  unoptimized
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
+            {offerBanners.map((item: any, index: any) => (
+              <div key={index}>
+                <Link
+                  href={{
+                    pathname: "/products",
+                    query: {
+                      url: item.url,
+                    },
+                  }}
+                >
+                  <Image
+                    src={item.img}
+                    alt={"the offer banner"}
+                    width={400}
+                    height={400}
+                    unoptimized
+                  />
+                </Link>
+              </div>
+            ))}
+          </div>
           <Confetti trigger={orderPlaced} />
         </>
       )}

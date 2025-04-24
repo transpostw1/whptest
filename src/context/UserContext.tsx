@@ -104,7 +104,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getUser = async () => {
     if (!cookieToken) {
-      console.log("No cookie token available, skipping API call.");
+      // console.log("No cookie token available, skipping API call.");
       return;
     }
 

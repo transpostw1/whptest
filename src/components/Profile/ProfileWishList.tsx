@@ -47,7 +47,7 @@ const ProfileWishList = () => {
   });
 
   const handleAddToCart = (product: any) => {
-    console.log(product, "ADDTocartwhslistproductconsole");
+    // console.log(product, "ADDTocartwhslistproductconsole");
 
     const isMakeToOrder =
       product.makeToOrder === 1 || product.makeToOrder === true;
@@ -78,8 +78,8 @@ const ProfileWishList = () => {
         ? transformVariants(product.variants)
         : [];
 
-      console.log("Original variants:", product.variants);
-      console.log("Transformed variants:", variantss);
+      // console.log("Original variants:", product.variants);
+      // console.log("Transformed variants:", variantss);
 
       const newProduct: any = {
         productDetails: {
@@ -97,8 +97,8 @@ const ProfileWishList = () => {
         variants: variantss,
       };
 
-      console.log("New product objec", newProduct);
-      console.log("Variants in new produt", newProduct.variants);
+      // console.log("New product objec", newProduct);
+      // console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
 
       addToCart(newProduct, 1, variantsToPass);
@@ -127,8 +127,8 @@ const ProfileWishList = () => {
       ? transformVariants(product.variants)
       : [];
 
-    console.log("Original variants:", product.variants);
-    console.log("Transformed variants:", variantss);
+    // console.log("Original variants:", product.variants);
+    // console.log("Transformed variants:", variantss);
 
     if (!productAlreadyExists) {
       const newProduct: any = {
@@ -144,8 +144,8 @@ const ProfileWishList = () => {
         variants: variantss,
       };
 
-      console.log("New product objec", newProduct);
-      console.log("Variants in new produt", newProduct.variants);
+      // console.log("New product objec", newProduct);
+      // console.log("Variants in new produt", newProduct.variants);
       const variantsToPass = variantss.length > 0 ? variantss : undefined;
 
       addToCart(newProduct, 1, variantsToPass, true);

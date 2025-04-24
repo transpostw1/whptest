@@ -55,7 +55,7 @@ const ProductSlider = () => {
         });
         // const response = await axios.get(`${baseUrl}/best-sellers`);
         setData(await data.bestSeller);
-        console.log("BEST SELLer", data.bestSeller);
+        // console.log("BEST SELLer", data.bestSeller);
       } catch (error) {
         console.log();
       } finally {

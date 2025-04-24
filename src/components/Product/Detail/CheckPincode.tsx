@@ -36,11 +36,11 @@ export default function CheckPincode() {
         },
         fetchPolicy: "no-cache",
       });
-      console.log("Response from backend:", data);
+      // console.log("Response from backend:", data);
       setApiResponse(data.checkPincode);
       setSavedPincode(data.checkPincode.message);
       setLoading(false);
-      console.log("Saved PinCode:", pincode);
+      // console.log("Saved PinCode:", pincode);
     } catch (error) {
       console.error("Error making the request:", error);
     }

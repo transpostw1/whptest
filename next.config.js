@@ -16,6 +16,11 @@ const nextConfig = ({
         permanent:true,
       },
       {
+        source:"/jewellery-for-men.html",
+        destination:"/products?url=pc-all_jewellery_mens_jewellery",
+        permanent:true,
+      },
+      {
         source:"/jewellery-for-women/necklaces/gold-necklaces.html",
         destination:"/products?url=pc-necklace",
         permanent:true,

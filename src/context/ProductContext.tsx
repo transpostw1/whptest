@@ -32,7 +32,7 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.error("Error fetching product data:", error);
     }finally{
-      console.log("category",parentCategory)
+      // console.log("category",parentCategory)
     }
   };
 

@@ -79,7 +79,7 @@ const ShopBreadCrumb1 = () => {
       try {
         setIsLoading(true);
         const client = new ApolloClient({
-          uri: graphqlProductionUrl,
+          uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
 
@@ -180,7 +180,7 @@ const ShopBreadCrumb1 = () => {
     ) {
       try {
         const client = new ApolloClient({
-          uri: graphqlProductionUrl,
+          uri: graphqlProductUrl,
           cache: new InMemoryCache(),
         });
         const MUTATION_FILTER_PRODUCTS = gql`

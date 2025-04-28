@@ -308,7 +308,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   src={data?.imageDetails[0]?.image_path}
                   width={400}
                   height={400}
-                  alt="This image is temporarry"
+                  alt="This image is temporary"
                   unoptimized
                 />
               )}

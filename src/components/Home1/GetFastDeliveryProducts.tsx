@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
-import { baseUrl, graphqlProductUrl } from "@/utils/constants";
+import { baseUrl, graphqlProductionUrl,graphqlProductUrl } from "@/utils/constants";
 
 const GetFastDeliveryProducts = () => {
   const swiperRef = useRef<any>();

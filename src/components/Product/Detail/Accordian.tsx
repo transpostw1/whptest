@@ -181,6 +181,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </span>
               <span className="text-sm font-medium">Safe & Secure Payment</span>
             </div>
+            {product?.productDetails?.productAttributes?.goldDetails?.some(
+                  (gold: any) => gold.goldCertifiedBy === "BIS Hallmarked",
+                ) && (
             <div className="flex flex-col items-center gap-2 text-center">
               <span className="flex items-center justify-center">
                 <Image
@@ -195,6 +198,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 BIS Hallmarked
               </span>
             </div>
+                )}
             {product?.productDetails?.productAttributes?.diamondDetails?.some(
               (diamond: any) => diamond.diamondCertifiedBy !== null,
             ) && (

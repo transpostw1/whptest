@@ -108,18 +108,13 @@ const FilterSidebar: React.FC<Props> = ({
                 .map((option: string, index: number) => (
                   <div
                     key={`${category}-${index}`}
-                    className="inline-flex max-w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
+                    className="inline-flex w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <span className="">
-                      {
-                        option
-                          .replace(/_/g, " ") // Replace underscores with spaces
-                          // .replace(/\bto\b/g, "to") // Ensure "to" remains lowercase when it's a standalone word
-                          // .replace(
-                          //   /(^|\s)([a-z])/g,
-                          //   (match, p1, p2) => p1 + p2.toUpperCase(),
-                          // ) // Capitalize the first letter of each word
-                      }
+                     <span className="w-full">
+            {option
+              .replace(/_/g, " ") // Replace underscores with spaces
+              .replace(/,?$/, "") // Ensure no trailing commas
+            }
                     </span>
                     <button
                       className="ml-2"

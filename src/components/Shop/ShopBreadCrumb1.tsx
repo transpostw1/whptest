@@ -65,75 +65,129 @@ const ShopBreadCrumb1 = () => {
     }
   }, [fetchProducts, offset]);
 
-  const fetchData = async (combinedOptions: any) => {
-    if (
-      combinedOptions.category.length > 0 ||
-      combinedOptions.search.length > 0 ||
-      combinedOptions.priceFilter.length > 0 ||
-      combinedOptions.shop_for.length > 0 ||
-      combinedOptions.karat.length > 0 ||
-      combinedOptions.metal.length > 0 ||
-      combinedOptions.occasion.length > 0 ||
-      combinedOptions.productCategory.length > 0
-    ) {
-      try {
-        setIsLoading(true);
-        const client = new ApolloClient({
-          uri: graphqlProductUrl,
-          cache: new InMemoryCache(),
-        });
 
-        const MUTATION_PRODUCTS = gql`
-          mutation Mutation($inputProducts: InputProducts) {
-            products(inputProducts: $inputProducts) {
-              productId
-              SKU
-              variantId
-              title
-              displayTitle
-              url
-              addDate
-              isActive
-              discountCategory
-              discountActive
-              typeOfDiscount
-              discountValue
-              discountAmount
-              discountPrice
-              productPrice
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              review
-              variants
-              similarProductIds
-              productCategories
-              breadcrumbs {
-                id
-                title
-                category_url
-              }
-            }
-          }
-        `;
+        const fetchData = async (combinedOptions: any) => {
+          if (
+            combinedOptions.category.length > 0 ||
+            combinedOptions.search.length > 0 ||
+            combinedOptions.priceFilter.length > 0 ||
+            combinedOptions.shop_for.length > 0 ||
+            combinedOptions.karat.length > 0 ||
+            combinedOptions.metal.length > 0 ||
+            combinedOptions.occasion.length > 0 ||
+            combinedOptions.productCategory.length > 0
+          ) {
+            try {
+              setIsLoading(true);
+              const client = new ApolloClient({
+                uri: graphqlProductUrl,
+                cache: new InMemoryCache(),
+              });
 
-        const variables = {
-          inputProducts: {
-            productCategory: combinedOptions.productCategory[0],
-            sortBy: "priority",
-            sortOrder: "ASC",
-            limit: productsPerPage,
-            offset: offset,
-          },
-        };
-
+              const MUTATION_PRODUCTS = gql`
+              mutation Mutation($inputProducts: InputProducts) {
+                products(inputProducts: $inputProducts) {
+                  productId
+                  SKU
+                  variantId
+                  title
+                  displayTitle
+                  url
+                  addDate
+                  isActive
+                  discountCategory
+                  discountActive
+                  typeOfDiscount
+                  discountValue
+                  discountAmount
+                  discountPrice
+                  productPrice
+                  imageDetails {
+                    image_path
+                    order
+                    alt_text
+                  }
+                  videoDetails {
+                    video_path
+                    order
+                    alt_text
+                  }
+                  review
+                  variants
+                  similarProductIds
+                  productCategories
+                  breadcrumbs {
+                    id
+                    title
+                    category_url
+                  }
+                }
+              }
+            `;
+      
+              let inputVariables = {};
+              if (combinedOptions.category[0] === "new_Arrival") {
+                inputVariables = {
+                  category: [{ value: "" }],
+                  search: [{ value: "" }],
+                  priceFilter: combinedOptions.priceFilter,
+                  gender: combinedOptions.shop_for.map((shop_for: string) => ({
+                    value: shop_for,
+                  })),
+                  karat: combinedOptions.karat.map((karat: string) => ({
+                    value: karat,
+                  })),
+                  metal: combinedOptions.metal.map((metal: string) => ({
+                    value: metal,
+                  })),
+                  weightRange: combinedOptions.weight.map((weight: string) => ({
+                    value: weight,
+                  })),
+                  occasion: combinedOptions.occasion.map((occasion: string) => ({
+                    value: occasion,
+                  })),
+                  sortBy: "priority",
+                  sortOrder: "ASC",
+                  productCategory: combinedOptions.productCategory[0],
+                  limit: productsPerPage,
+                  offset: offset,
+                };
+              } else {
+                inputVariables = {
+                  category: combinedOptions.category.map((category: string) => ({
+                    value: category,
+                  })),
+                  search: combinedOptions.search.map((search: string) => ({
+                    value: search,
+                  })),
+                  priceFilter: combinedOptions.priceFilter,
+                  gender: combinedOptions.shop_for.map((shop_for: string) => ({
+                    value: shop_for,
+                  })),
+                  karat: combinedOptions.karat.map((karat: string) => ({
+                    value: karat,
+                  })),
+                  metal: combinedOptions.metal.map((metal: string) => ({
+                    value: metal,
+                  })),
+                  weightRange: combinedOptions.weight.map((weight: string) => ({
+                    value: weight,
+                  })),
+                  occasion: combinedOptions.occasion.map((occasion: string) => ({
+                    value: occasion,
+                  })),
+                  sortBy: "priority",
+                  sortOrder: "ASC", 
+                  productCategory: combinedOptions.productCategory[0],
+                  limit: productsPerPage,
+                  offset: offset,
+                };
+              }
+      
+              // Wrap the variables in inputProducts object
+              const variables = {
+                inputProducts: inputVariables
+              };
         const { data } = await client.mutate({
           mutation: MUTATION_PRODUCTS,
           variables,

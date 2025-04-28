@@ -374,7 +374,7 @@ const Checkout: React.FC = () => {
           : "",
     }));
   const MainCart = isLoggedIn ? cartItems : mappedCartItems;
-  console.log(mappedCartItems, "mappedCartItemsssss");
+  // console.log(mappedCartItems, "mappedCartItemsssss");
 
   const finalBuyNowItems = buyNow
     ? MainCart.filter((item: any) => item.productId == parseInt(buyNow))

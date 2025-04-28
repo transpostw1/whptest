@@ -105,7 +105,7 @@ const Category = () => {
                   {category.name}
                 </h1>
                 <Link
-                  href={`/products?url=${category.url}`}
+                  href={category.url}
                   className="inline-flex items-center"
                   onClick={() => {
                     setCustomcategory(category.url);

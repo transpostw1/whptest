@@ -9,7 +9,7 @@ import { useCart } from "@/context/CartContext";
 import { useUser } from "@/context/UserContext";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import CartItems from "./CartItems";
 import DeliveryDetails from "./DeliveryDetails";
 import Payment from "./Payment";
@@ -77,7 +77,6 @@ const Checkout: React.FC = () => {
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
-  const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
   const [GiftWrapformData, setGiftWrapformData] = useState({
     name: "",
     wrapOption: false,

@@ -1,16 +1,9 @@
-// Payment.tsx
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { CreditCard } from "@phosphor-icons/react";
 import axios from "axios";
 import { Address } from "@/type/AddressType";
-import BuyAgain from "@/components/Home1/BuyAgain";
-import { useCart } from "@/context/CartContext";
-import ReactLoading from "react-loading";
 import Loader from "@/components/Other/Loader";
-import Cookie from "js-cookie";
 import { baseUrl, graphqlbaseUrl } from "@/utils/constants";
-import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { useCurrency } from "@/context/CurrencyContext";
 import Link from "next/link";
@@ -57,20 +50,13 @@ const Payment: React.FC<PaymentProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const cookieToken =
     typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { removeFromCart } = useCart();
   const { formatPrice } = useCurrency();
   const [offerBanners, setOfferBanners] = useState<any>([]);
-  const [walletPayment, setWalletPayment] = useState<any>(null);
-  const { logOut, isLoggedIn, userDetails } = useUser();
+  const { userDetails } = useUser();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [orderResponse, setOrderResponse] = useState<any>();
-  const handleSubmit = (e: any) => {
-    e.preventDefault(); // Prevent default form submission
-    // You can add any validation or logic here if needed
-    e.target.submit(); // Manually submit the form
-  };
+ 
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -87,9 +73,7 @@ const Payment: React.FC<PaymentProps> = ({
     };
   }, []);
 
-  const handleWalletPayment = () => {
-    setWalletPayment("whp_Wallet");
-  };
+ 
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -477,86 +461,8 @@ const Payment: React.FC<PaymentProps> = ({
                 onChange={handlePaymentMethodChange}
               />
             </div>
-            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-          <label
-            htmlFor="otherPaymentGateway"
-            className="flex gap-2 cursor-pointer font-medium"
-          >
-            <CreditCard className="text-2xl text-red-600" />
-            Other Payment Gateway
-          </label>
-          <input
-            type="radio"
-            id="otherPaymentGateway"
-            name="paymentOption"
-            value="otherPaymentGateway"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-            checked={selectedPaymentMethod === "otherPaymentGateway"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div> */}
-            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-          <label
-            htmlFor="paypalPayment"
-            className="flex gap-2 cursor-pointer font-medium"
-          >
-            <Image
-              src="/images/other/paypal-icon.png"
-              alt="PayPal"
-              width={30}
-              height={30}
-              objectFit="fill"
-            />
-            PayPal
-          </label>
-          <input
-            type="radio"
-            id="paypalPayment"
-            name="paymentOption"
-            value="paypal"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-            checked={selectedPaymentMethod === "paypal"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div> */}
-            {/* <div className="flex items-center border border-gray-200 p-4 rounded-md justify-between">
-          <label
-            htmlFor="stripePayment"
-            className="flex gap-2 cursor-pointer font-medium"
-          >
-            <Image
-              src="/images/other/stripe-icon.png"
-              alt="Stripe"
-              width={30}
-              height={30}
-              objectFit="fill"
-            />
-            Stripe (Credit/Debit Cards)
-          </label>
-          <input
-            type="radio"
-            id="stripePayment"
-            name="paymentOption"
-            value="stripe"
-            className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-red-600 checked:border-transparent focus:outline-none focus:border-red-500 cursor-pointer"
-            checked={selectedPaymentMethod === "stripe"}
-            onChange={handlePaymentMethodChange}
-          />
-        </div> */}
+        
           </div>
-          {/* <h1 className="text-red-950 font-medium">AVAILABLE OFFERS</h1>
-      <div>
-        <div>
-          -10% off on HDFC Bank Credit Card. Use{" "}
-          <span className="font-bold">HDFC10</span>
-          <span className="text-red-600 underline">View more Offers</span>
-        </div>
-        <div>
-          -7% off on SBI Bank Credit Card. Use{" "}
-          <span className="font-bold">SBI7</span>{" "}
-          <span className="text-red-600 underline">View more Offers</span>
-        </div>
-      </div> */}
           {!isMobile && (
             <button
               onClick={handlePayment}
@@ -701,36 +607,7 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
         </div>
       )}
-      {/* <form
-        action="https://test.payu.in/_payment"
-        method="post"
-        onSubmit={handleSubmit}
-      >
-        <input type="hidden" name="key" value="BHvL8K" />
-        <input type="hidden" name="txnid" value="t6svtqtjRdl4ws" />
-        <input type="hidden" name="productinfo" value="iPhone" />
-        <input type="hidden" name="amount" value="10" />
-        <input type="hidden" name="email" value="test@gmail.com" />
-        <input type="hidden" name="firstname" value="Ashish" />
-        <input type="hidden" name="lastname" value="Kumar" />
-        <input
-          type="hidden"
-          name="surl"
-          value="https://apiplayground-response.herokuapp.com/"
-        />
-        <input
-          type="hidden"
-          name="furl"
-          value="https://apiplayground-response.herokuapp.com/"
-        />
-        <input type="hidden" name="phone" value="9988776655" />
-        <input
-          type="hidden"
-          name="hash"
-          value="eabec285da28fd0e3054d41a4d24fe9f7599c9d0b66646f7a9984303fd6124044b6206daf831e9a8bda28a6200d318293a13d6c193109b60bd4b4f8b09c90972"
-        />
-        <input type="submit" value="Submit" />
-      </form> */}
+     
     </div>
   );
 };

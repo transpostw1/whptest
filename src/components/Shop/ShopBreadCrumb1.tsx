@@ -124,16 +124,69 @@ const ShopBreadCrumb1 = () => {
           }
         `;
 
-        const variables = {
-          inputProducts: {
-            productCategory: combinedOptions.productCategory[0],
+        let inputVariables = {};
+        if (combinedOptions.category[0] === "new_Arrival") {
+          inputVariables = {
+            category: [{ value: "" }],
+            search: [{ value: "" }],
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
             sortBy: "priority",
             sortOrder: "ASC",
+            productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
-          },
-        };
+          };
+        } else {
+          inputVariables = {
+            category: combinedOptions.category.map((category: string) => ({
+              value: category,
+            })),
+            search: combinedOptions.search.map((search: string) => ({
+              value: search,
+            })),
+            priceFilter: combinedOptions.priceFilter,
+            gender: combinedOptions.shop_for.map((shop_for: string) => ({
+              value: shop_for,
+            })),
+            karat: combinedOptions.karat.map((karat: string) => ({
+              value: karat,
+            })),
+            metal: combinedOptions.metal.map((metal: string) => ({
+              value: metal,
+            })),
+            weightRange: combinedOptions.weight.map((weight: string) => ({
+              value: weight,
+            })),
+            occasion: combinedOptions.occasion.map((occasion: string) => ({
+              value: occasion,
+            })),
+            sortBy: "priority",
+            sortOrder: "ASC",
+            productCategory: combinedOptions.productCategory[0],
+            limit: productsPerPage,
+            offset: offset,
+          };
+        }
 
+        // Wrap the variables in inputProducts object
+        const variables = {
+          inputProducts: inputVariables,
+        };
         const { data } = await client.mutate({
           mutation: MUTATION_PRODUCTS,
           variables,

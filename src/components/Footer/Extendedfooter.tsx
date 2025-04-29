@@ -34,12 +34,13 @@ const Extendedfooter = () => {
         <h1 className="font-semibold">For Women</h1>
         <h1>
           <span
-            onClick={() =>
-              handleNavigation("rings for women", "Rings for women")
-            }
+            onClick={() => {
+              setCustomcategory(`Rings`);
+              router.push(`/products?url=pc-rings`);
+            }}
             className="cursor-pointer"
           >
-            Rings For Women
+            Rings For Women 
           </span>
           |{" "}
           <span

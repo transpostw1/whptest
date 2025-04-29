@@ -40,8 +40,7 @@ const Extendedfooter = () => {
             }}
             className="cursor-pointer"
           >
-            Rings For Women
-          
+            Rings For Women 
           </span>
           |{" "}
           <span

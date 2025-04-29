@@ -80,7 +80,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
       setSelectedBillingAddress(address);
       setBillingAddressSelected(true);
       onBillingAddressSelected(); // Call the prop function
-      console.log("billingAddressSelected set to true");
+      // console.log("billingAddressSelected set to true");
 
       if (!useSameAsBillingAddress) {
         setFlashMessage(`Billing address updated`);
@@ -91,8 +91,6 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({
     }
   };
   useEffect(() => {
-    console.log("INNER WIDTH", window.innerWidth);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", isBillingAddressModalOpen);
   }, [window.innerw]);
 
   const handleBillingAddressToggle = (

@@ -82,7 +82,7 @@ const BillingAddressList: React.FC<BillingAddressListProps> = ({
 
         setAddresses(data.getCustomerAddresses);
       } catch (error) {
-        console.log("Error in address fetching", error);
+        // console.log("Error in address fetching", error);
       } finally {
         setIsLoading(false);
       }

@@ -10,7 +10,7 @@ const Gifts = () => {
   let categories = [
     {
       id: 3,
-      url: "pc_gift_for_her",
+      url: "pc-gift_for_her",
       head: "her_birthday",
       type: "Her Birthday",
       image: (

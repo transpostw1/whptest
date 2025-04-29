@@ -25,7 +25,6 @@ export const useFetchWishlistItems = () => {
     }
   }, []);
 
-  console.log;
 
   useEffect(() => {
     const fetchWishlistItems = async () => {

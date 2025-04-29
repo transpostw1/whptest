@@ -20,16 +20,14 @@ const Page: React.FC<PageProps> = ({ params }) => {
   const handleApiData = (data: any) => {
     setApiData(data);
   };
-
   console.log(apiData, "APDATA");
-
   return (
     <div>
       {/* Main content */}
       <head>
         <title>{apiData?.productDetails?.title || "Details"}</title>
         <meta
-          name="description"
+          name="product details"
           content={
             apiData?.productDetails?.description || "Discover our amazing products at WHP Jewellers."
           }

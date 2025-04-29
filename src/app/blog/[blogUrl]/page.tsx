@@ -23,7 +23,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         if (matchingBlog) {
           setBlog(matchingBlog);
         } else {
-          console.log("Blog not found");
+          // console.log("Blog not found");
         }
       } catch (error) {
         console.error("Error fetching blog data:", error);

@@ -19,7 +19,7 @@ const Terms: React.FC  = () => {
        <head>
         <title>Terms and Conditions.
         </title>
-        <meta name="description" content={"Terms and Conditions"} />
+        <meta name="terms and conditions" content={"Terms and Conditions"} />
       </head>
       <div className="mx-5">
       <h1 className="my-8 text-center text-3xl font-bold text-[#e26178]">

@@ -80,7 +80,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
         }),
       );
 
-      console.log("Navigating to /digitalCheckout");
+      // console.log("Navigating to /digitalCheckout");
       router.push("/digitalCheckout");
     },
     [numberOfMonths, router],
@@ -179,7 +179,7 @@ const GoldCard: React.FC<GoldCardProps> = ({
   }
 
   const handleproceedpan = () => {
-    console.log("proceedpan")
+    // console.log("proceedpan")
     setShowModal(false)
     router.push("/panverification")
   };

@@ -9,7 +9,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlProductUrl } from "@/utils/constants";
+import { graphqlProductionUrl,graphqlProductUrl} from "@/utils/constants";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
@@ -55,7 +55,7 @@ const ProductSlider = () => {
         });
         // const response = await axios.get(`${baseUrl}/best-sellers`);
         setData(await data.bestSeller);
-        console.log("BEST SELLer", data.bestSeller);
+        // console.log("BEST SELLer", data.bestSeller);
       } catch (error) {
         console.log();
       } finally {

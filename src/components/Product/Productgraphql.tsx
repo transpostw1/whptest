@@ -259,7 +259,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
   const HandleaddToWishlist = () => {
     try {
-      console.log("Adding to wishlist, product data:", data);
+      // console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         const formattedVariants = data?.variants?.map((variant: any) => ({
           variantType: variant.VariantType,
@@ -314,6 +314,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       >
         <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
+            
             {data?.videoDetails !== null ? (
               <div>
                 {hover == true ? (
@@ -343,7 +344,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       src={selected.image_path}
                       width={400}
                       height={400}
-                      alt="This image is temporarry"
+                      alt="This image is temporary"
                       unoptimized
                     />
                     {skuList?.includes(data.SKU) && !isMobile && (
@@ -374,15 +375,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       </div>
                     )}
 
+
                     {/* <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
                     >
                       <Icon.Play size={width} weight="light" color="#e26178" />
                     </div> */}
-
-                    {/* <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
-                      
+                    {/* <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">                      
                       {isProductInWishlist ? (
                         <Icon.Heart
                           size={width}
@@ -399,6 +399,8 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         />
                       )}
                     </div> */}
+
+
                   </div>
                 )}
               </div>
@@ -411,7 +413,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   src={selected.image_path}
                   width={400}
                   height={400}
-                  alt="This image is temporarry"
+                  alt="This image is temporary"
                   unoptimized
                 />
                 {skuList?.includes(data.SKU) && !isMobile && (

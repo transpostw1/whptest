@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useState, useEffect } from "react";
 
 interface FormData {
   recipientName: string;
@@ -14,9 +14,10 @@ interface DeliveryProps {
   handleChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  handleDeliveryComplete: () => void; // New prop for callback
 }
 
-const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
+const Delivery: FC<DeliveryProps> = ({ formData, handleChange, handleDeliveryComplete }) => {
   const [errors, setErrors] = useState<FormData>({
     recipientName: "",
     recipientMobile: "",
@@ -58,6 +59,18 @@ const Delivery: FC<DeliveryProps> = ({ formData, handleChange }) => {
     const { name, value } = e.target;
     validate(name, value);
   };
+
+  useEffect(() => {
+    const isFormValid =
+      Object.values(errors).every((error) => error === "") &&
+      Object.values(formData).every(
+        (value) => typeof value === "string" && value.trim() !== ""
+      );
+  
+    if (isFormValid) {
+      handleDeliveryComplete();
+    }
+  }, [errors, formData, handleDeliveryComplete]);
 
   return (
     <form className="p-4 md:mx-12 ">

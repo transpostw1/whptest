@@ -62,6 +62,7 @@ const Payment: React.FC<PaymentProps> = ({
   const { removeFromCart } = useCart();
   const { formatPrice } = useCurrency();
   const [offerBanners, setOfferBanners] = useState<any>([]);
+  const [paymentStarted, setPaymentStarted] = useState(false);
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -69,7 +70,6 @@ const Payment: React.FC<PaymentProps> = ({
   const handleSubmit = (e: any) => {
     e.preventDefault(); // Prevent default form submission
     // You can add any validation or logic here if needed
-    console.log("formData from PayU", e.target.value);
     e.target.submit(); // Manually submit the form
   };
 
@@ -145,7 +145,7 @@ const Payment: React.FC<PaymentProps> = ({
         },
         fetchPolicy: "no-cache",
       });
-      console.log(data, "data");
+      // console.log(data, "data");
     };
 
     handleAbandonedCart();
@@ -175,7 +175,7 @@ const Payment: React.FC<PaymentProps> = ({
 
         setOfferBanners(data.getAllOffers);
       } catch (error) {
-        console.log("Error in fetching SubBanners", error);
+        // console.log("Error in fetching SubBanners", error);
       } finally {
         setLoading(false);
       }
@@ -188,7 +188,7 @@ const Payment: React.FC<PaymentProps> = ({
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.async = true;
       script.onload = () => {
-        console.log("Razorpay SDK loaded");
+        // console.log("Razorpay SDK loaded");
       };
       document.body.appendChild(script);
     };
@@ -206,20 +206,18 @@ const Payment: React.FC<PaymentProps> = ({
             ? (totalCart - userDetails?.wallet_amount) * 100
             : totalCart * 100,
       });
-      console.log(response);
+      // console.log(response);
       const { amount, id: order_id, currency } = response.data;
-
       const options = {
         key: "rzp_test_QZVTreX3fAEZto",
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",
-        description: "Transaction",
+        description: orderResponse.order.orderNo,
         order_id: order_id,
         handler: async function (response: any) {
           try {
             setLoading(true);
-            // Prepare the data to be sent to the API
             const {
               razorpay_payment_id,
               razorpay_order_id,
@@ -298,7 +296,7 @@ const Payment: React.FC<PaymentProps> = ({
                 },
               },
             );
-            console.log(apiResponse.data,"razorpaymentResponse");
+            console.log(apiResponse.data, "razorpaymentResponse");
             setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
             onOrderComplete();
@@ -494,12 +492,15 @@ const Payment: React.FC<PaymentProps> = ({
       setOrderResponse(apiResponse.data.data);
     } catch (error: any) {
       console.log("error", error);
-    } finally {
-      handleRazorpayPayment();
-      setLoading(false);
     }
   };
-  
+  useEffect(() => {
+    if (orderResponse && !paymentStarted) {
+      handleRazorpayPayment();
+      setPaymentStarted(true);
+    }
+  }, [orderResponse,paymentStarted]);
+
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
       handleOrders();

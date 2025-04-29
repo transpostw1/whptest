@@ -71,10 +71,10 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         (product.quantityleft === 0 || product.quantityleft === null) &&
         !isMakeToOrder
       ) {
-        console.log(
-          "Out of stock - Make to order status:",
-          product.makeToOrder,
-        );
+        // console.log(
+        //   "Out of stock - Make to order status:",
+        //   product.makeToOrder,
+        // );
         setShowOutOfStockModal(true);
       } else {
         setLoading(false);
@@ -129,7 +129,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         productId: product.productId,
         variants: variants,
       };
-      console.log(productToAdd, "CARTITEM PRODUCT TO ADD");
+      // console.log(productToAdd, "CARTITEM PRODUCT TO ADD");
       addToWishlist(productToAdd);
     } else {
       const productToAdd: ProductForWishlistLoggedOut = {

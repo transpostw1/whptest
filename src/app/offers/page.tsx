@@ -8,7 +8,7 @@ const page = () => {
         <head>
     <title>Offers @ WHP</title>
     <meta
-          name="description"
+          name="offers"
           content={
            "Sign Up to WHP."
           }

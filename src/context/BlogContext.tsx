@@ -142,7 +142,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
       });
       setBlogData(data.getAllBlogs);
     } catch (error) {
-      console.log("error fetching data of blog", error);
+      // console.log("error fetching data of blog", error);
     } finally {
       setLoading(false);
     }
@@ -228,7 +228,7 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({
       const categories = data.getAllJobs.map((job: Job) => job.category);
       setJobCategories(categories);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

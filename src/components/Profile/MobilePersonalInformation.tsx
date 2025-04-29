@@ -88,7 +88,7 @@ const MobilePersonalInformation = () => {
 
   useEffect(() => {
     if (window.location.href === "/profile" && isLoggedIn === false) {
-      console.log("this effecct is running");
+      // console.log("this effecct is running");
       router.replace("/");
     }
   }, [isLoggedIn, router]);

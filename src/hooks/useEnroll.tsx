@@ -80,7 +80,7 @@ const useEnroll = ({
       });
 
       if (data.StoreCustomerGMS.code === 200) {
-        console.log("Enrollment successful", data.StoreCustomerGMS.message);
+        // console.log("Enrollment successful", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("success");
         // Extract enrollmentId from the response
@@ -89,7 +89,7 @@ const useEnroll = ({
         // console.log(enrollmentId);
         return enrollmentId;
       } else {
-        console.log("Enrollment failed", data.StoreCustomerGMS.message);
+        // console.log("Enrollment failed", data.StoreCustomerGMS.message);
         setBackendMessage(data.StoreCustomerGMS.message);
         setFlashType("error");
         return null;

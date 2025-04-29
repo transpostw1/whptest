@@ -76,7 +76,7 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
 
     fetchWishlist();
   }, []);
-  console.log(variants, "variantssss");
+  // console.log(variants, "variantssss");
   const formattedVariants = variants.map((variant) => ({
     variantType: variant.type,
     variantName: variant.name,
@@ -198,15 +198,16 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
   return (
     <div className="my-6 flex max-sm:justify-around">
       <motion.div
+        id="buy-now-button"
         className="ripple-container h-[58px] w-[33%] cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-[32px] py-[18px] text-center text-white max-sm:h-[45px] max-sm:w-[35%] max-sm:px-[15px] max-sm:py-[10px]"
         onClick={(e) => {
           createRipple(e);
           handleBuyNow();
-        }}        
+        }}
       >
         Buy Now
       </motion.div>
-      <div
+      <button
         className="ripple-container mx-10 h-[58px] w-[33%] cursor-pointer text-center text-[#e26178] outline outline-1 outline-[#e26178] max-sm:h-full max-sm:w-[35%]"
         onClick={(e) => {
           createRipple(e);
@@ -217,11 +218,11 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
           <span className="flex justify-center py-[14px] max-sm:py-[10px]">
             <span>Add to Box</span>
             <span className="ml-1">
-              <PiTreasureChestLight size={25}/>
+              <PiTreasureChestLight size={25} />
             </span>
           </span>
         </div>
-      </div>
+      </button>
       <div
         className="flex h-[57px] w-[56px] cursor-pointer items-center justify-center outline outline-1 outline-[#e26178] max-sm:h-[45px]"
         onClick={() => {
@@ -233,9 +234,13 @@ const Buttons: React.FC<Props> = ({ product, variants }) => {
         }}
       >
         {isProductInWishlist ? (
-          <Icon.Heart size={32} color="#fa0000" weight="fill" />
+          <button id="wishlist-remove-button">
+            <Icon.Heart size={32} color="#fa0000" weight="fill" />
+          </button>
         ) : (
-          <Icon.Heart size={32} weight="thin" color="#e26178" />
+          <button id="wishlist-button">
+            <Icon.Heart size={32} weight="thin" color="#e26178" />
+          </button>
         )}
       </div>
 

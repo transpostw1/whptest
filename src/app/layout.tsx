@@ -9,6 +9,7 @@ import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -139,6 +140,7 @@ export default function RootLayout({
               style={{ display: "none", visibility: "hidden" }}
             ></iframe>
           </noscript>
+          <Analytics />
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

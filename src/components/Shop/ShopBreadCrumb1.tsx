@@ -719,8 +719,6 @@ const ShopBreadCrumb1 = () => {
               </div>
               <div className="mt-5 flex justify-between">
                 <div className="sm:w-[100%] lg:w-[70%]">
-                  {/* Earrings are a form of self-expression. They effortlessly
-                transform an outfit, framing the face with style and grace. */}
                   {/* <BreadCrumb filteredProducts={filteredProducts} /> */}
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(
@@ -731,7 +729,13 @@ const ShopBreadCrumb1 = () => {
                               key={`${category}-${index}`}
                               className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {option}
+                              <span>
+                                {
+                                  option
+                                    .replace(/_/g, " ") // Replace underscores with spaces
+                                    .replace(/,?$/, "") // Ensure no trailing commas
+                                }
+                              </span>
                               <button
                                 className="mb-1 ml-2 align-middle"
                                 onClick={() =>

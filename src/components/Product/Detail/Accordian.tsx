@@ -182,23 +182,23 @@ const Accordian: React.FC<Props> = ({ product }) => {
               <span className="text-sm font-medium">Safe & Secure Payment</span>
             </div>
             {product?.productDetails?.productAttributes?.goldDetails?.some(
-                  (gold: any) => gold.goldCertifiedBy === "BIS Hallmarked",
-                ) && (
-            <div className="flex flex-col items-center gap-2 text-center">
-              <span className="flex items-center justify-center">
-                <Image
-                  src="/images/other/hallmark.png"
-                  alt={"Hall Mark Symbol"}
-                  width={40}
-                  height={40}
-                  unoptimized
-                />
-              </span>
-              <span className="text-sm font-medium md:mt-1">
-                BIS Hallmarked
-              </span>
-            </div>
-                )}
+              (gold: any) => gold.goldCertifiedBy === "BIS Hallmarked",
+            ) && (
+              <div className="flex flex-col items-center gap-2 text-center">
+                <span className="flex items-center justify-center">
+                  <Image
+                    src="/images/other/hallmark.png"
+                    alt={"Hall Mark Symbol"}
+                    width={40}
+                    height={40}
+                    unoptimized
+                  />
+                </span>
+                <span className="text-sm font-medium md:mt-1">
+                  BIS Hallmarked
+                </span>
+              </div>
+            )}
             {product?.productDetails?.productAttributes?.diamondDetails?.some(
               (diamond: any) => diamond.diamondCertifiedBy !== null,
             ) && (
@@ -587,7 +587,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   <p>Stone Cost</p>
                 )}
                 <p>Making Charges</p>
-                {product.productDetails?.discountActive&& (
+                {product.productDetails?.discountActive && (
                   <>
                     <p>Discount- {product.productDetails?.discountValue}%</p>
                     <p className="font-thin">{`(${product.productDetails?.discountCategory})`}</p>
@@ -596,8 +596,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p>G.S.T</p>
               </div>
               <div>
-              
-                  <p>{product.productDetails?.metalWeight} gms</p>
+                <p>{product.productDetails?.metalWeight} gms</p>
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
                     {product.productDetails.diamondDetails.map(
@@ -613,7 +612,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                   </div>
                 )}
 
-                {product.productDetails?.stoneDetails && <p>-</p>}
+                {product.productDetails?.stoneDetails &&
+                  product.productDetails?.stoneDetails.length > 0 && <p>-</p>}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountActive && <p>-</p>}
                 {product.productDetails?.gst && <p>-</p>}
@@ -637,15 +637,16 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-                {product.productDetails?.stoneDetails != null && (
-                  <p className="text-right">
-                    {formatPrice(
-                      parseInt(
-                        product?.productDetails?.stoneDetails[0]?.stoneCost,
-                      ),
-                    )}
-                  </p>
-                )}
+                {product.productDetails?.stoneDetails != null &&
+                  product.productDetails?.stoneDetails.length > 0 && (
+                    <p className="text-right">
+                      {formatPrice(
+                        parseInt(
+                          product?.productDetails?.stoneDetails[0]?.stoneCost,
+                        ),
+                      )}
+                    </p>
+                  )}
                 <p className="text-right">
                   {formatPrice(parseInt(makingCharges))}
                 </p>

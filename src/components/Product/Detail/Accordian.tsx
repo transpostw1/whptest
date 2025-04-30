@@ -583,7 +583,8 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-                {product.productDetails?.stoneDetails != null && (
+               {product.productDetails?.stoneDetails != null &&
+                  product.productDetails?.stoneDetails.length > 0 && (
                   <p>Stone Cost</p>
                 )}
                 <p>Making Charges</p>

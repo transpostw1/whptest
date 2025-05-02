@@ -152,7 +152,7 @@ const MainCarousel = () => {
                               autoPlay
                               muted
                               loop={false}
-                              style={{ width: "100%", height: "auto" }}
+                              style={{ width: "100%", height: "90vh"}}
                             />
                           ) : (
                             <Image
@@ -160,6 +160,7 @@ const MainCarousel = () => {
                               alt="Hero Image"
                               width={1920}
                               height={100}
+                              className=""
                               unoptimized
                             />
                           )}
@@ -201,6 +202,7 @@ const MainCarousel = () => {
                               autoPlay
                               muted
                               loop
+                              style={{ width: "100%", height: "80vh" }} // 
                             />
                           ) : (
                             <Image

@@ -52,7 +52,7 @@ export default function Home() {
       {/* <Head>
         <title>Home - WHP Web</title>
         <meta
-          name="description"
+          name="descriptin"
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}

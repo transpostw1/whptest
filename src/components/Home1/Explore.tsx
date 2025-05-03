@@ -142,7 +142,7 @@ const Explore = () => {
                   className="hidden object-contain transition-transform duration-700 group-hover:scale-110 md:block"
                   priority
                 />
-                <div className="absolute inset-0 bg-black/30 transition-all duration-300 group-hover:bg-black/40" />
+                {/* <div className="absolute inset-0 bg-black/30 transition-all duration-300 group-hover:bg-black/40" /> */}
                 {/* <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:py-3">
     <h3 className="text-center text-lg font-semibold md:text-xl">
       {item.parentTitle}

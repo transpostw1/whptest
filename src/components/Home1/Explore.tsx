@@ -82,7 +82,6 @@
 
 // export default Explore;
 
-
 "use client";
 
 import React from "react";
@@ -95,46 +94,60 @@ const dummyData = [
     parentTitle: "Anayra",
     title: "Latest Collection",
     url: "/new-arrivals",
-    image: "/images/category/Bracelet.jpg" // Place your images in the public folder
+    image: "/images/Newbanner/360x35.jpg",
+    imageDesktop: "/images/Newbanner/405x506.jpg",
   },
   {
     id: 2,
     parentTitle: "Swarnak",
     title: "Most Popular",
     url: "/trending",
-    image: "/images/category/RingsCategory.jpg"
+    image: "/images/Newbanner/360x35anayra.jpg", 
+    imageDesktop: "/images/Newbanner/405x506anayra.jpg",
   },
   {
     id: 3,
     parentTitle: "Speciall",
     title: "Limited Edition",
     url: "/special-offers",
-    image: "/images/category/Chains.jpg"
-  }
+    image: "/images/Newbanner/Swarnak_.jpg", 
+    imageDesktop: "/images/Newbanner/Swarnak.jpg",
+  },
 ];
 
 const Explore = () => {
   return (
-    <section className="py-12 px-2  mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 place-items-center justify-center">
+    <section className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-3">
         {dummyData.map((item) => (
-          <div 
-            key={item.id} 
-            className="group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 w-full max-w-sm"
+          <div
+            key={item.id}
+            className="group relative w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
           >
             <Link href={item.url}>
-              <div className="aspect-[4/5] relative">
+              <div className="relative aspect-[16/6] md:aspect-[4/5]">
+                {/* Mobile image */}
                 <Image
                   src={item.image}
                   fill
                   alt={item.title}
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="block object-cover transition-transform duration-700 group-hover:scale-110 md:hidden"
                   priority
                 />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-all duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 py-3 text-white">
-                  <h3 className="text-xl font-semibold mb-2 text-center">{item.parentTitle}</h3>
-                </div>
+                {/* Desktop image */}
+                <Image
+                  src={item.imageDesktop}
+                  fill
+                  alt={item.title}
+                  className="hidden object-contain transition-transform duration-700 group-hover:scale-110 md:block"
+                  priority
+                />
+                <div className="absolute inset-0 bg-black/30 transition-all duration-300 group-hover:bg-black/40" />
+                {/* <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:py-3">
+    <h3 className="text-center text-lg font-semibold md:text-xl">
+      {item.parentTitle}
+    </h3>
+  </div> */}
               </div>
             </Link>
           </div>
@@ -144,5 +157,3 @@ const Explore = () => {
   );
 };
 export default Explore;
-
-

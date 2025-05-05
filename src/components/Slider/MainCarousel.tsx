@@ -147,32 +147,17 @@ const MainCarousel = () => {
                       >
                         <div className="slider-item w-full">
                           {banner.desktopFileType === "video" ? (
-                            // <video
-                            //   src={banner.desktopFile}
-                            //   autoPlay
-                            //   muted
-                            //   loop={false}
-                            //   style={{ width: "100%", height: "90vh"}}
-                            // />
-                            <Image
-                            src="images/Newbanner/1920x628.jpg"
-                            alt="Hero Image"
-                            width={1920}
-                            height={100}
-                            className=""
-                            unoptimized
-                          />
+                            <video
+                              src={banner.desktopFile}
+                              autoPlay
+                              muted
+                              loop={false}
+                              style={{ width: "100%", height: "90vh"}}
+                            />
+                    
                           ) : (
-                            // <Image
-                            //   src={banner.desktopFile}
-                            //   alt="Hero Image"
-                            //   width={1920}
-                            //   height={100}
-                            //   className=""
-                            //   unoptimized
-                            // />
-                             <Image
-                              src="images/Newbanner/1920x628.jpg"
+                            <Image
+                              src={banner.desktopFile}
                               alt="Hero Image"
                               width={1920}
                               height={100}
@@ -213,20 +198,14 @@ const MainCarousel = () => {
                       >
                         <div className="slider-item w-full">
                           {banner.mobileFileType === "video" ? (
-                            // <video
-                            //   src={banner.mobileFile}
-                            //   autoPlay
-                            //   muted
-                            //   loop
-                            //   style={{ width: "100%", height: "80vh" }} // 
-                            // />
-                            <Image
-                          src="images/Newbanner/650x400.jpg"
-                            alt="Hero Image"
-                            width={1920}
-                            height={100}
-                            unoptimized
-                          />
+                            <video
+                              src={banner.mobileFile}
+                              autoPlay
+                              muted
+                              loop
+                              style={{ width: "100%", height: "80vh" }} // 
+                            />
+                   
                           ) : (
                             <Image
                               src={banner.mobileFile}

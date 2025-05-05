@@ -140,7 +140,7 @@ export default function RootLayout({
               style={{ display: "none", visibility: "hidden" }}
             ></iframe>
           </noscript>
-          <Analytics />
+          {/* <Analytics /> */}
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

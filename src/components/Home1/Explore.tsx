@@ -5,13 +5,32 @@ import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { baseUrl, getSubBanners, graphqlbaseUrl } from "@/utils/constants";
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
-import axios from "axios";
+import { graphqlbaseUrl } from "@/utils/constants";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+
+
 const Explore = () => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const getGridCols = (length: number) => {
+    switch (length) {
+      case 2:
+        return "md:grid-cols-2";
+      case 3:
+        return "md:grid-cols-3";
+      case 4:
+        return "md:grid-cols-4";
+      default:
+        return "md:grid-cols-2";
+    }
+  };
+  const getAspectRatio = (length: number) => {
+    if (length === 2) {
+      return "aspect-[16/6] md:aspect-[16/10]"; 
+    }
+    return "aspect-[16/6] md:aspect-[4/5]"; 
+  };
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -27,7 +46,8 @@ const Explore = () => {
               parentTitle
               title
               url
-              image
+              desktopImage
+              mobileImage
             }
           }
         `;
@@ -53,31 +73,39 @@ const Explore = () => {
     );
   }
   return (
-    <>
-      <div className="banner-block style-one grid sm:grid-cols-2 gap-1">
-        {data &&
-          data?.map((item: any) => (
-            <div key={item.id}>
-              <Link
-                href={item.url}
-                className="banner-item relative block overflow-hidden duration-500"
-              >
-                <div className="banner-img">
-                  <Image
-                    src={item.image}
-                    width={2000}
-                    height={1300}
-                    alt="banner1"
-                    className="duration-1000 mr-1"
-                    unoptimized
-                  />
-                </div>
-              </Link>
+    <section className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+    <div
+      className={`grid grid-cols-1 gap-4 ${getGridCols(data.length)} md:gap-3`}
+    >
+      {data && data.map((item: any) => (
+        <div
+          key={item.id}
+          className="group relative w-full overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
+        >
+          <Link href={item.url}>
+            <div className={`relative ${getAspectRatio(data.length)}`}>
+              {/* Mobile image */}
+              <Image
+                src={item.mobileImage}
+                fill
+                alt={item.title}
+                className="block object-cover transition-transform duration-700 group-hover:scale-110 md:hidden"
+                priority
+              />
+              {/* Desktop image */}
+              <Image
+                src={item.desktopImage}
+                fill
+                alt={item.title}
+                className="hidden object-contain transition-transform duration-700 group-hover:scale-110 md:block"
+                priority
+              />
             </div>
-          ))}
-      </div>
-    </>
+          </Link>
+        </div>
+      ))}
+    </div>
+  </section>
   );
 };
-
 export default Explore;

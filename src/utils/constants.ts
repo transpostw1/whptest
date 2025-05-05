@@ -1,4 +1,5 @@
 export const baseUrl = "https://whpapi.transpost.co/api";
+// export const baseUrl = "http://127.0.0.1:8000/api";
 export const baseUrl2 = "http://164.92.120.19/api";
 // export const baseUrl="http://127.0.0.1:8001/api"
 export const graphqlbaseUrl =

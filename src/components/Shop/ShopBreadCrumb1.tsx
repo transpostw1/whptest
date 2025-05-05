@@ -731,7 +731,11 @@ const ShopBreadCrumb1 = () => {
                               key={`${category}-${index}`}
                               className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {option}
+                              {
+                                option
+                                  .replace(/_/g, " ") 
+                                  .replace(/,?$/, "") 
+                              }
                               <button
                                 className="mb-1 ml-2 align-middle"
                                 onClick={() =>

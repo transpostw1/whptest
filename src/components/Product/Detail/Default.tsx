@@ -573,7 +573,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   className="mr-2 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#e26178] px-2 py-2"
                   onClick={handleShareClick}
                 >
-                  <Icon.ShareNetwork
+                  <Icon.ShareFat
                     size={25}
                     weight="fill"
                     className="text-white"
@@ -640,7 +640,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                 </>
               ) : (
                 <span className="text-lg font-extrabold md:text-2xl">
-                  {(parseInt(data?.productDetails?.productPrice))}
+                  {formatPrice(parseInt(data?.productDetails?.productPrice))}
                 </span>
               )}
             </div>

@@ -152,7 +152,7 @@ const MainCarousel = () => {
                               autoPlay
                               muted
                               loop={false}
-                              style={{ width: "100%", height: "90vh"}}
+                              style={{ width: "100%", height: "100%"}}
                             />
                     
                           ) : (

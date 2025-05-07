@@ -620,26 +620,26 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <div className="my-2">
               {data?.productDetails?.discountActive ? (
                 <>
-                  <span className="text-lg font-extrabold md:text-2xl">
+                  <span className="select-text text-lg font-extrabold md:text-2xl">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
                   {data?.productDetails?.productPrice >
                     data?.productDetails?.discountPrice && (
-                    <span className="ml-3 text-[#aa9e9e] line-through">
+                    <span className="ml-3 select-text text-[#aa9e9e] line-through">
                       {formatPrice(
                         parseInt(data?.productDetails?.productPrice),
                       )}
                     </span>
                   )}
                   {parseInt(data?.productDetails?.discountValue) > 0 && (
-                    <span className="ml-3 text-[#e26178] underline">
+                    <span className="ml-3 select-text text-[#e26178] underline">
                       {data?.productDetails?.discountValue}% OFF on{" "}
                       {data?.productDetails?.discountCategory}
                     </span>
                   )}
                 </>
               ) : (
-                <span className="text-lg font-extrabold md:text-2xl">
+                <span className="select-text text-lg font-extrabold md:text-2xl">
                   {formatPrice(parseInt(data?.productDetails?.productPrice))}
                 </span>
               )}
@@ -787,7 +787,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             {loading ? (
               <Skeleton height={70} />
             ) : (
-              <Buttons  product={data} variants={selectedVariants} />
+              <Buttons product={data} variants={selectedVariants} />
             )}
           </div>
           {/* {data?.productDetails?.tryAtHome === 1 && ( */}

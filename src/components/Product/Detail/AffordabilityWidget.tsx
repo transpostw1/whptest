@@ -43,8 +43,7 @@ const AffordabilityWidget: React.FC<Props> = ({ accesskey, amount }) => {
 
   useEffect(() => {
     appendScript();
-  }, [accesskey, amount]); // Dependency array ensures it reruns if key or amount changes
-
+  }, [accesskey, amount]); 
   return <div id="payuWidget" />;
 };
 

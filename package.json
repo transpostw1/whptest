@@ -22,6 +22,7 @@
     "@types/react-image-magnify": "^2.7.4",
     "@types/react-otp-input": "^2.0.5",
     "@types/tailwindcss": "^3.1.0",
+    "@vercel/analytics": "^1.5.0",
     "apollo-upload-client": "^18.0.1",
     "axios": "^1.6.7",
     "braces": "^3.0.3",

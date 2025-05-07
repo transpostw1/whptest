@@ -22,10 +22,8 @@ import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 import { NextSeo } from "next-seo";
-import SEO from "../../next-seo.config"
+import SEO from "../../next-seo.config";
 import "@/styles/styles.scss";
-
-
 
 export default function Home() {
   let logged = null;
@@ -38,34 +36,34 @@ export default function Home() {
   //     const script = document.createElement("script");
   //     script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
   //     script.type = "text/javascript";
-  //     script.dataset.bot = "11799060"; 
-  //     script.id = "kenyt-chatbot-script"; 
+  //     script.dataset.bot = "11799060";
+  //     script.id = "kenyt-chatbot-script";
   //     document.body.appendChild(script);
 
   //     script.onload = () => {
   //       console.log("Kenyt.ai Chatbot script loaded!");
   //     };
   //   }
-  // }, []); 
+  // }, []);
   return (
     <>
       {/* <Head>
         <title>Home - WHP Web</title>
         <meta
-          name="description"
+          name="descriptin"
           content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
         />
       </Head> */}
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
+        <Category />
         <Explore />
         <ProductSlider />
         <BuyAgain />
         <RecetlyViewProduct />
         {/* <Whptv2 /> */}
         <RoseGold />
-        <Category />
         <GetFastDeliveryProducts />
         <WhatWeOffer />
         <ShopByGender />

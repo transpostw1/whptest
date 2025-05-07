@@ -132,10 +132,8 @@ const Payment: React.FC<PaymentProps> = ({
       });
       // console.log(data, "data");
     };
-
     handleAbandonedCart();
   }, [component == "Payment"]);
-
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -194,11 +192,11 @@ const Payment: React.FC<PaymentProps> = ({
       // console.log(response);
       const { amount, id: order_id, currency } = response.data;
       const options = {
-        key: "rzp_test_QZVTreX3fAEZto",
+        key: process.env.NEXT_Razorpay_KEY, 
         amount: amount.toString(),
         currency: currency,
         name: "WHP Jewellers",
-        description: orderResponse.order.orderNo,
+        description: "Transaction",
         order_id: order_id,
         handler: async function (response: any) {
           try {
@@ -212,13 +210,16 @@ const Payment: React.FC<PaymentProps> = ({
               isWallet: wallet ? 1 : 0,
               isWrap: giftWrap.wrapOption ? 1 : 0,
               message: giftWrap.wrapOption ? giftWrap.name : "",
-              walletAmount: wallet
-                ? Number(totalCart) > Number(userDetails?.wallet_amount)
-                  ? 0
-                  : Math.abs(
-                      Number(userDetails?.wallet_amount) - Number(totalCart),
-                    )
-                : 0,
+              walletAmount:
+                wallet === 1
+                  ? Number(totalCart) > Number(userDetails?.wallet_amount)
+                    ? Math.abs(
+                        Number(totalCart) - Number(userDetails?.wallet_amount),
+                      )
+                    : Math.abs(
+                        Number(userDetails?.wallet_amount) - Number(totalCart),
+                      )
+                  : 0,
               name: userDetails?.fullname,
               email: userDetails?.email,
               contact: userDetails?.mobile_no,
@@ -271,7 +272,7 @@ const Payment: React.FC<PaymentProps> = ({
                 shippingCharges: "10",
               },
             };
-            console.log(orderData, "orderDataAAAAAAAAAAaA");
+            // console.log(orderData, "orderDataAAAA");
             const apiResponse = await axios.post(
               `${baseUrl}/orders`,
               orderData,
@@ -281,7 +282,8 @@ const Payment: React.FC<PaymentProps> = ({
                 },
               },
             );
-            console.log(apiResponse.data, "razorpaymentResponse");
+            // console.log(apiResponse.data);
+            // Handle the response as needed
             setOrderResponse(apiResponse.data.data);
             // Call the onOrderComplete function after the API call is successful
             onOrderComplete();
@@ -320,7 +322,7 @@ const Payment: React.FC<PaymentProps> = ({
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
-
+  console.log("wallet", wallet);
   const handleCodPayment = async () => {
     setLoading(true);
     try {

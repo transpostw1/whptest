@@ -617,7 +617,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="my-2">
+            <div className="my-2 select-text">
               {data?.productDetails?.discountActive ? (
                 <>
                   <span className="select-text text-lg font-extrabold md:text-2xl">

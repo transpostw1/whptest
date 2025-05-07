@@ -59,7 +59,8 @@ export default function Home() {
       <div className="overflow-x-hidden">
         <MobileMainCategorySwiper />
         <MainCarousel />
-        <Explore />
+        <Gifts />
+     
         <ProductSlider />
         <BuyAgain />
         <RecetlyViewProduct />
@@ -71,7 +72,7 @@ export default function Home() {
         <ShopByGender />
         {/* <PreciousGems /> */}
         <Appointment />
-        <Gifts />
+        <Explore />
         <GoldScheme />
         <SpecialOccasion />
         <Reviews />

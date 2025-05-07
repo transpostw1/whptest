@@ -60,7 +60,7 @@ export default function Home() {
         <MobileMainCategorySwiper />
         <MainCarousel />
         <Gifts />
-     
+        <Explore />
         <ProductSlider />
         <BuyAgain />
         <RecetlyViewProduct />
@@ -72,7 +72,7 @@ export default function Home() {
         <ShopByGender />
         {/* <PreciousGems /> */}
         <Appointment />
-        <Explore />
+      
         <GoldScheme />
         <SpecialOccasion />
         <Reviews />

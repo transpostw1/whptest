@@ -17,7 +17,7 @@ const PieChart: React.FC<PieChartProps> = ({
   const remainingAmount = redemptionAmount - totalAmount;
 
   const data = {
-    labels: ["You Pay", "1st Installment"],
+    labels: ["You Pay", "Discount at maturity"],
     datasets: [
       {
         data: [totalAmount, remainingAmount],

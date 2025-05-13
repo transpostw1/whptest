@@ -58,20 +58,20 @@ export default function Home() {
         <MobileMainCategorySwiper />
         <MainCarousel />
         <Gifts />
-        <Explore />
+        <GetFastDeliveryProducts />
+        <Category/>
         <ProductSlider />
+        <SpecialOccasion />
+        <ShopByGender />
+        <RoseGold />
+        <Explore />
         <BuyAgain />
         <RecetlyViewProduct />
         {/* <Whptv2 /> */}
-        <RoseGold />
-        <GetFastDeliveryProducts />
-        <WhatWeOffer />
-        <ShopByGender />
+        {/* <WhatWeOffer /> */}
         {/* <PreciousGems /> */}
         <Appointment />
-      
         <GoldScheme />
-        <SpecialOccasion />
         <Reviews />
         {/* <WhpApp /> */}
       </div>

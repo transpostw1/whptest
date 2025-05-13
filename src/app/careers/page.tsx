@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Loader from "@/components/Other/Loader";
+import { title } from "process";
 
 
 interface careersData {
@@ -90,6 +91,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({
 const Careers: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [jobtitle,setJobTitle]=useState<string>("")
   const { careersData, jobCategories, setSelectedUrl, loading } = useBlog();
   // const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
@@ -98,10 +100,12 @@ const Careers: React.FC = () => {
   const handleJobDetail = (
     url: string,
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    title:string,
   ) => {
     const target = event.target as HTMLElement;
     if (target.closest("button")) {
       setShowModal(true);
+      setJobTitle(title)
     } else {
       setSelectedUrl(url);
       router.push("careers/CareerDetail");
@@ -162,7 +166,7 @@ const Careers: React.FC = () => {
               <div
                 className="mx-2 mb-3 cursor-pointer  border border-[#bb547d] px-5 py-2 text-gray-600 shadow-md md:p-7"
                 key={index}
-                onClick={(event) => handleJobDetail(data.url, event)}
+                onClick={(event) => handleJobDetail(data.url, event,data.title)}
               >
                 <div className="flex items-center justify-between">
                   <div>
@@ -203,7 +207,7 @@ const Careers: React.FC = () => {
           {showModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden bg-opacity-50 bg-black backdrop-blur-sm">
               <div className="w-full max-w-md overflow-x-hidden bg-white p-3">
-                <ApplyForm closeModal={closeModal} />
+                <ApplyForm closeModal={closeModal} jobTitle={jobtitle}/>
               </div>
             </div>
           )}

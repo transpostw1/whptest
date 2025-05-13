@@ -719,8 +719,6 @@ const ShopBreadCrumb1 = () => {
               </div>
               <div className="mt-5 flex justify-between">
                 <div className="sm:w-[100%] lg:w-[70%]">
-                  {/* Earrings are a form of self-expression. They effortlessly
-                transform an outfit, framing the face with style and grace. */}
                   {/* <BreadCrumb filteredProducts={filteredProducts} /> */}
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(

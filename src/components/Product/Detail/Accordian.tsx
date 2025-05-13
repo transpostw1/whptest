@@ -583,10 +583,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
                     )}
                   </div>
                 )}
-               {product.productDetails?.stoneDetails != null &&
+                {product.productDetails?.stoneDetails != null &&
                   product.productDetails?.stoneDetails.length > 0 && (
-                  <p>Stone Cost</p>
-                )}
+                    <p>Stone Cost</p>
+                  )}
                 <p>Making Charges</p>
                 {product.productDetails?.discountActive && (
                   <>
@@ -597,7 +597,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p>G.S.T</p>
               </div>
               <div>
-                <p>{product.productDetails?.metalWeight} gms</p>
+                {parseInt(product.productDetails?.metalWeight) > 0 && (
+                  <p>{product.productDetails?.metalWeight} gms</p>
+                )}
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
                     {product.productDetails.diamondDetails.map(
@@ -614,7 +616,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 )}
 
                 {product.productDetails?.stoneDetails &&
-                  product.productDetails?.stoneDetails.length > 0 && <p>-</p>}
+                  product.productDetails?.stoneDetails.length > 0 && (
+                    <p>{product.productDetails?.stoneDetails.stoneWeight}carats</p>
+                  )}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountActive && <p>-</p>}
                 {product.productDetails?.gst && <p>-</p>}

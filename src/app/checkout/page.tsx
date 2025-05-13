@@ -140,7 +140,6 @@ const Checkout: React.FC = () => {
   };
   const handleCouponCode = (value: string) => {
     setFlashMessage("");
-    setFlashType("");
     setCouponCode(value);
     setVoucherCode(value);
   };

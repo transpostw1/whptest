@@ -11,7 +11,7 @@ import Cookie from "js-cookie";
 import { useCurrency } from "@/context/CurrencyContext";
 import MobileSingleOrderDetails from "./MobileSingleOrderDetails";
 import Link from "next/link";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { baseUrl } from "@/utils/constants";
 import { IoLogoWhatsapp } from "react-icons/io";
 
@@ -49,9 +49,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
       const response = await axios.post(
         `${baseUrl}/${id}/cancel`,
         {},
-        {
-          headers: { Authorization: `Bearer ${cookieToken}` },
-        },
+        { headers: { Authorization: `Bearer ${cookieToken}` } },
       );
       setMessage(response.data.message);
     } catch (error) {
@@ -107,8 +105,9 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
-      {singleOrder==null&&orders.length==0&&(<div className="">
-         <div className="w-full text-center">
+      {singleOrder == null && orders.length == 0 && (
+        <div className="">
+          {/* <div className="w-full text-center">
            <h2 className="text-xl font-semibold">We Are Currently Down</h2>
            <p className="mt-2 text-gray-600">
              Our website is undergoing maintenance. We’ll be back shortly.
@@ -167,8 +166,14 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
              </motion.div>
            </div>
            
-         </div>
-       </div>)}
+         </div> */}
+          <div>
+            <p className="text-[#e26178]">
+              You currently do not have any orders
+            </p>
+          </div>
+        </div>
+      )}
       {singleOrder == null && (
         <div className="mt-10">
           {Array.isArray(orders) &&
@@ -209,33 +214,30 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
                     </div>
 
                     {/* Product Details */}
-                    <div className="flex flex-grow flex-col space-y-1 break-words overflow-hidden">
+                    <div className="flex flex-grow flex-col space-y-1 overflow-hidden break-words">
                       <h3 className="line-clamp-2 break-words text-sm font-semibold">
                         {product?.displayTitle}
                       </h3>
 
-                      <p className="text-xs text-gray-600 break-words">
+                      <p className="break-words text-xs text-gray-600">
                         {product?.SKU}-{product?.metalType}-
                         {product?.metalWeight}
                       </p>
                       {product?.variants && product?.variants.length > 0 && (
-                          <div>
-                            {product.variants.map(
-                              (variant: any, index: number) =>
-                                variant.VariantType &&
-                                variant.VariantOption &&
-                                variant.VariantOption.length > 0 && (
-                                  <h3
-                                    key={index}
-                                    className="text-sm font-normal"
-                                  >
-                                    {variant.VariantType}:{" "}
-                                    {variant.VariantOption[0].VariantName}
-                                  </h3>
-                                ),
-                            )}
-                          </div>
-                        )}
+                        <div>
+                          {product.variants.map(
+                            (variant: any, index: number) =>
+                              variant.VariantType &&
+                              variant.VariantOption &&
+                              variant.VariantOption.length > 0 && (
+                                <h3 key={index} className="text-sm font-normal">
+                                  {variant.VariantType}:{" "}
+                                  {variant.VariantOption[0].VariantName}
+                                </h3>
+                              ),
+                          )}
+                        </div>
+                      )}
 
                       <div className="mt-2 flex items-center justify-between">
                         <p className="text-sm">Qty: {product.quantity}</p>

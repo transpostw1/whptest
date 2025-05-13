@@ -53,7 +53,9 @@ const Payment: React.FC<PaymentProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { formatPrice } = useCurrency();
   const [offerBanners, setOfferBanners] = useState<any>([]);
-  const { userDetails } = useUser();
+  const [paymentStarted,setPaymentStarted]=useState<boolean>(false);
+  const [walletPayment, setWalletPayment] = useState<any>(null);
+  const { logOut, isLoggedIn, userDetails } = useUser();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [orderResponse, setOrderResponse] = useState<any>();
  
@@ -404,10 +406,93 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
+  const handleOrders = async () => {
+    const orderData = {
+      isWallet: wallet ? 1 : 0,
+      isWrap: giftWrap.wrapOption ? 1 : 0,
+      message: giftWrap.wrapOption ? giftWrap.name : "",
+      walletAmount: wallet
+        ? Number(totalCart) > Number(userDetails?.wallet_amount)
+          ? 0
+          : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
+        : 0,
+      name: userDetails?.fullname,
+      email: userDetails?.email,
+      contact: userDetails?.mobile_no,
+      customerId: userDetails?.customer_id,
+      paymentDetails: {
+        paymentId: "0",
+        orderId: "0",
+        signature: "0",
+      },
+      shippingAddress: selectedShippingAddress
+        ? {
+            addressId: selectedShippingAddress.address_id || null,
+            addressType: selectedShippingAddress.address_type,
+            fullAddress: selectedShippingAddress.full_address,
+            country: selectedShippingAddress.country,
+            state: selectedShippingAddress.state,
+            city: selectedShippingAddress.city,
+            landmark: selectedShippingAddress.landmark,
+            pincode: selectedShippingAddress.pincode.toString(),
+          }
+        : {},
+      billingAddress: selectedBillingAddress
+        ? {
+            addressId: selectedBillingAddress.address_id || null,
+            addressType: selectedBillingAddress.address_type,
+            fullAddress: selectedBillingAddress.full_address,
+            country: selectedBillingAddress.country,
+            state: selectedBillingAddress.state,
+            city: selectedBillingAddress.city,
+            landmark: selectedBillingAddress.landmark,
+            pincode: selectedBillingAddress.pincode.toString(),
+          }
+        : {},
+      productDetails: {
+        products: mappedCartItems.map((item) => ({
+          productId: item.productId.toString(),
+          productAmount: item.price,
+          quantity: item.quantity.toString(),
+          variants: item.variants,
+          productTotal: (item.price * item.quantity).toString(),
+          discountAmount: "0",
+          discountedTotal: (item.price * item.quantity).toString(),
+        })),
+        coupons: {
+          couponCode: couponCode,
+          discountPrice: totalDiscount,
+        },
+        productTotal: totalCart.toString(),
+        discountedTotal: (totalCart - totalDiscount).toString(),
+        shippingCharges: "10",
+      },
+    };
+    try {
+      setLoading(true);
+      const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+      console.log("api REsponse", apiResponse.data.data);
+      setOrderResponse(apiResponse.data.data);
+      setPaymentStarted(true);
+    } catch (error: any) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    if (orderResponse && !paymentStarted) {
+      handleRazorpayPayment();
+      setPaymentStarted(true);
+    }
+  }, [orderResponse,paymentStarted]);
+
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-      // console.log("razorpay should initiate");
-      handleRazorpayPayment();
+      handleOrders();
+      console.log("razorpay should initiate");
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {

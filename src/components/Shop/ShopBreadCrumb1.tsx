@@ -833,14 +833,14 @@ const ShopBreadCrumb1 = () => {
                       }}
                       className=""
                     >
-                      <Link href={"https://wa.me/918828324464"} target="_blank">
+                      <Link href={"https://wa.me/917045613491"} target="_blank">
                         <div className="flex p-2 text-center">
                           <IoLogoWhatsapp
                             className="mr-1"
                             size={30}
                             color="#25D366"
                           />
-                          <p className="text-md">+91 8828324464</p>
+                          <p className="text-md">+91 7045613491</p>
                         </div>
                       </Link>
                     </motion.div>

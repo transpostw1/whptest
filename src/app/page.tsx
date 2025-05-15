@@ -64,7 +64,6 @@ export default function Home() {
         <SpecialOccasion />
         <ShopByGender />
         <RoseGold />
-        <Explore />
         <SpecialOccasion />
         <ShopByGender />
         <RoseGold />

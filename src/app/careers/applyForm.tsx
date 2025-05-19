@@ -22,12 +22,15 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Accept": "application/json",
           },
+          timeout: 15000,
+          withCredentials: false
         },
       );
       console.log("Success:", response);
       alert("Application submitted successfully!");
-      closeModal(); // Optionally close modal on success
+      closeModal(); 
     } catch (error) {
       console.error("Error submitting application:", error);
       alert("There was an error submitting your application.");

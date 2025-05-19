@@ -91,6 +91,7 @@ const Careers: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const { careersData, jobCategories, setSelectedUrl, loading } = useBlog();
+  const [jobTitle, setTitle] = useState<string>("");
   // const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
   const router = useRouter();
@@ -108,9 +109,12 @@ const Careers: React.FC = () => {
     }
   };
 
-  const openModal = () => {
+  const openModal = (title: string,event:React.MouseEvent) => {
+    event.stopPropagation();
+    setTitle(title);
     setShowModal(true);
-  };
+
+  }
 
   const closeModal = () => {
     setShowModal(false);
@@ -186,7 +190,7 @@ const Careers: React.FC = () => {
                     </div>
                     <button
                       type="button"
-                      onClick={openModal}
+                      onClick={(event) => openModal(data.title,event)}
                       className="mb-2 w-28 bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#4d97cb] focus:ring-4 focus:ring-blue-500"
                     >
                       Apply
@@ -203,7 +207,7 @@ const Careers: React.FC = () => {
           {showModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden bg-opacity-50 bg-black backdrop-blur-sm">
               <div className="w-full max-w-md overflow-x-hidden bg-white p-3">
-                <ApplyForm closeModal={closeModal} />
+                <ApplyForm closeModal={closeModal} jobTitle={jobTitle}/>
               </div>
             </div>
           )}

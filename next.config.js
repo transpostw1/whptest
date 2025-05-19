@@ -10,6 +10,12 @@ const nextConfig = ({
       //   destination: "/profile",
       //   permanent: true,
       // },
+        {
+        source: "/coins-bullion/:path*/buy-1-gram-gold-coin-online.html",
+        destination: "products?url=search-gold_coin&source=search",
+        permanent: true,
+      },
+      
       {
         source:"/jewellery-for-women/earrings.html",
         destination:"/products?url=pc-earrings",

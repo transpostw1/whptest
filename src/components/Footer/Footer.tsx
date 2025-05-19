@@ -185,7 +185,7 @@ const Footer = () => {
                     >
                       <Icon.InstagramLogo size={32} weight="light" />
                     </Link>
-                    <Link href={"https://wa.me/918828324464"} target="_blank">
+                    <Link href={"https://wa.me/917045613491"} target="_blank">
                       <Icon.WhatsappLogo size={34} weight="light" />
                     </Link>
                   </div>

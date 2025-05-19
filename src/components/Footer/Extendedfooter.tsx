@@ -44,9 +44,10 @@ const Extendedfooter = () => {
           </span>
           |{" "}
           <span
-            onClick={() =>
-              handleNavigation("earrings for women", "Earrings for women")
-            }
+          onClick={() => {
+              setCustomcategory(`Earrings`);
+              router.push(`/products?url=pc-earrings`);
+            }}
             className="cursor-pointer"
           >
             Earrings For Women
@@ -63,7 +64,7 @@ const Extendedfooter = () => {
           |
           <span
             onClick={() =>
-              handleNavigation("bangle for women", "Bangles for women")
+              handleNavigation("bangles", "Bangles for women")
             }
             className="cursor-pointer"
           >
@@ -81,7 +82,7 @@ const Extendedfooter = () => {
           |
           <span
             onClick={() =>
-              handleNavigation("necklace for women", "Necklaces for women")
+              handleNavigation("necklace", "Necklaces for women")
             }
             className="cursor-pointer"
           >
@@ -102,7 +103,7 @@ const Extendedfooter = () => {
           |{" "}
           <span
             onClick={() =>
-              handleNavigation("earrings for men", "Earrings for men")
+              handleNavigation("earrings men", "Earrings for men")
             }
             className="cursor-pointer"
           >

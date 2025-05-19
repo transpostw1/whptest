@@ -1,75 +1,106 @@
-import React from 'react'
+import React from "react";
 import { MdOutlineRefresh } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-
+import axios from "axios";
 
 interface ApplyFormProps {
-    closeModal: () => void; 
-  }
-  
-  const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal }) => {
-    return (
-        <div className="flex flex-col md:h-full h-full ">
-          <div className="flex justify-between items-center px-4 py-4 ">
-          <h1 className='text-center md:ml-36 text-xl text-[#e26178]'>Add Details</h1>
+  closeModal: () => void;
+  jobTitle: string;
+}
+
+const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formElement = e.currentTarget;
+      const formData = new FormData(formElement);
+      formData.append("jobTitle", jobTitle);
+
+      const response = await axios.post(
+        "http://164.92.120.19/api/sendEmail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      console.log("Success:", response);
+      alert("Application submitted successfully!");
+      closeModal(); // Optionally close modal on success
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      alert("There was an error submitting your application.");
+    }
+  };
+
+  return (
+    <div className="flex h-full flex-col md:h-full">
+      <div className="flex items-center justify-between px-4 py-4">
+        <h1 className="text-center text-xl text-[#e26178] md:ml-36">
+          Add Details
+        </h1>
+        <button
+          type="button"
+          onClick={closeModal}
+          className="rounded-full p-2 text-black"
+        >
+          <IoMdClose />
+        </button>
+      </div>
+      <div className="flex-grow overflow-y-auto p-4">
+        <form className="p-2" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 gap-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              className="rounded border border-gray-200 p-2"
+              required
+            />
+          </div>
+          <div className="mt-2 grid grid-cols-1 gap-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="rounded border border-gray-200 p-2"
+              required
+            />
+          </div>
+          <div className="mt-2">
+            <input
+              type="text"
+              name="phone"
+              placeholder="Mobile No."
+              className="w-full rounded border border-gray-200 p-2"
+              required
+            />
+          </div>
+          <div className="mt-2">
+            <label className="mb-2 block text-white" htmlFor="resume">
+              Upload Resume:
+            </label>
+            <input
+              type="file"
+              name="document"
+              id="resume"
+              className="w-full rounded border border-gray-200"
+              required
+            />
+          </div>
+          <div className="mt-4 flex justify-between">
             <button
-              type="button"
-              onClick={closeModal}
-              className=" text-black p-2 rounded-full"
+              type="submit"
+              className="w-full rounded bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-4 py-2 text-white hover:bg-[#4d97cb]"
             >
-              <IoMdClose />
+              Apply
             </button>
           </div>
-          <div className="flex-grow overflow-y-auto p-4">
-            <form className=" p-2 ">
-              <div className="grid grid-cols-1  gap-4">
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  className="input p-2 border border-gray-200"
-                  required
-                />
-                {/* <input
-                  type="text"
-                  placeholder="Last Name"
-                  className="p-2 input border border-gray-100"
-                  required
-                /> */}
-              </div>
-              <div className="grid grid-cols-1 gap-4 mt-2">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="input p-2 border border-gray-200"
-                  required
-                />
-              </div>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  placeholder="Mobile No."
-                  className="input p-2 w-full border border-gray-200"
-                  required
-                />
-              </div>
-              <div>
-              <label className="block text-white mb-2" htmlFor="resume">
-                  Upload Resume:
-                </label>
-                <input type="file" id="resume" className="input w-full border border-gray-200" required />
-              </div>
-              <div className="flex justify-between mt-4">
-                <button
-                  type="submit"
-                  className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] hover:bg-[#4d97cb] text-white py-2 px-4  focus:outline-none focus:shadow-outline w-full"
-                >
-                  Apply
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      );
-}
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default ApplyForm;

@@ -17,7 +17,7 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
       formData.append("jobTitle", jobTitle);
 
       const response = await axios.post(
-        "http://164.92.120.19/api/sendEmail",
+        "https://164.92.120.19/api/sendEmail",
         formData,
         {
           headers: {

@@ -25,7 +25,10 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
             "Accept": "application/json",
           },
           timeout: 15000,
-          withCredentials: false
+          withCredentials: false,
+            httpsAgent: new (require('https').Agent)({  
+            rejectUnauthorized: false
+          })
         },
       );
       console.log("Success:", response);

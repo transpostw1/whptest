@@ -23,6 +23,8 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
           headers: {
             "Content-Type": "multipart/form-data",
             "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST",
           },
           timeout: 15000,
           withCredentials: false,
@@ -34,10 +36,9 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
       console.log("Success:", response);
       alert("Application submitted successfully!");
       closeModal(); 
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error submitting application:", error);
-      alert("There was an error submitting your application.");
-    }
+    alert(error.response?.data?.message || "There was an error submitting your application.");    }
   };
 
   return (

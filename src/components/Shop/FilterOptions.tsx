@@ -7,8 +7,6 @@ interface Filter {
   labels: string[];
 }
 
-
-
 interface Props {
   filters: any;
   filterDropDown: string;
@@ -50,7 +48,7 @@ const FilterOptions: React.FC<Props> = ({
           {filterDropDown === item.title ? (
             <div>
               {item.options.map((option: string, idx: number) => (
-                <div key={option} onClick={() => handleMobileFilter()}>
+                <div key={option}>
                   <input
                     type="checkbox"
                     id={option}

@@ -52,57 +52,18 @@ const ShopBreadCrumb1 = () => {
       triggerFetchData();
     }
   }, [isLoadMore]);
-  useEffect(() => {
-  if (filteredProducts.length > 0) {
-    const sortedProducts = sortProducts(filteredProducts, selectedSortOption);
-    setFilteredProducts(sortedProducts);
-    setPageNumber(0);
-  }
-}, [selectedSortOption]);
 
-  useEffect(() => {
-    if (fetchProducts) {
-      const combinedOptions = getCombinedOptions(
-        initialOptions,
-        selectedOptions,
-      );
-      fetchData(combinedOptions);
-      // console.log(fetchData, "FETCHDATATATAT");
-      setFetchProducts(false);
-    }
-  }, [fetchProducts, offset]);
-
-  const sortProducts = (products: ProductType[], sortOption: string) => {
-  if (!products) return [];
-  
-  const sortedProducts = [...products];
-  
-  switch (sortOption) {
-    case "Price-Low To High":
-      return sortedProducts.sort((a, b) => {
-        const priceA = Number(a.discountActive ? a.discountPrice : a.productPrice);
-        const priceB = Number(b.discountActive ? b.discountPrice : b.productPrice);
-        return priceA - priceB;
-      });
-    
-    case "Price-High To Low":
-      return sortedProducts.sort((a, b) => {
-        const priceA = Number(a.discountActive ? a.discountPrice : a.productPrice);
-        const priceB = Number(b.discountActive ? b.discountPrice : b.productPrice);
-        return priceB - priceA;
-      });
-    
-    case "Newest First":
-      return sortedProducts.sort((a, b) => {
-        const dateA = Number(a.addDate);
-        const dateB = Number(b.addDate);
-        return dateB - dateA;
-      });
-      
-    default:
-      return sortedProducts;
+useEffect(() => {
+  if (fetchProducts) {
+    const combinedOptions = getCombinedOptions(
+      initialOptions,
+      selectedOptions,
+    );
+    fetchData(combinedOptions);
+    setFetchProducts(false);
   }
-};
+}, [fetchProducts, offset, selectedSortOption]);
+
   const fetchData = async (combinedOptions: any) => {
     if (
       combinedOptions.category.length > 0 ||
@@ -162,6 +123,23 @@ const ShopBreadCrumb1 = () => {
           }
         `;
 
+            let sortBy = "priority";
+      let sortOrder = "ASC";
+
+      // Update sorting parameters based on selectedSortOption
+      if (selectedSortOption === "Price-Low To High") {
+        sortBy = "discountPrice";
+        sortOrder = "ASC";
+      } else if (selectedSortOption === "Price-High To Low") {
+        sortBy = "discountPrice";
+        sortOrder = "DESC";
+      } else if (selectedSortOption === "Newest First") {
+        sortBy = "addDate";
+        sortOrder = "DESC";
+      }
+
+        
+
         let inputVariables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           inputVariables = {
@@ -183,8 +161,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "priority",
-            sortOrder: "ASC",
+            sortBy,
+            sortOrder,
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -213,8 +191,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "priority",
-            sortOrder: "ASC",
+            sortBy,
+            sortOrder,
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -240,9 +218,9 @@ const ShopBreadCrumb1 = () => {
                 ).values(),
               );
 
-              return sortProducts(uniqueProducts, selectedSortOption);
+              return uniqueProducts;
             } else {
-              return sortProducts(data.products, selectedSortOption);
+              return data.products;
             }
           });
           setIsLoading(false);
@@ -336,9 +314,10 @@ const ShopBreadCrumb1 = () => {
     }
   };
 
-  const handleSortOptionChange = (option: string) => {
-    setSelectedSortOption(option);
-  };
+const handleSortOptionChange = (option: string) => {
+  setSelectedSortOption(option);
+  setFetchProducts(true); // Trigger fetch with new sort
+};
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
@@ -630,41 +609,41 @@ const ShopBreadCrumb1 = () => {
     return price;
   };
 
-  // useEffect(() => {
-  //   if (selectedSortOption === "Price-Low To High") {
-  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-  //       const priceA: any =
-  //         a.discountActive === true ? a.discountPrice : a.productPrice;
-  //       const priceB: any =
-  //         b.discountActive === true ? b.discountPrice : b.productPrice;
-  //       return priceA - priceB;
-  //     });
-  //     setFilteredProducts(sortedProducts);
-  //     setPageNumber(0);
-  //   } else if (selectedSortOption === "Price-High To Low") {
-  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-  //       const priceA: any =
-  //         a.discountActive === true ? a.discountPrice : a.productPrice;
-  //       const priceB: any =
-  //         b.discountActive === true ? b.discountPrice : b.productPrice;
-  //       return priceB - priceA;
-  //     });
-  //     setFilteredProducts(sortedProducts);
-  //     setPageNumber(0);
-  //   } else if (selectedSortOption === "Newest First") {
-  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-  //       const product1: any = a.addDate;
-  //       const product2: any = b.addDate;
-  //       return product2 - product1;
-  //     });
-  //     const sortedDate = sortedProducts.map(
-  //       (product, index) => product.addDate,
-  //     );
-  //     setFilteredProducts(sortedProducts);
-  //     setPageNumber(0);
-  //   }
-  //   // Add other sorting options here
-  // }, [selectedSortOption]);
+  useEffect(() => {
+    if (selectedSortOption === "Price-Low To High") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const priceA: any =
+          a.discountActive === true ? a.discountPrice : a.productPrice;
+        const priceB: any =
+          b.discountActive === true ? b.discountPrice : b.productPrice;
+        return priceA - priceB;
+      });
+      setFilteredProducts(sortedProducts);
+      setPageNumber(0);
+    } else if (selectedSortOption === "Price-High To Low") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const priceA: any =
+          a.discountActive === true ? a.discountPrice : a.productPrice;
+        const priceB: any =
+          b.discountActive === true ? b.discountPrice : b.productPrice;
+        return priceB - priceA;
+      });
+      setFilteredProducts(sortedProducts);
+      setPageNumber(0);
+    } else if (selectedSortOption === "Newest First") {
+      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+        const product1: any = a.addDate;
+        const product2: any = b.addDate;
+        return product2 - product1;
+      });
+      const sortedDate = sortedProducts.map(
+        (product, index) => product.addDate,
+      );
+      setFilteredProducts(sortedProducts);
+      setPageNumber(0);
+    }
+    // Add other sorting options here
+  }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
     return str?.replace(
@@ -757,8 +736,6 @@ const ShopBreadCrumb1 = () => {
               </div>
               <div className="mt-5 flex justify-between">
                 <div className="sm:w-[100%] lg:w-[70%]">
-                  {/* Earrings are a form of self-expression. They effortlessly
-                transform an outfit, framing the face with style and grace. */}
                   {/* <BreadCrumb filteredProducts={filteredProducts} /> */}
                   <div className="flex flex-wrap sm:block md:hidden lg:hidden">
                     {Object.entries(selectedOptions).flatMap(

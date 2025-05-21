@@ -22,6 +22,7 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ closeModal, jobTitle }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Accept": "application/json",
           },
         },
       );

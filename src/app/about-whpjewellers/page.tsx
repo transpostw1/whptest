@@ -36,122 +36,75 @@
 // };
 
 // export default About;
-
 import Head from "next/head";
 
 export default function About() {
   return (
     <>
       <Head>
-        <title>WHP Jewellers - Gold & Diamond Jewellery Online</title>
+        <title>WHP Jewellers - About Us</title>
         <meta
-          name="about"
-          content="Shop gold, diamond, and silver jewellery online with WHP Jewellers. Trusted for quality and authenticity since 2016."
+          name="description"
+          content="Learn about WHP Jewellers' journey, leadership, sub-brands, and commitment to quality and innovation in the jewellery industry."
         />
       </Head>
+
       <div className="bg-gray-50 text-gray-800">
-        <main className="mx-auto max-w-7xl px-4 py-10">
+        <main className="mx-auto max-w-6xl px-4 py-10 space-y-10">
+          {/* Meet the Founder */}
           <section>
-            <h2 className="mb-4 text-2xl font-bold">
-              Welcome to WHP Jewellers
-            </h2>
-            <p className="mb-4">
-              WHP Jewellers is your one-stop destination for all your jewellery
-              needs. We offer an extensive range of gold and diamond jewellery
-              for men, women, and children. Our collection includes rings,
-              earrings, pendants, necklaces, bangles, bracelets, and more. We
-              also provide customised jewellery tailored to your specific
-              requirements. Our goal is to help you find the perfect piece that
-              matches your style, budget, and occasion.
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Meet the Founder & Director</h2>
+            <p className="text-base md:text-lg leading-relaxed">
+              Mr. Aditya Pethe is a visionary leader in the jewellery industry. His entrepreneurial journey reflects a deep understanding of craftsmanship paired with a bold, forward-thinking approach to technology and customer engagement. With over 25 years of in-depth experience spanning jewellery design, manufacturing, e-commerce, retail branding, and business innovation, he has consistently driven growth and transformation.
             </p>
-            <p className="mt-2">
-              We are committed to delivering outstanding customer service. Enjoy
-              free shipping and a 30-day return policy on all products, allowing
-              you to shop with complete confidence. Since 2016, we have been
-              catering to the jewellery needs of customers across India and
-              around the globe.
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              Under his leadership, the brand has embraced digital transformation, offering customers a unified shopping experience across online platforms. He envisions making jewellery accessible to every Indian household, delivering a seamless and trusted shopping experience, and aiming to build WHP as the nation’s leading e-commerce jewellery brand.
             </p>
-            <p className="mt-2">
-              Trusted for purity and transparency, we offer only 100% BIS
-              hallmarked gold, certified diamonds, and certified coloured
-              stones. In India, gold holds a special place from the moment of
-              birth. Whether it’s the birth of a child, an engagement, a
-              wedding, or just another day at work—at WHP Jewellers, we craft
-              exquisite pieces for every milestone in life.
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              Today, WHP Jewellers holds a significant market share and continues to grow steadily, guided by Mr. Aditya Pethe’s passion for quality, innovation, and delivering “something special for everyone.” His commitment to excellence has positioned WHP as a household name in India’s jewellery landscape—trusted, loved, and admired across generations.
             </p>
-            <p className="mt-2">
-              From gold coins to head-to-toe bridal trousseaus, WHP Jewellers
-              caters to every budget and requirement. Each piece is handcrafted
-              with care and precision, undergoing multiple quality checks to
-              ensure you receive only the finest jewellery. To make shopping
-              even more convenient, we offer EMI options. Our Try-at-Home
-              service lets you experience our jewellery in the comfort of your
-              home, with a consultant bringing the store to your doorstep. You
-              can even sell your jewellery from home.
+          </section>
+
+          {/* The Journey of WHP Jewellers */}
+          <section>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">The Journey of WHP Jewellers</h2>
+            <p className="text-base md:text-lg leading-relaxed">
+              WHP Jewellers has evolved from a legacy name into one of India’s most trusted e-commerce jewellery brands. Launched in 2016 with a mission to bring jewellery closer to modern consumers, WHP has redefined the way India shops for gold, diamonds, gemstones, and silver jewellery, offering a seamless online shopping experience.
             </p>
-            <p className="mt-2">
-              A brainchild of Dr. Aditya Pethe,{" "}
-              <a
-                href="https://www.whpjewellers.in"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                www.whpjewellers.in
-              </a>{" "}
-              has steadily grown, earning a significant share in the jewellery
-              market.
-            </p>
-            <p className="mt-2">
-              For those with a unique vision, we offer jewellery
-              customisation—collaborate with our expert design team to bring
-              your ideas to life. Our products are available on our website and
-              also on popular marketplaces including{" "}
-              <a href="https://www.nykaa.com" target="_blank">
-                Nykaa
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              With a strong online presence through{" "}
+              <a href="https://www.whpjewellers.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                www.whpjewellers.com
               </a>
-              ,{" "}
-              <a href="https://www.ajio.com" target="_blank">
-                AJIO
-              </a>
-              ,{" "}
-              <a href="https://www.amazon.in" target="_blank">
-                Amazon
-              </a>
-              ,{" "}
-              <a href="https://www.flipkart.com" target="_blank">
-                Flipkart
-              </a>
-              , and{" "}
-              <a href="https://www.tatacliq.com" target="_blank">
-                Tata CLiQ
-              </a>
-              .
+              , the brand caters to customers across India and abroad. WHP offers certified, BIS-hallmarked jewellery and a wide range of designs for every age, style, and occasion.
             </p>
-            <p className="mt-2">
-              With free and secure PAN India shipping, we’ve served over 1 lakh
-              satisfied customers. Our lifetime exchange and buyback policy is
-              thoughtfully designed with Indian consumers in mind. We also offer
-              complimentary services for one year to ensure your peace of mind.
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              In tune with today’s market demands, our focus is on offering affordable casual wear and versatile gifting jewellery designed to resonate with all age groups. Backed by strategic investments, WHP has scaled its digital infrastructure, enhanced customer experiences, and introduced convenience-led services.
             </p>
-            <p className="mt-2">
-              Explore our in-house brand <strong><a href="https://www.anayra.net" target="_blank">
-                Anayra
-              </a></strong>, offering
-              Sterling 92.5 silver jewellery perfect for the millennial woman.
-              In addition to fine jewellery, we offer a variety of silver items
-              including utensils, deity idols, and more. Discover our extensive
-              collection of coloured stones under the brand{" "}
-              <strong>9Ratna</strong>.
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              We offer complete pricing transparency, secure payment options, and fast pan-India delivery, supported by dedicated customer service to ensure a smooth online shopping experience. In a thriving e-commerce market, we’re making jewellery more accessible, closer, faster, and easier than ever.
             </p>
-            <p className="mt-2">
-              <strong>Address:</strong> 306, 3rd Floor, Man Excellenza, Junction
-              of S.V. Road, Opp. Pawan Hans, Vile Parle (W), Mumbai, Maharashtra
-              - 400056
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              With every piece, WHP Jewellers continues its journey of celebrating stories, emotions, and timeless beauty—bringing “something special for everyone, every reason, every season, every emotion, every occasion, every profession.”
             </p>
-            <p className="mt-2">
-              <strong>Email:</strong>{" "}
-              <a href="mailto:care@whpjewellers.in">care@whpjewellers.in</a> |{" "}
-              <strong>Contact No.:</strong> 1800-222-225 (10:30 AM to 7:30 PM)
+          </section>
+
+          {/* Our Sub-Brands */}
+          <section>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Sub-Brands: A Vision of Diversity and Well-Being</h2>
+            <ul className="space-y-4 text-base md:text-lg">
+              <li>
+                <strong>Anayra</strong> – A curated collection of elegant fine silver jewellery that blends contemporary charm with everyday versatility.
+              </li>
+              <li>
+                <strong>Swarnak 24K Ayurveda</strong> – A luxurious 24K gold-infused skincare brand, rooted in Ayurvedic principles to enhance natural beauty and radiance.
+              </li>
+              <li>
+                <strong>SwarnakAyu</strong> – A holistic Ayurvedic wellness brand offering supplements and formulations that support immunity, vitality, and overall health.
+              </li>
+            </ul>
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              Together, these brands reflect WHP’s commitment to innovation, purity, and well-being—something special for every moment, inside and out.
             </p>
           </section>
         </main>

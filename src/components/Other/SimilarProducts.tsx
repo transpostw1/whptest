@@ -9,10 +9,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { graphqlProductUrl } from "@/utils/constants";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
-import axios from "axios";
-import { baseUrl } from "@/utils/constants";
-import Cookies from "js-cookie";
-import { number } from "yup";
+
 
 interface Props {
   productId: number;
@@ -59,11 +56,11 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
 
         const { data } = await client.query({
           query: GET_SIMILAR_PRODUCTS,
-          variables: { product },
-          fetchPolicy: "no-cache", // Ensures fresh data
+          variables: { productId:productId },
+          fetchPolicy: "no-cache",
         });
 
-        setProducts(data.similarProducts); // Set only the array
+        setProducts(data.similarProducts); 
       } catch (error) {
         console.error("Error fetching similar products:", error);
       }

@@ -53,17 +53,16 @@ const ShopBreadCrumb1 = () => {
     }
   }, [isLoadMore]);
 
-  useEffect(() => {
-    if (fetchProducts) {
-      const combinedOptions = getCombinedOptions(
-        initialOptions,
-        selectedOptions,
-      );
-      fetchData(combinedOptions);
-      // console.log(fetchData, "FETCHDATATATAT");
-      setFetchProducts(false);
-    }
-  }, [fetchProducts, offset]);
+useEffect(() => {
+  if (fetchProducts) {
+    const combinedOptions = getCombinedOptions(
+      initialOptions,
+      selectedOptions,
+    );
+    fetchData(combinedOptions);
+    setFetchProducts(false);
+  }
+}, [fetchProducts, offset, selectedSortOption]);
 
   const fetchData = async (combinedOptions: any) => {
     if (
@@ -124,6 +123,23 @@ const ShopBreadCrumb1 = () => {
           }
         `;
 
+            let sortBy = "priority";
+      let sortOrder = "ASC";
+
+      // Update sorting parameters based on selectedSortOption
+      if (selectedSortOption === "Price-Low To High") {
+        sortBy = "discountPrice";
+        sortOrder = "ASC";
+      } else if (selectedSortOption === "Price-High To Low") {
+        sortBy = "discountPrice";
+        sortOrder = "DESC";
+      } else if (selectedSortOption === "Newest First") {
+        sortBy = "addDate";
+        sortOrder = "DESC";
+      }
+
+        
+
         let inputVariables = {};
         if (combinedOptions.category[0] === "new_Arrival") {
           inputVariables = {
@@ -145,8 +161,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "priority",
-            sortOrder: "ASC",
+            sortBy,
+            sortOrder,
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -175,8 +191,8 @@ const ShopBreadCrumb1 = () => {
             occasion: combinedOptions.occasion.map((occasion: string) => ({
               value: occasion,
             })),
-            sortBy: "priority",
-            sortOrder: "ASC",
+            sortBy,
+            sortOrder,
             productCategory: combinedOptions.productCategory[0],
             limit: productsPerPage,
             offset: offset,
@@ -298,9 +314,10 @@ const ShopBreadCrumb1 = () => {
     }
   };
 
-  const handleSortOptionChange = (option: string) => {
-    setSelectedSortOption(option);
-  };
+const handleSortOptionChange = (option: string) => {
+  setSelectedSortOption(option);
+  setFetchProducts(true); // Trigger fetch with new sort
+};
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
@@ -831,14 +848,14 @@ const ShopBreadCrumb1 = () => {
                       }}
                       className=""
                     >
-                      <Link href={"https://wa.me/918828324464"} target="_blank">
+                      <Link href={"https://wa.me/917045613491"} target="_blank">
                         <div className="flex p-2 text-center">
                           <IoLogoWhatsapp
                             className="mr-1"
                             size={30}
                             color="#25D366"
                           />
-                          <p className="text-md">+91 8828324464</p>
+                          <p className="text-md">+91 7045613491</p>
                         </div>
                       </Link>
                     </motion.div>

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import Loader from "@/components/Other/Loader";
 import useEnroll from "@/hooks/useEnroll";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 
 interface SchemeDetails {
   planName?: string;
@@ -23,14 +25,22 @@ const PANVerificationPage: React.FC = () => {
   const router = useRouter();
   const { userDetails, addUserDetails } = useUser();
 
+  const VERIFY_PAN_MUTATION = gql`
+    mutation Mutation($verifyPanInput: CheckCustomerVerifiedInput!) {
+      verifyPAN(verifyPanInput: $verifyPanInput) {
+        success
+        message
+      }
+    }
+  `;
+
   const getSchemeDetails = (): SchemeDetails => {
     if (typeof window !== "undefined") {
       const schemeDetailsString = sessionStorage.getItem("selectedScheme");
       return schemeDetailsString ? JSON.parse(schemeDetailsString) : {};
     }
-    return {}; 
+    return {};
   };
-  
 
   useEffect(() => {
     if (userDetails) {
@@ -45,7 +55,6 @@ const PANVerificationPage: React.FC = () => {
   const schemeDetails = getSchemeDetails();
   const handleEnrollSuccess = useCallback(
     (enrollmentId: number) => {
-   
       // console.log(schemeDetails,"SCHEEMEDEETSSS")
       const updatedSchemeDetails = {
         ...schemeDetails,
@@ -55,13 +64,13 @@ const PANVerificationPage: React.FC = () => {
       if (typeof window !== "undefined") {
         sessionStorage.setItem(
           "selectedScheme",
-          JSON.stringify(updatedSchemeDetails)
+          JSON.stringify(updatedSchemeDetails),
         );
       }
 
       router.push("/digitalCheckout");
     },
-    [router]
+    [router],
   );
 
   const { handleEnroll } = useEnroll({
@@ -87,25 +96,30 @@ const PANVerificationPage: React.FC = () => {
       setLoading(true);
 
       const schemeDetails = getSchemeDetails();
-
-      const requestBody = {
-        pan_number: pan,
-        name: userDetails?.firstname || "",
-      };
-      const response = await fetch("/api/verifyPan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl, 
+        cache: new InMemoryCache(),
       });
-      const result = await response.json();
-      if (!response.ok || !result.verification_status) {
-        throw new Error(result.error || "Failed to verify PAN.");
+
+      const variables = {
+        verifyPanInput: {
+          pan_number: pan,
+          name: userDetails?.firstname || "",
+        },
+      };
+
+      const { data } = await client.mutate({
+        mutation: VERIFY_PAN_MUTATION,
+        variables,
+      });
+
+      if (!data?.verifyPAN?.success) {
+        throw new Error(data?.verifyPAN?.message || "Failed to verify PAN.");
       }
+
       const enrollmentId = await handleEnroll(
         schemeDetails.planName,
-        schemeDetails.monthlyAmount
+        schemeDetails.monthlyAmount,
       );
 
       if (enrollmentId) {
@@ -116,8 +130,13 @@ const PANVerificationPage: React.FC = () => {
           handleEnrollSuccess(enrollmentId);
         } catch (addUserDetailsError: any) {
           console.error("Error updating user details:", addUserDetailsError);
-          setPanError(addUserDetailsError.response.data.message || "Failed to update user details.");
-          setBackendError(addUserDetailsError.response.data.message || "Verification failed");
+          setPanError(
+            addUserDetailsError.response.data.message ||
+              "Failed to update user details.",
+          );
+          setBackendError(
+            addUserDetailsError.response.data.message || "Verification failed",
+          );
           setFlashType("error");
         }
       }
@@ -190,10 +209,11 @@ const PANVerificationPage: React.FC = () => {
                   onChange={(e) => setPan(e.target.value.toUpperCase())}
                   placeholder="Enter PAN number"
                   maxLength={10}
-                  className={`mt-1 block w-full rounded-md border px-4 py-2 text-gray-700 shadow-sm focus:ring-[#bb547d] ${panError
+                  className={`mt-1 block w-full rounded-md border px-4 py-2 text-gray-700 shadow-sm focus:ring-[#bb547d] ${
+                    panError
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 focus:border-[#f05794]"
-                    }`}
+                  }`}
                 />
                 {panError && (
                   <p className="mt-1 text-sm text-red-500">{panError}</p>

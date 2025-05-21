@@ -441,7 +441,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     )}
                   </div>
                 )}
-
                 {/* {isMobile && (
                   <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
                     <Icon.Cards size={width} weight="light" color="#e26178" />
@@ -511,7 +510,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
               )}
             </div>
           </div>
-
           <div
             className="mt-4 lg:mb-4"
             onClick={() => handleDetailProduct(data.url, data.productId)}

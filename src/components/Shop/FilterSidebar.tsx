@@ -110,11 +110,8 @@ const FilterSidebar: React.FC<Props> = ({
                     key={`${category}-${index}`}
                     className="inline-flex w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                     <span className="w-full">
-            {option
-              .replace(/_/g, " ") // Replace underscores with spaces
-              .replace(/,?$/, "") // Ensure no trailing commas
-            }
+                    <span className="w-full">
+                      {option.replace(/_/g, " ").replace(/,?$/, "")}
                     </span>
                     <button
                       className="ml-2"

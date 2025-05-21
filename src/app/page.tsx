@@ -22,10 +22,8 @@ import WhatWeOffer from "@/components/Home1/WhatWeOffer";
 import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
 import { NextSeo } from "next-seo";
-import SEO from "../../next-seo.config"
+import SEO from "../../next-seo.config";
 import "@/styles/styles.scss";
-
-
 
 export default function Home() {
   let logged = null;
@@ -38,15 +36,15 @@ export default function Home() {
   //     const script = document.createElement("script");
   //     script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
   //     script.type = "text/javascript";
-  //     script.dataset.bot = "11799060"; 
-  //     script.id = "kenyt-chatbot-script"; 
+  //     script.dataset.bot = "11799060";
+  //     script.id = "kenyt-chatbot-script";
   //     document.body.appendChild(script);
 
   //     script.onload = () => {
   //       console.log("Kenyt.ai Chatbot script loaded!");
   //     };
   //   }
-  // }, []); 
+  // }, []);
   return (
     <>
       {/* <Head>
@@ -63,6 +61,9 @@ export default function Home() {
         <GetFastDeliveryProducts />
         <Category />
         <ProductSlider />
+        <SpecialOccasion />
+        <ShopByGender />
+        <RoseGold />
         <SpecialOccasion />
         <ShopByGender />
         <RoseGold />

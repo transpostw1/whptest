@@ -222,7 +222,7 @@ const Footer = () => {
                     {isLoggedIn ? (
                       <Link
                         className="caption1 has-line-before w-fit pt-2 duration-300"
-                        href={"/profile"}
+                        href={"/profile/customerOrders"}
                       >
                         Orders & Returns
                       </Link>

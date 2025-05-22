@@ -79,7 +79,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>     
-        {orders.length>0&&singleOrder.length>=1&&<div className="mt-10">
+        {orders.length>0&&singleOrder.length>1&&<div className="mt-10">
           {Array.isArray(orders) &&
             orders.map((item: any) => (
               <div

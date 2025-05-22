@@ -609,41 +609,41 @@ const handleSortOptionChange = (option: string) => {
     return price;
   };
 
-  useEffect(() => {
-    if (selectedSortOption === "Price-Low To High") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const priceA: any =
-          a.discountActive === true ? a.discountPrice : a.productPrice;
-        const priceB: any =
-          b.discountActive === true ? b.discountPrice : b.productPrice;
-        return priceA - priceB;
-      });
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    } else if (selectedSortOption === "Price-High To Low") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const priceA: any =
-          a.discountActive === true ? a.discountPrice : a.productPrice;
-        const priceB: any =
-          b.discountActive === true ? b.discountPrice : b.productPrice;
-        return priceB - priceA;
-      });
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    } else if (selectedSortOption === "Newest First") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const product1: any = a.addDate;
-        const product2: any = b.addDate;
-        return product2 - product1;
-      });
-      const sortedDate = sortedProducts.map(
-        (product, index) => product.addDate,
-      );
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    }
-    // Add other sorting options here
-  }, [selectedSortOption]);
+  // useEffect(() => {
+  //   if (selectedSortOption === "Price-Low To High") {
+  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+  //       const priceA: any =
+  //         a.discountActive === true ? a.discountPrice : a.productPrice;
+  //       const priceB: any =
+  //         b.discountActive === true ? b.discountPrice : b.productPrice;
+  //       return priceA - priceB;
+  //     });
+  //     setFilteredProducts(sortedProducts);
+  //     setPageNumber(0);
+  //   } else if (selectedSortOption === "Price-High To Low") {
+  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+  //       const priceA: any =
+  //         a.discountActive === true ? a.discountPrice : a.productPrice;
+  //       const priceB: any =
+  //         b.discountActive === true ? b.discountPrice : b.productPrice;
+  //       return priceB - priceA;
+  //     });
+  //     setFilteredProducts(sortedProducts);
+  //     setPageNumber(0);
+  //   } else if (selectedSortOption === "Newest First") {
+  //     const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
+  //       const product1: any = a.addDate;
+  //       const product2: any = b.addDate;
+  //       return product2 - product1;
+  //     });
+  //     const sortedDate = sortedProducts.map(
+  //       (product, index) => product.addDate,
+  //     );
+  //     setFilteredProducts(sortedProducts);
+  //     setPageNumber(0);
+  //   }
+  //   // Add other sorting options here
+  // }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
     return str?.replace(

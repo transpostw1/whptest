@@ -128,7 +128,7 @@ const Extendedfooter = () => {
             onClick={() => handleNavigation("ring for men", "Rings for men")}
             className="cursor-pointer"
           >
-            Rings For Men
+            Rings For Kids
           </span>
           |{" "}
           <span
@@ -137,17 +137,23 @@ const Extendedfooter = () => {
             }
             className="cursor-pointer"
           >
-            Earrings For Men
+            Earrings For Kids
           </span>{" "}
           |{" "}
           <span
             onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
             className="cursor-pointer"
           >
-            Bracelets For Men
+            Bracelets For Kids
           </span>{" "}
           |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
-              Men's Kadas
+              Lockets For Kids
+            </span>
+            |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+            Chains For Kids
+            </span>
+            |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+             Siler jewellery For Kids
             </span>
         </h1>
       </div> */}

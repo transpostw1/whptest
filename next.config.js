@@ -88,21 +88,31 @@ const nextConfig = ({
     ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "wamanharipethe.s3.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "wamanharipethe.s3.amazonaws.com/menu_images",
-      },
-      {
-        protocol: "https",
-        hostname: "wamanharipethe.s3.ap-south-1.amazonaws.com",
-      },
-    ],
-  },
+  domains: [
+    'whpjewellers.s3.amazonaws.com',
+    'wamanharipethe.s3.amazonaws.com',
+    'wamanharipethe.s3.ap-south-1.amazonaws.com',
+    'whpjewellers.s3.ap-south-1.amazonaws.com'
+  ],
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "wamanharipethe.s3.amazonaws.com",
+    },
+    {
+      protocol: "https",
+      hostname: "whpjewellers.s3.amazonaws.com",
+    },
+    {
+      protocol: "https",
+      hostname: "wamanharipethe.s3.ap-south-1.amazonaws.com",
+    },
+    {
+      protocol: "https",
+      hostname: "whpjewellers.s3.ap-south-1.amazonaws.com",
+    },
+  ],
+},
 });
 
 module.exports = nextConfig;

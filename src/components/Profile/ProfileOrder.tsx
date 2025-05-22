@@ -35,6 +35,9 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const handleBack = () => {
     setSingleOrder(orders);
   };
+  useEffect(() => {
+    setSingleOrder(orders);
+  }, [orders]);
 
   // console.log(orders);
 

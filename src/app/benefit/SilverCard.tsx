@@ -5,6 +5,8 @@ import useEnroll from "@/hooks/useEnroll";
 import ModalExchange from "@/components/Other/ModalExchange";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import SmallScreenModal from "@/components/Other/SmallScreenModal";
 interface SilverCardProps {
@@ -126,37 +128,57 @@ const SilverCard: React.FC<SilverCardProps> = ({
     }
 
     try {
-      const requestBody = {
-        pan_number: userDetails.pan,
-        name: userDetails.firstname || "",
-      };
-
-      const response = await fetch("/api/verifyPan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
       });
 
-      const result = await response.json();
+      const VERIFY_PAN = gql`
+        mutation Mutation($verifyPanInput: CheckCustomerVerifiedInput!) {
+          verifyPAN(verifyPanInput: $verifyPanInput) {
+            success
+            message
+          }
+        }
+      `;
+      const { data } = await client.mutate({
+        mutation: VERIFY_PAN,
+        variables: {
+          verifyPanInput: {
+            pan_number: userDetails.pan,
+            name: userDetails.firstname || "",
+            dob: "",
+          },
+        },
+        fetchPolicy: "no-cache",
+      });
 
-      if (!response.ok || !result.verification_status) {
-        sessionStorage.setItem(
-          "selectedScheme",
-          JSON.stringify({
-            enrollmentId: null,
-            planName: "Silver",
-            monthlyAmount: monthlyDeposit,
-            totalAmount: monthlyDeposit * numberOfMonths,
-            iconUrl: "/images/silver-icon.png",
-            schemeType: "gms",
-          }),
-        );
-        throw new Error(
-          result.error || "PAN verification failed. Please update PAN.",
-        );
-      }
+      // const response = await fetch("https://164.92.120.19/api/verifyPan", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(requestBody),
+      // });
+
+      // const result = await response.json();
+
+      // if (!response.ok || !result.verification_status) {
+      //   sessionStorage.setItem(
+      //     "selectedScheme",
+      //     JSON.stringify({
+      //       enrollmentId: null,
+      //       planName: "Silver",
+      //       monthlyAmount: monthlyDeposit,
+      //       totalAmount: monthlyDeposit * numberOfMonths,
+      //       iconUrl: "/images/silver-icon.png",
+      //       schemeType: "gms",
+      //     }),
+      //   );
+      //   throw new Error(
+      //     result.error || "PAN verification failed. Please update PAN.",
+      //   );
+      // }
 
       setBackendMessage("PAN verification successfull!");
       setFlashType("success");
@@ -262,11 +284,11 @@ const SilverCard: React.FC<SilverCardProps> = ({
             </div>
           </div>
           <div className="mb-3 flex flex-col text-center">
-            <div>
+            <div >
               <Link href={"https://wa.me/918828324464"}>
-                <div className="mb-2 w-full cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white">
-                  {loading || enroll ? "Enrolling..." : "Enroll Now"}
-                </div>
+              <div className="mb-2 w-full cursor-pointer bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white">
+                {loading || enroll ? "Enrolling..." : "Enroll Now"}
+              </div>
               </Link>
             </div>
             <div>

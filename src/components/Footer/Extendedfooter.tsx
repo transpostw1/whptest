@@ -121,6 +121,66 @@ const Extendedfooter = () => {
             </span>
         </h1>
       </div>
+        <div className="border-line border-b py-4">
+        <h1 className="font-semibold">For Kids</h1>
+        <h1>
+          <span
+            onClick={() => handleNavigation("ring for men", "Rings for men")}
+            className="cursor-pointer"
+          >
+            Rings For Men
+          </span>
+          |{" "}
+          <span
+            onClick={() =>
+              handleNavigation("earrings men", "Earrings for men")
+            }
+            className="cursor-pointer"
+          >
+            Earrings For Men
+          </span>{" "}
+          |{" "}
+          <span
+            onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
+            className="cursor-pointer"
+          >
+            Bracelets For Men
+          </span>{" "}
+          |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+              Men's Kadas
+            </span>
+        </h1>
+      </div>
+        <div className="border-line border-b py-4">
+        <h1 className="font-semibold">Silver Articles</h1>
+        <h1>
+          <span
+            onClick={() => handleNavigation("ring for men", "Rings for men")}
+            className="cursor-pointer"
+          >
+            Rings For Men
+          </span>
+          |{" "}
+          <span
+            onClick={() =>
+              handleNavigation("earrings men", "Earrings for men")
+            }
+            className="cursor-pointer"
+          >
+            Earrings For Men
+          </span>{" "}
+          |{" "}
+          <span
+            onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
+            className="cursor-pointer"
+          >
+            Bracelets For Men
+          </span>{" "}
+          |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+              Men's Kadas
+            </span>
+        </h1>
+      </div>
     </div>
   );
 };

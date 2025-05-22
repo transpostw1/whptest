@@ -326,173 +326,174 @@ const Payment: React.FC<PaymentProps> = ({
   const handleCodPayment = async () => {
     setLoading(true);
     try {
-      try {
-        setLoading(true);
-        // Prepare the data to be sent to the API
-        const orderData = {
-          isWallet: wallet && userDetails?.wallet_amount > 0 ? 1 : 0,
-          isWrap: giftWrap.wrapOption ? 1 : 0,
-          message: giftWrap.wrapOption ? giftWrap.name : "",
-          walletAmount: wallet
-            ? Number(totalCart) > Number(userDetails?.wallet_amount)
-              ? 0
-              : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
-            : 0,
-          shippingAddress: selectedShippingAddress
-            ? {
-                addressId: selectedShippingAddress.address_id || null,
-                addressType: selectedShippingAddress.address_type,
-                fullAddress: selectedShippingAddress.full_address,
-                country: selectedShippingAddress.country,
-                state: selectedShippingAddress.state,
-                city: selectedShippingAddress.city,
-                landmark: selectedShippingAddress.landmark,
-                pincode: selectedShippingAddress.pincode.toString(),
-              }
-            : {},
-          billingAddress: selectedBillingAddress
-            ? {
-                addressId: selectedBillingAddress.address_id || null,
-                addressType: selectedBillingAddress.address_type,
-                fullAddress: selectedBillingAddress.full_address,
-                country: selectedBillingAddress.country,
-                state: selectedBillingAddress.state,
-                city: selectedBillingAddress.city,
-                landmark: selectedBillingAddress.landmark,
-                pincode: selectedBillingAddress.pincode.toString(),
-              }
-            : {},
-          productDetails: {
-            products: mappedCartItems.map((item) => ({
-              productId: item.productId.toString(),
-              productAmount: item.price,
-              quantity: item.quantity.toString(),
-              productTotal: (item.price * item.quantity).toString(),
-              discountAmount: "0", // Replace with the actual discount amount if available
-              discountedTotal: (item.price * item.quantity).toString(), // Replace with the discounted total if available
-            })),
-            coupons: {
-              couponCode: couponCode, // Replace with the actual coupon code if available
-              discountPrice: totalDiscount, // Replace with the actual discount price if available
-            },
-            productTotal: totalCart.toString(),
-            discountedTotal: (totalCart - totalDiscount).toString(),
-            shippingCharges: "10",
+      const orderData = {
+        isWallet: wallet && userDetails?.wallet_amount > 0 ? 1 : 0,
+        isWrap: giftWrap.wrapOption ? 1 : 0,
+        message: giftWrap.wrapOption ? giftWrap.name : "",
+        walletAmount: wallet
+          ? Number(totalCart) > Number(userDetails?.wallet_amount)
+            ? 0
+            : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
+          : 0,
+        shippingAddress: selectedShippingAddress
+          ? {
+              addressId: selectedShippingAddress.address_id || null,
+              addressType: selectedShippingAddress.address_type,
+              fullAddress: selectedShippingAddress.full_address,
+              country: selectedShippingAddress.country,
+              state: selectedShippingAddress.state,
+              city: selectedShippingAddress.city,
+              landmark: selectedShippingAddress.landmark,
+              pincode: selectedShippingAddress.pincode.toString(),
+            }
+          : {},
+        billingAddress: selectedBillingAddress
+          ? {
+              addressId: selectedBillingAddress.address_id || null,
+              addressType: selectedBillingAddress.address_type,
+              fullAddress: selectedBillingAddress.full_address,
+              country: selectedBillingAddress.country,
+              state: selectedBillingAddress.state,
+              city: selectedBillingAddress.city,
+              landmark: selectedBillingAddress.landmark,
+              pincode: selectedBillingAddress.pincode.toString(),
+            }
+          : {},
+        productDetails: {
+          products: mappedCartItems.map((item) => ({
+            productId: item.productId.toString(),
+            productAmount: item.price,
+            quantity: item.quantity.toString(),
+            productTotal: (item.price * item.quantity).toString(),
+            discountAmount: "0",
+            discountedTotal: (item.price * item.quantity).toString(),
+          })),
+          coupons: {
+            couponCode: couponCode,
+            discountPrice: totalDiscount,
           },
-          paymentDetails: {
-            paymentId: "0",
-            orderId: "0",
-            signature: "0",
-          },
-        };
-        const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-          },
-        });
+          productTotal: totalCart.toString(),
+          discountedTotal: (totalCart - totalDiscount).toString(),
+          shippingCharges: "10",
+        },
+        paymentDetails: {
+          paymentId: "0",
+          orderId: "0",
+          signature: "0",
+        },
+      };
+
+      const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+        },
+      });
+
+      if (apiResponse.data) {
         setOrderResponse(apiResponse.data.data);
         onOrderComplete();
-      } catch (error) {
-        console.error("Error placing order:", error);
-      } finally {
-        setLoading(false);
         setIsOpen(true);
       }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
+    } catch (error: any) {
+      console.error("Error placing COD order:", error);
+      alert(error.response?.data?.message || "Error placing order. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleOrders = async () => {
-    const orderData = {
-      isWallet: wallet ? 1 : 0,
-      isWrap: giftWrap.wrapOption ? 1 : 0,
-      message: giftWrap.wrapOption ? giftWrap.name : "",
-      walletAmount: wallet
-        ? Number(totalCart) > Number(userDetails?.wallet_amount)
-          ? 0
-          : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
-        : 0,
-      name: userDetails?.fullname,
-      email: userDetails?.email,
-      contact: userDetails?.mobile_no,
-      customerId: userDetails?.customer_id,
-      paymentDetails: {
-        paymentId: "0",
-        orderId: "0",
-        signature: "0",
-      },
-      shippingAddress: selectedShippingAddress
-        ? {
-            addressId: selectedShippingAddress.address_id || null,
-            addressType: selectedShippingAddress.address_type,
-            fullAddress: selectedShippingAddress.full_address,
-            country: selectedShippingAddress.country,
-            state: selectedShippingAddress.state,
-            city: selectedShippingAddress.city,
-            landmark: selectedShippingAddress.landmark,
-            pincode: selectedShippingAddress.pincode.toString(),
-          }
-        : {},
-      billingAddress: selectedBillingAddress
-        ? {
-            addressId: selectedBillingAddress.address_id || null,
-            addressType: selectedBillingAddress.address_type,
-            fullAddress: selectedBillingAddress.full_address,
-            country: selectedBillingAddress.country,
-            state: selectedBillingAddress.state,
-            city: selectedBillingAddress.city,
-            landmark: selectedBillingAddress.landmark,
-            pincode: selectedBillingAddress.pincode.toString(),
-          }
-        : {},
-      productDetails: {
-        products: mappedCartItems.map((item) => ({
-          productId: item.productId.toString(),
-          productAmount: item.price,
-          quantity: item.quantity.toString(),
-          variants: item.variants,
-          productTotal: (item.price * item.quantity).toString(),
-          discountAmount: "0",
-          discountedTotal: (item.price * item.quantity).toString(),
-        })),
-        coupons: {
-          couponCode: couponCode,
-          discountPrice: totalDiscount,
-        },
-        productTotal: totalCart.toString(),
-        discountedTotal: (totalCart - totalDiscount).toString(),
-        shippingCharges: "10",
-      },
-    };
     try {
       setLoading(true);
+      const orderData = {
+        isWallet: wallet ? 1 : 0,
+        isWrap: giftWrap.wrapOption ? 1 : 0,
+        message: giftWrap.wrapOption ? giftWrap.name : "",
+        walletAmount: wallet
+          ? Number(totalCart) > Number(userDetails?.wallet_amount)
+            ? 0
+            : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
+          : 0,
+        name: userDetails?.fullname,
+        email: userDetails?.email,
+        contact: userDetails?.mobile_no,
+        customerId: userDetails?.customer_id,
+        paymentDetails: {
+          paymentId: "0",
+          orderId: "0",
+          signature: "0",
+        },
+        shippingAddress: selectedShippingAddress
+          ? {
+              addressId: selectedShippingAddress.address_id || null,
+              addressType: selectedShippingAddress.address_type,
+              fullAddress: selectedShippingAddress.full_address,
+              country: selectedShippingAddress.country,
+              state: selectedShippingAddress.state,
+              city: selectedShippingAddress.city,
+              landmark: selectedShippingAddress.landmark,
+              pincode: selectedShippingAddress.pincode.toString(),
+            }
+          : {},
+        billingAddress: selectedBillingAddress
+          ? {
+              addressId: selectedBillingAddress.address_id || null,
+              addressType: selectedBillingAddress.address_type,
+              fullAddress: selectedBillingAddress.full_address,
+              country: selectedBillingAddress.country,
+              state: selectedBillingAddress.state,
+              city: selectedBillingAddress.city,
+              landmark: selectedBillingAddress.landmark,
+              pincode: selectedBillingAddress.pincode.toString(),
+            }
+          : {},
+        productDetails: {
+          products: mappedCartItems.map((item) => ({
+            productId: item.productId.toString(),
+            productAmount: item.price,
+            quantity: item.quantity.toString(),
+            variants: item.variants,
+            productTotal: (item.price * item.quantity).toString(),
+            discountAmount: "0",
+            discountedTotal: (item.price * item.quantity).toString(),
+          })),
+          coupons: {
+            couponCode: couponCode,
+            discountPrice: totalDiscount,
+          },
+          productTotal: totalCart.toString(),
+          discountedTotal: (totalCart - totalDiscount).toString(),
+          shippingCharges: "10",
+        },
+      };
+
       const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
         headers: {
           Authorization: `Bearer ${cookieToken}`,
         },
       });
-      console.log("api REsponse", apiResponse.data.data);
-      setOrderResponse(apiResponse.data.data);
-      setPaymentStarted(true);
+
+      if (apiResponse.data) {
+        setOrderResponse(apiResponse.data.data);
+        setPaymentStarted(true);
+      }
     } catch (error: any) {
-      console.log("error", error);
+      console.error("Error initiating Razorpay order:", error);
+      alert(error.response?.data?.message || "Error initiating payment. Please try again.");
+      setLoading(false);
     }
   };
+
   useEffect(() => {
-    if (orderResponse && !paymentStarted) {
+    if (orderResponse && !paymentStarted && selectedPaymentMethod === "razorpay") {
       handleRazorpayPayment();
       setPaymentStarted(true);
     }
-  }, [orderResponse,paymentStarted]);
+  }, [orderResponse, paymentStarted, selectedPaymentMethod]);
 
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
       handleOrders();
-      console.log("razorpay should initiate");
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {

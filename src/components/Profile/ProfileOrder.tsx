@@ -78,7 +78,7 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           <p>Logout</p>
         </div>
       </div>
-      {Array.isArray(singleOrder) && singleOrder.length == 0 && (
+      {/* {Array.isArray(singleOrder) && singleOrder.length == 0 && (
          <div className="">
          <div className="w-full text-center">
            <h2 className="text-xl font-semibold">We Are Currently Down</h2>
@@ -141,8 +141,8 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
            
          </div>
        </div>
-      )}
-      {Array.isArray(singleOrder) && singleOrder.length > 1 && (
+      )} */}
+      {Array.isArray(singleOrder) && singleOrder.length > 0 && (
         <div className="mt-10">
           {Array.isArray(orders) &&
             orders.map((item: any) => (

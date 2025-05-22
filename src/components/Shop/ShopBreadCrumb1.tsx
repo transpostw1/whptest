@@ -39,6 +39,7 @@ const ShopBreadCrumb1 = () => {
   const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
+  const isFetchingRef = useRef(false);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,271 +54,227 @@ const ShopBreadCrumb1 = () => {
     }
   }, [isLoadMore]);
 
-useEffect(() => {
-  if (fetchProducts) {
-    const combinedOptions = getCombinedOptions(
-      initialOptions,
-      selectedOptions,
-    );
-    fetchData(combinedOptions);
-    setFetchProducts(false);
-  }
-}, [fetchProducts, offset, selectedSortOption]);
-
-  const fetchData = async (combinedOptions: any) => {
-    if (
-      combinedOptions.category.length > 0 ||
-      combinedOptions.search.length > 0 ||
-      combinedOptions.priceFilter.length > 0 ||
-      combinedOptions.shop_for.length > 0 ||
-      combinedOptions.karat.length > 0 ||
-      combinedOptions.metal.length > 0 ||
-      combinedOptions.occasion.length > 0 ||
-      combinedOptions.productCategory.length > 0
-    ) {
-      try {
-        setIsLoading(true);
-        const client = new ApolloClient({
-          uri: graphqlProductUrl,
-          cache: new InMemoryCache(),
-        });
-
-        const MUTATION_PRODUCTS = gql`
-          mutation Mutation($inputProducts: InputProducts) {
-            products(inputProducts: $inputProducts) {
-              productId
-              SKU
-              variantId
-              title
-              displayTitle
-              url
-              addDate
-              isActive
-              discountCategory
-              discountActive
-              typeOfDiscount
-              discountValue
-              discountAmount
-              discountPrice
-              productPrice
-              imageDetails {
-                image_path
-                order
-                alt_text
-              }
-              videoDetails {
-                video_path
-                order
-                alt_text
-              }
-              review
-              variants
-              similarProductIds
-              productCategories
-              breadcrumbs {
-                id
-                title
-                category_url
-              }
-            }
-          }
-        `;
-
-            let sortBy = "priority";
-      let sortOrder = "ASC";
-
-      // Update sorting parameters based on selectedSortOption
-      if (selectedSortOption === "Price-Low To High") {
-        sortBy = "discountPrice";
-        sortOrder = "ASC";
-      } else if (selectedSortOption === "Price-High To Low") {
-        sortBy = "discountPrice";
-        sortOrder = "DESC";
-      } else if (selectedSortOption === "Newest First") {
-        sortBy = "addDate";
-        sortOrder = "DESC";
-      }
-
-        
-
-        let inputVariables = {};
-        if (combinedOptions.category[0] === "new_Arrival") {
-          inputVariables = {
-            category: [{ value: "" }],
-            search: [{ value: "" }],
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy,
-            sortOrder,
-            productCategory: combinedOptions.productCategory[0],
-            limit: productsPerPage,
-            offset: offset,
-          };
-        } else {
-          inputVariables = {
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
-            search: combinedOptions.search.map((search: string) => ({
-              value: search,
-            })),
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy,
-            sortOrder,
-            productCategory: combinedOptions.productCategory[0],
-            limit: productsPerPage,
-            offset: offset,
-          };
-        }
-
-        // Wrap the variables in inputProducts object
-        const variables = {
-          inputProducts: inputVariables,
-        };
-        const { data } = await client.mutate({
-          mutation: MUTATION_PRODUCTS,
-          variables,
-        });
-
-        if (data && data.products) {
-          setFilteredProducts((prevProducts) => {
-            if (isLoadMore) {
-              const newProducts = [...prevProducts, ...data.products];
-              const uniqueProducts = Array.from(
-                new Map(
-                  newProducts.map((product) => [product.productId, product]),
-                ).values(),
-              );
-
-              return uniqueProducts;
-            } else {
-              return data.products;
-            }
+  useEffect(() => {
+    const fetchData = async (combinedOptions: any) => {
+      if (
+        combinedOptions.category.length > 0 ||
+        combinedOptions.search.length > 0 ||
+        combinedOptions.priceFilter.length > 0 ||
+        combinedOptions.shop_for.length > 0 ||
+        combinedOptions.karat.length > 0 ||
+        combinedOptions.metal.length > 0 ||
+        combinedOptions.occasion.length > 0 ||
+        combinedOptions.productCategory.length > 0
+      ) {
+        try {
+          if (isFetchingRef.current) return;
+          isFetchingRef.current = true;
+          
+          setIsLoading(true);
+          const client = new ApolloClient({
+            uri: graphqlProductUrl,
+            cache: new InMemoryCache(),
           });
+
+          const MUTATION_PRODUCTS = gql`
+            mutation Mutation($inputProducts: InputProducts) {
+              products(inputProducts: $inputProducts) {
+                productId
+                SKU
+                variantId
+                title
+                displayTitle
+                url
+                addDate
+                isActive
+                discountCategory
+                discountActive
+                typeOfDiscount
+                discountValue
+                discountAmount
+                discountPrice
+                productPrice
+                imageDetails {
+                  image_path
+                  order
+                  alt_text
+                }
+                videoDetails {
+                  video_path
+                  order
+                  alt_text
+                }
+                review
+                variants
+                similarProductIds
+                productCategories
+                breadcrumbs {
+                  id
+                  title
+                  category_url
+                }
+              }
+            }
+          `;
+
+          const MUTATION_FILTER_PRODUCTS = gql`
+            mutation FilterProducts($inputFilterProducts: InputFilterProducts) {
+              filterProducts(inputFilterProducts: $inputFilterProducts) {
+                title
+                options
+                labels
+              }
+            }
+          `;
+
+          // Make both API calls
+          const productsResult = await client.mutate({
+            mutation: MUTATION_PRODUCTS,
+            variables: {
+              inputProducts: {
+                ...getInputVariables(combinedOptions),
+                sortBy: getSortBy(selectedSortOption),
+                sortOrder: getSortOrder(selectedSortOption),
+                limit: productsPerPage,
+                offset: offset,
+              },
+            },
+          });
+
+          const filtersResult = await client.mutate({
+            mutation: MUTATION_FILTER_PRODUCTS,
+            variables: {
+              inputFilterProducts: {
+                ...getInputVariables(combinedOptions),
+                sortBy: "addDate",
+                sortOrder: "DESC",
+              },
+            },
+          });
+
+          if (productsResult.data?.products) {
+            setFilteredProducts((prevProducts) => {
+              if (isLoadMore) {
+                const newProducts = [...prevProducts, ...productsResult.data.products];
+                const uniqueProducts = Array.from(
+                  new Map(
+                    newProducts.map((product) => [product.productId, product]),
+                  ).values(),
+                );
+                return uniqueProducts;
+              } else {
+                return productsResult.data.products;
+              }
+            });
+          }
+
+          if (filtersResult.data?.filterProducts) {
+            setFilters(filtersResult.data.filterProducts);
+          }
+
           setIsLoading(false);
           setIsLoadMore(false);
+        } catch (error) {
+          setIsLoading(true);
+          console.error(
+            "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
+            error,
+          );
+        } finally {
+          isFetchingRef.current = false;
         }
-      } catch (error) {
-        setIsLoading(true);
-        console.error(
-          "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
-          error,
-        );
       }
+    };
+
+    if (fetchProducts && !isFetchingRef.current) {
+      const combinedOptions = getCombinedOptions(
+        initialOptions,
+        selectedOptions,
+      );
+      fetchData(combinedOptions);
+      setFetchProducts(false);
+    }
+  }, [fetchProducts, selectedOptions, offset, selectedSortOption]);
+
+  // Helper functions to get sort parameters
+  const getSortBy = (sortOption: string) => {
+    switch (sortOption) {
+      case "Price-Low To High":
+      case "Price-High To Low":
+        return "discountPrice";
+      case "Newest First":
+        return "addDate";
+      default:
+        return "priority";
     }
   };
 
-  const fetchFilter = async (combinedOptions: any) => {
-    if (
-      combinedOptions.category.length > 0 ||
-      combinedOptions.search.length > 0 ||
-      combinedOptions.priceFilter.length > 0 ||
-      combinedOptions.shop_for.length > 0 ||
-      combinedOptions.karat.length > 0 ||
-      combinedOptions.metal.length > 0 ||
-      combinedOptions.occasion.length > 0 ||
-      combinedOptions.productCategory.length > 0
-    ) {
-      try {
-        const client = new ApolloClient({
-          uri: graphqlProductUrl,
-          cache: new InMemoryCache(),
-        });
-        const MUTATION_FILTER_PRODUCTS = gql`
-          mutation FilterProducts($inputFilterProducts: InputFilterProducts) {
-            filterProducts(inputFilterProducts: $inputFilterProducts) {
-              title
-              options
-              labels
-            }
-          }
-        `;
-        const variables = {
-          inputFilterProducts: {
-            search: combinedOptions.search.map((search: string) => ({
-              value: search,
-            })),
-            category: combinedOptions.category.map((category: string) => ({
-              value: category,
-            })),
-            priceFilter: combinedOptions.priceFilter,
-            gender: combinedOptions.shop_for.map((shop_for: string) => ({
-              value: shop_for,
-            })),
-            karat: combinedOptions.karat.map((karat: string) => ({
-              value: karat,
-            })),
-            metal: combinedOptions.metal.map((metal: string) => ({
-              value: metal,
-            })),
-            weightRange: combinedOptions.weight.map((weight: string) => ({
-              value: weight,
-            })),
-            occasion: combinedOptions.occasion.map((occasion: string) => ({
-              value: occasion,
-            })),
-            sortBy: "addDate",
-            sortOrder: "DESC",
-            productCategory: combinedOptions.productCategory[0],
-          },
-        };
-
-        const { data } = await client.mutate({
-          mutation: MUTATION_FILTER_PRODUCTS,
-          variables,
-        });
-
-        if (data) {
-          if (data.filterProducts) {
-            setFilters(data.filterProducts);
-          }
-          if (data.products) {
-            setFilteredProducts(data.products);
-          }
-          setIsLoadMore(false);
-        }
-      } catch (error) {
-        console.error(
-          "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
-          error,
-        );
-      }
+  const getSortOrder = (sortOption: string) => {
+    switch (sortOption) {
+      case "Price-High To Low":
+        return "DESC";
+      case "Newest First":
+        return "DESC";
+      default:
+        return "ASC";
     }
   };
 
-const handleSortOptionChange = (option: string) => {
-  setSelectedSortOption(option);
-  setFetchProducts(true); // Trigger fetch with new sort
-};
+  const getInputVariables = (combinedOptions: any) => {
+    if (combinedOptions.category[0] === "new_Arrival") {
+      return {
+        category: [{ value: "" }],
+        search: [{ value: "" }],
+        priceFilter: combinedOptions.priceFilter,
+        gender: combinedOptions.shop_for.map((shop_for: string) => ({
+          value: shop_for,
+        })),
+        karat: combinedOptions.karat.map((karat: string) => ({
+          value: karat,
+        })),
+        metal: combinedOptions.metal.map((metal: string) => ({
+          value: metal,
+        })),
+        weightRange: combinedOptions.weight.map((weight: string) => ({
+          value: weight,
+        })),
+        occasion: combinedOptions.occasion.map((occasion: string) => ({
+          value: occasion,
+        })),
+        productCategory: combinedOptions.productCategory[0],
+      };
+    }
+    return {
+      category: combinedOptions.category.map((category: string) => ({
+        value: category,
+      })),
+      search: combinedOptions.search.map((search: string) => ({
+        value: search,
+      })),
+      priceFilter: combinedOptions.priceFilter,
+      gender: combinedOptions.shop_for.map((shop_for: string) => ({
+        value: shop_for,
+      })),
+      karat: combinedOptions.karat.map((karat: string) => ({
+        value: karat,
+      })),
+      metal: combinedOptions.metal.map((metal: string) => ({
+        value: metal,
+      })),
+      weightRange: combinedOptions.weight.map((weight: string) => ({
+        value: weight,
+      })),
+      occasion: combinedOptions.occasion.map((occasion: string) => ({
+        value: occasion,
+      })),
+      productCategory: combinedOptions.productCategory[0],
+    };
+  };
+
+  const handleSortOptionChange = (option: string) => {
+    setSelectedSortOption(option);
+    setFetchProducts(true);
+  };
 
   const getCombinedOptions = (initialOptions: any, selectedOptions: any) => {
     const combinedOptions: any = {};
@@ -390,15 +347,10 @@ const handleSortOptionChange = (option: string) => {
         if (updatedOptions["productCategory"]?.[0] === option) {
           delete updatedOptions["productCategory"];
         } else {
-          // console.log(
-          //   "inside the inner else case",
-          //   updatedOptions["productCategory"],
-          // );
           delete updatedOptions["Category"];
           updatedOptions["productCategory"] = [option];
         }
       } else {
-        // console.log("Inside the ELSE CASE");
         if (updatedOptions[category]) {
           const formattedOption = formatPriceRange(option);
           if (updatedOptions[category].includes(formattedOption)) {
@@ -544,11 +496,9 @@ const handleSortOptionChange = (option: string) => {
     applyFilters();
 
     setOffset(0);
-    const combinedOptions = getCombinedOptions(initialOptions, selectedOptions);
-    fetchFilter(combinedOptions);
-    fetchData(combinedOptions);
-
-    updateURL(selectedOptions);
+    if (!isFetchingRef.current) {
+      setFetchProducts(true);
+    }
   }, [selectedOptions]);
 
   useEffect(() => {
@@ -608,42 +558,6 @@ const handleSortOptionChange = (option: string) => {
     }
     return price;
   };
-
-  useEffect(() => {
-    if (selectedSortOption === "Price-Low To High") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const priceA: any =
-          a.discountActive === true ? a.discountPrice : a.productPrice;
-        const priceB: any =
-          b.discountActive === true ? b.discountPrice : b.productPrice;
-        return priceA - priceB;
-      });
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    } else if (selectedSortOption === "Price-High To Low") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const priceA: any =
-          a.discountActive === true ? a.discountPrice : a.productPrice;
-        const priceB: any =
-          b.discountActive === true ? b.discountPrice : b.productPrice;
-        return priceB - priceA;
-      });
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    } else if (selectedSortOption === "Newest First") {
-      const sortedProducts = [...filteredProducts].sort((a: any, b: any) => {
-        const product1: any = a.addDate;
-        const product2: any = b.addDate;
-        return product2 - product1;
-      });
-      const sortedDate = sortedProducts.map(
-        (product, index) => product.addDate,
-      );
-      setFilteredProducts(sortedProducts);
-      setPageNumber(0);
-    }
-    // Add other sorting options here
-  }, [selectedSortOption]);
 
   const removeUnderscores = (str: any) => {
     return str?.replace(
@@ -825,11 +739,11 @@ const handleSortOptionChange = (option: string) => {
                   ref={productsListRef}
                 >
                   <h2 className="mb-1 text-2xl font-semibold text-gray-800">
-                    Can’t find what you’re looking for?
+                    Can't find what you're looking for?
                   </h2>
-                  <p className="italic">Don’t worry — we’re here to help!</p>
+                  <p className="italic">Don't worry — we're here to help!</p>
                   <p className="leading-7">
-                    We’ll help you find the perfect piece or even customize one
+                    We'll help you find the perfect piece or even customize one
                     just for you.
                   </p>
                   <p className="mb-6 text-lg text-gray-600">

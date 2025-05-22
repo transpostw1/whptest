@@ -59,16 +59,19 @@ export default function Home() {
         <MainCarousel />
         <Gifts />
         <GetFastDeliveryProducts />
-        <Category/>
+        <Category />
         <ProductSlider />
+        <SpecialOccasion />
+        <ShopByGender />
+        <RoseGold />
         <SpecialOccasion />
         <ShopByGender />
         <RoseGold />
         <Explore />
         <BuyAgain />
         <RecetlyViewProduct />
-        {/* <Whptv2 /> */}
         {/* <WhatWeOffer /> */}
+        {/* <Whptv2 /> */}
         {/* <PreciousGems /> */}
         <Appointment />
         <GoldScheme />

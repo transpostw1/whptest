@@ -121,7 +121,7 @@ const Extendedfooter = () => {
             </span>
         </h1>
       </div>
-        <div className="border-line border-b py-4">
+        {/* <div className="border-line border-b py-4">
         <h1 className="font-semibold">For Kids</h1>
         <h1>
           <span
@@ -150,8 +150,8 @@ const Extendedfooter = () => {
               Men's Kadas
             </span>
         </h1>
-      </div>
-        <div className="border-line border-b py-4">
+      </div> */}
+        {/* <div className="border-line border-b py-4">
         <h1 className="font-semibold">Silver Articles</h1>
         <h1>
           <span
@@ -180,7 +180,7 @@ const Extendedfooter = () => {
               Men's Kadas
             </span>
         </h1>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -18,7 +18,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>();
   const { logOut, isLoggedIn } = useUser();
-  const [allOrders,setAllOrders]=useState<any>(orders);
   const [singleOrder, setSingleOrder] = useState<any>([]);
   const { formatPrice } = useCurrency();
   const handleLogOut = () => {
@@ -79,12 +78,10 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
           </span>
           <p>Logout</p>
         </div>
-      </div>
-
-     
-        {allOrders.length>0&&<div className="mt-10">
+      </div>     
+        {orders.length>0&&singleOrder.length>=1&&<div className="mt-10">
           {Array.isArray(orders) &&
-            allOrders.map((item: any) => (
+            orders.map((item: any) => (
               <div
                 key={item.id}
                 className="mb-4 cursor-pointer rounded-lg border border-gray-200 shadow hover:scale-[1.02] hover:border-[#E26178] hover:bg-[#E26178] hover:bg-opacity-5"
@@ -162,7 +159,6 @@ const ProfileOrders: React.FC<Props> = ({ orders }) => {
             ))}
         </div>}
       
-
       {Array.isArray(singleOrder) && singleOrder.length == 1 && (
         <SingleOrderDetails singleOrder={singleOrder} />
       )}

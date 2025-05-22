@@ -98,6 +98,7 @@ const Explore = () => {
                 fill
                 alt={item.title}
                 className="hidden object-contain transition-transform duration-700 group-hover:scale-110 md:block"
+                unoptimized
                 priority
               />
             </div>

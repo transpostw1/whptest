@@ -9,7 +9,7 @@ import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],

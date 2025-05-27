@@ -2,7 +2,6 @@
 import useUserTracking from "@/hooks/useUserTracking";
 import React, { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -13,7 +12,6 @@ declare global {
 const Analytics = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -25,7 +23,8 @@ const Analytics = () => {
         window.gtag("event", "page_view", {
           page_path: url,
           page_location: window.location.href,
-          page_title: document.title
+          page_title: document.title,
+          cookie_flags: 'SameSite=None;Secure'
         });
       }
     };
@@ -40,27 +39,14 @@ const Analytics = () => {
     };
 
     window.addEventListener('popstate', handleRouteComplete);
-    router.events?.on('routeChangeComplete', handleRouteComplete);
+    
+    // Use the correct event listener for App Router
+    window.addEventListener('beforeunload', handleRouteChange);
 
     return () => {
       window.removeEventListener('popstate', handleRouteComplete);
-      router.events?.off('routeChangeComplete', handleRouteComplete);
+      window.removeEventListener('beforeunload', handleRouteChange);
     };
-  }, [pathname, searchParams, router]);
-
-  // Additional effect to handle immediate URL changes
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.gtag) {
-      const url = searchParams.toString() 
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-        
-      window.gtag("event", "page_view", {
-        page_path: url,
-        page_location: window.location.href,
-        page_title: document.title
-      });
-    }
   }, [pathname, searchParams]);
 
   return null;

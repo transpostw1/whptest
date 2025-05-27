@@ -107,7 +107,10 @@ export default function RootLayout({
     gtag('config', 'G-KS3DVFD5ZW', {
       send_page_view: true,
       allow_google_signals: true,
-      allow_ad_personalization_signals: true
+      allow_ad_personalization_signals: true,
+      cookie_flags: 'SameSite=None;Secure',
+      cookie_domain: 'auto',
+      cookie_expires: 63072000
     });
   `}
           </Script>

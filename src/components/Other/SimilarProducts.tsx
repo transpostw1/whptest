@@ -19,6 +19,7 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
   const [products, setProducts] = useState<any>([]);
   const swiperRef = useRef<any>();
   const product: number = Number(productId);
+  const productIdInt = typeof productId === "string" ? parseInt(productId, 10) : productId;
 
   useEffect(() => {
     if (!productId) return;
@@ -56,7 +57,7 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
 
         const { data } = await client.query({
           query: GET_SIMILAR_PRODUCTS,
-          variables: { productId:productId },
+          variables: { productId:productIdInt },
           fetchPolicy: "no-cache",
         });
 

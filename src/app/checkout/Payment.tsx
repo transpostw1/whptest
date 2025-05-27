@@ -29,6 +29,11 @@ interface PaymentProps {
   totalDiscount: number; // Add the totalDiscount prop
   setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
 }
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
 
 const Payment: React.FC<PaymentProps> = ({
   wallet,
@@ -165,6 +170,10 @@ const Payment: React.FC<PaymentProps> = ({
     };
     fetchSubBanners();
   }, []);
+
+  useEffect(() => {
+  pushCartToDataLayer();
+}, [mappedCartItems, totalCart, totalDiscount]);
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -178,6 +187,28 @@ const Payment: React.FC<PaymentProps> = ({
 
     loadRazorpayScript();
   }, []);
+
+  const pushCartToDataLayer = () => {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "view_cart",
+    ecommerce: {
+      currency: "INR",
+      value: totalCart - totalDiscount,
+      discount: totalDiscount,
+      items: mappedCartItems.map((item) => ({
+        item_id: item.productId,
+        item_name: item.productTitle,
+        price: item.price,
+        quantity: item.quantity,
+        discount: item.discountAmount || 0,
+        item_category: item.category || "",
+        item_variant: item.variants ? JSON.stringify(item.variants) : "",
+      })),
+    },
+  });
+};
 
   const handleRazorpayPayment = async () => {
     setLoading(true);
@@ -699,3 +730,7 @@ const Payment: React.FC<PaymentProps> = ({
 };
 
 export default Payment;
+
+
+
+

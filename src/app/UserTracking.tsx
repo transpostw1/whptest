@@ -15,8 +15,12 @@ const Analytics = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.gtag) {
+      const url = searchParams.toString() 
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
+        
       window.gtag("config", "G-KS3DVFD5ZW", {
-        page_path: pathname + searchParams.toString(),
+        page_path: url,
       });
     }
   }, [pathname, searchParams]);

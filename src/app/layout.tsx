@@ -102,10 +102,10 @@ export default function RootLayout({
           <Script id="google-analytics" strategy="afterInteractive">
             {`
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}      
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-KS3DVFD5ZW', {
-      send_page_view: true,
+      send_page_view: false,
       allow_google_signals: true,
       allow_ad_personalization_signals: true,
       cookie_flags: 'SameSite=None;Secure',

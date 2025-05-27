@@ -14,38 +14,46 @@ const Analytics = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const handleRouteChange = () => {
+    const sendPageView = () => {
       if (typeof window !== "undefined" && window.gtag) {
         const url = searchParams.toString() 
           ? `${pathname}?${searchParams.toString()}`
           : pathname;
-          
+
+        // Send page view event
         window.gtag("event", "page_view", {
           page_path: url,
           page_location: window.location.href,
-          page_title: document.title,
-          cookie_flags: 'SameSite=None;Secure'
+          page_title: document.title
+        });
+
+        // Also send config update
+        window.gtag("config", "G-KS3DVFD5ZW", {
+          page_path: url,
+          page_location: window.location.href,
+          page_title: document.title
         });
       }
     };
 
-    // Track initial page view
-    handleRouteChange();
+    // Initial page view
+    sendPageView();
 
-    // Track subsequent page views
-    const handleRouteComplete = () => {
-      // Small delay to ensure page content is loaded
-      setTimeout(handleRouteChange, 100);
+    // Handle route changes
+    const handleRouteChange = () => {
+      // Wait for the page to be fully loaded
+      setTimeout(sendPageView, 100);
     };
 
-    window.addEventListener('popstate', handleRouteComplete);
-    
-    // Use the correct event listener for App Router
-    window.addEventListener('beforeunload', handleRouteChange);
+    // Listen for route changes
+    window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("pushState", handleRouteChange);
+    window.addEventListener("replaceState", handleRouteChange);
 
     return () => {
-      window.removeEventListener('popstate', handleRouteComplete);
-      window.removeEventListener('beforeunload', handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("pushState", handleRouteChange);
+      window.removeEventListener("replaceState", handleRouteChange);
     };
   }, [pathname, searchParams]);
 

@@ -14,15 +14,29 @@ const Analytics = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.gtag) {
-      const url = searchParams.toString() 
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-        
-      window.gtag("config", "G-KS3DVFD5ZW", {
-        page_path: url,
-      });
-    }
+    const handleRouteChange = () => {
+      if (typeof window !== "undefined" && window.gtag) {
+        const url = searchParams.toString() 
+          ? `${pathname}?${searchParams.toString()}`
+          : pathname;
+          
+        window.gtag("event", "page_view", {
+          page_path: url,
+          page_location: window.location.href,
+          page_title: document.title
+        });
+      }
+    };
+
+    // Track initial page view
+    handleRouteChange();
+
+    // Track subsequent page views
+    window.addEventListener('popstate', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, [pathname, searchParams]);
 
   return null;

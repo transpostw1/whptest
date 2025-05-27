@@ -3,6 +3,12 @@ import useUserTracking from "@/hooks/useUserTracking";
 import React, { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
+declare global {
+  interface Window {
+    gtag: (command: string, targetId: string, config?: object) => void;
+  }
+}
+
 const UserTracking = () => {
   useUserTracking();
   const pathname = usePathname();

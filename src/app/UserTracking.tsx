@@ -2,6 +2,7 @@
 import useUserTracking from "@/hooks/useUserTracking";
 import React, { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -12,6 +13,7 @@ declare global {
 const Analytics = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -32,11 +34,33 @@ const Analytics = () => {
     handleRouteChange();
 
     // Track subsequent page views
-    window.addEventListener('popstate', handleRouteChange);
+    const handleRouteComplete = () => {
+      // Small delay to ensure page content is loaded
+      setTimeout(handleRouteChange, 100);
+    };
+
+    window.addEventListener('popstate', handleRouteComplete);
+    router.events?.on('routeChangeComplete', handleRouteComplete);
 
     return () => {
-      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteComplete);
+      router.events?.off('routeChangeComplete', handleRouteComplete);
     };
+  }, [pathname, searchParams, router]);
+
+  // Additional effect to handle immediate URL changes
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.gtag) {
+      const url = searchParams.toString() 
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
+        
+      window.gtag("event", "page_view", {
+        page_path: url,
+        page_location: window.location.href,
+        page_title: document.title
+      });
+    }
   }, [pathname, searchParams]);
 
   return null;

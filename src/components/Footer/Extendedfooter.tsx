@@ -76,7 +76,7 @@ const Extendedfooter = () => {
               handleNavigation("pendant for women", "Pendants for women")
             }
             className="cursor-pointer"
-          >
+          >{" "}
             Pendants For Women
           </span>
           |
@@ -121,11 +121,11 @@ const Extendedfooter = () => {
             </span>
         </h1>
       </div>
-        {/* <div className="border-line border-b py-4">
+        <div className="border-line border-b py-4">
         <h1 className="font-semibold">For Kids</h1>
         <h1>
           <span
-            onClick={() => handleNavigation("ring for men", "Rings for men")}
+            onClick={() => handleNavigation("ring for kids", "Rings for kids")}
             className="cursor-pointer"
           >
             Rings For Kids
@@ -156,15 +156,15 @@ const Extendedfooter = () => {
              Siler jewellery For Kids
             </span>
         </h1>
-      </div> */}
-        {/* <div className="border-line border-b py-4">
+      </div> 
+        <div className="border-line border-b py-4">
         <h1 className="font-semibold">Silver Articles</h1>
         <h1>
           <span
             onClick={() => handleNavigation("ring for men", "Rings for men")}
             className="cursor-pointer"
           >
-            Rings For Men
+            Pooja Articles
           </span>
           |{" "}
           <span
@@ -173,20 +173,20 @@ const Extendedfooter = () => {
             }
             className="cursor-pointer"
           >
-            Earrings For Men
+            Utensils
           </span>{" "}
           |{" "}
           <span
             onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
             className="cursor-pointer"
           >
-            Bracelets For Men
+            Idols
           </span>{" "}
           |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
-              Men's Kadas
+              Silver Gifting
             </span>
         </h1>
-      </div> */}
+      </div>
     </div>
   );
 };

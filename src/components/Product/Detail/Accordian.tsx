@@ -289,7 +289,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         >
           <div className="mt-5">{product?.productDetails?.longDesc}</div>
           <div className="mt-4 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
-            {parseInt(product?.productDetails?.metalWeight)>0 && (
+            {product?.productDetails?.metalWeight && (
               <div className="flex flex-col items-center gap-2 text-center">
                 <Icon.Scales size={27} weight="thin" />
                 <p className="text-sm font-medium">

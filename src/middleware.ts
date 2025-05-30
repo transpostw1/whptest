@@ -7,15 +7,16 @@ import redirects from './config/redirects.json'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Log the incoming pathname
+  console.log(`Incoming pathname: ${pathname}`);
+
   // Iterate through redirects and check for a match
   for (const redirect of redirects.redirects) {
-    // Basic pattern matching: check if the pathname starts with the source
-    // For more complex patterns (like :path*), you might need a regex library
-    // or more sophisticated matching logic here.
-    // For simplicity, this example checks for exact match or startsWith for dynamic segments.
-    
     let sourcePattern = redirect.source;
     
+    // Log the source pattern being checked
+    console.log(`Checking source pattern: ${sourcePattern}`);
+
     // Remove trailing slash from sourcePattern unless it's just '/'
     if (sourcePattern.length > 1 && sourcePattern.endsWith('/')) {
       sourcePattern = sourcePattern.slice(0, -1);
@@ -26,10 +27,15 @@ export function middleware(request: NextRequest) {
     if (cleanPathname.length > 1 && cleanPathname.endsWith('/')) {
       cleanPathname = cleanPathname.slice(0, -1);
     }
+    
+    // Log cleaned paths for comparison
+    console.log(`Cleaned pathname: ${cleanPathname}, Cleaned source: ${sourcePattern}`);
 
     // Check for exact match or if the source pattern is a prefix (for dynamic paths)
     if (cleanPathname === sourcePattern || (sourcePattern.endsWith(':path*') && cleanPathname.startsWith(sourcePattern.replace(':path*', '')))) {
       
+      console.log(`Match found for source: ${redirect.source}`);
+
       // Construct the destination URL
       const destination = new URL(redirect.destination, request.url)
       
@@ -44,7 +50,8 @@ export function middleware(request: NextRequest) {
       })
     }
   }
-
+  
+  console.log(`No redirect match found for ${pathname}`);
   return NextResponse.next()
 }
 

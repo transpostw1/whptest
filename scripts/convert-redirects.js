@@ -14,6 +14,9 @@ const redirects = {
     let sourceUrl = row['Top pages']; // Get the full URL from Excel
     let destinationUrl = row['Redirect to']; // Get the full URL from Excel
     
+    // Log the original source URL from Excel
+    console.log(`Original Source URL: ${sourceUrl}`);
+
     let sourcePath = '';
     try {
       // Extract only the pathname from the source URL, exclude search and hash
@@ -24,6 +27,14 @@ const redirects = {
       // Handle invalid URLs, maybe skip or log an error
       return null; // Skip this row if the URL is invalid
     }
+
+    // Next.js redirect source patterns must start with a /, ensure this
+    if (!sourcePath.startsWith('/')) {
+        sourcePath = '/' + sourcePath;
+    }
+
+    // Log the extracted source path before adding to JSON
+    console.log(`Extracted Source Path: ${sourcePath}`);
 
     // Destination can be a full URL or a path, so keep it as is from the Excel or convert if needed
     // Assuming destination can be a full URL or path based on your sample
@@ -39,11 +50,6 @@ const redirects = {
        return null; // Skip this row if destination URL is invalid
     }
     */
-
-    // Next.js redirect source patterns must start with a /, ensure this
-    if (!sourcePath.startsWith('/')) {
-        sourcePath = '/' + sourcePath;
-    }
 
     return {
       source: sourcePath, // Use the extracted pathname

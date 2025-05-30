@@ -1,7 +1,7 @@
 const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
-const { URL } = require('url'); // Import URL module
+// const { URL } = require('url'); // No longer strictly needed for parsing source path
 
 // Read the Excel file
 const workbook = xlsx.readFile('redirects.xlsx'); // Replace with your Excel file name
@@ -18,14 +18,40 @@ const redirects = {
     console.log(`Original Source URL: ${sourceUrl}`);
 
     let sourcePath = '';
+    
+    // Ensure sourceUrl is a string
+    if (typeof sourceUrl !== 'string') {
+        console.error(`Invalid source URL type in Excel: ${sourceUrl}`);
+        return null; // Skip this row if the source is not a string
+    }
+
     try {
-      // Extract only the pathname from the source URL, exclude search and hash
-      const parsedUrl = new URL(sourceUrl);
-      sourcePath = parsedUrl.pathname;
+      // Explicitly find the first occurrence of ? or # and take the substring before it
+      const queryStringIndex = sourceUrl.indexOf('?');
+      const hashIndex = sourceUrl.indexOf('#');
+      
+      let endIndex = sourceUrl.length;
+      if (queryStringIndex !== -1 && (hashIndex === -1 || queryStringIndex < hashIndex)) {
+          endIndex = queryStringIndex;
+      } else if (hashIndex !== -1) {
+          endIndex = hashIndex;
+      }
+
+      // Get the path part before ? or #
+      sourcePath = sourceUrl.substring(0, endIndex);
+      
+      // If the source URL was a full URL (like https://...), extract just the path part
+      try {
+          const parsedUrl = new URL(sourcePath); // Attempt to parse just the path part
+          sourcePath = parsedUrl.pathname; // Get the pathname
+      } catch (e) {
+          // If parsing as a URL fails, assume it was already just a path
+          // console.log(`Source path not a full URL, using as is: ${sourcePath}`);
+      }
+
     } catch (e) {
-      console.error(`Invalid source URL in Excel: ${sourceUrl}`, e);
-      // Handle invalid URLs, maybe skip or log an error
-      return null; // Skip this row if the URL is invalid
+      console.error(`Error processing source URL: ${sourceUrl}`, e);
+      return null; // Skip this row if processing fails
     }
 
     // Next.js redirect source patterns must start with a /, ensure this
@@ -45,8 +71,7 @@ const redirects = {
     try {
       const parsedDestUrl = new URL(destinationUrl);
       finalDestination = parsedDestUrl.pathname + parsedDestUrl.search + parsedDestUrl.hash;
-    } catch (e) {
-       console.error(`Invalid destination URL in Excel: ${destinationUrl}`, e);
+    } catch (e) {\n       console.error(`Invalid destination URL in Excel: ${destinationUrl}`, e);
        return null; // Skip this row if destination URL is invalid
     }
     */

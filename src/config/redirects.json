@@ -11,7 +11,7 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?availablein=22kt%20gold&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -26,7 +26,7 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?price=30000-49999&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -36,17 +36,17 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?price=10000-19999&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?price=20000-29999&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?availablein=18kt%20gold&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -56,7 +56,7 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?price=50000-49999999&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -96,7 +96,7 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?availablein=14kt%20gold&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -121,7 +121,7 @@
       "permanent": true
     },
     {
-      "source": "/jewellery-for-women/mangalsutra.html?price=0-9999&sortby=new",
+      "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -136,7 +136,7 @@
       "permanent": true
     },
     {
-      "source": "/products?url=pc-mangalsutra",
+      "source": "/products",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -176,7 +176,7 @@
       "permanent": true
     },
     {
-      "source": "/product/17568/divine-bond-24kt-gold-mangalsutra-.html?gQT=1",
+      "source": "/product/17568/divine-bond-24kt-gold-mangalsutra-.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },
@@ -386,7 +386,7 @@
       "permanent": true
     },
     {
-      "source": "/product/21244/gold-mangalsutra.html?gQT=1",
+      "source": "/product/21244/gold-mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
       "permanent": true
     },

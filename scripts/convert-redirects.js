@@ -16,9 +16,9 @@ const redirects = {
     
     let sourcePath = '';
     try {
-      // Extract only the path from the source URL
+      // Extract only the pathname from the source URL, exclude search and hash
       const parsedUrl = new URL(sourceUrl);
-      sourcePath = parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
+      sourcePath = parsedUrl.pathname;
     } catch (e) {
       console.error(`Invalid source URL in Excel: ${sourceUrl}`, e);
       // Handle invalid URLs, maybe skip or log an error
@@ -40,8 +40,13 @@ const redirects = {
     }
     */
 
+    // Next.js redirect source patterns must start with a /, ensure this
+    if (!sourcePath.startsWith('/')) {
+        sourcePath = '/' + sourcePath;
+    }
+
     return {
-      source: sourcePath, // Use the extracted path
+      source: sourcePath, // Use the extracted pathname
       destination: finalDestination, // Use the destination as is from Excel
       permanent: true
     };

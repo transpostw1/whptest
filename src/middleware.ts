@@ -2,30 +2,47 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import redirects from './config/redirects.json'
 
-// Create a Map for O(1) lookup of redirects
-const redirectMap = new Map(
-  redirects.redirects.map((redirect) => [redirect.source, redirect])
-)
+// The redirects are now iterated through, no need for a map
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Check if the current path matches any redirect
-  const redirect = redirectMap.get(pathname)
-  
-  if (redirect) {
-    // Create the destination URL
-    const destination = new URL(redirect.destination, request.url)
+  // Iterate through redirects and check for a match
+  for (const redirect of redirects.redirects) {
+    // Basic pattern matching: check if the pathname starts with the source
+    // For more complex patterns (like :path*), you might need a regex library
+    // or more sophisticated matching logic here.
+    // For simplicity, this example checks for exact match or startsWith for dynamic segments.
     
-    // Preserve query parameters if they exist
-    request.nextUrl.searchParams.forEach((value, key) => {
-      destination.searchParams.set(key, value)
-    })
+    let sourcePattern = redirect.source;
+    
+    // Remove trailing slash from sourcePattern unless it's just '/'
+    if (sourcePattern.length > 1 && sourcePattern.endsWith('/')) {
+      sourcePattern = sourcePattern.slice(0, -1);
+    }
 
-    // Return the redirect response
-    return NextResponse.redirect(destination, {
-      status: redirect.permanent ? 308 : 307
-    })
+    let cleanPathname = pathname;
+    // Remove trailing slash from pathname unless it's just '/'
+    if (cleanPathname.length > 1 && cleanPathname.endsWith('/')) {
+      cleanPathname = cleanPathname.slice(0, -1);
+    }
+
+    // Check for exact match or if the source pattern is a prefix (for dynamic paths)
+    if (cleanPathname === sourcePattern || (sourcePattern.endsWith(':path*') && cleanPathname.startsWith(sourcePattern.replace(':path*', '')))) {
+      
+      // Construct the destination URL
+      const destination = new URL(redirect.destination, request.url)
+      
+      // Preserve query parameters if they exist
+      request.nextUrl.searchParams.forEach((value, key) => {
+        destination.searchParams.set(key, value)
+      })
+
+      // Return the redirect response
+      return NextResponse.redirect(destination, {
+        status: redirect.permanent ? 308 : 307
+      })
+    }
   }
 
   return NextResponse.next()

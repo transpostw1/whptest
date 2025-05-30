@@ -69,7 +69,7 @@ const ShopBreadCrumb1 = () => {
         try {
           if (isFetchingRef.current) return;
           isFetchingRef.current = true;
-          
+
           setIsLoading(true);
           const client = new ApolloClient({
             uri: graphqlProductUrl,
@@ -155,7 +155,10 @@ const ShopBreadCrumb1 = () => {
           if (productsResult.data?.products) {
             setFilteredProducts((prevProducts) => {
               if (isLoadMore) {
-                const newProducts = [...prevProducts, ...productsResult.data.products];
+                const newProducts = [
+                  ...prevProducts,
+                  ...productsResult.data.products,
+                ];
                 const uniqueProducts = Array.from(
                   new Map(
                     newProducts.map((product) => [product.productId, product]),
@@ -335,7 +338,7 @@ const ShopBreadCrumb1 = () => {
       ...(initialOptions.productCategory || []),
       ...(selectedOptions.productCategory || []),
     ];
-    // console.log(combinedOptions, "COMBINEDDDDD");
+    console.log(combinedOptions, "COMBINEDDDDD");
     return combinedOptions;
   };
 
@@ -660,11 +663,7 @@ const ShopBreadCrumb1 = () => {
                               key={`${category}-${index}`}
                               className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {
-                                option
-                                  .replace(/_/g, " ") 
-                                  .replace(/,?$/, "") 
-                              }
+                              {option.replace(/_/g, " ")}
                               <button
                                 className="mb-1 ml-2 align-middle"
                                 onClick={() =>

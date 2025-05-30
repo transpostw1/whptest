@@ -1,6 +1,7 @@
 const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
+const { URL } = require('url'); // Import URL module
 
 // Read the Excel file
 const workbook = xlsx.readFile('redirects.xlsx'); // Replace with your Excel file name
@@ -9,11 +10,42 @@ const data = xlsx.utils.sheet_to_json(worksheet);
 
 // Convert to the required format
 const redirects = {
-  redirects: data.map(row => ({
-    source: row['Top pages'], // Using the column name from your Excel
-    destination: row['Redirect to'], // Using the column name from your Excel
-    permanent: true
-  }))
+  redirects: data.map(row => {
+    let sourceUrl = row['Top pages']; // Get the full URL from Excel
+    let destinationUrl = row['Redirect to']; // Get the full URL from Excel
+    
+    let sourcePath = '';
+    try {
+      // Extract only the path from the source URL
+      const parsedUrl = new URL(sourceUrl);
+      sourcePath = parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
+    } catch (e) {
+      console.error(`Invalid source URL in Excel: ${sourceUrl}`, e);
+      // Handle invalid URLs, maybe skip or log an error
+      return null; // Skip this row if the URL is invalid
+    }
+
+    // Destination can be a full URL or a path, so keep it as is from the Excel or convert if needed
+    // Assuming destination can be a full URL or path based on your sample
+    let finalDestination = destinationUrl;
+    // If destination is also a full URL and you only want the path, uncomment below:
+    /*
+    let finalDestination = '';
+    try {
+      const parsedDestUrl = new URL(destinationUrl);
+      finalDestination = parsedDestUrl.pathname + parsedDestUrl.search + parsedDestUrl.hash;
+    } catch (e) {
+       console.error(`Invalid destination URL in Excel: ${destinationUrl}`, e);
+       return null; // Skip this row if destination URL is invalid
+    }
+    */
+
+    return {
+      source: sourcePath, // Use the extracted path
+      destination: finalDestination, // Use the destination as is from Excel
+      permanent: true
+    };
+  }).filter(Boolean) // Filter out any null entries from invalid URLs
 };
 
 // Write to redirects.json

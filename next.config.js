@@ -1,6 +1,12 @@
+const redirects = require('./src/config/redirects.json');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = ({
   reactStrictMode: false,
+  async redirects() {
+    // Load redirects from the JSON file
+    return redirects.redirects;
+  },
   productionBrowserSourceMaps: false,
   eslint: {
     ignoreDuringBuilds: true,

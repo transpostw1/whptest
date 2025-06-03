@@ -11,12 +11,20 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 import { graphqlbaseUrl } from "@/utils/constants";
+import ViewSimilar from "../Product/ViewSimilar";
 
 const RecentlyViewProduct = () => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const swiperRef = useRef<any>();
+  const [viewSimilarProducts, setViewSimilarProducts] = useState(false);
+const [similarProductId, setSimilarProductId] = useState<number | null>(null);
+
+const handleViewSimilarProducts = (productId: number) => {
+  setSimilarProductId(productId);
+  setViewSimilarProducts(true);
+};
 
   useEffect(() => {
     const getData = async () => {
@@ -168,7 +176,10 @@ const RecentlyViewProduct = () => {
                 >
                   {data.map((prd: any, index: any) => (
                     <SwiperSlide key={index}>
-                      <DummyProduct data={prd} />
+                      <DummyProduct
+                        data={prd}
+                        onViewSimilar={handleViewSimilarProducts}
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -177,6 +188,13 @@ const RecentlyViewProduct = () => {
           </div>
         </div>
       )}
+      {viewSimilarProducts && similarProductId && (
+  <ViewSimilar
+    showComponent={viewSimilarProducts}
+    handleViewSimilarProducts={() => setViewSimilarProducts(false)}
+    productId={similarProductId}
+  />
+)}
     </>
   );
 };

@@ -289,7 +289,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         >
           <div className="mt-5">{product?.productDetails?.longDesc}</div>
           <div className="mt-4 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
-            {parseInt(product?.productDetails?.metalWeight) > 0 && (
+            {product?.productDetails?.metalWeight && (
               <div className="flex flex-col items-center gap-2 text-center">
                 <Icon.Scales size={27} weight="thin" />
                 <p className="text-sm font-medium">
@@ -597,9 +597,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p>G.S.T</p>
               </div>
               <div>
-                {parseInt(product.productDetails?.metalWeight) > 0 && (
+                {/* {parseInt(product.productDetails?.metalWeight)  && ( */}
                   <p>{product.productDetails?.metalWeight} gms</p>
-                )}
+                {/* // )} */}
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
                     {product.productDetails.diamondDetails.map(
@@ -617,14 +617,14 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
                 {product.productDetails?.stoneDetails &&
                   product.productDetails?.stoneDetails.length > 0 && (
-                    <p>{product.productDetails?.stoneDetails.stoneWeight}carats</p>
+                    <p className="bg-blue-700">{product.productDetails?.stoneDetails.stoneWeight}carats</p>
                   )}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountActive && <p>-</p>}
                 {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                {parseInt(product.productDetails?.metalRate) > 0 && (
+                {parseInt(product.productDetails?.metalRate) && (
                   <p className="text-right">
                     {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>

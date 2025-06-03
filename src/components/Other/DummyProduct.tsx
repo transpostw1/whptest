@@ -9,7 +9,7 @@ import { useCurrency } from "@/context/CurrencyContext";
 import StarRating from "./StarRating";
 import { IoCameraOutline } from "react-icons/io5";
 import { showCustomToast } from "@/components/Other/CustomToast";
-import SimilarModal from "@/components/Modal/SimilarModal";
+
 interface ProductProps {
   data: any;
   onViewSimilar: (productId: number) => void;
@@ -319,7 +319,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
                 />
               )}
               <div>
-                {data.similarProductIds !== null && (
+                {data?.similarProductIds !== null && (
                   <div
                     className="flex cursor-pointer items-center space-x-2 absolute bottom-0 left-0 z-0"
                  onClick={() => onViewSimilar(Number(data.productId))}

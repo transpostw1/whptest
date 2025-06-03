@@ -1,6 +1,7 @@
 
 
 /** @type {import('next').NextConfig} */
+const redirectsFromFile = require("./src/config/redirects.json");
 const nextConfig = ({
   reactStrictMode: false,
   async redirects() {
@@ -78,6 +79,7 @@ const nextConfig = ({
         destination:"/products?url=pc-all_jewellery_silver_article_pooja_articles",
         permanent:true,
       },
+      // ...redirectsFromFile,
     ];
   },
   productionBrowserSourceMaps: false,

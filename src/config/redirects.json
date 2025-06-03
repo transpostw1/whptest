@@ -1,443 +1,393 @@
 {
   "redirects": [
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/jewellery-for-women/mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra/gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/jewellery-for-women/mangalsutra/gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?availablein=22kt gold&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/jewellery-for-women/gold-jewellery-by-WHP-jewellers/gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/gold-jewellery-by-WHP-jewellers/gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/jewellery-for-women/mangalsutra/mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra/mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/jewellery-for-women/mangalsutra/diamond-mangalsutra.html",
+      "destination": "/products?url=pc-womens_jewellery_diamond_jewellery_mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?price=30000-49999&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17568/divine-bond-24kt-gold-mangalsutra-.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra/diamond-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-womens_jewellery_diamond_jewellery_mangalsutra",
+      "source": "/product/21244/gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?price=10000-19999&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17637/eternal-elegance-22kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?price=20000-29999&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12478/goddess-lakshmi-gold-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?availablein=18kt gold&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/6010/muhurta-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17568/divine-bond-24kt-gold-mangalsutra-.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17547/exquisite-gold-heritage-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?price=50000-49999999&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12477/panchali-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/21244/gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12478/goddess-lakshmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17637/eternal-elegance-22kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/21063/graceful-bunch-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12478/goddess-lakshmi-gold-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/17568/divine-bond-24kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/6010/muhurta-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12475/elegant-laxmi-gold-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17547/exquisite-gold-heritage-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20784/classic-chain-patti-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12477/panchali-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/6006/janvi-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12478/goddess-lakshmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/prime-products/mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?availablein=14kt gold&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/products",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/21063/graceful-bunch-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/372/gold-wati-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17568/divine-bond-24kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17568/divine-bond-24kt-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12475/elegant-laxmi-gold-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/6010/muhurta-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20784/classic-chain-patti-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/section/mangalsutra-designs.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html?price=0-9999&sortby=new",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/2741/whp-18kt-gold-mangalsutra-waman-hari-pethe-jewellers-.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/6006/janvi-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/7526/whp-jewellers-22kt-(916)-gold-mangalsutra-bracelet-for-women.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/prime-products/mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12694/sneha-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17545/signature-shine-22kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/372/gold-wati-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/4654/timeless-elegance-22kt-long-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17568/divine-bond-24kt-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12476/panchdhatu-laxmi-gold-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/6010/muhurta-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/16860/a-gleaming-statement-22kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/section/mangalsutra-designs.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5884/football-gold-mangalsutra-mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/2741/whp-18kt-gold-mangalsutra-waman-hari-pethe-jewellers-.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17567/royal-22kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/7526/whp-jewellers-22kt-(916)-gold-mangalsutra-bracelet-for-women.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5885/vivacious-hanging-gold-mangalsutra-mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12694/sneha-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/7526/love-gold-mangalsutra-bracelet.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17568/divine-bond-24kt-gold-mangalsutra-.html?gQT=1",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20786/modern-gold-chain-patti-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17545/signature-shine-22kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/13514/tanisha-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/4654/timeless-elegance-22kt-long-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20526/geru-polish-gold-wedding-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12476/panchdhatu-laxmi-gold-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/20784/classic-chain-patti-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/16860/a-gleaming-statement-22kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5884/football-gold-mangalsutra-mani-wati-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/5884/football-gold-mangalsutra-mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/18220/gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17567/royal-22kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20786/modern-gold-chain-patti-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/5885/vivacious-hanging-gold-mangalsutra-mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/12475/elegant-laxmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/7526/love-gold-mangalsutra-bracelet.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/13508/mohini-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20786/modern-gold-chain-patti-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20526/geru-polish-gold-wedding-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/13514/tanisha-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20966/majestic-wedding-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20526/geru-polish-gold-wedding-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/13629/richa-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20784/classic-chain-patti-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12620/abhira-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/5884/football-gold-mangalsutra-mani-wati-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/5891/luxurious-gold-mangalsutra-mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/18220/gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/16778/gold-mangalsutra-sar.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20786/modern-gold-chain-patti-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12680/pure-heart-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12475/elegant-laxmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/18103/majestic-22kt-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/13508/mohini-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20432/twin-strand-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20526/geru-polish-gold-wedding-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5888/dainty-sheen-gold-mangalsutra-mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20966/majestic-wedding-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/14505/kavya-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/13629/richa-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20783/traditional-black-beads-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12620/abhira-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/12476/panchdhatu-laxmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/5891/luxurious-gold-mangalsutra-mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/17023/saahana-gold-mangalsutra-sar.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/16778/gold-mangalsutra-sar.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20783/traditional-black-beads-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12680/pure-heart-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/6343/diamond-mangalsutra-pendant--for-women.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/18103/majestic-22kt-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/14511/swarnika-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20432/twin-strand-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20525/traditional-geru-polish-bridal-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/5888/dainty-sheen-gold-mangalsutra-mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/18222/gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/14505/kavya-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/13508/mohini-gold-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20783/traditional-black-beads-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/12692/akshay-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12476/panchdhatu-laxmi-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/19661/opulent-adornments-gold-maniwati-long-mangalsutra-designs.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/17023/saahana-gold-mangalsutra-sar.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20429/vintage-style-gold-chain-patti-mangalsutra-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20783/traditional-black-beads-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20808/chic-fancy-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/6343/diamond-mangalsutra-pendant--for-women.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
+      "source": "/product/19660/subtle-splendor-daily-wear-small-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/14511/swarnika-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/16052/trivikram-gold-mangalsutra-pendant-with-free-gold-coin.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20525/traditional-geru-polish-bridal-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/17997/diamond-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/18222/gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/15576/elegant-embrace-gold-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/13508/mohini-gold-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20864/artsy-wings-diamond-mangalsutra.html",
+      "destination": "/products?url=pc-womens_jewellery_diamond_jewellery_mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/12692/akshay-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5882/kiran-gold-mangalsutra-mani-wati.html",
+      "destination": "/products?url=pc-mangalsutra_maniwati",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/19661/opulent-adornments-gold-maniwati-long-mangalsutra-designs.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
+      "source": "/product/20529/cultural-long-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20429/vintage-style-gold-chain-patti-mangalsutra-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/5846/round-cut-gold-mangalsutra-pendant.html",
+      "destination": "/products?url=pc-mangalsutra_pendant",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/20808/chic-fancy-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
+      "source": "/product/20303/exquisite-wedding-heavy-gold-mangalsutra.html",
+      "destination": "/products?url=pc-mangalsutra",
       "permanent": true
     },
     {
-      "source": "https://www.whpjewellers.com/product/21244/gold-mangalsutra.html?gQT=1",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/19660/subtle-splendor-daily-wear-small-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/16052/trivikram-gold-mangalsutra-pendant-with-free-gold-coin.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/17997/diamond-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/15576/elegant-embrace-gold-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/20864/artsy-wings-diamond-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-womens_jewellery_diamond_jewellery_mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/5882/kiran-gold-mangalsutra-mani-wati.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_maniwati",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/20529/cultural-long-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/5846/round-cut-gold-mangalsutra-pendant.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra_pendant",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/product/20303/exquisite-wedding-heavy-gold-mangalsutra.html",
-      "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "https://www.whpjewellers.com/blog/22/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
-      "destination": "https://www.whpjewellers.com/blog/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
+      "source": "/blog/22/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
+      "destination": "/blog/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
       "permanent": true
     }
   ]

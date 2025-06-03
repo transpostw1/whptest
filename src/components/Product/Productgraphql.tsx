@@ -35,7 +35,8 @@ interface VideoDetailWithTypename {
 const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [viewSimilarProducts, setViewSimilarProducts] =
     useState<boolean>(false);
-  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const [selectedSimilarProductId, setSelectedSimilarProductId] = useState<number | null>(null);
+  const [isProductInWishlist, setIsProductInWishlist] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   const [hover, setHover] = useState<boolean>(false);
@@ -310,6 +311,14 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
     setViewSimilarProducts(!viewSimilarProducts);
   };
 
+  const handleShowSimilarProducts = (productId: number) => {
+    setSelectedSimilarProductId(productId);
+  };
+
+  const handleCloseSimilarProducts = () => {
+    setSelectedSimilarProductId(null);
+  };
+
   return (
     <>
       <div
@@ -551,8 +560,8 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
         {viewSimilarProducts && (
           <ViewSimilar
             showComponent={viewSimilarProducts}
-            handleViewSimilarProducts={handleViewSimilarProducts}
-            productId={Number(data.productId)}
+            handleViewSimilarProducts={handleCloseSimilarProducts}
+            productId={selectedSimilarProductId}
           />
         )}
       </div>

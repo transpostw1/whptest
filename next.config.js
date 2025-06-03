@@ -77,7 +77,7 @@ const nextConfig = ({
         destination:"/products?url=pc-all_jewellery_silver_article_pooja_articles",
         permanent:true,
       },
-      ...redirectsFromFile,
+      // ...redirectsFromFile,
     ];
   },
   productionBrowserSourceMaps: false,

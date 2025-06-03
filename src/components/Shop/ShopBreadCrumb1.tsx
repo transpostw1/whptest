@@ -707,19 +707,35 @@ const ShopBreadCrumb1 = () => {
                 </div>
               </div>
 
-      {isLoading ? (
+          {isLoading ? (
   <ProductSkeleton />
 ) : filteredProducts.length > 0 ? (
-  <div
-    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-    ref={productsListRef}
-  >
-    {filteredProducts.map((item: any) => (
-      <div key={item.productId}>
-        <Product data={item} skuList={skuList} />
-      </div>
-    ))}
-  </div>
+  selectedSortOption === "Price-Low To High" ||
+  selectedSortOption === "Price-High To Low" ? (
+    <div
+      className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+      ref={productsListRef}
+    >
+      {filteredProducts.map((item: any) => (
+        <div key={item.productId}>
+          <Product data={item} skuList={skuList} />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div
+      className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+      ref={productsListRef}
+    >
+      {filteredProducts.map((item: any) => (
+        <div key={item.productId}>
+          <Product data={item} skuList={skuList} />
+        </div>
+      ))}
+    </div>
+  )
+) : isLoading ? (
+  <ProductSkeleton />
 ) : (
   <div
     className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] text-center sm:gap-[30px]"
@@ -735,9 +751,12 @@ const ShopBreadCrumb1 = () => {
     <p className="mb-6 text-lg text-gray-600">
       Chat with us on WhatsApp or give us a call.
     </p>
+
     <div className="flex w-full flex-col justify-center lg:flex-row">
       <motion.div
-        animate={{ scale: [1, 1.1, 1] }}
+        animate={{
+          scale: [1, 1.1, 1],
+        }}
         transition={{
           duration: 1.2,
           ease: "easeInOut",
@@ -747,17 +766,15 @@ const ShopBreadCrumb1 = () => {
       >
         <Link href={"https://wa.me/917045613491"} target="_blank">
           <div className="flex p-2 text-center">
-            <IoLogoWhatsapp
-              className="mr-1"
-              size={30}
-              color="#25D366"
-            />
+            <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
             <p className="text-md">+91 7045613491</p>
           </div>
         </Link>
       </motion.div>
       <motion.div
-        animate={{ scale: [1, 1.1, 1] }}
+        animate={{
+          scale: [1, 1.1, 1],
+        }}
         transition={{
           duration: 1.2,
           ease: "easeInOut",
@@ -784,6 +801,7 @@ const ShopBreadCrumb1 = () => {
     </div>
   </div>
 )}
+
               {/* <div className="w-full text-center">
                 {filteredProducts.length > 0 && (
                   <button

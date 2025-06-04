@@ -1,6 +1,7 @@
 const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
+// const { URL } = require('url'); // No longer strictly needed for parsing source path
 
 // Read the Excel file
 const workbook = xlsx.readFile('redirects.xlsx');

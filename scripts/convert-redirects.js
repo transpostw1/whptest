@@ -42,21 +42,44 @@ data.forEach(row => {
   const source = cleanSource(row['Top pages']);
   const destination = cleanDestination(row['Redirect to']);
   
+  // Add to map only if source is not already present
   if (!redirectsMap.has(source)) {
     redirectsMap.set(source, { source, destination, permanent: true });
   }
 });
 
 // Convert map values to an array
-const groupedRedirects = Array.from(redirectsMap.values());
+const generatedRedirects = Array.from(redirectsMap.values());
 
-// Convert to the required format
-const redirects = {
-  redirects: groupedRedirects
-};
+// Read existing vercel.json
+const vercelConfigPath = path.join(__dirname, '../vercel.json');
+let vercelConfig = {};
+if (fs.existsSync(vercelConfigPath)) {
+  try {
+    vercelConfig = JSON.parse(fs.readFileSync(vercelConfigPath, 'utf8'));
+  } catch (e) {
+    console.error('Error reading or parsing vercel.json:', e);
+    process.exit(1); // Exit if vercel.json is invalid
+  }
+}
 
-// Write to redirects.json
-const outputPath = path.join(__dirname, '../src/config/redirects.json');
-fs.writeFileSync(outputPath, JSON.stringify(redirects, null, 2));
+// Ensure redirects array exists
+if (!vercelConfig.redirects) {
+  vercelConfig.redirects = [];
+}
 
-console.log(`Successfully converted ${redirects.redirects.length} redirects to JSON format!`); 
+// Combine existing manual redirects with generated redirects, prioritizing manual ones
+// Create a set of source paths from manual redirects for easy lookup
+const manualSources = new Set(vercelConfig.redirects.map(r => r.source));
+
+// Add generated redirects only if their source is not in manual redirects
+generatedRedirects.forEach(redirect => {
+  if (!manualSources.has(redirect.source)) {
+    vercelConfig.redirects.push(redirect);
+  }
+});
+
+// Write updated vercel.json
+fs.writeFileSync(vercelConfigPath, JSON.stringify(vercelConfig, null, 2));
+
+console.log(`Successfully updated vercel.json with ${generatedRedirects.length} redirects from Excel.`); 

@@ -1,5 +1,7 @@
 
-   [
+{
+    "redirects": [
+      
     {
       "source": "/jewellery-for-women/mangalsutra.html",
       "destination": "/products?url=pc-mangalsutra",
@@ -386,3 +388,4 @@
       "permanent": true
     }
   ]
+}

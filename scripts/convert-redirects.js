@@ -6,7 +6,7 @@ const path = require('path');
 const cleanSource = (url) => {
   try {
     const urlObj = new URL(url);
-    // Ensure pathname starts with /
+    // Ensure pathname starts with / and strip query parameters
     return urlObj.pathname.startsWith('/') ? urlObj.pathname : '/' + urlObj.pathname;
   } catch (e) {
     // If not a valid URL, try to clean it manually

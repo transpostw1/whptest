@@ -12,8 +12,12 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const fullPath = pathname + search;
 
+  // Log the full path we're checking
+  console.log('Checking path:', fullPath);
+
   // Test with a simple hardcoded redirect first
   if (pathname === '/test-redirect') {
+    console.log('Test redirect matched');
     return NextResponse.redirect(new URL('/products?url=pc-mangalsutra', request.url));
   }
 
@@ -22,11 +26,16 @@ export function middleware(request: NextRequest) {
     (r: { source: string; destination: string }) => {
       // Remove domain if present in the source
       const sourcePath = r.source.replace('https://www.whpjewellers.com', '');
-      return sourcePath === fullPath;
+      const matches = sourcePath === fullPath;
+      if (matches) {
+        console.log('Found matching redirect:', r);
+      }
+      return matches;
     }
   );
 
   if (match) {
+    console.log('Applying redirect:', match);
     const url = request.nextUrl.clone();
     const [path, query] = match.destination.split('?');
     url.pathname = path;
@@ -34,17 +43,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
+  console.log('No redirect match found');
   return NextResponse.next();
 }
 
-// Update matcher to be more specific and include test path
+// Update matcher to include all paths
 export const config = {
   matcher: [
-    '/test-redirect',
-    '/jewellery-for-women/:path*',
-    '/product/:path*',
-    '/prime-products/:path*',
-    '/section/:path*',
-    '/products/:path*'
-  ]
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 }; 

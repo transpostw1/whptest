@@ -1,5 +1,4 @@
-{
-  "redirects": [
+ [
     {
       "source": "https://www.whpjewellers.com/jewellery-for-women/mangalsutra.html",
       "destination": "https://www.whpjewellers.com/products?url=pc-mangalsutra",
@@ -3081,14 +3080,3 @@
       "permanent": true
     }
   ]
-}"/product/20303/exquisite-wedding-heavy-gold-mangalsutra.html",
-      "destination": "/products?url=pc-mangalsutra",
-      "permanent": true
-    },
-    {
-      "source": "/blog/22/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
-      "destination": "/blog/mangalsutra-lockets-a-symbol-of-love-and-unity-in-indian-culture",
-      "permanent": true
-    }
-  ]
-}

@@ -434,6 +434,29 @@ const Checkout: React.FC = () => {
   useEffect(() => {
   }, [discountDifference, formattedPrice, formattedProductPrice]);
 
+  useEffect(() => {
+    // Push cart items to dataLayer
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'view_cart',
+        ecommerce: {
+          currency: 'INR',
+          value: totalCart,
+          items: mappedCartItems.map((item: any) => ({
+            item_id: item.productId,
+            item_name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            item_brand: 'WHP Jewellers',
+            item_category: 'Jewellery',
+            item_variant: item.variants?.map((v: any) => v.variantName).join(', ') || '',
+            currency: 'INR'
+          }))
+        }
+      });
+    }
+  }, [cartItems, totalCart, mappedCartItems]);
+
   const handleOrderComplete = async () => {
     try {
       const cookieToken =

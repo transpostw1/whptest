@@ -183,10 +183,6 @@ const Payment: React.FC<PaymentProps> = ({
     fetchSubBanners();
   }, []);
 
-
-
-
-
   useEffect(() => {
   pushCartToDataLayer();
 }, [mappedCartItems, totalCart, totalDiscount]);

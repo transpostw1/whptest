@@ -61,4 +61,5 @@ const redirects = {
 const outputPath = path.join(__dirname, '../src/config/redirects.json');
 fs.writeFileSync(outputPath, JSON.stringify(redirects, null, 2));
 
-console.log(`Successfully converted ${redirects.redirects.length} redirects to JSON format!`); 
+console.log(`Successfully updated vercel.json with ${newRedirectsCount} new redirects from all Excel files.`);
+console.log(`Total redirects in vercel.json: ${vercelConfig.redirects.length}`); 

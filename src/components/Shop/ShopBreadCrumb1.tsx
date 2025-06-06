@@ -16,6 +16,7 @@ import { graphqlProductUrl, graphqlProductionUrl } from "@/utils/constants";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
@@ -40,6 +41,8 @@ const ShopBreadCrumb1 = () => {
   const [filters, setFilters] = useState<any>([]);
   const router = useRouter();
   const isFetchingRef = useRef(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +73,12 @@ const ShopBreadCrumb1 = () => {
           if (isFetchingRef.current) return;
           isFetchingRef.current = true;
           
-          setIsLoading(true);
+          if (!isLoadMore) {
+            setIsLoading(true);
+          } else {
+            setIsLoadingMore(true);
+          }
+
           const client = new ApolloClient({
             uri: graphqlProductUrl,
             cache: new InMemoryCache(),
@@ -161,8 +169,10 @@ const ShopBreadCrumb1 = () => {
                     newProducts.map((product) => [product.productId, product]),
                   ).values(),
                 );
+                setHasMore(productsResult.data.products.length === productsPerPage);
                 return uniqueProducts;
               } else {
+                setHasMore(productsResult.data.products.length === productsPerPage);
                 return productsResult.data.products;
               }
             });
@@ -175,13 +185,14 @@ const ShopBreadCrumb1 = () => {
           setIsLoading(false);
           setIsLoadMore(false);
         } catch (error) {
-          setIsLoading(true);
           console.error(
             "Error Occurred from ShopBreadCrumb1 GraphQL Mutation",
             error,
           );
         } finally {
           isFetchingRef.current = false;
+          setIsLoading(false);
+          setIsLoadingMore(false);
         }
       }
     };
@@ -273,6 +284,7 @@ const ShopBreadCrumb1 = () => {
 
   const handleSortOptionChange = (option: string) => {
     setSelectedSortOption(option);
+    setIsLoading(true);
     setFetchProducts(true);
   };
 
@@ -491,11 +503,10 @@ const ShopBreadCrumb1 = () => {
 
       setFilteredProducts(filtered);
       setSelectedSortOption("All");
-      setPageNumber(0);
+      // setPageNumber(0);
     };
     applyFilters();
-
-    setOffset(0);
+    // setOffset(0);
     if (!isFetchingRef.current) {
       setFetchProducts(true);
     }
@@ -616,10 +627,14 @@ const ShopBreadCrumb1 = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [selectedOptions]);
+  }, [selectedOptions,selectedSortOption]);
 
   const handleLoadMore = () => {
-    setIsLoadMore(!isLoadMore);
+    if (!isLoading && !isLoadingMore) {
+      setIsLoadMore(true);
+      setOffset((prevOffset) => prevOffset + productsPerPage);
+      setFetchProducts(true);
+    }
   };
 
   useEffect(() => {
@@ -705,31 +720,69 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               </div>
-
+                    
               {filteredProducts.length > 0 ? (
                 selectedSortOption === "Price-Low To High" ||
                 selectedSortOption === "Price-High To Low" ? (
-                  <div
-                    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                    ref={productsListRef}
-                  >
-                    {filteredProducts.map((item: any) => (
-                      <div key={item.productId}>
-                        <Product data={item} skuList={skuList} />
+                  isLoading && !isLoadMore ? (
+                    <ProductSkeleton />
+                  ) : (
+                    <InfiniteScroll
+                      dataLength={filteredProducts.length}
+                      next={handleLoadMore}
+                      hasMore={hasMore}
+                      loader={
+                        <div className="mt-4">
+                          <ProductSkeleton />
+                        </div>
+                      }
+                      scrollThreshold={0.8}
+                      endMessage={
+                        <p className="text-center text-gray-500">
+                          No more products to load
+                        </p>
+                      }
+                    >
+                      <div
+                        className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                        ref={productsListRef}
+                      >
+                        {filteredProducts.map((item: any) => (
+                          <div key={item.productId}>
+                            <Product data={item} skuList={skuList} />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </InfiniteScroll>
+                  )
                 ) : (
-                  <div
-                    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                    ref={productsListRef}
-                  >
-                    {filteredProducts.map((item: any) => (
-                      <div key={item.productId}>
-                        <Product data={item} skuList={skuList} />
+                  <InfiniteScroll
+                    dataLength={filteredProducts.length}
+                    next={handleLoadMore}
+                    hasMore={hasMore}
+                    loader={
+                      <div className="mt-4">
+                        <ProductSkeleton />
                       </div>
-                    ))}
-                  </div>
+                    }
+                    scrollThreshold={0.8}
+                    endMessage={
+                      <p className="text-center text-gray-500">
+                        No more products to load
+                      </p>
+                    }
+                  >
+                    <div
+                      className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                      ref={productsListRef}
+                    >
+                      {filteredProducts.map((item: any) => (
+                        <div key={item.productId}>
+                          <Product data={item} skuList={skuList} />
+                        </div>
+                      ))}
+                    </div>
+                  </InfiniteScroll>
                 )
               ) : isLoading ? (
                 <ProductSkeleton />

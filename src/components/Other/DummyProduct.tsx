@@ -12,6 +12,7 @@ import { showCustomToast } from "@/components/Other/CustomToast";
 
 interface ProductProps {
   data: any;
+  onViewSimilar: (productId: number) => void;
 }
 
 interface ProductForWishlistLoggedIn {
@@ -26,14 +27,15 @@ interface ProductForWishlistLoggedOut {
   discountValue: string;
   image_path: string;
   url: string;
-  variants:[];
+  variants: [];
 }
 
-const DummyProduct: React.FC<ProductProps> = ({ data }) => {
+const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
   const [showVideo, setShowVideo] = useState<boolean>(false);
   const [isProductInWishlist, setIsProductInWishlist] = useState(false);
   const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
     useWishlist();
+  const [showSimilarModal, setShowSimilarModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoggedIn } = useUser();
   const { formatPrice } = useCurrency();
@@ -47,20 +49,23 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-
   const HandleaddToWishlist = () => {
     try {
+      if(!data || !data.productId) {
+        console.error("Product data is not available or invalid.");
+        return;
+      }
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         const formattedVariants = data?.variants.map((variant: any) => ({
-          variantType: variant.VariantType, 
-          variantName: variant.VariantOption?.[0]?.VariantName || "", 
+          variantType: variant.VariantType,
+          variantName: variant.VariantOption?.[0]?.VariantName || "",
         }));
-  
+
         if (isLoggedIn) {
           const productToAdd: any = {
             productId: data.productId,
-            variants: formattedVariants, 
+            variants: formattedVariants,
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
@@ -73,7 +78,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
             discountValue: data.discountValue,
             image_path: data?.imageDetails[0].image_path,
             url: data.url,
-            variants: formattedVariants, 
+            variants: formattedVariants,
           };
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
@@ -95,6 +100,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
   const handleDetailProduct = (productId: any, productUrl: any) => {
     router.push(`/products/${productId}/${productUrl}`);
   };
+
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -312,13 +318,26 @@ const DummyProduct: React.FC<ProductProps> = ({ data }) => {
                   unoptimized
                 />
               )}
-
+              <div>
+                {data?.similarProductIds !== null && (
+                  <div
+                    className="flex cursor-pointer items-center space-x-2 absolute bottom-0 left-0 z-0"
+                 onClick={() => onViewSimilar(Number(data.productId))}
+                  >
+                    <Icon.Cards size={20} weight="light" color="#e26178" />
+                    <span className="text-sm font-medium text-[#e26178]">
+                      View Similar
+                    </span>
+                  </div>
+                )}
+              </div>
               {/* <div className="relative">
                   <div className="absolute bottom-0 right-0 z-0 hover:z-50">
                     <Icon.Heart size={25} weight="light" />
                   </div>
                 </div> */}
               <div className="absolute bottom-0 right-0 z-0 flex justify-between p-2 hover:z-50">
+                
                 {isProductInWishlist ? (
                   <Icon.Heart
                     size={25}

@@ -256,10 +256,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   // const handleDetailProduct = (productId: any, productUrl: any) => {
   //   window.open(`/products/${productUrl}/${productId}`, "_blank");
   // };
- 
-const handleDetailProduct = (productUrl: any, productId: any) => {
-  router.push(`/products/${productId}/${productUrl}`);
-};
+
+  const handleDetailProduct = (productUrl: any, productId: any) => {
+    router.push(`/products/${productId}/${productUrl}`);
+  };
 
   const HandleaddToWishlist = () => {
     try {
@@ -318,7 +318,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
       >
         <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
-            
             {data?.videoDetails !== null ? (
               <div>
                 {hover == true ? (
@@ -379,7 +378,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
                       </div>
                     )}
 
-
                     {/* <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
@@ -403,8 +401,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
                         />
                       )}
                     </div> */}
-
-
                   </div>
                 )}
               </div>

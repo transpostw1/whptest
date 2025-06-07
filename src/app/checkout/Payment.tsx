@@ -187,11 +187,6 @@ const Payment: React.FC<PaymentProps> = ({
   pushCartToDataLayer();
 }, [mappedCartItems, totalCart, totalDiscount]);
 
-
-
-
-
-
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -571,7 +566,7 @@ const Payment: React.FC<PaymentProps> = ({
 
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-      handleOrders();
+       handleRazorpayPayment(); 
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {

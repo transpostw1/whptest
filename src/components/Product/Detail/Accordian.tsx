@@ -92,10 +92,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
               }}
               className="mr-3 w-[250px]"
             >
-              <Link href={"https://wa.me/917045613491"} target="_blank">
+              <Link href={"https://wa.me/918828324464"} target="_blank">
                 <div className="mr-5 mt-5 flex p-2 text-center">
                   <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
-                  <p className="text-md">+91 7045613491</p>
+                  <p className="text-md">+91 8828324464</p>
                 </div>
               </Link>
             </motion.div>

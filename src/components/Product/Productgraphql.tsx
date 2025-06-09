@@ -35,8 +35,11 @@ interface VideoDetailWithTypename {
 const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [viewSimilarProducts, setViewSimilarProducts] =
     useState<boolean>(false);
-  const [selectedSimilarProductId, setSelectedSimilarProductId] = useState<number | null>(null);
-  const [isProductInWishlist, setIsProductInWishlist] = useState<boolean>(false);
+  const [selectedSimilarProductId, setSelectedSimilarProductId] = useState<
+    number | null
+  >(null);
+  const [isProductInWishlist, setIsProductInWishlist] =
+    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   const [hover, setHover] = useState<boolean>(false);
@@ -307,16 +310,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     showCustomToast("Removed From Wishlist");
     setIsProductInWishlist(false);
   };
-  const handleViewSimilarProducts = () => {
-    setViewSimilarProducts(!viewSimilarProducts);
-  };
-
-  const handleShowSimilarProducts = (productId: number) => {
-    setSelectedSimilarProductId(productId);
-  };
 
   const handleCloseSimilarProducts = () => {
     setSelectedSimilarProductId(null);
+    setViewSimilarProducts(false);
   };
 
   return (
@@ -492,7 +489,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
               {data.similarProductIds !== null && (
                 <div
                   className="flex cursor-pointer items-center space-x-2"
-                  onClick={() => setViewSimilarProducts(true)}
+                  onClick={() => {
+                    setSelectedSimilarProductId(Number(data.productId));
+                    setViewSimilarProducts(true);
+                  }}
                 >
                   <Icon.Cards size={width} weight="light" color="#e26178" />
                   <span className="text-sm font-medium text-[#e26178]">
@@ -557,7 +557,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
           <ViewSimilar
             showComponent={viewSimilarProducts}
             handleViewSimilarProducts={handleCloseSimilarProducts}
-            productId={selectedSimilarProductId}
+            productId={Number(selectedSimilarProductId)}
           />
         )}
       </div>

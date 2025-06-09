@@ -63,6 +63,7 @@ const handleViewSimilarProducts = (productId: number) => {
               discountActive
               discountValue
               rating
+              similarProductIds
               variants
               imageDetails {
                 image_path

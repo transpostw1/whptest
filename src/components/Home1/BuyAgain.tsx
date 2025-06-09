@@ -60,6 +60,7 @@ const BuyAgain = () => {
               discountCategory
               discountActive
               discountValue
+              similarProductIds
               rating
               variants
               imageDetails {

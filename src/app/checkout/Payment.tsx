@@ -65,6 +65,9 @@ const Payment: React.FC<PaymentProps> = ({
   const [orderResponse, setOrderResponse] = useState<any>();
  
 
+
+
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -81,9 +84,13 @@ const Payment: React.FC<PaymentProps> = ({
   }, []);
 
  
+
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
+
 
   useEffect(() => {
     const handleAbandonedCart = async () => {
@@ -139,6 +146,11 @@ const Payment: React.FC<PaymentProps> = ({
     };
     handleAbandonedCart();
   }, [component == "Payment"]);
+
+
+
+
+
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -174,6 +186,7 @@ const Payment: React.FC<PaymentProps> = ({
   useEffect(() => {
   pushCartToDataLayer();
 }, [mappedCartItems, totalCart, totalDiscount]);
+
   useEffect(() => {
     const loadRazorpayScript = async () => {
       const script = document.createElement("script");
@@ -187,6 +200,7 @@ const Payment: React.FC<PaymentProps> = ({
 
     loadRazorpayScript();
   }, []);
+
 
   const pushCartToDataLayer = () => {
   if (typeof window === "undefined") return;
@@ -209,6 +223,10 @@ const Payment: React.FC<PaymentProps> = ({
     },
   });
 };
+
+
+
+
 
   const handleRazorpayPayment = async () => {
     setLoading(true);
@@ -347,12 +365,21 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
+
+
+
   const handleOtherPaymentGateway = () => {
     // Handle other payment gateway logic
     alert("Other payment gateway selected");
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
+
+
+
+
+
+
   console.log("wallet", wallet);
   const handleCodPayment = async () => {
     setLoading(true);
@@ -432,6 +459,12 @@ const Payment: React.FC<PaymentProps> = ({
       setLoading(false);
     }
   };
+
+
+
+
+
+
 
   const handleOrders = async () => {
     try {
@@ -515,6 +548,11 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
+
+
+
+
+
   useEffect(() => {
     if (orderResponse && !paymentStarted && selectedPaymentMethod === "razorpay") {
       handleRazorpayPayment();
@@ -522,9 +560,13 @@ const Payment: React.FC<PaymentProps> = ({
     }
   }, [orderResponse, paymentStarted, selectedPaymentMethod]);
 
+
+
+
+
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-      handleOrders();
+       handleRazorpayPayment(); 
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {
@@ -534,6 +576,11 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
+
+
+
+
+  
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;
   return (

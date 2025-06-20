@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import ViewSimilar from "../Product/ViewSimilar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Zoom } from "swiper/modules";
 import "swiper/css/bundle";
@@ -9,12 +10,23 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
-import { baseUrl, graphqlProductionUrl,graphqlProductUrl } from "@/utils/constants";
+import {
+  baseUrl,
+  graphqlProductionUrl,
+  graphqlProductUrl,
+} from "@/utils/constants";
 
 const GetFastDeliveryProducts = () => {
   const swiperRef = useRef<any>();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [viewSimilarProducts, setViewSimilarProducts] = useState(false);
+  const [similarProductId, setSimilarProductId] = useState<number | null>(null);
+
+  const handleViewSimilarProducts = (productId: number) => {
+    setSimilarProductId(productId);
+    setViewSimilarProducts(true);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -39,6 +51,7 @@ const GetFastDeliveryProducts = () => {
               discountValue
               rating
               variants
+              similarProductIds
               imageDetails {
                 image_path
               }
@@ -151,7 +164,10 @@ const GetFastDeliveryProducts = () => {
                     .filter((prd: any) => prd.imageDetails !== null)
                     .map((prd: any, index: any) => (
                       <SwiperSlide key={index}>
-                        <DummyProduct data={prd} />
+                        <DummyProduct
+                          data={prd}
+                          onViewSimilar={handleViewSimilarProducts}
+                        />
                       </SwiperSlide>
                     ))}
               </Swiper>
@@ -159,6 +175,13 @@ const GetFastDeliveryProducts = () => {
           )}
         </div>
       </div>
+      {viewSimilarProducts && similarProductId && (
+        <ViewSimilar
+          showComponent={viewSimilarProducts}
+          handleViewSimilarProducts={() => setViewSimilarProducts(false)}
+          productId={similarProductId}
+        />
+      )}
     </>
   );
 };

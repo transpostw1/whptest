@@ -85,7 +85,7 @@ const Gifts = () => {
     },
     {
       id: 6,
-      url: "pc-all_jewellery_mens_jewellery_religious",
+      url: "pc-god_pendant",
       head: "god_pendant",
       type: "God Pendant",
       image: (

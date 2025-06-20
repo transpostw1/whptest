@@ -92,10 +92,10 @@ const Accordian: React.FC<Props> = ({ product }) => {
               }}
               className="mr-3 w-[250px]"
             >
-              <Link href={"https://wa.me/917045613491"} target="_blank">
+              <Link href={"https://wa.me/918828324464"} target="_blank">
                 <div className="mr-5 mt-5 flex p-2 text-center">
                   <IoLogoWhatsapp className="mr-1" size={30} color="#25D366" />
-                  <p className="text-md">+91 7045613491</p>
+                  <p className="text-md">+91 8828324464</p>
                 </div>
               </Link>
             </motion.div>
@@ -289,7 +289,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
         >
           <div className="mt-5">{product?.productDetails?.longDesc}</div>
           <div className="mt-4 grid grid-cols-4 justify-items-center gap-6 max-sm:grid-cols-3">
-            {parseInt(product?.productDetails?.metalWeight) > 0 && (
+            {product?.productDetails?.metalWeight && (
               <div className="flex flex-col items-center gap-2 text-center">
                 <Icon.Scales size={27} weight="thin" />
                 <p className="text-sm font-medium">
@@ -597,9 +597,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p>G.S.T</p>
               </div>
               <div>
-                {parseInt(product.productDetails?.metalWeight) > 0 && (
+                {/* {parseInt(product.productDetails?.metalWeight)  && ( */}
                   <p>{product.productDetails?.metalWeight} gms</p>
-                )}
+                {/* // )} */}
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
                     {product.productDetails.diamondDetails.map(
@@ -617,14 +617,14 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
                 {product.productDetails?.stoneDetails &&
                   product.productDetails?.stoneDetails.length > 0 && (
-                    <p>{product.productDetails?.stoneDetails.stoneWeight}carats</p>
+                    <p className="bg-blue-700">{product.productDetails?.stoneDetails.stoneWeight}carats</p>
                   )}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountActive && <p>-</p>}
                 {product.productDetails?.gst && <p>-</p>}
               </div>
               <div>
-                {parseInt(product.productDetails?.metalRate) > 0 && (
+                {parseInt(product.productDetails?.metalRate) && (
                   <p className="text-right">
                     {formatPrice(parseInt(product.productDetails?.metalRate))}
                   </p>

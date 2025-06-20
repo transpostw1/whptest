@@ -9,12 +9,20 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlProductionUrl,graphqlProductUrl} from "@/utils/constants";
+import { graphqlProductionUrl, graphqlProductUrl } from "@/utils/constants";
+import ViewSimilar from "../Product/ViewSimilar";
 
 const ProductSlider = () => {
   const swiperRef = useRef<any>();
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [viewSimilarProducts, setViewSimilarProducts] = useState(false);
+  const [similarProductId, setSimilarProductId] = useState<number | null>(null);
+
+  const handleViewSimilarProducts = (productId: number) => {
+    setSimilarProductId(productId);
+    setViewSimilarProducts(true);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -41,6 +49,7 @@ const ProductSlider = () => {
               discountValue
               rating
               variants
+              similarProductIds
               imageDetails {
                 image_path
               }
@@ -71,9 +80,7 @@ const ProductSlider = () => {
         <div className="container">
           <div className="flex justify-between">
             <div>
-              <p className="text-[1.5rem] font-medium uppercase">
-                BestSellers
-              </p>
+              <p className="text-[1.5rem] font-medium uppercase">BestSellers</p>
             </div>
             <div className="flex">
               <button onClick={() => swiperRef.current.slidePrev()}>
@@ -153,7 +160,10 @@ const ProductSlider = () => {
                     .filter((prd: any) => prd.imageDetails !== null)
                     .map((prd: any, index: any) => (
                       <SwiperSlide key={index}>
-                        <DummyProduct data={prd} />
+                        <DummyProduct
+                          data={prd}
+                          onViewSimilar={handleViewSimilarProducts}
+                        />
                       </SwiperSlide>
                     ))}
               </Swiper>
@@ -161,6 +171,13 @@ const ProductSlider = () => {
           )}
         </div>
       </div>
+       {viewSimilarProducts && similarProductId && (
+              <ViewSimilar
+                showComponent={viewSimilarProducts}
+                handleViewSimilarProducts={() => setViewSimilarProducts(false)}
+                productId={similarProductId}
+              />
+            )}
     </>
   );
 };

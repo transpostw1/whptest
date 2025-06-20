@@ -35,7 +35,11 @@ interface VideoDetailWithTypename {
 const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [viewSimilarProducts, setViewSimilarProducts] =
     useState<boolean>(false);
-  const [isProductInWishlist, setIsProductInWishlist] = useState(false);
+  const [selectedSimilarProductId, setSelectedSimilarProductId] = useState<
+    number | null
+  >(null);
+  const [isProductInWishlist, setIsProductInWishlist] =
+    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   const [hover, setHover] = useState<boolean>(false);
@@ -256,10 +260,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   // const handleDetailProduct = (productId: any, productUrl: any) => {
   //   window.open(`/products/${productUrl}/${productId}`, "_blank");
   // };
- 
-const handleDetailProduct = (productUrl: any, productId: any) => {
-  router.push(`/products/${productId}/${productUrl}`);
-};
+
+  const handleDetailProduct = (productUrl: any, productId: any) => {
+    router.push(`/products/${productId}/${productUrl}`);
+  };
 
   const HandleaddToWishlist = () => {
     try {
@@ -306,8 +310,10 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
     showCustomToast("Removed From Wishlist");
     setIsProductInWishlist(false);
   };
-  const handleViewSimilarProducts = () => {
-    setViewSimilarProducts(!viewSimilarProducts);
+
+  const handleCloseSimilarProducts = () => {
+    setSelectedSimilarProductId(null);
+    setViewSimilarProducts(false);
   };
 
   return (
@@ -318,7 +324,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
       >
         <div className="product-main block cursor-pointer">
           <div className="product-thumb relative overflow-hidden">
-            
             {data?.videoDetails !== null ? (
               <div>
                 {hover == true ? (
@@ -379,7 +384,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
                       </div>
                     )}
 
-
                     {/* <div
                       className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
                       onClick={() => setShowVideo(!showVideo)}
@@ -403,8 +407,6 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
                         />
                       )}
                     </div> */}
-
-
                   </div>
                 )}
               </div>
@@ -487,7 +489,10 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
               {data.similarProductIds !== null && (
                 <div
                   className="flex cursor-pointer items-center space-x-2"
-                  onClick={() => setViewSimilarProducts(true)}
+                  onClick={() => {
+                    setSelectedSimilarProductId(Number(data.productId));
+                    setViewSimilarProducts(true);
+                  }}
                 >
                   <Icon.Cards size={width} weight="light" color="#e26178" />
                   <span className="text-sm font-medium text-[#e26178]">
@@ -551,8 +556,8 @@ const handleDetailProduct = (productUrl: any, productId: any) => {
         {viewSimilarProducts && (
           <ViewSimilar
             showComponent={viewSimilarProducts}
-            handleViewSimilarProducts={handleViewSimilarProducts}
-            productId={Number(data.productId)}
+            handleViewSimilarProducts={handleCloseSimilarProducts}
+            productId={Number(selectedSimilarProductId)}
           />
         )}
       </div>

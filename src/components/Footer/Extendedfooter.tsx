@@ -20,7 +20,7 @@ const Extendedfooter = () => {
     ) {
       router.push(`/products?url=category-${value2}`);
     } else {
-      router.push(`/products?url=search-${value2}`);
+      router.push(`/products?url=pc-${value2}`);
     }
     setCustomcategory(title);
   };
@@ -55,7 +55,7 @@ const Extendedfooter = () => {
           |{" "}
           <span
             onClick={() =>
-              handleNavigation("bracelet for women", "Bracelets for women")
+              handleNavigation("bangles_and_bracelet", "Bracelets for women")
             }
             className="cursor-pointer"
           >
@@ -64,7 +64,7 @@ const Extendedfooter = () => {
           |
           <span
             onClick={() =>
-              handleNavigation("bangles", "Bangles for women")
+              handleNavigation("bangles_and_bracelet", "Bangles for women")
             }
             className="cursor-pointer"
           >
@@ -95,7 +95,7 @@ const Extendedfooter = () => {
         <h1 className="font-semibold">For Men</h1>
         <h1>
           <span
-            onClick={() => handleNavigation("ring for men", "Rings for men")}
+            onClick={() => handleNavigation("all_jewellery_mens_jewellery_rings", "Rings for men")}
             className="cursor-pointer"
           >
             Rings For Men
@@ -103,20 +103,20 @@ const Extendedfooter = () => {
           |{" "}
           <span
             onClick={() =>
-              handleNavigation("earrings men", "Earrings for men")
+              handleNavigation("all_jewellery_mens_jewellery_studs", "Studs for men")
             }
             className="cursor-pointer"
           >
-            Earrings For Men
+            Studs For Men
           </span>{" "}
           |{" "}
           <span
-            onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
+            onClick={() => handleNavigation("all_jewellery_mens_jewellery_bracelet", "Bracelet for men")}
             className="cursor-pointer"
           >
             Bracelets For Men
           </span>{" "}
-          |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+          |  <span onClick={() => handleNavigation('all_jewellery_mens_jewellery_kada','Mens Kada')} className="cursor-pointer">
               Men's Kadas
             </span>
         </h1>
@@ -125,7 +125,7 @@ const Extendedfooter = () => {
         <h1 className="font-semibold">For Kids</h1>
         <h1>
           <span
-            onClick={() => handleNavigation("ring for kids", "Rings for kids")}
+            onClick={() => handleNavigation("all_jewellery_kids_jewellery_ring", "Rings for kids")}
             className="cursor-pointer"
           >
             Rings For Kids
@@ -133,7 +133,7 @@ const Extendedfooter = () => {
           |{" "}
           <span
             onClick={() =>
-              handleNavigation("earrings men", "Earrings for men")
+              handleNavigation("all_jewellery_kids_jewellery_earrings", "Earrings for kids")
             }
             className="cursor-pointer"
           >
@@ -141,19 +141,19 @@ const Extendedfooter = () => {
           </span>{" "}
           |{" "}
           <span
-            onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
+            onClick={() => handleNavigation("bracelet for men", "Bracelet for Kids")}
             className="cursor-pointer"
           >
             Bracelets For Kids
           </span>{" "}
-          |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+          |  <span onClick={() => handleNavigation('all_jewellery_kids_jewellery_locket','Lockets for Kids')} className="cursor-pointer">
               Lockets For Kids
             </span>
-            |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+            |  <span onClick={() => handleNavigation('all_jewellery_kids_jewellery_chain','Chains For Kids')} className="cursor-pointer">
             Chains For Kids
             </span>
-            |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
-             Siler jewellery For Kids
+            |  <span onClick={() => handleNavigation('all_jewellery_kids_jewellery_silver_jewellery','Silver Jewellery For Kids')} className="cursor-pointer">
+             Silver jewellery For Kids
             </span>
         </h1>
       </div> 
@@ -161,7 +161,7 @@ const Extendedfooter = () => {
         <h1 className="font-semibold">Silver Articles</h1>
         <h1>
           <span
-            onClick={() => handleNavigation("ring for men", "Rings for men")}
+            onClick={() => handleNavigation("all_jewellery_silver_article_pooja_articles", "Pooja Articles")}
             className="cursor-pointer"
           >
             Pooja Articles
@@ -169,7 +169,7 @@ const Extendedfooter = () => {
           |{" "}
           <span
             onClick={() =>
-              handleNavigation("earrings men", "Earrings for men")
+              handleNavigation("all_jewellery_silver_article_utensils", "Utensils")
             }
             className="cursor-pointer"
           >
@@ -177,12 +177,12 @@ const Extendedfooter = () => {
           </span>{" "}
           |{" "}
           <span
-            onClick={() => handleNavigation("bracelet for men", "Bracelet for men")}
+            onClick={() => handleNavigation("all_jewellery_silver_article_idols", "Idols")}
             className="cursor-pointer"
           >
             Idols
           </span>{" "}
-          |  <span onClick={() => handleNavigation('mens kada','Mens Kada')} className="cursor-pointer">
+          |  <span onClick={() => handleNavigation('all_jewellery_silver_article_silver_gifting','Silver Gifting')} className="cursor-pointer">
               Silver Gifting
             </span>
         </h1>

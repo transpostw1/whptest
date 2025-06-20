@@ -263,7 +263,6 @@ const GoldCard: React.FC<GoldCardProps> = ({
               <Link href={"https://wa.me/918828324464"}>
               <div
                 className="mb-2 w-full cursor-pointer  bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] p-1 text-center text-white"
-                
               >
                 {loading ? "Enrolling..." : "Enroll Now"}
               </div>

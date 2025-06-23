@@ -57,10 +57,12 @@ const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
       }
       console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
-        const formattedVariants = data?.variants.map((variant: any) => ({
-          variantType: variant.VariantType,
-          variantName: variant.VariantOption?.[0]?.VariantName || "",
-        }));
+       const formattedVariants = Array.isArray(data?.variants)
+  ? data.variants.map((variant: any) => ({
+      variantType: variant.VariantType,
+      variantName: variant.VariantOption?.[0]?.VariantName || "",
+    }))
+  : [];
 
         if (isLoggedIn) {
           const productToAdd: any = {

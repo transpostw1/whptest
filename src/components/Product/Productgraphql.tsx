@@ -257,13 +257,13 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     );
   const selectedVideo = sortedVideos?.[0];
 
-  // const handleDetailProduct = (productId: any, productUrl: any) => {
-  //   window.open(`/products/${productUrl}/${productId}`, "_blank");
-  // };
-
-  const handleDetailProduct = (productUrl: any, productId: any) => {
-    router.push(`/products/${productId}/${productUrl}`);
+  const handleDetailProduct = (productId: any, productUrl: any) => {
+    window.open(`/products/${productUrl}/${productId}`, "_blank");
   };
+
+  // const handleDetailProduct = (productUrl: any, productId: any) => {
+  //   router.push(`/products/${productId}/${productUrl}`);
+  // };
 
   const HandleaddToWishlist = () => {
     try {

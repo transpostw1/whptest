@@ -99,8 +99,11 @@ const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
     setIsProductInWishlist(false);
   };
 
-  const handleDetailProduct = (productId: any, productUrl: any) => {
-    router.push(`/products/${productId}/${productUrl}`);
+  // const handleDetailProduct = (productId: any, productUrl: any) => {
+  //   router.push(`/products/${productId}/${productUrl}`);
+  // };
+   const handleDetailProduct = (productId: any, productUrl: any) => {
+    window.open(`/products/${productUrl}/${productId}`, "_blank");
   };
 
 

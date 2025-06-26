@@ -196,7 +196,9 @@ const Footer = () => {
                 <div className="list-nav flex w-full flex-col justify-between gap-5 lg:flex-row">
                   <div className="flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Important Links</div>
-
+                    <div className="mt-1 flex">
+                        <span>BIS: HM/C-7790882716</span>
+                      </div>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
@@ -353,6 +355,7 @@ const Footer = () => {
                       Precious Metal Guide
                     </Link> */}
                     <div className="font-semibold">Contact</div>
+                    
                     <Link
                       href="tel:1800222225"
                       target="_blank"

@@ -340,6 +340,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           type="video/mp4"
                         />
                       </video>
+                      
                     </div>
                   </div>
                 ) : (
@@ -356,6 +357,19 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       alt="This image is temporary"
                       unoptimized
                     />
+                      {data.discountActive && data.discountValue && !isMobile && (
+          <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
+            {data.typeOfDiscount === "Percentage" ? (
+              <span className="text-xs">
+                {data.discountValue}% OFF on {data.discountCategory}
+              </span>
+            ) : (
+              <span>
+                ₹{data.discountAmount} OFF on {data.discountCategory}
+              </span>
+            )}
+          </div>
+        )}
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}

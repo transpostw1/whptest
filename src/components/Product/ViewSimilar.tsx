@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlProductUrl } from "@/utils/constants";
+import { graphqlUrlnew } from "@/utils/constants";
 import DummyProduct from "../Other/DummyProduct";
 import Skeleton from "react-loading-skeleton";
 import { Autoplay, Navigation } from "swiper/modules";
@@ -30,7 +30,7 @@ const ViewSimilar: React.FC<ViewSimilarProps> = ({
       try {
         setLoading(true);
         const client = new ApolloClient({
-          uri: graphqlProductUrl,
+          uri: graphqlUrlnew,
           cache: new InMemoryCache(),
         });
 

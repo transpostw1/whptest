@@ -50,22 +50,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
   const [isButtonLoaded, setIsButtonLoaded] = useState(false);
-  // const [loadedSkus, setLoadedSkus] = useState<string[]>([]);
-  // const [skulist, setSkuList] = useState<string[]>([]); // Initialize skuList state
-  // const [isSkuListLoaded, setIsSkuListLoaded] = useState(false);
-
-  // const fetchSkusList = async () => {
-  //   try {
-  //     await loadScript(); // Ensure the script is loaded
-  //     const skus = await window.getSkusListWithTryOn({ companyName: 'whpjewellers' });
-  //     setSkuList(skus); // Update SKU list state
-  //     setIsSkuListLoaded(true);
-  //     console.log("Fetched SKU List:", skus); // Check what you're fetching
-
-  //   } catch (error) {
-  //     console.error("Error fetching SKU list:", error);
-  //   }
-  // };
 
   const loadTryOnButton = async (
     sku: string,
@@ -117,7 +101,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 buttonResolve();
               }
             }, 100);
-          } catch (error) {
+          } catch (error:any) {
             reject(
               new Error(
                 `Failed to load Try On button for SKU: ${sku}. Error: ${error.message}`,
@@ -221,11 +205,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     setIsProductInWishlist(isInWishlist);
   }, [wishlistItems, data.productId]);
 
-  // useEffect(() => {
-  //   if (hover && !isMobile && tryOnRef.current) {
-  //     loadTryOnButton(data.SKU); // Assuming data.SKU holds the required psku
-  //   }
-  // }, [data.SKU, hover, isMobile]); // Dependencies to run effect when hover state changes
 
   const sortedImages = data?.imageDetails
     ?.filter(
@@ -237,9 +216,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
         parseInt(a.order) - parseInt(b.order),
     );
 
-  // const sortedImages = data?.imageDetails?.sort(
-  //   (a: any, b: any) => parseInt(a.order) - parseInt(b.order)
-  // );
+ 
 
   const selected = sortedImages?.[0];
   if (!selected || !selected.image_path) {
@@ -340,7 +317,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           type="video/mp4"
                         />
                       </video>
-                      
                     </div>
                   </div>
                 ) : (

@@ -11,9 +11,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import axios from "axios";
 import {
-  baseUrl,
-  graphqlProductionUrl,
-  graphqlProductUrl,
+  graphqlUrlnew,
 } from "@/utils/constants";
 
 const GetFastDeliveryProducts = () => {
@@ -34,7 +32,7 @@ const GetFastDeliveryProducts = () => {
         setLoading(true);
         const client = new ApolloClient({
           // uri: "http://localhost:8080/",
-          uri: graphqlProductUrl,
+          uri: graphqlUrlnew,
           cache: new InMemoryCache(),
         });
 

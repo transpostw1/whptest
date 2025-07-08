@@ -11,8 +11,8 @@ const Gifts = () => {
     {
       id: 3,
       url: "pc-gift_for_her",
-      head: "her_birthday",
-      type: "Her Birthday",
+      head: "for_her",
+      type: "For Her",
       image: (
         <Image
           src={"/images/gifts/GiftHer.jpg"}
@@ -26,8 +26,8 @@ const Gifts = () => {
     {
       id: 4,
       url: "pc-gift_for_him",
-      head: "his_birthday",
-      type: "His Birthday",
+      head: "for_him",
+      type: "for Him",
       image: (
         <Image
           src={"/images/gifts/GiftHim.jpg"}
@@ -41,8 +41,8 @@ const Gifts = () => {
     {
       id: 2,
       url: "pc-all_jewellery_mens_jewellery_rings",
-      head: "valentines",
-      type: "Valentines",
+      head: "Men's Rings",
+      type: "Men's Rings",
       image: (
         <Image
           src={"/images/gifts/RingForMen.jpg"}
@@ -56,8 +56,8 @@ const Gifts = () => {
     {
       id: 8,
       url: "pc-rings_engagement_ring",
-      head: "valentines",
-      type: "Valentines",
+      head: "engagement_ring",
+      type: "Engagement Ring",
       image: (
         <Image
           src={"/images/gifts/RingForWomen.jpg"}

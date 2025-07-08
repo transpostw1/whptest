@@ -12,7 +12,7 @@ import { useCategory } from "@/context/CategoryContex";
 import BreadCrumb from "@/components/Shop/BreadCrumb";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { graphqlProductUrl, graphqlProductionUrl } from "@/utils/constants";
+import { graphqlUrlnew } from "@/utils/constants";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -80,7 +80,7 @@ const ShopBreadCrumb1 = () => {
           }
 
           const client = new ApolloClient({
-            uri: graphqlProductUrl,
+            uri: graphqlUrlnew,
             cache: new InMemoryCache(),
           });
 

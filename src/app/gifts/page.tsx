@@ -258,7 +258,7 @@ const Gifts = () => {
                       PREVIOUS
                     </button>
                   )}
-                  {currentStep === 2 && 3 && (
+                  {currentStep === 2 && 4 && (
                     <button
                       className="bg-gradient-to-r from-[#bb547d] via-[#9b5ba7] to-[#815fc8] px-2 py-2 text-white md:px-4"
                       onClick={handleNext}

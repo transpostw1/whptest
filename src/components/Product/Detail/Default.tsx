@@ -18,7 +18,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoldSchemeSmallBanner from "./GoldSchemeSmallBanner";
-import { baseUrl, graphqlProductUrl } from "@/utils/constants";
+import { baseUrl, graphqlUrlnew } from "@/utils/constants";
 import Buttons from "./Buttons";
 import Coupons from "./Coupons";
 import Skeleton from "react-loading-skeleton";
@@ -84,7 +84,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
 
   async function getData() {
     const client = new ApolloClient({
-      uri: graphqlProductUrl,
+      uri: graphqlUrlnew,
       cache: new InMemoryCache(),
     });
     const GET_SINGLE_PRODUCT = gql`

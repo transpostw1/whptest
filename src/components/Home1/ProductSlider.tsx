@@ -9,7 +9,7 @@ import * as Icon from "@phosphor-icons/react/dist/ssr";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlProductionUrl, graphqlProductUrl } from "@/utils/constants";
+import {  graphqlUrlnew } from "@/utils/constants";
 import ViewSimilar from "../Product/ViewSimilar";
 
 const ProductSlider = () => {
@@ -30,7 +30,7 @@ const ProductSlider = () => {
         setLoading(true);
         const client = new ApolloClient({
           // uri: "http://localhost:8080/",
-          uri: graphqlProductUrl,
+          uri: graphqlUrlnew,
           cache: new InMemoryCache(),
         });
 

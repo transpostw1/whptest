@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="footer-main bg-gray-50">
           <div className="container py-4">
             <div className="flex flex-col items-center justify-center lg:flex-row lg:justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 py-1">
                 <Link href={"/"}>
                   <Image
                     src={"/images/other/main_logo.png"}
@@ -126,10 +126,6 @@ const Footer = () => {
                     />
                   </Link>
                 </div>
-              </div>
-              <div className="">
-                <p>Crafting Timeless Elegance , One Jewel at a </p>
-                <p> Time. Discover Your Statement Piece Today.</p>
               </div>
             </div>
             <div className="flex flex-col justify-between gap-4 border-t py-[60px] lg:flex-row">
@@ -196,7 +192,9 @@ const Footer = () => {
                 <div className="list-nav flex w-full flex-col justify-between gap-5 lg:flex-row">
                   <div className="flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Important Links</div>
-
+                    <div className="mt-1 flex">
+                        <span>BIS: HM/C-7790882716</span>
+                      </div>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
@@ -353,6 +351,7 @@ const Footer = () => {
                       Precious Metal Guide
                     </Link> */}
                     <div className="font-semibold">Contact</div>
+                    
                     <Link
                       href="tel:1800222225"
                       target="_blank"

@@ -6,7 +6,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import DummyProduct from "../Other/DummyProduct";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { graphqlProductUrl } from "@/utils/constants";
+import { graphqlUrlnew } from "@/utils/constants";
 import { ProductType } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 
@@ -27,7 +27,7 @@ const SimilarProducts: React.FC<Props> = ({ productId }) => {
     const getData = async () => {
       try {
         const client = new ApolloClient({
-          uri: graphqlProductUrl,
+          uri: graphqlUrlnew,
           cache: new InMemoryCache(),
         });
 

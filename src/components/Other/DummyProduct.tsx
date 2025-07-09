@@ -103,7 +103,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
   //   router.push(`/products/${productId}/${productUrl}`);
   // };
    const handleDetailProduct = (productId: any, productUrl: any) => {
-    window.open(`/products/${productUrl}/${productId}`, "_blank");
+    window.open(`/products/${productId}/${productUrl}`, "_blank");
   };
 
 

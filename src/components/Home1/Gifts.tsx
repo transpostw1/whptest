@@ -8,68 +8,9 @@ const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { setCustomcategory } = useCategory();
   let categories = [
+ 
     {
-      id: 3,
-      url: "pc-gift_for_her",
-      head: "for_her",
-      type: "For Her",
-      image: (
-        <Image
-          src={"/images/gifts/GiftHer.jpg"}
-          alt=""
-          height={400}
-          width={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 4,
-      url: "pc-gift_for_him",
-      head: "for_him",
-      type: "for Him",
-      image: (
-        <Image
-          src={"/images/gifts/GiftHim.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 2,
-      url: "pc-all_jewellery_mens_jewellery_rings",
-      head: "Men's Rings",
-      type: "Men's Rings",
-      image: (
-        <Image
-          src={"/images/gifts/RingForMen.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 8,
-      url: "pc-rings_engagement_ring",
-      head: "engagement_ring",
-      type: "Engagement Ring",
-      image: (
-        <Image
-          src={"/images/gifts/RingForWomen.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 5,
+      id: 1,
       url: "pc-gift_for_special_occasion",
       head: "special",
       type: "Gift For Special Occasion",
@@ -84,14 +25,74 @@ const Gifts = () => {
       ),
     },
     {
-      id: 6,
-      url: "pc-god_pendant",
-      head: "god_pendant",
-      type: "God Pendant",
+      id: 2,
+      url: "pc-silver_article_silver_gifting_rakhi",
+      head: "silver_rakhi",
+      type: "Silver Rakhi",
       image: (
         <Image
-          src={"/images/gifts/GoldPendant.jpg"}
+          src={"/images/gifts/Rakhi.png"}
           alt=" "
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+       {
+      id: 3,
+      url: "pc-all_jewellery_mens_jewellery_rings",
+      head: "Men's Rings",
+      type: "Men's Rings",
+      image: (
+        <Image
+          src={"/images/gifts/RingForMen.jpg"}
+          alt=""
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+    {
+      id: 4,
+      url: "pc-rings_engagement_ring",
+      head: "engagement_ring",
+      type: "Engagement Ring",
+      image: (
+        <Image
+          src={"/images/gifts/RingForWomen.jpg"}
+          alt=""
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+       {
+      id: 5,
+      url: "pc-gift_for_her",
+      head: "for_her",
+      type: "For Her",
+      image: (
+        <Image
+          src={"/images/gifts/GiftHer.jpg"}
+          alt=""
+          height={400}
+          width={400}
+          unoptimized
+        />
+      ),
+    },
+    {
+      id: 6,
+      url: "pc-gift_for_him",
+      head: "for_him",
+      type: "for Him",
+      image: (
+        <Image
+          src={"/images/gifts/GiftHim.jpg"}
+          alt=""
           width={400}
           height={400}
           unoptimized
@@ -114,7 +115,7 @@ const Gifts = () => {
       ),
     },
     {
-      id: 9,
+      id: 8,
       url: "pc-self_gifting_tresures",
       head: "house_warming",
       type: "Self Gifting",

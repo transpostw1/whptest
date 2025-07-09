@@ -8,29 +8,15 @@ const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { setCustomcategory } = useCategory();
   let categories = [
+ 
     {
-      id: 5,
-      url: "pc-gift_for_her",
-      head: "for_her",
-      type: "For Her",
+      id: 1,
+      url: "pc-gift_for_special_occasion",
+      head: "special",
+      type: "Gift For Special Occasion",
       image: (
         <Image
-          src={"/images/gifts/GiftHer.jpg"}
-          alt=""
-          height={400}
-          width={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 6,
-      url: "pc-gift_for_him",
-      head: "for_him",
-      type: "for Him",
-      image: (
-        <Image
-          src={"/images/gifts/GiftHim.jpg"}
+          src={"/images/gifts/SpecialOccasion.jpg"}
           alt=""
           width={400}
           height={400}
@@ -39,6 +25,21 @@ const Gifts = () => {
       ),
     },
     {
+      id: 2,
+      url: "pc-silver_article_silver_gifting_rakhi",
+      head: "silver_rakhi",
+      type: "Silver Rakhi",
+      image: (
+        <Image
+          src={"/images/gifts/Rakhi.png"}
+          alt=" "
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+       {
       id: 3,
       url: "pc-all_jewellery_mens_jewellery_rings",
       head: "Men's Rings",
@@ -68,30 +69,30 @@ const Gifts = () => {
         />
       ),
     },
-    {
-      id: 1,
-      url: "pc-gift_for_special_occasion",
-      head: "special",
-      type: "Gift For Special Occasion",
+       {
+      id: 5,
+      url: "pc-gift_for_her",
+      head: "for_her",
+      type: "For Her",
       image: (
         <Image
-          src={"/images/gifts/SpecialOccasion.jpg"}
+          src={"/images/gifts/GiftHer.jpg"}
           alt=""
-          width={400}
           height={400}
+          width={400}
           unoptimized
         />
       ),
     },
     {
-      id: 2,
-      url: "pc-silver_article_silver_gifting_rakhi",
-      head: "silver_rakhi",
-      type: "Silver Rakhi",
+      id: 6,
+      url: "pc-gift_for_him",
+      head: "for_him",
+      type: "for Him",
       image: (
         <Image
-          src={"/images/gifts/Rakhi.png"}
-          alt=" "
+          src={"/images/gifts/GiftHim.jpg"}
+          alt=""
           width={400}
           height={400}
           unoptimized

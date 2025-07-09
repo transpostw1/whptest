@@ -143,7 +143,7 @@ const MainCarousel = () => {
                           pathname: "/products",
                           query: { url: banner.url },
                         }}
-                        onClick={() => setCustomcategory(banner.url)}
+                        onClick={() => setCustomcategory(banner.name)}
                       >
                         <div className="slider-item w-full">
                           {banner.desktopFileType === "video" ? (
@@ -194,7 +194,7 @@ const MainCarousel = () => {
                           pathname: "/products",
                           query: { url: banner.url },
                         }}
-                        onClick={() => setCustomcategory(banner.url)}
+                        onClick={() => setCustomcategory(banner.name)}
                       >
                         <div className="slider-item w-full">
                           {banner.mobileFileType === "video" ? (

@@ -673,11 +673,14 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
 
             <div className="">
               <p className="text-sm font-bold md:text-lg">Availability:</p>
-              {data?.productDetails?.productQty > 0 ? (
-                <p className="text-sm md:text-lg">In Stock</p>
-              ) : (
-                <p className="text-sm md:text-lg">Make To Order</p>
-              )}
+              <div>
+                {loading?(<Skeleton height={30} />):(
+    <p className="text-sm md:text-lg">
+      {data?.productDetails?.productQty > 0 ? "In Stock" : "Make To Order"}
+    </p>
+  )}
+              </div>
+              
             </div>
           </div>
           {data?.productDetails?.variants &&

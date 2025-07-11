@@ -162,7 +162,8 @@ const MainCarousel = () => {
                               width={1920}
                               height={100}
                               className=""
-                              unoptimized
+                              priority
+                              sizes="100vw"
                             />
                           )}
                         </div>

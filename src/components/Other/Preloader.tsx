@@ -9,7 +9,7 @@ const Preloader: React.FC = () => {
           alt="loader"
           height={30}
           width={30}
-          unoptimized
+          priority
         />
       </div>
     </div>

@@ -331,7 +331,8 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       width={400}
                       height={400}
                       alt="This image is temporary"
-                      unoptimized
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      loading="lazy"
                     />
                       {data.discountActive && data.discountValue && !isMobile && (
           <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
@@ -410,7 +411,8 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   width={400}
                   height={400}
                   alt="This image is temporary"
-                  unoptimized
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  loading="lazy"
                 />
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div

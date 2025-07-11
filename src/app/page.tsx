@@ -1,27 +1,70 @@
 "use client";
 import React, { useEffect } from "react";
 import Hotjar from "@hotjar/browser";
-import ProductSlider from "@/components/Home1/ProductSlider";
+import dynamic from "next/dynamic";
+import "@/styles/styles.scss";
+
+// Critical above-the-fold components - load immediately
 import MobileMainCategorySwiper from "@/components/Home1/MobileMainCategorySwiper";
 import MainCarousel from "@/components/Slider/MainCarousel";
-import Explore from "@/components/Home1/Explore";
-import BuyAgain from "@/components/Home1/BuyAgain";
-import Category from "@/components/Home1/Category";
-import RoseGold from "@/components/Home1/RoseGold";
-import GoldScheme from "@/components/Home1/GoldScheme";
-import ShopByGender from "@/components/Home1/ShopByGender";
-import Appointment from "@/components/Home1/Appointment";
-import Gifts from "@/components/Home1/Gifts";
-import PreciousGems from "@/components/Home1/PreciousGems";
-import SpecialOccasion from "@/components/Home1/SpecialOccasion";
-import Reviews from "@/components/Home1/Reviews";
-import WhpTv from "@/components/Home1/WhpTv";
-import Whptv2 from "@/components/Home1/WhpTv2";
-import GetFastDeliveryProducts from "@/components/Home1/GetFastDeliveryProducts";
-import WhatWeOffer from "@/components/Home1/WhatWeOffer";
-import RecetlyViewProduct from "@/components/Home1/RecentlyViewProduct";
 import StickyNav from "@/components/Header/StickyNav";
-import "@/styles/styles.scss";
+
+// Non-critical components - load dynamically
+const ProductSlider = dynamic(() => import("@/components/Home1/ProductSlider"), {
+  loading: () => <div className="h-96 animate-pulse bg-gray-200" />,
+  ssr: false
+});
+
+const Explore = dynamic(() => import("@/components/Home1/Explore"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+});
+
+const BuyAgain = dynamic(() => import("@/components/Home1/BuyAgain"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+  ssr: false
+});
+
+const Category = dynamic(() => import("@/components/Home1/Category"), {
+  loading: () => <div className="h-48 animate-pulse bg-gray-200" />,
+});
+
+const RoseGold = dynamic(() => import("@/components/Home1/RoseGold"), {
+  loading: () => <div className="h-48 animate-pulse bg-gray-200" />,
+});
+
+const GoldScheme = dynamic(() => import("@/components/Home1/GoldScheme"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+});
+
+const ShopByGender = dynamic(() => import("@/components/Home1/ShopByGender"), {
+  loading: () => <div className="h-48 animate-pulse bg-gray-200" />,
+});
+
+const Appointment = dynamic(() => import("@/components/Home1/Appointment"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+});
+
+const Gifts = dynamic(() => import("@/components/Home1/Gifts"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+});
+
+const SpecialOccasion = dynamic(() => import("@/components/Home1/SpecialOccasion"), {
+  loading: () => <div className="h-48 animate-pulse bg-gray-200" />,
+});
+
+const Reviews = dynamic(() => import("@/components/Home1/Reviews"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+});
+
+const GetFastDeliveryProducts = dynamic(() => import("@/components/Home1/GetFastDeliveryProducts"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+  ssr: false
+});
+
+const RecetlyViewProduct = dynamic(() => import("@/components/Home1/RecentlyViewProduct"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-200" />,
+  ssr: false
+});
 
 export default function Home() {
   let logged = null;
@@ -29,32 +72,14 @@ export default function Home() {
     logged = localStorage.getItem("isLoggedIn");
   }
 
-  // useEffect(() => {
-  //   if (!document.getElementById("kenyt-chatbot-script")) {
-  //     const script = document.createElement("script");
-  //     script.src = "https://www.kenyt.ai/botapp/ChatbotUI/dist/js/bot-loader.js";
-  //     script.type = "text/javascript";
-  //     script.dataset.bot = "11799060";
-  //     script.id = "kenyt-chatbot-script";
-  //     document.body.appendChild(script);
-
-  //     script.onload = () => {
-  //       console.log("Kenyt.ai Chatbot script loaded!");
-  //     };
-  //   }
-  // }, []);
   return (
     <>
-      {/* <Head>
-        <title>Home - WHP Web</title>
-        <meta
-          name="descriptin"
-          content="Welcome to WHP Web, your one-stop destination for exquisite jewelry and much more."
-        />
-      </Head> */}
       <div className="overflow-x-hidden">
+        {/* Critical above-the-fold content */}
         <MobileMainCategorySwiper />
         <MainCarousel />
+        
+        {/* Below-the-fold content - loaded dynamically */}
         <Gifts />
         <GetFastDeliveryProducts />
         <Category />
@@ -65,13 +90,9 @@ export default function Home() {
         <Explore />
         <BuyAgain />
         <RecetlyViewProduct />
-        {/* <WhatWeOffer /> */}
-        {/* <Whptv2 /> */}
-        {/* <PreciousGems /> */}
         <Appointment />
         <GoldScheme />
         <Reviews />
-        {/* <WhpApp /> */}
       </div>
       <StickyNav />
     </>

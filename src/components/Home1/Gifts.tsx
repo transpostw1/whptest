@@ -20,7 +20,8 @@ const Gifts = () => {
           alt=""
           width={400}
           height={400}
-          unoptimized
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          loading="lazy"
         />
       ),
     },
@@ -35,7 +36,8 @@ const Gifts = () => {
           alt=" "
           width={400}
           height={400}
-          unoptimized
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          loading="lazy"
         />
       ),
     },

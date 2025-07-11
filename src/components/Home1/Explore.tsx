@@ -91,6 +91,7 @@ const Explore = () => {
                 alt={item.title}
                 className="block object-cover transition-transform duration-700 group-hover:scale-110 md:hidden"
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               {/* Desktop image */}
               <Image
@@ -98,8 +99,8 @@ const Explore = () => {
                 fill
                 alt={item.title}
                 className="hidden object-contain transition-transform duration-700 group-hover:scale-110 md:block"
-                unoptimized
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </Link>

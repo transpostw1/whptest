@@ -9,7 +9,9 @@ import Footer from "@/components/Footer/Footer";
 import UserTracking from "./UserTracking";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/react";
+import ServiceWorkerRegistration from "@/components/Other/ServiceWorkerRegistration";
+// Analytics removed - enable when needed
+// import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,9 +61,15 @@ export default function RootLayout({
       <html lang="en">
         {/* <Suspense> */}
         <head>
+          {/* DNS prefetch for external domains */}
+          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+          <link rel="dns-prefetch" href="https://static.hj.contentsquare.net" />
+          <link rel="preconnect" href="https://whpjewellers.s3.amazonaws.com" />
+          
+          {/* Load GTM with lazy strategy to improve initial load */}
           <Script
             id="gtm-script"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -72,16 +80,19 @@ export default function RootLayout({
     `,
             }}
           />
+          
+          {/* Schema markup - critical for SEO */}
           <Script
             id="organization-schema"
             type="application/ld+json"
-            strategy="afterInteractive"
+            strategy="beforeInteractive"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(organizationSchema),
             }}
           />
 
-          <Script id="hotjar" strategy="afterInteractive">
+          {/* Defer Hotjar to improve performance */}
+          <Script id="hotjar" strategy="lazyOnload">
             {`
       (function (c, s, q, u, a, r, e) {
           c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
@@ -94,12 +105,13 @@ export default function RootLayout({
       })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js');
     `}
           </Script>
-          {/* Google Analytics */}
+          
+          {/* Google Analytics - optimized loading */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
-          <Script id="google-analytics" strategy="afterInteractive">
+          <Script id="google-analytics" strategy="lazyOnload">
             {`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -144,6 +156,7 @@ export default function RootLayout({
             ></iframe>
           </noscript>
           {/* <Analytics /> */}
+          <ServiceWorkerRegistration />
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

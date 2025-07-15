@@ -307,7 +307,7 @@ const DummyProduct: React.FC<ProductProps> = ({ data, onViewSimilar }) => {
                   className="try_on absolute right-3 top-4 z-50 flex cursor-pointer items-center justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                   onClick={() => loadTryOnButton?.(data.SKU, data.productId)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-betweenf">
                     <IoCameraOutline />
                     {/* <p className="ps-1 text-sm">Try On</p> */}
                   </div>

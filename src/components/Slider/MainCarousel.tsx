@@ -128,6 +128,7 @@ const MainCarousel = () => {
               pagination={{ clickable: true }}
               modules={[Pagination, Autoplay]}
               autoplay={{ delay: 10000 }}
+
             >
               {allBanners &&
                 allBanners
@@ -136,7 +137,7 @@ const MainCarousel = () => {
                       banner.desktopFile !== null &&
                       banner.desktopFileType !== null,
                   )
-                  .map((banner) => (
+                  .map((banner, index) => (
                     <SwiperSlide key={banner.id}>
                       <Link
                         href={{
@@ -160,10 +161,15 @@ const MainCarousel = () => {
                               src={banner.desktopFile}
                               alt="Hero Image"
                               width={1920}
-                              height={100}
-                              className=""
-                              priority
+                              height={628}
+                              className="w-full h-auto object-cover"
+                              priority={index === 0} // Only prioritize first image
                               sizes="100vw"
+                              quality={85} // Reduce quality for faster loading
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                              loading={index === 0 ? "eager" : "lazy"}
+                              fetchPriority={index === 0 ? "high" : "low"}
                             />
                           )}
                         </div>
@@ -188,7 +194,7 @@ const MainCarousel = () => {
                       banner.mobileFile !== null &&
                       banner.mobileFileType !== null,
                   )
-                  .map((banner: any) => (
+                  .map((banner: any, index: number) => (
                     <SwiperSlide key={banner.id}>
                       <Link
                         href={{
@@ -211,9 +217,14 @@ const MainCarousel = () => {
                             <Image
                               src={banner.mobileFile}
                               alt="Hero Image"
-                              width={1920}
-                              height={100}
-                              unoptimized
+                              width={360}
+                              height={200}
+                              className="w-full h-auto object-cover"
+                              priority={index === 0}
+                              sizes="100vw"
+                              quality={80}
+                              loading={index === 0 ? "eager" : "lazy"}
+                              fetchPriority={index === 0 ? "high" : "low"}
                             />
                           )}
                         </div>

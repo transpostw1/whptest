@@ -10,6 +10,7 @@ import UserTracking from "./UserTracking";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 import ServiceWorkerRegistration from "@/components/Other/ServiceWorkerRegistration";
+import CriticalCSS from "@/components/Other/CriticalCSS";
 // Analytics removed - enable when needed
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -156,6 +157,7 @@ export default function RootLayout({
             ></iframe>
           </noscript>
           {/* <Analytics /> */}
+          <CriticalCSS />
           <ServiceWorkerRegistration />
           <UserTracking />
           <TopNavOne textColor="text-white" />

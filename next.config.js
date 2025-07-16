@@ -5,16 +5,27 @@ const nextConfig = ({
   reactStrictMode: false,
   // Enable experimental features for better performance
   experimental: {
-    // optimizeCss: true, // Disabled due to critters dependency issue
+    optimizePackageImports: ['@phosphor-icons/react', 'react-icons', 'framer-motion'],
+    optimizeCss: true,
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
   // Enable compression
   compress: true,
-  // Optimize images
+  // Optimize images aggressively
   images: {
     formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     minimumCacheTTL: 31536000, // 1 year
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: [
       'whpjewellers.s3.amazonaws.com',
       'wamanharipethe.s3.amazonaws.com',
@@ -42,14 +53,32 @@ const nextConfig = ({
   },
   // Cache optimization
   generateEtags: false,
-  // Optimize bundle
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization.splitChunks.chunks = 'all';
+  // Optimize bundle aggressively
+  webpack: (config, { isServer, dev }) => {
+    if (!isServer && !dev) {
+      // Optimize CSS extraction
+      config.optimization.splitChunks.cacheGroups = {
+        ...config.optimization.splitChunks.cacheGroups,
+        styles: {
+          name: 'styles',
+          test: /\.(css|scss)$/,
+          chunks: 'all',
+          enforce: true,
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          priority: 10,
+        },
+      };
+      
+      // Minimize CSS
+      config.optimization.minimize = true;
     }
     return config;
   },
-  // Add cache headers
+  // Add aggressive cache headers
   async headers() {
     return [
       {
@@ -76,6 +105,23 @@ const nextConfig = ({
           {
             key: 'Cache-Control',
             value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
           },
         ],
       },

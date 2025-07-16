@@ -67,10 +67,10 @@ export default function RootLayout({
           <link rel="preconnect" href="https://whpjewellers.s3.amazonaws.com" />
           <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
           
-          {/* Load GTM with lazy strategy to improve initial load */}
+          {/* Load GTM after interactive to reduce blocking */}
           <Script
             id="gtm-script"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -82,40 +82,23 @@ export default function RootLayout({
             }}
           />
           
-          {/* Block third-party performance killers */}
+          {/* Lightweight script blocker - moved to afterInteractive to prevent blocking */}
           <Script
-            id="third-party-blocker"
-            strategy="beforeInteractive"
+            id="lightweight-blocker"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
-      // Block kenyt.ai chatbot and other performance killers
+      // Lightweight kenyt.ai blocker (non-blocking)
       if (typeof window !== 'undefined') {
-        const blockedDomains = ['kenyt.ai', 'www.kenyt.ai'];
+        // Simple fetch override without heavy operations
         const originalFetch = window.fetch;
-        const originalXHR = window.XMLHttpRequest.prototype.open;
-        
-        // Block fetch requests to performance-killing domains
         window.fetch = function(...args) {
           const url = args[0];
-          if (typeof url === 'string' && blockedDomains.some(domain => url.includes(domain))) {
-            return Promise.reject(new Error('Blocked for performance'));
+          if (typeof url === 'string' && url.includes('kenyt.ai')) {
+            return Promise.reject(new Error('Blocked'));
           }
           return originalFetch.apply(this, args);
         };
-        
-        // Block script loading from blocked domains
-        const observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-              if (node.tagName === 'SCRIPT' && node.src && 
-                  blockedDomains.some(domain => node.src.includes(domain))) {
-                node.remove();
-              }
-            });
-          });
-        });
-        observer.observe(document.head, { childList: true, subtree: true });
-        observer.observe(document.body, { childList: true, subtree: true });
       }
     `,
             }}
@@ -131,12 +114,12 @@ export default function RootLayout({
             }}
           />
 
-          {/* Google Analytics - optimized loading */}
+          {/* Google Analytics - reduced blocking */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
-          <Script id="google-analytics" strategy="lazyOnload">
+          <Script id="google-analytics" strategy="afterInteractive">
             {`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -152,10 +135,10 @@ export default function RootLayout({
   `}
           </Script>
           
-          {/* Optimized Facebook Pixel - lazy load to reduce impact */}
+          {/* Facebook Pixel - after interactive to reduce blocking */}
           <Script
             id="facebook-pixel"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
       !function(f,b,e,v,n,t,s)
@@ -195,7 +178,27 @@ export default function RootLayout({
           </noscript>
           {/* <Analytics /> */}
           <CriticalCSS />
-          <ServiceWorkerRegistration />
+          {/* Simple, non-blocking Service Worker registration */}
+          <Script
+            id="simple-sw"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+      // Simple service worker registration (non-blocking)
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    `,
+            }}
+          />
           <UserTracking />
           <TopNavOne textColor="text-white" />
           <NavTwo props="style-three bg-white" />

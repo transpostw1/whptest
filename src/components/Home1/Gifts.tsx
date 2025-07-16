@@ -50,9 +50,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/RingForMen.jpg"}
           alt=""
-          width={400}
-          height={400}
-          unoptimized
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -65,9 +67,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/RingForWomen.jpg"}
           alt=""
-          width={400}
-          height={400}
-          unoptimized
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -80,9 +84,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/GiftHer.jpg"}
           alt=""
-          height={400}
-          width={400}
-          unoptimized
+          height={300}
+          width={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -95,9 +101,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/GiftHim.jpg"}
           alt=""
-          width={400}
-          height={400}
-          unoptimized
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -110,9 +118,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/LittleStarCollection.jpg"}
           alt=""
-          width={400}
-          height={400}
-          unoptimized
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -125,9 +135,11 @@ const Gifts = () => {
         <Image
           src={"/images/gifts/SelfGifting.jpg"}
           alt=""
-          width={400}
-          height={400}
-          unoptimized
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },

@@ -55,10 +55,15 @@ const RoseGold = () => {
               unoptimized
             />
           </div>
-          <img
+          <Image
             src="/images/other/Rosegoldrange.jpg"
             className="w-screen h-auto md:hidden mb-5"
             alt="Rose Gold Collection"
+            width={560}
+            height={432}
+            sizes="100vw"
+            quality={75}
+            loading="lazy"
           />
 
            <Link
@@ -73,10 +78,15 @@ const RoseGold = () => {
         </div>
 
         <div className="md:w-1/2 hidden md:block">
-          <img
+          <Image
             src="/images/other/Rosegoldrange.jpg"
             className="w-full h-auto lg:px-8 md:p"
             alt="Rose Gold Collection"
+            width={560}
+            height={432}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            quality={75}
+            loading="lazy"
           />
         </div>
       </div>

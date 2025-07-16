@@ -28,9 +28,11 @@ const ShopByGender = () => {
         <Image
           src={"/images/gender/womens.jpg"}
           alt="womengender"
-          width={500}
-          height={500}
-          unoptimized
+          width={406}
+          height={476}
+          sizes="(max-width: 576px) 50vw, (max-width: 768px) 33vw, 406px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -45,9 +47,11 @@ const ShopByGender = () => {
         <Image
           src={"/images/gender/Mens.jpg"}
           alt="mensgender"
-          width={500}
-          height={1000}
-          unoptimized
+          width={406}
+          height={476}
+          sizes="(max-width: 576px) 50vw, (max-width: 768px) 33vw, 406px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },
@@ -61,9 +65,11 @@ const ShopByGender = () => {
         <Image
           src={"/images/gender/Kids.jpg"}
           alt="kidsgender"
-          width={500}
-          height={1000}
-          unoptimized
+          width={406}
+          height={476}
+          sizes="(max-width: 576px) 50vw, (max-width: 768px) 33vw, 406px"
+          quality={75}
+          loading="lazy"
         />
       ),
     },

@@ -27,10 +27,15 @@ const Appointment = () => {
               the comfort of your home. Book an appoinment with us today!
             </p>
             <div className="md:hidden">
-              <img
+              <Image
                 src="/images/other/Visualize.jpg"
                 alt=""
                 className="object-contain"
+                width={668}
+                height={334}
+                sizes="100vw"
+                quality={75}
+                loading="lazy"
               />
             </div>
             <div className="flex w-full items-center py-4 justify-between md:justify-start">
@@ -79,10 +84,15 @@ const Appointment = () => {
         </div>
       </div>
       <div className="hidden md:block md:w-1/2">
-        <img
+        <Image
           src="/images/other/Visualize.jpg"
           alt=""
           className="object-contain"
+          width={668}
+          height={334}
+          sizes="50vw"
+          quality={75}
+          loading="lazy"
         />
       </div>
       {appointmentModal && (

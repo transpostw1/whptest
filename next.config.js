@@ -78,9 +78,10 @@ const nextConfig = ({
     }
     return config;
   },
-  // Add aggressive cache headers
+  // Enhanced aggressive cache headers
   async headers() {
     return [
+      // Static images - 1 year cache
       {
         source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif)',
         headers: [
@@ -88,8 +89,13 @@ const nextConfig = ({
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+          {
+            key: 'Vary',
+            value: 'Accept',
+          },
         ],
       },
+      // Next.js static assets - 1 year cache
       {
         source: '/_next/static/:path*',
         headers: [
@@ -99,6 +105,37 @@ const nextConfig = ({
           },
         ],
       },
+      // Fonts - 1 year cache
+      {
+        source: '/:all*(woff|woff2|ttf|eot)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // CSS/JS files - 1 year cache
+      {
+        source: '/:all*(css|js)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // API routes - 5 minutes cache
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=300, s-maxage=300',
+          },
+        ],
+      },
+      // Service worker - no cache
       {
         source: '/sw.js',
         headers: [
@@ -108,6 +145,17 @@ const nextConfig = ({
           },
         ],
       },
+      // HTML pages - 1 hour cache
+      {
+        source: '/((?!api/).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      // Security headers
       {
         source: '/(.*)',
         headers: [
@@ -122,6 +170,14 @@ const nextConfig = ({
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },

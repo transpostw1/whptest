@@ -65,7 +65,9 @@ const MobileMainCategorySwiper = () => {
                       width={65}
                       height={65}
                       className=""
-                      unoptimized
+                      sizes="65px"
+                      quality={75}
+                      loading="lazy"
                     />
                   </Link>
                 )}

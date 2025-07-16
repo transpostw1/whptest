@@ -43,9 +43,7 @@ declare global {
     dataLayer: any[];
     gtag: (...args: any[]) => void;
     
-    // Hotjar
-    hj: (...args: any[]) => void;
-    _hjSettings: { hjid: number };
+
   }
 }
 

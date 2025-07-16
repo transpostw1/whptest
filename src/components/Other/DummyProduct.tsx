@@ -317,10 +317,12 @@ const DummyProduct: React.FC<ProductProps> = ({ data,onViewSimilar }) => {
                   onClick={() => handleDetailProduct(data.productId, data.url)}
                   className="m-auto w-[95%] duration-700"
                   src={data?.imageDetails[0]?.image_path}
-                  width={400}
-                  height={400}
+                  width={306}
+                  height={306}
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 306px"
+                  quality={75}
+                  loading="lazy"
                   alt="This image is temporary"
-                  unoptimized
                 />
               )}
               <div>

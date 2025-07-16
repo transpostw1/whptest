@@ -43,6 +43,9 @@ declare global {
     dataLayer: any[];
     gtag: (...args: any[]) => void;
     
+    // Facebook Pixel
+    fbq: (action: string, eventName: string, data?: any) => void;
+    _fbq: any;
 
   }
 }

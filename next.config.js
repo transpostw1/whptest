@@ -97,7 +97,7 @@ const nextConfig = ({
       },
       // Next.js optimized images - 1 year cache (was 1h)
       {
-        source: '/_next/image:path*',
+        source: '/_next/image',
         headers: [
           {
             key: 'Cache-Control',

@@ -46,23 +46,26 @@ const CACHE_STRATEGIES = {
     '.woff',
     '.ttf'
   ],
-  // Third-party scripts to cache
+  // Third-party scripts to cache (fixes Facebook's 111 KiB with 20m cache)
   third_party: [
     'connect.facebook.net',
+    'www.facebook.com',
     'www.googletagmanager.com',
     'www.google-analytics.com',
-    'cdn.jsdelivr.net'
+    'cdn.jsdelivr.net',
+    'fonts.googleapis.com',
+    'fonts.gstatic.com'
   ]
 };
 
-// Enhanced Cache TTLs (in seconds)
+// Enhanced Cache TTLs (in seconds) - AGGRESSIVE caching for performance
 const CACHE_TTL = {
   static: 86400 * 30, // 30 days
   images: 86400 * 30, // 30 days (increased from 7)
-  aws_images: 86400 * 365, // 1 YEAR for AWS S3 images
+  aws_images: 86400 * 365, // 1 YEAR for AWS S3 images (fixes 3,866 KiB issue)
   api: 300,           // 5 minutes
   immutable: 86400 * 365, // 1 year
-  third_party: 86400 * 7  // 7 days
+  third_party: 86400 * 30  // 30 days for third-party scripts (fixes Facebook 20m cache)
 };
 
 // Install event with more aggressive caching

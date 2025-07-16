@@ -64,8 +64,8 @@ export default function RootLayout({
         <head>
           {/* DNS prefetch for external domains */}
           <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-          <link rel="dns-prefetch" href="https://static.hj.contentsquare.net" />
           <link rel="preconnect" href="https://whpjewellers.s3.amazonaws.com" />
+          <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
           
           {/* Load GTM with lazy strategy to improve initial load */}
           <Script
@@ -82,6 +82,45 @@ export default function RootLayout({
             }}
           />
           
+          {/* Block third-party performance killers */}
+          <Script
+            id="third-party-blocker"
+            strategy="beforeInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+      // Block kenyt.ai chatbot and other performance killers
+      if (typeof window !== 'undefined') {
+        const blockedDomains = ['kenyt.ai', 'www.kenyt.ai'];
+        const originalFetch = window.fetch;
+        const originalXHR = window.XMLHttpRequest.prototype.open;
+        
+        // Block fetch requests to performance-killing domains
+        window.fetch = function(...args) {
+          const url = args[0];
+          if (typeof url === 'string' && blockedDomains.some(domain => url.includes(domain))) {
+            return Promise.reject(new Error('Blocked for performance'));
+          }
+          return originalFetch.apply(this, args);
+        };
+        
+        // Block script loading from blocked domains
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.tagName === 'SCRIPT' && node.src && 
+                  blockedDomains.some(domain => node.src.includes(domain))) {
+                node.remove();
+              }
+            });
+          });
+        });
+        observer.observe(document.head, { childList: true, subtree: true });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    `,
+            }}
+          />
+          
           {/* Schema markup - critical for SEO */}
           <Script
             id="organization-schema"
@@ -92,8 +131,6 @@ export default function RootLayout({
             }}
           />
 
-
-          
           {/* Google Analytics - optimized loading */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-KS3DVFD5ZW"
@@ -114,6 +151,27 @@ export default function RootLayout({
     });
   `}
           </Script>
+          
+          {/* Optimized Facebook Pixel - lazy load to reduce impact */}
+          <Script
+            id="facebook-pixel"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'YOUR_PIXEL_ID');
+      fbq('track', 'PageView');
+    `,
+            }}
+          />
+          
           <meta
             name="google-site-verification"
             content="isU2W3q3NcKIIWnMP9XLOGV66600qUnfhir4RiD7j0M"
@@ -125,14 +183,6 @@ export default function RootLayout({
             type="image/x-icon"
           />
           <meta name="description" content={"Welcome to WHP Jewellers."} />
-          <Script
-            id="organization-schema"
-            type="application/ld+json"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(organizationSchema),
-            }}
-          />
         </head>
         <body className={instrument.className}>
           <noscript>

@@ -95,6 +95,20 @@ const nextConfig = ({
           },
         ],
       },
+      // Next.js optimized images - 1 year cache (was 1h)
+      {
+        source: '/_next/image:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept',
+          },
+        ],
+      },
       // Next.js static assets - 1 year cache
       {
         source: '/_next/static/:path*',
@@ -145,7 +159,7 @@ const nextConfig = ({
           },
         ],
       },
-      // HTML pages - 1 hour cache
+      // HTML pages - 1 hour cache with stale-while-revalidate
       {
         source: '/((?!api/).*)',
         headers: [
@@ -155,7 +169,7 @@ const nextConfig = ({
           },
         ],
       },
-      // Security headers
+      // Security headers + performance headers
       {
         source: '/(.*)',
         headers: [

@@ -18,22 +18,28 @@ const DropDown: React.FC<Props> = ({
     { type: string; name: string; url: string }[]
   >([]);
 
-  useEffect(() => {
-    const trueVariants: { type: string; name: string; url: string }[] = [];
-    product?.variants?.forEach((item) => {
-      if (item?.VariantOption?.length > 0) {
-        // Always select first option initially
-        const variantOption = item.VariantOption[0];
-        trueVariants.push({
-          type: item.VariantType,
-          name: variantOption.VariantName,
-          url: variantOption.ProductUrl,
-        });
+useEffect(() => {
+  const trueVariants: { type: string; name: string; url: string }[] = [];
+  product?.variants?.forEach((item) => {
+    let variantOption = item.VariantOption[0];
+
+    const prevSelected = selectedVariants.find(v => v.type === item.VariantType);
+    if (prevSelected) {
+      const found = item.VariantOption.find(opt => opt.VariantName === prevSelected.name);
+      if (found) {
+        variantOption = found;
       }
+    }
+
+    trueVariants.push({
+      type: item.VariantType,
+      name: variantOption.VariantName,
+      url: variantOption.ProductUrl,
     });
-    setSelectedVariants(trueVariants);
-    handleSelectSize(trueVariants);
-  }, [product]);
+  });
+  setSelectedVariants(trueVariants);
+  handleSelectSize(trueVariants);
+}, [product]);
 
   const handleNewVariants = (
     e: React.ChangeEvent<HTMLSelectElement>,

@@ -1,4 +1,4 @@
-// middleware.ts
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import redirectsData from '../middleware-redirects.json'; 
@@ -33,67 +33,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(redirectUrl, 301);
     }
     
-    if (redirectsMap[pathname]) {
-        const redirectUrl = new URL(redirectsMap[pathname], request.url);
-        console.log(`✅ Redirecting: ${pathname} -> ${redirectUrl.pathname}${redirectUrl.search}`);
-        return NextResponse.redirect(redirectUrl, 301);
-    }
-    
-    console.log('❌ No redirect found for:', pathname);
-    return NextResponse.next();
-}
-
-export const config = {
-    matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * - public folder files
-         */
-        '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-    ],
-};
-// middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import redirectsData from '../middleware-redirects.json'; // Adjust path to your JSON file
-
-// Define the type for redirect items
-interface RedirectItem {
-    source: string;
-    destination: string;
-}
-
-// Convert array to object for faster lookups (happens once when middleware loads)
-const redirectsMap: Record<string, string> = {};
-(redirectsData as RedirectItem[]).forEach(item => {
-    redirectsMap[item.source] = item.destination;
-});
-
-export async function middleware(request: NextRequest) {
-    const { pathname, search } = request.nextUrl;
-    
-    // Skip if this is already a redirect destination path to avoid loops
-    if (pathname.startsWith('/products')) {
-        return NextResponse.next();
-    }
-    
-    // Construct the full path with query parameters
-    const fullPath = pathname + search;
-    
-    console.log('🔄 Middleware checking:', fullPath);
-    
-    // Check exact match first (with query parameters)
-    if (redirectsMap[fullPath]) {
-        const redirectUrl = new URL(redirectsMap[fullPath], request.url);
-        console.log(`✅ Redirecting: ${fullPath} -> ${redirectUrl.pathname}${redirectUrl.search}`);
-        return NextResponse.redirect(redirectUrl, 301);
-    }
-    
-    // Check pathname only (without query parameters)
     if (redirectsMap[pathname]) {
         const redirectUrl = new URL(redirectsMap[pathname], request.url);
         console.log(`✅ Redirecting: ${pathname} -> ${redirectUrl.pathname}${redirectUrl.search}`);

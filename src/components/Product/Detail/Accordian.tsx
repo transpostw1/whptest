@@ -598,7 +598,7 @@ const Accordian: React.FC<Props> = ({ product }) => {
               </div>
               <div>
                 {/* {parseInt(product.productDetails?.metalWeight)  && ( */}
-                  <p>{product.productDetails?.metalWeight} gms</p>
+                <p>{product.productDetails?.metalWeight} gms</p>
                 {/* // )} */}
                 {product.productDetails?.diamondDetails?.length > 0 && (
                   <div>
@@ -617,7 +617,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
                 {product.productDetails?.stoneDetails &&
                   product.productDetails?.stoneDetails.length > 0 && (
-                    <p className="bg-blue-700">{product.productDetails?.stoneDetails.stoneWeight}carats</p>
+                    <p className="bg-blue-700">
+                      {product.productDetails?.stoneDetails.stoneWeight}carats
+                    </p>
                   )}
                 {product.productDetails?.makingCharges && <p>-</p>}
                 {product.productDetails?.discountActive && <p>-</p>}
@@ -655,26 +657,27 @@ const Accordian: React.FC<Props> = ({ product }) => {
                 <p className="text-right">
                   {formatPrice(parseInt(makingCharges))}
                 </p>
-                {parseInt(product?.productDetails?.discountValue) > 0 && (
-                  <div>
-                    {product?.productDetails?.typeOfDiscount ===
-                    "Percentage" ? (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountAmount),
-                        )}
-                      </p>
-                    ) : (
-                      <p className="text-right">
-                        -
-                        {formatPrice(
-                          parseInt(product?.productDetails?.discountValue),
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
+                {product?.productDetails?.discountActive &&
+                  parseInt(product?.productDetails?.discountValue) > 0 && (
+                    <div>
+                      {product?.productDetails?.typeOfDiscount ===
+                      "Percentage" ? (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountAmount),
+                          )}
+                        </p>
+                      ) : (
+                        <p className="text-right">
+                          -
+                          {formatPrice(
+                            parseInt(product?.productDetails?.discountValue),
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 <p className="text-right">
                   {formatPrice(parseInt(product?.productDetails?.gst))}
                 </p>

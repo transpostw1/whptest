@@ -72,15 +72,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const settingsMain = {
+ const settingsMain = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 900, 
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
-    Autoplay: true,
-  };
+    autoplay: true,
+    autoplaySpeed: 5000,
+};
 
   async function getData() {
     const client = new ApolloClient({
@@ -398,9 +399,10 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     focusOnSelect: true,
+    autoplaySpeed: 8000,
     responsive: [
       {
-        breakpoint: 768, // Adjust this breakpoint as needed
+        breakpoint: 768, 
         settings: {
           slidesToShow: Math.min(
             3,

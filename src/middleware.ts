@@ -1,15 +1,15 @@
-// middleware.ts
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import redirectsData from '../middleware-redirects.json'; // Adjust path to your JSON file
+import redirectsData from '../middleware-redirects.json'; 
 
-// Define the type for redirect items
+
 interface RedirectItem {
     source: string;
     destination: string;
 }
 
-// Convert array to object for faster lookups (happens once when middleware loads)
+
 const redirectsMap: Record<string, string> = {};
 (redirectsData as RedirectItem[]).forEach(item => {
     redirectsMap[item.source] = item.destination;
@@ -18,24 +18,21 @@ const redirectsMap: Record<string, string> = {};
 export async function middleware(request: NextRequest) {
     const { pathname, search } = request.nextUrl;
     
-    // Skip if this is already a redirect destination path to avoid loops
+    
     if (pathname.startsWith('/products')) {
         return NextResponse.next();
     }
     
-    // Construct the full path with query parameters
+    
     const fullPath = pathname + search;
     
     console.log('🔄 Middleware checking:', fullPath);
-    
-    // Check exact match first (with query parameters)
     if (redirectsMap[fullPath]) {
         const redirectUrl = new URL(redirectsMap[fullPath], request.url);
         console.log(`✅ Redirecting: ${fullPath} -> ${redirectUrl.pathname}${redirectUrl.search}`);
         return NextResponse.redirect(redirectUrl, 301);
     }
     
-    // Check pathname only (without query parameters)
     if (redirectsMap[pathname]) {
         const redirectUrl = new URL(redirectsMap[pathname], request.url);
         console.log(`✅ Redirecting: ${pathname} -> ${redirectUrl.pathname}${redirectUrl.search}`);

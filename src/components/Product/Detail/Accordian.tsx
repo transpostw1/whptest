@@ -617,8 +617,9 @@ const Accordian: React.FC<Props> = ({ product }) => {
 
                 {product.productDetails?.stoneDetails &&
                   product.productDetails?.stoneDetails.length > 0 && (
-                    <p className="bg-blue-700">
-                      {product.productDetails?.stoneDetails.stoneWeight}carats
+                    <p className="">
+                      {product.productDetails.stoneDetails[0].stoneWeight}{" "}
+                      carats
                     </p>
                   )}
                 {product.productDetails?.makingCharges && <p>-</p>}

@@ -29,17 +29,17 @@ export async function middleware(request: NextRequest) {
     console.log('🔄 Middleware checking:', fullPath);
     if (redirectsMap[fullPath]) {
         const redirectUrl = new URL(redirectsMap[fullPath], request.url);
-        console.log(`✅ Redirecting: ${fullPath} -> ${redirectUrl.pathname}${redirectUrl.search}`);
+        // console.log(`✅ Redirecting: ${fullPath} -> ${redirectUrl.pathname}${redirectUrl.search}`);
         return NextResponse.redirect(redirectUrl, 301);
     }
     
     if (redirectsMap[pathname]) {
         const redirectUrl = new URL(redirectsMap[pathname], request.url);
-        console.log(`✅ Redirecting: ${pathname} -> ${redirectUrl.pathname}${redirectUrl.search}`);
+        // console.log(`✅ Redirecting: ${pathname} -> ${redirectUrl.pathname}${redirectUrl.search}`);
         return NextResponse.redirect(redirectUrl, 301);
     }
     
-    console.log('❌ No redirect found for:', pathname);
+    // console.log('❌ No redirect found for:', pathname);
     return NextResponse.next();
 }
 

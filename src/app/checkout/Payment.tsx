@@ -547,23 +547,12 @@ const Payment: React.FC<PaymentProps> = ({
       setLoading(false);
     }
   };
-
-
-
-
-
-
   useEffect(() => {
     if (orderResponse && !paymentStarted && selectedPaymentMethod === "razorpay") {
       handleRazorpayPayment();
       setPaymentStarted(true);
     }
   }, [ paymentStarted, selectedPaymentMethod]);
-
-
-
-
-
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
        handleRazorpayPayment(); 
@@ -576,11 +565,6 @@ const Payment: React.FC<PaymentProps> = ({
       handleProceed();
     }
   };
-
-
-
-
-
   
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;

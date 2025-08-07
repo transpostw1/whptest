@@ -555,10 +555,10 @@ const Payment: React.FC<PaymentProps> = ({
 
   useEffect(() => {
     if (orderResponse && !paymentStarted && selectedPaymentMethod === "razorpay") {
-      // handleRazorpayPayment();
+      handleRazorpayPayment();
       setPaymentStarted(true);
     }
-  }, [orderResponse, paymentStarted, selectedPaymentMethod]);
+  }, [ paymentStarted, selectedPaymentMethod]);
 
 
 

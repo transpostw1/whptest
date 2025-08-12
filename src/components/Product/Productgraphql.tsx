@@ -331,7 +331,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       unoptimized
                     />
                     {data.discountActive && data.discountValue && !isMobile && (
-                      <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
+                      <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
                         {data.typeOfDiscount === "Percentage" ? (
                           <span className="text-xs">
                             {data.discountValue}% OFF on {data.discountCategory}
@@ -361,7 +361,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     {skuList?.includes(data.SKU) && isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -413,7 +413,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] py-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between px-2">
@@ -423,7 +423,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   </div>
                 )}
                 {data.discountActive && data.discountValue && !isMobile && (
-                  <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
+                  <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-xs">
                         {data.discountValue}% OFF on {data.discountCategory}
@@ -443,7 +443,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right mt-2 flex justify-between rounded-lg border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between text-[#e26178] hover:text-white">
@@ -452,14 +452,14 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   </div>
                 )}
                 {data.discountActive && data.discountValue && isMobile && (
-                  <div className="absolute top-1 float-right flex w-32 items-center justify-between border bg-[#e26178] text-center text-white">
+                  <div className="absolute top-1 float-right w-16 bg-[#e26178] text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-[8px]">
-                        {data.discountValue}% OFF on {data.discountCategory}
+                        {data.discountValue}% OFF*
                       </span>
                     ) : (
-                      <span>
-                        ₹{data.discountAmount} OFF on {data.discountCategory}
+                      <span className="text-[8px]">
+                        ₹{data.discountAmount} OFF*
                       </span>
                     )}
                   </div>

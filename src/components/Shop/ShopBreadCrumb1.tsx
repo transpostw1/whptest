@@ -240,6 +240,8 @@ const ShopBreadCrumb1 = () => {
     }
   };
 
+  const categoryFilter = filters.find((f: any) => f.title === "Category") || { options: [], labels: [] };
+const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { options: [], labels: [] };
   const getInputVariables = (combinedOptions: any) => {
     if (combinedOptions.category[0] === "new_Arrival") {
       return {
@@ -879,7 +881,7 @@ const ShopBreadCrumb1 = () => {
             <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
               SortBy
             </div>
-            {filters.find((f: any) => f.title === "Category")?.options?.length >
+            {filters.find((f: any) => f.title === "Category"||"shop_For")?.options?.length >
               0 && (
               <div
                 className="mr-5"
@@ -896,23 +898,15 @@ const ShopBreadCrumb1 = () => {
             </div> */}
           </div>
         </div>
-        {filterOption &&
-          filters.find((f: any) => f.title === "Category")?.options?.length >
-            0 && (
-            <FilterBy
-              visible={filterOption}
-              onClose={() => setFilterOption(false)}
-              categories={
-                filters.find((f: any) => f.title === "Category") || {
-                  options: [],
-                  labels: [],
-                }
-              }
-              onCategorySelect={(category) =>
-                handleOptionSelect(category, "Category")
-              }
-            />
-          )}
+       {filterOption && (categoryFilter.options.length > 0 || shopForFilter.options.length > 0) && (
+  <FilterBy
+    visible={filterOption}
+    onClose={() => setFilterOption(false)}
+    categories={categoryFilter}
+    shopFor={shopForFilter}
+    onOptionSelect={(value, type) => handleOptionSelect(value, type)}
+  />
+)}
 
         {sortOption && (
           <SortBy

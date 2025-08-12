@@ -334,7 +334,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
                         {data.typeOfDiscount === "Percentage" ? (
                           <span className="text-xs">
-                            {data.discountValue}% OFF on {data.discountCategory}
+                            100% OFF on {data.discountCategory}
                           </span>
                         ) : (
                           <span>
@@ -452,7 +452,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   </div>
                 )}
                 {data.discountActive && data.discountValue && isMobile && (
-                  <div className="absolute top-1 float-right flex w-32 items-center justify-between border bg-[#e26178] text-center text-white">
+                  <div className="absolute top-1 float-right flex items-center justify-between border bg-gradient-to-b from-[#8468a3] to-[#fb86ad] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-[8px]">
                         {data.discountValue}% OFF on {data.discountCategory}

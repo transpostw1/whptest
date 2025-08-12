@@ -179,7 +179,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         onClose={closeTryAtHomeModal}
       />
       <div
-        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px]  ${
+        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px] ${
           fixedHeader ? "fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
@@ -209,7 +209,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               </div>
             </div>
             <div className="flex justify-between sm:block md:hidden lg:hidden">
-              <Link href={"/blog"}>
+              {/* <Link href={"/blog"}>
                 <div>
                   <Image
                     src={"/images/icons/blog.svg"}
@@ -218,13 +218,40 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                     height={25}
                   />
                 </div>
-              </Link>
+              </Link> */}
+
               <div
+                className="search-container-mobile "
+                contentEditable="true"
+                suppressContentEditableWarning={true}
+                role="textbox"
+                aria-label="Search"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <span className="search-text">Search </span>
+                <div className="marquee-vertical mb-1.5">
+                  {categories.map((category: any, index: any) => (
+                    <div key={index} className="marquee-content-vertical-mobile">
+                      {category.name}    
+                    </div>
+                  ))}
+                </div> 
+                <div className="search-icon">
+                  <Icon.MagnifyingGlass
+                    size={20}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => {
+                      setIsModalOpen(true);
+                    }}
+                  />
+                </div>
+              </div>
+              {/* <div
                 className="ml-4 text-black"
                 onClick={() => setIsModalOpen(true)}
               >
                 <Icon.MagnifyingGlass size={25} />
-              </div>
+              </div> */}
               <div className="ml-4" onClick={handleContactPopup}>
                 <Image
                   src={"/images/icons/contact.svg"}
@@ -236,10 +263,10 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               {contactPopUp ? <ContactInfo /> : null}
 
               <Link href={"/wishlist"}>
-                <div className="ml-4 text-black relative">
+                <div className="relative ml-4 text-black">
                   <Icon.Heart size={25} />
                   {wishlistItems.length > 0 && (
-                    <span className="quantity cart-quantity absolute left-5 bottom-3 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                    <span className="quantity cart-quantity absolute bottom-3 left-5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                       {wishlistItems.length}
                     </span>
                   )}

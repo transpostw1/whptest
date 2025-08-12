@@ -126,9 +126,9 @@ const FilterSidebar: React.FC<Props> = ({
 
           <div className="list-type mt-4">
             <FilterOptions
-              filters={filters}
+              filters={filters.filter((f: any) => f.title === "Category")}
               handleMobileFilter={handleMobileFilter}
-              filterDropDown={filterDropDown}
+              filterDropDown={"Category"}
               handleFilterDropdown={handleFilterDropdown}
               handleOptionSelect={handleOptionSelect}
               selectedOptions={selectedOptions}

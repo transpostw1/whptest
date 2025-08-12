@@ -5,6 +5,7 @@ import Product from "../Product/Productgraphql";
 import "rc-slider/assets/index.css";
 import MobileMainCategorySwiper from "../Home1/MobileMainCategorySwiper";
 import SortBy from "../Other/SortBy";
+import FilterBy from "../Other/FilterBy";
 import FilterSidebar from "./FilterSidebar";
 import ProductSkeleton from "./ProductSkeleton";
 import { ProductType } from "@/type/ProductType";
@@ -20,6 +21,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShopBreadCrumb1 = () => {
   const [sortOption, setSortOption] = useState<boolean>(false);
+  const [filterOption, setFilterOption] = useState<boolean>(false);
   const { category } = useCategory();
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -72,7 +74,7 @@ const ShopBreadCrumb1 = () => {
         try {
           if (isFetchingRef.current) return;
           isFetchingRef.current = true;
-          
+
           if (!isLoadMore) {
             setIsLoading(true);
           } else {
@@ -163,16 +165,23 @@ const ShopBreadCrumb1 = () => {
           if (productsResult.data?.products) {
             setFilteredProducts((prevProducts) => {
               if (isLoadMore) {
-                const newProducts = [...prevProducts, ...productsResult.data.products];
+                const newProducts = [
+                  ...prevProducts,
+                  ...productsResult.data.products,
+                ];
                 const uniqueProducts = Array.from(
                   new Map(
                     newProducts.map((product) => [product.productId, product]),
                   ).values(),
                 );
-                setHasMore(productsResult.data.products.length === productsPerPage);
+                setHasMore(
+                  productsResult.data.products.length === productsPerPage,
+                );
                 return uniqueProducts;
               } else {
-                setHasMore(productsResult.data.products.length === productsPerPage);
+                setHasMore(
+                  productsResult.data.products.length === productsPerPage,
+                );
                 return productsResult.data.products;
               }
             });
@@ -627,7 +636,7 @@ const ShopBreadCrumb1 = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [selectedOptions,selectedSortOption]);
+  }, [selectedOptions, selectedSortOption]);
 
   const handleLoadMore = () => {
     if (!isLoading && !isLoadingMore) {
@@ -675,11 +684,7 @@ const ShopBreadCrumb1 = () => {
                               key={`${category}-${index}`}
                               className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {
-                                option
-                                  .replace(/_/g, " ") 
-                                  .replace(/,?$/, "") 
-                              }
+                              {option.replace(/_/g, " ").replace(/,?$/, "")}
                               <button
                                 className="mb-1 ml-2 align-middle"
                                 onClick={() =>
@@ -720,7 +725,7 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               </div>
-                    
+
               {filteredProducts.length > 0 ? (
                 selectedSortOption === "Price-Low To High" ||
                 selectedSortOption === "Price-High To Low" ? (
@@ -874,14 +879,41 @@ const ShopBreadCrumb1 = () => {
             <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
               SortBy
             </div>
-            <div
+            {filters.find((f: any) => f.title === "Category")?.options?.length >
+              0 && (
+              <div
+                className="mr-5"
+                onClick={() => setFilterOption(!sortOption)}
+              >
+                Filter
+              </div>
+            )}
+            {/* <div
               className="flex"
               onClick={() => setMobileFilter(!mobileFilter)}
             >
               <p>Filter </p>
-            </div>
+            </div> */}
           </div>
         </div>
+        {filterOption &&
+          filters.find((f: any) => f.title === "Category")?.options?.length >
+            0 && (
+            <FilterBy
+              visible={filterOption}
+              onClose={() => setFilterOption(false)}
+              categories={
+                filters.find((f: any) => f.title === "Category") || {
+                  options: [],
+                  labels: [],
+                }
+              }
+              onCategorySelect={(category) =>
+                handleOptionSelect(category, "Category")
+              }
+            />
+          )}
+
         {sortOption && (
           <SortBy
             visible={sortOption}

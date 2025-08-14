@@ -74,7 +74,7 @@ const ShopBreadCrumb1 = () => {
         try {
           if (isFetchingRef.current) return;
           isFetchingRef.current = true;
-
+          
           if (!isLoadMore) {
             setIsLoading(true);
           } else {
@@ -241,7 +241,7 @@ const ShopBreadCrumb1 = () => {
   };
 
   const categoryFilter = filters.find((f: any) => f.title === "Category") || { options: [], labels: [] };
-const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { options: [], labels: [] };
+const Metal = filters.find((f: any) => f.title === "Metal") || { options: [], labels: [] };
   const getInputVariables = (combinedOptions: any) => {
     if (combinedOptions.category[0] === "new_Arrival") {
       return {
@@ -898,12 +898,12 @@ const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { opti
             </div> */}
           </div>
         </div>
-       {filterOption && (categoryFilter.options.length > 0 || shopForFilter.options.length > 0) && (
+       {filterOption && (categoryFilter.options.length > 0 || Metal.options.length > 0) && (
   <FilterBy
     visible={filterOption}
     onClose={() => setFilterOption(false)}
     categories={categoryFilter}
-    shopFor={shopForFilter}
+    Metal={Metal}
     onOptionSelect={(value, type) => handleOptionSelect(value, type)}
   />
 )}

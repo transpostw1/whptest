@@ -5,16 +5,15 @@ interface Props {
   visible: boolean;
   onClose: VoidFunction;
   categories: { options: string[]; labels: string[] };
-  shopFor: { options: string[]; labels: string[] };
+  Metal: { options: string[]; labels: string[] };
   onOptionSelect: (option: string, type: string) => void;
 }
-
 
 const FilterBy: React.FC<Props> = ({
   visible,
   onClose,
   categories,
-  shopFor,
+  Metal,
   onOptionSelect,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -25,17 +24,16 @@ const FilterBy: React.FC<Props> = ({
     }
   };
 
-const handleApply = () => {
-  if (!selectedOption) return;
+  const handleApply = () => {
+    if (!selectedOption) return;
 
-  const type = categories.options.includes(selectedOption)
-    ? "Category"
-    : "Shop_For";
+    const type = categories.options.includes(selectedOption)
+      ? "Category"
+      : "Metal";
 
-  onOptionSelect(selectedOption, type);
-  onClose();
-};
-
+    onOptionSelect(selectedOption, type);
+    onClose();
+  };
 
   if (!visible) return null;
 
@@ -49,46 +47,50 @@ const handleApply = () => {
         <p className="w-full rounded-t-3xl bg-[#e26178] p-4 text-center text-xl text-white">
           Select Category
         </p>
-    <div className="p-4 overflow-y-auto" style={{ maxHeight: "calc(100% - 100px)" }}>
-  
-  {/* Categories Section */}
-  {categories.options.length > 0 && (
-    <>
-      <h2 className="text-lg font-semibold text-gray-800">Categories</h2>
-      {categories.options.map((option, idx) => (
         <div
-          key={option}
-          className={`mt-2 cursor-pointer ${
-            selectedOption === option ? "text-[#e26179]" : ""
-          }`}
-          onClick={() => setSelectedOption(option)}
+          className="overflow-y-auto p-4"
+          style={{ maxHeight: "calc(100% - 100px)" }}
         >
-          {categories.labels[idx] || option}
+          {/* Categories Section */}
+          {categories.options.length > 0 && (
+            <>
+              <h2 className="text-lg font-semibold text-gray-800">
+                Categories
+              </h2>
+              {categories.options.map((option, idx) => (
+                <div
+                  key={option}
+                  className={`mt-2 cursor-pointer ${
+                    selectedOption === option ? "text-[#e26179]" : ""
+                  }`}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {categories.labels[idx] || option}
+                </div>
+              ))}
+            </>
+          )}
+
+          {/* Shop For Section */}
+          {Metal.options.length > 0 && (
+            <>
+              <h2 className="mt-4 text-lg font-semibold text-gray-800">
+                Shop By Metal and Stone{" "}
+              </h2>
+              {Metal.options.map((option, idx) => (
+                <div
+                  key={option}
+                  className={`mt-2 cursor-pointer ${
+                    selectedOption === option ? "text-[#e26179]" : ""
+                  }`}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {Metal.labels[idx] || option}
+                </div>
+              ))}
+            </>
+          )}
         </div>
-      ))}
-    </>
-  )}
-
-  {/* Shop For Section */}
-  {shopFor.options.length > 0 && (
-    <>
-      <h2 className="mt-4 text-lg font-semibold text-gray-800">Shop For</h2>
-      {shopFor.options.map((option, idx) => (
-        <div
-          key={option}
-          className={`mt-2 cursor-pointer ${
-            selectedOption === option ? "text-[#e26179]" : ""
-          }`}
-          onClick={() => setSelectedOption(option)}
-        >
-          {shopFor.labels[idx] || option}
-        </div>
-      ))}
-    </>
-  )}
-
-</div>
-
 
         <div className="absolute bottom-0 left-0 right-0 p-4">
           <button

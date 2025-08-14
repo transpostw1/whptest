@@ -25,12 +25,15 @@ const DropDown: React.FC<Props> = ({
 
     const trueVariants: { type: string; name: string; url: string }[] = [];
     product?.variants?.forEach((item) => {
+      // Find the first available variant option
       let variantOption = item.VariantOption[0];
 
+      // Check if a previously selected variant exists in localStorage
       const prevSelected =
         parsedVariants.find((v: any) => v.type === item.VariantType) ||
         selectedVariants.find((v) => v.type === item.VariantType);
 
+      // If the previously selected variant is available, use it
       if (prevSelected) {
         const found = item.VariantOption.find(
           (opt) => opt.VariantName === prevSelected.name
@@ -40,6 +43,7 @@ const DropDown: React.FC<Props> = ({
         }
       }
 
+      // Add the selected or default variant to the list
       trueVariants.push({
         type: item.VariantType,
         name: variantOption.VariantName,

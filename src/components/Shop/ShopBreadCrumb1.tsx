@@ -240,8 +240,14 @@ const ShopBreadCrumb1 = () => {
     }
   };
 
-  const categoryFilter = filters.find((f: any) => f.title === "Category") || { options: [], labels: [] };
-const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { options: [], labels: [] };
+  const categoryFilter = filters.find((f: any) => f.title === "Category") || {
+    options: [],
+    labels: [],
+  };
+  const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || {
+    options: [],
+    labels: [],
+  };
   const getInputVariables = (combinedOptions: any) => {
     if (combinedOptions.category[0] === "new_Arrival") {
       return {
@@ -881,8 +887,8 @@ const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { opti
             <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
               SortBy
             </div>
-            {filters.find((f: any) => f.title === "Category"||"shop_For")?.options?.length >
-              0 && (
+            {filters.find((f: any) => f.title === "Category" || "shop_For")
+              ?.options?.length > 0 && (
               <div
                 className="mr-5"
                 onClick={() => setFilterOption(!sortOption)}
@@ -898,15 +904,17 @@ const shopForFilter = filters.find((f: any) => f.title === "Shop_For") || { opti
             </div> */}
           </div>
         </div>
-       {filterOption && (categoryFilter.options.length > 0 || shopForFilter.options.length > 0) && (
-  <FilterBy
-    visible={filterOption}
-    onClose={() => setFilterOption(false)}
-    categories={categoryFilter}
-    shopFor={shopForFilter}
-    onOptionSelect={(value, type) => handleOptionSelect(value, type)}
-  />
-)}
+        {filterOption &&
+          (categoryFilter.options.length > 0 ||
+            shopForFilter.options.length > 0) && (
+            <FilterBy
+              visible={filterOption}
+              onClose={() => setFilterOption(false)}
+              categories={categoryFilter}
+              shopFor={shopForFilter}
+              onOptionSelect={(value, type) => handleOptionSelect(value, type)}
+            />
+          )}
 
         {sortOption && (
           <SortBy

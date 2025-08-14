@@ -18,41 +18,51 @@ const DropDown: React.FC<Props> = ({
     { type: string; name: string; url: string }[]
   >([]);
 
-useEffect(() => {
-  const trueVariants: { type: string; name: string; url: string }[] = [];
-  product?.variants?.forEach((item) => {
-    let variantOption = item.VariantOption[0];
+  useEffect(() => {
+    // Retrieve selected variants from localStorage
+    const storedVariants = localStorage.getItem("selectedVariants");
+    const parsedVariants = storedVariants ? JSON.parse(storedVariants) : [];
 
-    const prevSelected = selectedVariants.find(v => v.type === item.VariantType);
-    if (prevSelected) {
-      const found = item.VariantOption.find(opt => opt.VariantName === prevSelected.name);
-      if (found) {
-        variantOption = found;
+    const trueVariants: { type: string; name: string; url: string }[] = [];
+    product?.variants?.forEach((item) => {
+      let variantOption = item.VariantOption[0];
+
+      const prevSelected =
+        parsedVariants.find((v: any) => v.type === item.VariantType) ||
+        selectedVariants.find((v) => v.type === item.VariantType);
+
+      if (prevSelected) {
+        const found = item.VariantOption.find(
+          (opt) => opt.VariantName === prevSelected.name
+        );
+        if (found) {
+          variantOption = found;
+        }
       }
-    }
 
-    trueVariants.push({
-      type: item.VariantType,
-      name: variantOption.VariantName,
-      url: variantOption.ProductUrl,
+      trueVariants.push({
+        type: item.VariantType,
+        name: variantOption.VariantName,
+        url: variantOption.ProductUrl,
+      });
     });
-  });
-  setSelectedVariants(trueVariants);
-  handleSelectSize(trueVariants);
-}, [product]);
+
+    setSelectedVariants(trueVariants);
+    handleSelectSize(trueVariants);
+    localStorage.setItem("selectedVariants", JSON.stringify(trueVariants)); // Persist to localStorage
+  }, [product]);
 
   const handleNewVariants = (
     e: React.ChangeEvent<HTMLSelectElement>,
-    variantType: string,
+    variantType: string
   ) => {
     const variantGroup = product.variants.find(
-      (v) => v.VariantType === variantType,
+      (v) => v.VariantType === variantType
     );
     const selectedName = e.target.value;
 
-    // Find option by VariantName instead of ProductUrl
     const selectedOption = variantGroup?.VariantOption.find(
-      (opt) => opt.VariantName === selectedName,
+      (opt) => opt.VariantName === selectedName
     );
 
     if (selectedOption) {
@@ -67,6 +77,9 @@ useEffect(() => {
       setSelectedVariants(updatedVariants);
       handleSelectSize(updatedVariants);
       handleVariant(selectedOption.ProductUrl);
+
+      // Persist updated variants to localStorage
+      localStorage.setItem("selectedVariants", JSON.stringify(updatedVariants));
     }
   };
 
@@ -75,7 +88,9 @@ useEffect(() => {
       <table className="w-full border-collapse border border-gray-300 text-left">
         <thead className="bg-gradient-to-r from-[#fed258] via-[#fda385] to-[#fc46c6]">
           <tr className="border border-gray-300 p-1 text-sm font-normal md:text-base">
-            <th colSpan={2} className="p-2 font-normal" >Customize Your Jewellery</th>
+            <th colSpan={2} className="p-2 font-normal">
+              Customize Your Jewellery
+            </th>
           </tr>
         </thead>
         <tbody>

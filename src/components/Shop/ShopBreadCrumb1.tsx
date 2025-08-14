@@ -358,7 +358,7 @@ const Metal = filters.find((f: any) => f.title === "Metal") || { options: [], la
       ...(initialOptions.productCategory || []),
       ...(selectedOptions.productCategory || []),
     ];
-    // console.log(combinedOptions, "COMBINEDDDDD");
+    console.log(combinedOptions, "COMBINEDDDDD");
     return combinedOptions;
   };
 
@@ -686,7 +686,7 @@ const Metal = filters.find((f: any) => f.title === "Metal") || { options: [], la
                               key={`${category}-${index}`}
                               className="mr-1 mt-1 border border-[#e26178] bg-[#fcff4f6] px-[10px] py-[5px] text-[#e26178]"
                             >
-                              {option.replace(/_/g, " ").replace(/,?$/, "")}
+                              {option.replace(/_/g, " ")}
                               <button
                                 className="mb-1 ml-2 align-middle"
                                 onClick={() =>

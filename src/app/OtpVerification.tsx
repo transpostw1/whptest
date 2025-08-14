@@ -3,7 +3,6 @@ import {
   RecaptchaVerifier,
   signInWithCredential,
   signInWithPhoneNumber,
-  FirebaseError,
 } from "firebase/auth";
 import { useEffect, useState ,RefObject} from "react";
 import { auth } from "./config";
@@ -244,7 +243,7 @@ const OtpVerification = ({
                 </div>
               </>
             ) : (
-              <div className="flex justify-center">
+              <div className="flex justify-center w-full">
                 <span>Send OTP</span>
               </div>
             )}

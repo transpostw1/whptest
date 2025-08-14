@@ -54,8 +54,6 @@ const AddAddressModal: React.FC<Props> = ({
     fetchCountries();
   }, []);
 
-  
-
   const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCountry = countries.find(
       (country) => country.name === event.target.value

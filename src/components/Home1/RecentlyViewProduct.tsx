@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
@@ -88,7 +87,6 @@ const handleViewSimilarProducts = (productId: number) => {
   }, []);
 
   if (!data || data.length == 0) return null;
-
   return (
     <>
       {data.length > 0 && (

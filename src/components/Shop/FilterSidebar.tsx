@@ -139,7 +139,7 @@ return (
         {/* Metals Filter */}
         <div className="list-type mt-4">
           <FilterOptions
-            filters={filters.filter((f: any) => f.title === "Metal")}
+            filters={filters.filter((f: any) => f.title === "Occasion")}
             handleMobileFilter={handleMobileFilter}
             filterDropDown={"Metal"}
             handleFilterDropdown={handleFilterDropdown}

@@ -141,7 +141,7 @@ return (
           <FilterOptions
             filters={filters.filter((f: any) => f.title === "Occasion")}
             handleMobileFilter={handleMobileFilter}
-            filterDropDown={"Metal"}
+            filterDropDown={"Occasion"}
             handleFilterDropdown={handleFilterDropdown}
             handleOptionSelect={handleOptionSelect}
             selectedOptions={selectedOptions}

@@ -13,7 +13,7 @@ const FilterBy: React.FC<Props> = ({
   visible,
   onClose,
   categories,
-  Metal,
+  Occasion,
   onOptionSelect,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -29,7 +29,7 @@ const FilterBy: React.FC<Props> = ({
 
     const type = categories.options.includes(selectedOption)
       ? "Category"
-      : "Metal";
+      : "Occasion";
 
     onOptionSelect(selectedOption, type);
     onClose();
@@ -72,12 +72,12 @@ const FilterBy: React.FC<Props> = ({
           )}
 
           {/* Shop For Section */}
-          {Metal.options.length > 0 && (
+          {Occasion.options.length > 0 && (
             <>
               <h2 className="mt-4 text-lg font-semibold text-gray-800">
                 Shop By Metal and Stone{" "}
               </h2>
-              {Metal.options.map((option, idx) => (
+              {Occasion.options.map((option, idx) => (
                 <div
                   key={option}
                   className={`mt-2 cursor-pointer ${
@@ -85,7 +85,7 @@ const FilterBy: React.FC<Props> = ({
                   }`}
                   onClick={() => setSelectedOption(option)}
                 >
-                  {Metal.labels[idx] || option}
+                  {Occasion.labels[idx] || option}
                 </div>
               ))}
             </>

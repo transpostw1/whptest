@@ -27,11 +27,11 @@ const Gifts = () => {
     {
       id: 2,
       url: "pc-silver_article_silver_gifting_rakhi",
-      head: "silver_rakhi",
-      type: "Silver Rakhi",
+      head: "god_pendant",
+      type: "God Pendant",
       image: (
         <Image
-          src={"/images/gifts/Rakhi.png"}
+          src={"/images/gifts/Godpendant.jpg"}
           alt=" "
           width={400}
           height={400}

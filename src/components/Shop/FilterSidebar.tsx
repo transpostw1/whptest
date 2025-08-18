@@ -32,11 +32,9 @@ const FilterSidebar: React.FC<Props> = ({
   const [filterDropDown, setFilterDropDown] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
-
   const handleFilterDropdown = (item: string) => {
-    setFilterDropDown(item);
+    setFilterDropDown((prev) => (prev === item ? "" : item));
   };
-
   useEffect(() => {
     const handleScroll = () => {
       const sidebarElement = sidebarRef.current;
@@ -81,98 +79,98 @@ const FilterSidebar: React.FC<Props> = ({
     // console.log(selectedOptions, "selectedOptions SideBARRRRR");
   }, [selectedOptions, onFilterChange]);
 
-return (
-  <>
-    <div
-      className={`sidebar hidden w-full pt-4 md:block md:w-1/3 lg:block lg:w-[300px]`}
-      ref={sidebarRef}
-    >
+  return (
+    <>
       <div
-        className={`filter-type border-line custom-scrollbar h-[450px] overflow-y-auto pb-8 md:h-[380px] ${
-          isSidebarFixed ? "fixed w-[300px]" : "relative"
-        }`}
-        style={{
-          position: isSidebarFixed ? "fixed" : "relative",
-          top: isSidebarFixed ? "120px" : "auto",
-          width: isSidebarFixed ? "250px" : "250px",
-        }}
+        className={`sidebar hidden w-full pt-4 md:block md:w-1/3 lg:block lg:w-[300px]`}
+        ref={sidebarRef}
       >
-        <div className="heading6 border-b-2">FILTER BY</div>
-        <div className="mt-5">
-          <p className="heading7">Applied Filters</p>
-        </div>
-        <div className="flex max-w-full flex-wrap gap-2 overflow-auto">
-          {Object.entries(selectedOptions).flatMap(([category, options]) =>
-            (options as string[])
-              .filter((option) => option && option.trim() !== "")
-              .map((option: string, index: number) => (
-                <div
-                  key={`${category}-${index}`}
-                  className="inline-flex w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
-                >
-                  <span className="w-full">
-                    {option.replace(/_/g, " ").replace(/,?$/, "")}
-                  </span>
-                  <button
-                    className="ml-2"
-                    onClick={() => handleOptionSelect(option, category)}
+        <div
+          className={`filter-type border-line custom-scrollbar h-[450px] overflow-y-auto pb-8 md:h-[380px] ${
+            isSidebarFixed ? "fixed w-[300px]" : "relative"
+          }`}
+          style={{
+            position: isSidebarFixed ? "fixed" : "relative",
+            top: isSidebarFixed ? "120px" : "auto",
+            width: isSidebarFixed ? "250px" : "250px",
+          }}
+        >
+          <div className="heading6 border-b-2">FILTER BY</div>
+          <div className="mt-5">
+            <p className="heading7">Applied Filters</p>
+          </div>
+          <div className="flex max-w-full flex-wrap gap-2 overflow-auto">
+            {Object.entries(selectedOptions).flatMap(([category, options]) =>
+              (options as string[])
+                .filter((option) => option && option.trim() !== "")
+                .map((option: string, index: number) => (
+                  <div
+                    key={`${category}-${index}`}
+                    className="inline-flex w-full items-center border border-[#e26178] bg-[#fcf4f6] px-[10px] py-[5px] text-[#e26178]"
                   >
-                    <Icon.X size={16} />
-                  </button>
-                </div>
-              )),
-          )}
-        </div>
+                    <span className="w-full">
+                      {option.replace(/_/g, " ").replace(/,?$/, "")}
+                    </span>
+                    <button
+                      className="ml-2"
+                      onClick={() => handleOptionSelect(option, category)}
+                    >
+                      <Icon.X size={16} />
+                    </button>
+                  </div>
+                )),
+            )}
+          </div>
 
-        {/* Categories Filter */}
-        <div className="list-type mt-4">
-          <FilterOptions
-            filters={filters.filter((f: any) => f.title === "Category")}
-            handleMobileFilter={handleMobileFilter}
-            filterDropDown={"Category"}
-            handleFilterDropdown={handleFilterDropdown}
-            handleOptionSelect={handleOptionSelect}
-            selectedOptions={selectedOptions}
-          />
-        </div>
+          {/* Categories Filter */}
+          <div className="list-type mt-4">
+            <FilterOptions
+              filters={filters.filter((f: any) => f.title === "Category")}
+              handleMobileFilter={handleMobileFilter}
+              filterDropDown={"Category"}
+              handleFilterDropdown={handleFilterDropdown}
+              handleOptionSelect={handleOptionSelect}
+              selectedOptions={selectedOptions}
+            />
+          </div>
 
-        {/* Metals Filter */}
-        <div className="list-type mt-4">
-          <FilterOptions
-            filters={filters.filter((f: any) => f.title === "Occasion")}
-            handleMobileFilter={handleMobileFilter}
-            filterDropDown={"Occasion"}
-            handleFilterDropdown={handleFilterDropdown}
-            handleOptionSelect={handleOptionSelect}
-            selectedOptions={selectedOptions}
-          />
-        </div>
-      </div>
-    </div>
-    {mobileFilter && (
-      <div className="fixed inset-0 z-10 h-[100vh] bg-white">
-        <div className="mt-20 p-4">
-          <Icon.X size={25} onClick={() => setMobileFilter(false)} />
-          <div className="no-scrollbar h-[350px] overflow-y-auto">
-            <div className="mt-5">
-              <p className="heading7">Filter</p>
-            </div>
-            <div className="list-type mt-4">
-              <FilterOptions
-                filters={filters}
-                handleMobileFilter={handleMobileFilter}
-                filterDropDown={filterDropDown}
-                handleFilterDropdown={handleFilterDropdown}
-                handleOptionSelect={handleOptionSelect}
-                selectedOptions={selectedOptions}
-              />
-            </div>
+          {/* Metals Filter */}
+          <div className="list-type mt-4">
+            <FilterOptions
+              filters={filters.filter((f: any) => f.title === "Occasion")}
+              handleMobileFilter={handleMobileFilter}
+              filterDropDown={"Occasion"}
+              handleFilterDropdown={handleFilterDropdown}
+              handleOptionSelect={handleOptionSelect}
+              selectedOptions={selectedOptions}
+            />
           </div>
         </div>
       </div>
-    )}
-  </>
-);
-}
+      {mobileFilter && (
+        <div className="fixed inset-0 z-10 h-[100vh] bg-white">
+          <div className="mt-20 p-4">
+            <Icon.X size={25} onClick={() => setMobileFilter(false)} />
+            <div className="no-scrollbar h-[350px] overflow-y-auto">
+              <div className="mt-5">
+                <p className="heading7">Filter</p>
+              </div>
+              <div className="list-type mt-4">
+                <FilterOptions
+                  filters={filters}
+                  handleMobileFilter={handleMobileFilter}
+                  filterDropDown={filterDropDown}
+                  handleFilterDropdown={handleFilterDropdown}
+                  handleOptionSelect={handleOptionSelect}
+                  selectedOptions={selectedOptions}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default FilterSidebar;

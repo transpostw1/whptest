@@ -37,7 +37,7 @@ const FilterOptions: React.FC<Props> = ({
           onClick={() => handleFilterDropdown(item.title)}
         >
           <div className="text-secondary has-line-before flex cursor-pointer justify-between capitalize hover:text-black">
-            <p className="text-lg font-semibold">
+            <p className="text-lg font-semibold ">
               {item.title.replace(/_/g, " ")}
             </p>
 

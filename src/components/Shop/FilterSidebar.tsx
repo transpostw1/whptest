@@ -137,9 +137,9 @@ const FilterSidebar: React.FC<Props> = ({
           {/* Metals Filter */}
           <div className="list-type mt-4">
             <FilterOptions
-              filters={filters.filter((f: any) => f.title === "Occasion")}
+              filters={filters.filter((f: any) => f.title === "Metals_and_Stones")}
               handleMobileFilter={handleMobileFilter}
-              filterDropDown={"Occasion"}
+              filterDropDown={"Metals_and_Stones"}
               handleFilterDropdown={handleFilterDropdown}
               handleOptionSelect={handleOptionSelect}
               selectedOptions={selectedOptions}

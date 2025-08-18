@@ -102,7 +102,7 @@ const Gifts = () => {
     {
       id: 7,
       url: "pc-little_star_collection",
-      head: "new_born_baby",
+      head: "Little Star Collection",
       type: "Little Star Collection",
       image: (
         <Image

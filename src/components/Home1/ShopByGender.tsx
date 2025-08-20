@@ -21,7 +21,7 @@ const ShopByGender = () => {
     {
       id: 1,
       url: "pc-womens_jewellery",
-      categoryUrl: "Women",
+      categoryUrl: "Women's Jewellery",
       type: "WOMEN'S JEWELLERY",
       description: "Earrings, Pendants, Bracelets and more",
       image: (
@@ -37,7 +37,7 @@ const ShopByGender = () => {
     {
       id: 2,
       url: "pc-all_jewellery_mens_jewellery",
-      categoryUrl: "Men",
+      categoryUrl: "Men's Jewellery",
       type: "MEN'S JEWELLERY",
 
       description: "Bracelets, Chains, Rings and more",
@@ -54,7 +54,7 @@ const ShopByGender = () => {
     {
       id: 3,
       url: "pc-all_jewellery_kids_jewellery",
-      categoryUrl: "Kids",
+      categoryUrl: "Kids Jewellery",
       type: "KID'S JEWELLERY",
       description: "Anklets, Earrings, Bracelets and more",
       image: (

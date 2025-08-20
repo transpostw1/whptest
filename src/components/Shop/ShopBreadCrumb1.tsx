@@ -241,7 +241,7 @@ const ShopBreadCrumb1 = () => {
   };
 
   const categoryFilter = filters.find((f: any) => f.title === "Category") || { options: [], labels: [] };
-const Metal = filters.find((f: any) => f.title === "Metal") || { options: [], labels: [] };
+const Occasion = filters.find((f: any) => f.title === "Occasion") || { options: [], labels: [] };
   const getInputVariables = (combinedOptions: any) => {
     if (combinedOptions.category[0] === "new_Arrival") {
       return {
@@ -898,12 +898,12 @@ const Metal = filters.find((f: any) => f.title === "Metal") || { options: [], la
             </div> */}
           </div>
         </div>
-       {filterOption && (categoryFilter.options.length > 0 || Metal.options.length > 0) && (
+       {filterOption && (categoryFilter.options.length > 0 || Occasion.options.length > 0) && (
   <FilterBy
     visible={filterOption}
     onClose={() => setFilterOption(false)}
     categories={categoryFilter}
-    Metal={Metal}
+    Occasion={Occasion}
     onOptionSelect={(value, type) => handleOptionSelect(value, type)}
   />
 )}

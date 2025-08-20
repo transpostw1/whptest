@@ -114,12 +114,20 @@ const DummyProduct: React.FC<ProductProps> = ({ data, onViewSimilar }) => {
     setIsProductInWishlist(false);
   };
 
+<<<<<<< HEAD
   // const handleDetailProduct = (productId: any, productUrl: any) => {
   //   router.push(`/products/${productId}/${productUrl}`);
   // };
   const handleDetailProduct = (productId: any, productUrl: any) => {
     window.open(`/products/${productId}/${productUrl}`, "_blank");
+=======
+  const handleDetailProduct = (productId: any, productUrl: any) => {
+    router.push(`/products/${productId}/${productUrl}`);
+>>>>>>> c0207ab5bb95a91e31617ced1ae912500be62553
   };
+  //  const handleDetailProduct = (productId: any, productUrl: any) => {
+  //   window.open(`/products/${productId}/${productUrl}`, "_blank");
+  // };
 
   const loadScript = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {

@@ -5,7 +5,7 @@ interface Props {
   visible: boolean;
   onClose: VoidFunction;
   categories: { options: string[]; labels: string[] };
-  Metal: { options: string[]; labels: string[] };
+  Metals_and_Stones: { options: string[]; labels: string[] };
   onOptionSelect: (option: string, type: string) => void;
 }
 
@@ -13,7 +13,7 @@ const FilterBy: React.FC<Props> = ({
   visible,
   onClose,
   categories,
-  Metal,
+ Metals_and_Stones,
   onOptionSelect,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -29,7 +29,7 @@ const FilterBy: React.FC<Props> = ({
 
     const type = categories.options.includes(selectedOption)
       ? "Category"
-      : "Metal";
+      : "Metals_and_Stones";
 
     onOptionSelect(selectedOption, type);
     onClose();
@@ -72,12 +72,12 @@ const FilterBy: React.FC<Props> = ({
           )}
 
           {/* Shop For Section */}
-          {Metal.options.length > 0 && (
+          {Metals_and_Stones.options.length > 0 && (
             <>
               <h2 className="mt-4 text-lg font-semibold text-gray-800">
                 Shop By Metal and Stone{" "}
               </h2>
-              {Metal.options.map((option, idx) => (
+              {Metals_and_Stones.options.map((option, idx) => (
                 <div
                   key={option}
                   className={`mt-2 cursor-pointer ${
@@ -85,7 +85,7 @@ const FilterBy: React.FC<Props> = ({
                   }`}
                   onClick={() => setSelectedOption(option)}
                 >
-                  {Metal.labels[idx] || option}
+                  {Metals_and_Stones.labels[idx] || option}
                 </div>
               ))}
             </>

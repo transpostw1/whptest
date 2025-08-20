@@ -75,7 +75,7 @@ const FilterBy: React.FC<Props> = ({
           {Metals_and_Stones.options.length > 0 && (
             <>
               <h2 className="mt-4 text-lg font-semibold text-gray-800">
-                Shop By Metal and Stone{" "}
+                Metals and Stones{" "}
               </h2>
               {Metals_and_Stones.options.map((option, idx) => (
                 <div

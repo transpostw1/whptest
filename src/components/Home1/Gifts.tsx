@@ -16,7 +16,7 @@ const Gifts = () => {
       type: "Gift For Special Occasion",
       image: (
         <Image
-          src={"/images/gifts/SpecialOccasion.jpg"}
+          src={"/images/gifts/SpecialOccassion.jpg"}
           alt=""
           width={400}
           height={400}

@@ -74,7 +74,7 @@ const ShopBreadCrumb1 = () => {
         try {
           if (isFetchingRef.current) return;
           isFetchingRef.current = true;
-          
+
           if (!isLoadMore) {
             setIsLoading(true);
           } else {
@@ -240,8 +240,13 @@ const ShopBreadCrumb1 = () => {
     }
   };
 
-  const categoryFilter = filters.find((f: any) => f.title === "Category") || { options: [], labels: [] };
-const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stones") || { options: [], labels: [] };
+  const categoryFilter = filters.find((f: any) => f.title === "Category") || {
+    options: [],
+    labels: [],
+  };
+  const Metals_and_Stones = filters.find(
+    (f: any) => f.title === "Metals_and_Stones",
+  ) || { options: [], labels: [] };
   const getInputVariables = (combinedOptions: any) => {
     if (combinedOptions.category[0] === "new_Arrival") {
       return {
@@ -351,8 +356,8 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
       ...(selectedOptions.Weight || []),
     ];
     combinedOptions.occasion = [
-      ...(initialOptions.Occasion || []),
-      ...(selectedOptions.Occasion || []),
+      ...(initialOptions.Metals_and_Stones || []),
+      ...(selectedOptions.Metals_and_Stones || []),
     ];
     combinedOptions.productCategory = [
       ...(initialOptions.productCategory || []),
@@ -429,8 +434,8 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
     if (options.Weight?.length > 0) {
       urlParts.push(`weight-${options.Weight.join(",")}`);
     }
-    if (options.Occasion?.length > 0) {
-      urlParts.push(`occasion-${options.Occasion.join(",")}`);
+    if (options.Metals_and_Stones?.length > 0) {
+      urlParts.push(`occasion-${options.Metals_and_Stones.join(",")}`);
     }
 
     const url = `${window.location.pathname}?url=${urlParts.join("+")}`;
@@ -494,9 +499,9 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
       }
 
       // Apply occasion filter
-      if (selectedOptions.Occasion && selectedOptions.Occasion.length > 0) {
+      if (selectedOptions.Metals_and_Stones && selectedOptions.Metals_and_Stones.length > 0) {
         filtered = filtered.filter((product: any) =>
-          selectedOptions.Occasion.includes(product.occasion),
+          selectedOptions.Metals_and_Stones.includes(product.occasion),
         );
       }
 
@@ -555,7 +560,7 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
         initialOptions.Weight = value.split(",");
       }
       if (key === "occasion") {
-        initialOptions.Occasion = value.split(",");
+        initialOptions.Metals_and_Stones = value.split(",");
       }
       if (key === "pc") {
         initialOptions.productCategory = value.split(",");
@@ -881,8 +886,8 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
             <div className="mr-5" onClick={() => setSortOption(!sortOption)}>
               SortBy
             </div>
-            {filters.find((f: any) => f.title === "Category"||"shop_For")?.options?.length >
-              0 && (
+            {filters.find((f: any) => f.title === "Category" || "shop_For")
+              ?.options?.length > 0 && (
               <div
                 className="mr-5"
                 onClick={() => setFilterOption(!sortOption)}
@@ -898,15 +903,17 @@ const Metals_and_Stones = filters.find((f: any) => f.title === "Metals_and_Stone
             </div> */}
           </div>
         </div>
-       {filterOption && (categoryFilter.options.length > 0 || Occasion.options.length > 0) && (
-  <FilterBy
-    visible={filterOption}
-    onClose={() => setFilterOption(false)}
-    categories={categoryFilter}
-    Metals_and_Stones={Metals_and_Stones}
-    onOptionSelect={(value, type) => handleOptionSelect(value, type)}
-  />
-)}
+        {filterOption &&
+          (categoryFilter.options.length > 0 ||
+           Metals_and_Stones.options.length > 0) && (
+            <FilterBy
+              visible={filterOption}
+              onClose={() => setFilterOption(false)}
+              categories={categoryFilter}
+              Metals_and_Stones={Metals_and_Stones}
+              onOptionSelect={(value, type) => handleOptionSelect(value, type)}
+            />
+          )}
 
         {sortOption && (
           <SortBy

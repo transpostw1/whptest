@@ -73,7 +73,7 @@ const Gifts = () => {
       id: 5,
       url: "pc-gift_for_her",
       head: "for_her",
-      type: "For Her",
+      type: "Gifts for Her",
       image: (
         <Image
           src={"/images/gifts/GiftHer.jpg"}
@@ -88,7 +88,7 @@ const Gifts = () => {
       id: 6,
       url: "pc-gift_for_him",
       head: "for_him",
-      type: "for Him",
+      type: "Gifts for Him",
       image: (
         <Image
           src={"/images/gifts/GiftHim.jpg"}

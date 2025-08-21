@@ -331,7 +331,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       unoptimized
                     />
                     {data.discountActive && data.discountValue && !isMobile && (
-                      <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
+                      <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
                         {data.typeOfDiscount === "Percentage" ? (
                           <span className="text-xs">
                             100% OFF on {data.discountCategory}
@@ -361,7 +361,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     {skuList?.includes(data.SKU) && isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -413,7 +413,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] py-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between px-2">
@@ -423,7 +423,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   </div>
                 )}
                 {data.discountActive && data.discountValue && !isMobile && (
-                  <div className="absolute left-1 top-1 float-right flex justify-between border bg-[#e26178] p-1 text-center text-white">
+                  <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       data.discountCategory === "Whole Product" ? (
                         // If the discount is for the whole product

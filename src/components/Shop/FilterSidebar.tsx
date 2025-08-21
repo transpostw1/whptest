@@ -72,6 +72,7 @@ const FilterSidebar: React.FC<Props> = ({
 
   const handleMobileFilter = () => {
     setMobileFilter(false);
+     onFilterChange({});
   };
 
   useEffect(() => {

@@ -484,6 +484,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>
                       {/* <option value="GBP">&#163; GBP</option> */}
+                      {/* <option value="GBP">&#163; GBP</option> */}
                     </select>
                     {/* <Image
                       className="cursor-pointer"

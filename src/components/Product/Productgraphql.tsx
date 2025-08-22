@@ -171,9 +171,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
     );
   const selectedVideo = sortedVideos?.[0];
 
-  const handleDetailProduct = (productUrl: any, productId: any) => {
-    router.push(`/products/${productId}/${productUrl}`);
-  };
+  const handleDetailProduct = (productUrl: string, productId: string) => {
+  const url = `/products/${productId}/${productUrl}`;
+  window.open(url, "_blank");
+};
 
   const HandleaddToWishlist = () => {
     try {

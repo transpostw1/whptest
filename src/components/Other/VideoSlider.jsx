@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import VideoFeed from "@/components/Video/VideoFeed";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useProductContext } from "@/context/ProductContext";
+import Image from 'next/image';
 
 const VideoSlider = () => {
   const [showModal, setShowModal] = useState(false);

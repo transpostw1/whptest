@@ -42,10 +42,7 @@ p {
   line-height: 26px;
 }
 
-select {
-  appearance: none;
-  outline: none;
-}
+
 
 .select-block {
   position: relative;
@@ -77,34 +74,6 @@ textarea:focus {
   padding-right: 16px;
   padding-left: 16px;
   margin: 0 auto;
-}
-
-.bg-red {
-  background-color: var(--red);
-}
-
-.bg-yellow {
-  background-color: var(--yellow);
-}
-
-.bg-purple {
-  background-color: var(--purple);
-}
-
-.bg-blue {
-  background-color: #4856da;
-}
-
-.bg-silver {
-  background-color: #a1a2af;
-}
-
-.bg-linear {
-  background: linear-gradient(238deg, #faf8f1 0%, #f6f3ef 99.66%);
-}
-
-.box-shadow-small {
-  box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
 }
 
 .text-sub-display {
@@ -457,11 +426,6 @@ textarea:focus {
   .text-display {
     font-size: 24px;
     line-height: 30px;
-  }
-
-  .heading1 {
-    font-size: 24px;
-    line-height: 32px;
   }
 
   .heading2 {

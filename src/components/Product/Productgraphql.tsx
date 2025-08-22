@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  ProductType,
-  ImageDetails,
-  ProductForWishlistLoggedIn,
-  ProductForWishlistLoggedOut,
-} from "@/type/ProductType";
+import { ProductType, ImageDetails } from "@/type/ProductType";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
@@ -40,16 +35,13 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   >(null);
   const [isProductInWishlist, setIsProductInWishlist] =
     useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   const [hover, setHover] = useState<boolean>(false);
-  const ratings = 3.5;
-  const { currency, handleCurrencyChange, formatPrice } = useCurrency();
+  const { currency, formatPrice } = useCurrency();
   const router = useRouter();
   const [width, setWidth] = useState<number>(25);
   const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn } = useUser();
-  const [isButtonLoaded, setIsButtonLoaded] = useState(false);
 
   const loadTryOnButton = async (
     sku: string,
@@ -77,27 +69,17 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   border: "1px solid #white",
                   borderRadius: "25px",
                   display: "none",
-                }, // Hide the auto-loaded button
-                tryonbuttonHover: {
-                  backgroundColor: "#white",
-                  color: "white",
-                  borderRadius: "25px",
                 },
-                MBtryonbutton: { width: "50%", borderRadius: "25px" },
               },
             });
-            console.log("Button Created");
             const buttonInterval = setInterval(() => {
               const tryonButton =
                 document.getElementById("tryonButton") ||
                 document.getElementById("MB_tryonButton");
               if (tryonButton) {
-                // Hide the button
                 tryonButton.style.display = "none";
-                console.log("Button Clicked");
                 tryonButton.click();
                 clearInterval(buttonInterval);
-
                 buttonResolve();
               }
             }, 100);
@@ -127,43 +109,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       }
     });
   };
-
-  // useEffect(() => {
-  //   // Fetch SKU list only once on component mount
-  //   fetchSkusList();
-
-  // }, []); // Empty dependency array ensures this runs only on mount
-
-  // useEffect(() => {
-  //   console.log("fetchSkusList", skuList); // Check what you're fetching
-  //   console.log("isSkuListLoaded", isSkuListLoaded); // Check what you're fetching
-  // }, [skuList, isSkuListLoaded]); // Empty dependency array ensures this runs only on
-
-  // useEffect(() => {
-  //   const loadButtonsForSkus = async () => {
-  //     try {
-  //       if (skuList.length > 0 && data.SKU) {
-  //         if (skuList.includes(data.SKU)) {
-  //           console.log("Loading Try-On button for SKU:", data.SKU);
-  //           await loadTryOnButton(data.SKU, data.productId);
-  //         } else {
-  //           console.log("SKU not found in the list:", data.SKU);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error loading buttons for SKUs:", error);
-  //     }
-  //   };
-
-  //   if (skuList.length > 0 && data.SKU) {
-  //     loadButtonsForSkus();
-  //   }
-
-  // }, [data.SKU, data.productId]);
-
-  // useEffect(() => {
-  //   console.log("Loaded SKUs:", loadedSkus);
-  // }, [loadedSkus]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 800px)");
@@ -198,6 +143,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   useEffect(() => {
     const isInWishlist = wishlistItems.some(
       (item: any) => item.productId == data.productId,
@@ -206,10 +152,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   }, [wishlistItems, data.productId]);
 
   const sortedImages = data?.imageDetails
-    ?.filter(
-      (item: any): item is ImageDetailWithTypename =>
-        item !== null && item !== undefined,
-    )
+    ?.filter((item: any): item is ImageDetailWithTypename => item != null)
     ?.sort(
       (a: ImageDetailWithTypename, b: ImageDetailWithTypename) =>
         parseInt(a.order) - parseInt(b.order),
@@ -221,19 +164,12 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
   }
 
   const sortedVideos = data?.videoDetails
-    ?.filter(
-      (item: any): item is VideoDetailWithTypename =>
-        item !== null && item !== undefined,
-    )
+    ?.filter((item: any): item is VideoDetailWithTypename => item != null)
     ?.sort(
       (a: VideoDetailWithTypename, b: VideoDetailWithTypename) =>
         parseInt(a.order) - parseInt(b.order),
     );
   const selectedVideo = sortedVideos?.[0];
-
-  // const handleDetailProduct = (productId: any, productUrl: any) => {
-  //   window.open(`/products/${productUrl}/${productId}`, "_blank");
-  // };
 
   const handleDetailProduct = (productUrl: any, productId: any) => {
     router.push(`/products/${productId}/${productUrl}`);
@@ -241,7 +177,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
 
   const HandleaddToWishlist = () => {
     try {
-      // console.log("Adding to wishlist, product data:", data);
       if (data && data.productId) {
         const formattedVariants = data?.variants?.map((variant: any) => ({
           variantType: variant.VariantType,
@@ -269,8 +204,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
           addToWishlist(productToAdd);
           setIsProductInWishlist(true);
         }
-      } else {
-        console.error("Invalid product data:", data);
       }
       showCustomToast("Item Wishilisted!");
     } catch (error) {
@@ -331,10 +264,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                       unoptimized
                     />
                     {data.discountActive && data.discountValue && !isMobile && (
-                      <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
+                      <div className="absolute left-1 top-1 flex justify-between bg-[#e26178] p-1 text-center text-white">
                         {data.typeOfDiscount === "Percentage" ? (
                           <span className="text-xs">
-                            100% OFF on {data.discountCategory}
+                            {data.discountValue}% OFF on {data.discountCategory}
                           </span>
                         ) : (
                           <span>
@@ -347,7 +280,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     {skuList?.includes(data.SKU) && !isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] px-2 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 flex justify-between border border-[#e26178] px-2 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -357,11 +290,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         </div>
                       </div>
                     )}
-
                     {skuList?.includes(data.SKU) && isMobile && (
                       <div
                         id={`product-form-${data.productId}`}
-                        className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] p-1 text-center hover:bg-[#e26178] hover:text-white"
+                        className="try_on absolute right-1 top-1 flex justify-between border border-[#e26178] p-1 text-center hover:bg-[#e26178] hover:text-white"
                         onClick={() =>
                           loadTryOnButton(data.SKU, data.productId)
                         }
@@ -371,30 +303,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                         </div>
                       </div>
                     )}
-
-                    {/* <div
-                      className="absolute bottom-1 z-0 float-left flex justify-between hover:z-50"
-                      onClick={() => setShowVideo(!showVideo)}
-                    >
-                      <Icon.Play size={width} weight="light" color="#e26178" />
-                    </div> */}
-                    {/* <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">                      
-                      {isProductInWishlist ? (
-                        <Icon.Heart
-                          size={width}
-                          color="#fa000"
-                          weight="fill"
-                          onClick={() => HandleremoveFromWishlist()}
-                        />
-                      ) : (
-                        <Icon.Heart
-                          size={width}
-                          color="#e26178"
-                          weight="light"
-                          onClick={() => HandleaddToWishlist()}
-                        />
-                      )}
-                    </div> */}
                   </div>
                 )}
               </div>
@@ -413,20 +321,18 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 {skuList?.includes(data.SKU) && !isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right flex justify-between border border-[#e26178] py-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 flex justify-between border border-[#e26178] py-1 text-center text-[#e26178] hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between px-2">
                       <IoCameraOutline />
-                      {/* <p className="ps-1 text-sm">Try ON</p> */}
                     </div>
                   </div>
                 )}
                 {data.discountActive && data.discountValue && !isMobile && (
-                  <div className="absolute left-1 top-1 float-right flex justify-between bg-[#e26178] p-1 text-center text-white">
+                  <div className="absolute left-1 top-1 flex justify-between bg-[#e26178] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       data.discountCategory === "Whole Product" ? (
-                        // If the discount is for the whole product
                         <span className="text-xs">
                           Flat {data.discountValue}% Discount
                         </span>
@@ -442,15 +348,10 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     )}
                   </div>
                 )}
-                {/* {isMobile && (
-                  <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
-                    <Icon.Cards size={width} weight="light" color="#e26178" />
-                  </div>
-                )} */}
                 {skuList?.includes(data.SKU) && isMobile && (
                   <div
                     id={`product-form-${data.productId}`}
-                    className="try_on absolute right-1 top-1 z-0 float-right mt-2 flex justify-between  border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
+                    className="try_on absolute right-1 top-1 mt-2 flex justify-between border border-[#e26178] px-2 text-center hover:bg-[#e26178] hover:text-white"
                     onClick={() => loadTryOnButton(data.SKU, data.productId)}
                   >
                     <div className="flex items-center justify-between text-[#e26178] hover:text-white">
@@ -458,37 +359,24 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     </div>
                   </div>
                 )}
+                {/* ✅ FIXED MOBILE DISCOUNT BAR */}
                 {data.discountActive && data.discountValue && isMobile && (
-                  <div className="absolute top-1 float-right flex items-center justify-between border bg-[#e26178]  px-1 text-center text-white">
+                  <div className="absolute left-1 top-1 z-10 flex items-center justify-between rounded bg-[#e26178] px-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
-                      data.discountCategory === "Whole Product" ? (
-                        // If the discount is for the whole product
-                        <span className="text-[8px]">
-                          Flat {data.discountValue}% Discount
-                        </span>
-                      ) : (
-                        // If the discount is for a specific category
-                        <span className="text-[8px]">
-                          {data.discountValue}% OFF *
-                          {/* on {data.discountCategory} */}
-                        </span>
-                      )
+                      <span className="text-[10px] font-medium">
+                        {data.discountValue}% OFF
+                      </span>
                     ) : (
-                      <span>
-                        ₹{data.discountAmount} OFF*
-                         {/* on {data.discountCategory} */}
+                      <span className="text-[10px] font-medium">
+                        ₹{data.discountAmount} OFF
                       </span>
                     )}
                   </div>
                 )}
-                {/* {!isMobile && (
-                  <div className="absolute bottom-1 right-1 z-0 float-right flex justify-between hover:z-50">
-                    <Icon.Cards size={width} weight="light" color="#e26178" />
-                  </div>
-                )} */}
               </div>
             )}
           </div>
+
           <div className="relative flex justify-between">
             <div>
               {data.similarProductIds !== null && (
@@ -506,7 +394,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 </div>
               )}
             </div>
-            <div className="">
+            <div>
               {isProductInWishlist ? (
                 <Icon.Heart
                   size={width}
@@ -524,17 +412,16 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
               )}
             </div>
           </div>
+
           <div
             className="mt-4 lg:mb-4"
             onClick={() => handleDetailProduct(data.url, data.productId)}
           >
             <div className="product-name text-title text-xl duration-300">
               <p className="truncate">{data?.title}</p>
-              {/* <p className="text-[#d8d8d8]">{data?.shortDesc}</p> */}
             </div>
-
             <StarRating stars={data.rating} />
-            <div className="product-price-block relative z-[1] mt-1 flex flex-wrap items-center gap-2 duration-300">
+            <div className="product-price-block mt-1 flex flex-wrap items-center gap-2 duration-300">
               {data?.discountActive && (
                 <p className="product-price text-title text-lg">
                   {formatPrice(parseInt(data?.discountPrice))}
@@ -551,13 +438,9 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 </p>
               )}
             </div>
-            {/* {data?.discountPrice && (
-              <p className="text-[#c95d71]">
-                {data && data?.discountValue}%OFF
-              </p>
-            )} */}
           </div>
         </div>
+
         {viewSimilarProducts && (
           <ViewSimilar
             showComponent={viewSimilarProducts}
@@ -568,7 +451,6 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
       </div>
     </>
   );
-  // );
 };
 
 export default Product;

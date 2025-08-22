@@ -73,7 +73,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
+  const categori = categories?.filter(
+    (cat: any) => cat.name !== "Bangles & Bracelets",
+  );
   useEffect(() => {
     if (isLoggedIn && !userDetails) {
       getUser();
@@ -221,7 +223,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               </Link> */}
 
               <div
-                className="search-container-mobile "
+                className="search-container-mobile"
                 contentEditable="true"
                 suppressContentEditableWarning={true}
                 role="textbox"
@@ -230,12 +232,17 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               >
                 <span className="search-text">Search </span>
                 <div className="marquee-vertical mb-1.5">
-                  {categories.map((category: any, index: any) => (
-                    <div key={index} className="marquee-content-vertical-mobile">
-                      {category.name}    
-                    </div>
-                  ))}
-                </div> 
+                  <div className="marquee-vertical-inner">
+                    {categori.map((category: any, index: number) => (
+                      <div
+                        key={index}
+                        className="marquee-content-vertical-mobile"
+                      >
+                        {category.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <div className="search-icon">
                   <Icon.MagnifyingGlass
                     size={20}
@@ -293,11 +300,16 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             >
               <span className="search-text">Search</span>
               <div className="marquee-vertical mb-1.5">
-                {categories.map((category: any, index: any) => (
-                  <div key={index} className="marquee-content-vertical">
-                    {category.name}
-                  </div>
-                ))}
+                <div className="marquee-vertical-inner">
+                  {categori.map((category: any, index: number) => (
+                    <div
+                      key={index}
+                      className="marquee-content-vertical-mobile"
+                    >
+                      {category.name}
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="search-icon">
                 <Icon.MagnifyingGlass

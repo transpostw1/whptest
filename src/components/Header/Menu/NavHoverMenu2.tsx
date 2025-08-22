@@ -108,7 +108,7 @@ const NavHoverMenu2 = () => {
                           window.scrollTo({ top: 0, behavior: "smooth" });
                         }
                       }}
-                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 
+                      className={`flex h-full items-center justify-center gap-1 text-sm uppercase duration-300 text-nowrap
                         ${selectedMenu === index ? "text-[#E26178] " : "hover:text-[#E26178]"} 
                         ${index === 0 ? "ready-to-ship-animation  hover:text-white" : ""} 
                         ${selectedMenu === 0 && index === 0 ? "text-white" : ""}

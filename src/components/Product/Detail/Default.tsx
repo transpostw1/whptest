@@ -40,7 +40,7 @@ interface Props {
   productId: string | number | any;
   onDataFetched: (data: any) => void;
 }
-
+//base component for product detail page
 const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
@@ -625,6 +625,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                   <span className="select-text text-lg font-extrabold md:text-2xl">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
+                  
                   {data?.productDetails?.productPrice >
                     data?.productDetails?.discountPrice && (
                     <span className="ml-3 select-text text-[#aa9e9e] line-through">

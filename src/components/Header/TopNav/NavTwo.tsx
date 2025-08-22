@@ -485,13 +485,13 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <option value="EUR">&#8364; EUR</option>
                       {/* <option value="GBP">&#163; GBP</option> */}
                     </select>
-                    <Image
+                    {/* <Image
                       className="cursor-pointer"
                       src={"/images/icons/arrow.svg"}
                       alt="Arrow"
                       width={30}
                       height={30}
-                    />
+                    /> */}
                   </div>
 
                   <div className="h-[40px] w-[2px] bg-[#E9E9E9] max-sm:hidden md:block lg:hidden"></div>

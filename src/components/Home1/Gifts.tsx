@@ -8,7 +8,6 @@ const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { setCustomcategory } = useCategory();
   let categories = [
- 
     {
       id: 1,
       url: "pc-gift_for_special_occasion",
@@ -39,7 +38,7 @@ const Gifts = () => {
         />
       ),
     },
-       {
+    {
       id: 3,
       url: "pc-all_jewellery_mens_jewellery_rings",
       head: "Men's Rings",
@@ -55,21 +54,6 @@ const Gifts = () => {
       ),
     },
     {
-      id: 4,
-      url: "pc-rings_engagement_ring",
-      head: "engagement_ring",
-      type: "Engagement Ring",
-      image: (
-        <Image
-          src={"/images/gifts/RingForWomen.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-       {
       id: 5,
       url: "pc-gift_for_her",
       head: "for_her",
@@ -100,13 +84,13 @@ const Gifts = () => {
       ),
     },
     {
-      id: 7,
-      url: "pc-little_star_collection",
-      head: "Little Star Collection",
-      type: "Little Star Collection",
+      id: 4,
+      url: "pc-rings_engagement_ring",
+      head: "engagement_ring",
+      type: "Engagement Ring",
       image: (
         <Image
-          src={"/images/gifts/LittleStarCollection.jpg"}
+          src={"/images/gifts/RingForWomen.jpg"}
           alt=""
           width={400}
           height={400}
@@ -122,6 +106,21 @@ const Gifts = () => {
       image: (
         <Image
           src={"/images/gifts/SelfGifting.jpg"}
+          alt=""
+          width={400}
+          height={400}
+          unoptimized
+        />
+      ),
+    },
+    {
+      id: 7,
+      url: "pc-little_star_collection",
+      head: "Little Star Collection",
+      type: "Little Star Collection",
+      image: (
+        <Image
+          src={"/images/gifts/LittleStarCollection.jpg"}
           alt=""
           width={400}
           height={400}

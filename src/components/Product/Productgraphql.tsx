@@ -280,7 +280,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           )
                         ) : (
                           <span>
-                            ₹{data.discountAmount} OFF*
+                            ₹{data.discountAmount} OFF *
                             {/* on {data.discountCategory} */}
                           </span>
                         )}
@@ -396,11 +396,11 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                   <div className="absolute top-1 float-right flex items-center justify-between border bg-[#e26178] px-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
                       <span className="text-[10px] font-medium">
-                        {data.discountValue}% OFF
+                        {data.discountValue}% OFF *
                       </span>
                     ) : (
                       <span>
-                        ₹{data.discountAmount} OFF*
+                        ₹{data.discountAmount} OFF *
                         {/* on {data.discountCategory} */}
                       </span>
                     )}

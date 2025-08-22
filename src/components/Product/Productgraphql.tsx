@@ -269,7 +269,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           data.discountCategory === "Whole Product" ? (
                             // If the discount is for the whole product
                             <span className="text-[8px]">
-                              Flat {data.discountValue}% Discount
+                              Flat {data.discountValue}% OFF
                             </span>
                           ) : (
                             // If the discount is for a specific category
@@ -278,10 +278,15 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                               {/* on {data.discountCategory} */}
                             </span>
                           )
+                        ) : data.discountCategory === "Whole Product" ? (
+                          // If the discount is for the whole product
+                          <span className="text-[8px]">
+                            Flat ₹{data.discountAmount} OFF
+                          </span>
                         ) : (
                           <span>
-                            ₹{data.discountAmount} OFF *
-                            {/* on {data.discountCategory} */}
+                            ₹{data.discountAmount} OFF on{" "}
+                            {data.discountCategory}
                           </span>
                         )}
                       </div>
@@ -305,7 +310,7 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                           data.discountCategory === "Whole Product" ? (
                             // If the discount is for the whole product
                             <span className="text-xs">
-                              Flat {data.discountValue}% Discount
+                              Flat {data.discountValue}% OFF
                             </span>
                           ) : (
                             <span className="text-xs">
@@ -313,6 +318,11 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                               {data.discountCategory}
                             </span>
                           )
+                        ) : data.discountCategory === "Whole Product" ? (
+                          // If the discount is for the whole product
+                          <span className="text-xs">
+                            Flat ₹{data.discountAmount} OFF
+                          </span>
                         ) : (
                           <span>
                             ₹{data.discountAmount} OFF on{" "}
@@ -366,13 +376,18 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                     {data.typeOfDiscount === "Percentage" ? (
                       data.discountCategory === "Whole Product" ? (
                         <span className="text-xs">
-                          Flat {data.discountValue}% Discount
+                          Flat {data.discountValue}% OFF
                         </span>
                       ) : (
                         <span className="text-xs">
                           {data.discountValue}% OFF on {data.discountCategory}
                         </span>
                       )
+                    ) : data.discountCategory === "Whole Product" ? (
+                      // If the discount is for the whole product
+                      <span className="text-xs">
+                        Flat ₹{data.discountAmount} OFF
+                      </span>
                     ) : (
                       <span>
                         ₹{data.discountAmount} OFF on {data.discountCategory}
@@ -393,16 +408,24 @@ const Product: React.FC<ProductProps> = ({ data, skuList }) => {
                 )}
                 {/* ✅ FIXED MOBILE DISCOUNT BAR */}
                 {data.discountActive && data.discountValue && isMobile && (
-                  <div className="absolute top-1 float-right flex items-center justify-between border bg-[#e26178] px-1 text-center text-white">
+                  <div className="absolute left-1 top-1 flex justify-between bg-[#e26178] p-1 text-center text-white">
                     {data.typeOfDiscount === "Percentage" ? (
-                      <span className="text-[10px] font-medium">
-                        {data.discountValue}% OFF *
+                      data.discountCategory === "Whole Product" ? (
+                        <span className="text-xs">
+                          Flat {data.discountValue}% OFF
+                        </span>
+                      ) : (
+                        <span className="text-xs">
+                          {data.discountValue}% OFF *
+                        </span>
+                      )
+                    ) : data.discountCategory === "Whole Product" ? (
+                      // If the discount is for the whole product
+                      <span className="text-xs">
+                        Flat ₹{data.discountAmount} OFF
                       </span>
                     ) : (
-                      <span>
-                        ₹{data.discountAmount} OFF *
-                        {/* on {data.discountCategory} */}
-                      </span>
+                      <span>₹{data.discountAmount} OFF *</span>
                     )}
                   </div>
                 )}

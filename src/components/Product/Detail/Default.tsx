@@ -619,7 +619,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="my-2 select-text">
+            <div className="my-2 select-text flex">
               {data?.productDetails?.discountActive ? (
                 <>
                   <span className="select-text text-lg font-extrabold md:text-2xl">
@@ -633,12 +633,36 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                       )}
                     </span>
                   )}
-                  {parseInt(data?.productDetails?.discountValue) > 0 && (
+                  {data?.productDetails?.discountActive && data?.productDetails?.discountValue && (
+                  <div className="ml-3 select-text text-[#e26178] underline">
+                    {data?.productDetails?.typeOfDiscount === "Percentage" ? (
+                      data?.productDetails?.discountCategory === "Whole Product" ? (
+                        <span >
+                          Flat {data?.productDetails?.discountValue}% OFF
+                        </span>
+                      ) : (
+                        <span >
+                          {data?.productDetails?.discountValue}% OFF on{" "}
+                          {data?.productDetails?.discountCategory}
+                        </span>
+                      )
+                    ) : data?.productDetails?.discountCategory === "Whole Product" ? (
+                      // If the discount is for the whole product
+                      <span >
+                        Flat ₹{data?.productDetails?.discountAmount} OFF
+                      </span>
+                    ) : (
+                      <span>₹{data?.productDetails?.discountAmount} OFF on{" "}
+                          {data?.productDetails?.discountCategory}</span>
+                    )}
+                  </div>
+                )}
+                  {/* {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 select-text text-[#e26178] underline">
                       {data?.productDetails?.discountValue}% OFF on{" "}
                       {data?.productDetails?.discountCategory}
                     </span>
-                  )}
+                  )} */}
                 </>
               ) : (
                 <span className="select-text text-lg font-extrabold md:text-2xl">

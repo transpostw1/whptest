@@ -25,7 +25,7 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "pc-silver_article_silver_gifting_rakhi",
+      url: "pc-pendant_religious",
       head: "god_pendant",
       type: "Religious Pendant",
       image: (

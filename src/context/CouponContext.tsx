@@ -201,7 +201,7 @@ export const CouponCodeProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { data } = await client.query({
         query: GET_ALL_COUPONS,
-      });
+      }); 
 
       const fetchedCoupons = data.getAllCoupons;
       setCoupons(fetchedCoupons);

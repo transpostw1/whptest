@@ -374,12 +374,6 @@ const Payment: React.FC<PaymentProps> = ({
     // Implement the logic for the other payment gateway here
     // Once the payment is successful, call the onOrderComplete function
   };
-
-
-
-
-
-
   console.log("wallet", wallet);
   const handleCodPayment = async () => {
     setLoading(true);
@@ -459,13 +453,6 @@ const Payment: React.FC<PaymentProps> = ({
       setLoading(false);
     }
   };
-
-
-
-
-
-
-
   const handleOrders = async () => {
     try {
       setLoading(true);
@@ -610,7 +597,24 @@ const Payment: React.FC<PaymentProps> = ({
                 onChange={handlePaymentMethodChange}
               />
             </div>
-        
+            {/* <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+              <label
+                htmlFor="cashOnDelivery"
+                className="flex cursor-pointer items-center gap-2 font-medium"
+              >
+                <TbTruckDelivery />
+                PayU
+              </label>
+              <input
+                type="radio"
+                id="payu"
+                name="paymentOption"
+                value="PayU"
+                className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-[#e26178] focus:bg-[#e26178] focus:outline-none"
+                checked={selectedPaymentMethod === "payU"}
+                onChange={handlePaymentMethodChange}
+              />
+            </div> */}
           </div>
           {!isMobile && (
             <button

@@ -48,7 +48,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
           currency: "INR",
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        }).format(Math.ceil(amount)))
+        }).format(Math.round(amount)))
         break;
       case "USD":
         formattedPrice = Intl.NumberFormat("en-US", {

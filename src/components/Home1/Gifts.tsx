@@ -11,7 +11,7 @@ const Gifts = () => {
     {
       id: 1,
       url: "pc-gift_for_special_occasion",
-      head: "special",
+      head: "gift_for_special_occasion",
       type: "Gift For Special Occasion",
       image: (
         <Image
@@ -26,7 +26,7 @@ const Gifts = () => {
     {
       id: 2,
       url: "pc-pendant_religious",
-      head: "god_pendant",
+      head: "religious_pendant",
       type: "Religious Pendant",
       image: (
         <Image
@@ -56,7 +56,7 @@ const Gifts = () => {
     {
       id: 5,
       url: "pc-gift_for_her",
-      head: "for_her",
+      head: "gift_for_her",
       type: "Gifts for Her",
       image: (
         <Image
@@ -71,7 +71,7 @@ const Gifts = () => {
     {
       id: 6,
       url: "pc-gift_for_him",
-      head: "for_him",
+      head: "gift_for_him",
       type: "Gifts for Him",
       image: (
         <Image
@@ -101,7 +101,7 @@ const Gifts = () => {
     {
       id: 8,
       url: "pc-self_gifting_tresures",
-      head: "house_warming",
+      head: "self_gifting_treasure",
       type: "Self Gifting",
       image: (
         <Image

@@ -23,11 +23,16 @@ const CartItems: React.FC<CartItemsProps> = ({
     }, 2000);
   }, []);
 
+
+
   const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
+
   return (
     <div>
-      <h1 className="sm:text-2xl text-xl sm:text-start text-center text-[#E26178]">Your Jewellery Box</h1>
-      <div className="list-product-main w-full mt-3 border border-b-0">
+      <h1 className="text-center text-xl text-[#E26178] sm:text-start sm:text-2xl">
+        Your Jewellery Box
+      </h1>
+      <div className="list-product-main mt-3 w-full border border-b-0">
         {isLoading ? (
           <div className="flex flex-col gap-4">
             <Skeleton height={80} />
@@ -35,7 +40,7 @@ const CartItems: React.FC<CartItemsProps> = ({
             <Skeleton height={80} />
           </div>
         ) : cartItems?.length < 1 ? (
-          <p className="text-xl text-center font-medium text-[#e26178] animate-pulse pt-9">
+          <p className="animate-pulse pt-9 text-center text-xl font-medium text-[#e26178]">
             There is nothing here!
           </p>
         ) : (

@@ -36,6 +36,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Address } from "@/type/AddressType";
 import GiftWrapModal from "@/components/Modal/GiftWrapModal";
+import { log } from "console";
 
 interface CartItems {
   productDetails: {
@@ -65,7 +66,7 @@ const Checkout: React.FC = () => {
   const { isLoggedIn, userDetails } = useUser();
   const { formatPrice } = useCurrency();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [couponCode, setCouponCode] = useState<string>("");
+  const [couponCode, setCouponCode] = useState<any>("");
   const [voucherCode, setVoucherCode] = useState<string>("");
   const [cartProductIds, setCartProductIds] = useState<any[]>([]);
   const [selectedStep, setSelectedStep] = useState(0);
@@ -73,7 +74,7 @@ const Checkout: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [isOrderPlaced, setIsOrderPlaced] = useState<boolean>(false);
-  const [couponsModal, setCouponsModal] = useState<boolean>(false);
+  // const [couponsModal, setCouponsModal] = useState<boolean>(false);
   const [shippingAddressSelected, setShippingAddressSelected] = useState(false);
   const [billingAddressSelected, setBillingAddressSelected] = useState(false);
   const [dataAfterCouponCode, setDataAfterCouponCode] = useState<any>([]);
@@ -98,9 +99,10 @@ const Checkout: React.FC = () => {
   const buyNow = searchParams.get("buyNow");
   const [showAllItems, setShowAllItems] = useState(true);
 
-  const handleCouponsModal = () => {
-    setCouponsModal(true);
-  };
+  // const handleCouponsModal = () => {
+  //   console.log("clicked");
+  //   setCouponsModal(true);
+  // };
   const onShippingAddressSelected = () => {
     setShippingAddressSelected(true);
   };
@@ -135,10 +137,11 @@ const Checkout: React.FC = () => {
     // console.log("Current coupons:", coupons);
   }, [coupons]);
 
-  const handleCouponModalClose = () => {
-    setCouponsModal(false);
-  };
+  // const handleCouponModalClose = () => {
+  //   setCouponsModal(false);
+  // };
   const handleCouponCode = (value: string) => {
+    localStorage.setItem("coupon", value);
     setFlashMessage("");
     setCouponCode(value);
     setVoucherCode(value);
@@ -151,10 +154,22 @@ const Checkout: React.FC = () => {
   }, [couponCode]);
 
   const removeCoupon = () => {
+    localStorage.removeItem("coupon");
+    console.log("LLLLLLLLLLLLL")
     setCouponCode("");
     setVoucherCode("");
     setDataAfterCouponCode([]);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCoupon = localStorage.getItem("coupon");
+      console.log(storedCoupon, "storedCouponnnnnnnnnnnnnnnnn");
+      if (storedCoupon) {
+        setCouponCode(storedCoupon);
+      }
+    }
+  }, []);
 
   const handleCouponCheck = () => {
     const products = cartItems.map((item) => ({
@@ -219,7 +234,7 @@ const Checkout: React.FC = () => {
         // console.log("Error occurred", error.response.data.message);
         setFlashMessage(error.response.data.message);
         setFlashType("error");
-        removeCoupon();
+        // removeCoupon();
       } finally {
         setLoading(false);
       }
@@ -227,7 +242,9 @@ const Checkout: React.FC = () => {
     fetchCouponData();
   };
   const coupon: any = searchParams.get("coupon");
-  typeof window !== "undefined" ? localStorage.setItem("coupon", coupon) : null;
+  if (typeof window !== "undefined" && coupon) {
+    localStorage.setItem("coupon", coupon);
+  }
 
   useEffect(() => {
     const fetchCouponData = async () => {
@@ -416,7 +433,6 @@ const Checkout: React.FC = () => {
     return total;
   };
 
-  
   let totalCart = buyNow
     ? calculateTotalPrice(finalBuyNowItems)
     : calculateTotalPrice(MainCart);
@@ -433,33 +449,41 @@ const Checkout: React.FC = () => {
     ? Number(formattedProductPrice) - Number(formattedPrice)
     : Number(totalCart);
 
-  useEffect(() => {
-  }, [discountDifference, formattedPrice, formattedProductPrice]);
-  useEffect(() => {
-  }, [discountDifference, formattedPrice, formattedProductPrice]);
+  useEffect(() => {}, [
+    discountDifference,
+    formattedPrice,
+    formattedProductPrice,
+  ]);
+  useEffect(() => {}, [
+    discountDifference,
+    formattedPrice,
+    formattedProductPrice,
+  ]);
 
   useEffect(() => {
     // Push cart items to dataLayer
-    if (typeof window !== 'undefined' && window.dataLayer) {
+    if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
-        event: 'view_cart',
+        event: "view_cart",
         ecommerce: {
-          currency: 'INR',
+          currency: "INR",
           value: totalCart,
           items: mappedCartItems.map((item: any) => ({
             item_id: item.productId,
             item_name: item.name,
             price: item.price,
             quantity: item.quantity,
-            item_brand: 'WHP Jewellers',
-            item_category: 'Jewellery',
-            item_variant: item.variants?.map((v: any) => v.variantName).join(', ') || '',
-            currency: 'INR'
-          }))
-        }
+            item_brand: "WHP Jewellers",
+            item_category: "Jewellery",
+            item_variant:
+              item.variants?.map((v: any) => v.variantName).join(", ") || "",
+            currency: "INR",
+          })),
+        },
       });
     }
   }, [cartItems, totalCart, mappedCartItems]);
+
   const handleOrderComplete = async () => {
     try {
       const cookieToken =
@@ -849,11 +873,7 @@ const Checkout: React.FC = () => {
                               </div>
                               <h3
                                 className="cursor-pointer text-red-600 underline"
-                                onClick={() =>
-                                  voucherCode
-                                    ? removeCoupon()
-                                    : handleCouponsModal()
-                                }
+                                onClick={() =>removeCoupon()}
                               >
                                 {couponCode && dataAfterCouponCode.code === 200
                                   ? couponCode
@@ -953,7 +973,7 @@ const Checkout: React.FC = () => {
                               </div>
                             </SwiperSlide>
                           ))}
-                        </Swiper>
+                        </Swiper> 
                       </div>
                       {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">
@@ -1010,6 +1030,7 @@ const Checkout: React.FC = () => {
                               whpWallet == "whp_Wallet" &&
                               userDetails?.wallet_amount > 0
                             }
+                            disabled={userDetails?.wallet_amount <= 0}
                             onChange={handleWhpWallet}
                           />
                           <h3>WHP Wallet</h3>

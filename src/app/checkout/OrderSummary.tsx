@@ -49,7 +49,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <input
             type="checkbox"
             value="whp_Wallet"
-            checked={wallet == "whp_Wallet"}
+            checked={wallet == "whp_Wallet" && userDetails?.wallet_amount > 0}
+            disabled={userDetails?.wallet_amount <= 0}
             onChange={handleWhpWallet}
           />
           <h3>WHP Wallet</h3>

@@ -11,6 +11,7 @@ import axios from "axios";
 import AddAddressMobile from "@/app/checkout/AddAddressMobile";
 import EditAddressModal from "./EditAddressModal";
 import Image from "next/image";
+import { useCurrency } from "@/context/CurrencyContext";
 import FlashAlert from "../Other/FlashAlert";
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
@@ -40,6 +41,7 @@ const MobilePersonalInformation = () => {
   const [formError, setFormError] = useState("");
   const { logOut, isLoggedIn, userDetails, addUserDetails } = useUser();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
+  const { formatPrice } = useCurrency();
 
   const validationSchema = Yup.object().shape({
     // firstName: Yup.string().required("First name is required"),
@@ -253,7 +255,7 @@ const MobilePersonalInformation = () => {
         </div>
         <div className="mt-4">
           <p className="font-bold">
-            Wallet Balance:{userDetails?.wallet_amount}
+            Wallet Balance:{formatPrice(userDetails?.wallet_amount)}
           </p>
         </div>
       </div>

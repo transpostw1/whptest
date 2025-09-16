@@ -6,6 +6,7 @@ import { fetchCartItemsFromServer } from "@/utils/cartUtils";
 import { useCouponContext } from "./CouponContext";
 import { useUser } from "@/context/UserContext";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { log } from "console";
 
 interface CartItem {
   productDetails: {
@@ -16,6 +17,7 @@ interface CartItem {
     quantityleft: number;
     discountValue: string;
     url: string;
+    isActive: boolean;
   };
   gst?: any;
   displayTitle?: string;
@@ -54,6 +56,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cookieToken, setCookieToken] = useState<string | undefined>("");
   const [loading, setLoading] = useState(true);
   const { isLoggedIn } = useUser();
+  // const [inActiveCartProducts, setInActiveCartProducts] = useState<any[]>([]);
+
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -99,6 +103,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     };
     fetchCartItems();
   }, [isLoggedIn]);
+
+  // useEffect(() => {
+  //   const inactiveProductIds =
+  //     cartItems
+  //       .filter((product) => !product.isActive)
+  //       .map((product) => ({
+  //         productId: product.productId,
+  //         variants: product.variants
+  //       })) || [];
+  
+  //   console.log(inactiveProductIds, "INACTIVE PRODUCTS");
+  
+  //   setInActiveCartProducts(inactiveProductIds);
+  // }, [cartItems]);
 
   const addToCart = async (
     item: CartItem,

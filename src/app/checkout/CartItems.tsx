@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import CartItem from "./CartItem";
 import Skeleton from "react-loading-skeleton";
+import { useWishlist } from "@/context/WishlistContext";
+
 
 interface CartItemsProps {
   cartItems: any[];
@@ -16,6 +18,10 @@ const CartItems: React.FC<CartItemsProps> = ({
   loading,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const { wishlistItems, addToWishlist, removeFromWishlist, getWishlist } =
+    useWishlist();
+  const [inActiveCartProducts, setInActiveCartProducts] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -23,7 +29,33 @@ const CartItems: React.FC<CartItemsProps> = ({
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    const inactiveProducts =
+      cartItems
+        .filter((product) => !product.isActive)
+        .map((product) => ({
+          productId: product.productId,
+          variants: product.variants,
+        })) || [];
 
+    setInActiveCartProducts(inactiveProducts);
+    if (inactiveProducts.length > 0) {
+      setShowModal(true); // Show modal only if there are inactive products
+    }
+  }, [cartItems]);
+
+  const handleMoveToWishlist = () => {
+    inActiveCartProducts.forEach((product) => {
+      const isAlreadyInWishlist = wishlistItems.some(
+        (item) => item.productId === product.productId
+      );
+      if (!isAlreadyInWishlist) {
+        addToWishlist(product);
+      }
+      removeFromCart(product.productId, 0);
+    });
+    setShowModal(false);
+  };
 
   const filteredCartItems = cartItems.filter((item) => item.quantity > 0);
 
@@ -54,6 +86,26 @@ const CartItems: React.FC<CartItemsProps> = ({
           ))
         )}
       </div>
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6">
+            <h2 className="text-xl font-semibold mb-4">
+              Some products are out of stock
+            </h2>
+            <p className="mb-6">
+              We are moving them to your wishlist. Do you want to confirm?
+            </p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={handleMoveToWishlist}
+                className="rounded-xl border border-[#E26178] px-2 py-2 text-[#E26178] hover:bg-[#E26178] hover:text-white"
+              >
+                Move to Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

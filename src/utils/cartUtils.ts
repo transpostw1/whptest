@@ -9,6 +9,7 @@ interface CartItem {
     productPrice: any;
     imageDetails: any;
     url:any;
+    isActive: boolean;
   };
   gst?: any;
   displayTitle?: string;
@@ -62,6 +63,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
             url
             displayTitle
             quantity
+            isActive
             makeToOrder
             productPrice
             discountPrice
@@ -96,6 +98,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
       const quantityleft = item.productDetails[0].quantity;
       const url=item.productDetails[0].url;
       const price = isNaN(discountPrice) ? productPrice : discountPrice;
+      const isActive = item.productDetails[0].isActive;
 
       return {
         productId: item.productId,
@@ -106,6 +109,7 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
         productPrice : productPrice,
         image: imagePath,
         variants:item.variants,
+        isActive : isActive
       };
     });
 

@@ -33,7 +33,7 @@ interface WishlistContextProps {
   setWishlistItems: React.Dispatch<React.SetStateAction<WishlistItem[]>>;
 }
 
-const WishlistContext = createContext<WishlistContextProps | undefined>(
+export const WishlistContext = createContext<WishlistContextProps | undefined>(
   undefined
 );
 

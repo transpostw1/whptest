@@ -2,8 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const VideoOverlayProducts = ({ products }) => {
+  const {formatPrice}=useCurrency();
   const productCardVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -47,7 +49,7 @@ const VideoOverlayProducts = ({ products }) => {
                   {product.displayTitle}
                 </h3>
 
-                <p className="text-gray-600">{product.productPrice}</p>
+                <p className="text-gray-600">{formatPrice(product.productPrice)}</p>
                 <p className="text-lg text-[#e26178] hover:text-indigo-800">
                   View
                 </p>

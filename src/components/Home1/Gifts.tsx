@@ -25,9 +25,9 @@ const Gifts = () => {
     },
     {
       id: 2,
-      url: "pc-pendant_religious",
-      head: "religious_pendant",
-      type: "Religious Pendant",
+      url: "pc-god_pendant",
+      head: "pc-god_pendant",
+      type: "God Pendant",
       image: (
         <Image
           src={"/images/gifts/Godpendant.jpg"}

@@ -66,7 +66,7 @@ export default function Home() {
         <BuyAgain />
         <RecetlyViewProduct />
         {/* <WhatWeOffer /> */}
-        {/* <Whptv2 /> */}
+        <Whptv2 />
         {/* <PreciousGems /> */}
         <Appointment />
         <GoldScheme />

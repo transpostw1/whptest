@@ -171,6 +171,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <input
                   id="firstName"
                   type="text"
+                  maxLength={10}
                 {...formik.getFieldProps("firstName")} // Bind values properly
                 className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${
                   formik.errors.firstName
@@ -196,6 +197,7 @@ const AddDetailsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <input
                   id="lastName"
                   type="text"
+                  maxLength={10}
                   {...formik.getFieldProps("lastName")}
                   value={formik.values.lastName}
                   className={`block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent border appearance-none ${

@@ -300,6 +300,7 @@ const ShopBreadCrumb1 = () => {
 
   const handleSortOptionChange = (option: string) => {
     setSelectedSortOption(option);
+    setOffset(0); 
     setIsLoading(true);
     setFetchProducts(true);
   };

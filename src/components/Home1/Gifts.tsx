@@ -4,201 +4,124 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCategory } from "@/context/CategoryContex";
 import { motion } from "framer-motion";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { graphqlbaseUrl } from "@/utils/constants";
+
+const GET_ALL_GIFTS = gql`
+  query GetAllGiftsTemplates {
+    getAllGiftsTemplates {
+      id
+      title
+      url
+      image
+      position
+    }
+  }
+`;
+
 const Gifts = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
   const { setCustomcategory } = useCategory();
-  let categories = [
-    {
-      id: 1,
-      url: "pc-gift_for_special_occasion",
-      head: "gift_for_special_occasion",
-      type: "Gift For Special Occasion",
-      image: (
-        <Image
-          src={"/images/gifts/SpecialOccassion.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 2,
-      url: "pc-god_pendant",
-      head: "pc-god_pendant",
-      type: "God Pendant",
-      image: (
-        <Image
-          src={"/images/gifts/Godpendant.jpg"}
-          alt=" "
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 3,
-      url: "pc-all_jewellery_mens_jewellery_rings",
-      head: "Men's Rings",
-      type: "Men's Rings",
-      image: (
-        <Image
-          src={"/images/gifts/RingForMen.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 5,
-      url: "pc-gift_for_her",
-      head: "gift_for_her",
-      type: "Gifts for Her",
-      image: (
-        <Image
-          src={"/images/gifts/GiftHer.jpg"}
-          alt=""
-          height={400}
-          width={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 6,
-      url: "pc-gift_for_him",
-      head: "gift_for_him",
-      type: "Gifts for Him",
-      image: (
-        <Image
-          src={"/images/gifts/GiftHim.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 4,
-      url: "pc-rings_engagement_ring",
-      head: "engagement_ring",
-      type: "Engagement Ring",
-      image: (
-        <Image
-          src={"/images/gifts/RingForWomen.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 8,
-      url: "pc-self_gifting_tresures",
-      head: "self_gifting_treasure",
-      type: "Self Gifting",
-      image: (
-        <Image
-          src={"/images/gifts/SelfGifting.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-    {
-      id: 7,
-      url: "pc-little_star_collection",
-      head: "Little Star Collection",
-      type: "Little Star Collection",
-      image: (
-        <Image
-          src={"/images/gifts/LittleStarCollection.jpg"}
-          alt=""
-          width={400}
-          height={400}
-          unoptimized
-        />
-      ),
-    },
-  ];
+
+  // Fetch gifts from GraphQL
+  const fetchGifts = async () => {
+    try {
+      const client = new ApolloClient({
+        uri: graphqlbaseUrl,
+        cache: new InMemoryCache(),
+      });
+
+      const { data } = await client.query({
+        query: GET_ALL_GIFTS,
+      });
+
+      const gifts = data.getAllGiftsTemplates;
+
+      if (gifts && gifts.length > 0) {
+        // Make a copy before sorting (Apollo returns frozen array)
+        const sortedGifts = [...gifts].sort(
+          (a: any, b: any) => a.position - b.position
+        );
+        setCategories(sortedGifts);
+      }
+    } catch (error) {
+      console.error("Error fetching gifts:", error);
+    }
+  };
 
   useEffect(() => {
+    fetchGifts();
+  }, []);
+
+  // Detect mobile
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const handleChange = (e: any) => {
-      setIsMobile(e.matches);
-    };
-
+    const handleChange = (e: any) => setIsMobile(e.matches);
     setIsMobile(mediaQuery.matches);
-    mediaQuery.addListener(handleChange);
-
-    return () => {
-      mediaQuery.removeListener(handleChange);
-    };
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: {  y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
   return (
-    <>
-      <div className="my-16 w-full px-8 text-rose-950">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-start justify-between"
-        >
-          <h1 className="pb-2 text-[1.5rem] font-medium uppercase">
-            Gifts that speak from the heart
-          </h1>
-          <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
-            Discover the joy of gifting with our curated selection,where every
-            piece reflects thoughtfulness and timeless charm, making evey
-            occasion extra-special.
-          </p>
-        </motion.div>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="mt-3 grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4"
-        >
-          {categories.map((category) => (
+    <div className="my-16 w-full px-8 text-rose-950">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="flex flex-col items-start justify-between"
+      >
+        <h1 className="pb-2 text-[1.5rem] font-medium uppercase">
+          Gifts that speak from the heart
+        </h1>
+        <p className="w-[100%] text-[16px] font-light lg:w-[50%]">
+          Discover the joy of gifting with our curated selection, where every
+          piece reflects thoughtfulness and timeless charm, making every
+          occasion extra-special.
+        </p>
+      </motion.div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        className="mt-3 grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4"
+      >
+        {categories.map((category) => {
+          // Extract internal query param from API URL
+          const urlObj = new URL(category.url);
+          const queryUrl = urlObj.searchParams.get("url");
+
+          return (
             <motion.div key={category.id} variants={fadeUp}>
               <Link
                 href={{
                   pathname: "/products",
-                  query: { url: `${category.url}` },
+                  query: { url: queryUrl },
                 }}
-                onClick={() => setCustomcategory(category.head)}
+                onClick={() => setCustomcategory(category.title)}
               >
                 <div className="relative flex flex-col gap-2">
                   <div className="effect10 img hover:shadow-2xl">
-                    {category.image}{" "}
+                    <Image
+                      src={category.image}
+                      alt={category.title}
+                      width={400}
+                      height={400}
+                    />
                   </div>
-                  {/* {isMobile && (
-                  <div className="text-md break-words">{category.type}</div>
-                )} */}
                   <div className="inline-flex">
                     <span className="me-2 cursor-pointer text-sm text-[#E26178] underline">
                       View All
@@ -209,17 +132,16 @@ const Gifts = () => {
                         alt="Right Arrow"
                         width={20}
                         height={20}
-                        unoptimized
                       />
                     </span>
                   </div>
                 </div>
               </Link>
             </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 };
 

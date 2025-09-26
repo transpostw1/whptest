@@ -30,7 +30,7 @@ const Video = ({ src, productDetails }) => {
         autoPlay
         loop
         muted={isMuted}
-        className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+        className="absolute left-1/2 top-1/2 z-10 max-h-full max-w-full -translate-x-1/2 -translate-y-1/2 object-contain"
       />
 
       <div className="absolute right-5 top-[65%] z-20 flex -translate-y-1/2 transform flex-col items-center space-y-2">

@@ -23,7 +23,7 @@ const VideoOverlayProducts = ({ products }) => {
             key={index}
           >
             <motion.div
-              className="m-2 flex min-w-[350px] max-w-[550px] rounded-lg bg-white p-4 shadow-lg"
+              className="m-2 flex min-w-[300px] max-w-[500px] rounded-lg bg-white p-4 shadow-lg"
               style={{
                 background: "rgba(255, 255, 255, 0.8)",
                 backdropFilter: "blur(10px)",

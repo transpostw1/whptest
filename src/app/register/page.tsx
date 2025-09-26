@@ -71,7 +71,6 @@ const Register = () => {
         console.log("notokennn");
         throw new Error("No authentication token found");
       }
-      console.log("tokenn");
       const response = await axios.post(
         `${baseUrl}${signup}`,
         {

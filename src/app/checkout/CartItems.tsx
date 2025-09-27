@@ -42,7 +42,7 @@ const CartItems: React.FC<CartItemsProps> = ({
     if (inactiveProducts.length > 0) {
       setShowModal(true); // Show modal only if there are inactive products
     }
-  }, [cartItems]);
+  }, []);
 
   const handleMoveToWishlist = () => {
     inActiveCartProducts.forEach((product) => {

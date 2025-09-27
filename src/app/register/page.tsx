@@ -120,28 +120,28 @@ const Register = () => {
             </div>
 
             {!isOtpVerified && (
-          <div className="flex flex-col items-center">
-  <div className="w-full max-w-xs">
-    <PhoneInput
-      defaultCountry="in"
-      value={phoneNumber}
-      inputClassName="border h-full w-full"
-      placeholder="Enter your mobile number"
-      onChange={handlePhoneChange}
-    />
-    <div className="block-button mt-4 md:mt-7">
-      <OtpVerification
-        phoneNumber={phoneNumber}
-        formikValues={formik.values}
-        onSubmit={formik.handleSubmit}
-        isRegisterPage={false}
-        onOtpVerified={() => setIsOtpVerified(true)}
-        errorMessage=""
-        otpButtonRef={otpButtonRef}
-      />
-    </div>
-  </div>
-</div>
+              <div className="flex flex-col items-center">
+                <div className="w-full max-w-xs">
+                  <PhoneInput
+                    defaultCountry="in"
+                    value={phoneNumber}
+                    inputClassName="border h-full w-full"
+                    placeholder="Enter your mobile number"
+                    onChange={handlePhoneChange}
+                  />
+                  <div className="block-button mt-4 md:mt-7">
+                    <OtpVerification
+                      phoneNumber={phoneNumber}
+                      formikValues={formik.values}
+                      onSubmit={formik.handleSubmit}
+                      isRegisterPage={false}
+                      onOtpVerified={() => setIsOtpVerified(true)}
+                      errorMessage=""
+                      otpButtonRef={otpButtonRef}
+                    />
+                  </div>
+                </div>
+              </div>
             )}
 
             {isOtpVerified && (

@@ -155,7 +155,7 @@ const Checkout: React.FC = () => {
 
   const removeCoupon = () => {
     localStorage.removeItem("coupon");
-    console.log("LLLLLLLLLLLLL")
+    console.log("LLLLLLLLLLLLL");
     setCouponCode("");
     setVoucherCode("");
     setDataAfterCouponCode([]);
@@ -365,6 +365,7 @@ const Checkout: React.FC = () => {
         item?.productDetails?.discountPrice ||
         item?.productDetails?.imageDetails ||
         item?.productDetails?.quantity ||
+        item?.productDetails?.isActive ||
         item?.productDetails?.makeToOrder,
     )
     .map((item: any) => ({
@@ -375,6 +376,7 @@ const Checkout: React.FC = () => {
       price: item?.productDetails?.discountPrice,
       productPrice: item?.productDetails?.productPrice,
       quantityleft: item?.productDetails?.quantity,
+      isActive: item?.productDetails?.isActive,
       makeToOrder: item?.productDetails?.makeToOrder,
       discountPrice:
         item?.productDetails?.discountPrice != null
@@ -873,7 +875,7 @@ const Checkout: React.FC = () => {
                               </div>
                               <h3
                                 className="cursor-pointer text-red-600 underline"
-                                onClick={() =>removeCoupon()}
+                                onClick={() => removeCoupon()}
                               >
                                 {couponCode && dataAfterCouponCode.code === 200
                                   ? couponCode
@@ -973,7 +975,7 @@ const Checkout: React.FC = () => {
                               </div>
                             </SwiperSlide>
                           ))}
-                        </Swiper> 
+                        </Swiper>
                       </div>
                       {/* {couponCode && dataAfterCouponCode.code === 200 && (
                       <div className="text-wrap bg-gray-100 p-2">

@@ -3,7 +3,6 @@ import CartItem from "./CartItem";
 import Skeleton from "react-loading-skeleton";
 import { useWishlist } from "@/context/WishlistContext";
 
-
 interface CartItemsProps {
   cartItems: any[];
   handleQuantityChange: (productId: number, newQuantity: number) => void;
@@ -30,6 +29,7 @@ const CartItems: React.FC<CartItemsProps> = ({
   }, []);
 
   useEffect(() => {
+    console.log("Cart Itemssssssssss", cartItems);
     const inactiveProducts =
       cartItems
         .filter((product) => !product.isActive)
@@ -37,17 +37,17 @@ const CartItems: React.FC<CartItemsProps> = ({
           productId: product.productId,
           variants: product.variants,
         })) || [];
-
+    console.log("InactiveProducts", inactiveProducts);
     setInActiveCartProducts(inactiveProducts);
     if (inactiveProducts.length > 0) {
-      setShowModal(true); // Show modal only if there are inactive products
+      setShowModal(true);
     }
-  }, []);
+  }, [cartItems]);
 
   const handleMoveToWishlist = () => {
     inActiveCartProducts.forEach((product) => {
       const isAlreadyInWishlist = wishlistItems.some(
-        (item) => item.productId === product.productId
+        (item) => item.productId === product.productId,
       );
       if (!isAlreadyInWishlist) {
         addToWishlist(product);
@@ -88,8 +88,8 @@ const CartItems: React.FC<CartItemsProps> = ({
       </div>
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+            <h2 className="mb-4 text-xl font-semibold">
               Some products are out of stock
             </h2>
             <p className="mb-6">

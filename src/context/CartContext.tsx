@@ -25,6 +25,7 @@ interface CartItem {
   imageDetails?: any;
   productId: number;
   quantity?: number;
+  isActive?: boolean;
   name?: string;
   price?: number;
   image?: string;
@@ -57,7 +58,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const { isLoggedIn } = useUser();
   // const [inActiveCartProducts, setInActiveCartProducts] = useState<any[]>([]);
-
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -112,9 +112,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   //         productId: product.productId,
   //         variants: product.variants
   //       })) || [];
-  
+
   //   console.log(inactiveProductIds, "INACTIVE PRODUCTS");
-  
+
   //   setInActiveCartProducts(inactiveProductIds);
   // }, [cartItems]);
 
@@ -239,9 +239,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         productId: item.productId,
         quantity: item.quantity || 0,
         variants: item.variants
-        ? item.variants.map(({ __typename, ...rest }) => rest) 
-        : [], 
-    }));
+          ? item.variants.map(({ __typename, ...rest }) => rest)
+          : [],
+      }));
       // console.log(cartData,"CARTDATATATATATTa")
       const getAuthHeaders: any = () => {
         const cookieToken = localStorage.getItem("localtoken");

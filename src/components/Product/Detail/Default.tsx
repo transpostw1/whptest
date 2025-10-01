@@ -40,7 +40,6 @@ interface Props {
   productId: string | number | any;
   onDataFetched: (data: any) => void;
 }
-//base component for product detail page
 const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const router = useRouter();
   const [nav1, setNav1] = useState(null);
@@ -67,21 +66,21 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
   const handleSelectedVariants = (value: any) => {
     setSelectedVariants(value);
   };
-  
+
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
   };
 
- const settingsMain = {
+  const settingsMain = {
     dots: false,
     infinite: true,
-    speed: 900, 
+    speed: 900,
     slidesToShow: 1,
     slidesToScroll: 1,
     asNavFor: nav2,
     autoplay: true,
     autoplaySpeed: 5000,
-};
+  };
 
   async function getData() {
     const client = new ApolloClient({
@@ -402,7 +401,7 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
     autoplaySpeed: 8000,
     responsive: [
       {
-        breakpoint: 768, 
+        breakpoint: 768,
         settings: {
           slidesToShow: Math.min(
             3,
@@ -619,13 +618,13 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
           {loading ? (
             <Skeleton height={30} />
           ) : (
-            <div className="my-2 select-text flex">
+            <div className="my-2 flex select-text">
               {data?.productDetails?.discountActive ? (
                 <>
                   <span className="select-text text-lg font-extrabold md:text-2xl">
                     {formatPrice(parseInt(data?.productDetails?.discountPrice))}
                   </span>
-                  
+
                   {data?.productDetails?.productPrice >
                     data?.productDetails?.discountPrice && (
                     <span className="ml-3 select-text text-[#aa9e9e] line-through">
@@ -634,30 +633,36 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
                       )}
                     </span>
                   )}
-                  {data?.productDetails?.discountActive && data?.productDetails?.discountValue && (
-                  <div className="ml-3 select-text text-[#e26178] underline">
-                    {data?.productDetails?.typeOfDiscount === "Percentage" ? (
-                      data?.productDetails?.discountCategory === "Whole Product" ? (
-                        <span >
-                          Flat {data?.productDetails?.discountValue}% OFF
-                        </span>
-                      ) : (
-                        <span >
-                          {data?.productDetails?.discountValue}% OFF on{" "}
-                          {data?.productDetails?.discountCategory}
-                        </span>
-                      )
-                    ) : data?.productDetails?.discountCategory === "Whole Product" ? (
-                      // If the discount is for the whole product
-                      <span >
-                        Flat ₹{data?.productDetails?.discountAmount} OFF
-                      </span>
-                    ) : (
-                      <span>₹{data?.productDetails?.discountAmount} OFF on{" "}
-                          {data?.productDetails?.discountCategory}</span>
+                  {data?.productDetails?.discountActive &&
+                    data?.productDetails?.discountValue && (
+                      <div className="ml-3 select-text text-[#e26178] underline">
+                        {data?.productDetails?.typeOfDiscount ===
+                        "Percentage" ? (
+                          data?.productDetails?.discountCategory ===
+                          "Whole Product" ? (
+                            <span>
+                              Flat {data?.productDetails?.discountValue}% OFF
+                            </span>
+                          ) : (
+                            <span>
+                              {data?.productDetails?.discountValue}% OFF on{" "}
+                              {data?.productDetails?.discountCategory}
+                            </span>
+                          )
+                        ) : data?.productDetails?.discountCategory ===
+                          "Whole Product" ? (
+                          // If the discount is for the whole product
+                          <span>
+                            Flat ₹{data?.productDetails?.discountAmount} OFF
+                          </span>
+                        ) : (
+                          <span>
+                            ₹{data?.productDetails?.discountAmount} OFF on{" "}
+                            {data?.productDetails?.discountCategory}
+                          </span>
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
                   {/* {parseInt(data?.productDetails?.discountValue) > 0 && (
                     <span className="ml-3 select-text text-[#e26178] underline">
                       {data?.productDetails?.discountValue}% OFF on{" "}
@@ -701,13 +706,16 @@ const Default: React.FC<Props> = ({ productId, onDataFetched }) => {
             <div className="">
               <p className="text-sm font-bold md:text-lg">Availability:</p>
               <div>
-                {loading?(<Skeleton height={30} />):(
-    <p className="text-sm md:text-lg">
-      {data?.productDetails?.productQty > 0 ? "In Stock" : "Make To Order"}
-    </p>
-  )}
+                {loading ? (
+                  <Skeleton height={30} />
+                ) : (
+                  <p className="text-sm md:text-lg">
+                    {data?.productDetails?.productQty > 0
+                      ? "In Stock"
+                      : "Make To Order"}
+                  </p>
+                )}
               </div>
-              
             </div>
           </div>
           {data?.productDetails?.variants &&

@@ -300,7 +300,7 @@ const ShopBreadCrumb1 = () => {
 
   const handleSortOptionChange = (option: string) => {
     setSelectedSortOption(option);
-    setOffset(0); 
+    setOffset(0);
     setIsLoading(true);
     setFetchProducts(true);
   };
@@ -500,7 +500,10 @@ const ShopBreadCrumb1 = () => {
       }
 
       // Apply occasion filter
-      if (selectedOptions.Metals_and_Stones && selectedOptions.Metals_and_Stones.length > 0) {
+      if (
+        selectedOptions.Metals_and_Stones &&
+        selectedOptions.Metals_and_Stones.length > 0
+      ) {
         filtered = filtered.filter((product: any) =>
           selectedOptions.Metals_and_Stones.includes(product.occasion),
         );
@@ -734,72 +737,37 @@ const ShopBreadCrumb1 = () => {
                 </div>
               </div>
 
-              {filteredProducts.length > 0 ? (
-                selectedSortOption === "Price-Low To High" ||
-                selectedSortOption === "Price-High To Low" ? (
-                  isLoading && !isLoadMore ? (
-                    <ProductSkeleton />
-                  ) : (
-                    <InfiniteScroll
-                      dataLength={filteredProducts.length}
-                      next={handleLoadMore}
-                      hasMore={hasMore}
-                      loader={
-                        <div className="mt-4">
-                          <ProductSkeleton />
-                        </div>
-                      }
-                      scrollThreshold={0.8}
-                      endMessage={
-                        <p className="text-center text-gray-500">
-                          No more products to load
-                        </p>
-                      }
-                    >
-                      <div
-                        className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                        ref={productsListRef}
-                      >
-                        {filteredProducts.map((item: any) => (
-                          <div key={item.productId}>
-                            <Product data={item} skuList={skuList} />
-                          </div>
-                        ))}
-                      </div>
-                    </InfiniteScroll>
-                  )
-                ) : (
-                  <InfiniteScroll
-                    dataLength={filteredProducts.length}
-                    next={handleLoadMore}
-                    hasMore={hasMore}
-                    loader={
-                      <div className="mt-4">
-                        <ProductSkeleton />
-                      </div>
-                    }
-                    scrollThreshold={0.8}
-                    endMessage={
-                      <p className="text-center text-gray-500">
-                        No more products to load
-                      </p>
-                    }
-                  >
-                    <div
-                      className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
-                      ref={productsListRef}
-                    >
-                      {filteredProducts.map((item: any) => (
-                        <div key={item.productId}>
-                          <Product data={item} skuList={skuList} />
-                        </div>
-                      ))}
-                    </div>
-                  </InfiniteScroll>
-                )
-              ) : isLoading ? (
+              {isLoading && !isLoadMore ? (
                 <ProductSkeleton />
-              ) : (
+              ) : filteredProducts.length > 0 ? (
+                <InfiniteScroll
+                  dataLength={filteredProducts.length}
+                  next={handleLoadMore}
+                  hasMore={hasMore}
+                  loader={
+                    <div className="mt-4">
+                      <ProductSkeleton />
+                    </div>
+                  }
+                  scrollThreshold={0.8}
+                  endMessage={
+                    <p className="text-center text-gray-500">
+                      No more products to load
+                    </p>
+                  }
+                >
+                  <div
+                    className="list-product hide-product-sold mb-5 mt-7 grid grid-cols-2 gap-[40px] max-sm:gap-[20px] md:grid-cols-2 lg:grid-cols-3"
+                    ref={productsListRef}
+                  >
+                    {filteredProducts.map((item: any) => (
+                      <div key={item.productId}>
+                        <Product data={item} skuList={skuList} />
+                      </div>
+                    ))}
+                  </div>
+                </InfiniteScroll>
+              ) :filteredProducts.length== 0 ?(
                 <div
                   className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] text-center sm:gap-[30px]"
                   ref={productsListRef}
@@ -818,15 +786,12 @@ const ShopBreadCrumb1 = () => {
 
                   <div className="flex w-full flex-col justify-center lg:flex-row">
                     <motion.div
-                      animate={{
-                        scale: [1, 1.1, 1],
-                      }}
+                      animate={{ scale: [1, 1.1, 1] }}
                       transition={{
                         duration: 1.2,
                         ease: "easeInOut",
                         repeat: Infinity,
                       }}
-                      className=""
                     >
                       <Link href={"https://wa.me/918828324464"} target="_blank">
                         <div className="flex p-2 text-center">
@@ -840,15 +805,12 @@ const ShopBreadCrumb1 = () => {
                       </Link>
                     </motion.div>
                     <motion.div
-                      animate={{
-                        scale: [1, 1.1, 1],
-                      }}
+                      animate={{ scale: [1, 1.1, 1] }}
                       transition={{
                         duration: 1.2,
                         ease: "easeInOut",
                         repeat: Infinity,
                       }}
-                      className=""
                     >
                       <Link
                         href="tel:1800222225"
@@ -868,7 +830,7 @@ const ShopBreadCrumb1 = () => {
                     </motion.div>
                   </div>
                 </div>
-              )}
+              ) : null}
               {/* <div className="w-full text-center">
                 {filteredProducts.length > 0 && (
                   <button
@@ -906,7 +868,7 @@ const ShopBreadCrumb1 = () => {
         </div>
         {filterOption &&
           (categoryFilter.options.length > 0 ||
-           Metals_and_Stones.options.length > 0) && (
+            Metals_and_Stones.options.length > 0) && (
             <FilterBy
               visible={filterOption}
               onClose={() => setFilterOption(false)}

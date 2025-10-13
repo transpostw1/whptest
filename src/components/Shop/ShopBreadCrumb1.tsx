@@ -767,7 +767,7 @@ const ShopBreadCrumb1 = () => {
                     ))}
                   </div>
                 </InfiniteScroll>
-              ) :filteredProducts.length== 0 ?(
+              ) : (
                 <div
                   className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] text-center sm:gap-[30px]"
                   ref={productsListRef}
@@ -830,7 +830,7 @@ const ShopBreadCrumb1 = () => {
                     </motion.div>
                   </div>
                 </div>
-              ) : null}
+              )}
               {/* <div className="w-full text-center">
                 {filteredProducts.length > 0 && (
                   <button

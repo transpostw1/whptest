@@ -767,6 +767,8 @@ const ShopBreadCrumb1 = () => {
                     ))}
                   </div>
                 </InfiniteScroll>
+              ) : fetchProducts || isLoadingMore ? (
+                <ProductSkeleton />
               ) : (
                 <div
                   className="list-product hide-product-sold mb-5 mt-7 h-[500px] w-full gap-[40px] text-center sm:gap-[30px]"
@@ -831,6 +833,7 @@ const ShopBreadCrumb1 = () => {
                   </div>
                 </div>
               )}
+
               {/* <div className="w-full text-center">
                 {filteredProducts.length > 0 && (
                   <button

@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "proxy": "http://127.0.0.1:8002",
   "dependencies": {
     "@apollo/client": "^3.10.6",
     "@apollo/react-hooks": "^4.0.0",

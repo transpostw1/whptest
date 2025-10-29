@@ -369,27 +369,27 @@ const Payment: React.FC<PaymentProps> = ({
           : 0,
         shippingAddress: selectedShippingAddress
           ? {
-              addressId: selectedShippingAddress.address_id || null,
-              addressType: selectedShippingAddress.address_type,
-              fullAddress: selectedShippingAddress.full_address,
-              country: selectedShippingAddress.country,
-              state: selectedShippingAddress.state,
-              city: selectedShippingAddress.city,
-              landmark: selectedShippingAddress.landmark,
-              pincode: selectedShippingAddress.pincode.toString(),
-            }
+            addressId: selectedShippingAddress.address_id || null,
+            addressType: selectedShippingAddress.address_type,
+            fullAddress: selectedShippingAddress.full_address,
+            country: selectedShippingAddress.country,
+            state: selectedShippingAddress.state,
+            city: selectedShippingAddress.city,
+            landmark: selectedShippingAddress.landmark,
+            pincode: selectedShippingAddress.pincode.toString(),
+          }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-              addressId: selectedBillingAddress.address_id || null,
-              addressType: selectedBillingAddress.address_type,
-              fullAddress: selectedBillingAddress.full_address,
-              country: selectedBillingAddress.country,
-              state: selectedBillingAddress.state,
-              city: selectedBillingAddress.city,
-              landmark: selectedBillingAddress.landmark,
-              pincode: selectedBillingAddress.pincode.toString(),
-            }
+            addressId: selectedBillingAddress.address_id || null,
+            addressType: selectedBillingAddress.address_type,
+            fullAddress: selectedBillingAddress.full_address,
+            country: selectedBillingAddress.country,
+            state: selectedBillingAddress.state,
+            city: selectedBillingAddress.city,
+            landmark: selectedBillingAddress.landmark,
+            pincode: selectedBillingAddress.pincode.toString(),
+          }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
@@ -412,6 +412,7 @@ const Payment: React.FC<PaymentProps> = ({
           paymentId: "0",
           orderId: "0",
           signature: "0",
+          paymentMode: "COD",
         },
       };
 
@@ -430,7 +431,7 @@ const Payment: React.FC<PaymentProps> = ({
       console.error("Error placing COD order:", error);
       alert(
         error.response?.data?.message ||
-          "Error placing order. Please try again.",
+        "Error placing order. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -542,30 +543,31 @@ const Payment: React.FC<PaymentProps> = ({
           paymentId: "0",
           orderId: "0",
           signature: "0",
+          paymentMode: "Razorpay",
         },
         shippingAddress: selectedShippingAddress
           ? {
-              addressId: selectedShippingAddress.address_id || null,
-              addressType: selectedShippingAddress.address_type,
-              fullAddress: selectedShippingAddress.full_address,
-              country: selectedShippingAddress.country,
-              state: selectedShippingAddress.state,
-              city: selectedShippingAddress.city,
-              landmark: selectedShippingAddress.landmark,
-              pincode: selectedShippingAddress.pincode.toString(),
-            }
+            addressId: selectedShippingAddress.address_id || null,
+            addressType: selectedShippingAddress.address_type,
+            fullAddress: selectedShippingAddress.full_address,
+            country: selectedShippingAddress.country,
+            state: selectedShippingAddress.state,
+            city: selectedShippingAddress.city,
+            landmark: selectedShippingAddress.landmark,
+            pincode: selectedShippingAddress.pincode.toString(),
+          }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-              addressId: selectedBillingAddress.address_id || null,
-              addressType: selectedBillingAddress.address_type,
-              fullAddress: selectedBillingAddress.full_address,
-              country: selectedBillingAddress.country,
-              state: selectedBillingAddress.state,
-              city: selectedBillingAddress.city,
-              landmark: selectedBillingAddress.landmark,
-              pincode: selectedBillingAddress.pincode.toString(),
-            }
+            addressId: selectedBillingAddress.address_id || null,
+            addressType: selectedBillingAddress.address_type,
+            fullAddress: selectedBillingAddress.full_address,
+            country: selectedBillingAddress.country,
+            state: selectedBillingAddress.state,
+            city: selectedBillingAddress.city,
+            landmark: selectedBillingAddress.landmark,
+            pincode: selectedBillingAddress.pincode.toString(),
+          }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
@@ -589,7 +591,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       const createOrderResp = await axios.post(
         // `${baseUrl}/orders`,
-        `http://172.22.16.1:8000/orders`,
+        `http://127.0.0.1:8002/api/orders`,
         appOrderData,
         {
           headers: { Authorization: `Bearer ${cookieToken}` },
@@ -600,7 +602,8 @@ const Payment: React.FC<PaymentProps> = ({
       const appOrder =
         createOrderResp?.data?.data?.order || createOrderResp?.data?.data;
       const appOrderId =
-        appOrder?.orderNo || appOrder?.id || appOrder?.order_id;
+        appOrder?.id;
+      const appOrderNo = appOrder?.orderNo;
 
       // 2) Create Razorpay order (server-side endpoint returns razorpay order id)
       const orderUrl = "/api/razorpay";
@@ -631,21 +634,72 @@ const Payment: React.FC<PaymentProps> = ({
             // 4) Notify backend to update/confirm the app order with payment details
             // You may need to create an endpoint that updates the order payment details.
             // Example: POST /orders/{appOrderId}/confirm or a generic update endpoint.
-            await axios.post(
-              `${baseUrl}/orders/confirm`, // <-- adapt this to your actual confirm/update endpoint
+            const apiResponse = await axios.post(
+              // `${baseUrl}/orders/confirm`, // <-- adapt this to your actual confirm/update endpoint
+              `http://127.0.0.1:8002/api/orders-confirmation`,
               {
                 orderId: appOrderId,
+                orderNo: appOrderNo,
+                paymentMode: "Razorpay",
                 paymentDetails: {
                   paymentId: response.razorpay_payment_id,
                   orderId: response.razorpay_order_id,
                   signature: response.razorpay_signature,
                 },
+                shippingAddress: selectedShippingAddress
+                  ? {
+                    addressId: selectedShippingAddress.address_id || null,
+                    addressType: selectedShippingAddress.address_type,
+                    fullAddress: selectedShippingAddress.full_address,
+                    country: selectedShippingAddress.country,
+                    state: selectedShippingAddress.state,
+                    city: selectedShippingAddress.city,
+                    landmark: selectedShippingAddress.landmark,
+                    pincode: selectedShippingAddress.pincode.toString(),
+                  }
+                  : {},
+                billingAddress: selectedBillingAddress
+                  ? {
+                    addressId: selectedBillingAddress.address_id || null,
+                    addressType: selectedBillingAddress.address_type,
+                    fullAddress: selectedBillingAddress.full_address,
+                    country: selectedBillingAddress.country,
+                    state: selectedBillingAddress.state,
+                    city: selectedBillingAddress.city,
+                    landmark: selectedBillingAddress.landmark,
+                    pincode: selectedBillingAddress.pincode.toString(),
+                  }
+                  : {},
+                productDetails: {
+                  products: mappedCartItems.map((item) => ({
+                    productId: item.productId.toString(),
+                    productAmount: item.price,
+                    quantity: item.quantity.toString(),
+                    variants: item.variants,
+                    productTotal: (item.price * item.quantity).toString(),
+                    discountAmount: "0",
+                    discountedTotal: (item.price * item.quantity).toString(),
+                  })),
+                  coupons: {
+                    couponCode: couponCode,
+                    discountPrice: totalDiscount,
+                  },
+                  productTotal: totalCart.toString(),
+                  discountedTotal: (totalCart - totalDiscount).toString(),
+                  shippingCharges: "10",
+                },
+
               },
               { headers: { Authorization: `Bearer ${cookieToken}` } },
             );
+            if (apiResponse.data) {
+              setOrderResponse(apiResponse.data.data);
+              setPaymentStarted(true);
+            }
           } catch (err) {
             console.error("Error confirming order after payment:", err);
           } finally {
+            onOrderComplete();
             setLoading(false);
           }
         },
@@ -671,6 +725,54 @@ const Payment: React.FC<PaymentProps> = ({
     }
   };
 
+  const handlePayUPayment = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8002/api/payu/initiate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${cookieToken}`
+        },
+        body: JSON.stringify({
+          amount: 500,
+          firstname: "Rutuja",
+          email: "rutuja@example.com",
+          phone: "9999999999",
+          productinfo: "Test Product",
+        }),
+      });
+
+      const data = await res.json();
+      console.log("payuuu", data);
+
+
+      if (data.action) {
+        // Create form dynamically and submit
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = data.action;
+
+        Object.keys(data).forEach((key) => {
+          if (key !== "action") {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = data[key];
+            form.appendChild(input);
+          }
+        });
+
+        document.body.appendChild(form);
+        console.log("Redirecting to:", data.action);
+        form.submit();
+      } else {
+        alert("Failed to initialize payment.");
+      }
+    } catch (err) {
+      console.error("PayU Error:", err);
+    }
+  };
+
   // useEffect(() => {
   //   if (
   //     orderResponse &&
@@ -687,6 +789,8 @@ const Payment: React.FC<PaymentProps> = ({
       console.log("razorpay payment started");
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
+    } else if (selectedPaymentMethod === "PayU") {
+      handlePayUPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {
       handleOtherPaymentGateway();
     } else {
@@ -738,7 +842,7 @@ const Payment: React.FC<PaymentProps> = ({
                 onChange={handlePaymentMethodChange}
               />
             </div>
-            {/* <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
+            <div className="flex items-center justify-between rounded-md border border-gray-200 p-4">
               <label
                 htmlFor="cashOnDelivery"
                 className="flex cursor-pointer items-center gap-2 font-medium"
@@ -752,10 +856,10 @@ const Payment: React.FC<PaymentProps> = ({
                 name="paymentOption"
                 value="PayU"
                 className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-transparent checked:bg-[#e26178] focus:bg-[#e26178] focus:outline-none"
-                checked={selectedPaymentMethod === "payU"}
+                checked={selectedPaymentMethod === "PayU"}
                 onChange={handlePaymentMethodChange}
               />
-            </div> */}
+            </div>
           </div>
           {!isMobile && (
             <button

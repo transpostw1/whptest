@@ -4,11 +4,15 @@ import Razorpay from 'razorpay';
 
 export async function POST(request: NextRequest) {
   try {
-    const razorpay = new Razorpay({
-      key_id: 'rzp_live_vh97GOv9gE694e',
-      key_secret: 'In8YtgTZF4Oaxgbug2I4kJd3',
-    });
+    // const razorpay = new Razorpay({
+    //   key_id: 'rzp_live_vh97GOv9gE694e',
+    //   key_secret: 'In8YtgTZF4Oaxgbug2I4kJd3',
+    // });
 
+    const razorpay=new Razorpay({
+      key_id:'rzp_test_QZVTreX3fAEZto',
+      key_secret:'VVONAcfnWWN1LhIonl3R4COX',
+    });
     const { amount } = await request.json();
 
     const options = {

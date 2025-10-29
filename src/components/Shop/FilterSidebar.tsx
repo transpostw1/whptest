@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Icon from "@phosphor-icons/react/dist/ssr";
 import FilterOptions from "./FilterOptions";
 import { ProductType } from "@/type/ProductType";
+import { useRouter } from "next/navigation";
 
 interface Props {
   data: any;
@@ -29,6 +30,7 @@ const FilterSidebar: React.FC<Props> = ({
   handleLoadMore,
   productsListRef,
 }) => {
+  const router = useRouter();
   const [filterDropDown, setFilterDropDown] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarFixed, setIsSidebarFixed] = useState<boolean>(false);
@@ -72,9 +74,9 @@ const FilterSidebar: React.FC<Props> = ({
 
   const handleMobileFilter = () => {
     setMobileFilter(false);
-     onFilterChange({});
+    onFilterChange({});
   };
-
+  
   useEffect(() => {
     onFilterChange(selectedOptions);
     // console.log(selectedOptions, "selectedOptions SideBARRRRR");
@@ -138,7 +140,9 @@ const FilterSidebar: React.FC<Props> = ({
           {/* Metals Filter */}
           <div className="list-type mt-4">
             <FilterOptions
-              filters={filters.filter((f: any) => f.title === "Metals_and_Stones")}
+              filters={filters.filter(
+                (f: any) => f.title === "Metals_and_Stones",
+              )}
               handleMobileFilter={handleMobileFilter}
               filterDropDown={"Metals_and_Stones"}
               handleFilterDropdown={handleFilterDropdown}

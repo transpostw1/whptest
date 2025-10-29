@@ -58,15 +58,11 @@ const Payment: React.FC<PaymentProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { formatPrice } = useCurrency();
   const [offerBanners, setOfferBanners] = useState<any>([]);
-  const [paymentStarted,setPaymentStarted]=useState<boolean>(false);
+  const [paymentStarted, setPaymentStarted] = useState<boolean>(false);
   const [walletPayment, setWalletPayment] = useState<any>(null);
   const { logOut, isLoggedIn, userDetails } = useUser();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [orderResponse, setOrderResponse] = useState<any>();
- 
-
-
-
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -83,14 +79,9 @@ const Payment: React.FC<PaymentProps> = ({
     };
   }, []);
 
- 
-
-
   const closeModal = () => {
     setIsOpen(false);
   };
-
-
 
   useEffect(() => {
     const handleAbandonedCart = async () => {
@@ -147,10 +138,6 @@ const Payment: React.FC<PaymentProps> = ({
     handleAbandonedCart();
   }, [component == "Payment"]);
 
-
-
-
-
   useEffect(() => {
     const fetchSubBanners = async () => {
       try {
@@ -184,8 +171,8 @@ const Payment: React.FC<PaymentProps> = ({
   }, []);
 
   useEffect(() => {
-  pushCartToDataLayer();
-}, [mappedCartItems, totalCart, totalDiscount]);
+    pushCartToDataLayer();
+  }, [mappedCartItems, totalCart, totalDiscount]);
 
   useEffect(() => {
     const loadRazorpayScript = async () => {
@@ -201,172 +188,165 @@ const Payment: React.FC<PaymentProps> = ({
     loadRazorpayScript();
   }, []);
 
-
   const pushCartToDataLayer = () => {
-  if (typeof window === "undefined") return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "view_cart",
-    ecommerce: {
-      currency: "INR",
-      value: totalCart - totalDiscount,
-      discount: totalDiscount,
-      items: mappedCartItems.map((item) => ({
-        item_id: item.productId,
-        item_name: item.productTitle,
-        price: item.price,
-        quantity: item.quantity,
-        discount: item.discountAmount || 0,
-        item_category: item.category || "",
-        item_variant: item.variants ? JSON.stringify(item.variants) : "",
-      })),
-    },
-  });
-};
-
-
-
-
-
-  const handleRazorpayPayment = async () => {
-    setLoading(true);
-    try {
-      const orderUrl = "/api/razorpay";
-      const response = await axios.post(orderUrl, {
-        amount:
-          wallet && userDetails?.wallet_amount < totalCart
-            ? (totalCart - userDetails?.wallet_amount) * 100
-            : totalCart * 100,
-      });
-      // console.log(response);
-      const { amount, id: order_id, currency } = response.data;
-      const options = {
-        key: process.env.NEXT_Razorpay_KEY, 
-        amount: amount.toString(),
-        currency: currency,
-        name: "WHP Jewellers",
-        description: "Transaction",
-        order_id: order_id,
-        handler: async function (response: any) {
-          try {
-            setLoading(true);
-            const {
-              razorpay_payment_id,
-              razorpay_order_id,
-              razorpay_signature,
-            } = response;
-            const orderData = {
-              isWallet: wallet ? 1 : 0,
-              isWrap: giftWrap.wrapOption ? 1 : 0,
-              message: giftWrap.wrapOption ? giftWrap.name : "",
-              walletAmount:
-                wallet === 1
-                  ? Number(totalCart) > Number(userDetails?.wallet_amount)
-                    ? Math.abs(
-                        Number(totalCart) - Number(userDetails?.wallet_amount),
-                      )
-                    : Math.abs(
-                        Number(userDetails?.wallet_amount) - Number(totalCart),
-                      )
-                  : 0,
-              name: userDetails?.fullname,
-              email: userDetails?.email,
-              contact: userDetails?.mobile_no,
-              customerId: userDetails?.customer_id,
-              paymentDetails: {
-                paymentId: razorpay_payment_id,
-                orderId: razorpay_order_id,
-                signature: razorpay_signature,
-              },
-              shippingAddress: selectedShippingAddress
-                ? {
-                    addressId: selectedShippingAddress.address_id || null,
-                    addressType: selectedShippingAddress.address_type,
-                    fullAddress: selectedShippingAddress.full_address,
-                    country: selectedShippingAddress.country,
-                    state: selectedShippingAddress.state,
-                    city: selectedShippingAddress.city,
-                    landmark: selectedShippingAddress.landmark,
-                    pincode: selectedShippingAddress.pincode.toString(),
-                  }
-                : {},
-              billingAddress: selectedBillingAddress
-                ? {
-                    addressId: selectedBillingAddress.address_id || null,
-                    addressType: selectedBillingAddress.address_type,
-                    fullAddress: selectedBillingAddress.full_address,
-                    country: selectedBillingAddress.country,
-                    state: selectedBillingAddress.state,
-                    city: selectedBillingAddress.city,
-                    landmark: selectedBillingAddress.landmark,
-                    pincode: selectedBillingAddress.pincode.toString(),
-                  }
-                : {},
-              productDetails: {
-                products: mappedCartItems.map((item) => ({
-                  productId: item.productId.toString(),
-                  productAmount: item.price,
-                  quantity: item.quantity.toString(),
-                  variants: item.variants,
-                  productTotal: (item.price * item.quantity).toString(),
-                  discountAmount: "0",
-                  discountedTotal: (item.price * item.quantity).toString(),
-                })),
-                coupons: {
-                  couponCode: couponCode,
-                  discountPrice: totalDiscount,
-                },
-                productTotal: totalCart.toString(),
-                discountedTotal: (totalCart - totalDiscount).toString(),
-                shippingCharges: "10",
-              },
-            };
-            // console.log(orderData, "orderDataAAAA");
-            const apiResponse = await axios.post(
-              `${baseUrl}/orders`,
-              orderData,
-              {
-                headers: {
-                  Authorization: `Bearer ${cookieToken}`,
-                },
-              },
-            );
-            // console.log(apiResponse.data);
-            // Handle the response as needed
-            setOrderResponse(apiResponse.data.data);
-            // Call the onOrderComplete function after the API call is successful
-            onOrderComplete();
-          } catch (error) {
-            console.error("Error placing order:", error);
-          } finally {
-            setLoading(false);
-          }
-        },
-        prefill: {
-          name: userDetails?.fullname,
-          email: userDetails?.email,
-          contact: userDetails?.mobile_no,
-          customerId: userDetails?.customer_id,
-        },
-        notes: {
-          address: "WHP Jewllers",
-        },
-        theme: {
-          color: "#fb7185",
-        },
-      };
-      const rzp1 = new (window as any).Razorpay(options);
-      rzp1.open();
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+    if (typeof window === "undefined") return;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "view_cart",
+      ecommerce: {
+        currency: "INR",
+        value: totalCart - totalDiscount,
+        discount: totalDiscount,
+        items: mappedCartItems.map((item) => ({
+          item_id: item.productId,
+          item_name: item.productTitle,
+          price: item.price,
+          quantity: item.quantity,
+          discount: item.discountAmount || 0,
+          item_category: item.category || "",
+          item_variant: item.variants ? JSON.stringify(item.variants) : "",
+        })),
+      },
+    });
   };
 
-
-
+  // const handleRazorpayPayment = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const orderUrl = "/api/razorpay";
+  //     const response = await axios.post(orderUrl, {
+  //       amount:
+  //         wallet && userDetails?.wallet_amount < totalCart
+  //           ? (totalCart - userDetails?.wallet_amount) * 100
+  //           : totalCart * 100,
+  //     });
+  //     // console.log(response);
+  //     const { amount, id: order_id, currency } = response.data;
+  //     const options = {
+  //       // key: process.env.NEXT_Razorpay_KEY,
+  //       key: "rzp_test_QZVTreX3fAEZto",
+  //       amount: amount.toString(),
+  //       currency: currency,
+  //       name: "WHP Jewellers",
+  //       description: "Transaction",
+  //       order_id: order_id,
+  //       handler: async function (response: any) {
+  //         try {
+  //           setLoading(true);
+  //           const {
+  //             razorpay_payment_id,
+  //             razorpay_order_id,
+  //             razorpay_signature,
+  //           } = response;
+  //           const orderData = {
+  //             isWallet: wallet ? 1 : 0,
+  //             isWrap: giftWrap.wrapOption ? 1 : 0,
+  //             message: giftWrap.wrapOption ? giftWrap.name : "",
+  //             walletAmount:
+  //               wallet === 1
+  //                 ? Number(totalCart) > Number(userDetails?.wallet_amount)
+  //                   ? Math.abs(
+  //                       Number(totalCart) - Number(userDetails?.wallet_amount),
+  //                     )
+  //                   : Math.abs(
+  //                       Number(userDetails?.wallet_amount) - Number(totalCart),
+  //                     )
+  //                 : 0,
+  //             name: userDetails?.fullname,
+  //             email: userDetails?.email,
+  //             contact: userDetails?.mobile_no,
+  //             customerId: userDetails?.customer_id,
+  //             paymentDetails: {
+  //               paymentId: razorpay_payment_id,
+  //               orderId: razorpay_order_id,
+  //               signature: razorpay_signature,
+  //             },
+  //             shippingAddress: selectedShippingAddress
+  //               ? {
+  //                   addressId: selectedShippingAddress.address_id || null,
+  //                   addressType: selectedShippingAddress.address_type,
+  //                   fullAddress: selectedShippingAddress.full_address,
+  //                   country: selectedShippingAddress.country,
+  //                   state: selectedShippingAddress.state,
+  //                   city: selectedShippingAddress.city,
+  //                   landmark: selectedShippingAddress.landmark,
+  //                   pincode: selectedShippingAddress.pincode.toString(),
+  //                 }
+  //               : {},
+  //             billingAddress: selectedBillingAddress
+  //               ? {
+  //                   addressId: selectedBillingAddress.address_id || null,
+  //                   addressType: selectedBillingAddress.address_type,
+  //                   fullAddress: selectedBillingAddress.full_address,
+  //                   country: selectedBillingAddress.country,
+  //                   state: selectedBillingAddress.state,
+  //                   city: selectedBillingAddress.city,
+  //                   landmark: selectedBillingAddress.landmark,
+  //                   pincode: selectedBillingAddress.pincode.toString(),
+  //                 }
+  //               : {},
+  //             productDetails: {
+  //               products: mappedCartItems.map((item) => ({
+  //                 productId: item.productId.toString(),
+  //                 productAmount: item.price,
+  //                 quantity: item.quantity.toString(),
+  //                 variants: item.variants,
+  //                 productTotal: (item.price * item.quantity).toString(),
+  //                 discountAmount: "0",
+  //                 discountedTotal: (item.price * item.quantity).toString(),
+  //               })),
+  //               coupons: {
+  //                 couponCode: couponCode,
+  //                 discountPrice: totalDiscount,
+  //               },
+  //               productTotal: totalCart.toString(),
+  //               discountedTotal: (totalCart - totalDiscount).toString(),
+  //               shippingCharges: "10",
+  //             },
+  //           };
+  //           // console.log(orderData, "orderDataAAAA");
+  //           const apiResponse = await axios.post(
+  //             `${baseUrl}/orders`,
+  //             orderData,
+  //             {
+  //               headers: {
+  //                 Authorization: `Bearer ${cookieToken}`,
+  //               },
+  //             },
+  //           );
+  //           // console.log(apiResponse.data);
+  //           // Handle the response as needed
+  //           setOrderResponse(apiResponse.data.data);
+  //           // Call the onOrderComplete function after the API call is successful
+  //           onOrderComplete();
+  //         } catch (error) {
+  //           console.error("Error placing order:", error);
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       },
+  //       prefill: {
+  //         name: userDetails?.fullname,
+  //         email: userDetails?.email,
+  //         contact: userDetails?.mobile_no,
+  //         customerId: userDetails?.customer_id,
+  //       },
+  //       notes: {
+  //         address: "WHP Jewllers",
+  //       },
+  //       theme: {
+  //         color: "#fb7185",
+  //       },
+  //     };
+  //     const rzp1 = new (window as any).Razorpay(options);
+  //     rzp1.open();
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Something went wrong");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleOtherPaymentGateway = () => {
     // Handle other payment gateway logic
@@ -448,15 +428,104 @@ const Payment: React.FC<PaymentProps> = ({
       }
     } catch (error: any) {
       console.error("Error placing COD order:", error);
-      alert(error.response?.data?.message || "Error placing order. Please try again.");
+      alert(
+        error.response?.data?.message ||
+          "Error placing order. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
-  const handleOrders = async () => {
+  // const handleOrders = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const orderData = {
+  //       isWallet: wallet ? 1 : 0,
+  //       isWrap: giftWrap.wrapOption ? 1 : 0,
+  //       message: giftWrap.wrapOption ? giftWrap.name : "",
+  //       walletAmount: wallet
+  //         ? Number(totalCart) > Number(userDetails?.wallet_amount)
+  //           ? 0
+  //           : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
+  //         : 0,
+  //       name: userDetails?.fullname,
+  //       email: userDetails?.email,
+  //       contact: userDetails?.mobile_no,
+  //       customerId: userDetails?.customer_id,
+  //       paymentDetails: {
+  //         paymentId: "0",
+  //         orderId: "0",
+  //         signature: "0",
+  //       },
+  //       shippingAddress: selectedShippingAddress
+  //         ? {
+  //             addressId: selectedShippingAddress.address_id || null,
+  //             addressType: selectedShippingAddress.address_type,
+  //             fullAddress: selectedShippingAddress.full_address,
+  //             country: selectedShippingAddress.country,
+  //             state: selectedShippingAddress.state,
+  //             city: selectedShippingAddress.city,
+  //             landmark: selectedShippingAddress.landmark,
+  //             pincode: selectedShippingAddress.pincode.toString(),
+  //           }
+  //         : {},
+  //       billingAddress: selectedBillingAddress
+  //         ? {
+  //             addressId: selectedBillingAddress.address_id || null,
+  //             addressType: selectedBillingAddress.address_type,
+  //             fullAddress: selectedBillingAddress.full_address,
+  //             country: selectedBillingAddress.country,
+  //             state: selectedBillingAddress.state,
+  //             city: selectedBillingAddress.city,
+  //             landmark: selectedBillingAddress.landmark,
+  //             pincode: selectedBillingAddress.pincode.toString(),
+  //           }
+  //         : {},
+  //       productDetails: {
+  //         products: mappedCartItems.map((item) => ({
+  //           productId: item.productId.toString(),
+  //           productAmount: item.price,
+  //           quantity: item.quantity.toString(),
+  //           variants: item.variants,
+  //           productTotal: (item.price * item.quantity).toString(),
+  //           discountAmount: "0",
+  //           discountedTotal: (item.price * item.quantity).toString(),
+  //         })),
+  //         coupons: {
+  //           couponCode: couponCode,
+  //           discountPrice: totalDiscount,
+  //         },
+  //         productTotal: totalCart.toString(),
+  //         discountedTotal: (totalCart - totalDiscount).toString(),
+  //         shippingCharges: "10",
+  //       },
+  //     };
+
+  //     const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
+  //       headers: {
+  //         Authorization: `Bearer ${cookieToken}`,
+  //       },
+  //     });
+
+  //     if (apiResponse.data) {
+  //       setOrderResponse(apiResponse.data.data);
+  //       setPaymentStarted(true);
+  //     }
+  //   } catch (error: any) {
+  //     console.error("Error initiating Razorpay order:", error);
+  //     alert(
+  //       error.response?.data?.message ||
+  //         "Error initiating payment. Please try again.",
+  //     );
+  //     setLoading(false);
+  //   }
+  // };
+  // ...existing code...
+  const handleRazorpayFlow = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const orderData = {
+      // 1) Create app order first
+      const appOrderData = {
         isWallet: wallet ? 1 : 0,
         isWrap: giftWrap.wrapOption ? 1 : 0,
         message: giftWrap.wrapOption ? giftWrap.name : "",
@@ -518,32 +587,104 @@ const Payment: React.FC<PaymentProps> = ({
         },
       };
 
-      const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
+      const createOrderResp = await axios.post(
+        // `${baseUrl}/orders`,
+        `http://172.22.16.1:8000/orders`,
+        appOrderData,
+        {
+          headers: { Authorization: `Bearer ${cookieToken}` },
         },
+      );
+
+      // adapt depending on your API response shape
+      const appOrder =
+        createOrderResp?.data?.data?.order || createOrderResp?.data?.data;
+      const appOrderId =
+        appOrder?.orderNo || appOrder?.id || appOrder?.order_id;
+
+      // 2) Create Razorpay order (server-side endpoint returns razorpay order id)
+      const orderUrl = "/api/razorpay";
+      const razorResp = await axios.post(orderUrl, {
+        amount:
+          wallet && userDetails?.wallet_amount < totalCart
+            ? (totalCart - userDetails?.wallet_amount) * 100
+            : totalCart * 100,
       });
 
-      if (apiResponse.data) {
-        setOrderResponse(apiResponse.data.data);
-        setPaymentStarted(true);
-      }
-    } catch (error: any) {
-      console.error("Error initiating Razorpay order:", error);
-      alert(error.response?.data?.message || "Error initiating payment. Please try again.");
+      const { amount, id: razorpay_order_id, currency } = razorResp.data;
+
+      // 3) Open Razorpay checkout and pass appOrderId in notes
+      const options = {
+        key: "rzp_test_QZVTreX3fAEZto",
+        amount: amount.toString(),
+        currency: currency,
+        name: "WHP Jewellers",
+        description: "Transaction",
+        order_id: razorpay_order_id,
+        notes: {
+          address: "WHP Jewllers",
+          order_Id: createOrderResp?.data?.data?.order?.orderNo,
+        },
+        handler: async function (response: any) {
+          try {
+            setLoading(true);
+            // 4) Notify backend to update/confirm the app order with payment details
+            // You may need to create an endpoint that updates the order payment details.
+            // Example: POST /orders/{appOrderId}/confirm or a generic update endpoint.
+            await axios.post(
+              `${baseUrl}/orders/confirm`, // <-- adapt this to your actual confirm/update endpoint
+              {
+                orderId: appOrderId,
+                paymentDetails: {
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                  signature: response.razorpay_signature,
+                },
+              },
+              { headers: { Authorization: `Bearer ${cookieToken}` } },
+            );
+          } catch (err) {
+            console.error("Error confirming order after payment:", err);
+          } finally {
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: userDetails?.fullname,
+          email: userDetails?.email,
+          contact: userDetails?.mobile_no,
+          customerId: userDetails?.customer_id,
+        },
+
+        theme: {
+          color: "#fb7185",
+        },
+      };
+
+      const rzp1 = new (window as any).Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.error("Razorpay flow error:", error);
+      alert("Something went wrong while initiating payment");
+    } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (orderResponse && !paymentStarted && selectedPaymentMethod === "razorpay") {
-      handleRazorpayPayment();
-      setPaymentStarted(true);
-    }
-  }, [ paymentStarted, selectedPaymentMethod]);
+
+  // useEffect(() => {
+  //   if (
+  //     orderResponse &&
+  //     !paymentStarted &&
+  //     selectedPaymentMethod === "razorpay"
+  //   ) {
+  //     handleRazorpayPayment();
+  //     setPaymentStarted(true);
+  //   }
+  // }, [paymentStarted, selectedPaymentMethod]);
   const handlePayment = () => {
     if (selectedPaymentMethod === "razorpay") {
-       handleRazorpayPayment(); 
-       console.log("razorpay payment started");
+      handleRazorpayFlow();
+      console.log("razorpay payment started");
     } else if (selectedPaymentMethod === "COD") {
       handleCodPayment();
     } else if (selectedPaymentMethod === "otherPaymentGateway") {
@@ -552,7 +693,7 @@ const Payment: React.FC<PaymentProps> = ({
       handleProceed();
     }
   };
-  
+
   const isValidTotalCart = !isNaN(totalCart) && totalCart > 0;
   if (loading) return <Loader />;
   return (
@@ -760,13 +901,8 @@ const Payment: React.FC<PaymentProps> = ({
           </div>
         </div>
       )}
-     
     </div>
   );
 };
 
 export default Payment;
-
-
-
-

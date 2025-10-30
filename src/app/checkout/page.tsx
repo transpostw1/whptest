@@ -381,12 +381,12 @@ const Checkout: React.FC = () => {
       discountPrice:
         item?.productDetails?.discountPrice != null
           ? item?.productDetails?.productPrice -
-            item?.productDetails?.discountPrice
+          item?.productDetails?.discountPrice
           : 0,
       url: item?.productDetails?.url,
       image:
         item?.productDetails?.imageDetails &&
-        item?.productDetails?.imageDetails.length > 0
+          item?.productDetails?.imageDetails.length > 0
           ? item?.productDetails.imageDetails[0].image_path
           : "",
     }));
@@ -451,12 +451,12 @@ const Checkout: React.FC = () => {
     ? Number(formattedProductPrice) - Number(formattedPrice)
     : Number(totalCart);
 
-  useEffect(() => {}, [
+  useEffect(() => { }, [
     discountDifference,
     formattedPrice,
     formattedProductPrice,
   ]);
-  useEffect(() => {}, [
+  useEffect(() => { }, [
     discountDifference,
     formattedPrice,
     formattedProductPrice,
@@ -694,9 +694,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <PiTreasureChestLight
-          className={`rounded-full text-2xl ${
-            selectedStep === 0 ? "text-white" : "text-white"
-          }`}
+          className={`rounded-full text-2xl ${selectedStep === 0 ? "text-white" : "text-white"
+            }`}
         />
       ),
       label: "Box",
@@ -704,9 +703,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Icon.MapPin
-          className={`text-2xl text-black ${
-            selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
-          }`}
+          className={`text-2xl text-black ${selectedStep === 1 || selectedStep === 2 ? "text-white" : ""
+            }`}
         />
       ),
       label: "Address",
@@ -714,9 +712,8 @@ const Checkout: React.FC = () => {
     {
       icon: (
         <Wallet
-          className={`text-2xl ${
-            selectedStep === 2 ? "text-white" : "text-black"
-          }`}
+          className={`text-2xl ${selectedStep === 2 ? "text-white" : "text-black"
+            }`}
         />
       ),
       label: "Payment",
@@ -774,9 +771,8 @@ const Checkout: React.FC = () => {
                       }
                     >
                       <div
-                        className={`rounded-full border border-gray-300 p-2 ${
-                          selectedStep >= index ? "bg-[#E26178]" : "bg-white"
-                        }`}
+                        className={`rounded-full border border-gray-300 p-2 ${selectedStep >= index ? "bg-[#E26178]" : "bg-white"
+                          }`}
                       >
                         {step.icon}
                       </div>
@@ -861,7 +857,7 @@ const Checkout: React.FC = () => {
                               /> */}
                                 <h3 className="text-[#E26178]">
                                   {couponCode &&
-                                  dataAfterCouponCode.code === 200 ? (
+                                    dataAfterCouponCode.code === 200 ? (
                                     <span className="flex w-full items-center gap-2 text-green-500">
                                       Coupon Applied:{" "}
                                       <span className="text-green-500">
@@ -934,8 +930,8 @@ const Checkout: React.FC = () => {
                                     )}
                                   </div>
                                   {voucherCode &&
-                                  dataAfterCouponCode.code === 200 &&
-                                  couponCode === coupon.code ? (
+                                    dataAfterCouponCode.code === 200 &&
+                                    couponCode === coupon.code ? (
                                     <span className="text-sm font-medium text-green-600">
                                       Applied
                                     </span>
@@ -1080,7 +1076,7 @@ const Checkout: React.FC = () => {
                                   -
                                   {formatPrice(
                                     userDetails?.wallet_amount -
-                                      (userDetails?.wallet_amount - totalPrice),
+                                    (userDetails?.wallet_amount - totalPrice),
                                   )}
                                 </h3>
                               )
@@ -1115,24 +1111,24 @@ const Checkout: React.FC = () => {
                 )}
                 {(selectedComponent === "DeliveryDetails" ||
                   (selectedComponent === "Payment" && !isOrderPlaced)) && (
-                  <div id="#order-summary">
-                    <h1 className="my-5 text-2xl text-rose-600">
-                      ORDER SUMMARY
-                    </h1>
-                    <OrderSummary
-                      wallet={whpWallet}
-                      component={selectedComponent}
-                      handleWhpWallet={handleWhpWallet}
-                      totalProductPrice={formattedProductPrice}
-                      discountDifference={discountDifference}
-                      price={formattedPrice}
-                      totalDiscount={totalDiscount}
-                      totalCart={totalCart}
-                      cartItems={buyNow ? finalBuyNowItems : MainCart}
-                      isBuyNow={false}
-                    />
-                  </div>
-                )}
+                    <div id="#order-summary">
+                      <h1 className="my-5 text-2xl text-rose-600">
+                        ORDER SUMMARY
+                      </h1>
+                      <OrderSummary
+                        wallet={whpWallet}
+                        component={selectedComponent}
+                        handleWhpWallet={handleWhpWallet}
+                        totalProductPrice={formattedProductPrice}
+                        discountDifference={discountDifference}
+                        price={formattedPrice}
+                        totalDiscount={totalDiscount}
+                        totalCart={totalCart}
+                        cartItems={buyNow ? finalBuyNowItems : MainCart}
+                        isBuyNow={false}
+                      />
+                    </div>
+                  )}
                 {selectedStep !== 2 && (
                   <ProceedButton
                     totalPrice={totalPrice}

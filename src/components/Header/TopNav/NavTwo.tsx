@@ -191,9 +191,9 @@ const NavTwo: React.FC<Props> = ({ props }) => {
             <div className="left-content flex items-center">
               <Link href={"/"}>
                 <Image
-                  src={"/images/other/main_logo.png"}
-                  width={35}
-                  height={32}
+                  src={"/images/other/emblem.png"}
+                  width={45}
+                  height={42}
                   alt="80x80"
                   className="mr-2 object-cover"
                 />
@@ -201,7 +201,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
               <div className="max-sm:hidden md:hidden lg:block">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/other/whp_name_logo.png"}
+                    src={"/images/other/whpName.png"}
                     width={156}
                     height={50}
                     alt="80x80"
@@ -210,6 +210,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                 </Link>
               </div>
             </div>
+
             <div className="flex justify-between sm:block md:hidden lg:hidden">
               {/* <Link href={"/blog"}>
                 <div>
@@ -484,7 +485,6 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                       <option value="USD">&#36; USD</option>
                       <option value="EUR">&#8364; EUR</option>
                       {/* <option value="GBP">&#163; GBP</option> */}
-                      
                     </select>
                     {/* <Image
                       className="cursor-pointer"

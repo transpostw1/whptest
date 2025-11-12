@@ -369,27 +369,27 @@ const Payment: React.FC<PaymentProps> = ({
           : 0,
         shippingAddress: selectedShippingAddress
           ? {
-            addressId: selectedShippingAddress.address_id || null,
-            addressType: selectedShippingAddress.address_type,
-            fullAddress: selectedShippingAddress.full_address,
-            country: selectedShippingAddress.country,
-            state: selectedShippingAddress.state,
-            city: selectedShippingAddress.city,
-            landmark: selectedShippingAddress.landmark,
-            pincode: selectedShippingAddress.pincode.toString(),
-          }
+              addressId: selectedShippingAddress.address_id || null,
+              addressType: selectedShippingAddress.address_type,
+              fullAddress: selectedShippingAddress.full_address,
+              country: selectedShippingAddress.country,
+              state: selectedShippingAddress.state,
+              city: selectedShippingAddress.city,
+              landmark: selectedShippingAddress.landmark,
+              pincode: selectedShippingAddress.pincode.toString(),
+            }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-            addressId: selectedBillingAddress.address_id || null,
-            addressType: selectedBillingAddress.address_type,
-            fullAddress: selectedBillingAddress.full_address,
-            country: selectedBillingAddress.country,
-            state: selectedBillingAddress.state,
-            city: selectedBillingAddress.city,
-            landmark: selectedBillingAddress.landmark,
-            pincode: selectedBillingAddress.pincode.toString(),
-          }
+              addressId: selectedBillingAddress.address_id || null,
+              addressType: selectedBillingAddress.address_type,
+              fullAddress: selectedBillingAddress.full_address,
+              country: selectedBillingAddress.country,
+              state: selectedBillingAddress.state,
+              city: selectedBillingAddress.city,
+              landmark: selectedBillingAddress.landmark,
+              pincode: selectedBillingAddress.pincode.toString(),
+            }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
@@ -431,7 +431,7 @@ const Payment: React.FC<PaymentProps> = ({
       console.error("Error placing COD order:", error);
       alert(
         error.response?.data?.message ||
-        "Error placing order. Please try again.",
+          "Error placing order. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -547,27 +547,27 @@ const Payment: React.FC<PaymentProps> = ({
         },
         shippingAddress: selectedShippingAddress
           ? {
-            addressId: selectedShippingAddress.address_id || null,
-            addressType: selectedShippingAddress.address_type,
-            fullAddress: selectedShippingAddress.full_address,
-            country: selectedShippingAddress.country,
-            state: selectedShippingAddress.state,
-            city: selectedShippingAddress.city,
-            landmark: selectedShippingAddress.landmark,
-            pincode: selectedShippingAddress.pincode.toString(),
-          }
+              addressId: selectedShippingAddress.address_id || null,
+              addressType: selectedShippingAddress.address_type,
+              fullAddress: selectedShippingAddress.full_address,
+              country: selectedShippingAddress.country,
+              state: selectedShippingAddress.state,
+              city: selectedShippingAddress.city,
+              landmark: selectedShippingAddress.landmark,
+              pincode: selectedShippingAddress.pincode.toString(),
+            }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-            addressId: selectedBillingAddress.address_id || null,
-            addressType: selectedBillingAddress.address_type,
-            fullAddress: selectedBillingAddress.full_address,
-            country: selectedBillingAddress.country,
-            state: selectedBillingAddress.state,
-            city: selectedBillingAddress.city,
-            landmark: selectedBillingAddress.landmark,
-            pincode: selectedBillingAddress.pincode.toString(),
-          }
+              addressId: selectedBillingAddress.address_id || null,
+              addressType: selectedBillingAddress.address_type,
+              fullAddress: selectedBillingAddress.full_address,
+              country: selectedBillingAddress.country,
+              state: selectedBillingAddress.state,
+              city: selectedBillingAddress.city,
+              landmark: selectedBillingAddress.landmark,
+              pincode: selectedBillingAddress.pincode.toString(),
+            }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
@@ -591,7 +591,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       const createOrderResp = await axios.post(
         // `${baseUrl}/orders`,
-        `http://127.0.0.1:8002/api/orders`,
+        `http://24.199.117.42/api/orders`,
         appOrderData,
         {
           headers: { Authorization: `Bearer ${cookieToken}` },
@@ -601,8 +601,7 @@ const Payment: React.FC<PaymentProps> = ({
       // adapt depending on your API response shape
       const appOrder =
         createOrderResp?.data?.data?.order || createOrderResp?.data?.data;
-      const appOrderId =
-        appOrder?.id;
+      const appOrderId = appOrder?.id;
       const appOrderNo = appOrder?.orderNo;
 
       // 2) Create Razorpay order (server-side endpoint returns razorpay order id)
@@ -618,6 +617,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       // 3) Open Razorpay checkout and pass appOrderId in notes
       const options = {
+        // key: process.env.NEXT_Razorpay_KEY,
         key: "rzp_test_QZVTreX3fAEZto",
         amount: amount.toString(),
         currency: currency,
@@ -648,27 +648,27 @@ const Payment: React.FC<PaymentProps> = ({
                 },
                 shippingAddress: selectedShippingAddress
                   ? {
-                    addressId: selectedShippingAddress.address_id || null,
-                    addressType: selectedShippingAddress.address_type,
-                    fullAddress: selectedShippingAddress.full_address,
-                    country: selectedShippingAddress.country,
-                    state: selectedShippingAddress.state,
-                    city: selectedShippingAddress.city,
-                    landmark: selectedShippingAddress.landmark,
-                    pincode: selectedShippingAddress.pincode.toString(),
-                  }
+                      addressId: selectedShippingAddress.address_id || null,
+                      addressType: selectedShippingAddress.address_type,
+                      fullAddress: selectedShippingAddress.full_address,
+                      country: selectedShippingAddress.country,
+                      state: selectedShippingAddress.state,
+                      city: selectedShippingAddress.city,
+                      landmark: selectedShippingAddress.landmark,
+                      pincode: selectedShippingAddress.pincode.toString(),
+                    }
                   : {},
                 billingAddress: selectedBillingAddress
                   ? {
-                    addressId: selectedBillingAddress.address_id || null,
-                    addressType: selectedBillingAddress.address_type,
-                    fullAddress: selectedBillingAddress.full_address,
-                    country: selectedBillingAddress.country,
-                    state: selectedBillingAddress.state,
-                    city: selectedBillingAddress.city,
-                    landmark: selectedBillingAddress.landmark,
-                    pincode: selectedBillingAddress.pincode.toString(),
-                  }
+                      addressId: selectedBillingAddress.address_id || null,
+                      addressType: selectedBillingAddress.address_type,
+                      fullAddress: selectedBillingAddress.full_address,
+                      country: selectedBillingAddress.country,
+                      state: selectedBillingAddress.state,
+                      city: selectedBillingAddress.city,
+                      landmark: selectedBillingAddress.landmark,
+                      pincode: selectedBillingAddress.pincode.toString(),
+                    }
                   : {},
                 productDetails: {
                   products: mappedCartItems.map((item) => ({
@@ -688,7 +688,6 @@ const Payment: React.FC<PaymentProps> = ({
                   discountedTotal: (totalCart - totalDiscount).toString(),
                   shippingCharges: "10",
                 },
-
               },
               { headers: { Authorization: `Bearer ${cookieToken}` } },
             );
@@ -731,7 +730,7 @@ const Payment: React.FC<PaymentProps> = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${cookieToken}`
+          Authorization: `Bearer ${cookieToken}`,
         },
         body: JSON.stringify({
           amount: 500,
@@ -744,7 +743,6 @@ const Payment: React.FC<PaymentProps> = ({
 
       const data = await res.json();
       console.log("payuuu", data);
-
 
       if (data.action) {
         // Create form dynamically and submit

@@ -38,7 +38,7 @@ export default function RootLayout({
     name: "WHP Jewellers",
     description: "Welcome to WHP Jewellers",
     url: "https://www.whpjewellers.com",
-    logo: "/images/other/main_logo.png",
+    logo: "/images/other/emblem.png",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+1-YOUR-PHONE-NUMBER",
@@ -121,7 +121,7 @@ export default function RootLayout({
           <title>WHP Jewellers</title>
           <link
             rel="icon"
-            href="/images/other/main_logo.png"
+            href="/images/other/emblem.png"
             type="image/x-icon"
           />
           <meta name="description" content={"Welcome to WHP Jewellers."} />

@@ -108,7 +108,7 @@ const Footer = () => {
               <div className="flex items-center gap-2 py-1">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/other/main_logo.png"}
+                    src={"/images/other/emblem.png"}
                     width={40}
                     height={40}
                     alt="80x80"
@@ -118,7 +118,7 @@ const Footer = () => {
                 <div>
                   <Link href={"/"}>
                     <Image
-                      src={"/images/other/whp_name_logo.png"}
+                      src={"/images/other/whpName.png"}
                       width={170}
                       height={80}
                       alt="80x80"
@@ -193,8 +193,8 @@ const Footer = () => {
                   <div className="flex w-full flex-col items-center lg:items-start">
                     <div className="font-semibold">Important Links</div>
                     <div className="mt-1 flex">
-                        <span>BIS: HM/C-7790882716</span>
-                      </div>
+                      <span>BIS: HM/C-7790882716</span>
+                    </div>
                     <Link
                       className="caption1 has-line-before w-fit pt-2 duration-300"
                       href={"/about-whpjewellers"}
@@ -351,7 +351,7 @@ const Footer = () => {
                       Precious Metal Guide
                     </Link> */}
                     <div className="font-semibold">Contact</div>
-                    
+
                     <Link
                       href="tel:1800222225"
                       target="_blank"

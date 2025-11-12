@@ -359,73 +359,83 @@ const Payment: React.FC<PaymentProps> = ({
     setLoading(true);
     try {
       const orderData = {
-        isWallet: wallet && userDetails?.wallet_amount > 0 ? 1 : 0,
+        isWallet: wallet ? 1 : 0,
         isWrap: giftWrap.wrapOption ? 1 : 0,
         message: giftWrap.wrapOption ? giftWrap.name : "",
-        walletAmount: wallet
-          ? Number(totalCart) > Number(userDetails?.wallet_amount)
-            ? 0
-            : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
-          : 0,
+        paymentDetails: {
+          paymentMode: "Razorpay",
+        },
         shippingAddress: selectedShippingAddress
           ? {
-              addressId: selectedShippingAddress.address_id || null,
-              addressType: selectedShippingAddress.address_type,
-              fullAddress: selectedShippingAddress.full_address,
-              country: selectedShippingAddress.country,
-              state: selectedShippingAddress.state,
-              city: selectedShippingAddress.city,
-              landmark: selectedShippingAddress.landmark,
-              pincode: selectedShippingAddress.pincode.toString(),
-            }
+            addressId: selectedShippingAddress.address_id || null,
+          }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-              addressId: selectedBillingAddress.address_id || null,
-              addressType: selectedBillingAddress.address_type,
-              fullAddress: selectedBillingAddress.full_address,
-              country: selectedBillingAddress.country,
-              state: selectedBillingAddress.state,
-              city: selectedBillingAddress.city,
-              landmark: selectedBillingAddress.landmark,
-              pincode: selectedBillingAddress.pincode.toString(),
-            }
+            addressId: selectedBillingAddress.address_id || null,
+          }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
             productId: item.productId.toString(),
-            productAmount: item.price,
             quantity: item.quantity.toString(),
-            productTotal: (item.price * item.quantity).toString(),
-            discountAmount: "0",
-            discountedTotal: (item.price * item.quantity).toString(),
           })),
-          coupons: {
-            couponCode: couponCode,
-            discountPrice: totalDiscount,
-          },
-          productTotal: totalCart.toString(),
-          discountedTotal: (totalCart - totalDiscount).toString(),
-          shippingCharges: "10",
-        },
-        paymentDetails: {
-          paymentId: "0",
-          orderId: "0",
-          signature: "0",
-          paymentMode: "COD",
+          couponCode: couponCode,
         },
       };
 
-      const apiResponse = await axios.post(`${baseUrl}/orders`, orderData, {
+      const apiResponse = await axios.post(`http://127.0.0.1:8002/api/orders`, orderData, {
         headers: {
           Authorization: `Bearer ${cookieToken}`,
         },
       });
 
       if (apiResponse.data) {
-        setOrderResponse(apiResponse.data.data);
-        onOrderComplete();
-        setIsOpen(true);
+        const appOrder =
+          apiResponse?.data?.data?.order || apiResponse?.data?.data;
+        const appOrderId =
+          appOrder?.id;
+        const appOrderNo = appOrder?.orderNo;
+        const totalAmount = apiResponse?.data?.data?.productDetails[0]?.discountedTotal;
+
+        const orderConfirmRes = await axios.post(
+          // `${baseUrl}/orders/confirm`, // <-- adapt this to your actual confirm/update endpoint
+          `http://127.0.0.1:8002/api/orders-confirmation`,
+          {
+            isWallet: wallet ? 1 : 0,
+            orderId: appOrderId,
+            orderNo: appOrderNo,
+            paymentMode: "COD",
+            paymentDetails: {
+              paymentId: "",
+              orderId: "",
+              signature: "",
+            },
+            shippingAddress: selectedShippingAddress
+              ? {
+                addressId: selectedShippingAddress.address_id || null,
+              }
+              : {},
+            billingAddress: selectedBillingAddress
+              ? {
+                addressId: selectedBillingAddress.address_id || null,
+              }
+              : {},
+            productDetails: {
+              products: mappedCartItems.map((item) => ({
+                productId: item.productId.toString(),
+                quantity: item.quantity.toString(),
+              })),
+            },
+
+          },
+          { headers: { Authorization: `Bearer ${cookieToken}` } },
+        );
+        if (orderConfirmRes.data) {
+          setOrderResponse(orderConfirmRes.data.data);
+          onOrderComplete();
+          setLoading(false);
+        }
       }
     } catch (error: any) {
       console.error("Error placing COD order:", error);
@@ -530,62 +540,25 @@ const Payment: React.FC<PaymentProps> = ({
         isWallet: wallet ? 1 : 0,
         isWrap: giftWrap.wrapOption ? 1 : 0,
         message: giftWrap.wrapOption ? giftWrap.name : "",
-        walletAmount: wallet
-          ? Number(totalCart) > Number(userDetails?.wallet_amount)
-            ? 0
-            : Math.abs(Number(userDetails?.wallet_amount) - Number(totalCart))
-          : 0,
-        name: userDetails?.fullname,
-        email: userDetails?.email,
-        contact: userDetails?.mobile_no,
-        customerId: userDetails?.customer_id,
         paymentDetails: {
-          paymentId: "0",
-          orderId: "0",
-          signature: "0",
           paymentMode: "Razorpay",
         },
         shippingAddress: selectedShippingAddress
           ? {
-              addressId: selectedShippingAddress.address_id || null,
-              addressType: selectedShippingAddress.address_type,
-              fullAddress: selectedShippingAddress.full_address,
-              country: selectedShippingAddress.country,
-              state: selectedShippingAddress.state,
-              city: selectedShippingAddress.city,
-              landmark: selectedShippingAddress.landmark,
-              pincode: selectedShippingAddress.pincode.toString(),
-            }
+            addressId: selectedShippingAddress.address_id || null,
+          }
           : {},
         billingAddress: selectedBillingAddress
           ? {
-              addressId: selectedBillingAddress.address_id || null,
-              addressType: selectedBillingAddress.address_type,
-              fullAddress: selectedBillingAddress.full_address,
-              country: selectedBillingAddress.country,
-              state: selectedBillingAddress.state,
-              city: selectedBillingAddress.city,
-              landmark: selectedBillingAddress.landmark,
-              pincode: selectedBillingAddress.pincode.toString(),
-            }
+            addressId: selectedBillingAddress.address_id || null,
+          }
           : {},
         productDetails: {
           products: mappedCartItems.map((item) => ({
             productId: item.productId.toString(),
-            productAmount: item.price,
             quantity: item.quantity.toString(),
-            variants: item.variants,
-            productTotal: (item.price * item.quantity).toString(),
-            discountAmount: "0",
-            discountedTotal: (item.price * item.quantity).toString(),
           })),
-          coupons: {
-            couponCode: couponCode,
-            discountPrice: totalDiscount,
-          },
-          productTotal: totalCart.toString(),
-          discountedTotal: (totalCart - totalDiscount).toString(),
-          shippingCharges: "10",
+          couponCode: couponCode,
         },
       };
 
@@ -603,17 +576,21 @@ const Payment: React.FC<PaymentProps> = ({
         createOrderResp?.data?.data?.order || createOrderResp?.data?.data;
       const appOrderId = appOrder?.id;
       const appOrderNo = appOrder?.orderNo;
+      const totalAmount = createOrderResp?.data?.data?.productDetails[0]?.discountedTotal;
+
 
       // 2) Create Razorpay order (server-side endpoint returns razorpay order id)
       const orderUrl = "/api/razorpay";
       const razorResp = await axios.post(orderUrl, {
         amount:
-          wallet && userDetails?.wallet_amount < totalCart
-            ? (totalCart - userDetails?.wallet_amount) * 100
-            : totalCart * 100,
+          wallet && userDetails?.wallet_amount < totalAmount
+            ? (totalAmount - userDetails?.wallet_amount) * 100
+            : totalAmount * 100,
       });
 
       const { amount, id: razorpay_order_id, currency } = razorResp.data;
+
+
 
       // 3) Open Razorpay checkout and pass appOrderId in notes
       const options = {
@@ -638,6 +615,7 @@ const Payment: React.FC<PaymentProps> = ({
               // `${baseUrl}/orders/confirm`, // <-- adapt this to your actual confirm/update endpoint
               `http://127.0.0.1:8002/api/orders-confirmation`,
               {
+                isWallet: wallet ? 1 : 0,
                 orderId: appOrderId,
                 orderNo: appOrderNo,
                 paymentMode: "Razorpay",
@@ -648,46 +626,21 @@ const Payment: React.FC<PaymentProps> = ({
                 },
                 shippingAddress: selectedShippingAddress
                   ? {
-                      addressId: selectedShippingAddress.address_id || null,
-                      addressType: selectedShippingAddress.address_type,
-                      fullAddress: selectedShippingAddress.full_address,
-                      country: selectedShippingAddress.country,
-                      state: selectedShippingAddress.state,
-                      city: selectedShippingAddress.city,
-                      landmark: selectedShippingAddress.landmark,
-                      pincode: selectedShippingAddress.pincode.toString(),
-                    }
+                    addressId: selectedShippingAddress.address_id || null,
+                  }
                   : {},
                 billingAddress: selectedBillingAddress
                   ? {
-                      addressId: selectedBillingAddress.address_id || null,
-                      addressType: selectedBillingAddress.address_type,
-                      fullAddress: selectedBillingAddress.full_address,
-                      country: selectedBillingAddress.country,
-                      state: selectedBillingAddress.state,
-                      city: selectedBillingAddress.city,
-                      landmark: selectedBillingAddress.landmark,
-                      pincode: selectedBillingAddress.pincode.toString(),
-                    }
+                    addressId: selectedBillingAddress.address_id || null,
+                  }
                   : {},
                 productDetails: {
                   products: mappedCartItems.map((item) => ({
                     productId: item.productId.toString(),
-                    productAmount: item.price,
                     quantity: item.quantity.toString(),
-                    variants: item.variants,
-                    productTotal: (item.price * item.quantity).toString(),
-                    discountAmount: "0",
-                    discountedTotal: (item.price * item.quantity).toString(),
                   })),
-                  coupons: {
-                    couponCode: couponCode,
-                    discountPrice: totalDiscount,
-                  },
-                  productTotal: totalCart.toString(),
-                  discountedTotal: (totalCart - totalDiscount).toString(),
-                  shippingCharges: "10",
                 },
+
               },
               { headers: { Authorization: `Bearer ${cookieToken}` } },
             );
@@ -910,7 +863,7 @@ const Payment: React.FC<PaymentProps> = ({
               </div>
             </div>
             <div>
-              {orderResponse.productDetails.products.map(
+              {orderResponse.productDetails.map(
                 (product: any, index: any) => (
                   <div className="flex justify-between p-4" key={index}>
                     <div className="flex">

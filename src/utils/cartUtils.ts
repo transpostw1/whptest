@@ -1,6 +1,7 @@
 import { graphqlbaseUrl } from "./constants";
 import Cookies from "js-cookie";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { isNull } from "util";
 
 interface CartItem {
   productDetails: {
@@ -8,7 +9,7 @@ interface CartItem {
     discountPrice: any;
     productPrice: any;
     imageDetails: any;
-    url:any;
+    url: any;
     isActive: boolean;
   };
   gst?: any;
@@ -25,7 +26,8 @@ interface CartItem {
 
 export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
   try {
-    const userToken = typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
+    const userToken =
+      typeof window !== "undefined" ? localStorage.getItem("localtoken") : null;
     if (!userToken) {
       return [];
     }
@@ -54,9 +56,9 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
           userId
           productId
           quantity
-          variants{
-             variantType 
-             variantName
+          variants {
+            variantType
+            variantName
           }
           productDetails {
             productId
@@ -93,23 +95,26 @@ export const fetchCartItemsFromServer = async (): Promise<CartItem[]> => {
 
     const cartItemsData = data.getCustomerCart.map((item: any) => {
       const imagePath = item.productDetails[0].imageDetails[0].image_path;
-      const discountPrice = parseInt(item.productDetails[0].discountPrice);
-      const productPrice = parseInt(item.productDetails[0].productPrice);
+      const discountPrice = item.productDetails[0].discountPrice;
+      const productPrice = item.productDetails[0].productPrice;
       const quantityleft = item.productDetails[0].quantity;
-      const url=item.productDetails[0].url;
-      const price = isNaN(discountPrice) ? productPrice : discountPrice;
+      const url = item.productDetails[0].url;
+      const price =
+        discountPrice === null || discountPrice === undefined
+          ? productPrice
+          : discountPrice;
       const isActive = item.productDetails[0].isActive;
 
       return {
         productId: item.productId,
-        url:url,
+        url: url,
         quantity: item.quantity,
         name: item.productDetails[0].displayTitle,
         price: price,
-        productPrice : productPrice,
+        productPrice: productPrice,
         image: imagePath,
-        variants:item.variants,
-        isActive : isActive
+        variants: item.variants,
+        isActive: isActive,
       };
     });
 

@@ -3,7 +3,7 @@
 // export const graphqlUrlnew = "https://seashell-prod-app-rigzk.ondigitalocean.app/graphql";// For Products
 // export const graphqlbaseUrl = "https://squid-app-de2xj.ondigitalocean.app/graphql";
 //development
-export const baseUrl="https://24.199.117.42/api";
+export const baseUrl="http://whptest.transpost.co/api";
 export const graphqlUrlnew="https://seashell-app-kswll.ondigitalocean.app/graphql";
 export const graphqlbaseUrl ="https://monkfish-app-9plxl.ondigitalocean.app/graphql";
 

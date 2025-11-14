@@ -108,24 +108,15 @@ const Footer = () => {
               <div className="flex items-center gap-2 py-1">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/other/emblem.png"}
-                    width={40}
-                    height={40}
+                    src={"/images/other/website.png"}
+                    width={185}
+                    height={82}
                     alt="80x80"
-                    className="object-cover"
+                    className="mr-2 object-cover"
+                    unoptimized
                   />
                 </Link>
-                <div>
-                  <Link href={"/"}>
-                    <Image
-                      src={"/images/other/whpName.png"}
-                      width={170}
-                      height={80}
-                      alt="80x80"
-                      className="object-cover"
-                    />
-                  </Link>
-                </div>
+                <div></div>
               </div>
             </div>
             <div className="flex flex-col justify-between gap-4 border-t py-[60px] lg:flex-row">

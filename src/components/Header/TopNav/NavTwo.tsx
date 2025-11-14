@@ -181,29 +181,32 @@ const NavTwo: React.FC<Props> = ({ props }) => {
         onClose={closeTryAtHomeModal}
       />
       <div
-        className={`top-nav header-menu z-[36] h-[65px] w-full max-sm:h-[48px] md:h-[65px] ${
+        className={`top-nav header-menu z-[36] h-[65px] w-full px-3 max-sm:h-[45px] md:h-[65px] ${
           fixedHeader ? "fixed" : "relative"
         } text-rose-950 ${props}`}
         ref={divRef}
       >
-        <div className="mx-auto h-full px-3 py-2">
+        <div className="mx-auto h-full">
           <div className="top-nav-main flex items-center justify-between">
             <div className="left-content flex items-center">
-              <Link href={"/"}>
-                <Image
-                  src={"/images/other/emblem.png"}
-                  width={45}
-                  height={42}
-                  alt="80x80"
-                  className="mr-2 object-cover"
-                />
-              </Link>
               <div className="max-sm:hidden md:hidden lg:block">
                 <Link href={"/"}>
                   <Image
-                    src={"/images/other/whpName.png"}
-                    width={156}
-                    height={50}
+                    src={"/images/other/website.png"}
+                    width={185}
+                    height={82}
+                    alt="80x80"
+                    className="mr-2 object-cover"
+                    unoptimized
+                  />
+                </Link>
+              </div>
+              <div className="max-sm:block md:block lg:hidden">
+                <Link href={"/"}>
+                  <Image
+                    src={"/images/other/emblem.png"}
+                    width={45}
+                    height={4}
                     alt="80x80"
                     className="object-cover"
                   />
@@ -448,7 +451,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                           <p className="text-sm">Wishlist</p>
                         </div>
                         {wishlistItems.length > 0 && (
-                          <span className="quantity cart-quantity absolute -top-1 right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                          <span className="quantity cart-quantity absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                             {wishlistItems.length}
                           </span>
                         )}
@@ -466,7 +469,7 @@ const NavTwo: React.FC<Props> = ({ props }) => {
                         <p className="text-sm">Box</p>
                       </div>
                       {cartLength > 0 && (
-                        <span className="quantity cart-quantity absolute right-0 top-1 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
+                        <span className="quantity cart-quantity absolute right-0 top-2 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-[#E26178] text-xs text-white">
                           {cartLength}
                         </span>
                       )}
